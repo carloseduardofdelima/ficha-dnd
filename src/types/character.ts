@@ -36,6 +36,15 @@ export const SKILL_LABELS: Record<string, string> = {
   stealth: 'Furtividade (Des)', survival: 'Sobrevivência (Sab)',
 }
 
+export const ATTR_LABELS: Record<string, string> = {
+  strength: 'Força',
+  dexterity: 'Destreza',
+  constitution: 'Constituição',
+  intelligence: 'Inteligência',
+  wisdom: 'Sabedoria',
+  charisma: 'Carisma',
+}
+
 export interface Character {
   id: string
   slug: string

@@ -27,7 +27,7 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
       {/* Info */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700 }}>{character.name}</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, fontFamily: 'Cinzel, serif' }}>{character.name}</h3>
 
           {/* Settings */}
           <div style={{ position: 'relative' }}>
@@ -35,7 +35,7 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
               <Settings size={15} />
             </button>
             {menu && (
-              <div style={{ position: 'absolute', right: 0, top: 'calc(100% + 4px)', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, padding: 6, minWidth: 140, zIndex: 50, boxShadow: '0 8px 20px rgba(0,0,0,.5)' }} className="fade-up">
+              <div style={{ position: 'absolute', right: 0, top: 'calc(100% + 4px)', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, padding: 6, minWidth: 140, zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,.6)' }} className="fade-up">
                 {[
                   { label: '✏️ Editar', href: `/personagens/${character.id}/editar` },
                 ].map(({ label, href }) => (
@@ -52,17 +52,17 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
 
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
           {character.class && <span className="badge">{character.class}</span>}
-          {character.race && <span className="badge" style={{ background: 'rgba(255,255,255,.04)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
-          <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
+          {character.race && <span className="badge" style={{ background: 'var(--bg2)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
+          <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 12 }}>
           <Calendar size={11} color="var(--fgM)" />
-          <span style={{ fontSize: 11, color: 'var(--fgM)' }}>Registrado em {new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
+          <span style={{ fontSize: 11, color: 'var(--fgM)' }}>{new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
         </div>
 
         <Link href={`/personagens/${character.id}`}>
-          <button className="btn btn-primary" style={{ fontSize: 13, padding: '7px 14px' }}>Acessar Ficha</button>
+          <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 13, padding: '8px' }}>Acessar Ficha</button>
         </Link>
       </div>
     </div>

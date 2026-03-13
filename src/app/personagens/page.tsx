@@ -42,10 +42,10 @@ export default function PersonagensPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Users size={20} color="var(--accentL)" />
-          <span style={{ fontWeight: 600, color: 'var(--fg2)' }}>Agentes: <span style={{ color: 'var(--fg)' }}>{chars.length}/15</span></span>
+          <span style={{ fontWeight: 600, color: 'var(--fg2)' }}>Personagens: <span style={{ color: 'var(--fg)' }}>{chars.length}/15</span></span>
         </div>
         <Link href="/personagens/novo">
-          <button className="btn btn-primary"><Plus size={16} /> Novo Agente</button>
+          <button className="btn btn-primary"><Plus size={16} /> Novo Personagem</button>
         </Link>
       </div>
 

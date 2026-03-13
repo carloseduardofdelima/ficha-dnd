@@ -36,7 +36,7 @@ export default function LoginPage() {
   return (
     <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
       <div className="card fade-up" style={{ padding: '48px', maxWidth: 400, textAlign: 'center' }}>
-        <div style={{ width: 64, height: 64, margin: '0 auto 24px', background: 'linear-gradient(135deg,#7c3aed,#9333ea)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(147,51,234,.4)' }}>
+        <div style={{ width: 64, height: 64, margin: '0 auto 24px', background: 'linear-gradient(135deg, var(--accent2), var(--accent))', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px var(--accentGlow)' }}>
           <Sword size={32} color="#fff" />
         </div>
         <h1 style={{ fontFamily: 'Cinzel,serif', fontSize: 24, marginBottom: 8 }}>Entrar no Sistema</h1>

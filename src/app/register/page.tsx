@@ -3,6 +3,7 @@ import { registerUser } from '../actions/auth-actions'
 import { Sword } from 'lucide-react'
 import Link from 'next/link'
 import { useFormStatus } from 'react-dom'
+import { signIn } from 'next-auth/react'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -17,7 +18,7 @@ export default function RegisterPage() {
   return (
     <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
       <div className="card fade-up" style={{ padding: '48px', maxWidth: 400, textAlign: 'center' }}>
-        <div style={{ width: 64, height: 64, margin: '0 auto 24px', background: 'linear-gradient(135deg,#7c3aed,#9333ea)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(147,51,234,.4)' }}>
+        <div style={{ width: 64, height: 64, margin: '0 auto 24px', background: 'linear-gradient(135deg, var(--accent2), var(--accent))', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px var(--accentGlow)' }}>
           <Sword size={32} color="#fff" />
         </div>
         <h1 style={{ fontFamily: 'Cinzel,serif', fontSize: 24, marginBottom: 8 }}>Criar Conta</h1>
@@ -39,6 +40,17 @@ export default function RegisterPage() {
           
           <SubmitButton />
         </form>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg3)', fontSize: 12, marginBottom: 4 }}>
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }}></div>
+            ou continue com
+            <div style={{ flex: 1, height: 1, background: 'var(--border)' }}></div>
+          </div>
+          <button className="btn btn-outline" onClick={() => signIn('google')} style={{ width: '100%', justifyContent: 'center' }}>
+            Google
+          </button>
+        </div>
 
         <p style={{ marginTop: 24, color: 'var(--fg2)', fontSize: 14 }}>
           Já tem uma conta? <Link href="/login" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Entrar</Link>
