@@ -1,18 +1,18 @@
 'use client';
 import React from 'react';
-import { Race } from '@/lib/races';
+import { DndClass } from '@/lib/classes';
 
-interface RaceCardProps {
-  race: Race;
+interface ClassCardProps {
+  dndClass: DndClass;
   selected: boolean;
   onSelect: (id: string) => void;
-  onViewDetails: (race: Race) => void;
+  onViewDetails: (dndClass: DndClass) => void;
 }
 
-export default function RaceCard({ race, selected, onSelect, onViewDetails }: RaceCardProps) {
+export default function ClassCard({ dndClass, selected, onSelect, onViewDetails }: ClassCardProps) {
   return (
     <div
-      onClick={() => onSelect(race.id)}
+      onClick={() => onSelect(dndClass.id)}
       className={`card ${selected ? 'selected' : ''}`}
       style={{
         position: 'relative',
@@ -43,14 +43,14 @@ export default function RaceCard({ race, selected, onSelect, onViewDetails }: Ra
           fontSize: 24,
           fontFamily: 'Cinzel, serif',
           color: 'var(--fg)'
-        }}>{race.name}</h3>
+        }}>{dndClass.name}</h3>
         <span style={{
           fontSize: 8,
           color: 'var(--fg1)',
           fontStyle: 'italic',
           display: 'block',
           marginTop: -2
-        }}>{race.source}</span>
+        }}>{dndClass.source}</span>
       </div>
 
       {/* Character Art */}
@@ -60,7 +60,7 @@ export default function RaceCard({ race, selected, onSelect, onViewDetails }: Ra
           height: '60%',
           width: '100%',
           backgroundColor: 'var(--bg2)',
-          backgroundImage: `url(${race.image})`,
+          backgroundImage: `url(${dndClass.image})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           display: 'flex',
@@ -70,7 +70,7 @@ export default function RaceCard({ race, selected, onSelect, onViewDetails }: Ra
           transition: 'all 0.5s ease',
           filter: 'brightness(0.7)'
         }}>
-        {!race.image && <span style={{ opacity: 0.1, fontSize: 40, fontFamily: 'Cinzel' }}>{race.name}</span>}
+        {!dndClass.image && <span style={{ opacity: 0.1, fontSize: 40, fontFamily: 'Cinzel' }}>{dndClass.name}</span>}
         <div style={{
           position: 'absolute',
           bottom: 0,
@@ -94,19 +94,23 @@ export default function RaceCard({ race, selected, onSelect, onViewDetails }: Ra
         borderTop: '1px solid rgba(255,255,255,0.05)',
         boxShadow: '0 -10px 20px rgba(0,0,0,0.5)'
       }}>
+        <div style={{ marginBottom: 8 }}>
+          <span style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg3)', textTransform: 'uppercase' }}>Dado de Vida</span>
+          <span style={{ fontSize: 14, fontWeight: 'bold', color: 'var(--accentL)', marginLeft: 8 }}>{dndClass.hitDie}</span>
+        </div>
 
         <div style={{ marginBottom: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg3)', textTransform: 'uppercase' }}>Traços</span>
+          <span style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg3)', textTransform: 'uppercase' }}>Habilidades</span>
           <div style={{ fontSize: 12, color: 'var(--fg2)', marginTop: 4 }}>
-            {race.traits.slice(0, 3).map(t => t.name).join(', ')}
-            {race.traits.length > 3 && '...'}
+            {dndClass.features.slice(0, 3).map(f => f.name).join(', ')}
+            {dndClass.features.length > 3 && '...'}
           </div>
         </div>
 
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onViewDetails(race);
+            onViewDetails(dndClass);
           }}
           className="btn"
           style={{
@@ -123,7 +127,7 @@ export default function RaceCard({ race, selected, onSelect, onViewDetails }: Ra
             borderRadius: 4
           }}
         >
-          Ver Detalhes: {race.name}
+          Ver Detalhes: {dndClass.name}
         </button>
       </div>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from '@/components/Providers'
-import { Navbar } from '@/components/Navbar'
+import { Sidebar } from '@/components/Sidebar'
 import { auth } from '@/lib/auth'
 
 export const metadata: Metadata = {
@@ -13,11 +13,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await auth()
   return (
     <html lang="pt-BR">
-      <body>
+      <body style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }}>
         <Providers session={session}>
-          <Navbar />
-          <main style={{ minHeight: 'calc(100vh - 64px)', paddingTop: '28px', paddingBottom: '48px' }}>
-            {children}
+          <Sidebar />
+          <main className="main-content" style={{ minHeight: '100vh' }}>
+            <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 24px 120px 24px' }}>
+              {children}
+            </div>
           </main>
         </Providers>
       </body>
