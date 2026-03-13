@@ -1,0 +1,70 @@
+'use client'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useState } from 'react'
+import { Settings, Shield, Star, Calendar } from 'lucide-react'
+import { Character } from '@/types/character'
+
+export function CharacterCard({ character, onDelete }: { character: Character; onDelete?: (id: string) => void }) {
+  const [menu, setMenu] = useState(false)
+
+  const copyShareLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/compartilhar/${character.slug}`)
+    alert('Link copiado!')
+    setMenu(false)
+  }
+
+  return (
+    <div className="card fade-up" style={{ display: 'flex', gap: 16, padding: 16, position: 'relative' }}>
+      {/* Avatar */}
+      <div style={{ width: 90, height: 90, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: 'var(--bg2)', border: '2px solid var(--border)' }}>
+        {character.avatarUrl
+          ? <Image src={character.avatarUrl} alt={character.name} width={90} height={90} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#1a1030,#0d0820)' }}><Shield size={32} color="var(--fgM)" /></div>
+        }
+      </div>
+
+      {/* Info */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700 }}>{character.name}</h3>
+
+          {/* Settings */}
+          <div style={{ position: 'relative' }}>
+            <button className="btn btn-ghost" onClick={() => setMenu(!menu)} style={{ padding: '4px 6px' }}>
+              <Settings size={15} />
+            </button>
+            {menu && (
+              <div style={{ position: 'absolute', right: 0, top: 'calc(100% + 4px)', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, padding: 6, minWidth: 140, zIndex: 50, boxShadow: '0 8px 20px rgba(0,0,0,.5)' }} className="fade-up">
+                {[
+                  { label: '✏️ Editar', href: `/personagens/${character.id}/editar` },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} onClick={() => setMenu(false)} style={{ display: 'block', padding: '8px 12px', borderRadius: 6, textDecoration: 'none', fontSize: 13, color: 'var(--fg2)' }}>{label}</Link>
+                ))}
+                <button onClick={copyShareLink} style={{ width: '100%', textAlign: 'left', padding: '8px 12px', borderRadius: 6, background: 'transparent', border: 'none', fontSize: 13, color: 'var(--fg2)', cursor: 'pointer' }}>🔗 Compartilhar</button>
+                {onDelete && (
+                  <button onClick={() => { onDelete(character.id); setMenu(false) }} style={{ width: '100%', textAlign: 'left', padding: '8px 12px', borderRadius: 6, background: 'transparent', border: 'none', fontSize: 13, color: 'var(--danger)', cursor: 'pointer' }}>🗑️ Excluir</button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+          {character.class && <span className="badge">{character.class}</span>}
+          {character.race && <span className="badge" style={{ background: 'rgba(255,255,255,.04)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
+          <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 12 }}>
+          <Calendar size={11} color="var(--fgM)" />
+          <span style={{ fontSize: 11, color: 'var(--fgM)' }}>Registrado em {new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
+        </div>
+
+        <Link href={`/personagens/${character.id}`}>
+          <button className="btn btn-primary" style={{ fontSize: 13, padding: '7px 14px' }}>Acessar Ficha</button>
+        </Link>
+      </div>
+    </div>
+  )
+}
