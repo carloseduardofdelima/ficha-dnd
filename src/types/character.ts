@@ -45,6 +45,12 @@ export const ATTR_LABELS: Record<string, string> = {
   charisma: 'Carisma',
 }
 
+export interface Defense {
+  type: string
+  value: string | number
+  detail?: string
+}
+
 export interface Character {
   id: string
   slug: string
@@ -69,6 +75,8 @@ export interface Character {
   speed: number
   initiative: number
   proficiencyBonus: number
+  exp?: string | null
+  defenses?: Defense[] | null
   skills?: Record<string, boolean> | null
   inventory?: Array<{ id: string; name: string; quantity: number }> | null
   spells?: unknown

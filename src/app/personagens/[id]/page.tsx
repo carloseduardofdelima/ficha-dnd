@@ -1,55 +1,84 @@
 'use client'
-import { useParams } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Upload, Loader2 } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { formatModifier, type Character, type Defense } from '@/types/character'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('combat')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [character, setCharacter] = useState<Character | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [showUpload, setShowUpload] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
-  // Mock data for "template" or development
-  const character = {
-    name: 'Hjõnk',
-    pronouns: 'Ele/Dele',
-    race: 'Gnomo',
-    class: 'Bárbaro 3',
-    background: 'Viajante Perdido no Tempo',
-    exp: '0/2700',
-    profBonus: '+2',
-    level: 3,
-    avatarUrl: 'https://cdn.pixabay.com/photo/2021/07/26/17/57/goose-6494954_1280.jpg', // Placeholder image
-    hp: { current: 10, max: 10 },
-    ac: 13,
-    speed: 10,
-    initiative: '+1',
-    attributes: [
-      { name: 'Força', score: 15, mod: '+2', save: '-2' },
-      { name: 'Destreza', score: 13, mod: '+1', save: '-5' },
-      { name: 'Constituição', score: 14, mod: '+2', save: '-2' },
-      { name: 'Inteligência', score: 10, mod: '+0', save: '-6' },
-      { name: 'Sabedoria', score: 10, mod: '+0', save: '-6' },
-      { name: 'Carisma', score: 12, mod: '+1', save: '-5' },
-    ],
-    skills: [
-      { name: 'Acrobacia', attr: 'DES', mod: '-5' },
-      { name: 'Adestrar Animais', attr: 'SAB', mod: '-6' },
-      { name: 'Arcanismo', attr: 'INT', mod: '-6' },
-      { name: 'Atletismo', attr: 'FOR', mod: '-2', prof: true },
-      { name: 'Enganação', attr: 'CAR', mod: '-5' },
-      { name: 'História', attr: 'INT', mod: '-4', prof: true },
-      { name: 'Intuição', attr: 'SAB', mod: '-6' },
-      { name: 'Intimidação', attr: 'CAR', mod: '-3', prof: true },
-    ],
-    defenses: [
-      { type: 'Resistência', value: 'Fogo', detail: "Resistência a Fogo: Medalhão da Esposa" }
-    ],
-    conditions: [
-      { name: 'Envenenado', icon: '🧪' },
-      { name: 'Exaustão 3', icon: '⚠️' }
-    ]
+  useEffect(() => {
+    fetch(`/api/personagens/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) setCharacter(data)
+        setLoading(false)
+      })
+  }, [id])
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const reader = new FileReader()
+    reader.onloadend = async () => {
+      const base64 = reader.result as string
+      try {
+        const res = await fetch(`/api/personagens/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ avatarUrl: base64 })
+        })
+        if (res.ok && character) {
+          setCharacter({ ...character, avatarUrl: base64 })
+          setShowUpload(false)
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setUploading(false)
+      }
+    }
+    reader.readAsDataURL(file)
   }
+
+  if (loading) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg)', color: 'var(--fg)' }}>
+      <Loader2 className="animate-spin" size={48} />
+    </div>
+  )
+
+  if (!character) return (
+    <div style={{ padding: 48, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh', color: 'var(--fg)' }}>
+      <h1>Personagem não encontrado</h1>
+      <button className="btn btn-outline" onClick={() => router.push('/personagens')} style={{ marginTop: 24 }}>Voltar</button>
+    </div>
+  )
+
+  // Map database data to UI helpers
+  const attributes = [
+    { name: 'Força', score: character.strength, mod: formatModifier(character.strength), save: formatModifier(character.strength) },
+    { name: 'Destreza', score: character.dexterity, mod: formatModifier(character.dexterity), save: formatModifier(character.dexterity) },
+    { name: 'Constituição', score: character.constitution, mod: formatModifier(character.constitution), save: formatModifier(character.constitution) },
+    { name: 'Inteligência', score: character.intelligence, mod: formatModifier(character.intelligence), save: formatModifier(character.intelligence) },
+    { name: 'Sabedoria', score: character.wisdom, mod: formatModifier(character.wisdom), save: formatModifier(character.wisdom) },
+    { name: 'Carisma', score: character.charisma, mod: formatModifier(character.charisma), save: formatModifier(character.charisma) },
+  ]
+
+  const hp = { current: character.currentHp, max: character.maxHp }
+  const ac = character.armorClass
+  const speed = character.speed
+  const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
+  const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', color: 'var(--fg)', padding: '24px 0', position: 'relative' }}>
@@ -95,9 +124,15 @@ export default function CharacterDetailPage() {
         {/* Header Section */}
         <div className="mobile-stack" style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
           {/* Avatar Card */}
-          <div className="card" style={{ padding: 12, width: '100%', maxWidth: 300, position: 'relative', overflow: 'visible', flexShrink: 0 }}>
+          <div className="card" onClick={() => setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 300, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: 'pointer', transition: 'transform 0.2s' }}>
             <div style={{ width: '100%', aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
-              <Image src={character.avatarUrl} alt={character.name} width={100} height={100} style={{ width: '100%', height: '100%', objectFit: 'cover', textAlign: 'center' }} />
+              {character.avatarUrl ? (
+                <Image src={character.avatarUrl} alt={character.name} width={300} height={300} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
+                  <User size={64} />
+                </div>
+              )}
             </div>
             <div style={{ position: 'absolute', bottom: -12, left: '50%', transform: 'translateX(-50%)', background: 'var(--accent)', color: '#fff', padding: '2px 8px', borderRadius: '4px 4px 12px 12px', fontSize: 14, fontWeight: 700, boxShadow: '0 4px 10px rgba(225,29,72,.4)' }}>
               {character.level}
@@ -108,7 +143,6 @@ export default function CharacterDetailPage() {
           <div style={{ flex: 1, minWidth: 200 }} className="mobile-center-text">
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4, flexWrap: 'wrap' }} className="mobile-justify-center">
               <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 32px)', fontWeight: 700, textAlign: 'center' }}>{character.name}</h1>
-              <span style={{ color: 'var(--fgM)', fontSize: 12, fontWeight: 600, padding: '2px 8px', background: 'var(--bg2)', borderRadius: 12 }} className="hide-mobile">{character.pronouns}</span>
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }} className="hide-mobile">
                 <button className="btn btn-ghost"><Info size={16} /></button>
                 <button className="btn btn-ghost"><Settings size={16} /></button>
@@ -119,10 +153,10 @@ export default function CharacterDetailPage() {
             </p>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                <span style={{ color: 'var(--fgM)' }}>Exp: </span>{character.exp}
+                <span style={{ color: 'var(--fgM)' }}>Exp: </span>{character.exp ?? '0/2700'}
               </div>
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{character.profBonus}</span>
+                <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
               </div>
               <button className="btn btn-outline" style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}>
                 <RotateCcw size={12} /> Subir de Nível
@@ -132,61 +166,61 @@ export default function CharacterDetailPage() {
         </div>
 
         {/* Floating Mobile Menu Trigger */}
-        <button 
-          className="mobile-only floating-menu-btn" 
-          style={{ display: 'none' }} 
+        <button
+          className="mobile-only floating-menu-btn"
+          style={{ display: 'none' }}
           onClick={() => setIsMenuOpen(true)}
         >
           <Menu size={28} />
         </button>
 
         {/* Hit Points & Initiative Section */}
-          <div className="mobile-stack" style={{ gap: 16, alignItems: 'stretch' }}>
-            <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)', letterSpacing: '0.05em' }}>PONTOS DE VIDA (SALVAGUARDAS CONTRA MORTE)</span>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <Info size={12} color="var(--fgM)" />
-                  <Settings size={12} color="var(--fgM)" />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Sucessos</div>
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
-                  </div>
-                </div>
-                <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>Estabilizar</button>
-              </div>
-
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Fracassos</div>
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
-                  </div>
-                </div>
-                <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>
-                  <RotateCcw size={12} /> Rolar
-                </button>
+        <div className="mobile-stack" style={{ gap: 16, alignItems: 'stretch' }}>
+          <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)', letterSpacing: '0.05em' }}>PONTOS DE VIDA (SALVAGUARDAS CONTRA MORTE)</span>
+              <div style={{ display: 'flex', gap: 4 }}>
+                <Info size={12} color="var(--fgM)" />
+                <Settings size={12} color="var(--fgM)" />
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
-              <button className="btn w-full" style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', padding: '0 24px', display: 'flex', gap: 12, justifyContent: 'center' }}>
-                Inspiração <span style={{ color: 'var(--fgM)' }}>●</span>
-              </button>
-              <button className="btn w-full" style={{ flex: 1, background: 'var(--accent)', color: '#fff', padding: '0 24px', fontSize: 18, fontWeight: 700, justifyContent: 'center' }}>
-                Iniciativa {character.initiative}
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Sucessos</div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
+                </div>
+              </div>
+              <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>Estabilizar</button>
+            </div>
+
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Fracassos</div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
+                </div>
+              </div>
+              <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>
+                <RotateCcw size={12} /> Rolar
               </button>
             </div>
           </div>
 
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
+            <button className="btn w-full" style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', padding: '0 24px', display: 'flex', gap: 12, justifyContent: 'center' }}>
+              Inspiração <span style={{ color: 'var(--fgM)' }}>●</span>
+            </button>
+            <button className="btn w-full" style={{ flex: 1, background: 'var(--accent)', color: '#fff', padding: '0 24px', fontSize: 18, fontWeight: 700, justifyContent: 'center' }}>
+              Iniciativa {initiative}
+            </button>
+          </div>
+        </div>
+
         {/* Attributes Banner */}
         <div id="attr-banner" className="attr-grid" style={{ marginBottom: 24, width: '100%' }}>
-          {character.attributes.map(attr => (
+          {attributes.map(attr => (
             <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginBottom: 8, position: 'relative' }}>
@@ -219,16 +253,8 @@ export default function CharacterDetailPage() {
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {character.skills.map(skill => (
-                <div key={skill.name} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', borderBottom: '1px solid var(--bg2)' }}>
-                  <div style={{ width: 10, height: 10, borderRadius: '50%', border: '1px solid var(--border)', background: skill.prof ? 'var(--accent)' : 'transparent' }}></div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{skill.name}</div>
-                  </div>
-                  <div style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 700, width: 28 }}>{skill.attr}</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: skill.mod.startsWith('+') ? 'var(--ok)' : 'var(--fg)' }}>{skill.mod}</div>
-                </div>
-              ))}
+              {/* Skills mapping from database would go here, using mock for now since it's a complex JSON string */}
+              <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center' }}>Perícias em breve...</p>
             </div>
           </div>
 
@@ -325,7 +351,7 @@ export default function CharacterDetailPage() {
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
                 <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
                 <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ fontSize: 20, fontWeight: 800 }}>{character.ac}</div>
+                  <div style={{ fontSize: 20, fontWeight: 800 }}>{character.armorClass}</div>
                   <Shield size={16} color="var(--fg2)" />
                 </div>
               </div>
@@ -344,8 +370,8 @@ export default function CharacterDetailPage() {
                 <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>DEFESAS</span>
                 <Settings size={14} color="var(--fgM)" />
               </div>
-              {character.defenses.map(def => (
-                <div key={def.value}>
+              {character.defenses?.map((def: Defense) => (
+                <div key={String(def.value)}>
                   <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700, marginBottom: 4 }}>{def.type.toUpperCase()}</div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--accentL)', marginBottom: 2 }}>{def.value}</div>
                   <div style={{ fontSize: 11, color: 'var(--fgM)' }}>{def.detail}</div>
@@ -359,19 +385,40 @@ export default function CharacterDetailPage() {
                 <Settings size={14} color="var(--fgM)" />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {character.conditions.map(cond => (
-                  <div key={cond.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 16 }}>{cond.icon}</span>
-                    <span style={{ fontSize: 13, fontWeight: 600 }}>{cond.name}</span>
-                    <Info size={12} color="var(--fgM)" style={{ marginLeft: 'auto' }} />
-                  </div>
-                ))}
+                <p style={{ fontSize: 11, color: 'var(--fg3)' }}>Nenhuma condição ativa.</p>
               </div>
             </div>
           </div>
 
         </div>
       </div>
+
+      {/* Upload Modal */}
+      {showUpload && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)' }} onClick={() => !uploading && setShowUpload(false)} />
+          <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 400, padding: 32, textAlign: 'center' }}>
+            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 16 }}>Nova Foto do Personagem</h2>
+            <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 24 }}>Escolha uma imagem para representar seu herói.</p>
+
+            <div style={{ border: '2px dashed var(--border)', borderRadius: 12, padding: 32, marginBottom: 24, transition: 'border-color 0.2s', cursor: 'pointer', position: 'relative' }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                disabled={uploading}
+                style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }}
+              />
+              <div style={{ color: 'var(--fgM)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                {uploading ? <Loader2 className="animate-spin" size={32} /> : <Upload size={32} />}
+                <span>{uploading ? 'Enviando...' : 'Clique ou arraste para enviar'}</span>
+              </div>
+            </div>
+
+            <button className="btn bg-red-500 hover:bg-red-600" onClick={() => setShowUpload(false)} disabled={uploading} style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

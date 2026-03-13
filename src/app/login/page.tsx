@@ -1,15 +1,23 @@
 'use client'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { Sword } from 'lucide-react'
-import { useTransition } from 'react'
+import { useTransition, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { data: session, status } = useSession()
   const [isPending, startTransition] = useTransition()
   const isRegistered = searchParams.get('registered') === 'true'
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/personagens')
+      router.refresh()
+    }
+  }, [status, router])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -22,12 +30,13 @@ export default function LoginPage() {
         email,
         password,
         redirect: false,
+        callbackUrl: '/personagens',
       })
 
       if (result?.error) {
         alert('E-mail ou senha incorretos.')
       } else {
-        router.push('/')
+        router.push('/personagens')
         router.refresh()
       }
     })
@@ -68,7 +77,11 @@ export default function LoginPage() {
             ou continue com
             <div style={{ flex: 1, height: 1, background: 'var(--border)' }}></div>
           </div>
-          <button className="btn btn-outline" onClick={() => signIn('google')} style={{ width: '100%', justifyContent: 'center' }}>
+          <button 
+            className="btn btn-outline" 
+            onClick={() => signIn('google', { callbackUrl: '/personagens' })} 
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
             Google
           </button>
         </div>
