@@ -9,6 +9,10 @@ interface FinalStepProps {
     class: string
     background: string
     avatarUrl: string
+    appearance?: string
+    backstory?: string
+    playerName?: string
+    level: number
   }
   onFormChange: (data: any) => void
   attrs: any
@@ -24,8 +28,6 @@ export default function FinalStep({
   form, onFormChange, attrs, skills, inventory, selectedSpells, featureChoices, onSave, loading
 }: FinalStepProps) {
   const [showConfirm, setShowConfirm] = useState(false)
-  const [appearance, setAppearance] = useState('')
-  const [backstory, setBackstory] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,15 +45,16 @@ export default function FinalStep({
   const totalWeight = inventory.reduce((acc, item) => acc + (item.weight || 0) * (item.quantity || 1), 0)
 
   return (
-    <div className="fade-in" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 400px', gap: 32 }}>
+    <div className="final-step-container" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 400px', gap: 32 }}>
       {/* Left: Form */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <section>
           <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, marginBottom: 16 }}>Identidade & Visual</h2>
-          
-          <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+
+          <div className="identity-header" style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
             {/* Avatar Upload */}
-            <div 
+            <div
+              className="avatar-upload-container"
               onClick={() => fileInputRef.current?.click()}
               style={{
                 width: 140, height: 140, borderRadius: 20, backgroundColor: 'var(--bg2)',
@@ -73,26 +76,38 @@ export default function FinalStep({
               <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleImageUpload} />
             </div>
 
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Nome do Personagem</label>
-                <input 
-                  value={form.name}
-                  onChange={(e) => onFormChange({ ...form, name: e.target.value })}
-                  placeholder="Ex: Valerius Stoneheart" 
-                  className="input" 
-                  style={{ fontSize: 16, padding: '12px 16px' }}
-                />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: 1 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Nome do Personagem</label>
+                  <input
+                    value={form.name}
+                    onChange={(e) => onFormChange({ ...form, name: e.target.value })}
+                    placeholder="Ex: Valerius Stoneheart"
+                    className="input"
+                    style={{ fontSize: 16, padding: '12px 16px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Nome do Jogador</label>
+                  <input
+                    value={form.playerName || ''}
+                    onChange={(e) => onFormChange({ ...form, playerName: e.target.value })}
+                    placeholder="Seu nome"
+                    className="input"
+                    style={{ fontSize: 16, padding: '12px 16px' }}
+                  />
+                </div>
               </div>
-              
+
               <div>
                 <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Aparência Física</label>
-                <textarea 
-                  value={appearance}
-                  onChange={(e) => setAppearance(e.target.value)}
-                  placeholder="Descreva cicatrizes, cores, vestimentas e traços marcantes..." 
-                  className="input" 
-                  style={{ minHeight: 80, fontSize: 14, resize: 'vertical' }}
+                <textarea
+                  value={form.appearance || ''}
+                  onChange={(e) => onFormChange({ ...form, appearance: e.target.value })}
+                  placeholder="Descreva cicatrizes, cores, vestimentas e traços marcantes..."
+                  className="input"
+                  style={{ minHeight: 100, fontSize: 14 }}
                 />
               </div>
             </div>
@@ -104,17 +119,17 @@ export default function FinalStep({
             <ScrollText size={20} color="var(--accent)" />
             <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, margin: 0 }}>História (Backstory)</h3>
           </div>
-          <textarea 
-            value={backstory}
-            onChange={(e) => setBackstory(e.target.value)}
-            placeholder="Como seu personagem se tornou um aventureiro? Quais são seus objetivos?" 
-            className="input" 
+          <textarea
+            value={form.backstory || ''}
+            onChange={(e) => onFormChange({ ...form, backstory: e.target.value })}
+            placeholder="Como seu personagem se tornou um aventureiro? Quais são seus objetivos?"
+            className="input"
             style={{ minHeight: 200, fontSize: 14, lineHeight: 1.6, resize: 'vertical' }}
           />
         </section>
 
-        <button 
-          className="btn btn-primary" 
+        <button
+          className="btn btn-primary"
           style={{ height: 60, fontSize: 18, gap: 12 }}
           onClick={() => setShowConfirm(true)}
           disabled={!form.name}
@@ -127,7 +142,7 @@ export default function FinalStep({
       {/* Right: Summary Card */}
       <div className="card" style={{ padding: 24, alignSelf: 'start', backgroundColor: 'var(--bg2)', border: '1px solid rgba(255,255,255,0.1)' }}>
         <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 20, textAlign: 'center' }}>Resumo da Jornada</h3>
-        
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -198,22 +213,22 @@ export default function FinalStep({
             <p style={{ color: 'var(--fg2)', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
               Seu herói <strong>{form.name}</strong> está pronto para começar sua jornada. Deseja forjar esta ficha agora?
             </p>
-            
+
             <div style={{ display: 'flex', gap: 12 }}>
-              <button 
-                className="btn btn-ghost" 
-                style={{ flex: 1 }} 
+              <button
+                className="btn btn-ghost"
+                style={{ flex: 1 }}
                 onClick={() => setShowConfirm(false)}
                 disabled={loading}
               >
                 Revisar
               </button>
-              <button 
-                className="btn btn-primary" 
+              <button
+                className="btn btn-primary"
                 style={{ flex: 1, gap: 10 }}
                 onClick={() => {
-                   setShowConfirm(false);
-                   onSave();
+                  setShowConfirm(false);
+                  onSave();
                 }}
                 disabled={loading}
               >
@@ -239,6 +254,33 @@ export default function FinalStep({
           border-color: var(--accent);
           background: rgba(255, 255, 255, 0.08);
           box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.2);
+        }
+        
+        @media (max-width: 1024px) {
+          .final-step-container {
+            grid-template-columns: 1fr !important;
+          }
+          .identity-header {
+            flex-direction: column;
+            align-items: center !important;
+            text-align: center;
+          }
+          .avatar-upload-container {
+            margin: 0 auto;
+          }
+          .input-group {
+            width: 100%;
+          }
+        }
+        
+        @media (max-width: 640px) {
+          .final-step-container {
+             gap: 24px !important;
+          }
+          .btn-primary {
+             height: 52px !important;
+             font-size: 16px !important;
+          }
         }
       `}</style>
     </div>

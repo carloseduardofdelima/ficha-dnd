@@ -83,7 +83,7 @@ export default function ClassCard({ dndClass, selected, onSelect, onViewDetails 
       </div>
 
       <div style={{
-        padding: 20,
+        padding: '10px 20px',
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -94,7 +94,7 @@ export default function ClassCard({ dndClass, selected, onSelect, onViewDetails 
         borderTop: '1px solid rgba(255,255,255,0.05)',
         boxShadow: '0 -10px 20px rgba(0,0,0,0.5)'
       }}>
-        <div style={{ marginBottom: 8 }}>
+        <div style={{ marginBottom: 4 }}>
           <span style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg3)', textTransform: 'uppercase' }}>Dado de Vida</span>
           <span style={{ fontSize: 14, fontWeight: 'bold', color: 'var(--accentL)', marginLeft: 8 }}>{dndClass.hitDie}</span>
         </div>

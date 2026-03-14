@@ -12,7 +12,6 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
         display: 'flex',
         justifyContent: 'space-between',
         position: 'relative',
-        padding: '0 10px'
       }}>
         {/* Progress Line */}
         <div style={{

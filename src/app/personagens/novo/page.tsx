@@ -36,7 +36,8 @@ export default function NovoPersonagem() {
   const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
 
   const [form, setForm] = useState({
-    name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false
+    name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false,
+    playerName: '', appearance: '', backstory: ''
   })
 
   const save = async () => {
@@ -106,17 +107,22 @@ export default function NovoPersonagem() {
 
   return (
     <div className="container" style={{ maxWidth: 1200, paddingBottom: 100 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
-        <Link href="/personagens">
-          <button className="btn btn-ghost" style={{ padding: 8 }}>
-            <ArrowLeft size={20} />
-          </button>
-        </Link>
-        <div>
-          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, margin: 0 }}>Criar Personagem</h1>
-          <p style={{ fontSize: 13, color: 'var(--fg3)', margin: 0 }}>Siga os passos para forjar seu herói</p>
+        <div className="page-header" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 12, 
+          marginBottom: 32 
+        }}>
+          <Link href="/personagens">
+            <button className="btn btn-ghost" style={{ padding: 8 }}>
+              <ArrowLeft size={20} />
+            </button>
+          </Link>
+          <div className="header-text">
+            <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 24px)', margin: 0 }}>Criar Personagem</h1>
+            <p style={{ fontSize: 13, color: 'var(--fg3)', margin: 0 }}>Siga os passos para forjar seu herói</p>
+          </div>
         </div>
-      </div>
 
       <StepIndicator currentStep={currentStep} steps={STEPS} />
 
@@ -262,9 +268,11 @@ export default function NovoPersonagem() {
         zIndex: 100,
         boxShadow: '0 -4px 20px rgba(0,0,0,0.5)'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Personagem</span>
-          <span style={{ fontWeight: 'bold' }}>{form.name || 'Sem nome'} • {form.race || 'Sem raça'}{form.class ? ` • ${form.class}` : ''}{form.background ? ` • ${form.background}` : ''}</span>
+        <div className="character-info-footer" style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
+          <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Personagem</span>
+          <span style={{ fontWeight: 'bold', fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {form.name || 'Sem nome'} • {form.race || 'Sem raça'}{form.class ? ` • ${form.class}` : ''}
+          </span>
         </div>
 
         <div style={{ display: 'flex', gap: 12 }}>
@@ -534,15 +542,25 @@ export default function NovoPersonagem() {
         @media (max-width: 900px) {
           .bg-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 600px) {
-          .bg-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (max-width: 768px) {
+          .page-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 16px !important;
+            margin-bottom: 24px !important;
+          }
+          .header-text h1 {
+            font-size: 20px !important;
+          }
+          .character-info-footer {
+            display: none !important;
+          }
         }
-        .fade-in {
-          animation: fadeIn 0.4s ease forwards;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 480px) {
+          .container {
+            padding: 16px !important;
+            padding-bottom: 120px !important;
+          }
         }
       `}</style>
     </div>

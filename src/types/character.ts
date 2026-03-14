@@ -81,6 +81,9 @@ export interface Character {
   inventory?: Array<{ id: string; name: string; quantity: number }> | null
   spells?: unknown
   traits?: Record<string, string> | null
+  appearance?: string | null
+  backstory?: string | null
+  playerName?: string | null
   notes?: string | null
   isPublic: boolean
   createdAt: string | Date

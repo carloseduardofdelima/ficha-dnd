@@ -90,7 +90,7 @@ export default function CharacterDetailPage() {
             {[
               { label: 'Informações', id: 'about' },
               { label: 'Descrição', id: 'notes' },
-              { label: 'Atributos', scroll: 'attr-banner' },
+              { label: 'Atributos', id: 'attributes' },
               { label: 'Perícias', id: 'skills' },
               { label: 'Combate', id: 'combat' },
               { label: 'Inventário', id: 'inventory' },
@@ -102,8 +102,9 @@ export default function CharacterDetailPage() {
                 className="menu-item"
                 onClick={() => {
                   if (item.id) setActiveTab(item.id)
-                  if (item.scroll) {
-                    const el = document.getElementById(item.scroll)
+                  const scrollItem = item as { scroll?: string }
+                  if (scrollItem.scroll) {
+                    const el = document.getElementById(scrollItem.scroll)
                     el?.scrollIntoView({ behavior: 'smooth' })
                   }
                   setIsMenuOpen(false)
@@ -122,7 +123,7 @@ export default function CharacterDetailPage() {
       <div className="container" style={{ maxWidth: '100%' }}>
 
         {/* Header Section */}
-        <div className={`mobile-stack ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
+        <div className={`mobile-stack ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
           {/* Avatar Card */}
           <div className="card" onClick={() => setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: 'pointer', transition: 'transform 0.2s' }}>
             <div style={{ width: '100%', aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
@@ -175,7 +176,7 @@ export default function CharacterDetailPage() {
         </button>
 
         {/* Hit Points & Initiative Section */}
-        <div className={`mobile-stack ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ gap: 16, alignItems: 'stretch' }}>
+        <div className={`mobile-stack ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ gap: 16, alignItems: 'stretch' }}>
           <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)', letterSpacing: '0.05em' }}>PONTOS DE VIDA (SALVAGUARDAS CONTRA MORTE)</span>
@@ -219,7 +220,7 @@ export default function CharacterDetailPage() {
         </div>
 
         {/* Attributes Banner */}
-        <div id="attr-banner" className={`attr-grid ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%' }}>
+        <div id="attr-banner" className={`attr-grid ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%' }}>
           {attributes.map(attr => (
             <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
@@ -243,20 +244,6 @@ export default function CharacterDetailPage() {
 
         {/* Main Content Layout */}
         <div className="sheet-layout">
-          {/* Left Sidebar: Character Art / Avatar */}
-          <div className={`sheet-left ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ width: 220, flexShrink: 0 }}>
-            <div className="card" style={{ padding: 12, marginBottom: 16 }}>
-              <div style={{ width: '100%', aspectRatio: '1/1.4', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '1px solid var(--border)' }}>
-                {character.avatarUrl ? (
-                  <Image src={character.avatarUrl} alt={character.name} width={400} height={600} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
-                    <User size={80} />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
 
           {/* Main Panel */}
           <div className="sheet-main" style={{ flex: 1, minWidth: 0 }}>
@@ -291,6 +278,100 @@ export default function CharacterDetailPage() {
               </div>
 
               <div style={{ padding: 12 }}>
+                {activeTab === 'about' && (
+                  <div className="fade-up">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                      {/* Left: Image & Identity */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                        <div className="card" style={{ padding: 12 }}>
+                          <div style={{ width: '50%', margin: 'auto', aspectRatio: '1/1.2', borderRadius: 8, background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+                            {character.avatarUrl ? (
+                              <Image src={character.avatarUrl} alt={character.name} width={50} height={100} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
+                                <User size={80} />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12, textAlign: 'center' }}>
+                          {character.race} • {character.class} • {character.background}
+                        </p>
+
+                        <div className="card" style={{ padding: 16 }}>
+                          <div style={{ marginBottom: 12 }}>
+                            <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 4 }}>Nome do Personagem</span>
+                            <div style={{ fontSize: 18, fontWeight: 700, fontFamily: 'Cinzel, serif' }}>{character.name}</div>
+                          </div>
+                          <div>
+                            <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 4 }}>Nome do Jogador</span>
+                            <div style={{ fontSize: 14, color: 'var(--fg2)' }}>{character.playerName || 'Não informado'}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Description & Backstory */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        <div>
+                          <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 12, borderBottom: '2px solid var(--accent)', display: 'inline-block', paddingBottom: 4 }}>Descrição Física</h3>
+                          <div style={{ fontSize: 14, color: 'var(--fg)', lineHeight: 1.6, background: 'var(--bg2)', padding: 16, borderRadius: 12, border: '1px solid var(--border)' }}>
+                            {character.appearance || 'Sem descrição física disponível.'}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 12, borderBottom: '2px solid var(--accent)', display: 'inline-block', paddingBottom: 4 }}>História</h3>
+                          <div style={{ fontSize: 14, color: 'var(--fg)', lineHeight: 1.6, background: 'var(--bg2)', padding: 20, borderRadius: 12, border: '1px solid var(--border)', whiteSpace: 'pre-wrap' }}>
+                            {character.backstory || 'Sem história registrada.'}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'attributes' && (
+                  <div className="fade-up">
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Atributos</h2>
+                    <div className="attr-grid" style={{ width: '100%' }}>
+                      {attributes.map(attr => (
+                        <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
+                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginBottom: 8, position: 'relative' }}>
+                            <div style={{ width: 48, height: 48, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800 }}>
+                              {attr.mod}
+                            </div>
+                            <div style={{ width: 32, height: 32, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: 'var(--accentL)' }}>
+                              {attr.save}
+                            </div>
+                          </div>
+                          <div style={{ fontSize: 10, color: 'var(--fgM)' }}>
+                            <span style={{ fontSize: 12, color: 'var(--fg2)', fontWeight: 600 }}>{attr.score}</span> Atributo
+                          </div>
+                          <div style={{ fontSize: 10, color: 'var(--fgM)' }}>Resistência</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '16px 0' }}>
+                      <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
+                      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ fontSize: 20, fontWeight: 800 }}>{character.armorClass}</div>
+                        <Shield size={16} color="var(--fg2)" />
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                      <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>DESLOCAMENTO (m)</div>
+                      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ fontSize: 20, fontWeight: 800 }}>{character.speed}</div>
+                        <RotateCcw size={16} color="var(--fg2)" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {activeTab === 'skills' && (
                   <div className="fade-up">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
@@ -311,34 +392,24 @@ export default function CharacterDetailPage() {
                         </div>
 
                         {[
-                          { name: 'Acrobacia+', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Adestramento*', attr: 'charisma', label: 'PRE' },
-                          { name: 'Artes*', attr: 'charisma', label: 'PRE' },
+                          { name: 'Acrobacia', attr: 'dexterity', label: 'DES' },
+                          { name: 'Adestramento', attr: 'wisdom', label: 'SAB' },
+                          { name: 'Arcanismo', attr: 'intelligence', label: 'INT' },
                           { name: 'Atletismo', attr: 'strength', label: 'FOR' },
-                          { name: 'Atualidades', attr: 'intelligence', label: 'INT' },
-                          { name: 'Ciências', attr: 'intelligence', label: 'INT' },
-                          { name: 'Crime*+', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Diplomacia', attr: 'charisma', label: 'PRE' },
-                          { name: 'Enganação', attr: 'charisma', label: 'PRE' },
-                          { name: 'Fortitude', attr: 'constitution', label: 'VIG' },
-                          { name: 'Furtividade+', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Iniciativa', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Intimidação', attr: 'charisma', label: 'PRE' },
-                          { name: 'Intuição', attr: 'charisma', label: 'PRE' },
+                          { name: 'Atuação', attr: 'charisma', label: 'CAR' },
+                          { name: 'Enganação', attr: 'charisma', label: 'CAR' },
+                          { name: 'Furtividade', attr: 'dexterity', label: 'DES' },
+                          { name: 'História', attr: 'intelligence', label: 'INT' },
+                          { name: 'Intimidação', attr: 'charisma', label: 'CAR' },
+                          { name: 'Intuição', attr: 'wisdom', label: 'SAB' },
                           { name: 'Investigação', attr: 'intelligence', label: 'INT' },
-                          { name: 'Luta', attr: 'strength', label: 'FOR' },
-                          { name: 'Medicina', attr: 'intelligence', label: 'INT' },
-                          { name: 'Ocultismo*', attr: 'intelligence', label: 'INT' },
-                          { name: 'Percepção', attr: 'charisma', label: 'PRE' },
-                          { name: 'Pilotagem*', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Pontaria', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Profissão*', attr: 'intelligence', label: 'INT' },
-                          { name: 'Reflexos', attr: 'dexterity', label: 'AGI' },
-                          { name: 'Religião*', attr: 'intelligence', label: 'INT' },
-                          { name: 'Sobrevivência', attr: 'intelligence', label: 'INT' },
-                          { name: 'Tática*', attr: 'intelligence', label: 'INT' },
-                          { name: 'Tecnologia*', attr: 'intelligence', label: 'INT' },
-                          { name: 'Vontade', attr: 'charisma', label: 'PRE' },
+                          { name: 'Medicina', attr: 'wisdom', label: 'SAB' },
+                          { name: 'Natureza', attr: 'intelligence', label: 'INT' },
+                          { name: 'Percepção', attr: 'wisdom', label: 'SAB' },
+                          { name: 'Persuasão', attr: 'charisma', label: 'CAR' },
+                          { name: 'Prestidigitação', attr: 'dexterity', label: 'DES' },
+                          { name: 'Religião', attr: 'intelligence', label: 'INT' },
+                          { name: 'Sobrevivência', attr: 'wisdom', label: 'SAB' },
                         ].map(skill => {
                           const attrScore = (character as any)[skill.attr] || 10
                           const mod = Math.floor((attrScore - 10) / 2)
@@ -411,7 +482,7 @@ export default function CharacterDetailPage() {
           </div>
 
           {/* Right Sidebar */}
-          <div className={`sheet-right ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ width: 200 }}>
+          <div className={`sheet-right ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ width: 200 }}>
             <div className="card" style={{ padding: 16, marginBottom: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>CA/DESLOC.</span>
@@ -421,21 +492,7 @@ export default function CharacterDetailPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
-                <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
-                <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ fontSize: 20, fontWeight: 800 }}>{character.armorClass}</div>
-                  <Shield size={16} color="var(--fg2)" />
-                </div>
-              </div>
 
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>DESLOCAMENTO (m)</div>
-                <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ fontSize: 20, fontWeight: 800 }}>{character.speed}</div>
-                  <RotateCcw size={16} color="var(--fg2)" />
-                </div>
-              </div>
             </div>
 
             <div className="card" style={{ padding: 16 }}>
