@@ -10,6 +10,7 @@ import StepIndicator from '@/components/StepIndicator'
 import RaceCard from '@/components/RaceCard'
 import ClassCard from '@/components/ClassCard'
 import BackgroundCard from '@/components/BackgroundCard'
+import AttributesStep, { Attrs } from '@/components/AttributesStep'
 
 const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Detalhes']
 
@@ -21,6 +22,12 @@ export default function NovoPersonagem() {
   const [detailClass, setDetailClass] = useState<DndClass | null>(null)
   const [detailBg, setDetailBg] = useState<Background | null>(null)
 
+  const [attrs, setAttrs] = useState<Attrs>({
+    strength: 8, dexterity: 8, constitution: 8,
+    intelligence: 8, wisdom: 8, charisma: 8
+  })
+  const [skills, setSkills] = useState<Record<string, boolean>>({})
+
   const [form, setForm] = useState({
     name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false
   })
@@ -30,7 +37,7 @@ export default function NovoPersonagem() {
     const res = await fetch('/api/personagens', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
+      body: JSON.stringify({ ...form, ...attrs })
     })
     if (res.ok) router.push('/personagens')
     else setLoading(false)
@@ -143,8 +150,21 @@ export default function NovoPersonagem() {
         </div>
       )}
 
-      {/* Steps 3+ placeholder */}
-      {currentStep > 2 && (
+
+      {/* Step 3: Attributes + Skills */}
+      {currentStep === 3 && (
+        <AttributesStep
+          className={form.class}
+          backgroundName={form.background}
+          attrs={attrs}
+          skills={skills}
+          onAttrsChange={setAttrs}
+          onSkillsChange={setSkills}
+        />
+      )}
+
+      {/* Steps 4+ placeholder */}
+      {currentStep > 3 && (
         <div className="card fade-in" style={{ padding: 40, textAlign: 'center', backgroundColor: 'var(--bg2)' }}>
           <h2 style={{ fontFamily: 'Cinzel, serif' }}>Próximas Etapas</h2>
           <p style={{ color: 'var(--fg3)' }}>Esta etapa ({STEPS[currentStep]}) será implementada em breve.</p>

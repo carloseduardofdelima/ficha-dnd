@@ -8,9 +8,9 @@ interface StepIndicatorProps {
 export default function StepIndicator({ currentStep, steps }: StepIndicatorProps) {
   return (
     <div style={{ width: '100%', marginBottom: 40 }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
         position: 'relative',
         padding: '0 10px'
       }}>
@@ -40,10 +40,10 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
           const isCurrent = idx === currentStep;
 
           return (
-            <div key={step} style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
+            <div key={step} style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
               gap: 8,
               zIndex: 1,
               flex: 1
@@ -65,8 +65,8 @@ export default function StepIndicator({ currentStep, steps }: StepIndicatorProps
               }}>
                 {idx + 1}
               </div>
-              <span style={{ 
-                fontSize: 11, 
+              <span className='step-text' style={{
+                fontSize: '1rem',
                 fontWeight: isCurrent ? 'bold' : 'normal',
                 color: isActive ? 'var(--fg)' : 'var(--fg3)',
                 textTransform: 'uppercase',
