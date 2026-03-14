@@ -71,6 +71,8 @@ export interface Character {
   charisma: number
   maxHp: number
   currentHp: number
+  maxMana: number
+  currentMana: number
   armorClass: number
   speed: number
   initiative: number

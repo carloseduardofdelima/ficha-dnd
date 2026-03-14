@@ -3,7 +3,10 @@ import { useParams, useRouter } from 'next/navigation'
 import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Upload, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { formatModifier, type Character, type Defense } from '@/types/character'
+import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
+import { RACES } from '@/lib/races'
+import CLASS_LEVEL1_DATA from '@/lib/class-features'
+import { SPELLS } from '@/lib/spells'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -19,7 +22,22 @@ export default function CharacterDetailPage() {
     fetch(`/api/personagens/${id}`)
       .then(res => res.json())
       .then(data => {
-        if (!data.error) setCharacter(data)
+        if (!data.error) {
+          // Sync with LocalStorage
+          try {
+            const localData = localStorage.getItem(`char_stats_${id}`);
+            if (localData) {
+              const parsed = JSON.parse(localData);
+              data.currentHp = parsed.currentHp ?? data.currentHp;
+              data.maxHp = parsed.maxHp ?? data.maxHp;
+              data.currentMana = parsed.currentMana ?? 0;
+              data.maxMana = parsed.maxMana ?? 0;
+            }
+          } catch (e) {
+            console.error('Error loading local stats', e);
+          }
+          setCharacter(data);
+        }
         setLoading(false)
       })
   }, [id])
@@ -95,7 +113,7 @@ export default function CharacterDetailPage() {
               { label: 'Combate', id: 'combat' },
               { label: 'Inventário', id: 'inventory' },
               { label: 'Habilidades', id: 'features' },
-              { label: 'Rituais', id: 'spells' },
+              { label: 'Magias', id: 'spells' },
             ].map(item => (
               <div
                 key={item.label}
@@ -166,6 +184,31 @@ export default function CharacterDetailPage() {
           </div>
         </div>
 
+        {/* Global Persistence Helper (Internal use for HP/Mana) */}
+        {(() => {
+          const updateValue = (field: string, delta: number) => {
+            if (!character) return;
+            const newVal = Math.max(0, (character as any)[field] + delta);
+            const updatedChar = { ...character, [field]: newVal };
+            setCharacter(updatedChar);
+            
+            // Persist ONLY to LocalStorage
+            try {
+              const localData = {
+                currentHp: updatedChar.currentHp,
+                maxHp: updatedChar.maxHp,
+                currentMana: updatedChar.currentMana,
+                maxMana: updatedChar.maxMana
+              };
+              localStorage.setItem(`char_stats_${id}`, JSON.stringify(localData));
+            } catch (e) {
+              console.error('Error saving local stats', e);
+            }
+          };
+          (window as any).updateCharValue = updateValue;
+          return null;
+        })()}
+
         {/* Floating Mobile Menu Trigger */}
         <button
           className="mobile-only floating-menu-btn"
@@ -175,52 +218,8 @@ export default function CharacterDetailPage() {
           <Menu size={28} />
         </button>
 
-        {/* Hit Points & Initiative Section */}
-        <div className={`mobile-stack ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ gap: 16, alignItems: 'stretch' }}>
-          <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)', letterSpacing: '0.05em' }}>PONTOS DE VIDA (SALVAGUARDAS CONTRA MORTE)</span>
-              <div style={{ display: 'flex', gap: 4 }}>
-                <Info size={12} color="var(--fgM)" />
-                <Settings size={12} color="var(--fgM)" />
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Sucessos</div>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
-                </div>
-              </div>
-              <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>Estabilizar</button>
-            </div>
-
-            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 11, color: 'var(--fgM)', marginBottom: 8 }}>Fracassos</div>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {[1, 2, 3].map(i => <div key={i} style={{ width: 14, height: 14, border: '1px solid var(--border)', borderRadius: 2 }}></div>)}
-                </div>
-              </div>
-              <button className="btn btn-outline" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', height: 32, fontSize: 12 }}>
-                <RotateCcw size={12} /> Rolar
-              </button>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
-            <button className="btn w-full" style={{ flex: 1, background: 'var(--bg2)', border: '1px solid var(--border)', padding: '0 24px', display: 'flex', gap: 12, justifyContent: 'center' }}>
-              Inspiração <span style={{ color: 'var(--fgM)' }}>●</span>
-            </button>
-            <button className="btn w-full" style={{ flex: 1, background: 'var(--accent)', color: '#fff', padding: '0 24px', fontSize: 18, fontWeight: 700, justifyContent: 'center' }}>
-              Iniciativa {initiative}
-            </button>
-          </div>
-        </div>
-
         {/* Attributes Banner */}
-        <div id="attr-banner" className={`attr-grid ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%' }}>
+        <div id="attr-banner" className={`attr-grid ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {attributes.map(attr => (
             <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
@@ -241,6 +240,8 @@ export default function CharacterDetailPage() {
             </div>
           ))}
         </div>
+
+
 
         {/* Main Content Layout */}
         <div className="sheet-layout">
@@ -333,6 +334,74 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'attributes' && (
                   <div className="fade-up">
+
+                    <div style={{ marginTop: 12, marginBottom: 24, marginLeft: 'auto', marginRight: 'auto', width: '90%' }}>
+                      <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, marginBottom: 12, color: 'var(--accentL)' }}>Vida & Recursos</h3>
+                      <div className="resource-grid">
+                        {/* HP Section */}
+                        <div className="card compact-card" style={{ background: 'linear-gradient(135deg, rgba(225,29,72,0.1) 0%, rgba(0,0,0,0) 100%)', border: '1px solid rgba(225,29,72,0.2)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <Heart size={16} color="var(--accent)" />
+                              <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Pontos de Vida</span>
+                            </div>
+                            <div style={{ fontSize: 18, fontWeight: 800 }}>{character.currentHp} <span style={{ color: 'var(--fg3)', fontSize: 14 }}>/ {character.maxHp}</span></div>
+                          </div>
+                          <div style={{ height: 6, background: 'var(--bg)', borderRadius: 3, overflow: 'hidden', marginBottom: 16 }}>
+                            <div style={{ width: `${(character.currentHp / character.maxHp) * 100}%`, height: '100%', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent)' }} />
+                          </div>
+                          <div style={{ display: 'flex', gap: 8 }}>
+                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentHp', -1)}>-1</button>
+                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentHp', 1)}>+1</button>
+                          </div>
+                        </div>
+
+                        {/* Resource Section */}
+                        {(() => {
+                          let label = 'Mana';
+                          let color = '#3b82f6';
+                          if (character.class === 'Bárbaro') { label = 'Fúrias'; color = '#f97316'; }
+                          else if (character.class === 'Monge') { label = 'Pontos de Ki'; color = '#facc15'; }
+                          else if (character.class === 'Feiticeiro') { label = 'Pontos de Feitiçaria'; color = '#a855f7'; }
+
+                          return (
+                            <div className="card compact-card" style={{ background: `linear-gradient(135deg, ${color}1a 0%, rgba(0,0,0,0) 100%)`, border: `1px solid ${color}33` }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <Zap size={16} color={color} />
+                                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>{label}</span>
+                                </div>
+                                <div style={{ fontSize: 18, fontWeight: 800 }}>{character.currentMana} <span style={{ color: 'var(--fg3)', fontSize: 14 }}>/ {character.maxMana || character.level}</span></div>
+                              </div>
+                              <div style={{ height: 6, background: 'var(--bg)', borderRadius: 3, overflow: 'hidden', marginBottom: 16 }}>
+                                <div style={{ width: `${(character.currentMana / (character.maxMana || character.level)) * 100}%`, height: '100%', background: color, boxShadow: `0 0 10px ${color}` }} />
+                              </div>
+                              <div style={{ display: 'flex', gap: 8 }}>
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentMana', -1)}>-1</button>
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentMana', 1)}>+1</button>
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '6px', fontSize: 11 }} onClick={async () => {
+                                  // Simplified Long Rest
+                                  const update = { ...character, currentHp: character.maxHp, currentMana: character.maxMana || character.level };
+                                  setCharacter(update as any);
+                                  
+                                  // Persist to LocalStorage
+                                  try {
+                                    localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+                                      currentHp: update.currentHp,
+                                      maxHp: update.maxHp,
+                                      currentMana: update.currentMana,
+                                      maxMana: update.maxMana
+                                    }));
+                                  } catch (e) {
+                                    console.error(e);
+                                  }
+                                }}><RotateCcw size={14} /></button>
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
                     <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Atributos</h2>
                     <div className="attr-grid" style={{ width: '100%' }}>
                       {attributes.map(attr => (
@@ -369,6 +438,7 @@ export default function CharacterDetailPage() {
                         <RotateCcw size={16} color="var(--fg2)" />
                       </div>
                     </div>
+
                   </div>
                 )}
 
@@ -382,52 +452,190 @@ export default function CharacterDetailPage() {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, fontSize: 11 }}>
-                        <div style={{ display: 'flex', color: 'var(--fgM)', fontWeight: 700, paddingBottom: 8, borderBottom: '1px solid var(--border)', marginBottom: 8, fontSize: 10 }}>
-                          <div style={{ flex: 1 }}>PERÍCIA</div>
-                          <div style={{ width: 45, textAlign: 'center' }}>DADOS</div>
-                          <div style={{ width: 45, textAlign: 'center' }}>BÔNUS</div>
-                          <div style={{ width: 45, textAlign: 'center' }}>Treino</div>
-                        </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, fontSize: 11 }}>
+                      <div style={{ display: 'flex', color: 'var(--fgM)', fontWeight: 700, paddingBottom: 8, borderBottom: '1px solid var(--border)', marginBottom: 8, fontSize: 10 }}>
+                        <div style={{ flex: 1 }}>PERÍCIA</div>
+                        <div style={{ width: 45, textAlign: 'center' }}>DADOS</div>
+                        <div style={{ width: 45, textAlign: 'center' }}>BÔNUS</div>
+                        <div style={{ width: 45, textAlign: 'center' }}>TREINO</div>
+                      </div>
 
-                        {[
-                          { name: 'Acrobacia', attr: 'dexterity', label: 'DES' },
-                          { name: 'Adestramento', attr: 'wisdom', label: 'SAB' },
-                          { name: 'Arcanismo', attr: 'intelligence', label: 'INT' },
-                          { name: 'Atletismo', attr: 'strength', label: 'FOR' },
-                          { name: 'Atuação', attr: 'charisma', label: 'CAR' },
-                          { name: 'Enganação', attr: 'charisma', label: 'CAR' },
-                          { name: 'Furtividade', attr: 'dexterity', label: 'DES' },
-                          { name: 'História', attr: 'intelligence', label: 'INT' },
-                          { name: 'Intimidação', attr: 'charisma', label: 'CAR' },
-                          { name: 'Intuição', attr: 'wisdom', label: 'SAB' },
-                          { name: 'Investigação', attr: 'intelligence', label: 'INT' },
-                          { name: 'Medicina', attr: 'wisdom', label: 'SAB' },
-                          { name: 'Natureza', attr: 'intelligence', label: 'INT' },
-                          { name: 'Percepção', attr: 'wisdom', label: 'SAB' },
-                          { name: 'Persuasão', attr: 'charisma', label: 'CAR' },
-                          { name: 'Prestidigitação', attr: 'dexterity', label: 'DES' },
-                          { name: 'Religião', attr: 'intelligence', label: 'INT' },
-                          { name: 'Sobrevivência', attr: 'wisdom', label: 'SAB' },
-                        ].map(skill => {
-                          const attrScore = (character as any)[skill.attr] || 10
-                          const mod = Math.floor((attrScore - 10) / 2)
-                          const baseSkillName = skill.name.replace(/[*+]/g, '').toLowerCase()
-                          const isTrained = character.skills?.[baseSkillName] || false
-                          const trainingBonus = isTrained ? character.proficiencyBonus : 0
-                          const total = mod + trainingBonus
+                      {[
+                        { name: 'Acrobacia', attr: 'dexterity', label: 'DES' },
+                        { name: 'Adestramento', attr: 'wisdom', label: 'SAB' },
+                        { name: 'Arcanismo', attr: 'intelligence', label: 'INT' },
+                        { name: 'Atletismo', attr: 'strength', label: 'FOR' },
+                        { name: 'Atuação', attr: 'charisma', label: 'CAR' },
+                        { name: 'Enganação', attr: 'charisma', label: 'CAR' },
+                        { name: 'Furtividade', attr: 'dexterity', label: 'DES' },
+                        { name: 'História', attr: 'intelligence', label: 'INT' },
+                        { name: 'Intimidação', attr: 'charisma', label: 'CAR' },
+                        { name: 'Intuição', attr: 'wisdom', label: 'SAB' },
+                        { name: 'Investigação', attr: 'intelligence', label: 'INT' },
+                        { name: 'Medicina', attr: 'wisdom', label: 'SAB' },
+                        { name: 'Natureza', attr: 'intelligence', label: 'INT' },
+                        { name: 'Percepção', attr: 'wisdom', label: 'SAB' },
+                        { name: 'Persuasão', attr: 'charisma', label: 'CAR' },
+                        { name: 'Prestidigitação', attr: 'dexterity', label: 'DES' },
+                        { name: 'Religião', attr: 'intelligence', label: 'INT' },
+                        { name: 'Sobrevivência', attr: 'wisdom', label: 'SAB' },
+                      ].map(skill => {
+                        const attrVal = (character as any)[skill.attr] || 10
+                        const mod = Math.floor((attrVal - 10) / 2)
+                        const baseSkillName = skill.name.toLowerCase()
+                          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        const isTrained = character.skills?.[baseSkillName] || false
+                        const trainingBonus = isTrained ? character.proficiencyBonus : 0
+                        const total = mod + trainingBonus
+
+                        return (
+                          <div key={skill.name} style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.03)', color: isTrained ? 'var(--accentL)' : 'var(--fg)' }}>
+                            <div style={{ flex: 1, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 6 }}>
+                              {isTrained && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />}
+                              {skill.name}
+                            </div>
+                            <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 10 }}>({skill.label})</div>
+                            <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13 }}>{total >= 0 ? `+${total}` : total}</div>
+                            <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 12 }}>
+                              {trainingBonus}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'spells' && (
+                  <div className="fade-up">
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Magias</h2>
+                    {character.spells && Array.isArray(character.spells) && character.spells.length > 0 ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        {[0, 1].map(lvl => {
+                          const lvlSpells = (character.spells as string[])
+                            .map(id => SPELLS.find(s => s.id === id))
+                            .filter(s => s && s.level === lvl)
+
+                          if (lvlSpells.length === 0) return null
 
                           return (
-                            <div key={skill.name} style={{ display: 'flex', alignItems: 'center', padding: '6px 0', color: isTrained ? 'var(--ok)' : 'var(--fg)', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                              <div style={{ flex: 1, fontWeight: 500 }}>{skill.name}</div>
-                              <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 10 }}>({skill.label})</div>
-                              <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13 }}>{total >= 0 ? `+${total}` : total}</div>
-                              <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', borderBottom: '1px solid var(--border)', fontSize: 12 }}>
-                                {trainingBonus}
+                            <div key={lvl}>
+                              <h3 style={{ fontSize: 12, color: 'var(--accent)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
+                                {lvl === 0 ? 'Truques' : '1º Nível'}
+                              </h3>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {lvlSpells.map((spell: any) => (
+                                  <div key={spell.id} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                                      <div>
+                                        <div style={{ fontWeight: 700, fontSize: 16 }}>{spell.name}</div>
+                                        <div style={{ fontSize: 11, color: 'var(--accentL)', fontWeight: 600 }}>{spell.school}</div>
+                                      </div>
+                                      <div style={{ fontSize: 10, color: 'var(--fgM)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                        {spell.range}
+                                      </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 10, borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8 }}>
+                                      <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
+                                      <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
+                                      {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONCENTRAÇÃO</div>}
+                                    </div>
+                                    <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           )
+                        })}
+                      </div>
+                    ) : (
+                      <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Você não possui magias selecionadas.</p>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === 'inventory' && (
+                  <div className="fade-up">
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Inventário</h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                      {character.inventory && Array.isArray(character.inventory) && character.inventory.length > 0 ? (
+                        (character.inventory as any[]).map((entry: any, i: number) => (
+                          <div key={i} className="card" style={{ padding: 12, display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg2)' }}>
+                            <span style={{ fontSize: 24 }}>{entry.item.icon}</span>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontWeight: 700, fontSize: 14, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.item.name}</div>
+                              <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{entry.item.category} • {entry.item.weight} kg</div>
+                            </div>
+                            <div style={{ fontWeight: 800, color: 'var(--accentL)', flexShrink: 0 }}>x{entry.qty}</div>
+                          </div>
+                        ))
+                      ) : (
+                        <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Seu inventário está vazio.</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'features' && (
+                  <div className="fade-up">
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Habilidades & Características</h2>
+
+                    <div style={{ marginBottom: 24 }}>
+                      <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                        Raça: {character.race}
+                      </h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {RACES.find(r => r.name === character.race)?.traits.map((trait, i) => (
+                          <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
+                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
+                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{trait.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: 24 }}>
+                      <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                        Classe: {character.class}
+                      </h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {CLASS_LEVEL1_DATA[character.class]?.passiveFeatures.map((feat, i) => (
+                          <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
+                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
+                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{feat.description}</p>
+                          </div>
+                        ))}
+                        {character.traits && Object.entries(character.traits).map(([choiceId, value], i) => {
+                          const choice = CLASS_LEVEL1_DATA[character.class]?.choices.find(c => c.id === choiceId)
+                          if (!choice) return null
+
+                          if (choice.type === 'radio' && typeof value === 'string') {
+                            const opt = choice.options.find(o => o.id === value)
+                            if (!opt) return null
+                            return (
+                              <div key={choiceId} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--accent)' }}>
+                                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 4 }}>{choice.label}</div>
+                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{opt.name}</div>
+                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{opt.description}</p>
+                              </div>
+                            )
+                          } else if (Array.isArray(value)) {
+                            return value.map(valId => {
+                              const opt = choice.options.find(o => o.id === valId)
+                              if (!opt) return null
+                              return (
+                                <div key={valId} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--accent)' }}>
+                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 4 }}>{choice.label}</div>
+                                  <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{opt.name}</div>
+                                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{opt.description}</p>
+                                </div>
+                              )
+                            })
+                          }
+                          return null
                         })}
                       </div>
                     </div>
@@ -435,11 +643,9 @@ export default function CharacterDetailPage() {
                 )}
 
                 {activeTab === 'combat' && (
-                  <div>
+                  <div className="fade-up">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                      <select style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--fg)', padding: '6px 12px', borderRadius: 6, fontSize: 14 }}>
-                        <option>Tudo</option>
-                      </select>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Ataques</h2>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <button className="btn btn-outline" style={{ padding: 6 }}><Plus size={16} /></button>
                         <button className="btn btn-outline" style={{ padding: 6 }}><Settings size={16} /></button>
@@ -457,65 +663,84 @@ export default function CharacterDetailPage() {
                         </tr>
                       </thead>
                       <tbody>
+                        {/* Unarmed Strike - Default */}
                         <tr style={{ borderBottom: '1px solid var(--bg2)' }}>
                           <td style={{ padding: '16px 0' }}>
-                            <div style={{ fontWeight: 700 }}>Unarmed Strike</div>
-                            <div style={{ fontSize: 11, color: 'var(--fgM)' }}>Melee</div>
+                            <div style={{ fontWeight: 700 }}>Ataque Desarmado</div>
+                            <div style={{ fontSize: 11, color: 'var(--fgM)' }}>Corpo a corpo</div>
                           </td>
                           <td style={{ fontSize: 13 }}>1.5 m</td>
                           <td>
-                            <div style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', padding: '4px 12px', borderRadius: 4, display: 'inline-block', fontSize: 13, fontWeight: 700, border: '1px solid var(--accent)' }}>+4 Ataque</div>
+                            <div style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', padding: '4px 12px', borderRadius: 4, display: 'inline-block', fontSize: 13, fontWeight: 700, border: '1px solid var(--accent)' }}>
+                              {formatModifier(character.strength + character.proficiencyBonus - 10)} Ataque
+                            </div>
                           </td>
                           <td>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}>3 <Sword size={12} color="var(--accentL)" /></div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}>
+                              {1 + calcModifier(character.strength)} <Sword size={12} color="var(--accentL)" />
+                              <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 400 }}>Concussão</span>
+                            </div>
                           </td>
                           <td style={{ textAlign: 'right' }}>
                             <button className="btn btn-ghost"><Info size={16} /></button>
                           </td>
                         </tr>
+
+                        {/* Weapons from Inventory */}
+                        {character.inventory && Array.isArray(character.inventory) && (character.inventory as any[])
+                          .filter(e => e.item.category === 'weapon')
+                          .map((entry, idx) => {
+                            const weapon = entry.item;
+                            const isFinesse = weapon.properties?.toLowerCase().includes('acuidade');
+                            const isRange = weapon.properties?.toLowerCase().includes('alcance') || weapon.category === 'weapon' && (weapon.name.toLowerCase().includes('arco') || weapon.name.toLowerCase().includes('besta'));
+
+                            // Determine which stat to use
+                            let attackStat = character.strength;
+                            if (isRange || (isFinesse && character.dexterity > character.strength)) {
+                              attackStat = character.dexterity;
+                            }
+
+                            const toHit = calcModifier(attackStat) + character.proficiencyBonus;
+                            const dmgMod = calcModifier(attackStat);
+
+                            // Extract damage dice and type: "1d8 cortante"
+                            const dmgParts = weapon.properties?.split(',')[0].trim().split(' ');
+                            const dice = dmgParts?.[0] || '1d4';
+                            const type = dmgParts?.[1] || 'dano';
+
+                            // Extract range if available
+                            const rangeMatch = weapon.properties?.match(/alcance\s+([\d\/]+)\s*m/i);
+                            const range = rangeMatch ? rangeMatch[1] + ' m' : (isRange ? 'Distância' : '1.5 m');
+
+                            return (
+                              <tr key={idx} style={{ borderBottom: '1px solid var(--bg2)' }}>
+                                <td style={{ padding: '16px 0' }}>
+                                  <div style={{ fontWeight: 700 }}>{weapon.name}</div>
+                                  <div style={{ fontSize: 11, color: 'var(--fgM)' }}>{isRange ? 'À Distância' : 'Corpo a corpo'}</div>
+                                </td>
+                                <td style={{ fontSize: 13 }}>{range}</td>
+                                <td>
+                                  <div style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', padding: '4px 12px', borderRadius: 4, display: 'inline-block', fontSize: 13, fontWeight: 700, border: '1px solid var(--accent)' }}>
+                                    {toHit >= 0 ? `+${toHit}` : toHit} Ataque
+                                  </div>
+                                </td>
+                                <td>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700 }}>
+                                    {dice}{dmgMod !== 0 ? (dmgMod > 0 ? `+${dmgMod}` : dmgMod) : ''}
+                                    <Sword size={12} color="var(--accentL)" />
+                                    <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 400, textTransform: 'capitalize' }}>{type}</span>
+                                  </div>
+                                </td>
+                                <td style={{ textAlign: 'right' }}>
+                                  <button className="btn btn-ghost"><Info size={16} /></button>
+                                </td>
+                              </tr>
+                            );
+                          })}
                       </tbody>
                     </table>
                   </div>
                 )}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div className={`sheet-right ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ width: 200 }}>
-            <div className="card" style={{ padding: 16, marginBottom: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>CA/DESLOC.</span>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <Info size={14} color="var(--fgM)" />
-                  <Settings size={14} color="var(--fgM)" />
-                </div>
-              </div>
-
-
-            </div>
-
-            <div className="card" style={{ padding: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>DEFESAS</span>
-                <Settings size={14} color="var(--fgM)" />
-              </div>
-              {character.defenses?.map((def: Defense) => (
-                <div key={String(def.value)}>
-                  <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700, marginBottom: 4 }}>{def.type.toUpperCase()}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--accentL)', marginBottom: 2 }}>{def.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--fgM)' }}>{def.detail}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="card" style={{ padding: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>CONDIÇÕES</span>
-                <Settings size={14} color="var(--fgM)" />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <p style={{ fontSize: 11, color: 'var(--fg3)' }}>Nenhuma condição ativa.</p>
               </div>
             </div>
           </div>

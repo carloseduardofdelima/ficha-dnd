@@ -7,7 +7,14 @@ import { auth } from '@/lib/auth'
 export const metadata: Metadata = {
   title: 'Ficha D&D | Crie e Compartilhe Personagens',
   description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
+  openGraph: {
+    title: 'Minha Ficha D&D',
+    description: 'Veja minha ficha de personagem',
+    images: ['https://www.enworld.org/attachments/dd-tashas-1604041136985-jpg.128081/'],
+  },
 }
+
+
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
