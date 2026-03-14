@@ -7,12 +7,27 @@ export async function GET() {
   const session = await auth()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const characters = await prisma.character.findMany({
+  // Fetch owned characters
+  const owned = await prisma.character.findMany({
     where: { userId: session.user.id },
+    orderBy: { updatedAt: 'desc' },
+  })
+
+  // Fetch saved characters
+  const savedEntries = await prisma.savedCharacter.findMany({
+    where: { userId: session.user.id },
+    include: { character: true },
     orderBy: { createdAt: 'desc' },
   })
 
-  const parsedCharacters = characters.map(c => ({
+  const saved = savedEntries.map((entry: any) => ({
+    ...entry.character,
+    isSaved: true // Flag to identify this is a saved character, not owned
+  }))
+
+  const allCharacters = [...owned, ...saved]
+
+  const parsedCharacters = allCharacters.map(c => ({
     ...c,
     skills: c.skills ? JSON.parse(c.skills) : null,
     inventory: c.inventory ? JSON.parse(c.inventory) : null,

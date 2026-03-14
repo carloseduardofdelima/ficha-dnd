@@ -97,6 +97,8 @@ export default function CharacterDetailPage() {
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
+  const isOwner = character.userId === character.sessionUserId
+
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', color: 'var(--fg)', padding: '24px 0', position: 'relative' }}>
@@ -143,7 +145,7 @@ export default function CharacterDetailPage() {
         {/* Header Section */}
         <div className={`mobile-stack ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
           {/* Avatar Card */}
-          <div className="card" onClick={() => setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: 'pointer', transition: 'transform 0.2s' }}>
+          <div className="card" onClick={() => isOwner && setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: isOwner ? 'pointer' : 'default', transition: 'transform 0.2s' }}>
             <div style={{ width: '100%', aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
               {character.avatarUrl ? (
                 <Image src={character.avatarUrl} alt={character.name} width={300} height={300} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -164,7 +166,7 @@ export default function CharacterDetailPage() {
               <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 32px)', fontWeight: 700, textAlign: 'center' }}>{character.name}</h1>
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }} className="hide-mobile">
                 <button className="btn btn-ghost"><Info size={16} /></button>
-                <button className="btn btn-ghost"><Settings size={16} /></button>
+                {isOwner && <button className="btn btn-ghost"><Settings size={16} /></button>}
               </div>
             </div>
             <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12 }}>
@@ -177,9 +179,72 @@ export default function CharacterDetailPage() {
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
                 <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
               </div>
-              <button className="btn btn-outline" style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}>
-                <RotateCcw size={12} /> Subir de Nível
-              </button>
+              
+              {/* Privacy Toggle (Only for owners) */}
+              {character.userId === character.sessionUserId && (
+                <button 
+                  className="btn btn-outline" 
+                  style={{ 
+                    fontSize: 11, 
+                    padding: '4px 12px', 
+                    borderColor: character.isPublic ? 'var(--ok)' : 'var(--fg3)',
+                    color: character.isPublic ? 'var(--ok)' : 'var(--fg2)'
+                  }}
+                  onClick={async () => {
+                    const nextPublic = !character.isPublic;
+                    try {
+                      const res = await fetch(`/api/personagens/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ isPublic: nextPublic })
+                      });
+                      if (res.ok) {
+                        setCharacter({ ...character, isPublic: nextPublic });
+                      }
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  {character.isPublic ? '🌐 Público' : '🔒 Privado'}
+                </button>
+              )}
+
+              {/* Save/Follow Button (Only for non-owners on public sheets) */}
+              {character.sessionUserId && character.userId !== character.sessionUserId && character.isPublic && (
+                <button 
+                  className={`btn ${character.isSaved ? 'btn-primary' : 'btn-outline'}`}
+                  style={{ 
+                    fontSize: 11, 
+                    padding: '4px 12px', 
+                    borderColor: character.isSaved ? 'var(--accent)' : 'var(--fg3)',
+                    color: character.isSaved ? '#fff' : 'var(--fg2)'
+                  }}
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(`/api/personagens/save`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ characterId: id })
+                      });
+                      if (res.ok) {
+                        const data = await res.json();
+                        setCharacter({ ...character, isSaved: data.saved });
+                      }
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  {character.isSaved ? '⭐ Salva na Conta' : '★ Salvar na Conta'}
+                </button>
+              )}
+
+              {isOwner && (
+                <button className="btn btn-outline" style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}>
+                  <RotateCcw size={12} /> Subir de Nível
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -351,8 +416,8 @@ export default function CharacterDetailPage() {
                             <div style={{ width: `${(character.currentHp / character.maxHp) * 100}%`, height: '100%', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent)' }} />
                           </div>
                           <div style={{ display: 'flex', gap: 8 }}>
-                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentHp', -1)}>-1</button>
-                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentHp', 1)}>+1</button>
+                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentHp', -1)} disabled={!isOwner}>-1</button>
+                            <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentHp', 1)} disabled={!isOwner}>+1</button>
                           </div>
                         </div>
 
@@ -377,9 +442,10 @@ export default function CharacterDetailPage() {
                                 <div style={{ width: `${(character.currentMana / (character.maxMana || character.level)) * 100}%`, height: '100%', background: color, boxShadow: `0 0 10px ${color}` }} />
                               </div>
                               <div style={{ display: 'flex', gap: 8 }}>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentMana', -1)}>-1</button>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => (window as any).updateCharValue('currentMana', 1)}>+1</button>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '6px', fontSize: 11 }} onClick={async () => {
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentMana', -1)} disabled={!isOwner}>-1</button>
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentMana', 1)} disabled={!isOwner}>+1</button>
+                                <button className="btn btn-outline" style={{ flex: 1, padding: '6px', fontSize: 11 }} disabled={!isOwner} onClick={async () => {
+                                  if (!isOwner) return;
                                   // Simplified Long Rest
                                   const update = { ...character, currentHp: character.maxHp, currentMana: character.maxMana || character.level };
                                   setCharacter(update as any);

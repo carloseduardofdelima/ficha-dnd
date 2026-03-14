@@ -90,4 +90,6 @@ export interface Character {
   isPublic: boolean
   createdAt: string | Date
   updatedAt: string | Date
+  isSaved?: boolean
+  sessionUserId?: string
 }

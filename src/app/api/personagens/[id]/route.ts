@@ -3,12 +3,36 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth()
   const { id } = await params
   const character = await prisma.character.findUnique({ where: { id } })
+  
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  
+  // Privacy check: Must be owner OR the character must be public
+  const isOwner = session?.user?.id === character.userId
+  if (!character.isPublic && !isOwner) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  // Check if saved by current user
+  let isSaved = false
+  if (session?.user?.id) {
+    const saved = await prisma.savedCharacter.findUnique({
+      where: {
+        userId_characterId: {
+          userId: session.user.id,
+          characterId: id
+        }
+      }
+    })
+    isSaved = !!saved
+  }
   
   const parsedCharacter = {
     ...character,
+    sessionUserId: session?.user?.id,
+    isSaved,
     skills: character.skills ? JSON.parse(character.skills) : null,
     inventory: character.inventory ? JSON.parse(character.inventory) : null,
     spells: character.spells ? JSON.parse(character.spells) : null,
