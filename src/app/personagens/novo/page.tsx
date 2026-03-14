@@ -11,8 +11,10 @@ import RaceCard from '@/components/RaceCard'
 import ClassCard from '@/components/ClassCard'
 import BackgroundCard from '@/components/BackgroundCard'
 import AttributesStep, { Attrs } from '@/components/AttributesStep'
+import InventoryStep from '@/components/InventoryStep'
+import type { InventoryEntry } from '@/lib/inventory'
 
-const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Detalhes']
+const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Detalhes']
 
 export default function NovoPersonagem() {
   const router = useRouter()
@@ -27,6 +29,7 @@ export default function NovoPersonagem() {
     intelligence: 8, wisdom: 8, charisma: 8
   })
   const [skills, setSkills] = useState<Record<string, boolean>>({})
+  const [inventory, setInventory] = useState<InventoryEntry[]>([])
 
   const [form, setForm] = useState({
     name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false
@@ -163,8 +166,19 @@ export default function NovoPersonagem() {
         />
       )}
 
-      {/* Steps 4+ placeholder */}
-      {currentStep > 3 && (
+
+      {/* Step 4: Inventory */}
+      {currentStep === 4 && (
+        <InventoryStep
+          className={form.class}
+          backgroundName={form.background}
+          inventory={inventory}
+          onInventoryChange={setInventory}
+        />
+      )}
+
+      {/* Steps 5+ placeholder */}
+      {currentStep > 4 && (
         <div className="card fade-in" style={{ padding: 40, textAlign: 'center', backgroundColor: 'var(--bg2)' }}>
           <h2 style={{ fontFamily: 'Cinzel, serif' }}>Próximas Etapas</h2>
           <p style={{ color: 'var(--fg3)' }}>Esta etapa ({STEPS[currentStep]}) será implementada em breve.</p>
