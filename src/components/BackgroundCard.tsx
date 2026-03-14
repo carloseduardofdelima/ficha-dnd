@@ -55,7 +55,7 @@ export default function BackgroundCard({ background, selected, onSelect, onViewD
 
         {/* Description */}
         <p className='bg-card-description' style={{
-          fontSize: 12,
+          fontSize: 14,
           color: 'var(--fg2)',
           lineHeight: 1.5,
           marginBottom: 16,
@@ -111,7 +111,7 @@ export default function BackgroundCard({ background, selected, onSelect, onViewD
             backgroundColor: 'var(--accent)',
             color: '#fff',
             fontWeight: 'bold',
-            fontSize: 8,
+            fontSize: 12,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
             padding: '12px',
