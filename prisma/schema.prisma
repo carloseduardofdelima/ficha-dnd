@@ -69,6 +69,7 @@ model Character {
   background    String?
   alignment     String?
   avatarUrl     String?
+  playerName    String?
 
   strength     Int @default(10)
   dexterity    Int @default(10)
@@ -90,6 +91,8 @@ model Character {
   traits    String?
   appearance String?
   backstory  String?
+  exp       String?
+  defenses  String?
   notes     String?
 
   isPublic  Boolean  @default(false)

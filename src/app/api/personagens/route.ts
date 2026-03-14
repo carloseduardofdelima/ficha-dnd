@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
       traits: body.traits ? JSON.stringify(body.traits) : null,
       appearance: body.appearance,
       backstory: body.backstory,
+      playerName: body.playerName,
       avatarUrl: body.avatarUrl,
       isPublic: body.isPublic || false,
       notes: body.notes,
