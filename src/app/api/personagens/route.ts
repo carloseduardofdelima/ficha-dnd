@@ -12,7 +12,16 @@ export async function GET() {
     orderBy: { createdAt: 'desc' },
   })
 
-  return NextResponse.json(characters)
+  const parsedCharacters = characters.map(c => ({
+    ...c,
+    skills: c.skills ? JSON.parse(c.skills) : null,
+    inventory: c.inventory ? JSON.parse(c.inventory) : null,
+    spells: c.spells ? JSON.parse(c.spells) : null,
+    traits: c.traits ? JSON.parse(c.traits) : null,
+    defenses: (c as any).defenses ? JSON.parse((c as any).defenses) : null,
+  }))
+
+  return NextResponse.json(parsedCharacters)
 }
 
 export async function POST(req: NextRequest) {
@@ -29,6 +38,7 @@ export async function POST(req: NextRequest) {
       race: body.race || '',
       class: body.class || '',
       level: body.level || 1,
+      background: body.background || '',
       strength: body.strength || 10,
       dexterity: body.dexterity || 10,
       constitution: body.constitution || 10,
@@ -38,10 +48,19 @@ export async function POST(req: NextRequest) {
       maxHp: body.maxHp || 10,
       currentHp: body.maxHp || 10,
       armorClass: body.armorClass || 10,
+      speed: body.speed || 30,
+      initiative: body.initiative || 0,
+      proficiencyBonus: body.proficiencyBonus || 2,
+      skills: body.skills ? JSON.stringify(body.skills) : null,
+      inventory: body.inventory ? JSON.stringify(body.inventory) : null,
+      spells: body.spells ? JSON.stringify(body.spells) : null,
+      traits: body.traits ? JSON.stringify(body.traits) : null,
+      appearance: body.appearance,
+      backstory: body.backstory,
+      avatarUrl: body.avatarUrl,
       isPublic: body.isPublic || false,
       notes: body.notes,
-      avatarUrl: body.avatarUrl,
-    },
+    } as any, // Cast to any to avoid error until prisma generate succeeds
   })
 
   return NextResponse.json(character, { status: 201 })

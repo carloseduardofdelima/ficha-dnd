@@ -6,7 +6,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params
   const character = await prisma.character.findUnique({ where: { id } })
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json(character)
+  
+  const parsedCharacter = {
+    ...character,
+    skills: character.skills ? JSON.parse(character.skills) : null,
+    inventory: character.inventory ? JSON.parse(character.inventory) : null,
+    spells: character.spells ? JSON.parse(character.spells) : null,
+    traits: character.traits ? JSON.parse(character.traits) : null,
+    defenses: (character as any).defenses ? JSON.parse((character as any).defenses) : null,
+  }
+
+  return NextResponse.json(parsedCharacter)
 }
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

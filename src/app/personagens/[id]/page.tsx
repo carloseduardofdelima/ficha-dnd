@@ -91,7 +91,7 @@ export default function CharacterDetailPage() {
               { label: 'Informações', id: 'about' },
               { label: 'Descrição', id: 'notes' },
               { label: 'Atributos', scroll: 'attr-banner' },
-              { label: 'Perícias', scroll: 'skills-card' },
+              { label: 'Perícias', id: 'skills' },
               { label: 'Combate', id: 'combat' },
               { label: 'Inventário', id: 'inventory' },
               { label: 'Habilidades', id: 'features' },
@@ -122,9 +122,9 @@ export default function CharacterDetailPage() {
       <div className="container" style={{ maxWidth: '100%' }}>
 
         {/* Header Section */}
-        <div className="mobile-stack" style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
+        <div className={`mobile-stack ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
           {/* Avatar Card */}
-          <div className="card" onClick={() => setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 300, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: 'pointer', transition: 'transform 0.2s' }}>
+          <div className="card" onClick={() => setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: 'pointer', transition: 'transform 0.2s' }}>
             <div style={{ width: '100%', aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
               {character.avatarUrl ? (
                 <Image src={character.avatarUrl} alt={character.name} width={300} height={300} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -175,7 +175,7 @@ export default function CharacterDetailPage() {
         </button>
 
         {/* Hit Points & Initiative Section */}
-        <div className="mobile-stack" style={{ gap: 16, alignItems: 'stretch' }}>
+        <div className={`mobile-stack ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ gap: 16, alignItems: 'stretch' }}>
           <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)', letterSpacing: '0.05em' }}>PONTOS DE VIDA (SALVAGUARDAS CONTRA MORTE)</span>
@@ -219,7 +219,7 @@ export default function CharacterDetailPage() {
         </div>
 
         {/* Attributes Banner */}
-        <div id="attr-banner" className="attr-grid" style={{ marginBottom: 24, width: '100%' }}>
+        <div id="attr-banner" className={`attr-grid ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%' }}>
           {attributes.map(attr => (
             <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
@@ -243,18 +243,18 @@ export default function CharacterDetailPage() {
 
         {/* Main Content Layout */}
         <div className="sheet-layout">
-          {/* Left Sidebar: Skills */}
-          <div id="skills-card" className="card sheet-left" style={{ width: 220, padding: 16, flexShrink: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg2)' }}>PERÍCIAS</span>
-              <div style={{ display: 'flex', gap: 4 }}>
-                <Info size={14} color="var(--fgM)" />
-                <Settings size={14} color="var(--fgM)" />
+          {/* Left Sidebar: Character Art / Avatar */}
+          <div className={`sheet-left ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ width: 220, flexShrink: 0 }}>
+            <div className="card" style={{ padding: 12, marginBottom: 16 }}>
+              <div style={{ width: '100%', aspectRatio: '1/1.4', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+                {character.avatarUrl ? (
+                  <Image src={character.avatarUrl} alt={character.name} width={400} height={600} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
+                    <User size={80} />
+                  </div>
+                )}
               </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {/* Skills mapping from database would go here, using mock for now since it's a complex JSON string */}
-              <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center' }}>Perícias em breve...</p>
             </div>
           </div>
 
@@ -264,6 +264,7 @@ export default function CharacterDetailPage() {
               <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)', display: 'flex', padding: '0 16px', overflowX: 'auto', overflowY: 'hidden' }} className="hide-mobile">
                 {[
                   { id: 'combat', label: 'Combate', color: 'var(--accent)' },
+                  { id: 'skills', label: 'Perícias' },
                   { id: 'spells', label: 'Magias' },
                   { id: 'inventory', label: 'Inventário' },
                   { id: 'features', label: 'Características' },
@@ -289,7 +290,79 @@ export default function CharacterDetailPage() {
                 ))}
               </div>
 
-              <div style={{ padding: 24 }}>
+              <div style={{ padding: 12 }}>
+                {activeTab === 'skills' && (
+                  <div className="fade-up">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Perícias</h2>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button className="btn btn-outline" style={{ padding: 6 }}><Plus size={16} /></button>
+                        <button className="btn btn-outline" style={{ padding: 6 }}><Settings size={16} /></button>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, fontSize: 11 }}>
+                        <div style={{ display: 'flex', color: 'var(--fgM)', fontWeight: 700, paddingBottom: 8, borderBottom: '1px solid var(--border)', marginBottom: 8, fontSize: 10 }}>
+                          <div style={{ flex: 1 }}>PERÍCIA</div>
+                          <div style={{ width: 45, textAlign: 'center' }}>DADOS</div>
+                          <div style={{ width: 45, textAlign: 'center' }}>BÔNUS</div>
+                          <div style={{ width: 45, textAlign: 'center' }}>Treino</div>
+                        </div>
+
+                        {[
+                          { name: 'Acrobacia+', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Adestramento*', attr: 'charisma', label: 'PRE' },
+                          { name: 'Artes*', attr: 'charisma', label: 'PRE' },
+                          { name: 'Atletismo', attr: 'strength', label: 'FOR' },
+                          { name: 'Atualidades', attr: 'intelligence', label: 'INT' },
+                          { name: 'Ciências', attr: 'intelligence', label: 'INT' },
+                          { name: 'Crime*+', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Diplomacia', attr: 'charisma', label: 'PRE' },
+                          { name: 'Enganação', attr: 'charisma', label: 'PRE' },
+                          { name: 'Fortitude', attr: 'constitution', label: 'VIG' },
+                          { name: 'Furtividade+', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Iniciativa', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Intimidação', attr: 'charisma', label: 'PRE' },
+                          { name: 'Intuição', attr: 'charisma', label: 'PRE' },
+                          { name: 'Investigação', attr: 'intelligence', label: 'INT' },
+                          { name: 'Luta', attr: 'strength', label: 'FOR' },
+                          { name: 'Medicina', attr: 'intelligence', label: 'INT' },
+                          { name: 'Ocultismo*', attr: 'intelligence', label: 'INT' },
+                          { name: 'Percepção', attr: 'charisma', label: 'PRE' },
+                          { name: 'Pilotagem*', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Pontaria', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Profissão*', attr: 'intelligence', label: 'INT' },
+                          { name: 'Reflexos', attr: 'dexterity', label: 'AGI' },
+                          { name: 'Religião*', attr: 'intelligence', label: 'INT' },
+                          { name: 'Sobrevivência', attr: 'intelligence', label: 'INT' },
+                          { name: 'Tática*', attr: 'intelligence', label: 'INT' },
+                          { name: 'Tecnologia*', attr: 'intelligence', label: 'INT' },
+                          { name: 'Vontade', attr: 'charisma', label: 'PRE' },
+                        ].map(skill => {
+                          const attrScore = (character as any)[skill.attr] || 10
+                          const mod = Math.floor((attrScore - 10) / 2)
+                          const baseSkillName = skill.name.replace(/[*+]/g, '').toLowerCase()
+                          const isTrained = character.skills?.[baseSkillName] || false
+                          const trainingBonus = isTrained ? character.proficiencyBonus : 0
+                          const total = mod + trainingBonus
+
+                          return (
+                            <div key={skill.name} style={{ display: 'flex', alignItems: 'center', padding: '6px 0', color: isTrained ? 'var(--ok)' : 'var(--fg)', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                              <div style={{ flex: 1, fontWeight: 500 }}>{skill.name}</div>
+                              <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 10 }}>({skill.label})</div>
+                              <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13 }}>{total >= 0 ? `+${total}` : total}</div>
+                              <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', borderBottom: '1px solid var(--border)', fontSize: 12 }}>
+                                {trainingBonus}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {activeTab === 'combat' && (
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
@@ -338,7 +411,7 @@ export default function CharacterDetailPage() {
           </div>
 
           {/* Right Sidebar */}
-          <div className="sheet-right" style={{ width: 200 }}>
+          <div className={`sheet-right ${activeTab === 'skills' ? 'hide-mobile' : ''}`} style={{ width: 200 }}>
             <div className="card" style={{ padding: 16, marginBottom: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg2)' }}>CA/DESLOC.</span>

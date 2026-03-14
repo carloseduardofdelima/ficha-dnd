@@ -12,9 +12,11 @@ import ClassCard from '@/components/ClassCard'
 import BackgroundCard from '@/components/BackgroundCard'
 import AttributesStep, { Attrs } from '@/components/AttributesStep'
 import InventoryStep from '@/components/InventoryStep'
+import SpellsStep from '@/components/SpellsStep'
+import FinalStep from '@/components/FinalStep'
 import type { InventoryEntry } from '@/lib/inventory'
 
-const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Detalhes']
+const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
 export default function NovoPersonagem() {
   const router = useRouter()
@@ -30,6 +32,8 @@ export default function NovoPersonagem() {
   })
   const [skills, setSkills] = useState<Record<string, boolean>>({})
   const [inventory, setInventory] = useState<InventoryEntry[]>([])
+  const [selectedSpells, setSelectedSpells] = useState<string[]>([])
+  const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
 
   const [form, setForm] = useState({
     name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false
@@ -37,11 +41,40 @@ export default function NovoPersonagem() {
 
   const save = async () => {
     setLoading(true)
+    
+    // Derived stats calculation (simple level 1 logic)
+    const dexMod = Math.floor((attrs.dexterity - 10) / 2)
+    const conMod = Math.floor((attrs.constitution - 10) / 2)
+    
+    // Base hit dice map
+    const hitDiceMap: Record<string, number> = {
+      'Bárbaro': 12, 'Guerreiro': 10, 'Paladino': 10, 'Patrulheiro': 10,
+      'Clérigo': 8, 'Druida': 8, 'Monge': 8, 'Bardo': 8, 'Ladino': 8, 'Bruxo': 8, 'Artesão Arcano': 8,
+      'Mago': 6, 'Feiticeiro': 6
+    }
+    const baseHp = hitDiceMap[form.class] || 8
+    
+    const payload = {
+      ...form,
+      ...attrs,
+      skills,
+      inventory,
+      spells: selectedSpells,
+      traits: featureChoices,
+      maxHp: baseHp + conMod,
+      currentHp: baseHp + conMod,
+      armorClass: 10 + dexMod, // Simplistic AC if no armor logic is active here
+      initiative: dexMod,
+      proficiencyBonus: 2,
+      speed: 30, // Default speed, race modifiers could be added if available
+    }
+
     const res = await fetch('/api/personagens', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, ...attrs })
+      body: JSON.stringify(payload)
     })
+    
     if (res.ok) router.push('/personagens')
     else setLoading(false)
   }
@@ -177,8 +210,36 @@ export default function NovoPersonagem() {
         />
       )}
 
-      {/* Steps 5+ placeholder */}
-      {currentStep > 4 && (
+
+      {/* Step 5: Spells & Class Features */}
+      {currentStep === 5 && (
+        <SpellsStep
+          className={form.class}
+          selectedSpells={selectedSpells}
+          onSpellsChange={setSelectedSpells}
+          featureChoices={featureChoices}
+          onFeatureChoicesChange={setFeatureChoices}
+        />
+      )}
+
+
+      {/* Step 6: Finalization */}
+      {currentStep === 6 && (
+        <FinalStep
+          form={form}
+          onFormChange={setForm}
+          attrs={attrs}
+          skills={skills}
+          inventory={inventory}
+          selectedSpells={selectedSpells}
+          featureChoices={featureChoices}
+          onSave={save}
+          loading={loading}
+        />
+      )}
+
+      {/* Steps 7+ placeholder (if needed) */}
+      {currentStep > 6 && (
         <div className="card fade-in" style={{ padding: 40, textAlign: 'center', backgroundColor: 'var(--bg2)' }}>
           <h2 style={{ fontFamily: 'Cinzel, serif' }}>Próximas Etapas</h2>
           <p style={{ color: 'var(--fg3)' }}>Esta etapa ({STEPS[currentStep]}) será implementada em breve.</p>
@@ -213,7 +274,7 @@ export default function NovoPersonagem() {
             </button>
           )}
 
-          {currentStep < STEPS.length - 1 ? (
+          {currentStep < STEPS.length - 1 && (
             <button
               className="btn btn-primary"
               onClick={nextStep}
@@ -221,10 +282,6 @@ export default function NovoPersonagem() {
               style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 20px' }}
             >
               Próximo: {STEPS[currentStep + 1]} <ChevronRight size={18} />
-            </button>
-          ) : (
-            <button className="btn btn-primary" onClick={save} disabled={loading || !form.name}>
-              <Save size={18} /> {loading ? 'Salvando...' : 'Finalizar Herói'}
             </button>
           )}
         </div>

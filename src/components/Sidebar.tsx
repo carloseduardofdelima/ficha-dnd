@@ -8,8 +8,8 @@ import { useState } from 'react'
 
 const NAV = [
   { href: '/personagens', label: 'Personagens', icon: Users },
-  { href: '/campanhas',   label: 'Campanhas',   icon: BookOpen },
-  { href: '/ameacas',     label: 'Ameaças',     icon: Shield },
+  { href: '/campanhas', label: 'Campanhas', icon: BookOpen },
+  { href: '/ameacas', label: 'Ameaças', icon: Shield },
 ]
 
 export function Sidebar() {
@@ -23,22 +23,22 @@ export function Sidebar() {
       {NAV.map(({ href, label, icon: Icon }) => {
         const active = path.startsWith(href)
         return (
-          <Link 
-            key={href} 
-            href={href} 
+          <Link
+            key={href}
+            href={href}
             onClick={() => setMobileMenuOpen(false)}
-            style={{ 
+            style={{
               display: 'flex',
               alignItems: 'center',
               gap: 12,
-              padding: vertical ? '12px 16px' : '8px 14px', 
-              borderRadius: vertical ? 12 : 8, 
-              fontSize: 14, 
-              fontWeight: 600, 
-              textDecoration: 'none', 
-              color: active ? 'var(--accentL)' : 'var(--fg2)', 
-              background: active ? 'rgba(147,51,234,.1)' : 'transparent',
-              transition: 'all .2s' 
+              padding: vertical ? '12px 16px' : '8px 14px',
+              borderRadius: vertical ? 12 : 8,
+              fontSize: 14,
+              fontWeight: 600,
+              textDecoration: 'none',
+              color: active ? 'var(--accentL)' : 'var(--fg2)',
+              background: active ? 'var(--accentGlow)' : 'transparent',
+              transition: 'all .2s'
             }}
           >
             {vertical && <Icon size={18} color={active ? 'var(--accentL)' : 'var(--fg3)'} />}
@@ -66,14 +66,14 @@ export function Sidebar() {
         alignItems: 'center'
       }} className="desktop-navbar">
         <div style={{ maxWidth: 1400, margin: '0 auto', width: '100%', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          
+
           <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
             {/* Logo */}
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg,#7c3aed,#9333ea)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 12px rgba(147,51,234,.4)' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg, var(--accent2), var(--accent))', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 12px var(--accentGlow)' }}>
                 <Sword size={20} color="#fff" />
               </div>
-              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 18, fontWeight: 700, background: 'linear-gradient(135deg,#c084fc,#e879f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 18, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Ficha D&D
               </span>
             </Link>
@@ -115,8 +115,8 @@ export function Sidebar() {
             </div>
 
             {/* Mobile Toggle */}
-            <button 
-              className="show-mobile-flex btn btn-ghost" 
+            <button
+              className="show-mobile-flex btn btn-ghost"
               onClick={() => setMobileMenuOpen(true)}
               style={{ display: 'none', padding: 8 }}
             >
@@ -151,13 +151,13 @@ export function Sidebar() {
           display: 'flex',
           flexDirection: 'column'
         }} onClick={e => e.stopPropagation()}>
-          
+
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48 }}>
-             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-              <div style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg,#7c3aed,#9333ea)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Sword size={18} color="#fff" />
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Sword size={18} />
               </div>
-              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, color: '#fff' }}>
+              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, color: 'rgb(190, 18, 60)' }}>
                 Ficha D&D
               </span>
             </Link>
@@ -167,25 +167,25 @@ export function Sidebar() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
-             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Navegação</span>
-             <NavLinks vertical />
+            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Navegação</span>
+            <NavLinks vertical />
           </div>
 
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24 }}>
-             {session ? (
-               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  {session.user?.image
-                    ? <Image src={session.user.image} alt="" width={40} height={40} style={{ borderRadius: '50%' }} />
-                    : <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#fff' }}>{session.user?.name?.[0]?.toUpperCase()}</div>
-                  }
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700 }}>{session.user?.name}</div>
-                    <button onClick={() => signOut()} style={{ background: 'none', border: 'none', color: 'var(--danger)', fontSize: 12, padding: 0, cursor: 'pointer' }}>Sair da Conta</button>
-                  </div>
-               </div>
-             ) : (
-                <button className="btn btn-primary w-full" onClick={() => signIn()}>Entrar</button>
-             )}
+            {session ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                {session.user?.image
+                  ? <Image src={session.user.image} alt="" width={40} height={40} style={{ borderRadius: '50%' }} />
+                  : <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#fff' }}>{session.user?.name?.[0]?.toUpperCase()}</div>
+                }
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700 }}>{session.user?.name}</div>
+                  <button onClick={() => signOut()} style={{ background: 'none', border: 'none', color: 'var(--danger)', fontSize: 12, padding: 0, cursor: 'pointer' }}>Sair da Conta</button>
+                </div>
+              </div>
+            ) : (
+              <button className="btn btn-primary w-full" onClick={() => signIn()}>Entrar</button>
+            )}
           </div>
         </div>
       </div>
@@ -194,6 +194,28 @@ export function Sidebar() {
         @media (max-width: 768px) {
           .hide-mobile { display: none !important; }
           .show-mobile-flex { display: flex !important; }
+        }
+        
+        /* Mobile Menu Styles */
+        .menu-item {
+          background: var(--accentGlow);
+          border: 1px solid rgba(225, 29, 72, 0.3);
+          color: #fff;
+          padding: 20px 10px;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+          background: rgba(225, 29, 72, 0.2);
+          border-color: var(--accent);
+          box-shadow: 0 0 15px var(--accentGlow);
         }
       `}</style>
     </>

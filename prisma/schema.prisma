@@ -88,6 +88,8 @@ model Character {
   inventory String?
   spells    String?
   traits    String?
+  appearance String?
+  backstory  String?
   notes     String?
 
   isPublic  Boolean  @default(false)
