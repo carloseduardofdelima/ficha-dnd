@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   title: 'Ficha D&D | Crie e Compartilhe Personagens',
   description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
   openGraph: {
-    title: 'Minha Ficha D&D',
-    description: 'Veja minha ficha de personagem',
+    title: 'A Forja | Fichas de D&D',
+    description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
     images: ['https://www.enworld.org/attachments/dd-tashas-1604041136985-jpg.128081/'],
   },
 }

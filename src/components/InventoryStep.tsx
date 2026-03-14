@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Minus, Trash2, Package, Sword, ShieldCheck, Backpack, Wand2, Wrench, Boxes, Zap } from 'lucide-react'
+import { Plus, Minus, Trash2, Package, Sword, ShieldCheck, Backpack, Wand2, Wrench, Boxes, Zap, X } from 'lucide-react'
 import {
   ITEM_CATALOG, InventoryEntry, InventoryItem, ItemCategory,
   getStartingInventory
@@ -42,7 +42,7 @@ export default function InventoryStep({
 }: InventoryStepProps) {
   const [tab, setTab] = useState<ItemCategory | 'all'>('all')
   const [search, setSearch] = useState('')
-  const [hoveredItem, setHoveredItem] = useState<InventoryItem | null>(null)
+  const [detailItem, setDetailItem] = useState<InventoryItem | null>(null)
   const [initialized, setInitialized] = useState(false)
 
   // Auto-populate inventory on first render
@@ -155,54 +155,124 @@ export default function InventoryStep({
                 const inInv = inventory.find(e => e.item.id === item.id)
                 const color = CATEGORY_COLORS[item.category]
                 return (
-                  <button
+                  <div
                     key={item.id}
-                    onClick={() => addItem(item)}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    title={item.description}
-                    style={{
-                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                      gap: 4, padding: '10px 6px', borderRadius: 8, border: `1px solid ${inInv ? color + '66' : 'rgba(255,255,255,0.06)'}`,
-                      backgroundColor: inInv ? color + '11' : 'rgba(255,255,255,0.02)',
-                      cursor: 'pointer', transition: 'all 0.15s', position: 'relative',
-                    }}
+                    style={{ position: 'relative' }}
                   >
-                    {inInv && (
-                      <div style={{
-                        position: 'absolute', top: 3, right: 3,
-                        width: 16, height: 16, borderRadius: '50%',
-                        backgroundColor: color, fontSize: 9, fontWeight: 800,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'
-                      }}>
-                        {inInv.qty}
-                      </div>
-                    )}
-                    <span style={{ fontSize: 22 }}>{item.icon}</span>
-                    <span style={{ fontSize: 9, textAlign: 'center', color: 'var(--fg2)', lineHeight: 1.2, fontWeight: 500 }}>
-                      {item.name}
-                    </span>
-                  </button>
+                    <button
+                      onClick={() => setDetailItem(item)}
+                      style={{
+                        width: '100%',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                        gap: 4, padding: '10px 6px', borderRadius: 8, border: `1px solid ${inInv ? color + '66' : 'rgba(255,255,255,0.06)'}`,
+                        backgroundColor: inInv ? color + '11' : 'rgba(255,255,255,0.02)',
+                        cursor: 'pointer', transition: 'all 0.15s',
+                      }}
+                    >
+                      {inInv && (
+                        <div style={{
+                          position: 'absolute', top: 3, right: 3,
+                          width: 16, height: 16, borderRadius: '50%',
+                          backgroundColor: color, fontSize: 9, fontWeight: 800,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff',
+                          zIndex: 1
+                        }}>
+                          {inInv.qty}
+                        </div>
+                      )}
+                      
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addItem(item);
+                        }}
+                        style={{
+                          position: 'absolute', top: 3, left: 3,
+                          width: 20, height: 20, borderRadius: 6,
+                          backgroundColor: 'rgba(255,255,255,0.1)',
+                          color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          border: 'none', cursor: 'pointer', zIndex: 1,
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = color}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+                      >
+                        <Plus size={12} strokeWidth={3} />
+                      </button>
+
+                      <span style={{ fontSize: 22 }}>{item.icon}</span>
+                      <span style={{ fontSize: 9, textAlign: 'center', color: 'var(--fg2)', lineHeight: 1.2, fontWeight: 500 }}>
+                        {item.name}
+                      </span>
+                    </button>
+                  </div>
                 )
               })}
             </div>
           </div>
 
-          {/* Hovered item tooltip */}
-          {hoveredItem && (
+          {/* Details Modal */}
+          {detailItem && (
             <div style={{
-              margin: '0 12px 12px', padding: '10px 14px', borderRadius: 8,
-              backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)'
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 700, fontSize: 13 }}>{hoveredItem.icon} {hoveredItem.name}</span>
-                <span style={{ fontSize: 11, color: 'var(--accentL)' }}>{hoveredItem.cost}</span>
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+              backgroundColor: 'rgba(0,0,0,0.85)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              zIndex: 1000, backdropFilter: 'blur(8px)', padding: 20
+            }} onClick={() => setDetailItem(null)}>
+              <div style={{
+                backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+                borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+                boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+              }} onClick={e => e.stopPropagation()}>
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontSize: 32 }}>{detailItem.icon}</span>
+                    <div>
+                      <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>{detailItem.name}</h3>
+                      <span style={{ fontSize: 11, color: CATEGORY_COLORS[detailItem.category], textTransform: 'uppercase', fontWeight: 800 }}>{detailItem.category}</span>
+                    </div>
+                  </div>
+                  <button className="btn btn-ghost" onClick={() => setDetailItem(null)} style={{ padding: 8, borderRadius: '50%' }}>
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div style={{ padding: 24 }}>
+                  <div style={{ display: 'flex', gap: 24, marginBottom: 20, padding: 12, backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
+                    <div>
+                      <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block' }}>Custo</span>
+                      <span style={{ fontWeight: 700, color: 'var(--accentL)' }}>{detailItem.cost}</span>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block' }}>Peso</span>
+                      <span style={{ fontWeight: 700 }}>{detailItem.weight} kg</span>
+                    </div>
+                  </div>
+
+                  {detailItem.properties && (
+                    <div style={{ marginBottom: 16 }}>
+                      <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Propriedades</span>
+                      <div style={{ fontSize: 13, color: '#c084fc', fontWeight: 600 }}>{detailItem.properties}</div>
+                    </div>
+                  )}
+
+                  <div style={{ marginBottom: 24 }}>
+                    <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Descrição</span>
+                    <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{detailItem.description}</p>
+                  </div>
+
+                  <button
+                    className="btn btn-primary"
+                    style={{ width: '100%', gap: 8 }}
+                    onClick={() => {
+                      addItem(detailItem);
+                      setDetailItem(null);
+                    }}
+                  >
+                    <Plus size={18} /> Adicionar ao Inventário
+                  </button>
+                </div>
               </div>
-              {hoveredItem.properties && (
-                <div style={{ fontSize: 11, color: '#c084fc', marginTop: 2 }}>{hoveredItem.properties}</div>
-              )}
-              <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>{hoveredItem.description}</div>
-              <div style={{ fontSize: 10, color: 'var(--fg3)', marginTop: 4 }}>Peso: {hoveredItem.weight} kg</div>
             </div>
           )}
         </div>

@@ -102,8 +102,14 @@ export default function NovoPersonagem() {
     return true
   }
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, STEPS.length - 1))
-  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0))
+  const nextStep = () => {
+    setCurrentStep(prev => Math.min(prev + 1, STEPS.length - 1))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 0))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <div className="container" style={{ maxWidth: 1200, paddingBottom: 100 }}>

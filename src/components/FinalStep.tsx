@@ -42,7 +42,7 @@ export default function FinalStep({
   }
 
   const selectedSkillsCount = Object.values(skills).filter(Boolean).length
-  const totalWeight = inventory.reduce((acc, item) => acc + (item.weight || 0) * (item.quantity || 1), 0)
+  const totalWeight = inventory.reduce((acc, item) => acc + (item.item.weight || 0) * (item.qty || 1), 0)
 
   return (
     <div className="final-step-container" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 400px', gap: 32 }}>
