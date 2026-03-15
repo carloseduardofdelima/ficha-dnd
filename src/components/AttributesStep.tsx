@@ -25,10 +25,10 @@ const ATTR_INFO: { key: keyof Attrs; label: string; abbr: string }[] = [
 ]
 
 // Point-buy cost table (score → cost to reach from 8)
-const POINT_COST: Record<number, number> = {
+export const POINT_COST: Record<number, number> = {
   8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9,
 }
-const BUDGET = 27
+export const BUDGET = 27
 const MIN_SCORE = 8
 const MAX_SCORE = 15
 

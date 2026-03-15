@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { Plus, Users } from 'lucide-react'
+import { Plus, Users, Loader2 } from 'lucide-react'
 import { CharacterCard } from '@/components/CharacterCard'
 import { Character } from '@/types/character'
 
@@ -13,12 +13,14 @@ export default function PersonagensPage() {
 
   useEffect(() => {
     if (session) {
+      setLoading(true)
       fetch('/api/personagens')
         .then(res => res.json())
         .then(data => {
           setChars(data)
           setLoading(false)
         })
+        .catch(() => setLoading(false))
     }
   }, [session])
 
@@ -42,16 +44,35 @@ export default function PersonagensPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Users size={20} color="var(--accentL)" />
-          <span style={{ fontWeight: 600, color: 'var(--fg2)' }}>Personagens: <span style={{ color: 'var(--fg)' }}>{chars.length}/15</span></span>
+          <span style={{ fontWeight: 600, color: 'var(--fg2)' }}>Personagens: <span style={{ color: 'var(--fg)' }}>{loading ? '...' : chars.length}/15</span></span>
         </div>
         <Link href="/personagens/novo">
           <button className="btn btn-primary"><Plus size={16} /> Novo Personagem</button>
         </Link>
       </div>
 
-      <div className="grid-cards">
-        {chars.map(c => <CharacterCard key={c.id} character={c} onDelete={deleteChar} />)}
-      </div>
+      {loading ? (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          padding: '100px 0',
+          gap: 16
+        }}>
+          <Loader2 size={40} className="animate-spin" color="var(--accent)" />
+          <p style={{ color: 'var(--fg2)', fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>Carregando heróis...</p>
+        </div>
+      ) : (
+        <div className="grid-cards">
+          {chars.map(c => <CharacterCard key={c.id} character={c} onDelete={deleteChar} />)}
+          {chars.length === 0 && (
+            <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '60px 0', border: '1px dashed var(--border)', borderRadius: 12 }}>
+               <p style={{ color: 'var(--fg3)' }}>Você ainda não possui personagens.</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

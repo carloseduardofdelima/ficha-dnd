@@ -10,7 +10,7 @@ import StepIndicator from '@/components/StepIndicator'
 import RaceCard from '@/components/RaceCard'
 import ClassCard from '@/components/ClassCard'
 import BackgroundCard from '@/components/BackgroundCard'
-import AttributesStep, { Attrs } from '@/components/AttributesStep'
+import AttributesStep, { Attrs, POINT_COST, BUDGET } from '@/components/AttributesStep'
 import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
 import FinalStep from '@/components/FinalStep'
@@ -30,6 +30,11 @@ export default function NovoPersonagem() {
     strength: 8, dexterity: 8, constitution: 8,
     intelligence: 8, wisdom: 8, charisma: 8
   })
+  
+  // Point buy calculation for validation
+  const spentPoints = Object.values(attrs).reduce((sum, v) => sum + (POINT_COST[v] ?? 0), 0)
+  const remainingPoints = BUDGET - spentPoints
+
   const [skills, setSkills] = useState<Record<string, boolean>>({})
   const [inventory, setInventory] = useState<InventoryEntry[]>([])
   const [selectedSpells, setSelectedSpells] = useState<string[]>([])
@@ -99,6 +104,7 @@ export default function NovoPersonagem() {
     if (currentStep === 0) return !!form.race
     if (currentStep === 1) return !!form.class
     if (currentStep === 2) return !!form.background
+    if (currentStep === 3) return remainingPoints === 0
     return true
   }
 
