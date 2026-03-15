@@ -7,36 +7,50 @@ export async function GET() {
   const session = await auth()
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  // Define minimal fields for list view to avoid Payload Too Large (413)
+  const listFields = {
+    id: true,
+    name: true,
+    race: true,
+    class: true,
+    level: true,
+    avatarUrl: true,
+    slug: true,
+    createdAt: true,
+    updatedAt: true,
+    userId: true,
+    isPublic: true,
+    playerName: true,
+    exp: true,
+    proficiencyBonus: true,
+  }
+
   // Fetch owned characters
   const owned = await prisma.character.findMany({
     where: { userId: session.user.id },
+    select: listFields,
     orderBy: { updatedAt: 'desc' },
   })
 
   // Fetch saved characters
   const savedEntries = await prisma.savedCharacter.findMany({
     where: { userId: session.user.id },
-    include: { character: true },
+    include: {
+      character: {
+        select: listFields
+      }
+    },
     orderBy: { createdAt: 'desc' },
   })
 
   const saved = savedEntries.map((entry: any) => ({
     ...entry.character,
-    isSaved: true // Flag to identify this is a saved character, not owned
+    isSaved: true
   }))
 
   const allCharacters = [...owned, ...saved]
 
-  const parsedCharacters = allCharacters.map(c => ({
-    ...c,
-    skills: c.skills ? JSON.parse(c.skills) : null,
-    inventory: c.inventory ? JSON.parse(c.inventory) : null,
-    spells: c.spells ? JSON.parse(c.spells) : null,
-    traits: c.traits ? JSON.parse(c.traits) : null,
-    defenses: (c as any).defenses ? JSON.parse((c as any).defenses) : null,
-  }))
-
-  return NextResponse.json(parsedCharacters)
+  return NextResponse.json(allCharacters)
 }
 
 export async function POST(req: NextRequest) {

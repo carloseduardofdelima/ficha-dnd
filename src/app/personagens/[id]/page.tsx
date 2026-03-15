@@ -7,6 +7,7 @@ import { formatModifier, calcModifier, type Character, type Defense } from '@/ty
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { SPELLS } from '@/lib/spells'
+import { compressImage } from '@/lib/image'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -52,13 +53,14 @@ export default function CharacterDetailPage() {
     reader.onloadend = async () => {
       const base64 = reader.result as string
       try {
+        const compressed = await compressImage(base64)
         const res = await fetch(`/api/personagens/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ avatarUrl: base64 })
+          body: JSON.stringify({ avatarUrl: compressed })
         })
         if (res.ok && character) {
-          setCharacter({ ...character, avatarUrl: base64 })
+          setCharacter({ ...character, avatarUrl: compressed })
           setShowUpload(false)
         }
       } catch (err) {
