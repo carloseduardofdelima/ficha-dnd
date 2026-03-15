@@ -9,7 +9,12 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
   const [menu, setMenu] = useState(false)
 
   const copyShareLink = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/compartilhar/${character.slug}`)
+    if (!character.isPublic) {
+      alert('⚠️ Este personagem está PRIVADO. Ative a opção "Público" nas configurações para que outras pessoas consigam ver a ficha pelo link.')
+    }
+    
+    const link = `${window.location.origin}/compartilhar/${character.slug || character.id}`
+    navigator.clipboard.writeText(link)
     alert('Link copiado!')
     setMenu(false)
   }
@@ -53,6 +58,9 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
           {character.class && <span className="badge">{character.class}</span>}
           {character.race && <span className="badge" style={{ background: 'var(--bg2)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
+          <span className="badge" style={{ background: character.isPublic ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.05)', color: character.isPublic ? '#10b981' : 'var(--fg3)', borderColor: character.isPublic ? 'rgba(16, 185, 129, 0.2)' : 'var(--border)' }}>
+            {character.isPublic ? '🌐 Público' : '🔒 Privado'}
+          </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
         </div>
 
