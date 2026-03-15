@@ -9,9 +9,15 @@ export async function POST(req: NextRequest) {
   const { characterId } = await req.json()
   if (!characterId) return NextResponse.json({ error: 'Missing characterId' }, { status: 400 })
 
-  const character = await prisma.character.findUnique({
+  let character = await prisma.character.findUnique({
     where: { id: characterId }
   })
+
+  if (!character) {
+    character = await prisma.character.findUnique({
+      where: { slug: characterId }
+    })
+  }
 
   if (!character) return NextResponse.json({ error: 'Character not found' }, { status: 404 })
   
@@ -30,7 +36,7 @@ export async function POST(req: NextRequest) {
     where: {
       userId_characterId: {
         userId: session.user.id,
-        characterId
+        characterId: character.id
       }
     }
   })
@@ -44,7 +50,7 @@ export async function POST(req: NextRequest) {
     await prisma.savedCharacter.create({
       data: {
         userId: session.user.id,
-        characterId
+        characterId: character.id
       }
     })
     return NextResponse.json({ saved: true })

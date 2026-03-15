@@ -143,32 +143,6 @@ export default function CharacterDetailPage() {
         </div>
       )}
 
-        {/* Navigation & Actions */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 16 }}>
-          <button className="btn btn-ghost" onClick={() => router.push('/personagens')}>
-            <Sword size={20} />
-            <span className="hide-mobile" style={{ marginLeft: 8 }}>Voltar</span>
-          </button>
-          
-          {!isOwner && (
-            <div className="badge" style={{ background: 'var(--accentL)', color: '#fff', padding: '6px 16px', fontWeight: 700, borderRadius: 20 }}>
-              <Eye size={14} style={{ marginRight: 8 }} />
-              VISUALIZAÇÃO PÚBLICA
-            </div>
-          )}
-
-          <div style={{ display: 'flex', gap: 10 }}>
-            {isOwner && (
-              <button className="btn btn-primary hide-mobile" onClick={() => router.push(`/personagens/${id}/editar`)}>
-                Editar Ficha
-              </button>
-            )}
-            <button className="btn btn-ghost" onClick={() => setIsMenuOpen(true)}>
-              <Menu size={20} />
-            </button>
-          </div>
-        </div>
-
       <div className="container" style={{ maxWidth: '100%' }}>
 
         {/* Header Section */}
@@ -207,14 +181,14 @@ export default function CharacterDetailPage() {
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
                 <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
               </div>
-              
+
               {/* Privacy Toggle (Only for owners) */}
               {character.userId === character.sessionUserId && (
-                <button 
-                  className="btn btn-outline" 
-                  style={{ 
-                    fontSize: 11, 
-                    padding: '4px 12px', 
+                <button
+                  className="btn btn-outline"
+                  style={{
+                    fontSize: 11,
+                    padding: '4px 12px',
                     borderColor: character.isPublic ? 'var(--ok)' : 'var(--fg3)',
                     color: character.isPublic ? 'var(--ok)' : 'var(--fg2)'
                   }}
@@ -237,7 +211,7 @@ export default function CharacterDetailPage() {
                   {character.isPublic ? '🌐 Público' : '🔒 Privado'}
                 </button>
               )}
-              
+
               {!isOwner && (
                 <div style={{ padding: '4px 12px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: 8, fontSize: 11, color: '#10b981' }}>
                   🌐 Ficha Pública
@@ -246,11 +220,11 @@ export default function CharacterDetailPage() {
 
               {/* Save/Follow Button (Only for non-owners on public sheets) */}
               {character.sessionUserId && character.userId !== character.sessionUserId && character.isPublic && (
-                <button 
+                <button
                   className={`btn ${character.isSaved ? 'btn-primary' : 'btn-outline'}`}
-                  style={{ 
-                    fontSize: 11, 
-                    padding: '4px 12px', 
+                  style={{
+                    fontSize: 11,
+                    padding: '4px 12px',
                     borderColor: character.isSaved ? 'var(--accent)' : 'var(--fg3)',
                     color: character.isSaved ? '#fff' : 'var(--fg2)'
                   }}
@@ -290,7 +264,7 @@ export default function CharacterDetailPage() {
             const newVal = Math.max(0, (character as any)[field] + delta);
             const updatedChar = { ...character, [field]: newVal };
             setCharacter(updatedChar);
-            
+
             // Persist ONLY to LocalStorage
             try {
               const localData = {
@@ -483,7 +457,7 @@ export default function CharacterDetailPage() {
                                   // Simplified Long Rest
                                   const update = { ...character, currentHp: character.maxHp, currentMana: character.maxMana || character.level };
                                   setCharacter(update as any);
-                                  
+
                                   // Persist to LocalStorage
                                   try {
                                     localStorage.setItem(`char_stats_${id}`, JSON.stringify({
@@ -661,15 +635,15 @@ export default function CharacterDetailPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                       {character.inventory && Array.isArray(character.inventory) && character.inventory.length > 0 ? (
                         (character.inventory as any[]).map((entry: any, i: number) => (
-                          <div 
-                            key={i} 
-                            className="card inventory-item-card" 
+                          <div
+                            key={i}
+                            className="card inventory-item-card"
                             onClick={() => setDetailItem(entry.item)}
-                            style={{ 
-                              padding: 12, 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              gap: 12, 
+                            style={{
+                              padding: 12,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 12,
                               background: 'var(--bg2)',
                               cursor: 'pointer',
                               transition: 'all 0.2s ease',
@@ -846,7 +820,7 @@ export default function CharacterDetailPage() {
                                   </div>
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
-                                  <button 
+                                  <button
                                     className="btn btn-ghost"
                                     onClick={() => setDetailItem(weapon)}
                                   >
