@@ -25,12 +25,13 @@ export default function NovoPersonagem() {
   const [detailRace, setDetailRace] = useState<Race | null>(null)
   const [detailClass, setDetailClass] = useState<DndClass | null>(null)
   const [detailBg, setDetailBg] = useState<Background | null>(null)
+  const [subRaceModalOpen, setSubRaceModalOpen] = useState(false)
 
   const [attrs, setAttrs] = useState<Attrs>({
     strength: 8, dexterity: 8, constitution: 8,
     intelligence: 8, wisdom: 8, charisma: 8
   })
-  
+
   // Point buy calculation for validation
   const spentPoints = Object.values(attrs).reduce((sum, v) => sum + (POINT_COST[v] ?? 0), 0)
   const remainingPoints = BUDGET - spentPoints
@@ -41,17 +42,17 @@ export default function NovoPersonagem() {
   const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
 
   const [form, setForm] = useState({
-    name: '', class: '', race: '', background: '', level: 1, avatarUrl: '', isPublic: false,
+    name: '', class: '', race: '', subRace: '', background: '', level: 1, avatarUrl: '', isPublic: false,
     playerName: '', appearance: '', backstory: ''
   })
 
   const save = async () => {
     setLoading(true)
-    
+
     // Derived stats calculation (simple level 1 logic)
     const dexMod = Math.floor((attrs.dexterity - 10) / 2)
     const conMod = Math.floor((attrs.constitution - 10) / 2)
-    
+
     // Base hit dice map
     const hitDiceMap: Record<string, number> = {
       'Bárbaro': 12, 'Guerreiro': 10, 'Paladino': 10, 'Patrulheiro': 10,
@@ -59,7 +60,7 @@ export default function NovoPersonagem() {
       'Mago': 6, 'Feiticeiro': 6
     }
     const baseHp = hitDiceMap[form.class] || 8
-    
+
     const payload = {
       ...form,
       ...attrs,
@@ -72,7 +73,7 @@ export default function NovoPersonagem() {
       armorClass: 10 + dexMod, // Simplistic AC if no armor logic is active here
       initiative: dexMod,
       proficiencyBonus: 2,
-      speed: 30, // Default speed, race modifiers could be added if available
+      speed: RACES.find(r => r.name === form.race)?.speed || 30,
     }
 
     const res = await fetch('/api/personagens', {
@@ -80,14 +81,14 @@ export default function NovoPersonagem() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-    
+
     if (res.ok) router.push('/personagens')
     else setLoading(false)
   }
 
   const handleRaceSelect = (raceId: string) => {
     const race = RACES.find(r => r.id === raceId) || null
-    setForm({ ...form, race: race?.name || '' })
+    setForm({ ...form, race: race?.name || '', subRace: '' })
   }
 
   const handleClassSelect = (classId: string) => {
@@ -109,6 +110,13 @@ export default function NovoPersonagem() {
   }
 
   const nextStep = () => {
+    if (currentStep === 0) {
+      const selectedRace = RACES.find(r => r.name === form.race)
+      if (selectedRace?.lineages && !form.subRace) {
+        setSubRaceModalOpen(true)
+        return
+      }
+    }
     setCurrentStep(prev => Math.min(prev + 1, STEPS.length - 1))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -119,22 +127,22 @@ export default function NovoPersonagem() {
 
   return (
     <div className="container" style={{ maxWidth: 1200, paddingBottom: 100 }}>
-        <div className="page-header" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 12, 
-          marginBottom: 32 
-        }}>
-          <Link href="/personagens">
-            <button className="btn btn-ghost" style={{ padding: 8 }}>
-              <ArrowLeft size={20} />
-            </button>
-          </Link>
-          <div className="header-text">
-            <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 24px)', margin: 0 }}>Criar Personagem</h1>
-            <p style={{ fontSize: 13, color: 'var(--fg3)', margin: 0 }}>Siga os passos para forjar seu herói</p>
-          </div>
+      <div className="page-header" style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        marginBottom: 32
+      }}>
+        <Link href="/personagens">
+          <button className="btn btn-ghost" style={{ padding: 8 }}>
+            <ArrowLeft size={20} />
+          </button>
+        </Link>
+        <div className="header-text">
+          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 24px)', margin: 0 }}>Criar Personagem</h1>
+          <p style={{ fontSize: 13, color: 'var(--fg3)', margin: 0 }}>Siga os passos para forjar seu herói</p>
         </div>
+      </div>
 
       <StepIndicator currentStep={currentStep} steps={STEPS} />
 
@@ -283,7 +291,7 @@ export default function NovoPersonagem() {
         <div className="character-info-footer" style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
           <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Personagem</span>
           <span style={{ fontWeight: 'bold', fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {form.name || 'Sem nome'} • {form.race || 'Sem raça'}{form.class ? ` • ${form.class}` : ''}
+            {form.name || 'Sem nome'} • {form.race || 'Sem raça'}{form.subRace ? ` (${form.subRace})` : ''}{form.class ? ` • ${form.class}` : ''}
           </span>
         </div>
 
@@ -519,6 +527,93 @@ export default function NovoPersonagem() {
                 style={{ padding: '0 32px' }}
               >
                 Selecionar {detailBg.name}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sub-race Selection Modal */}
+      {subRaceModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1100, backdropFilter: 'blur(10px)', padding: 20
+        }} onClick={() => setSubRaceModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 800, maxHeight: '85vh',
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 25px 60px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '24px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 24 }}>
+                  {RACES.find(r => r.name === form.race)?.subRaceTitle || 'Escolha sua Linhagem'}
+                </h2>
+                <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--fg3)' }}>Você selecionou {form.race}. Agora escolha a característica da sua linhagem.</p>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setSubRaceModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+              {RACES.find(r => r.name === form.race)?.lineages?.map(lineage => (
+                <div
+                  key={lineage.name}
+                  onClick={() => {
+                    setForm({ ...form, subRace: lineage.name })
+                  }}
+                  style={{
+                    padding: "10px",
+                    borderRadius: 12,
+                    backgroundColor: form.subRace === lineage.name ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${form.subRace === lineage.name ? 'var(--accent)' : 'rgba(255,255,255,0.05)'}`,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    position: 'relative',
+                  }}
+                  className="subrace-option"
+                >
+                  {form.subRace === lineage.name && (
+                    <div style={{ position: 'absolute', top: 12, right: 12, color: 'var(--accent)' }}>
+                      < ChevronRight size={16} />
+                    </div>
+                  )}
+                  <h4 style={{ margin: '0 0 12px', fontFamily: 'Cinzel, serif', fontSize: 16, color: form.subRace === lineage.name ? 'var(--accent)' : 'var(--fg)' }}>
+                    {lineage.name}
+                  </h4>
+                  {lineage.description && (
+                    <p style={{ fontSize: 12, color: 'var(--fg3)', marginBottom: 12, fontStyle: 'italic', lineHeight: 1.4 }}>
+                      {lineage.description}
+                    </p>
+                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {lineage.traits.map(trait => (
+                      <div key={trait.name}>
+                        <div style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg2)' }}>{trait.name}</div>
+                        <div style={{ fontSize: 11, color: 'var(--fg3)', lineHeight: 1.3 }}>{trait.description}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ padding: '20px 32px', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'right', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <button className="btn btn-ghost" onClick={() => setSubRaceModalOpen(false)}>Cancelar</button>
+              <button
+                className="btn btn-primary"
+                disabled={!form.subRace}
+                onClick={() => {
+                  setSubRaceModalOpen(false)
+                  setCurrentStep(1)
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                style={{ padding: '0 32px' }}
+              >
+                Confirmar e Seguir
               </button>
             </div>
           </div>

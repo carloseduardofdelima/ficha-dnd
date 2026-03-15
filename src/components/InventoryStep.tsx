@@ -261,16 +261,26 @@ export default function InventoryStep({
                     <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{detailItem.description}</p>
                   </div>
 
-                  <button
-                    className="btn btn-primary"
-                    style={{ width: '100%', gap: 8 }}
-                    onClick={() => {
-                      addItem(detailItem);
-                      setDetailItem(null);
-                    }}
-                  >
-                    <Plus size={18} /> Adicionar ao Inventário
-                  </button>
+                  {inventory.find(e => e.item.id === detailItem.id) ? (
+                    <button
+                      className="btn btn-secondary"
+                      style={{ width: '100%' }}
+                      onClick={() => setDetailItem(null)}
+                    >
+                      Fechar
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      style={{ width: '100%', gap: 8 }}
+                      onClick={() => {
+                        addItem(detailItem);
+                        setDetailItem(null);
+                      }}
+                    >
+                      <Plus size={18} /> Adicionar ao Inventário
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -311,12 +321,16 @@ export default function InventoryStep({
                     {entries.map(({ item, qty, locked }) => (
                       <div
                         key={item.id}
+                        onClick={() => setDetailItem(item)}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 8,
                           padding: '8px 10px', borderRadius: 8,
                           backgroundColor: 'rgba(255,255,255,0.03)',
                           border: `1px solid ${locked ? color + '33' : 'rgba(255,255,255,0.05)'}`,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
                         }}
+                        className="inventory-item-row"
                       >
                         <span style={{ fontSize: 18, flexShrink: 0 }}>{item.icon}</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -327,7 +341,7 @@ export default function InventoryStep({
                           {item.properties && <div style={{ fontSize: 10, color: '#c084fc', marginTop: 1 }}>{item.properties}</div>}
                         </div>
                         {/* Qty controls */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }} onClick={e => e.stopPropagation()}>
                           <button
                             onClick={() => changeQty(item.id, -1)}
                             style={{ width: 20, height: 20, borderRadius: 4, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}
@@ -345,7 +359,10 @@ export default function InventoryStep({
                         {/* Remove (only non-locked) */}
                         {!locked && (
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeItem(item.id);
+                            }}
                             style={{ width: 20, height: 20, borderRadius: 4, border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f87171', flexShrink: 0 }}
                           >
                             <Trash2 size={11} />

@@ -11,11 +11,14 @@ export interface Race {
   image: string
   lineages?: {
     name: string
+    description?: string
     traits: RaceTrait[]
   }[]
+  subRaceTitle?: string
+  subRaceMandatory?: boolean
   source: string
   speed: number
-  size: 'Pequeno' | 'Médio'
+  size: 'Pequeno' | 'Médio' | 'Pequeno ou Médio'
 }
 
 export const RACES: Race[] = [
@@ -26,13 +29,12 @@ export const RACES: Race[] = [
     image: '/assets/aasimar.png',
     source: "Player's Handbook 2024",
     speed: 30,
-    size: 'Médio',
+    size: 'Pequeno ou Médio',
     traits: [
-      { name: 'Resistência Celestial', description: 'Você tem resistência a dano Necrótico e Radiante.' },
       { name: 'Visão no Escuro', description: '60 pés.' },
-      { name: 'Mãos Curativas', description: 'Como uma ação Mágica, você pode tocar uma criatura e curá-la em um número de d4s igual ao seu Bônus de Proficiência. Uma vez por descanso longo.' },
-      { name: 'Portador da Luz', description: 'Você conhece o truque Luz. Carisma é sua habilidade de conjuração.' },
-      { name: 'Revelação Celestial (Nível 3)', description: 'Uma vez por descanso longo, você pode se transformar por 1 minuto: Asas Celestiais (Voo), Radiância Interior (Dano Radiante em área) ou Mortalha Necrótica (Amedrontar).' }
+      { name: 'Cura Celestial (Nível 1)', description: 'Como uma Ação Bônus, você toca uma criatura e ela recupera um número de d4s igual ao seu Bônus de Proficiência. Uma vez por descanso longo.' },
+      { name: 'Portador da Luz (Nível 1)', description: 'Você conhece o truque Luz (sempre preparado).' },
+      { name: 'Revelação Celestial (Nível 3)', description: 'Como uma Ação Bônus, você se transforma por 1 minuto. Escolha uma das 3 formas cada vez que usar: Alma Radiante (Voo e dano extra), Consumação Radiante (Aura de dano e dano extra) ou Véu Necrótico (Assustar e dano extra). Uma vez por descanso longo.' }
     ]
   },
   {
@@ -43,12 +45,25 @@ export const RACES: Race[] = [
     source: "Player's Handbook 2024",
     speed: 30,
     size: 'Médio',
+    subRaceTitle: 'Ancestralidade Dracônica',
+    subRaceMandatory: true,
+    lineages: [
+      { name: 'Negra (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }] },
+      { name: 'Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Elétrico.' }] },
+      { name: 'Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }] },
+      { name: 'Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Elétrico.' }] },
+      { name: 'Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }] },
+      { name: 'Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }] },
+      { name: 'Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Veneno.' }] },
+      { name: 'Vermelha (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }] },
+      { name: 'Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }] },
+      { name: 'Branca (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }] },
+    ],
     traits: [
-      { name: 'Ancestralidade Dracônica', description: 'Escolha um tipo de dragão. Isso determina seu tipo de dano da Arma de Sopro e Resistência.' },
-      { name: 'Arma de Sopro', description: 'Cone de 15 pés ou linha de 30 pés. Dano escala com o nível (1d10, 2d10 no nv 5, etc). Usos iguais ao Bônus de Proficiência.' },
-      { name: 'Resistência a Dano', description: 'Resistência ao tipo de dano da sua ancestralidade.' },
       { name: 'Visão no Escuro', description: '60 pés.' },
-      { name: 'Voo Dracônico (Nível 5)', description: 'Como uma ação bônus, você ganha velocidade de voo por 10 minutos. Uma vez por descanso longo.' }
+      { name: 'Resistência Dracônica', description: 'Você tem resistência ao tipo de dano associado à sua ancestralidade.' },
+      { name: 'Arma de Sopro (Nível 1)', description: 'Usada como parte de uma Ação de Ataque. Cone de 15 pés ou Linha de 30 pés. TR de Constituição. Dano: 1d10 (escala com nível). Usos: PB vezes por descanso longo.' },
+      { name: 'Voo Dracônico (Nível 5)', description: 'Como uma Ação Bônus, você ganha asas espectrais e velocidade de voo por 10 minutos. Uma vez por descanso longo.' }
     ]
   },
   {
@@ -60,10 +75,11 @@ export const RACES: Race[] = [
     speed: 30,
     size: 'Médio',
     traits: [
-      { name: 'Visão no Escuro Superior', description: '120 pés.' },
+      { name: 'Visão no Escuro', description: '120 pés.' },
       { name: 'Resiliência Anã', description: 'Resistência a dano de Veneno e vantagem em salvaguardas contra envenenamento.' },
-      { name: 'Tenacidade Anã', description: 'Seu máximo de Pontos de Vida aumenta em 1, e aumenta em 1 cada vez que você sobe de nível.' },
-      { name: 'Perspicácia na Pedra', description: 'Como ação bônus, ganha Sentido Sísmico 60 pés por 10 minutos enquanto estiver tocando pedra. Usos iguais à Proficiência.' }
+      { name: 'Robustez Anã', description: 'Conta como 1 tamanho maior para capacidade de carga e empurrar.' },
+      { name: 'Treinamento Anão', description: 'Proficiência em Machados, Bestas de Mão, Picaretas e Martelos.' },
+      { name: 'Conhecimento da Pedra (Stonecunning)', description: 'Como Ação Bônus, ganha Sentido Sísmico 60 pés por 10 minutos em superfícies de pedra. Usos: PB vezes por descanso longo.' }
     ]
   },
   {
@@ -74,12 +90,38 @@ export const RACES: Race[] = [
     source: "Player's Handbook 2024",
     speed: 30,
     size: 'Médio',
+    subRaceTitle: 'Linhagem Élfica',
+    subRaceMandatory: true,
+    lineages: [
+      { 
+        name: 'Drow', 
+        description: 'Formado pelo Subterrâneo; não tem mais Sensibilidade à Luz.', 
+        traits: [
+          { name: 'Visão no Escuro', description: '120 pés.' },
+          { name: 'Magia Drow', description: '[Nível 1] Luzes Dançantes, [Nível 3] Fogo Fatuo, [Nível 5] Escuridão.' }
+        ] 
+      },
+      { 
+        name: 'Alto Elfo', 
+        description: 'Infundido com magia das travessias entre a Agrestia Feérica e o Plano Material.', 
+        traits: [
+          { name: 'Magia de Alto Elfo', description: '[Nível 1] Prestidigitação (pode trocar após um descanso longo), [Nível 3] Detectar Magia, [Nível 5] Passo Nebuloso.' }
+        ] 
+      },
+      { 
+        name: 'Elfo da Floresta', 
+        description: 'Moldado pela magia das florestas antigas.', 
+        traits: [
+          { name: 'Velocidade', description: '35 pés.' },
+          { name: 'Magia de Elfo da Floresta', description: '[Nível 1] Druidismo, [Nível 3] Passos Longos, [Nível 5] Passos sem Pegadas.' }
+        ] 
+      },
+    ],
     traits: [
-      { name: 'Visão no Escuro', description: '60 pés.' },
-      { name: 'Ancestralidade Feérica', description: 'Vantagem contra ser Encantado e magia não pode te colocar para dormir.' },
-      { name: 'Sentidos Aguçados', description: 'Proficiência em Intuição, Percepção ou Sobrevivência.' },
-      { name: 'Transe', description: 'Você não dorme, medita por 4 horas para ter o benefício de um descanso longo.' },
-      { name: 'Linhagem Élfica', description: 'Escolha entre Drow, Alto Elfo ou Elfo da Floresta para ganhar magias específicas.' }
+      { name: 'Ancestralidade Feérica', description: 'Vantagem em salvaguardas para evitar ser Encantado.' },
+      { name: 'Sentidos Apurados', description: 'Proficiência em Intuição, Percepção ou Sobrevivência.' },
+      { name: 'Transe', description: 'Você completa um Descanso Longo em 4 horas; magia não pode te colocar para dormir.' },
+      { name: 'Linhagem Élfica', description: 'Sua linhagem concede acesso a magias específicas.' }
     ]
   },
   {
@@ -90,10 +132,30 @@ export const RACES: Race[] = [
     source: "Player's Handbook 2024",
     speed: 30,
     size: 'Pequeno',
+    subRaceTitle: 'Linhagem Gnômica',
+    subRaceMandatory: true,
+    lineages: [
+      { 
+        name: 'Gnomo da Floresta', 
+        description: 'Artistas, ilusionistas e amigos dos animais.',
+        traits: [
+          { name: 'Ilusão Menor', description: 'Você conhece o truque Ilusão Menor.' },
+          { name: 'Falar com Animais', description: 'Você tem a magia Falar com Animais sempre preparada. Você pode lançá-la sem gastar espaços de magia um número de vezes igual ao seu PB por descanso longo.' }
+        ]
+      },
+      { 
+        name: 'Gnomo das Rochas', 
+        description: 'Inventores, engenheiros e relojoeiros.',
+        traits: [
+          { name: 'Consertar e Prestidigitação', description: 'Você conhece os truques Consertar e Prestidigitação.' },
+          { name: 'Artífice Tinker', description: 'Você pode usar Prestidigitação para criar até 3 dispositivos minúsculos, como relógios, isqueiros ou brinquedos animados.' }
+        ]
+      }
+    ],
     traits: [
       { name: 'Visão no Escuro', description: '60 pés.' },
       { name: 'Astúcia Gnômica', description: 'Vantagem em salvaguardas de Inteligência, Sabedoria e Carisma.' },
-      { name: 'Linhagem Gnômica', description: 'Escolha Gnomo da Floresta (Ilusão Menor, Falar com Animais) ou Gnomo das Rochas (Consertar, Prestidigitação, Dispositivos de Relojoaria).' }
+      { name: 'Linhagem Gnômica', description: 'Sua linhagem define suas habilidades mágicas iniciais.' }
     ]
   },
   {
@@ -104,10 +166,20 @@ export const RACES: Race[] = [
     source: "Player's Handbook 2024",
     speed: 35,
     size: 'Médio',
+    subRaceTitle: 'Ancestralidade Gigante',
+    subRaceMandatory: true,
+    lineages: [
+      { name: "Salto das Nuvens (Gigante das Nuvens)", traits: [{ name: 'Teleporte', description: 'Ação Bônus: teleporta-se até 30 pés para um espaço visível. Usos: PB vezes por descanso longo.' }] },
+      { name: "Queimadura de Fogo (Gigante do Fogo)", traits: [{ name: 'Dano Extra', description: 'Ao acertar um ataque: +1d10 de dano de Fogo. Usos: PB vezes por descanso longo.' }] },
+      { name: "Frio do Gelo (Gigante do Gelo)", traits: [{ name: 'Frio e Lentidão', description: 'Ao acertar um ataque: +1d6 de dano de Frio e a velocidade do alvo diminui em 10 pés. Usos: PB vezes por descanso longo.' }] },
+      { name: "Trombo da Colina (Gigante da Colina)", traits: [{ name: 'Derrubar', description: 'Ao acertar uma criatura Grande ou menor: ela fica Prostrada. Usos: PB vezes por descanso longo.' }] },
+      { name: "Resistência da Pedra (Gigante da Pedra)", traits: [{ name: 'Reduzir Dano', description: 'Reação ao receber dano: reduza o dano em 1d12 + seu modificador de Constituição. Usos: PB vezes por descanso longo.' }] },
+      { name: "Trovão da Tempestade (Gigante da Tempestade)", traits: [{ name: 'Contra-ataque Trovejante', description: 'Reação ao receber dano de uma criatura a até 60 pés: ela sofre 1d8 de dano trovejante. Usos: PB vezes por descanso longo.' }] },
+    ],
     traits: [
-      { name: 'Ancestralidade Gigante', description: 'Escolha uma linhagem (Nuvem, Fogo, Gelo, Colina, Pedra ou Tempestade) para ganhar benefícios especiais.' },
-      { name: 'Forma Grande (Nível 5)', description: 'Como ação bônus, você se torna Grande por 10 minutos. Vantagem em testes de Força e +10 pés de velocidade.' },
-      { name: 'Constituição Poderosa', description: 'Vantagem para encerrar a condição Agarrado e conta como um tamanho maior para capacidade de carga.' }
+      { name: 'Constituição Poderosa', description: 'Conta como 1 tamanho maior para carga/empurrar e tem Vantagem em salvaguardas para encerrar a condição Agarrado.' },
+      { name: 'Forma Grande (Nível 5)', description: 'Como uma Ação Bônus, você se torna Grande por 10 minutos. Vantagem em testes de Força e +10 pés de velocidade. Uma vez por descanso longo.' },
+      { name: 'Ancestralidade Gigante', description: 'Você descende de um tipo específico de gigante.' }
     ]
   },
   {
@@ -119,10 +191,9 @@ export const RACES: Race[] = [
     speed: 30,
     size: 'Pequeno',
     traits: [
-      { name: 'Bravura', description: 'Vantagem em salvaguardas contra medo.' },
-      { name: 'Sorte', description: 'Quando rolar um 1 natural em um teste ou ataque, você pode rolar novamente.' },
-      { name: 'Agilidade Halfling', description: 'Você pode passar pelo espaço de qualquer criatura que seja de um tamanho maior que o seu.' },
-      { name: 'Ninguém Nota', description: 'Proficiência em Furtividade.' }
+      { name: 'Sortudo', description: 'Ao rolar 1 em um d20 para um teste de ataque, teste de habilidade ou salvaguarda, você pode relançar o dado.' },
+      { name: 'Bravura', description: 'Vantagem em salvaguardas contra ser Assustado.' },
+      { name: 'Agilidade do Pequenino', description: 'Pode mover-se pelo espaço de qualquer criatura de tamanho maior que o seu.' }
     ]
   },
   {
@@ -132,11 +203,11 @@ export const RACES: Race[] = [
     image: '/assets/human.png',
     source: "Player's Handbook 2024",
     speed: 30,
-    size: 'Médio',
+    size: 'Pequeno ou Médio',
     traits: [
-      { name: 'Versatilidade', description: 'Você ganha um Talento habilidoso no nível 1.' },
-      { name: 'Ambição Humana', description: 'Você ganha proficiência em uma perícia à sua escolha.' },
-      { name: 'Inspirador', description: 'Depois de terminar um descanso longo, você ganha Inspiração Heróica.' }
+      { name: 'Engenhoso', description: 'Você ganha Inspiração Heroica ao terminar um Descanso Longo.' },
+      { name: 'Habilidoso', description: 'Proficiência em uma perícia à sua escolha.' },
+      { name: 'Versátil', description: 'Você ganha um Talento de Origem à sua escolha (além do ganho pelo Antecedente).' }
     ]
   },
   {
@@ -148,10 +219,9 @@ export const RACES: Race[] = [
     speed: 30,
     size: 'Médio',
     traits: [
-      { name: 'Visão no Escuro', description: '60 pés.' },
-      { name: 'Grito de Adrenalina', description: 'Como uma ação bônus, você pode realizar a ação Correr e ganhar pontos de vida temporários iguais ao seu Bônus de Proficiência. Usos iguais à Proficiência.' },
-      { name: 'Resistência Implacável', description: 'Quando você é reduzido a 0 pontos de vida mas não morre, você pode ficar com 1 ponto de vida. Uma vez por descanso longo.' },
-      { name: 'Constituição Poderosa', description: 'Você conta como um tamanho maior para capacidade de carga.' }
+      { name: 'Visão no Escuro', description: '120 pés.' },
+      { name: 'Arrancada de Adrenalina', description: 'Como uma Ação Bônus, você pode realizar a ação Correr e ganhar pontos de vida temporários iguais ao seu PB. Usos: PB vezes por descanso longo.' },
+      { name: 'Resistência Implacável', description: 'Quando você é reduzido a 0 PV mas não morre, você pode ficar com 1 PV. Uma vez por descanso longo.' }
     ]
   },
   {
@@ -161,11 +231,39 @@ export const RACES: Race[] = [
     image: '/assets/tiefling.png',
     source: "Player's Handbook 2024",
     speed: 30,
-    size: 'Médio',
+    size: 'Pequeno ou Médio',
+    subRaceTitle: 'Legado Infernal',
+    subRaceMandatory: true,
+    lineages: [
+      { 
+        name: 'Abissal', 
+        description: 'Descendente de demônios; Planos: Abismo, Pandemônio, Carceri.',
+        traits: [
+          { name: 'Resistência', description: 'Veneno.' },
+          { name: 'Magia Abissal', description: '[Nível 1] Rajada de Veneno, [Nível 3] Raio de Doença, [Nível 5] Imobilizar Pessoa.' }
+        ]
+      },
+      { 
+        name: 'Ctônico', 
+        description: 'Descendente de iugoloth, bruxas ou súcubos; Planos: Carceri, Gehenna, Hades.',
+        traits: [
+          { name: 'Resistência', description: 'Necrótico.' },
+          { name: 'Magia Ctônica', description: '[Nível 1] Toque Gelado, [Nível 3] Vida Falsa, [Nível 5] Raio do Enfraquecimento.' }
+        ]
+      },
+      { 
+        name: 'Infernal', 
+        description: 'Descendente de diabos; Planos: Nove Infernos, Gehenna, Aqueronte.',
+        traits: [
+          { name: 'Resistência', description: 'Fogo.' },
+          { name: 'Magia Infernal', description: '[Nível 1] Raio de Fogo, [Nível 3] Repreensão Infernal, [Nível 5] Escuridão.' }
+        ]
+      },
+    ],
     traits: [
       { name: 'Visão no Escuro', description: '60 pés.' },
-      { name: 'Resistência Infernal', description: 'Resistência a dano de Fogo.' },
-      { name: 'Legado Infernal', description: 'Escolha um legado (Abissal, Ctônico ou Infernal) para ganhar magias específicas que escalam com o nível.' }
+      { name: 'Presença Sobrenatural', description: 'Você conhece o truque Taumaturgia.' },
+      { name: 'Legado Infernal', description: 'Seu legado concede resistências e magias específicas.' }
     ]
   }
 ]

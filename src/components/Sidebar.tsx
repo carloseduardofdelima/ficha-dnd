@@ -74,7 +74,7 @@ export function Sidebar() {
                 <Sword size={20} color="#fff" />
               </div>
               <span style={{ fontFamily: 'Cinzel,serif', fontSize: 18, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Ficha D&D
+                A Forja
               </span>
             </Link>
 
@@ -158,7 +158,7 @@ export function Sidebar() {
                 <Sword size={18} />
               </div>
               <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, color: 'rgb(190, 18, 60)' }}>
-                Ficha D&D
+                A Forja
               </span>
             </Link>
             <button className="btn btn-ghost" onClick={() => setMobileMenuOpen(false)}>
