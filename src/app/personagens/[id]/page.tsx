@@ -8,6 +8,7 @@ import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { SPELLS } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
+import { CLASSES } from '@/lib/classes'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -86,13 +87,82 @@ export default function CharacterDetailPage() {
   )
 
   // Map database data to UI helpers
+  const characterClass = CLASSES.find(c => c.name === character.class)
+  const proficientSaves = characterClass?.savingThrows || []
+
   const attributes = [
-    { name: 'Força', score: character.strength, mod: formatModifier(character.strength), save: formatModifier(character.strength) },
-    { name: 'Destreza', score: character.dexterity, mod: formatModifier(character.dexterity), save: formatModifier(character.dexterity) },
-    { name: 'Constituição', score: character.constitution, mod: formatModifier(character.constitution), save: formatModifier(character.constitution) },
-    { name: 'Inteligência', score: character.intelligence, mod: formatModifier(character.intelligence), save: formatModifier(character.intelligence) },
-    { name: 'Sabedoria', score: character.wisdom, mod: formatModifier(character.wisdom), save: formatModifier(character.wisdom) },
-    { name: 'Carisma', score: character.charisma, mod: formatModifier(character.charisma), save: formatModifier(character.charisma) },
+    { 
+      name: 'Força', 
+      score: character.strength, 
+      mod: formatModifier(character.strength), 
+      save: (() => {
+        const mod = calcModifier(character.strength)
+        const isProficient = proficientSaves.includes('Força')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
+    { 
+      name: 'Destreza', 
+      score: character.dexterity, 
+      mod: formatModifier(character.dexterity), 
+      save: (() => {
+        const mod = calcModifier(character.dexterity)
+        const isProficient = proficientSaves.includes('Destreza')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
+    { 
+      name: 'Constituição', 
+      score: character.constitution, 
+      mod: formatModifier(character.constitution), 
+      save: (() => {
+        const mod = calcModifier(character.constitution)
+        const isProficient = proficientSaves.includes('Constituição')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
+    { 
+      name: 'Inteligência', 
+      score: character.intelligence, 
+      mod: formatModifier(character.intelligence), 
+      save: (() => {
+        const mod = calcModifier(character.intelligence)
+        const isProficient = proficientSaves.includes('Inteligência')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
+    { 
+      name: 'Sabedoria', 
+      score: character.wisdom, 
+      mod: formatModifier(character.wisdom), 
+      save: (() => {
+        const mod = calcModifier(character.wisdom)
+        const isProficient = proficientSaves.includes('Sabedoria')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
+    { 
+      name: 'Carisma', 
+      score: character.charisma, 
+      mod: formatModifier(character.charisma), 
+      save: (() => {
+        const mod = calcModifier(character.charisma)
+        const isProficient = proficientSaves.includes('Carisma')
+        const bonus = isProficient ? character.proficiencyBonus : 0
+        const total = mod + bonus
+        return total >= 0 ? `+${total}` : total
+      })()
+    },
   ]
 
   const hp = { current: character.currentHp, max: character.maxHp }
@@ -497,19 +567,21 @@ export default function CharacterDetailPage() {
                       ))}
                     </div>
 
-                    <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '16px 0' }}>
-                      <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
-                      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ fontSize: 20, fontWeight: 800 }}>{character.armorClass}</div>
-                        <Shield size={16} color="var(--fg2)" />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                      <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '16px 0', flexDirection: 'column' }}>
+                        <div style={{ fontSize: 12, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
+                        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ fontSize: 30, fontWeight: 800 }}>{character.armorClass}</div>
+                          <Shield size={16} color="var(--fg2)" />
+                        </div>
                       </div>
-                    </div>
 
-                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                      <div style={{ fontSize: 10, color: 'var(--fgM)', fontWeight: 700 }}>DESLOCAMENTO (m)</div>
-                      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ fontSize: 20, fontWeight: 800 }}>{character.speed}</div>
-                        <RotateCcw size={16} color="var(--fg2)" />
+                      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexDirection: 'column' }}>
+                        <div style={{ fontSize: 12, color: 'var(--fgM)', fontWeight: 700 }}>DESLOCAMENTO (m)</div>
+                        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ fontSize: 30, fontWeight: 800 }}>{character.speed}</div>
+                          <RotateCcw size={16} color="var(--fg2)" />
+                        </div>
                       </div>
                     </div>
 
