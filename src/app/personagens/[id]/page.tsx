@@ -143,6 +143,32 @@ export default function CharacterDetailPage() {
         </div>
       )}
 
+        {/* Navigation & Actions */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 16 }}>
+          <button className="btn btn-ghost" onClick={() => router.push('/personagens')}>
+            <Sword size={20} />
+            <span className="hide-mobile" style={{ marginLeft: 8 }}>Voltar</span>
+          </button>
+          
+          {!isOwner && (
+            <div className="badge" style={{ background: 'var(--accentL)', color: '#fff', padding: '6px 16px', fontWeight: 700, borderRadius: 20 }}>
+              <Eye size={14} style={{ marginRight: 8 }} />
+              VISUALIZAÇÃO PÚBLICA
+            </div>
+          )}
+
+          <div style={{ display: 'flex', gap: 10 }}>
+            {isOwner && (
+              <button className="btn btn-primary hide-mobile" onClick={() => router.push(`/personagens/${id}/editar`)}>
+                Editar Ficha
+              </button>
+            )}
+            <button className="btn btn-ghost" onClick={() => setIsMenuOpen(true)}>
+              <Menu size={20} />
+            </button>
+          </div>
+        </div>
+
       <div className="container" style={{ maxWidth: '100%' }}>
 
         {/* Header Section */}
@@ -168,7 +194,6 @@ export default function CharacterDetailPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4, flexWrap: 'wrap' }} className="mobile-justify-center">
               <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 'var(--title-size, 32px)', fontWeight: 700, textAlign: 'center' }}>{character.name}</h1>
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }} className="hide-mobile">
-                <button className="btn btn-ghost"><Info size={16} /></button>
                 {isOwner && <button className="btn btn-ghost"><Settings size={16} /></button>}
               </div>
             </div>
@@ -211,6 +236,12 @@ export default function CharacterDetailPage() {
                 >
                   {character.isPublic ? '🌐 Público' : '🔒 Privado'}
                 </button>
+              )}
+              
+              {!isOwner && (
+                <div style={{ padding: '4px 12px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: 8, fontSize: 11, color: '#10b981' }}>
+                  🌐 Ficha Pública
+                </div>
               )}
 
               {/* Save/Follow Button (Only for non-owners on public sheets) */}

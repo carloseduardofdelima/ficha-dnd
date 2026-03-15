@@ -5,7 +5,12 @@ import { prisma } from '@/lib/prisma'
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   const { id } = await params
-  const character = await prisma.character.findUnique({ where: { id } })
+  
+  // Try finding by ID or Slug
+  let character = await prisma.character.findUnique({ where: { id } })
+  if (!character) {
+    character = await prisma.character.findUnique({ where: { slug: id } })
+  }
   
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   

@@ -13,7 +13,7 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
       alert('⚠️ Este personagem está PRIVADO. Ative a opção "Público" nas configurações para que outras pessoas consigam ver a ficha pelo link.')
     }
     
-    const link = `${window.location.origin}/compartilhar/${character.slug || character.id}`
+    const link = `${window.location.origin}/personagens/${character.slug || character.id}`
     navigator.clipboard.writeText(link)
     alert('Link copiado!')
     setMenu(false)
