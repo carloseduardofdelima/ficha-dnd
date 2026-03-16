@@ -63,6 +63,7 @@ export default function NovoPersonagem() {
 
     const payload = {
       ...form,
+      subrace: form.subRace, // Ensure lowercase for backend
       ...attrs,
       skills,
       inventory,

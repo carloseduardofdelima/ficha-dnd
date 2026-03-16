@@ -95,6 +95,28 @@ const CLASS_PRIMARY_ATTRS: Record<string, (keyof Attrs)[]> = {
   'Artesão Arcano': ['intelligence'],
 }
 
+// ── Class Skill Data (Count and Allowed Options) ───────────────────────────
+type ClassSkillInfo = {
+  count: number
+  options?: string[] // if undefined, any skill can be chosen
+}
+
+const CLASS_SKILL_DATA: Record<string, ClassSkillInfo> = {
+  'Artesão Arcano': { count: 2, options: ['arcana', 'history', 'investigation', 'medicine', 'nature', 'perception', 'sleightOfHand'] },
+  'Bárbaro': { count: 2, options: ['animalHandling', 'athletics', 'intimidation', 'nature', 'perception', 'survival'] },
+  'Bardo': { count: 3 }, // Any 3 skills
+  'Bruxo': { count: 2, options: ['arcana', 'deception', 'history', 'intimidation', 'investigation', 'nature', 'religion'] },
+  'Clérigo': { count: 2, options: ['history', 'insight', 'medicine', 'persuasion', 'religion'] },
+  'Druida': { count: 2, options: ['animalHandling', 'arcana', 'insight', 'medicine', 'nature', 'perception', 'religion', 'survival'] },
+  'Feiticeiro': { count: 2, options: ['arcana', 'deception', 'insight', 'intimidation', 'persuasion', 'religion'] },
+  'Guerreiro': { count: 2, options: ['acrobatics', 'animalHandling', 'athletics', 'history', 'insight', 'intimidation', 'perception', 'survival'] },
+  'Ladino': { count: 4, options: ['acrobatics', 'athletics', 'deception', 'stealth', 'intimidation', 'insight', 'investigation', 'perception', 'persuasion', 'sleightOfHand'] },
+  'Mago': { count: 2, options: ['arcana', 'history', 'insight', 'investigation', 'medicine', 'religion'] },
+  'Monge': { count: 2, options: ['acrobatics', 'athletics', 'stealth', 'history', 'insight', 'religion'] },
+  'Paladino': { count: 2, options: ['athletics', 'insight', 'intimidation', 'medicine', 'persuasion', 'religion'] },
+  'Patrulheiro': { count: 3, options: ['animalHandling', 'athletics', 'stealth', 'investigation', 'nature', 'perception', 'survival'] },
+}
+
 // ── Helpers ─────────────────────────────────────────────────────────────────
 function calcMod(score: number) { return Math.floor((score - 10) / 2) }
 function fmtMod(m: number) { return m >= 0 ? `+${m}` : `${m}` }
@@ -169,7 +191,38 @@ export default function AttributesStep({
   // Toggle a skill (bg skills are locked)
   const toggleSkill = (key: string) => {
     if (bgSkillKeys.has(key)) return // can't uncheck background skills
+
+    const classData = CLASS_SKILL_DATA[className]
+    const currentSelectedCount = Object.entries(skills).filter(([k, v]) => v && !bgSkillKeys.has(k)).length
+
+    // If trying to select a new skill
+    if (!skills[key]) {
+      // Check if skill is allowed for the class
+      if (classData?.options && !classData.options.includes(key)) {
+        return
+      }
+      // Check if already at the limit
+      if (classData && currentSelectedCount >= classData.count) {
+        return
+      }
+    }
+
     onSkillsChange({ ...skills, [key]: !skills[key] })
+  }
+
+  const classSkillInfo = CLASS_SKILL_DATA[className]
+  const selectedCount = Object.entries(skills).filter(([k, v]) => v && !bgSkillKeys.has(k)).length
+  const isSkillDisabled = (key: string) => {
+    if (bgSkillKeys.has(key)) return false // background skills are never "disabled" (just locked)
+    if (skills[key]) return false // already selected skills can always be deselected
+    if (!classSkillInfo) return false
+
+    // Disabled if not in allowed list
+    if (classSkillInfo.options && !classSkillInfo.options.includes(key)) return true
+    // Disabled if at the limit
+    if (selectedCount >= classSkillInfo.count) return true
+
+    return false
   }
 
   return (
@@ -309,18 +362,32 @@ export default function AttributesStep({
 
         {/* ── RIGHT: Skills ───────────────────────────────────────────────────── */}
         <div>
-          <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'Cinzel, serif' }}>Perícias</div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#c084fc' }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#c084fc', display: 'inline-block' }} />
-                Antecedente
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--accentL)' }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accentL)', display: 'inline-block' }} />
-                Selecionada
-              </span>
+          <div style={{ marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 8, marginTop: 30 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'Cinzel, serif' }}>Perícias</div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#c084fc' }}>
+                  <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#c084fc', display: 'inline-block' }} />
+                  Antecedente
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--accentL)' }}>
+                  <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accentL)', display: 'inline-block' }} />
+                  Selecionada
+                </span>
+              </div>
             </div>
+            {classSkillInfo && (
+              <div style={{
+                fontSize: 12,
+                color: selectedCount === classSkillInfo.count ? 'var(--ok)' : 'var(--fg3)',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                padding: '6px 12px',
+                borderRadius: 6,
+                borderLeft: `3px solid ${selectedCount === classSkillInfo.count ? 'var(--ok)' : 'var(--accent)'}`
+              }}>
+                Sua classe <strong>{className}</strong> pode selecionar <strong>{classSkillInfo.count}</strong> perícias ({selectedCount} de {classSkillInfo.count} selecionadas)
+              </div>
+            )}
           </div>
 
           <div className="skills-list" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -328,18 +395,21 @@ export default function AttributesStep({
               const isFromBg = bgSkillKeys.has(key)
               const isChecked = isFromBg || !!skills[key]
               const mod = calcMod(attrs[getAttrForSkill(attr)])
+              const disabled = isSkillDisabled(key)
 
               return (
                 <button
                   key={key}
                   onClick={() => toggleSkill(key)}
+                  disabled={disabled && !isFromBg}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
                     padding: '9px', borderRadius: 8,
                     border: `1px solid ${isFromBg ? 'rgba(192,132,252,0.35)' : isChecked ? 'rgba(251,113,133,0.35)' : 'rgba(255,255,255,0.06)'}`,
                     backgroundColor: isFromBg ? 'rgba(192,132,252,0.08)' : isChecked ? 'rgba(225,29,72,0.06)' : 'var(--bg2)',
-                    cursor: isFromBg ? 'default' : 'pointer',
+                    cursor: isFromBg ? 'default' : disabled ? 'not-allowed' : 'pointer',
                     textAlign: 'left', width: '100%', transition: 'all 0.15s',
+                    opacity: disabled && !isFromBg ? 0.4 : 1,
                   }}
                 >
                   {/* Checkbox circle */}

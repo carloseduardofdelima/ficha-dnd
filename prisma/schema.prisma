@@ -64,6 +64,7 @@ model Character {
 
   name          String
   race          String   @default("")
+  subrace       String   @default("")
   class         String   @default("")
   subclass      String?
   level         Int      @default(1)

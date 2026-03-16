@@ -65,6 +65,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     data: {
       name: body.name,
       race: body.race,
+      subrace: body.subrace,
       class: body.class,
       level: body.level,
       strength: body.strength,

@@ -242,7 +242,15 @@ export default function CharacterDetailPage() {
               </div>
             </div>
             <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12 }}>
-              {character.race} • {character.class} • {character.background}
+              {(() => {
+                const race = RACES.find(r => r.name === character.race);
+                const subTitle = race?.subRaceTitle || 'Sub-raça';
+                return (
+                  <>
+                    {character.race}{character.subrace ? ` (${character.subrace})` : ''} • {character.class} • {character.background}
+                  </>
+                );
+              })()}
             </p>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
@@ -440,7 +448,7 @@ export default function CharacterDetailPage() {
                         </div>
 
                         <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12, textAlign: 'center' }}>
-                          {character.race} • {character.class} • {character.background}
+                          {character.race}{character.subrace ? ` (${character.subrace})` : ''} • {character.class} • {character.background}
                         </p>
 
                         <div className="card" style={{ padding: 16 }}>
@@ -744,7 +752,20 @@ export default function CharacterDetailPage() {
                     <div style={{ marginBottom: 24 }}>
                       <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
                         <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
-                        Raça: {character.race}
+                        {(() => {
+                          const race = RACES.find(r => r.name === character.race);
+                          const subTitle = race?.subRaceTitle || 'Sub-raça';
+                          return (
+                            <>
+                              Raça: {character.race}
+                              {character.subrace && (
+                                <div style={{ fontSize: 13, color: 'var(--fg2)', textTransform: 'none', fontWeight: 500, marginTop: 4 }}>
+                                  {subTitle}: {character.subrace}
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {RACES.find(r => r.name === character.race)?.traits.map((trait, i) => (

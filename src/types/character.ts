@@ -57,6 +57,7 @@ export interface Character {
   userId: string
   name: string
   race: string
+  subrace?: string | null
   class: string
   subclass?: string | null
   level: number
