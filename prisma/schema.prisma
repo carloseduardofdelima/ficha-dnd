@@ -69,9 +69,11 @@ model Character {
   subclass      String?
   level         Int      @default(1)
   background    String?
-  alignment     String?
   avatarUrl     String?
   playerName    String?
+
+  spellSlots    String? // JSON string to store slots by level
+  resources     String? // JSON string to store class features like Rages, Ki points
 
   strength     Int @default(10)
   dexterity    Int @default(10)

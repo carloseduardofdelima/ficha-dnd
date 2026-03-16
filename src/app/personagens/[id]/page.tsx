@@ -9,6 +9,8 @@ import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { SPELLS } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
+import ResourceTracker from '@/components/ResourceTracker'
+import { calculateAC } from '@/lib/dnd-rules'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -33,8 +35,8 @@ export default function CharacterDetailPage() {
               const parsed = JSON.parse(localData);
               data.currentHp = parsed.currentHp ?? data.currentHp;
               data.maxHp = parsed.maxHp ?? data.maxHp;
-              data.currentMana = parsed.currentMana ?? 0;
-              data.maxMana = parsed.maxMana ?? 0;
+              data.spellSlots = parsed.spellSlots ?? data.spellSlots;
+              data.resources = parsed.resources ?? data.resources;
             }
           } catch (e) {
             console.error('Error loading local stats', e);
@@ -335,7 +337,7 @@ export default function CharacterDetailPage() {
           </div>
         </div>
 
-        {/* Global Persistence Helper (Internal use for HP/Mana) */}
+        {/* Global Persistence Helper (Internal use for HP/Resources) */}
         {(() => {
           const updateValue = (field: string, delta: number) => {
             if (!character) return;
@@ -348,8 +350,8 @@ export default function CharacterDetailPage() {
               const localData = {
                 currentHp: updatedChar.currentHp,
                 maxHp: updatedChar.maxHp,
-                currentMana: updatedChar.currentMana,
-                maxMana: updatedChar.maxMana
+                spellSlots: updatedChar.spellSlots,
+                resources: updatedChar.resources
               };
               localStorage.setItem(`char_stats_${id}`, JSON.stringify(localData));
             } catch (e) {
@@ -509,45 +511,96 @@ export default function CharacterDetailPage() {
 
                         {/* Resource Section */}
                         {(() => {
-                          let label = 'Mana';
-                          let color = '#3b82f6';
-                          if (character.class === 'Bárbaro') { label = 'Fúrias'; color = '#f97316'; }
-                          else if (character.class === 'Monge') { label = 'Pontos de Ki'; color = '#facc15'; }
-                          else if (character.class === 'Feiticeiro') { label = 'Pontos de Feitiçaria'; color = '#a855f7'; }
+                          const slots: Record<string, number> = character.spellSlots ? JSON.parse(character.spellSlots as string) : {};
+                          const res: Record<string, number> = character.resources ? JSON.parse(character.resources as string) : {};
+                          
+                          const updateSlots = (level: number, newCount: number) => {
+                            const newSlots = { ...slots, [level]: newCount };
+                            (window as any).updateCharValue('spellSlots', JSON.stringify(newSlots));
+                          };
 
+                          const updateRes = (name: string, newCount: number) => {
+                            const newRes = { ...res, [name]: newCount };
+                            (window as any).updateCharValue('resources', JSON.stringify(newRes));
+                          };
+
+                          // Helper to get defaults if missing
+                          const getInitialResources = () => {
+                            const initial: any = {};
+                            if (character.class === 'Bárbaro') initial['Fúrias'] = { max: 2, current: 2, color: '#f97316' };
+                            if (character.class === 'Guerreiro') initial['Retomada de Fôlego'] = { max: 2, current: 2, color: '#94a3b8' };
+                            if (character.class === 'Monge' && character.level >= 2) initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
+                            if (character.class === 'Bardo') initial['Inspiração Bárdica'] = { max: Math.max(1, calcModifier(character.charisma)), current: Math.max(1, calcModifier(character.charisma)), color: '#ec4899' };
+                            if (character.class === 'Artificer') initial['Magical Tinkering'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                            return initial;
+                          };
+
+                          const classResources = getInitialResources();
+                          const currentRes = { ...classResources, ...res };
+
+                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(character.class);
+                          
                           return (
-                            <div className="card compact-card" style={{ background: `linear-gradient(135deg, ${color}1a 0%, rgba(0,0,0,0) 100%)`, border: `1px solid ${color}33` }}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                            <div className="card compact-card" style={{ background: `linear-gradient(135deg, var(--bg2) 0%, rgba(0,0,0,0) 100%)`, border: `1px solid var(--border)` }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                  <Zap size={16} color={color} />
-                                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>{label}</span>
+                                  <Zap size={16} color="var(--accent)" />
+                                  <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Recursos & Magia</span>
                                 </div>
-                                <div style={{ fontSize: 18, fontWeight: 800 }}>{character.currentMana} <span style={{ color: 'var(--fg3)', fontSize: 14 }}>/ {character.maxMana || character.level}</span></div>
-                              </div>
-                              <div style={{ height: 6, background: 'var(--bg)', borderRadius: 3, overflow: 'hidden', marginBottom: 16 }}>
-                                <div style={{ width: `${(character.currentMana / (character.maxMana || character.level)) * 100}%`, height: '100%', background: color, boxShadow: `0 0 10px ${color}` }} />
-                              </div>
-                              <div style={{ display: 'flex', gap: 8 }}>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentMana', -1)} disabled={!isOwner}>-1</button>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && (window as any).updateCharValue('currentMana', 1)} disabled={!isOwner}>+1</button>
-                                <button className="btn btn-outline" style={{ flex: 1, padding: '6px', fontSize: 11 }} disabled={!isOwner} onClick={async () => {
+                                <button className="btn btn-outline" style={{ padding: '6px', fontSize: 11 }} disabled={!isOwner} onClick={async () => {
                                   if (!isOwner) return;
                                   // Simplified Long Rest
-                                  const update = { ...character, currentHp: character.maxHp, currentMana: character.maxMana || character.level };
+                                  const resetSlots = isSpellcaster ? { "1": character.class === 'Bruxo' ? 1 : 2 } : {}; // level 1 defaults
+                                  const resetRes: Record<string, number> = {};
+                                  Object.keys(classResources).forEach(k => { resetRes[k] = classResources[k].max; });
+                                  
+                                  const update = { 
+                                    ...character, 
+                                    currentHp: character.maxHp, 
+                                    spellSlots: JSON.stringify(resetSlots),
+                                    resources: JSON.stringify(resetRes)
+                                  };
                                   setCharacter(update as any);
 
-                                  // Persist to LocalStorage
                                   try {
                                     localStorage.setItem(`char_stats_${id}`, JSON.stringify({
                                       currentHp: update.currentHp,
                                       maxHp: update.maxHp,
-                                      currentMana: update.currentMana,
-                                      maxMana: update.maxMana
+                                      spellSlots: update.spellSlots,
+                                      resources: update.resources
                                     }));
                                   } catch (e) {
                                     console.error(e);
                                   }
                                 }}><RotateCcw size={14} /></button>
+                              </div>
+
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                {isSpellcaster && (
+                                  <ResourceTracker 
+                                    label="Espaços de Magia (Nível 1)" 
+                                    max={character.class === 'Bruxo' ? 1 : 2} 
+                                    current={slots["1"] ?? (character.class === 'Bruxo' ? 1 : 2)} 
+                                    onChange={(val) => updateSlots(1, val)}
+                                  />
+                                )}
+
+                                {Object.keys(classResources).map(name => (
+                                  <ResourceTracker 
+                                    key={name}
+                                    label={name}
+                                    max={classResources[name].max}
+                                    current={res[name] ?? classResources[name].max}
+                                    onChange={(val) => updateRes(name, val)}
+                                    color={classResources[name].color}
+                                  />
+                                ))}
+
+                                {!isSpellcaster && Object.keys(classResources).length === 0 && (
+                                  <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic', textAlign: 'center', padding: '12px 0' }}>
+                                    Nenhum recurso especial para esta classe no nível atual.
+                                  </div>
+                                )}
                               </div>
                             </div>
                           );
@@ -578,10 +631,48 @@ export default function CharacterDetailPage() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                       <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '16px 0', flexDirection: 'column' }}>
                         <div style={{ fontSize: 12, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
-                        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ fontSize: 30, fontWeight: 800 }}>{character.armorClass}</div>
-                          <Shield size={16} color="var(--fg2)" />
-                        </div>
+                        {(() => {
+                          const acRef = calculateAC(character.class, {
+                            strength: character.strength,
+                            dexterity: character.dexterity,
+                            constitution: character.constitution,
+                            intelligence: character.intelligence,
+                            wisdom: character.wisdom,
+                            charisma: character.charisma
+                          }, (character.inventory as any[]) || []);
+
+                          const inv = (character.inventory as any[]) || [];
+                          const dexMod = Math.floor((character.dexterity - 10) / 2);
+                          const conMod = Math.floor((character.constitution - 10) / 2);
+                          const wisMod = Math.floor((character.wisdom - 10) / 2);
+                          const armors = inv.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield');
+                          const baseArmor = armors.length > 0 ? armors[0].item : null;
+                          const shield = inv.find(e => e.item.category === 'armor' && e.item.armorType === 'shield');
+                          
+                          let parts = [];
+                          if (baseArmor) {
+                            parts.push(`${baseArmor.name}: ${baseArmor.ac}`);
+                            if (baseArmor.armorType === 'light') parts.push(`Des: ${dexMod >= 0 ? '+' : ''}${dexMod}`);
+                            else if (baseArmor.armorType === 'medium') parts.push(`Des (máx 2): ${Math.min(dexMod, 2) >= 0 ? '+' : ''}${Math.min(dexMod, 2)}`);
+                          } else {
+                            parts.push(`Base: 10`);
+                            parts.push(`Des: ${dexMod >= 0 ? '+' : ''}${dexMod}`);
+                            if (character.class === 'Bárbaro') parts.push(`Con: ${conMod >= 0 ? '+' : ''}${conMod}`);
+                            else if (character.class === 'Monge') parts.push(`Sab: ${wisMod >= 0 ? '+' : ''}${wisMod}`);
+                          }
+                          if (shield) parts.push(`${shield.item.name}: +${shield.item.ac}`);
+                          const acInfo = parts.join(' + ');
+
+                          return (
+                            <>
+                              <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <div style={{ fontSize: 30, fontWeight: 800 }}>{acRef}</div>
+                                <Shield size={16} color="var(--fg2)" />
+                              </div>
+                              <div style={{ fontSize: 10, color: 'var(--fgM)', marginTop: 4 }}>{acInfo}</div>
+                            </>
+                          );
+                        })()}
                       </div>
 
                       <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexDirection: 'column' }}>

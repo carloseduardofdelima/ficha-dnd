@@ -18,11 +18,6 @@ export const DND_RACES = [
   'Humano', 'Meio-Elfo', 'Meio-Orc', 'Tiefling',
 ]
 
-export const DND_ALIGNMENTS = [
-  'Leal e Bom', 'Neutro e Bom', 'Caótico e Bom',
-  'Leal e Neutro', 'Neutro', 'Caótico e Neutro',
-  'Leal e Mau', 'Neutro e Mau', 'Caótico e Mau',
-]
 
 export const SKILL_LABELS: Record<string, string> = {
   acrobatics: 'Acrobacia (Des)', animalHandling: 'Adestrar Animais (Sab)',
@@ -62,7 +57,6 @@ export interface Character {
   subclass?: string | null
   level: number
   background?: string | null
-  alignment?: string | null
   avatarUrl?: string | null
   strength: number
   dexterity: number
@@ -72,8 +66,8 @@ export interface Character {
   charisma: number
   maxHp: number
   currentHp: number
-  maxMana: number
-  currentMana: number
+  spellSlots?: string | null
+  resources?: string | null
   armorClass: number
   speed: number
   initiative: number

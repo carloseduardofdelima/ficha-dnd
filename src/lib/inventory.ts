@@ -19,6 +19,9 @@ export interface InventoryItem {
   cost: string
   properties?: string
   quantity?: number   // default 1
+  ac?: number         // Base CA or bonus
+  armorType?: 'light' | 'medium' | 'heavy' | 'shield'
+  dexMax?: number     // Max Dex bonus allowed (usually 2 for medium)
 }
 
 export interface InventoryEntry {
@@ -48,13 +51,13 @@ export const ITEM_CATALOG: InventoryItem[] = [
   { id: 'tacos', name: 'Taco', category: 'weapon', icon: '🪵', description: 'Arma simples corpo a corpo. Dano: 1d4 concussão.', weight: 0.9, cost: '1 pc', properties: '1d4 concussão, leve' },
 
   // Armor
-  { id: 'couro', name: 'Armadura de Couro', category: 'armor', icon: '🥋', description: 'CA 11 + Des. Armadura leve.', weight: 5, cost: '10 po', properties: 'CA 11 + Mod. Destreza' },
-  { id: 'couro-batido', name: 'Armadura de Couro Batido', category: 'armor', icon: '🥋', description: 'CA 12 + Des. Armadura leve.', weight: 6.5, cost: '45 po', properties: 'CA 12 + Mod. Destreza' },
-  { id: 'gibao-peles', name: 'Gibão de Peles', category: 'armor', icon: '🧥', description: 'CA 12 + Des. Para classes sem proficiência em armaduras pesadas.', weight: 6, cost: '10 po', properties: 'CA 12 + Mod. Destreza' },
-  { id: 'cota-escamas', name: 'Cota de Escamas', category: 'armor', icon: '🛡️', description: 'CA 14 + Des (máx 2). Armadura Média.', weight: 22, cost: '50 po', properties: 'CA 14 + Mod. Des (máx 2)' },
-  { id: 'cota-malha', name: 'Cota de Malha', category: 'armor', icon: '⛓️', description: 'CA 16. Armadura Pesada. Desvantagem em Furtividade.', weight: 27, cost: '75 po', properties: 'CA 16, desvantagem em Furtividade' },
-  { id: 'escudo', name: 'Escudo', category: 'armor', icon: '🛡️', description: '+2 na CA.', weight: 3, cost: '10 po', properties: '+2 CA' },
-  { id: 'escudo-madeira', name: 'Escudo de Madeira', category: 'armor', icon: '🛡️', description: '+2 na CA. Versão druídica.', weight: 3, cost: '10 po', properties: '+2 CA' },
+  { id: 'couro', name: 'Armadura de Couro', category: 'armor', icon: '🥋', description: 'CA 11 + Des. Armadura leve.', weight: 5, cost: '10 po', properties: 'CA 11 + Mod. Destreza', ac: 11, armorType: 'light' },
+  { id: 'couro-batido', name: 'Armadura de Couro Batido', category: 'armor', icon: '🥋', description: 'CA 12 + Des. Armadura leve.', weight: 6.5, cost: '45 po', properties: 'CA 12 + Mod. Destreza', ac: 12, armorType: 'light' },
+  { id: 'gibao-peles', name: 'Gibão de Peles', category: 'armor', icon: '🧥', description: 'CA 12 + Des (máx 2). Armadura Média.', weight: 6, cost: '10 po', properties: 'CA 12 + Mod. Destreza (máx 2)', ac: 12, armorType: 'medium', dexMax: 2 },
+  { id: 'cota-escamas', name: 'Cota de Escamas', category: 'armor', icon: '🛡️', description: 'CA 14 + Des (máx 2). Armadura Média.', weight: 22, cost: '50 po', properties: 'CA 14 + Mod. Des (máx 2)', ac: 14, armorType: 'medium', dexMax: 2 },
+  { id: 'cota-malha', name: 'Cota de Malha', category: 'armor', icon: '⛓️', description: 'CA 16. Armadura Pesada. Desvantagem em Furtividade.', weight: 27, cost: '75 po', properties: 'CA 16, desvantagem em Furtividade', ac: 16, armorType: 'heavy' },
+  { id: 'escudo', name: 'Escudo', category: 'armor', icon: '🛡️', description: '+2 na CA.', weight: 3, cost: '10 po', properties: '+2 CA', ac: 2, armorType: 'shield' },
+  { id: 'escudo-madeira', name: 'Escudo de Madeira', category: 'armor', icon: '🛡️', description: '+2 na CA. Versão druídica.', weight: 3, cost: '10 po', properties: '+2 CA', ac: 2, armorType: 'shield' },
 
   // Packs
   { id: 'pack-explorador', name: 'Pacote do Explorador', category: 'pack', icon: '🎒', description: 'Mochila, saco de dormir, kit de refeição, pederneira, 10 tochas, 10 dias de rações, odre, 15m de corda de cânhamo.', weight: 10, cost: '10 po' },
@@ -138,7 +141,7 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
   'Druida': [
     entry('cajado', 1, true),
     entry('escudo-madeira', 1, true),
-    entry('couro', 1, true),
+    entry('gibao-peles', 1, true),
     entry('foco-druidico', 1, true),
     entry('pack-explorador', 1, true),
     entry('bolsa-10po', 1, true),

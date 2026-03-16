@@ -15,6 +15,7 @@ import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
 import FinalStep from '@/components/FinalStep'
 import type { InventoryEntry } from '@/lib/inventory'
+import { calculateAC } from '@/lib/dnd-rules'
 
 const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
@@ -71,10 +72,20 @@ export default function NovoPersonagem() {
       traits: featureChoices,
       maxHp: baseHp + conMod,
       currentHp: baseHp + conMod,
-      armorClass: 10 + dexMod, // Simplistic AC if no armor logic is active here
+      armorClass: calculateAC(form.class, attrs, inventory),
       initiative: dexMod,
       proficiencyBonus: 2,
       speed: RACES.find(r => r.name === form.race)?.speed || 30,
+      spellSlots: JSON.stringify(['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(form.class) ? { "1": form.class === 'Bruxo' ? 1 : 2 } : {}),
+      resources: (() => {
+        const res: Record<string, number> = {};
+        if (form.class === 'Bárbaro') res['Fúrias'] = 2;
+        if (form.class === 'Guerreiro') res['Retomada de Fôlego'] = 2;
+        if (form.class === 'Monge' && form.level >= 2) res['Pontos de Foco'] = form.level;
+        if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((attrs.charisma - 10) / 2));
+        if (form.class === 'Artificer') res['Magical Tinkering'] = Math.max(1, Math.floor((attrs.intelligence - 10) / 2));
+        return JSON.stringify(res);
+      })(),
     }
 
     const res = await fetch('/api/personagens', {

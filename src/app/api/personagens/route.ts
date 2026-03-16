@@ -92,6 +92,8 @@ export async function POST(req: NextRequest) {
       avatarUrl: body.avatarUrl,
       isPublic: body.isPublic || false,
       notes: body.notes,
+      spellSlots: body.spellSlots,
+      resources: body.resources,
     } as any, // Cast to any to avoid error until prisma generate succeeds
   })
 

@@ -150,11 +150,11 @@ export default function MonsterDetailsPage({ params }: PageProps) {
 
         <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 40 }}>
           {/* Attributes */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 4 }}>
             {stats.map(s => (
               <div key={s.key} style={{
                 background: 'var(--bg2)',
-                padding: '16px 8px',
+                padding: '10px',
                 borderRadius: 12,
                 textAlign: 'center',
                 border: '1px solid var(--border)'

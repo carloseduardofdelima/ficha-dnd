@@ -43,6 +43,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     spells: character.spells ? JSON.parse(character.spells) : null,
     traits: character.traits ? JSON.parse(character.traits) : null,
     defenses: (character as any).defenses ? JSON.parse((character as any).defenses) : null,
+    spellSlots: character.spellSlots,
+    resources: character.resources,
   }
 
   return NextResponse.json(parsedCharacter)
@@ -80,6 +82,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       isPublic: body.isPublic,
       notes: body.notes,
       avatarUrl: body.avatarUrl,
+      spellSlots: body.spellSlots,
+      resources: body.resources,
     },
   })
 
