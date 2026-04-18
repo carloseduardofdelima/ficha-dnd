@@ -59,6 +59,7 @@ model VerificationToken {
 model Character {
   id       String @id @default(cuid())
   slug     String @unique
+  ruleset  String? @default("2024")
   userId   String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 

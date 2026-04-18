@@ -55,6 +55,7 @@ export interface Character {
   subrace?: string | null
   class: string
   subclass?: string | null
+  ruleset?: '2014' | '2024' | null
   level: number
   background?: string | null
   avatarUrl?: string | null

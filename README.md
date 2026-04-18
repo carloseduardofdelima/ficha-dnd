@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚔️ A Forja - Ficha de Personagem D&D 5e
 
-## Getting Started
+**A Forja** é uma aplicação web moderna e interativa projetada para jogadores de Dungeons & Dragons 5ª Edição. Ela oferece uma ficha de personagem digital responsiva, esteticamente agradável e otimizada para uso em dispositivos móveis durante as sessões de RPG.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Funcionalidades Principais
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   **📱 Design Mobile-First**: Interface totalmente otimizada para smartphones, com navegação intuitiva e elementos de fácil interação.
+-   **🎲 Cálculos Automáticos**: O sistema calcula automaticamente bônus de atributos, proficiências, Classe de Armadura (CA) com base nos itens equipados e bônus de ataque.
+-   **⚡ Gerenciamento em Tempo Real**: Altere seus Pontos de Vida, use espaços de magia e gaste recursos de classe (como Fúrias ou Pontos de Foco) instantaneamente.
+-   **🛡️ Sistema de Combate Dinâmico**: Visualização clara de ataques, danos e alcances em cartões interativos.
+-   **📦 Inventário Inteligente**: Lista de itens com filtragem por categoria (Armas, Armaduras, Itens Gerais) e integração direta com os cálculos da ficha.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Seções da Ficha
 
-## Learn More
+### 1. Atributos e Combate Principal
+Localizada na aba principal, exibe os atributos (FOR, DES, CON, INT, SAB, CAR) e seus respectivos modificadores e testes de resistência. No topo, destaca-se a **Classe de Armadura (CA)** e o **Deslocamento**, reordenados dinamicamente para priorizar a visibilidade no celular.
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Vida e Recursos
+Gerencie seus **Pontos de Vida** com controles rápidos de +/- e monitore seus **Espaços de Magia** e **Recursos de Classe**. A seção inclui um botão de "Descanso Longo" para restaurar todos os valores rapidamente.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Ataques e Magias
+Uma aba dedicada que transforma a tradicional tabela de ataques em uma lista de cartões elegantes. Cada ataque exibe bônus de acerto e dados de dano de forma proeminente, facilitando a rolagem rápida durante o combate.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Inventário
+Exibe todos os itens carregados pelo personagem. O sistema identifica automaticamente armas e armaduras, permitindo que você veja os detalhes de cada item e entenda como eles afetam suas estatísticas.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Tecnologias Utilizadas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   **Framework**: [Next.js 15+](https://nextjs.org/) (com a nova engine Turbopack)
+-   **Linguagem**: TypeScript
+-   **Frontend**: React 19 e Tailwind CSS
+-   **Ícones**: Lucide React
+-   **Banco de Dados**: Prisma ORM (conectado ao Supabase/PostgreSQL)
+-   **Autenticação**: NextAuth.js para login seguro via Google
+
+---
+
+## 🏃 Como Rodar o Projeto
+
+1.  **Clone o repositório**:
+    ```bash
+    git clone [url-do-repositorio]
+    ```
+
+2.  **Instale as dependências**:
+    ```bash
+    npm install
+    ```
+
+3.  **Configure as variáveis de ambiente**:
+    Crie um arquivo `.env` na raiz com suas credenciais do Banco de Dados e NextAuth.
+
+4.  **Inicie o servidor de desenvolvimento**:
+    ```bash
+    npm run dev
+    ```

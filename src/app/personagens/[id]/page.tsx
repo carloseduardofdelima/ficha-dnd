@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Upload, Loader2 } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Upload, Loader2, Cloud, CloudOff, CloudDownload } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
@@ -11,6 +11,9 @@ import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
 import { calculateAC } from '@/lib/dnd-rules'
+import { ITEM_CATALOG } from '@/lib/inventory'
+import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
+import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -19,6 +22,18 @@ export default function CharacterDetailPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [character, setCharacter] = useState<Character | null>(null)
   const [loading, setLoading] = useState(true)
+  
+  // Level Up States
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
+  const [levelUpStep, setLevelUpStep] = useState(1)
+  const [levelUpRoll, setLevelUpRoll] = useState<number | null>(null)
+  const [isRolling, setIsRolling] = useState(false)
+  const [useAverageHP, setUseAverageHP] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
+  const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
+  const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
+  const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
+  
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [detailItem, setDetailItem] = useState<any | null>(null)
@@ -37,6 +52,25 @@ export default function CharacterDetailPage() {
               data.maxHp = parsed.maxHp ?? data.maxHp;
               data.spellSlots = parsed.spellSlots ?? data.spellSlots;
               data.resources = parsed.resources ?? data.resources;
+              if (parsed.inventory) {
+                data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
+                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  return {
+                    ...dbItem,
+                    item: { ...catalogItem, ...dbItem.item },
+                    isEquipped: !!parsed.inventory[idx]?.isEquipped
+                  };
+                });
+              } else {
+                // Even without local stats, enrich with catalog
+                data.inventory = (data.inventory as any[]).map((dbItem: any) => {
+                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  return {
+                    ...dbItem,
+                    item: { ...catalogItem, ...dbItem.item }
+                  };
+                });
+              }
             }
           } catch (e) {
             console.error('Error loading local stats', e);
@@ -93,10 +127,10 @@ export default function CharacterDetailPage() {
   const proficientSaves = characterClass?.savingThrows || []
 
   const attributes = [
-    { 
-      name: 'Força', 
-      score: character.strength, 
-      mod: formatModifier(character.strength), 
+    {
+      name: 'Força',
+      score: character.strength,
+      mod: formatModifier(character.strength),
       save: (() => {
         const mod = calcModifier(character.strength)
         const isProficient = proficientSaves.includes('Força')
@@ -105,10 +139,10 @@ export default function CharacterDetailPage() {
         return total >= 0 ? `+${total}` : total
       })()
     },
-    { 
-      name: 'Destreza', 
-      score: character.dexterity, 
-      mod: formatModifier(character.dexterity), 
+    {
+      name: 'Destreza',
+      score: character.dexterity,
+      mod: formatModifier(character.dexterity),
       save: (() => {
         const mod = calcModifier(character.dexterity)
         const isProficient = proficientSaves.includes('Destreza')
@@ -117,10 +151,10 @@ export default function CharacterDetailPage() {
         return total >= 0 ? `+${total}` : total
       })()
     },
-    { 
-      name: 'Constituição', 
-      score: character.constitution, 
-      mod: formatModifier(character.constitution), 
+    {
+      name: 'Constituição',
+      score: character.constitution,
+      mod: formatModifier(character.constitution),
       save: (() => {
         const mod = calcModifier(character.constitution)
         const isProficient = proficientSaves.includes('Constituição')
@@ -129,10 +163,10 @@ export default function CharacterDetailPage() {
         return total >= 0 ? `+${total}` : total
       })()
     },
-    { 
-      name: 'Inteligência', 
-      score: character.intelligence, 
-      mod: formatModifier(character.intelligence), 
+    {
+      name: 'Inteligência',
+      score: character.intelligence,
+      mod: formatModifier(character.intelligence),
       save: (() => {
         const mod = calcModifier(character.intelligence)
         const isProficient = proficientSaves.includes('Inteligência')
@@ -141,10 +175,10 @@ export default function CharacterDetailPage() {
         return total >= 0 ? `+${total}` : total
       })()
     },
-    { 
-      name: 'Sabedoria', 
-      score: character.wisdom, 
-      mod: formatModifier(character.wisdom), 
+    {
+      name: 'Sabedoria',
+      score: character.wisdom,
+      mod: formatModifier(character.wisdom),
       save: (() => {
         const mod = calcModifier(character.wisdom)
         const isProficient = proficientSaves.includes('Sabedoria')
@@ -153,10 +187,10 @@ export default function CharacterDetailPage() {
         return total >= 0 ? `+${total}` : total
       })()
     },
-    { 
-      name: 'Carisma', 
-      score: character.charisma, 
-      mod: formatModifier(character.charisma), 
+    {
+      name: 'Carisma',
+      score: character.charisma,
+      mod: formatModifier(character.charisma),
       save: (() => {
         const mod = calcModifier(character.charisma)
         const isProficient = proficientSaves.includes('Carisma')
@@ -168,12 +202,144 @@ export default function CharacterDetailPage() {
   ]
 
   const hp = { current: character.currentHp, max: character.maxHp }
-  const ac = character.armorClass
+  const ac = character ? calculateAC(character.class, {
+    strength: character.strength,
+    dexterity: character.dexterity,
+    constitution: character.constitution,
+    intelligence: character.intelligence,
+    wisdom: character.wisdom,
+    charisma: character.charisma
+  }, (character.inventory as any[]) || []) : 10
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
   const isOwner = character.userId === character.sessionUserId
 
+  const toggleEquip = (index: number) => {
+    if (!character || !character.inventory) return;
+    const newInventory = [...(character.inventory as any[])];
+    const entry = newInventory[index];
+
+    const isCurrentlyEquipped = !!entry.isEquipped;
+
+    // If equipping an armor (not shield), unequip other items of the same category
+    if (!isCurrentlyEquipped && entry.item.category === 'armor' && entry.item.armorType !== 'shield') {
+      newInventory.forEach(e => {
+        if (e.item.category === 'armor' && e.item.armorType !== 'shield') {
+          e.isEquipped = false;
+        }
+      });
+    }
+
+    entry.isEquipped = !isCurrentlyEquipped;
+    const updated = { ...character, inventory: newInventory };
+    setCharacter(updated as any);
+
+    // Sync with LocalStorage
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        inventory: newInventory
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const saveCharacterToDB = async (char: Character) => {
+    setSaveStatus('saving');
+    try {
+      const payload = {
+        ...char,
+        // Ensure complex types are stringified for DB
+        skills: char.skills ? JSON.stringify(char.skills) : null,
+        inventory: char.inventory ? JSON.stringify(char.inventory) : null,
+        spells: char.spells ? JSON.stringify(char.spells) : null,
+        traits: char.traits ? JSON.stringify(char.traits) : null,
+        defenses: (char as any).defenses ? JSON.stringify((char as any).defenses) : null,
+      } as any;
+
+      // Proficiency bonus fix if it's not in the Character type correctly but we have it in state
+      if (!payload.proficiencyBonus) payload.proficiencyBonus = char.proficiencyBonus;
+
+      const res = await fetch(`/api/personagens/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        setSaveStatus('saved');
+      } else {
+        setSaveStatus('error');
+      }
+    } catch (err) {
+      console.error(err);
+      setSaveStatus('error');
+    }
+  };
+  const updateValue = (field: string, deltaOrVal: number | string) => {
+    if (!character) return;
+    let newVal;
+    if (typeof deltaOrVal === 'number') {
+      newVal = Math.max(0, ((character as any)[field] || 0) + deltaOrVal);
+    } else {
+      newVal = deltaOrVal;
+    }
+    const updatedChar = { ...character, [field]: newVal };
+    setCharacter(updatedChar);
+
+    // Persist ONLY to LocalStorage
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localData[field] = newVal;
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify(localData));
+    } catch (e) {
+      console.error('Error saving local stats', e);
+    }
+
+    // Auto-save to DB
+    saveCharacterToDB(updatedChar);
+  };
+
+  const handleLevelUpPersistence = async (updatedChar: Character, alerts: string[]) => {
+    setCharacter(updatedChar);
+    setIsLevelUpModalOpen(false);
+    setShowCelebration(true);
+    
+    // Persistence logic
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      const dataToSave = {
+        ...localData,
+        level: updatedChar.level,
+        maxHp: updatedChar.maxHp,
+        currentHp: updatedChar.currentHp,
+        proficiencyBonus: updatedChar.proficiencyBonus
+      };
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify(dataToSave));
+      
+      if (alerts.length > 0) {
+        setTimeout(() => {
+          alert(alerts.join('\n'));
+        }, 1500);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    
+    setTimeout(() => setShowCelebration(false), 3000);
+
+    // Persist to DB
+    saveCharacterToDB(updatedChar);
+  };
+
+  // Attach to window for global access if needed (backward compatibility)
+  if (typeof window !== 'undefined') {
+    (window as any).updateCharValue = updateValue;
+    (window as any).handleLevelUpPersistence = handleLevelUpPersistence;
+  }
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', color: 'var(--fg)', padding: '24px 0', position: 'relative' }}>
@@ -262,6 +428,21 @@ export default function CharacterDetailPage() {
                 <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
               </div>
 
+              {/* Level Up Button */}
+              {isOwner && (
+                <button 
+                  className="btn btn-primary"
+                  style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
+                  onClick={() => {
+                    setLevelUpStep(character.ruleset ? 1 : 0);
+                    setIsLevelUpModalOpen(true);
+                  }}
+                >
+                  <TrendingUp size={14} />
+                  Subir de Nível
+                </button>
+              )}
+
               {/* Privacy Toggle (Only for owners) */}
               {character.userId === character.sessionUserId && (
                 <button
@@ -291,6 +472,23 @@ export default function CharacterDetailPage() {
                   {character.isPublic ? '🌐 Público' : '🔒 Privado'}
                 </button>
               )}
+
+              {/* Save Status (Autosave Indicator) */}
+              <div 
+                style={{ 
+                  display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '4px 10px', 
+                  background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8,
+                  color: saveStatus === 'error' ? 'var(--accent)' : saveStatus === 'saving' ? 'var(--fgM)' : 'var(--ok)',
+                  transition: 'all 0.3s'
+                }}
+                title={saveStatus === 'error' ? 'Erro ao salvar!' : saveStatus === 'saving' ? 'Salvando...' : 'Salvo no Banco'}
+              >
+                {saveStatus === 'saving' ? <CloudDownload size={14} className="animate-pulse" /> : 
+                 saveStatus === 'error' ? <CloudOff size={14} /> : <Cloud size={14} />}
+                <span className="hide-mobile">
+                  {saveStatus === 'saving' ? 'Salvando...' : saveStatus === 'error' ? 'Erro ao Salvar' : 'Salvo no Banco'}
+                </span>
+              </div>
 
               {!isOwner && (
                 <div style={{ padding: '4px 12px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: 8, fontSize: 11, color: '#10b981' }}>
@@ -329,38 +527,25 @@ export default function CharacterDetailPage() {
               )}
 
               {isOwner && (
-                <button className="btn btn-outline" style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}>
-                  <RotateCcw size={12} /> Subir de Nível
+                <button 
+                  className="btn btn-outline" 
+                  style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}
+                  onClick={() => {
+                    setLevelUpStep(1);
+                    setLevelUpRoll(null);
+                    setUseAverageHP(false);
+                    setIsLevelUpModalOpen(true);
+                  }}
+                >
+                  <TrendingUp size={12} /> Subir de Nível
                 </button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Global Persistence Helper (Internal use for HP/Resources) */}
-        {(() => {
-          const updateValue = (field: string, delta: number) => {
-            if (!character) return;
-            const newVal = Math.max(0, (character as any)[field] + delta);
-            const updatedChar = { ...character, [field]: newVal };
-            setCharacter(updatedChar);
 
-            // Persist ONLY to LocalStorage
-            try {
-              const localData = {
-                currentHp: updatedChar.currentHp,
-                maxHp: updatedChar.maxHp,
-                spellSlots: updatedChar.spellSlots,
-                resources: updatedChar.resources
-              };
-              localStorage.setItem(`char_stats_${id}`, JSON.stringify(localData));
-            } catch (e) {
-              console.error('Error saving local stats', e);
-            }
-          };
-          (window as any).updateCharValue = updateValue;
-          return null;
-        })()}
+        {/* Floating Mobile Menu Trigger */}
 
         {/* Floating Mobile Menu Trigger */}
         <button
@@ -486,13 +671,13 @@ export default function CharacterDetailPage() {
                 )}
 
                 {activeTab === 'attributes' && (
-                  <div className="fade-up">
+                  <div className="fade-up attributes-tab-container">
 
-                    <div style={{ marginTop: 12, marginBottom: 24, marginLeft: 'auto', marginRight: 'auto', width: '90%' }}>
-                      <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, marginBottom: 12, color: 'var(--accentL)' }}>Vida & Recursos</h3>
+                    <div className="resources-section">
+                      <h3 className="section-subtitle">Vida & Recursos</h3>
                       <div className="resource-grid">
                         {/* HP Section */}
-                        <div className="card compact-card" style={{ background: 'linear-gradient(135deg, rgba(225,29,72,0.1) 0%, rgba(0,0,0,0) 100%)', border: '1px solid rgba(225,29,72,0.2)' }}>
+                        <div className="card compact-card hp-card">
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                               <Heart size={16} color="var(--accent)" />
@@ -513,7 +698,7 @@ export default function CharacterDetailPage() {
                         {(() => {
                           const slots: Record<string, number> = character.spellSlots ? JSON.parse(character.spellSlots as string) : {};
                           const res: Record<string, number> = character.resources ? JSON.parse(character.resources as string) : {};
-                          
+
                           const updateSlots = (level: number, newCount: number) => {
                             const newSlots = { ...slots, [level]: newCount };
                             (window as any).updateCharValue('spellSlots', JSON.stringify(newSlots));
@@ -524,7 +709,6 @@ export default function CharacterDetailPage() {
                             (window as any).updateCharValue('resources', JSON.stringify(newRes));
                           };
 
-                          // Helper to get defaults if missing
                           const getInitialResources = () => {
                             const initial: any = {};
                             if (character.class === 'Bárbaro') initial['Fúrias'] = { max: 2, current: 2, color: '#f97316' };
@@ -536,12 +720,10 @@ export default function CharacterDetailPage() {
                           };
 
                           const classResources = getInitialResources();
-                          const currentRes = { ...classResources, ...res };
-
                           const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(character.class);
-                          
+
                           return (
-                            <div className="card compact-card" style={{ background: `linear-gradient(135deg, var(--bg2) 0%, rgba(0,0,0,0) 100%)`, border: `1px solid var(--border)` }}>
+                            <div className="card compact-card resources-card">
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                   <Zap size={16} color="var(--accent)" />
@@ -549,56 +731,44 @@ export default function CharacterDetailPage() {
                                 </div>
                                 <button className="btn btn-outline" style={{ padding: '6px', fontSize: 11 }} disabled={!isOwner} onClick={async () => {
                                   if (!isOwner) return;
-                                  // Simplified Long Rest
-                                  const resetSlots = isSpellcaster ? { "1": character.class === 'Bruxo' ? 1 : 2 } : {}; // level 1 defaults
+                                  const resetSlots = isSpellcaster ? { "1": character.class === 'Bruxo' ? 1 : 2 } : {};
                                   const resetRes: Record<string, number> = {};
                                   Object.keys(classResources).forEach(k => { resetRes[k] = classResources[k].max; });
-                                  
-                                  const update = { 
-                                    ...character, 
-                                    currentHp: character.maxHp, 
+
+                                  const update = {
+                                    ...character,
+                                    currentHp: character.maxHp,
                                     spellSlots: JSON.stringify(resetSlots),
                                     resources: JSON.stringify(resetRes)
                                   };
                                   setCharacter(update as any);
-
-                                  try {
-                                    localStorage.setItem(`char_stats_${id}`, JSON.stringify({
-                                      currentHp: update.currentHp,
-                                      maxHp: update.maxHp,
-                                      spellSlots: update.spellSlots,
-                                      resources: update.resources
-                                    }));
-                                  } catch (e) {
-                                    console.error(e);
-                                  }
+                                  localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+                                    currentHp: update.currentHp, maxHp: update.maxHp,
+                                    spellSlots: update.spellSlots, resources: update.resources
+                                  }));
                                 }}><RotateCcw size={14} /></button>
                               </div>
 
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                 {isSpellcaster && (
-                                  <ResourceTracker 
-                                    label="Espaços de Magia (Nível 1)" 
-                                    max={character.class === 'Bruxo' ? 1 : 2} 
-                                    current={slots["1"] ?? (character.class === 'Bruxo' ? 1 : 2)} 
+                                  <ResourceTracker
+                                    label="Espaços de Magia (Nível 1)"
+                                    max={character.class === 'Bruxo' ? 1 : 2}
+                                    current={slots["1"] ?? (character.class === 'Bruxo' ? 1 : 2)}
                                     onChange={(val) => updateSlots(1, val)}
                                   />
                                 )}
-
                                 {Object.keys(classResources).map(name => (
-                                  <ResourceTracker 
-                                    key={name}
-                                    label={name}
-                                    max={classResources[name].max}
+                                  <ResourceTracker
+                                    key={name} label={name} max={classResources[name].max}
                                     current={res[name] ?? classResources[name].max}
                                     onChange={(val) => updateRes(name, val)}
                                     color={classResources[name].color}
                                   />
                                 ))}
-
                                 {!isSpellcaster && Object.keys(classResources).length === 0 && (
                                   <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic', textAlign: 'center', padding: '12px 0' }}>
-                                    Nenhum recurso especial para esta classe no nível atual.
+                                    Nenhum recurso especial.
                                   </div>
                                 )}
                               </div>
@@ -607,48 +777,21 @@ export default function CharacterDetailPage() {
                         })()}
                       </div>
                     </div>
-                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Atributos</h2>
-                    <div className="attr-grid" style={{ width: '100%' }}>
-                      {attributes.map(attr => (
-                        <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
-                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginBottom: 8, position: 'relative' }}>
-                            <div style={{ width: 48, height: 48, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800 }}>
-                              {attr.mod}
-                            </div>
-                            <div style={{ width: 32, height: 32, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: 'var(--accentL)' }}>
-                              {attr.save}
-                            </div>
-                          </div>
-                          <div style={{ fontSize: 10, color: 'var(--fgM)' }}>
-                            <span style={{ fontSize: 12, color: 'var(--fg2)', fontWeight: 600 }}>{attr.score}</span> Atributo
-                          </div>
-                          <div style={{ fontSize: 10, color: 'var(--fgM)' }}>Resistência</div>
-                        </div>
-                      ))}
-                    </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                      <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '16px 0', flexDirection: 'column' }}>
-                        <div style={{ fontSize: 12, color: 'var(--fgM)', fontWeight: 700 }}>CLASSE DE ARMADURA</div>
+                    <div className="combat-stats-row">
+                      <div className="stat-card">
+                        <div className="stat-label">CLASSE DE ARMADURA</div>
                         {(() => {
-                          const acRef = calculateAC(character.class, {
-                            strength: character.strength,
-                            dexterity: character.dexterity,
-                            constitution: character.constitution,
-                            intelligence: character.intelligence,
-                            wisdom: character.wisdom,
-                            charisma: character.charisma
-                          }, (character.inventory as any[]) || []);
+                          const acRef = ac;
 
                           const inv = (character.inventory as any[]) || [];
                           const dexMod = Math.floor((character.dexterity - 10) / 2);
                           const conMod = Math.floor((character.constitution - 10) / 2);
                           const wisMod = Math.floor((character.wisdom - 10) / 2);
-                          const armors = inv.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield');
+                          const armors = inv.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield' && e.isEquipped);
                           const baseArmor = armors.length > 0 ? armors[0].item : null;
-                          const shield = inv.find(e => e.item.category === 'armor' && e.item.armorType === 'shield');
-                          
+                          const shield = inv.find(e => e.item.category === 'armor' && e.item.armorType === 'shield' && e.isEquipped);
+
                           let parts = [];
                           if (baseArmor) {
                             parts.push(`${baseArmor.name}: ${baseArmor.ac}`);
@@ -665,25 +808,48 @@ export default function CharacterDetailPage() {
 
                           return (
                             <>
-                              <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <div style={{ fontSize: 30, fontWeight: 800 }}>{acRef}</div>
-                                <Shield size={16} color="var(--fg2)" />
+                              <div className="stat-value-box">
+                                <div className="stat-value">{acRef}</div>
+                                <Shield size={20} color="var(--fg2)" />
                               </div>
-                              <div style={{ fontSize: 10, color: 'var(--fgM)', marginTop: 4 }}>{acInfo}</div>
+                              <div className="stat-subtext">{acInfo}</div>
                             </>
                           );
                         })()}
                       </div>
 
-                      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexDirection: 'column' }}>
-                        <div style={{ fontSize: 12, color: 'var(--fgM)', fontWeight: 700 }}>DESLOCAMENTO (m)</div>
-                        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '4px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ fontSize: 30, fontWeight: 800 }}>{character.speed}</div>
-                          <RotateCcw size={16} color="var(--fg2)" />
+                      <div className="stat-card">
+                        <div className="stat-label">DESLOCAMENTO (m)</div>
+                        <div className="stat-value-box">
+                          <div className="stat-value">{character.speed}</div>
+                          <RotateCcw size={20} color="var(--fg2)" />
                         </div>
                       </div>
                     </div>
 
+                    <h2 className="attr-title">Atributos</h2>
+
+                    <div className="attr-grid-container">
+                      <div className="attr-grid" style={{ width: '100%' }}>
+                        {attributes.map(attr => (
+                          <div key={attr.name} className="card" style={{ padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%' }}>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 12 }}>{attr.name}</div>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginBottom: 8, position: 'relative' }}>
+                              <div style={{ width: 48, height: 48, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800 }}>
+                                {attr.mod}
+                              </div>
+                              <div style={{ width: 32, height: 32, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: 'var(--accentL)' }}>
+                                {attr.save}
+                              </div>
+                            </div>
+                            <div style={{ fontSize: 10, color: 'var(--fgM)' }}>
+                              <span style={{ fontSize: 12, color: 'var(--fg2)', fontWeight: 600 }}>{attr.score}</span> Atributo
+                            </div>
+                            <div style={{ fontSize: 10, color: 'var(--fgM)' }}>Resistência</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -826,7 +992,36 @@ export default function CharacterDetailPage() {
                               <div style={{ fontWeight: 700, fontSize: 14, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.item.name}</div>
                               <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{entry.item.category} • {entry.item.weight} kg</div>
                             </div>
-                            <div style={{ fontWeight: 800, color: 'var(--accentL)', flexShrink: 0 }}>x{entry.qty}</div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                              {entry.item.category === 'armor' && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleEquip(i);
+                                  }}
+                                  style={{
+                                    width: 28,
+                                    height: 28,
+                                    borderRadius: 6,
+                                    border: '1px solid',
+                                    borderColor: entry.isEquipped ? 'var(--accent)' : 'var(--border)',
+                                    background: entry.isEquipped ? 'var(--accentGlow)' : 'transparent',
+                                    color: entry.isEquipped ? 'var(--accentL)' : 'var(--fg3)',
+                                    fontSize: 12,
+                                    fontWeight: 900,
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.2s'
+                                  }}
+                                  title={entry.isEquipped ? 'Equipado' : 'Equipar'}
+                                >
+                                  E
+                                </button>
+                              )}
+                              <div style={{ fontWeight: 800, color: 'var(--accentL)', flexShrink: 0 }}>x{entry.qty}</div>
+                            </div>
                           </div>
                         ))
                       ) : (
@@ -869,45 +1064,57 @@ export default function CharacterDetailPage() {
                     </div>
 
                     <div style={{ marginBottom: 24 }}>
-                      <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                         <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
-                        Classe: {character.class}
+                        Classe: {character.class} {character.subclass ? ` - ${character.subclass}` : ''}
                       </h3>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        {CLASS_LEVEL1_DATA[character.class]?.passiveFeatures.map((feat, i) => (
-                          <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
-                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{feat.description}</p>
-                          </div>
-                        ))}
-                        {character.traits && Object.entries(character.traits).map(([choiceId, value], i) => {
-                          const choice = CLASS_LEVEL1_DATA[character.class]?.choices.find(c => c.id === choiceId)
-                          if (!choice) return null
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                        {/* Habilidades Nível 1 (De lib/classes) */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                          {CLASS_LEVEL1_DATA[character.class]?.passiveFeatures.map((feat, i) => (
+                            <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)' }}>
+                              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
+                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{feat.description}</p>
+                            </div>
+                          ))}
+                        </div>
 
-                          if (choice.type === 'radio' && typeof value === 'string') {
-                            const opt = choice.options.find(o => o.id === value)
-                            if (!opt) return null
-                            return (
-                              <div key={choiceId} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--accent)' }}>
-                                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 4 }}>{choice.label}</div>
-                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{opt.name}</div>
-                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{opt.description}</p>
-                              </div>
-                            )
-                          } else if (Array.isArray(value)) {
-                            return value.map(valId => {
-                              const opt = choice.options.find(o => o.id === valId)
-                              if (!opt) return null
-                              return (
-                                <div key={valId} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--accent)' }}>
-                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 4 }}>{choice.label}</div>
-                                  <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{opt.name}</div>
-                                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{opt.description}</p>
-                                </div>
-                              )
-                            })
+                        {/* Habilidades de Progressão (D&D 2024) */}
+                        {Array.from({ length: character.level }).map((_, i) => {
+                          const lvl = i + 1;
+                          const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[lvl] || [];
+                          
+                          // Subclass features
+                          let subFeats: any[] = [];
+                          if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
+                            subFeats = SUBCLASSES_2024[character.class][character.subclass].features[lvl] || [];
                           }
-                          return null
+
+                          if (classFeats.length === 0 && subFeats.length === 0) return null;
+
+                          return (
+                            <div key={lvl} style={{ marginTop: 8 }}>
+                              <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, paddingLeft: 8 }}>
+                                Nível {lvl}
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                {classFeats.map((f, idx) => (
+                                  <div key={idx} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--accent)' }}>
+                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{f}</div>
+                                    <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Classe Base</div>
+                                  </div>
+                                ))}
+                                {subFeats.map((sf, idx) => (
+                                  <div key={idx} className="card" style={{ padding: 16, background: 'var(--accentGlow)', borderLeft: '3px solid var(--accent)' }}>
+                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--accentL)' }}>{sf.name}</div>
+                                    <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{sf.description}</p>
+                                    <div style={{ fontSize: 11, color: 'var(--accent)', marginTop: 4, fontWeight: 700 }}>{character.subclass}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
                         })}
                       </div>
                     </div>
@@ -915,7 +1122,7 @@ export default function CharacterDetailPage() {
                 )}
 
                 {activeTab === 'combat' && (
-                  <div className="fade-up">
+                  <div className="attacks-container">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Ataques</h2>
                       <div style={{ display: 'flex', gap: 8 }}>
@@ -923,100 +1130,100 @@ export default function CharacterDetailPage() {
                         <button className="btn btn-outline" style={{ padding: 6 }}><Settings size={16} /></button>
                       </div>
                     </div>
+                    {/* Desktop Header */}
+                    <div className="attacks-header hide-mobile">
+                      <div className="col-atk">Ataque</div>
+                      <div className="col-range">Alcance</div>
+                      <div className="col-hit">Acerto / CD</div>
+                      <div className="col-dmg">Dano</div>
+                      <div className="col-info"></div>
+                    </div>
 
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-                          <th style={{ padding: '8px 0', fontSize: 11, color: 'var(--fgM)', textTransform: 'uppercase' }}>Ataque</th>
-                          <th style={{ padding: '8px 0', fontSize: 11, color: 'var(--fgM)', textTransform: 'uppercase' }}>Alcance</th>
-                          <th style={{ padding: '8px 0', fontSize: 11, color: 'var(--fgM)', textTransform: 'uppercase' }}>Acerto / CD</th>
-                          <th style={{ padding: '8px 0', fontSize: 11, color: 'var(--fgM)', textTransform: 'uppercase' }}>Dano</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* Unarmed Strike - Default */}
-                        <tr style={{ borderBottom: '1px solid var(--bg2)' }}>
-                          <td style={{ padding: '16px 0' }}>
-                            <div style={{ fontWeight: 700 }}>Ataque Desarmado</div>
-                            <div style={{ fontSize: 11, color: 'var(--fgM)' }}>Corpo a corpo</div>
-                          </td>
-                          <td style={{ fontSize: 13 }}>1.5 m</td>
-                          <td>
-                            <div style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', padding: '4px 12px', borderRadius: 4, display: 'inline-block', fontSize: 13, fontWeight: 700, border: '1px solid var(--accent)' }}>
-                              {formatModifier(character.strength + character.proficiencyBonus - 10)} Ataque
+                    <div className="attacks-list">
+                      {/* Unarmed Strike */}
+                      <div className="attack-row card">
+                        <div className="col-atk">
+                          <div className="atk-name">Ataque Desarmado</div>
+                          <div className="atk-type">Corpo a corpo</div>
+                        </div>
+                        <div className="col-range">
+                          <span className="mobile-label">Alcance: </span>
+                          1.5 m
+                        </div>
+                        <div className="col-hit">
+                          <div className="hit-badge">
+                            {formatModifier(character.strength + character.proficiencyBonus - 10)} Ataque
+                          </div>
+                        </div>
+                        <div className="col-dmg">
+                          <div className="dmg-box">
+                            <span className="dmg-value">{1 + calcModifier(character.strength)}</span>
+                            <Sword size={12} color="var(--accentL)" />
+                            <span className="dmg-type">Concussão</span>
+                          </div>
+                        </div>
+                        <div className="col-info">
+                          <button className="btn btn-ghost"><Info size={18} /></button>
+                        </div>
+                      </div>
+
+                      {/* Weapons from Inventory */}
+                      {character.inventory && Array.isArray(character.inventory) && (character.inventory as any[])
+                        .filter(e => e.item.category === 'weapon')
+                        .map((entry, idx) => {
+                          const weapon = entry.item;
+                          const isFinesse = weapon.properties?.toLowerCase().includes('acuidade');
+                          const isRange = weapon.properties?.toLowerCase().includes('alcance') || (weapon.category === 'weapon' && (weapon.name.toLowerCase().includes('arco') || weapon.name.toLowerCase().includes('besta')));
+
+                          let attackStat = character.strength;
+                          if (isRange || (isFinesse && character.dexterity > character.strength)) {
+                            attackStat = character.dexterity;
+                          }
+
+                          const toHit = calcModifier(attackStat) + character.proficiencyBonus;
+                          const dmgMod = calcModifier(attackStat);
+                          const dmgParts = weapon.properties?.split(',')[0].trim().split(' ');
+                          const dice = dmgParts?.[0] || '1d4';
+                          const type = dmgParts?.[1] || 'dano';
+                          const rangeMatch = weapon.properties?.match(/alcance\s+([\d\/]+)\s*m/i);
+                          const range = rangeMatch ? rangeMatch[1] + ' m' : (isRange ? 'Distância' : '1.5 m');
+
+                          return (
+                            <div key={idx} className="attack-row card">
+                              <div className="col-atk">
+                                <div className="atk-name">{weapon.name}</div>
+                                <div className="atk-type">{isRange ? 'À Distância' : 'Corpo a corpo'}</div>
+                              </div>
+                              <div className="col-range">
+                                <span className="mobile-label">Alcance: </span>
+                                {range}
+                              </div>
+                              <div className="col-hit">
+                                <div className="hit-badge">
+                                  {toHit >= 0 ? `+${toHit}` : toHit} Ataque
+                                </div>
+                              </div>
+                              <div className="col-dmg">
+                                <div className="dmg-box">
+                                  <span className="dmg-value">{dice}{dmgMod !== 0 ? (dmgMod > 0 ? `+${dmgMod}` : dmgMod) : ''}</span>
+                                  <Sword size={12} color="var(--accentL)" />
+                                  <span className="dmg-type">{type}</span>
+                                </div>
+                              </div>
+                              <div className="col-info">
+                                <button
+                                  className="btn btn-ghost"
+                                  onClick={() => setDetailItem(weapon)}
+                                >
+                                  <Info size={18} />
+                                </button>
+                              </div>
                             </div>
-                          </td>
-                          <td>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}>
-                              {1 + calcModifier(character.strength)} <Sword size={12} color="var(--accentL)" />
-                              <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 400 }}>Concussão</span>
-                            </div>
-                          </td>
-                          <td style={{ textAlign: 'right' }}>
-                            <button className="btn btn-ghost"><Info size={16} /></button>
-                          </td>
-                        </tr>
-
-                        {/* Weapons from Inventory */}
-                        {character.inventory && Array.isArray(character.inventory) && (character.inventory as any[])
-                          .filter(e => e.item.category === 'weapon')
-                          .map((entry, idx) => {
-                            const weapon = entry.item;
-                            const isFinesse = weapon.properties?.toLowerCase().includes('acuidade');
-                            const isRange = weapon.properties?.toLowerCase().includes('alcance') || weapon.category === 'weapon' && (weapon.name.toLowerCase().includes('arco') || weapon.name.toLowerCase().includes('besta'));
-
-                            // Determine which stat to use
-                            let attackStat = character.strength;
-                            if (isRange || (isFinesse && character.dexterity > character.strength)) {
-                              attackStat = character.dexterity;
-                            }
-
-                            const toHit = calcModifier(attackStat) + character.proficiencyBonus;
-                            const dmgMod = calcModifier(attackStat);
-
-                            // Extract damage dice and type: "1d8 cortante"
-                            const dmgParts = weapon.properties?.split(',')[0].trim().split(' ');
-                            const dice = dmgParts?.[0] || '1d4';
-                            const type = dmgParts?.[1] || 'dano';
-
-                            // Extract range if available
-                            const rangeMatch = weapon.properties?.match(/alcance\s+([\d\/]+)\s*m/i);
-                            const range = rangeMatch ? rangeMatch[1] + ' m' : (isRange ? 'Distância' : '1.5 m');
-
-                            return (
-                              <tr key={idx} style={{ borderBottom: '1px solid var(--bg2)' }}>
-                                <td style={{ padding: '16px 0' }}>
-                                  <div style={{ fontWeight: 700 }}>{weapon.name}</div>
-                                  <div style={{ fontSize: 11, color: 'var(--fgM)' }}>{isRange ? 'À Distância' : 'Corpo a corpo'}</div>
-                                </td>
-                                <td style={{ fontSize: 13 }}>{range}</td>
-                                <td>
-                                  <div style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', padding: '4px 12px', borderRadius: 4, display: 'inline-block', fontSize: 13, fontWeight: 700, border: '1px solid var(--accent)' }}>
-                                    {toHit >= 0 ? `+${toHit}` : toHit} Ataque
-                                  </div>
-                                </td>
-                                <td>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700 }}>
-                                    {dice}{dmgMod !== 0 ? (dmgMod > 0 ? `+${dmgMod}` : dmgMod) : ''}
-                                    <Sword size={12} color="var(--accentL)" />
-                                    <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 400, textTransform: 'capitalize' }}>{type}</span>
-                                  </div>
-                                </td>
-                                <td style={{ textAlign: 'right' }}>
-                                  <button
-                                    className="btn btn-ghost"
-                                    onClick={() => setDetailItem(weapon)}
-                                  >
-                                    <Info size={16} />
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                          );
+                        })}
+                    </div>
                   </div>
+
                 )}
               </div>
             </div>
@@ -1025,32 +1232,309 @@ export default function CharacterDetailPage() {
         </div>
       </div>
 
-      {/* Upload Modal */}
-      {showUpload && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)' }} onClick={() => !uploading && setShowUpload(false)} />
-          <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 400, padding: 32, textAlign: 'center' }}>
-            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 16 }}>Nova Foto do Personagem</h2>
-            <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 24 }}>Escolha uma imagem para representar seu herói.</p>
-
-            <div style={{ border: '2px dashed var(--border)', borderRadius: 12, padding: 32, marginBottom: 24, transition: 'border-color 0.2s', cursor: 'pointer', position: 'relative' }}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                disabled={uploading}
-                style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }}
-              />
-              <div style={{ color: 'var(--fgM)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                {uploading ? <Loader2 className="animate-spin" size={32} /> : <Upload size={32} />}
-                <span>{uploading ? 'Enviando...' : 'Clique ou arraste para enviar'}</span>
+      {/* Level Up Modal */}
+      {isLevelUpModalOpen && character && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }} />
+          
+          <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 460, padding: 0, overflow: 'hidden', border: '1px solid var(--accent)' }}>
+            {/* Header */}
+            <div style={{ background: 'var(--accent)', padding: '24px 32px', textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+                <div style={{ background: 'rgba(255,255,255,0.2)', padding: 12, borderRadius: '50%' }}>
+                  <TrendingUp size={32} color="#fff" className={isRolling ? 'animate-bounce' : ''} />
+                </div>
               </div>
+              <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, color: '#fff' }}>Subir de Nível</h2>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: 500 }}>{character.name} está ficando mais forte!</p>
             </div>
 
-            <button className="btn bg-red-500 hover:bg-red-600" onClick={() => setShowUpload(false)} disabled={uploading} style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}>Cancelar</button>
+            <div style={{ padding: 32 }}>
+              {/* Passo 0: Escolha do Ruleset (Se não houver) */}
+              {levelUpStep === 0 && (
+                <div className="fade-up">
+                  <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Versão das Regras</h3>
+                  <p style={{ fontSize: 13, color: 'var(--fg3)', textAlign: 'center', marginBottom: 24 }}>Escolha qual versão do Player's Handbook seguir para este personagem.</p>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+                    <button 
+                      onClick={() => setSelectedRuleset('2024')}
+                      style={{ 
+                        padding: 16, borderRadius: 12, border: '2px solid', 
+                        borderColor: selectedRuleset === '2024' ? 'var(--accent)' : 'var(--border)',
+                        background: selectedRuleset === '2024' ? 'var(--accentGlow)' : 'transparent',
+                        textAlign: 'left', transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontWeight: 800, color: selectedRuleset === '2024' ? 'var(--accentL)' : 'var(--fg1)' }}>D&D 2024 (Revised)</div>
+                      <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>Subclasses no nível 3, novas habilidades e equilíbrio atualizado.</p>
+                    </button>
+
+                    <button 
+                      onClick={() => setSelectedRuleset('2014')}
+                      style={{ 
+                        padding: 16, borderRadius: 12, border: '2px solid', 
+                        borderColor: selectedRuleset === '2014' ? 'var(--accent)' : 'var(--border)',
+                        background: selectedRuleset === '2014' ? 'var(--accentGlow)' : 'transparent',
+                        textAlign: 'left', transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontWeight: 800, color: selectedRuleset === '2014' ? 'var(--fg1)' : 'var(--fg1)' }}>D&D 2014 (Classic)</div>
+                      <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>Progressão clássica das subclasses (Nível 1, 2 ou 3).</p>
+                    </button>
+                  </div>
+
+                  <button 
+                    className="btn bg-accent" 
+                    style={{ width: '100%', justifyContent: 'center' }}
+                    disabled={!selectedRuleset}
+                    onClick={() => setLevelUpStep(1)}
+                  >
+                    Confirmar e Continuar
+                  </button>
+                </div>
+              )}
+
+              {levelUpStep === 1 && (
+                <div className="fade-up">
+                  <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                    <div style={{ fontSize: 40, fontWeight: 900, color: 'var(--accentL)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+                      {character.level} 
+                      <ArrowRight size={32} color="var(--fg3)" style={{ margin: '0 4px' }} /> 
+                      {character.level + 1}
+                    </div>
+                    <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, color: 'var(--fg3)', fontWeight: 700, marginTop: 4 }}>Novo Nível</div>
+                  </div>
+
+                  <div className="card" style={{ background: 'var(--bg2)', padding: 16, marginBottom: 24 }}>
+                    <h3 style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)', textTransform: 'uppercase', marginBottom: 12 }}>Novas Características</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {(() => {
+                        const nextLevel = character.level + 1;
+                        const classFeatures = CLASS_PROGRESSION_2024[character.class]?.features[nextLevel] || [];
+                        const speciesFeatures = SPECIES_PROGRESSION_2024[character.race]?.[nextLevel] || [];
+                        
+                        // Agregar features da subclasse se já possuir
+                        let subclassFeatures: string[] = [];
+                        if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
+                          subclassFeatures = SUBCLASSES_2024[character.class][character.subclass].features[nextLevel]?.map(f => f.name) || [];
+                        }
+
+                        const allFeatures = [...classFeatures, ...speciesFeatures, ...subclassFeatures];
+                        
+                        // Proficiency check
+                        const oldProf = getProficiencyBonus(character.level);
+                        const newProf = getProficiencyBonus(nextLevel);
+                        if (newProf > oldProf) allFeatures.unshift(`Bônus de Proficiência aumenta para +${newProf}!`);
+
+                        if (allFeatures.length === 0) return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma característica automática este nível.</div>;
+                        
+                        return allFeatures.map((f, i) => (
+                          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13 }}>
+                            <Star size={14} color="var(--accent)" style={{ marginTop: 2, flexShrink: 0 }} />
+                            <span>{f}</span>
+                          </div>
+                        ));
+                      })()}
+                    </div>
+                  </div>
+
+                  <button 
+                    className="btn bg-accent hover:bg-accent hover:scale-[1.02]" 
+                    style={{ width: '100%', justifyContent: 'center' }}
+                    onClick={() => setLevelUpStep(2)}
+                  >
+                    Continuar
+                  </button>
+                </div>
+              )}
+
+              {levelUpStep === 2 && (
+                <div className="fade-up">
+                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, textAlign: 'center' }}>Aumento de Pontos de Vida</h3>
+                  
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
+                    <button 
+                      onClick={() => setUseAverageHP(true)}
+                      style={{ 
+                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid', 
+                        borderColor: useAverageHP ? 'var(--accent)' : 'var(--border)',
+                        background: useAverageHP ? 'var(--accentGlow)' : 'transparent',
+                        textAlign: 'center', transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: 20, fontWeight: 900, color: useAverageHP ? 'var(--accentL)' : 'var(--fg2)' }}>
+                        {Math.floor(CLASS_PROGRESSION_2024[character.class]?.hitDie / 2) + 1}
+                      </div>
+                      <div style={{ fontSize: 10, textTransform: 'uppercase', fontWeight: 700, color: 'var(--fg3)' }}>Média</div>
+                    </button>
+
+                    <button 
+                      onClick={() => {
+                        setUseAverageHP(false);
+                        if (levelUpRoll === null && !isRolling) {
+                          setIsRolling(true);
+                          let count = 0;
+                          const die = CLASS_PROGRESSION_2024[character.class]?.hitDie || 10;
+                          const interval = setInterval(() => {
+                            setLevelUpRoll(Math.floor(Math.random() * die) + 1);
+                            count++;
+                            if (count > 15) {
+                              clearInterval(interval);
+                              setIsRolling(false);
+                            }
+                          }, 60);
+                        }
+                      }}
+                      style={{ 
+                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid', 
+                        borderColor: !useAverageHP && levelUpRoll !== null ? 'var(--accent)' : 'var(--border)',
+                        background: !useAverageHP && levelUpRoll !== null ? 'var(--accentGlow)' : 'transparent',
+                        textAlign: 'center', transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: 20, fontWeight: 900, color: !useAverageHP && levelUpRoll !== null ? 'var(--accentL)' : 'var(--fg2)' }}>
+                        {isRolling ? '?' : (levelUpRoll || `d${CLASS_PROGRESSION_2024[character.class]?.hitDie}`)}
+                      </div>
+                      <div style={{ fontSize: 10, textTransform: 'uppercase', fontWeight: 700, color: 'var(--fg3)' }}>Rolar</div>
+                    </button>
+                  </div>
+
+                  { (useAverageHP || levelUpRoll !== null) && !isRolling && (
+                    <div className="card" style={{ background: 'var(--bg2)', padding: 12, textAlign: 'center', marginBottom: 24, animation: 'scale-up 0.3s ease-out' }}>
+                      <div style={{ fontSize: 13, color: 'var(--fg2)' }}>
+                        Ganho Total: <span style={{ fontWeight: 800, color: 'var(--accentL)' }}>
+                          {(useAverageHP ? (Math.floor(CLASS_PROGRESSION_2024[character.class]?.hitDie / 2) + 1) : levelUpRoll!) + Math.floor((character.constitution - 10) / 2)} PV
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 2 }}>
+                        ({useAverageHP ? 'Média' : 'Dado'} + Mod. CON)
+                      </div>
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(1)}>Voltar</button>
+                    <button 
+                      className="btn bg-accent" 
+                      style={{ flex: 2, justifyContent: 'center' }} 
+                      disabled={isRolling || (!useAverageHP && levelUpRoll === null)}
+                      onClick={() => {
+                        const hitDie = CLASS_PROGRESSION_2024[character.class]?.hitDie || 10;
+                        const hpIncrease = (useAverageHP ? (Math.floor(hitDie / 2) + 1) : levelUpRoll!) + Math.floor((character.constitution - 10) / 2);
+                        const finalIncrease = Math.max(1, hpIncrease);
+                        
+                        const newLevel = character.level + 1;
+                        const newMaxHp = character.maxHp + finalIncrease;
+                        const newProf = getProficiencyBonus(newLevel);
+                        
+                        const updated = {
+                          ...character,
+                          level: newLevel,
+                          maxHp: newMaxHp,
+                          currentHp: character.currentHp + finalIncrease,
+                          proficiencyBonus: newProf,
+                          ruleset: character.ruleset || selectedRuleset
+                        };
+                        
+                        // Determinar se precisa de Subclasse
+                        const rulesetToUse = character.ruleset || selectedRuleset;
+                        const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass) || 
+                                              (rulesetToUse === '2014' && !character.subclass && (
+                                                (['Clérigo', 'Feiticeiro', 'Bruxo'].includes(character.class) && newLevel >= 1) ||
+                                                (['Druida', 'Mago'].includes(character.class) && newLevel >= 2) ||
+                                                (newLevel >= 3)
+                                              ));
+
+                        if (needsSubclass) {
+                          setLevelUpStep(3); // Go to subclass selector
+                          setCharacter(updated); // Save progress locally in state
+                        } else {
+                          // Final Save
+                          const alerts = [];
+                          if ([4, 8, 12, 16, 19].includes(newLevel)) alerts.push("⚠️ Você ganhou uma Melhoria de Atributo ou Talento!");
+                          handleLevelUpPersistence(updated, alerts);
+                        }
+                      }}
+                    >
+                      Continuar
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Passo 3: Escolha da Subclasse */}
+              {levelUpStep === 3 && (
+                <div className="fade-up">
+                  <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Escolha sua Subclasse</h3>
+                  <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 20 }}>Como {character.class}, você desbloqueou uma especialização!</p>
+                  
+                  <div style={{ maxHeight: 300, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+                    {(() => {
+                      const rulesetToUse = character.ruleset || selectedRuleset;
+                      const options = rulesetToUse === '2024' ? Object.keys(SUBCLASSES_2024[character.class] || {}) : [];
+                      
+                      if (options.length === 0) return <div style={{ textAlign: 'center', padding: 20, color: 'var(--fg3)' }}>Nenhuma subclasse cadastrada para {character.class} {rulesetToUse}.</div>;
+
+                      return options.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setSelectedSubclass(opt)}
+                          style={{
+                            padding: 12, borderRadius: 10, border: '1px solid',
+                            borderColor: selectedSubclass === opt ? 'var(--accent)' : 'var(--border)',
+                            background: selectedSubclass === opt ? 'var(--accentGlow)' : 'var(--bg2)',
+                            textAlign: 'left', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 12
+                          }}
+                        >
+                          <div style={{ 
+                            width: 8, height: 8, borderRadius: '50%', 
+                            background: selectedSubclass === opt ? 'var(--accent)' : 'transparent',
+                            border: '1px solid var(--accent)'
+                          }} />
+                          <span style={{ fontWeight: 600, color: selectedSubclass === opt ? 'var(--fg1)' : 'var(--fg2)' }}>{opt}</span>
+                        </button>
+                      ));
+                    })()}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(2)}>Voltar</button>
+                    <button 
+                      className="btn bg-accent" 
+                      style={{ flex: 2, justifyContent: 'center' }} 
+                      disabled={!selectedSubclass}
+                      onClick={() => {
+                        const updated = { 
+                          ...character, 
+                          subclass: selectedSubclass,
+                          ruleset: character.ruleset || selectedRuleset 
+                        };
+                        const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
+                        if ([4, 8, 12, 16, 19].includes(character.level)) alerts.push("⚠️ Você ganhou uma Melhoria de Atributo ou Talento!");
+                        handleLevelUpPersistence(updated, alerts);
+                      }}
+                    >
+                      Finalizar Level Up
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
+
+      {/* Celebration Overlay */}
+      {showCelebration && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+          <div className="fade-up" style={{ textAlign: 'center' }}>
+            <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 48, fontWeight: 900, color: 'var(--accent)', textShadow: '0 0 20px rgba(225,29,72,0.5)' }}>LEVEL UP!</h1>
+            <p style={{ fontSize: 18, color: '#fff', fontWeight: 600 }}>Você alcançou o Nível {character.level}!</p>
+          </div>
+        </div>
+      )}
+
       {/* Item Details Modal */}
       {detailItem && (
         <div style={{
@@ -1118,6 +1602,275 @@ export default function CharacterDetailPage() {
           background: rgba(255,255,255,0.06) !important;
           border-color: var(--accent) !important;
           transform: translateY(-2px);
+        }
+
+        /* Attacks Section Visual Improvements */
+        .attacks-container {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          animation: fadeUp 0.3s ease-out;
+        }
+
+        .attacks-header {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1.5fr 1.5fr 40px;
+          padding: 8px 16px;
+          border-bottom: 1px solid var(--border);
+          color: var(--fgM);
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .attack-row {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1.5fr 1.5fr 40px;
+          align-items: center;
+          padding: 12px 16px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          gap: 12px;
+          transition: all 0.2s ease;
+          position: relative;
+        }
+
+        .attack-row:hover {
+          background: var(--card2);
+          border-color: var(--accent);
+          transform: scale(1.01);
+          z-index: 10;
+        }
+
+        .atk-name {
+          font-weight: 700;
+          font-size: 15px;
+          color: var(--fg);
+        }
+
+        .atk-type {
+          font-size: 11px;
+          color: var(--fgM);
+        }
+
+        .col-range {
+          font-size: 13px;
+          color: var(--fg2);
+        }
+
+        .hit-badge {
+          background: var(--accentGlow);
+          color: var(--accentL);
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 700;
+          border: 1px solid rgba(225, 29, 72, 0.3);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 90px;
+        }
+
+        .dmg-box {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255,255,255,0.03);
+          padding: 6px 12px;
+          border-radius: 6px;
+          border: 1px solid var(--border);
+        }
+
+        .dmg-value {
+          font-weight: 800;
+          font-size: 14px;
+          color: var(--fg);
+        }
+
+        .dmg-type {
+          font-size: 11px;
+          color: var(--fg3);
+          text-transform: capitalize;
+        }
+
+        .mobile-label {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .attack-row {
+            grid-template-columns: 1fr 1fr;
+            padding: 20px;
+            gap: 16px;
+          }
+
+          .col-atk {
+            grid-column: 1 / -1;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 4px;
+          }
+
+          .atk-name {
+            font-size: 18px;
+          }
+
+          .col-range {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--fg2);
+          }
+
+          .mobile-label {
+            display: inline-block;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--fg3);
+            margin-right: 4px;
+          }
+
+          .col-hit {
+            grid-column: 1 / 2;
+          }
+
+          .col-dmg {
+            grid-column: 2 / 3;
+          }
+
+          .col-info {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+          }
+
+          .hit-badge {
+            width: 100%;
+            height: 48px;
+            font-size: 14px;
+          }
+
+          .dmg-box {
+            width: 100%;
+            height: 48px;
+            justify-content: center;
+          }
+          
+          .dmg-value {
+            font-size: 16px;
+          }
+        }
+
+        /* Attributes Section Improvements */
+        .attributes-tab-container {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .attributes-tab-container .resources-section { order: 1; margin-bottom: 24px; }
+        .attributes-tab-container .attr-title { order: 2; margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; }
+        .attributes-tab-container .attr-grid-container { order: 3; margin-bottom: 24px; }
+        .attributes-tab-container .combat-stats-row { order: 4; margin-top: 12px; }
+
+        .combat-stats-row {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 24px;
+          padding: 20px;
+          background: rgba(255,255,255,0.02);
+          border-radius: 12px;
+          border: 1px solid var(--border);
+        }
+
+        .stat-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          flex: 1;
+          max-width: 180px;
+        }
+
+        .stat-label {
+          font-size: 10px;
+          color: var(--fgM);
+          font-weight: 700;
+          text-transform: uppercase;
+          text-align: center;
+          letter-spacing: 0.05em;
+          height: 14px; /* Ensure labels have same height */
+        }
+
+        .stat-value-box {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 10px 0;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          width: 100%;
+          justify-content: center;
+          transition: all 0.2s ease;
+          box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .stat-value-box:hover {
+          border-color: var(--accent);
+          box-shadow: 0 0 15px var(--accentGlow);
+        }
+
+        .stat-value {
+          font-size: 36px;
+          font-weight: 900;
+          color: var(--fg);
+          line-height: 1;
+        }
+
+        .stat-subtext {
+          font-size: 10px;
+          color: var(--fgM);
+          text-align: center;
+          width: 100%;
+          line-height: 1.4;
+          min-height: 14px; /* Space for subtext even if empty */
+        }
+
+        .section-subtitle {
+          font-family: 'Cinzel', serif;
+          font-size: 18px;
+          margin-bottom: 12px;
+          color: var(--accentL);
+        }
+
+        @media (max-width: 768px) {
+          .attributes-tab-container .combat-stats-row { 
+            order: 1; 
+            margin-top: 0;
+            margin-bottom: 24px;
+            background: linear-gradient(to bottom right, rgba(225,29,72,0.08), transparent);
+          }
+          .attributes-tab-container .resources-section { order: 2; }
+          .attributes-tab-container .attr-title { order: 3; }
+          .attributes-tab-container .attr-grid-container { order: 4; }
+
+          .combat-stats-row {
+            padding: 20px 16px;
+            gap: 16px;
+          }
+
+          .stat-value {
+            font-size: 32px;
+          }
+          
+          .stat-value-box {
+            padding: 8px 0;
+          }
         }
       `}</style>
     </div>

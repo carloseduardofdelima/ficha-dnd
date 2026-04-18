@@ -28,6 +28,7 @@ export interface InventoryEntry {
   item: InventoryItem
   qty: number
   locked?: boolean   // itens que vieram do personagem não podem ser removidos (mas podem ser ajustados)
+  isEquipped?: boolean
 }
 
 // ── Catalog ───────────────────────────────────────────────────────────────────

@@ -21,12 +21,12 @@ export default function ResourceTracker({ label, max, current, onChange, color =
           <div
             key={i}
             onClick={() => {
-              // If clicking an active square that is the "last" one, toggle it off
-              // Otherwise, set current to i + 1
-              if (i + 1 === current) {
-                onChange(i)
+              if (i < current) {
+                // If clicking an active slot, decrement total
+                onChange(current - 1)
               } else {
-                onChange(i + 1)
+                // If clicking an inactive slot, increment total
+                onChange(current + 1)
               }
             }}
             style={{

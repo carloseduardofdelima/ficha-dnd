@@ -29,8 +29,8 @@ export function calculateAC(
   const conMod = Math.floor((attrs.constitution - 10) / 2)
   const wisMod = Math.floor((attrs.wisdom - 10) / 2)
 
-  const armors = inventory.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield')
-  const shield = inventory.find(e => e.item.category === 'armor' && e.item.armorType === 'shield')
+  const armors = inventory.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield' && e.isEquipped)
+  const shield = inventory.find(e => e.item.category === 'armor' && e.item.armorType === 'shield' && e.isEquipped)
   const shieldBonus = shield ? (shield.item.ac || 2) : 0
 
   // 1. Base Unarmored
