@@ -22,7 +22,7 @@ export default function CharacterDetailPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [character, setCharacter] = useState<Character | null>(null)
   const [loading, setLoading] = useState(true)
-  
+
   // Level Up States
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
   const [levelUpStep, setLevelUpStep] = useState(1)
@@ -33,7 +33,7 @@ export default function CharacterDetailPage() {
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
   const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
-  
+
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [detailItem, setDetailItem] = useState<any | null>(null)
@@ -307,7 +307,7 @@ export default function CharacterDetailPage() {
     setCharacter(updatedChar);
     setIsLevelUpModalOpen(false);
     setShowCelebration(true);
-    
+
     // Persistence logic
     try {
       const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
@@ -319,7 +319,7 @@ export default function CharacterDetailPage() {
         proficiencyBonus: updatedChar.proficiencyBonus
       };
       localStorage.setItem(`char_stats_${id}`, JSON.stringify(dataToSave));
-      
+
       if (alerts.length > 0) {
         setTimeout(() => {
           alert(alerts.join('\n'));
@@ -328,7 +328,7 @@ export default function CharacterDetailPage() {
     } catch (e) {
       console.error(e);
     }
-    
+
     setTimeout(() => setShowCelebration(false), 3000);
 
     // Persist to DB
@@ -409,17 +409,14 @@ export default function CharacterDetailPage() {
                 {isOwner && <button className="btn btn-ghost"><Settings size={16} /></button>}
               </div>
             </div>
-            <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12 }}>
-              {(() => {
-                const race = RACES.find(r => r.name === character.race);
-                const subTitle = race?.subRaceTitle || 'Sub-raça';
-                return (
-                  <>
-                    {character.race}{character.subrace ? ` (${character.subrace})` : ''} • {character.class} • {character.background}
-                  </>
-                );
-              })()}
-            </p>
+            <div style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 16 }} className="mobile-center-text">
+              <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2 }}>
+                {character.class}{character.subclass ? ` - ${character.subclass}` : ''}
+              </div>
+              <div style={{ fontSize: 14, color: 'var(--fgM)' }}>
+                {character.race} — {character.background}
+              </div>
+            </div>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
               <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
                 <span style={{ color: 'var(--fgM)' }}>Exp: </span>{character.exp ?? '0/2700'}
@@ -428,13 +425,14 @@ export default function CharacterDetailPage() {
                 <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
               </div>
 
-              {/* Level Up Button */}
               {isOwner && (
-                <button 
+                <button
                   className="btn btn-primary"
                   style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
                   onClick={() => {
                     setLevelUpStep(character.ruleset ? 1 : 0);
+                    setLevelUpRoll(null);
+                    setUseAverageHP(false);
                     setIsLevelUpModalOpen(true);
                   }}
                 >
@@ -474,17 +472,17 @@ export default function CharacterDetailPage() {
               )}
 
               {/* Save Status (Autosave Indicator) */}
-              <div 
-                style={{ 
-                  display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '4px 10px', 
+              <div
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '4px 10px',
                   background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8,
                   color: saveStatus === 'error' ? 'var(--accent)' : saveStatus === 'saving' ? 'var(--fgM)' : 'var(--ok)',
                   transition: 'all 0.3s'
                 }}
                 title={saveStatus === 'error' ? 'Erro ao salvar!' : saveStatus === 'saving' ? 'Salvando...' : 'Salvo no Banco'}
               >
-                {saveStatus === 'saving' ? <CloudDownload size={14} className="animate-pulse" /> : 
-                 saveStatus === 'error' ? <CloudOff size={14} /> : <Cloud size={14} />}
+                {saveStatus === 'saving' ? <CloudDownload size={14} className="animate-pulse" /> :
+                  saveStatus === 'error' ? <CloudOff size={14} /> : <Cloud size={14} />}
                 <span className="hide-mobile">
                   {saveStatus === 'saving' ? 'Salvando...' : saveStatus === 'error' ? 'Erro ao Salvar' : 'Salvo no Banco'}
                 </span>
@@ -526,20 +524,6 @@ export default function CharacterDetailPage() {
                 </button>
               )}
 
-              {isOwner && (
-                <button 
-                  className="btn btn-outline" 
-                  style={{ fontSize: 11, padding: '4px 12px', borderColor: 'var(--fg3)' }}
-                  onClick={() => {
-                    setLevelUpStep(1);
-                    setLevelUpRoll(null);
-                    setUseAverageHP(false);
-                    setIsLevelUpModalOpen(true);
-                  }}
-                >
-                  <TrendingUp size={12} /> Subir de Nível
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -938,16 +922,36 @@ export default function CharacterDetailPage() {
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                                 {lvlSpells.map((spell: any) => (
                                   <div key={spell.id} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                                      <div>
-                                        <div style={{ fontWeight: 700, fontSize: 16 }}>{spell.name}</div>
-                                        <div style={{ fontSize: 11, color: 'var(--accentL)', fontWeight: 600 }}>{spell.school}</div>
-                                      </div>
-                                      <div style={{ fontSize: 10, color: 'var(--fgM)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
-                                        {spell.range}
+                                    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 12 }}>
+                                      {spell.icon && (
+                                        <div style={{ 
+                                          flexShrink: 0, width: 44, height: 44, borderRadius: 10, overflow: 'hidden', 
+                                          border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)',
+                                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                                        }}>
+                                          <Image 
+                                            src={`/assets/spells-icons/${spell.icon}`} 
+                                            alt={spell.name} 
+                                            width={44} 
+                                            height={44} 
+                                            style={{ objectFit: 'cover' }}
+                                          />
+                                        </div>
+                                      )}
+                                      <div style={{ flex: 1 }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                          <div>
+                                            <div style={{ fontWeight: 700, fontSize: 16 }}>{spell.name}</div>
+                                            <div style={{ fontSize: 11, color: 'var(--accentL)', fontWeight: 600 }}>{spell.school}</div>
+                                          </div>
+                                          <div style={{ fontSize: 10, color: 'var(--fgM)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                            {spell.range}
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 10, borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8 }}>
+
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 10, borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 10 }}>
                                       <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
                                       <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
                                       {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONCENTRAÇÃO</div>}
@@ -1068,7 +1072,7 @@ export default function CharacterDetailPage() {
                         <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
                         Classe: {character.class} {character.subclass ? ` - ${character.subclass}` : ''}
                       </h3>
-                      
+
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         {/* Habilidades Nível 1 (De lib/classes) */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -1084,7 +1088,7 @@ export default function CharacterDetailPage() {
                         {Array.from({ length: character.level }).map((_, i) => {
                           const lvl = i + 1;
                           const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[lvl] || [];
-                          
+
                           // Subclass features
                           let subFeats: any[] = [];
                           if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
@@ -1236,7 +1240,7 @@ export default function CharacterDetailPage() {
       {isLevelUpModalOpen && character && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }} />
-          
+
           <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 460, padding: 0, overflow: 'hidden', border: '1px solid var(--accent)' }}>
             {/* Header */}
             <div style={{ background: 'var(--accent)', padding: '24px 32px', textAlign: 'center' }}>
@@ -1255,12 +1259,12 @@ export default function CharacterDetailPage() {
                 <div className="fade-up">
                   <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Versão das Regras</h3>
                   <p style={{ fontSize: 13, color: 'var(--fg3)', textAlign: 'center', marginBottom: 24 }}>Escolha qual versão do Player's Handbook seguir para este personagem.</p>
-                  
+
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-                    <button 
+                    <button
                       onClick={() => setSelectedRuleset('2024')}
-                      style={{ 
-                        padding: 16, borderRadius: 12, border: '2px solid', 
+                      style={{
+                        padding: 16, borderRadius: 12, border: '2px solid',
                         borderColor: selectedRuleset === '2024' ? 'var(--accent)' : 'var(--border)',
                         background: selectedRuleset === '2024' ? 'var(--accentGlow)' : 'transparent',
                         textAlign: 'left', transition: 'all 0.2s'
@@ -1270,10 +1274,10 @@ export default function CharacterDetailPage() {
                       <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>Subclasses no nível 3, novas habilidades e equilíbrio atualizado.</p>
                     </button>
 
-                    <button 
+                    <button
                       onClick={() => setSelectedRuleset('2014')}
-                      style={{ 
-                        padding: 16, borderRadius: 12, border: '2px solid', 
+                      style={{
+                        padding: 16, borderRadius: 12, border: '2px solid',
                         borderColor: selectedRuleset === '2014' ? 'var(--accent)' : 'var(--border)',
                         background: selectedRuleset === '2014' ? 'var(--accentGlow)' : 'transparent',
                         textAlign: 'left', transition: 'all 0.2s'
@@ -1284,8 +1288,8 @@ export default function CharacterDetailPage() {
                     </button>
                   </div>
 
-                  <button 
-                    className="btn bg-accent" 
+                  <button
+                    className="btn bg-accent"
                     style={{ width: '100%', justifyContent: 'center' }}
                     disabled={!selectedRuleset}
                     onClick={() => setLevelUpStep(1)}
@@ -1299,8 +1303,8 @@ export default function CharacterDetailPage() {
                 <div className="fade-up">
                   <div style={{ textAlign: 'center', marginBottom: 24 }}>
                     <div style={{ fontSize: 40, fontWeight: 900, color: 'var(--accentL)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-                      {character.level} 
-                      <ArrowRight size={32} color="var(--fg3)" style={{ margin: '0 4px' }} /> 
+                      {character.level}
+                      <ArrowRight size={32} color="var(--fg3)" style={{ margin: '0 4px' }} />
                       {character.level + 1}
                     </div>
                     <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, color: 'var(--fg3)', fontWeight: 700, marginTop: 4 }}>Novo Nível</div>
@@ -1313,7 +1317,7 @@ export default function CharacterDetailPage() {
                         const nextLevel = character.level + 1;
                         const classFeatures = CLASS_PROGRESSION_2024[character.class]?.features[nextLevel] || [];
                         const speciesFeatures = SPECIES_PROGRESSION_2024[character.race]?.[nextLevel] || [];
-                        
+
                         // Agregar features da subclasse se já possuir
                         let subclassFeatures: string[] = [];
                         if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
@@ -1321,14 +1325,14 @@ export default function CharacterDetailPage() {
                         }
 
                         const allFeatures = [...classFeatures, ...speciesFeatures, ...subclassFeatures];
-                        
+
                         // Proficiency check
                         const oldProf = getProficiencyBonus(character.level);
                         const newProf = getProficiencyBonus(nextLevel);
                         if (newProf > oldProf) allFeatures.unshift(`Bônus de Proficiência aumenta para +${newProf}!`);
 
                         if (allFeatures.length === 0) return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma característica automática este nível.</div>;
-                        
+
                         return allFeatures.map((f, i) => (
                           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13 }}>
                             <Star size={14} color="var(--accent)" style={{ marginTop: 2, flexShrink: 0 }} />
@@ -1339,8 +1343,8 @@ export default function CharacterDetailPage() {
                     </div>
                   </div>
 
-                  <button 
-                    className="btn bg-accent hover:bg-accent hover:scale-[1.02]" 
+                  <button
+                    className="btn bg-accent hover:bg-accent hover:scale-[1.02]"
                     style={{ width: '100%', justifyContent: 'center' }}
                     onClick={() => setLevelUpStep(2)}
                   >
@@ -1352,12 +1356,12 @@ export default function CharacterDetailPage() {
               {levelUpStep === 2 && (
                 <div className="fade-up">
                   <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, textAlign: 'center' }}>Aumento de Pontos de Vida</h3>
-                  
+
                   <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
-                    <button 
+                    <button
                       onClick={() => setUseAverageHP(true)}
-                      style={{ 
-                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid', 
+                      style={{
+                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid',
                         borderColor: useAverageHP ? 'var(--accent)' : 'var(--border)',
                         background: useAverageHP ? 'var(--accentGlow)' : 'transparent',
                         textAlign: 'center', transition: 'all 0.2s'
@@ -1369,7 +1373,7 @@ export default function CharacterDetailPage() {
                       <div style={{ fontSize: 10, textTransform: 'uppercase', fontWeight: 700, color: 'var(--fg3)' }}>Média</div>
                     </button>
 
-                    <button 
+                    <button
                       onClick={() => {
                         setUseAverageHP(false);
                         if (levelUpRoll === null && !isRolling) {
@@ -1386,8 +1390,8 @@ export default function CharacterDetailPage() {
                           }, 60);
                         }
                       }}
-                      style={{ 
-                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid', 
+                      style={{
+                        flex: 1, padding: 16, borderRadius: 12, border: '2px solid',
                         borderColor: !useAverageHP && levelUpRoll !== null ? 'var(--accent)' : 'var(--border)',
                         background: !useAverageHP && levelUpRoll !== null ? 'var(--accentGlow)' : 'transparent',
                         textAlign: 'center', transition: 'all 0.2s'
@@ -1400,7 +1404,7 @@ export default function CharacterDetailPage() {
                     </button>
                   </div>
 
-                  { (useAverageHP || levelUpRoll !== null) && !isRolling && (
+                  {(useAverageHP || levelUpRoll !== null) && !isRolling && (
                     <div className="card" style={{ background: 'var(--bg2)', padding: 12, textAlign: 'center', marginBottom: 24, animation: 'scale-up 0.3s ease-out' }}>
                       <div style={{ fontSize: 13, color: 'var(--fg2)' }}>
                         Ganho Total: <span style={{ fontWeight: 800, color: 'var(--accentL)' }}>
@@ -1415,19 +1419,19 @@ export default function CharacterDetailPage() {
 
                   <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(1)}>Voltar</button>
-                    <button 
-                      className="btn bg-accent" 
-                      style={{ flex: 2, justifyContent: 'center' }} 
+                    <button
+                      className="btn bg-accent"
+                      style={{ flex: 2, justifyContent: 'center' }}
                       disabled={isRolling || (!useAverageHP && levelUpRoll === null)}
                       onClick={() => {
                         const hitDie = CLASS_PROGRESSION_2024[character.class]?.hitDie || 10;
                         const hpIncrease = (useAverageHP ? (Math.floor(hitDie / 2) + 1) : levelUpRoll!) + Math.floor((character.constitution - 10) / 2);
                         const finalIncrease = Math.max(1, hpIncrease);
-                        
+
                         const newLevel = character.level + 1;
                         const newMaxHp = character.maxHp + finalIncrease;
                         const newProf = getProficiencyBonus(newLevel);
-                        
+
                         const updated = {
                           ...character,
                           level: newLevel,
@@ -1436,15 +1440,15 @@ export default function CharacterDetailPage() {
                           proficiencyBonus: newProf,
                           ruleset: character.ruleset || selectedRuleset
                         };
-                        
+
                         // Determinar se precisa de Subclasse
                         const rulesetToUse = character.ruleset || selectedRuleset;
-                        const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass) || 
-                                              (rulesetToUse === '2014' && !character.subclass && (
-                                                (['Clérigo', 'Feiticeiro', 'Bruxo'].includes(character.class) && newLevel >= 1) ||
-                                                (['Druida', 'Mago'].includes(character.class) && newLevel >= 2) ||
-                                                (newLevel >= 3)
-                                              ));
+                        const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass) ||
+                          (rulesetToUse === '2014' && !character.subclass && (
+                            (['Clérigo', 'Feiticeiro', 'Bruxo'].includes(character.class) && newLevel >= 1) ||
+                            (['Druida', 'Mago'].includes(character.class) && newLevel >= 2) ||
+                            (newLevel >= 3)
+                          ));
 
                         if (needsSubclass) {
                           setLevelUpStep(3); // Go to subclass selector
@@ -1468,12 +1472,12 @@ export default function CharacterDetailPage() {
                 <div className="fade-up">
                   <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Escolha sua Subclasse</h3>
                   <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 20 }}>Como {character.class}, você desbloqueou uma especialização!</p>
-                  
+
                   <div style={{ maxHeight: 300, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
                     {(() => {
                       const rulesetToUse = character.ruleset || selectedRuleset;
                       const options = rulesetToUse === '2024' ? Object.keys(SUBCLASSES_2024[character.class] || {}) : [];
-                      
+
                       if (options.length === 0) return <div style={{ textAlign: 'center', padding: 20, color: 'var(--fg3)' }}>Nenhuma subclasse cadastrada para {character.class} {rulesetToUse}.</div>;
 
                       return options.map(opt => (
@@ -1487,8 +1491,8 @@ export default function CharacterDetailPage() {
                             textAlign: 'left', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 12
                           }}
                         >
-                          <div style={{ 
-                            width: 8, height: 8, borderRadius: '50%', 
+                          <div style={{
+                            width: 8, height: 8, borderRadius: '50%',
                             background: selectedSubclass === opt ? 'var(--accent)' : 'transparent',
                             border: '1px solid var(--accent)'
                           }} />
@@ -1500,15 +1504,15 @@ export default function CharacterDetailPage() {
 
                   <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(2)}>Voltar</button>
-                    <button 
-                      className="btn bg-accent" 
-                      style={{ flex: 2, justifyContent: 'center' }} 
+                    <button
+                      className="btn bg-accent"
+                      style={{ flex: 2, justifyContent: 'center' }}
                       disabled={!selectedSubclass}
                       onClick={() => {
-                        const updated = { 
-                          ...character, 
+                        const updated = {
+                          ...character,
                           subclass: selectedSubclass,
-                          ruleset: character.ruleset || selectedRuleset 
+                          ruleset: character.ruleset || selectedRuleset
                         };
                         const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
                         if ([4, 8, 12, 16, 19].includes(character.level)) alerts.push("⚠️ Você ganhou uma Melhoria de Atributo ou Talento!");
