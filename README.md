@@ -2,7 +2,7 @@
 
 **A Forja** é uma aplicação web premium projetada para jogadores de Dungeons & Dragons 5ª Edição. Ela oferece uma ficha de personagem digital responsiva, esteticamente impecável e otimizada para uso em dispositivos móveis durante as sessões de RPG.
 
-![Demonstração da Interface Principal](file:///C:/Users/carlo/.gemini/antigravity/brain/7d5011e6-11ad-498c-be34-f97ac6d05900/main_navigation_v2_1776556743132.webp)
+![Demonstração da Interface Principal](./public/assets/readme/main_navigation.webp)
 
 ---
 
@@ -13,7 +13,7 @@ Implementamos recentemente uma série de funcionalidades avançadas para tornar 
 ### 🎒 Inventário Inteligente com Peso em Tempo Real
 Gerencie sua carga sem esforço. O sistema calcula automaticamente o peso total de todos os seus itens, alertando sobre capacidades e permitindo a adição de itens diretamente de um catálogo completo.
 
-![Demonstração do Inventário](file:///C:/Users/carlo/.gemini/antigravity/brain/7d5011e6-11ad-498c-be34-f97ac6d05900/inventory_demo_1776556898186.webp)
+![Demonstração do Inventário](./public/assets/readme/inventory_demo.webp)
 
 ### 🔮 Sistema de Magias Visual
 Adeus à lista de texto puro. Agora cada magia possui seu próprio ícone artístico associado, facilitando a identificação visual rápida durante o combate.
