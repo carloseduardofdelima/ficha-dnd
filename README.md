@@ -1,71 +1,69 @@
-# ⚔️ A Forja - Ficha de Personagem D&D 5e
+# A Forja - Ficha de Personagem D&D 5e
 
-**A Forja** é uma aplicação web premium projetada para jogadores de Dungeons & Dragons 5ª Edição. Ela oferece uma ficha de personagem digital responsiva, esteticamente impecável e otimizada para uso em dispositivos móveis durante as sessões de RPG.
+A Forja é uma aplicação web avançada desenvolvida para jogadores de Dungeons & Dragons 5ª Edição. A plataforma oferece uma ficha de personagem digital responsiva, com design otimizado e alta performance, ideal para uso em dispositivos móveis durante sessões de RPG.
 
 ![Demonstração da Interface Principal](./public/assets/readme/main_navigation.webp)
 
 ---
 
-## ✨ O que há de novo?
+## Atualizações Recentes
 
-Implementamos recentemente uma série de funcionalidades avançadas para tornar a gestão do seu personagem ainda mais fluida:
+O sistema foi atualizado com funcionalidades avançadas para otimizar a gestão de personagens:
 
-### 🎒 Inventário Inteligente com Peso em Tempo Real
-Gerencie sua carga sem esforço. O sistema calcula automaticamente o peso total de todos os seus itens, alertando sobre capacidades e permitindo a adição de itens diretamente de um catálogo completo.
+### Inventário com Cálculo de Carga Automático
+Gestão de inventário simplificada com cálculo automático de peso total. O sistema monitora a capacidade de carga do personagem e permite a inclusão de itens através de um catálogo integrado.
 
-![Demonstração do Inventário](./public/assets/readme/inventory_demo.webp)
+### Interface Visual para Magias
+Substituição de listagens textuais por uma interface visual intuitiva. Cada magia conta com identificação visual específica para agilizar a tomada de decisão durante o combate.
+- **Identificação Visual**: Biblioteca de ícones associada às magias do System Reference Document (SRD).
+- **Acesso Rápido**: Detalhes como alcance, tempo de conjuração e efeitos disponíveis de forma imediata.
 
-### 🔮 Sistema de Magias Visual
-Adeus à lista de texto puro. Agora cada magia possui seu próprio ícone artístico associado, facilitando a identificação visual rápida durante o combate.
-- **Ícones Temáticos**: Mais de 100 ícones únicos associados às magias do SRD.
-- **Detalhes em um Clique**: Veja o alcance, tempo de conjuração e efeito completo sem sair da ficha.
+### Registro de Habilidades (D&D 2024)
+Integração com as regras de 2024, incluindo um banco de dados completo de habilidades de classe.
+- **Consultas Integradas**: Descrições oficiais acessíveis via modais, eliminando a necessidade de consultas externas.
+- **Progressão Dinâmica**: Atualização automática da ficha de acordo com o nível do personagem, desbloqueando novas competências.
 
-### 📜 Documentação de Habilidades (D&D 2024)
-Integrado com as novas regras de 2024, a ficha agora possui um banco de dados de habilidades de classe.
-- **Clique para Detalhar**: Não lembra o que "Surto de Ação" faz? Basta clicar na habilidade para abrir um modal com a descrição oficial completa.
-- **Evolução Dinâmica**: A ficha se adapta conforme você sobe de nível, revelando novas habilidades automaticamente.
-
-### ✍️ Bloco de Notas Persistente
-Uma aba dedicada para suas anotações de campanha. Todas as notas são salvas automaticamente no banco de dados, garantindo que você nunca perca aquele detalhe crucial da história.
+### Bloco de Notas Persistente
+Módulo dedicado para anotações de campanha com persistência de dados, garantindo que informações cruciais sejam mantidas com segurança.
 
 ---
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
--   **📱 Design Mobile-First**: Interface totalmente otimizada para smartphones, com navegação fluida via Glassmorphism.
--   **🎲 Cálculos Automáticos**: O sistema gerencia bônus de atributos, proficiências, Classe de Armadura (CA) e bônus de ataque.
--   **⚡ Gerenciamento em Tempo Real**: Altere Pontos de Vida, gaste espaços de magia e recursos de classe instantaneamente.
--   **🛡️ Combate Dinâmico**: Visualização de ataques e magias em cartões interativos de alto contraste.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
--   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + Turbopack)
--   **Linguagem**: TypeScript
--   **Frontend**: React 19, Tailwind CSS e Vanilla CSS para design premium.
--   **Ícones**: Lucide React & Custom Spell Icon Library.
--   **Banco de Dados**: Prisma ORM (Supabase/PostgreSQL).
--   **Autenticação**: NextAuth.js (Google Auth).
+- **Design Responsivo**: Interface mobile-first desenvolvida com estética moderna e navegação fluida.
+- **Cálculos Automatizados**: Processamento automático de modificadores de atributos, proficiências, Classe de Armadura (CA) e bônus de ataque.
+- **Gestão em Tempo Real**: Atualização instantânea de Pontos de Vida, espaços de magia e recursos de classe.
+- **Módulo de Combate**: Visualização otimizada de ataques e magias em cartões de alta legibilidade.
 
 ---
 
-## 🏃 Como Rodar o Projeto
+## Tecnologias Utilizadas
 
-1.  **Clone o repositório**:
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + Turbopack)
+- **Linguagem**: TypeScript
+- **Frontend**: React 19, Tailwind CSS e Vanilla CSS.
+- **Ícones**: Lucide React & Biblioteca customizada de ícones de magias.
+- **Persistência**: Prisma ORM (PostgreSQL via Supabase).
+- **Autenticação**: NextAuth.js (Integração com Google Auth).
+
+---
+
+## Instruções de Instalação
+
+1.  **Clonagem do Repositório**:
     ```bash
     git clone [url-do-repositorio]
     ```
 
-2.  **Instale as dependências**:
+2.  **Instalação de Dependências**:
     ```bash
     npm install
     ```
 
-3.  **Configuração**:
-    Adicione as URLs do seu banco de dados e segredos do NextAuth no arquivo `.env`.
+3.  **Configuração do Ambiente**:
+    Configure as variáveis de ambiente necessárias para o banco de dados e autenticação no arquivo `.env`.
 
-4.  **Desenvolvimento**:
+4.  **Execução em Desenvolvimento**:
     ```bash
     npm run dev
     ```
