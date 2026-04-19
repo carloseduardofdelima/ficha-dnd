@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Upload, Loader2, Cloud, CloudOff, CloudDownload } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
@@ -14,6 +14,7 @@ import { calculateAC } from '@/lib/dnd-rules'
 import { ITEM_CATALOG } from '@/lib/inventory'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
+import { getFeatureDescription } from '@/lib/features'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -37,6 +38,11 @@ export default function CharacterDetailPage() {
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [detailItem, setDetailItem] = useState<any | null>(null)
+  const [detailFeature, setDetailFeature] = useState<any | null>(null)
+
+  // Inventory States
+  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false)
+  const [inventorySearchTerm, setInventorySearchTerm] = useState('')
 
   useEffect(() => {
     fetch(`/api/personagens/${id}`)
@@ -107,6 +113,67 @@ export default function CharacterDetailPage() {
       }
     }
     reader.readAsDataURL(file)
+  }
+
+  async function handleAddInventoryItem(item: any) {
+    if (!character) return;
+    
+    // Check if item already exists
+    const existingIdx = (character.inventory as any[]).findIndex(e => e.item.name === item.name);
+    let newInventory = [...(character.inventory as any[])];
+    
+    if (existingIdx >= 0) {
+      newInventory[existingIdx] = {
+        ...newInventory[existingIdx],
+        qty: (newInventory[existingIdx].qty || 0) + 1
+      };
+    } else {
+      newInventory.push({
+        item: item,
+        qty: 1,
+        isEquipped: false
+      });
+    }
+
+    const updatedChar = { ...character, inventory: newInventory };
+    setCharacter(updatedChar);
+
+    // Save to LocalStorage
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        inventory: newInventory
+      }));
+    } catch (e) {
+      console.error('Error saving to local storage', e);
+    }
+
+    // Save to DB
+    saveCharacterToDB(updatedChar);
+  }
+
+  async function handleRemoveInventoryItem(itemName: string) {
+    if (!character) return;
+    
+    const newInventory = (character.inventory as any[]).filter(e => e.item.name !== itemName);
+    const updatedChar = { ...character, inventory: newInventory };
+    setCharacter(updatedChar);
+
+    // Save to LocalStorage
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        inventory: newInventory
+      }));
+    } catch (e) {
+      console.error('Error saving to local storage', e);
+    }
+
+    // Save to DB
+    saveCharacterToDB(updatedChar);
+    setDetailItem(null); // Close modal after removal
   }
 
   if (loading) return (
@@ -653,6 +720,38 @@ export default function CharacterDetailPage() {
                     </div>
                   </div>
                 )}
+                
+                {activeTab === 'notes' && (
+                  <div className="fade-up">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Notas do Personagem</h2>
+                      <div className="card" style={{ padding: 0, overflow: 'hidden', border: '1px solid var(--border)' }}>
+                        <textarea
+                          placeholder="Escreva aqui suas anotações de campanha, segredos, objetivos..."
+                          value={character.notes || ''}
+                          readOnly={!isOwner}
+                          onChange={(e) => isOwner && updateValue('notes', e.target.value)}
+                          style={{
+                            width: '100%',
+                            minHeight: '60vh',
+                            background: 'var(--bg2)',
+                            color: 'var(--fg)',
+                            padding: 24,
+                            border: 'none',
+                            fontSize: 15,
+                            lineHeight: 1.6,
+                            resize: 'vertical',
+                            outline: 'none',
+                            fontFamily: 'inherit'
+                          }}
+                        />
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic', textAlign: 'right' }}>
+                        {isOwner ? '💾 Alterações são salvas automaticamente.' : '👁️ Modo de apenas leitura.'}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {activeTab === 'attributes' && (
                   <div className="fade-up attributes-tab-container">
@@ -972,7 +1071,32 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'inventory' && (
                   <div className="fade-up">
-                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Inventário</h2>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Inventário</h2>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
+                          <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
+                          <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
+                            {(() => {
+                              const weight = (character.inventory as any[]).reduce((sum, entry) => {
+                                const w = parseFloat(entry.item.weight) || 0;
+                                return sum + (w * (entry.qty || 1));
+                              }, 0);
+                              return weight.toFixed(1);
+                            })()} kg
+                          </span>
+                        </div>
+                        {isOwner && (
+                          <button 
+                            className="btn btn-primary" 
+                            style={{ padding: 8, height: 'auto' }}
+                            onClick={() => setIsInventoryModalOpen(true)}
+                          >
+                            <Plus size={18} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                       {character.inventory && Array.isArray(character.inventory) && character.inventory.length > 0 ? (
                         (character.inventory as any[]).map((entry: any, i: number) => (
@@ -1059,9 +1183,16 @@ export default function CharacterDetailPage() {
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {RACES.find(r => r.name === character.race)?.traits.map((trait, i) => (
-                          <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
+                          <div
+                            key={i}
+                            className="card clickable"
+                            style={{ padding: 16, background: 'var(--bg2)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                            onClick={() => setDetailFeature({ ...trait, source: 'Raça', level: 1 })}
+                          >
                             <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
-                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{trait.description}</p>
+                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                              {trait.description}
+                            </p>
                           </div>
                         ))}
                       </div>
@@ -1077,9 +1208,16 @@ export default function CharacterDetailPage() {
                         {/* Habilidades Nível 1 (De lib/classes) */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                           {CLASS_LEVEL1_DATA[character.class]?.passiveFeatures.map((feat, i) => (
-                            <div key={i} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)' }}>
+                            <div
+                              key={i}
+                              className="card clickable"
+                              style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                              onClick={() => setDetailFeature({ ...feat, source: 'Classe', level: 1 })}
+                            >
                               <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{feat.description}</p>
+                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                {feat.description}
+                              </p>
                             </div>
                           ))}
                         </div>
@@ -1104,15 +1242,32 @@ export default function CharacterDetailPage() {
                               </div>
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                 {classFeats.map((f, idx) => (
-                                  <div key={idx} className="card" style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--accent)' }}>
+                                  <div
+                                    key={idx}
+                                    className="card clickable"
+                                    style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                                    onClick={() => setDetailFeature({
+                                      name: f,
+                                      description: getFeatureDescription(f),
+                                      source: 'Classe',
+                                      level: lvl
+                                    })}
+                                  >
                                     <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{f}</div>
                                     <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Classe Base</div>
                                   </div>
                                 ))}
                                 {subFeats.map((sf, idx) => (
-                                  <div key={idx} className="card" style={{ padding: 16, background: 'var(--accentGlow)', borderLeft: '3px solid var(--accent)' }}>
+                                  <div
+                                    key={idx}
+                                    className="card clickable"
+                                    style={{ padding: 16, background: 'var(--accentGlow)', borderLeft: '3px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                                    onClick={() => setDetailFeature({ ...sf, source: character.subclass, level: lvl })}
+                                  >
                                     <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--accentL)' }}>{sf.name}</div>
-                                    <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{sf.description}</p>
+                                    <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                      {sf.description}
+                                    </p>
                                     <div style={{ fontSize: 11, color: 'var(--accent)', marginTop: 4, fontWeight: 700 }}>{character.subclass}</div>
                                   </div>
                                 ))}
@@ -1560,9 +1715,21 @@ export default function CharacterDetailPage() {
                   <span style={{ fontSize: 11, color: 'var(--accent)', textTransform: 'uppercase', fontWeight: 800 }}>{detailItem.category}</span>
                 </div>
               </div>
-              <button className="btn btn-ghost" onClick={() => setDetailItem(null)} style={{ padding: 8, borderRadius: '50%' }}>
-                <X size={20} />
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {isOwner && (
+                  <button 
+                    className="btn btn-ghost" 
+                    onClick={() => handleRemoveInventoryItem(detailItem.name)} 
+                    style={{ padding: 8, borderRadius: '50%', color: 'var(--accent)' }}
+                    title="Remover do Inventário"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                )}
+                <button className="btn btn-ghost" onClick={() => setDetailItem(null)} style={{ padding: 8, borderRadius: '50%' }}>
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             <div style={{ padding: 24 }}>
@@ -1596,6 +1763,156 @@ export default function CharacterDetailPage() {
               >
                 Fechar
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feature Details Modal */}
+      {detailFeature && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setDetailFeature(null)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <Star size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>{detailFeature.name}</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>
+                    {detailFeature.source} {detailFeature.level ? `• Nível ${detailFeature.level}` : ''}
+                  </span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setDetailFeature(null)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24 }}>
+              <div style={{ marginBottom: 24 }}>
+                <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>Descrição da Habilidade</span>
+                <p style={{
+                  fontSize: 15,
+                  color: 'var(--fg)',
+                  lineHeight: 1.7,
+                  margin: 0,
+                  whiteSpace: 'pre-wrap',
+                  background: 'rgba(255,255,255,0.02)',
+                  padding: 16,
+                  borderRadius: 12,
+                  border: '1px solid rgba(255,255,255,0.05)'
+                }}>
+                  {detailFeature.description || "Nenhuma descrição disponível."}
+                </p>
+              </div>
+
+              <button
+                className="btn btn-secondary"
+                style={{ width: '100%' }}
+                onClick={() => setDetailFeature(null)}
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Inventory Item Modal */}
+      {isInventoryModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setIsInventoryModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            maxHeight: '85vh', borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <Plus size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Adicionar Item</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Catálogo de Itens</span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setIsInventoryModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: '16px 24px' }}>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type="text" 
+                  placeholder="Buscar item por nome ou categoria..." 
+                  value={inventorySearchTerm}
+                  onChange={(e) => setInventorySearchTerm(e.target.value)}
+                  style={{ 
+                    width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', 
+                    padding: '12px 16px', borderRadius: 12, color: 'var(--fg)', fontSize: 14,
+                    outline: 'none', transition: 'border-color 0.2s'
+                  }}
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {(() => {
+                  const filtered = ITEM_CATALOG.filter(i => 
+                    i.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
+                    i.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
+                  );
+                  
+                  if (filtered.length === 0) return <p style={{ textAlign: 'center', padding: 40, color: 'var(--fg3)', fontSize: 13 }}>Nenhum item encontrado.</p>;
+
+                  return filtered.map((item, idx) => (
+                    <div 
+                      key={idx}
+                      className="card"
+                      style={{ 
+                        padding: 12, display: 'flex', alignItems: 'center', gap: 12, 
+                        background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <span style={{ fontSize: 24 }}>{item.icon}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div>
+                        <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{item.category} • {item.weight} kg</div>
+                      </div>
+                      <button 
+                        className="btn btn-primary"
+                        style={{ padding: '6px 12px', fontSize: 11, height: 'auto' }}
+                        onClick={() => {
+                          handleAddInventoryItem(item);
+                          setIsInventoryModalOpen(false);
+                          setInventorySearchTerm('');
+                        }}
+                      >
+                        Adicionar
+                      </button>
+                    </div>
+                  ));
+                })()}
+              </div>
             </div>
           </div>
         </div>

@@ -1,43 +1,52 @@
 # ⚔️ A Forja - Ficha de Personagem D&D 5e
 
-**A Forja** é uma aplicação web moderna e interativa projetada para jogadores de Dungeons & Dragons 5ª Edição. Ela oferece uma ficha de personagem digital responsiva, esteticamente agradável e otimizada para uso em dispositivos móveis durante as sessões de RPG.
+**A Forja** é uma aplicação web premium projetada para jogadores de Dungeons & Dragons 5ª Edição. Ela oferece uma ficha de personagem digital responsiva, esteticamente impecável e otimizada para uso em dispositivos móveis durante as sessões de RPG.
+
+![Demonstração da Interface Principal](file:///C:/Users/carlo/.gemini/antigravity/brain/7d5011e6-11ad-498c-be34-f97ac6d05900/main_navigation_v2_1776556743132.webp)
+
+---
+
+## ✨ O que há de novo?
+
+Implementamos recentemente uma série de funcionalidades avançadas para tornar a gestão do seu personagem ainda mais fluida:
+
+### 🎒 Inventário Inteligente com Peso em Tempo Real
+Gerencie sua carga sem esforço. O sistema calcula automaticamente o peso total de todos os seus itens, alertando sobre capacidades e permitindo a adição de itens diretamente de um catálogo completo.
+
+![Demonstração do Inventário](file:///C:/Users/carlo/.gemini/antigravity/brain/7d5011e6-11ad-498c-be34-f97ac6d05900/inventory_demo_1776556898186.webp)
+
+### 🔮 Sistema de Magias Visual
+Adeus à lista de texto puro. Agora cada magia possui seu próprio ícone artístico associado, facilitando a identificação visual rápida durante o combate.
+- **Ícones Temáticos**: Mais de 100 ícones únicos associados às magias do SRD.
+- **Detalhes em um Clique**: Veja o alcance, tempo de conjuração e efeito completo sem sair da ficha.
+
+### 📜 Documentação de Habilidades (D&D 2024)
+Integrado com as novas regras de 2024, a ficha agora possui um banco de dados de habilidades de classe.
+- **Clique para Detalhar**: Não lembra o que "Surto de Ação" faz? Basta clicar na habilidade para abrir um modal com a descrição oficial completa.
+- **Evolução Dinâmica**: A ficha se adapta conforme você sobe de nível, revelando novas habilidades automaticamente.
+
+### ✍️ Bloco de Notas Persistente
+Uma aba dedicada para suas anotações de campanha. Todas as notas são salvas automaticamente no banco de dados, garantindo que você nunca perca aquele detalhe crucial da história.
 
 ---
 
 ## 🚀 Funcionalidades Principais
 
--   **📱 Design Mobile-First**: Interface totalmente otimizada para smartphones, com navegação intuitiva e elementos de fácil interação.
--   **🎲 Cálculos Automáticos**: O sistema calcula automaticamente bônus de atributos, proficiências, Classe de Armadura (CA) com base nos itens equipados e bônus de ataque.
--   **⚡ Gerenciamento em Tempo Real**: Altere seus Pontos de Vida, use espaços de magia e gaste recursos de classe (como Fúrias ou Pontos de Foco) instantaneamente.
--   **🛡️ Sistema de Combate Dinâmico**: Visualização clara de ataques, danos e alcances em cartões interativos.
--   **📦 Inventário Inteligente**: Lista de itens com filtragem por categoria (Armas, Armaduras, Itens Gerais) e integração direta com os cálculos da ficha.
-
----
-
-## 📂 Seções da Ficha
-
-### 1. Atributos e Combate Principal
-Localizada na aba principal, exibe os atributos (FOR, DES, CON, INT, SAB, CAR) e seus respectivos modificadores e testes de resistência. No topo, destaca-se a **Classe de Armadura (CA)** e o **Deslocamento**, reordenados dinamicamente para priorizar a visibilidade no celular.
-
-### 2. Vida e Recursos
-Gerencie seus **Pontos de Vida** com controles rápidos de +/- e monitore seus **Espaços de Magia** e **Recursos de Classe**. A seção inclui um botão de "Descanso Longo" para restaurar todos os valores rapidamente.
-
-### 3. Ataques e Magias
-Uma aba dedicada que transforma a tradicional tabela de ataques em uma lista de cartões elegantes. Cada ataque exibe bônus de acerto e dados de dano de forma proeminente, facilitando a rolagem rápida durante o combate.
-
-### 4. Inventário
-Exibe todos os itens carregados pelo personagem. O sistema identifica automaticamente armas e armaduras, permitindo que você veja os detalhes de cada item e entenda como eles afetam suas estatísticas.
+-   **📱 Design Mobile-First**: Interface totalmente otimizada para smartphones, com navegação fluida via Glassmorphism.
+-   **🎲 Cálculos Automáticos**: O sistema gerencia bônus de atributos, proficiências, Classe de Armadura (CA) e bônus de ataque.
+-   **⚡ Gerenciamento em Tempo Real**: Altere Pontos de Vida, gaste espaços de magia e recursos de classe instantaneamente.
+-   **🛡️ Combate Dinâmico**: Visualização de ataques e magias em cartões interativos de alto contraste.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
--   **Framework**: [Next.js 15+](https://nextjs.org/) (com a nova engine Turbopack)
+-   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + Turbopack)
 -   **Linguagem**: TypeScript
--   **Frontend**: React 19 e Tailwind CSS
--   **Ícones**: Lucide React
--   **Banco de Dados**: Prisma ORM (conectado ao Supabase/PostgreSQL)
--   **Autenticação**: NextAuth.js para login seguro via Google
+-   **Frontend**: React 19, Tailwind CSS e Vanilla CSS para design premium.
+-   **Ícones**: Lucide React & Custom Spell Icon Library.
+-   **Banco de Dados**: Prisma ORM (Supabase/PostgreSQL).
+-   **Autenticação**: NextAuth.js (Google Auth).
 
 ---
 
@@ -53,10 +62,10 @@ Exibe todos os itens carregados pelo personagem. O sistema identifica automatica
     npm install
     ```
 
-3.  **Configure as variáveis de ambiente**:
-    Crie um arquivo `.env` na raiz com suas credenciais do Banco de Dados e NextAuth.
+3.  **Configuração**:
+    Adicione as URLs do seu banco de dados e segredos do NextAuth no arquivo `.env`.
 
-4.  **Inicie o servidor de desenvolvimento**:
+4.  **Desenvolvimento**:
     ```bash
     npm run dev
     ```
