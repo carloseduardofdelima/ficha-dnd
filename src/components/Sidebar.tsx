@@ -3,13 +3,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon } from 'lucide-react'
+import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 
 const NAV = [
   { href: '/personagens', label: 'Personagens', icon: Users },
   { href: '/campanhas', label: 'Campanhas', icon: BookOpen },
   { href: '/ameacas', label: 'Ameaças', icon: Shield },
+  { href: '/magias', label: 'Magias', icon: Sparkles },
 ]
 
 export function Sidebar() {
