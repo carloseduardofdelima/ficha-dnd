@@ -151,14 +151,14 @@ export default function SpellsStep({
           {/* Spell table */}
           <div style={{ backgroundColor: 'var(--bg2)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden' }}>
             {/* Header */}
-            <div style={{ display: 'grid', gridTemplateColumns: '32px 40px 1fr 90px 90px 80px 80px', gap: 8, padding: '8px 14px', borderBottom: '1px solid rgba(255,255,255,0.07)', fontSize: 10, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div className="spell-grid-header" style={{ display: 'grid', gap: 8, padding: '8px 14px', borderBottom: '1px solid rgba(255,255,255,0.07)', fontSize: 10, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               <div />
-              <div>Nível</div>
-              <div>Nome</div>
-              <div>Conjuração</div>
-              <div>Duração</div>
-              <div>Alcance</div>
-              <div>Efeito</div>
+              <div className="hide-mobile">Nível</div>
+              <div>Magia</div>
+              <div className="hide-mobile">Conjuração</div>
+              <div className="hide-mobile">Duração</div>
+              <div className="hide-mobile">Alcance</div>
+              <div className="hide-mobile">Efeito</div>
             </div>
 
             <div style={{ maxHeight: 400, overflowY: 'auto' }}>
@@ -176,31 +176,42 @@ export default function SpellsStep({
                 return (
                   <div key={spell.id}>
                     <div
+                      className="spell-grid-row"
                       style={{
-                        display: 'grid', gridTemplateColumns: '32px 40px 1fr 90px 90px 80px 80px', gap: 8,
-                        padding: '10px 14px', alignItems: 'center', cursor: locked ? 'not-allowed' : 'pointer',
+                        display: 'grid', gap: 8,
+                        padding: '10px 14px', alignItems: 'center', cursor: 'pointer',
                         backgroundColor: selected ? 'rgba(225,29,72,0.07)' : 'transparent',
                         borderLeft: selected ? '3px solid var(--accent)' : '3px solid transparent',
                         borderBottom: '1px solid rgba(255,255,255,0.04)',
                         transition: 'all 0.15s', opacity: locked ? 0.4 : 1,
                       }}
-                      onClick={() => { if (!locked) toggleSpell(spell); setExpandedSpell(expanded ? null : spell.id) }}
+                      onClick={() => setExpandedSpell(expanded ? null : spell.id)}
                     >
                       {/* Checkbox */}
-                      <div style={{
-                        width: 20, height: 20, borderRadius: 6, border: `2px solid ${selected ? 'var(--accent)' : 'rgba(255,255,255,0.2)'}`,
-                        backgroundColor: selected ? 'var(--accent)' : 'transparent',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.15s'
-                      }}>
-                        {selected && <Check size={12} color="#fff" />}
+                      <div 
+                        onClick={(e) => { 
+                          e.stopPropagation(); 
+                          if (!locked) toggleSpell(spell); 
+                        }}
+                        style={{
+                          width: 24, height: 24, borderRadius: 6, border: `2px solid ${selected ? 'var(--accent)' : 'rgba(255,255,255,0.2)'}`,
+                          backgroundColor: selected ? 'var(--accent)' : 'transparent',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.15s',
+                          cursor: locked ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        {selected && <Check size={14} color="#fff" strokeWidth={3} />}
                       </div>
-                      {/* Level */}
-                      <div style={{ fontSize: 11, fontWeight: 700, color: schoolColor }}>
+                      {/* Level (Mobile: hidden from main row, moved inside name col or detail) */}
+                      <div className="hide-mobile" style={{ fontSize: 11, fontWeight: 700, color: schoolColor }}>
                         {spell.level === 0 ? 'Truque' : `${spell.level}º`}
                       </div>
                       {/* Name + school + flags */}
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: selected ? 700 : 500, display: 'flex', alignItems: 'center', gap: 5 }}>
+                        <div style={{ fontSize: 13, fontWeight: selected ? 700 : 500, display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+                          <span className="show-mobile-inline" style={{ fontSize: 10, fontWeight: 800, color: schoolColor, opacity: 0.8 }}>
+                            {spell.level === 0 ? 'TRUQUE' : `${spell.level}º`}
+                          </span>
                           {spell.name}
                           {spell.ritual && <span style={{ fontSize: 8, padding: '1px 4px', borderRadius: 3, backgroundColor: 'rgba(167,139,250,0.2)', color: '#a78bfa', fontWeight: 800 }}>R</span>}
                           {spell.concentration && <span style={{ fontSize: 8, padding: '1px 4px', borderRadius: 3, backgroundColor: 'rgba(251,191,36,0.2)', color: '#fbbf24', fontWeight: 800 }}>C</span>}
@@ -208,31 +219,71 @@ export default function SpellsStep({
                         <div style={{ fontSize: 10, color: schoolColor, fontWeight: 600 }}>{spell.school}</div>
                       </div>
                       {/* Casting time */}
-                      <div style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.castingTime}</div>
+                      <div className="hide-mobile" style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.castingTime}</div>
                       {/* Duration */}
-                      <div style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.duration}</div>
+                      <div className="hide-mobile" style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.duration}</div>
                       {/* Range */}
-                      <div style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.range}</div>
+                      <div className="hide-mobile" style={{ fontSize: 11, color: 'var(--fg2)' }}>{spell.range}</div>
                       {/* Effect */}
-                      <div style={{ fontSize: 11, color: spell.attackSave ? '#f87171' : 'var(--fg2)' }}>{spell.damageEffect}</div>
+                      <div className="hide-mobile" style={{ fontSize: 11, color: spell.attackSave ? '#f87171' : 'var(--fg2)' }}>{spell.damageEffect}</div>
+                      
+                      <div style={{ marginLeft: 'auto', color: 'var(--fg3)' }}>
+                        {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </div>
                     </div>
 
                     {/* Expanded description */}
                     {expanded && (
-                      <div style={{ padding: '12px 14px 14px 62px', backgroundColor: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                        <div style={{ display: 'flex', gap: 20, marginBottom: 10, flexWrap: 'wrap' }}>
-                          <div><span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Componentes</span><div style={{ fontSize: 12, marginTop: 2 }}>{spell.components}</div></div>
-                          {spell.attackSave && <div><span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Ataque/Resistência</span><div style={{ fontSize: 12, marginTop: 2, color: '#f87171' }}>{spell.attackSave}</div></div>}
+                      <div style={{ padding: '12px 14px 14px 14px', backgroundColor: 'rgba(255,255,255,0.025)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                        <div style={{ 
+                          display: 'grid', 
+                          gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', 
+                          gap: '12px 8px', 
+                          marginBottom: 14,
+                          padding: '10px',
+                          backgroundColor: 'rgba(0,0,0,0.15)',
+                          borderRadius: 8
+                        }}>
+                           <div style={{ display: 'flex', flexDirection: 'column' }}>
+                             <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Conjuração</span>
+                             <span style={{ fontSize: 12, fontWeight: 600 }}>{spell.castingTime}</span>
+                           </div>
+                           <div style={{ display: 'flex', flexDirection: 'column' }}>
+                             <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Duração</span>
+                             <span style={{ fontSize: 12, fontWeight: 600 }}>{spell.duration}</span>
+                           </div>
+                           <div style={{ display: 'flex', flexDirection: 'column' }}>
+                             <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Alcance</span>
+                             <span style={{ fontSize: 12, fontWeight: 600 }}>{spell.range}</span>
+                           </div>
+                           <div style={{ display: 'flex', flexDirection: 'column' }}>
+                             <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Componentes</span>
+                             <span style={{ fontSize: 12, fontWeight: 600 }}>{spell.components}</span>
+                           </div>
+                           {spell.attackSave && (
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Atq/Res</span>
+                              <span style={{ fontSize: 12, fontWeight: 600, color: '#f87171' }}>{spell.attackSave}</span>
+                            </div>
+                           )}
+                           <div style={{ display: 'flex', flexDirection: 'column' }}>
+                             <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Efeito</span>
+                             <span style={{ fontSize: 12, fontWeight: 600 }}>{spell.damageEffect}</span>
+                           </div>
                         </div>
-                        <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.6, margin: 0 }}>{spell.description}</p>
-                        <button
-                          onClick={e => { e.stopPropagation(); toggleSpell(spell) }}
-                          disabled={locked}
-                          className="btn btn-primary"
-                          style={{ marginTop: 10, fontSize: 12, padding: '6px 20px', opacity: locked ? 0.4 : 1 }}
-                        >
-                          {selected ? 'Remover Magia' : 'Adicionar Magia'}
-                        </button>
+                        
+                        <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: '8px 0', opacity: 0.9 }}>{spell.description}</p>
+                        
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                          <button
+                            onClick={e => { e.stopPropagation(); toggleSpell(spell) }}
+                            disabled={locked}
+                            className="btn btn-primary"
+                            style={{ marginTop: 8, fontSize: 11, padding: '5px 16px', opacity: locked ? 0.4 : 1, minHeight: 'auto' }}
+                          >
+                            {selected ? 'Remover Magia' : 'Adicionar Magia'}
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -331,6 +382,27 @@ export default function SpellsStep({
           Selecione uma classe para ver as habilidades disponíveis.
         </div>
       )}
+      <style jsx>{`
+        .spell-grid-header, .spell-grid-row {
+          grid-template-columns: 36px 45px 1fr 90px 90px 80px 80px 24px;
+        }
+
+        .show-mobile-inline { display: none; }
+
+        @media (max-width: 900px) {
+          .spell-grid-header, .spell-grid-row {
+            grid-template-columns: 36px 45px 1fr 90px 90px 24px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hide-mobile { display: none !important; }
+          .show-mobile-inline { display: inline-block; margin-right: 4px; }
+          .spell-grid-header, .spell-grid-row {
+            grid-template-columns: 40px 1fr 32px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

@@ -13,6 +13,7 @@ import BackgroundCard from '@/components/BackgroundCard'
 import AttributesStep, { Attrs, POINT_COST, BUDGET, ASI } from '@/components/AttributesStep'
 import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
+import { SPELL_SLOTS, SPELLCASTING_CLASSES, getSpellsForClass } from '@/lib/spells'
 import FinalStep from '@/components/FinalStep'
 import type { InventoryEntry } from '@/lib/inventory'
 import { calculateAC } from '@/lib/dnd-rules'
@@ -138,6 +139,25 @@ export default function NovoPersonagem() {
     if (currentStep === 1) return !!form.class
     if (currentStep === 2) return !!form.background
     if (currentStep === 3) return remainingPoints === 0 && !!asi.primary && !!asi.secondary
+    if (currentStep === 5) {
+      const isCaster = SPELLCASTING_CLASSES.includes(form.class)
+      if (!isCaster) return true
+      
+      const slots = SPELL_SLOTS[form.class]
+      if (!slots) return true
+      
+      const availableSpells = getSpellsForClass(form.class)
+      const selectedCantrips = selectedSpells.filter(id => {
+        const s = availableSpells.find(sp => sp.id === id)
+        return s?.level === 0
+      }).length
+      const selectedLvl1 = selectedSpells.filter(id => {
+        const s = availableSpells.find(sp => sp.id === id)
+        return s && s.level > 0
+      }).length
+
+      return selectedCantrips === slots.cantrips && selectedLvl1 === slots.lvl1
+    }
     return true
   }
 
