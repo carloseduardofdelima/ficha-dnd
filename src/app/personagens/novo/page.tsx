@@ -10,7 +10,7 @@ import StepIndicator from '@/components/StepIndicator'
 import RaceCard from '@/components/RaceCard'
 import ClassCard from '@/components/ClassCard'
 import BackgroundCard from '@/components/BackgroundCard'
-import AttributesStep, { Attrs, POINT_COST, BUDGET } from '@/components/AttributesStep'
+import AttributesStep, { Attrs, POINT_COST, BUDGET, ASI } from '@/components/AttributesStep'
 import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
 import FinalStep from '@/components/FinalStep'
@@ -38,6 +38,7 @@ export default function NovoPersonagem() {
   const remainingPoints = BUDGET - spentPoints
 
   const [skills, setSkills] = useState<Record<string, boolean>>({})
+  const [expertises, setExpertises] = useState<Record<string, boolean>>({})
   const [inventory, setInventory] = useState<InventoryEntry[]>([])
   const [selectedSpells, setSelectedSpells] = useState<string[]>([])
   const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
@@ -47,12 +48,31 @@ export default function NovoPersonagem() {
     playerName: '', appearance: '', backstory: ''
   })
 
+  // ASI (Ability Score Increase) - Style 2024
+  const [asi, setAsi] = useState<ASI>({
+    primary: null,
+    secondary: null
+  })
+
   const save = async () => {
     setLoading(true)
 
+    // Proficiency Bonus Calculation
+    const pb = Math.ceil(form.level / 4) + 1
+
+    // Final attributes including bonuses
+    const finalAttrs = {
+      strength: attrs.strength + (asi.primary === 'strength' ? 2 : 0) + (asi.secondary === 'strength' ? 1 : 0),
+      dexterity: attrs.dexterity + (asi.primary === 'dexterity' ? 2 : 0) + (asi.secondary === 'dexterity' ? 1 : 0),
+      constitution: attrs.constitution + (asi.primary === 'constitution' ? 2 : 0) + (asi.secondary === 'constitution' ? 1 : 0),
+      intelligence: attrs.intelligence + (asi.primary === 'intelligence' ? 2 : 0) + (asi.secondary === 'intelligence' ? 1 : 0),
+      wisdom: attrs.wisdom + (asi.primary === 'wisdom' ? 2 : 0) + (asi.secondary === 'wisdom' ? 1 : 0),
+      charisma: attrs.charisma + (asi.primary === 'charisma' ? 2 : 0) + (asi.secondary === 'charisma' ? 1 : 0),
+    }
+
     // Derived stats calculation (simple level 1 logic)
-    const dexMod = Math.floor((attrs.dexterity - 10) / 2)
-    const conMod = Math.floor((attrs.constitution - 10) / 2)
+    const dexMod = Math.floor((finalAttrs.dexterity - 10) / 2)
+    const conMod = Math.floor((finalAttrs.constitution - 10) / 2)
 
     // Base hit dice map
     const hitDiceMap: Record<string, number> = {
@@ -65,16 +85,16 @@ export default function NovoPersonagem() {
     const payload = {
       ...form,
       subrace: form.subRace, // Ensure lowercase for backend
-      ...attrs,
+      ...finalAttrs,
       skills,
+      traits: { ...featureChoices, expertises },
       inventory,
       spells: selectedSpells,
-      traits: featureChoices,
       maxHp: baseHp + conMod,
       currentHp: baseHp + conMod,
-      armorClass: calculateAC(form.class, attrs, inventory),
+      armorClass: calculateAC(form.class, finalAttrs, inventory),
       initiative: dexMod,
-      proficiencyBonus: 2,
+      proficiencyBonus: pb,
       speed: RACES.find(r => r.name === form.race)?.speed || 30,
       spellSlots: JSON.stringify(['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(form.class) ? { "1": form.class === 'Bruxo' ? 1 : 2 } : {}),
       resources: (() => {
@@ -82,8 +102,8 @@ export default function NovoPersonagem() {
         if (form.class === 'Bárbaro') res['Fúrias'] = 2;
         if (form.class === 'Guerreiro') res['Retomada de Fôlego'] = 2;
         if (form.class === 'Monge' && form.level >= 2) res['Pontos de Foco'] = form.level;
-        if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((attrs.charisma - 10) / 2));
-        if (form.class === 'Artificer') res['Magical Tinkering'] = Math.max(1, Math.floor((attrs.intelligence - 10) / 2));
+        if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
+        if (form.class === 'Artificer') res['Magical Tinkering'] = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
         return JSON.stringify(res);
       })(),
     }
@@ -117,7 +137,7 @@ export default function NovoPersonagem() {
     if (currentStep === 0) return !!form.race
     if (currentStep === 1) return !!form.class
     if (currentStep === 2) return !!form.background
-    if (currentStep === 3) return remainingPoints === 0
+    if (currentStep === 3) return remainingPoints === 0 && !!asi.primary && !!asi.secondary
     return true
   }
 
@@ -143,7 +163,7 @@ export default function NovoPersonagem() {
         display: 'flex',
         alignItems: 'center',
         gap: 12,
-        marginBottom: 32
+        marginBottom: 0
       }}>
         <Link href="/personagens">
           <button className="btn btn-ghost" style={{ padding: 8 }}>
@@ -229,11 +249,18 @@ export default function NovoPersonagem() {
       {currentStep === 3 && (
         <AttributesStep
           className={form.class}
+          raceName={form.race}
+          subRaceName={form.subRace}
           backgroundName={form.background}
+          level={form.level}
           attrs={attrs}
           skills={skills}
+          expertises={expertises}
+          asi={asi}
           onAttrsChange={setAttrs}
           onSkillsChange={setSkills}
+          onExpertisesChange={setExpertises}
+          onAsiChange={setAsi}
         />
       )}
 
@@ -267,6 +294,7 @@ export default function NovoPersonagem() {
           form={form}
           onFormChange={setForm}
           attrs={attrs}
+          asi={asi}
           skills={skills}
           inventory={inventory}
           selectedSpells={selectedSpells}

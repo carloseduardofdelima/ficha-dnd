@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers session={session}>
           <Sidebar />
           <main className="main-content" style={{ minHeight: '100vh' }}>
-            <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 24px 120px 24px' }}>
+            <div style={{ maxWidth: 1400, margin: '0 auto', padding: '10px 24px 80px 24px' }}>
               {children}
             </div>
           </main>

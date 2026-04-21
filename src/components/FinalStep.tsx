@@ -18,6 +18,7 @@ interface FinalStepProps {
   onFormChange: (data: any) => void
   attrs: any
   skills: any
+  asi: { primary: string | null; secondary: string | null }
   inventory: any[]
   selectedSpells: string[]
   featureChoices: any
@@ -26,7 +27,7 @@ interface FinalStepProps {
 }
 
 export default function FinalStep({
-  form, onFormChange, attrs, skills, inventory, selectedSpells, featureChoices, onSave, loading
+  form, onFormChange, attrs, asi, skills, inventory, selectedSpells, featureChoices, onSave, loading
 }: FinalStepProps) {
   const [showConfirm, setShowConfirm] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -175,12 +176,16 @@ export default function FinalStep({
           <div style={{ padding: '12px 16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
             <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 8 }}>Principais Atributos</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-              {Object.entries(attrs).map(([key, val]) => (
-                <div key={key} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>{key.slice(0, 3)}</div>
-                  <div style={{ fontSize: 16, fontWeight: 800 }}>{val as number}</div>
-                </div>
-              ))}
+              {Object.entries(attrs).map(([key, val]) => {
+                const bonus = (asi.primary === key ? 2 : 0) + (asi.secondary === key ? 1 : 0)
+                const total = (val as number) + bonus
+                return (
+                  <div key={key} style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>{key.slice(0, 3)}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: bonus > 0 ? 'var(--accent)' : 'inherit' }}>{total}</div>
+                  </div>
+                )
+              })}
             </div>
           </div>
 

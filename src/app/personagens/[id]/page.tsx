@@ -2,7 +2,7 @@
 import { useParams, useRouter } from 'next/navigation'
 import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload } from 'lucide-react'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
@@ -43,6 +43,29 @@ export default function CharacterDetailPage() {
   // Inventory States
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false)
   const [inventorySearchTerm, setInventorySearchTerm] = useState('')
+
+  // Moved Hooks to follow Rules of Hooks (must be before conditional returns)
+  const parsedTraits = useMemo(() => {
+    if (!character?.traits) return {}
+    if (typeof character.traits === 'object') return character.traits
+    try {
+      return JSON.parse(character.traits as string)
+    } catch (e) {
+      return {}
+    }
+  }, [character?.traits])
+
+  const expertises = useMemo(() => parsedTraits.expertises || {}, [parsedTraits])
+
+  const parsedDefenses = useMemo<Defense[]>(() => {
+    if (!(character as any)?.defenses) return []
+    if (Array.isArray((character as any).defenses)) return (character as any).defenses
+    try {
+      return JSON.parse((character as any).defenses as string)
+    } catch (e) {
+      return []
+    }
+  }, [(character as any)?.defenses])
 
   useEffect(() => {
     fetch(`/api/personagens/${id}`)
@@ -910,6 +933,42 @@ export default function CharacterDetailPage() {
                       </div>
                     </div>
 
+                    <div className="card" style={{ background: 'var(--bg2)', padding: 16, marginBottom: 20 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                        <Shield size={16} color="var(--accent)" />
+                        <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>Defesas & Resistências</span>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {(() => {
+                           const defs = [...parsedDefenses];
+                           // Racial fallbacks
+                           if (character.race.includes('Tiefling') && !defs.some(d => (d as any).value === 'Fogo')) {
+                             defs.push({ value: 'Fogo', type: 'resistance', detail: 'Raça' });
+                           }
+                           if (character.race.includes('Anão') && !defs.some(d => (d as any).value === 'Veneno')) {
+                             defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
+                           }
+                           
+                           if (defs.length === 0) return <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma resistência especial registrada.</div>;
+                           
+                           return defs.map((d, i) => (
+                             <div key={i} style={{ 
+                               display: 'flex', alignItems: 'center', gap: 6, padding: '4px 8px', borderRadius: 6,
+                               background: d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.1)' : 'rgba(59,130,246,0.1)',
+                               border: `1px solid ${d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)'}`,
+                               fontSize: 11
+                             }}>
+                               <span style={{ fontWeight: 700, color: d.type === 'immunity' || d.type === 'Imunidade' ? '#4ade80' : '#60a5fa' }}>
+                                 {d.type === 'immunity' || d.type === 'Imunidade' ? 'Imunidade' : 'Resistência'}:
+                               </span>
+                               <span>{d.value}</span>
+                               {d.detail && <span style={{ fontSize: 9, opacity: 0.6 }}>({d.detail})</span>}
+                             </div>
+                           ));
+                        })()}
+                      </div>
+                    </div>
+
                     <h2 className="attr-title">Atributos</h2>
 
                     <div className="attr-grid-container">
@@ -979,19 +1038,22 @@ export default function CharacterDetailPage() {
                         const baseSkillName = skill.name.toLowerCase()
                           .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                         const isTrained = character.skills?.[baseSkillName] || false
+                        const isExpert = !!expertises[baseSkillName]
                         const trainingBonus = isTrained ? character.proficiencyBonus : 0
-                        const total = mod + trainingBonus
+                        const extraBonus = isExpert ? character.proficiencyBonus : 0
+                        const total = mod + trainingBonus + extraBonus
 
                         return (
                           <div key={skill.name} style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.03)', color: isTrained ? 'var(--accentL)' : 'var(--fg)' }}>
                             <div style={{ flex: 1, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 6 }}>
-                              {isTrained && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />}
+                              {isTrained && <div style={{ width: 6, height: 6, borderRadius: '50%', background: isExpert ? 'var(--accent)' : 'var(--accentL)' }} />}
                               {skill.name}
+                              {isExpert && <Star size={10} fill="var(--accent)" color="var(--accent)" />}
                             </div>
                             <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 10 }}>({skill.label})</div>
-                            <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13 }}>{total >= 0 ? `+${total}` : total}</div>
+                            <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13, color: isExpert ? 'var(--accent)' : 'inherit' }}>{total >= 0 ? `+${total}` : total}</div>
                             <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 12 }}>
-                              {trainingBonus}
+                              {trainingBonus + extraBonus}
                             </div>
                           </div>
                         )

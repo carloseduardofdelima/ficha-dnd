@@ -19,6 +19,11 @@ export interface Race {
   source: string
   speed: number
   size: 'Pequeno' | 'Médio' | 'Pequeno ou Médio'
+  skillProf?: string[]            // Fixed skill names in PT
+  skillChoice?: {                 // Choice of skills
+    count: number
+    options?: string[]            // PT labels, if undefined any skill
+  }
 }
 
 export const RACES: Race[] = [
@@ -122,7 +127,11 @@ export const RACES: Race[] = [
       { name: 'Sentidos Apurados', description: 'Proficiência em Intuição, Percepção ou Sobrevivência.' },
       { name: 'Transe', description: 'Você completa um Descanso Longo em 4 horas; magia não pode te colocar para dormir.' },
       { name: 'Linhagem Élfica', description: 'Sua linhagem concede acesso a magias específicas.' }
-    ]
+    ],
+    skillChoice: {
+      count: 1,
+      options: ['Intuição', 'Percepção', 'Sobrevivência']
+    }
   },
   {
     id: 'gnome',
@@ -208,7 +217,10 @@ export const RACES: Race[] = [
       { name: 'Engenhoso', description: 'Você ganha Inspiração Heroica ao terminar um Descanso Longo.' },
       { name: 'Habilidoso', description: 'Proficiência em uma perícia à sua escolha.' },
       { name: 'Versátil', description: 'Você ganha um Talento de Origem à sua escolha (além do ganho pelo Antecedente).' }
-    ]
+    ],
+    skillChoice: {
+      count: 1
+    }
   },
   {
     id: 'orc',

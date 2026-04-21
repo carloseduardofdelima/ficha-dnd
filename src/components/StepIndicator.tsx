@@ -7,7 +7,7 @@ interface StepIndicatorProps {
 
 export default function StepIndicator({ currentStep, steps }: StepIndicatorProps) {
   return (
-    <div style={{ width: '100%', marginBottom: 40 }}>
+    <div style={{ width: '100%', marginBottom: 24 }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',

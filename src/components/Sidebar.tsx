@@ -67,7 +67,7 @@ export function Sidebar() {
         display: 'flex',
         alignItems: 'center'
       }} className="desktop-navbar">
-        <div style={{ maxWidth: 1400, margin: '0 auto', width: '100%', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="navbar-wrapper" style={{ maxWidth: 1400, margin: '0 auto', width: '100%', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
             {/* Logo */}
@@ -196,6 +196,7 @@ export function Sidebar() {
         @media (max-width: 768px) {
           .hide-mobile { display: none !important; }
           .show-mobile-flex { display: flex !important; }
+          .navbar-wrapper { flex-direction: row-reverse !important; }
         }
         
         /* Mobile Menu Styles */
