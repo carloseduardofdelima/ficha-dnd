@@ -104,7 +104,9 @@ export default function NovoPersonagem() {
         if (form.class === 'Guerreiro') res['Retomada de Fôlego'] = 2;
         if (form.class === 'Monge' && form.level >= 2) res['Pontos de Foco'] = form.level;
         if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
-        if (form.class === 'Artificer') res['Magical Tinkering'] = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
+        if (form.class === 'Artesão Arcano') res['Magical Tinkering'] = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
+        if (form.class === 'Paladino') res['Imposição de Mãos'] = form.level * 5;
+        if (form.class === 'Feiticeiro' && form.level >= 2) res['Pontos de Feitiçaria'] = form.level;
         return JSON.stringify(res);
       })(),
     }
