@@ -660,7 +660,7 @@ export default function CharacterDetailPage() {
 
           {/* Main Panel */}
           <div className="sheet-main" style={{ flex: 1, minWidth: 0 }}>
-            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="card" style={{ padding: 0, overflow: 'visible' }}>
               <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)', display: 'flex', padding: '0 16px', overflowX: 'auto', overflowY: 'hidden' }} className="hide-mobile">
                 {[
                   { id: 'combat', label: 'Combate', color: 'var(--accent)' },
@@ -886,7 +886,9 @@ export default function CharacterDetailPage() {
 
                     <div className="combat-stats-row">
                       <div className="stat-card">
-                        <div className="stat-label">CLASSE DE ARMADURA</div>
+                        <div className="stat-label" tabIndex={0} style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'center', outline: 'none' }} data-tooltip="Define o quão difícil é para um inimigo te acertar em combate. Baseia-se na sua armadura e agilidade (Destreza).">
+                          CLASSE DE ARMADURA <Info size={12} style={{ opacity: 0.6, flexShrink: 0 }} />
+                        </div>
                         {(() => {
                           const acRef = ac;
 
@@ -925,11 +927,14 @@ export default function CharacterDetailPage() {
                       </div>
 
                       <div className="stat-card">
-                        <div className="stat-label">DESLOCAMENTO (m)</div>
+                        <div className="stat-label" tabIndex={0} style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'center', outline: 'none' }} data-tooltip="A distância total em metros que você pode percorrer em um único turno de combate.">
+                          DESLOCAMENTO (m) <Info size={12} style={{ opacity: 0.6, flexShrink: 0 }} />
+                        </div>
                         <div className="stat-value-box">
                           <div className="stat-value">{character.speed}</div>
                           <RotateCcw size={20} color="var(--fg2)" />
                         </div>
+                        <div className="stat-subtext" style={{ opacity: 0 }}>Metros</div>
                       </div>
                     </div>
 
