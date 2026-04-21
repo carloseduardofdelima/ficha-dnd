@@ -259,10 +259,35 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Artesão Arcano': {
     passiveFeatures: [
-      { name: 'Engenho Mágico (Magical Tinkering)', description: 'Infunde magia em objetos minúsculos para criar luz, som ou cheiro.' },
-      { name: 'Conjuração', description: 'Prepara INT + metade do nível. Foco: ferramentas. 2 truques.' },
+      { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica: cria um item mundano (luz, som, cheiro ou efeito visual) em objeto minúsculo. Usos: mod Inteligência.' },
+      { name: 'Conjuração', description: 'Habilidade: Inteligência. Foco: Ferramentas de Ladrão, Funileiro ou Artesão proficiente. Prepara magias (Nível/2 + INT).' },
     ],
-    choices: [],
+    choices: [
+      {
+        id: 'artificer-tool-choice',
+        label: 'Ferramentas de Artesão',
+        description: 'Escolha um tipo adicional de ferramentas de artesão para ter proficiência.',
+        type: 'radio',
+        options: [
+          { id: 'alchemist', name: 'Alquimista', description: '' },
+          { id: 'brewer', name: 'Cervejeiro', description: '' },
+          { id: 'calligrapher', name: 'Calígrafo', description: '' },
+          { id: 'carpenter', name: 'Carpinteiro', description: '' },
+          { id: 'cartographer', name: 'Cartógrafo', description: '' },
+          { id: 'cobbler', name: 'Sapateiro', description: '' },
+          { id: 'cook', name: 'Cozinheiro', description: '' },
+          { id: 'glassblower', name: 'Soprador de vidro', description: '' },
+          { id: 'jeweler', name: 'Joalheiro', description: '' },
+          { id: 'leatherworker', name: 'Coureiro', description: '' },
+          { id: 'mason', name: 'Pedreiro', description: '' },
+          { id: 'painter', name: 'Pintor', description: '' },
+          { id: 'potter', name: 'Oleiro', description: '' },
+          { id: 'smith', name: 'Ferreiro', description: '' },
+          { id: 'weaver', name: 'Tecelão', description: '' },
+          { id: 'woodcarver', name: 'Entalhador de madeira', description: '' },
+        ]
+      }
+    ],
   },
 }
 

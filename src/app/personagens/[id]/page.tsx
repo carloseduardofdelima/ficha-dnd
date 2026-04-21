@@ -821,7 +821,31 @@ export default function CharacterDetailPage() {
                             if (character.class === 'Guerreiro') initial['Retomada de Fôlego'] = { max: 2, current: 2, color: '#94a3b8' };
                             if (character.class === 'Monge' && character.level >= 2) initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
                             if (character.class === 'Bardo') initial['Inspiração Bárdica'] = { max: Math.max(1, calcModifier(character.charisma)), current: Math.max(1, calcModifier(character.charisma)), color: '#ec4899' };
-                            if (character.class === 'Artesão Arcano') initial['Magical Tinkering'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                            if (character.class === 'Artesão Arcano') {
+                              initial['Tinkering Mágico'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                              if (character.level >= 3) {
+                                if (character.subclass === 'Artilheiro') {
+                                  initial['Canhão Élfico'] = { max: 1, current: 1, color: '#06b6d4' };
+                                } else if (character.subclass === 'Alquimista') {
+                                  initial['Elixires Experimentais'] = { max: 1, current: 1, color: '#06b6d4' };
+                                } else if (character.subclass === 'Armeiro') {
+                                  initial['Campo Defensivo'] = { max: character.proficiencyBonus || 2, current: character.proficiencyBonus || 2, color: '#06b6d4' };
+                                  initial['Estatura Gigante'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                                } else if (character.subclass === 'Serralheiro de Batalha' && character.level >= 10) {
+                                  initial['Choque Arcano'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                                }
+                              }
+                              if (character.level >= 10 && character.subclass === 'Alquimista') {
+                                initial['Restauração Menor Grátis'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                              }
+                              if (character.level >= 14 && character.subclass === 'Alquimista') {
+                                initial['Curar (Heal)'] = { max: 1, current: 1, color: '#06b6d4' };
+                                initial['Restauração Maior Grátis'] = { max: 1, current: 1, color: '#06b6d4' };
+                              }
+                              if (character.level >= 7) {
+                                initial['Brilho de Gênio'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                              }
+                            }
                             if (character.class === 'Paladino') initial['Imposição de Mãos'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
                             if (character.class === 'Feiticeiro' && character.level >= 2) initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
                             return initial;

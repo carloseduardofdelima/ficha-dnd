@@ -246,10 +246,10 @@ export const CLASSES: DndClass[] = [
     armorProf: 'Armaduras leves e médias, escudos',
     weaponProf: 'Armas simples',
     features: [
-      { name: 'Proficiências em Ferramentas', description: 'Proficiente com ferramentas de ladrão, ferramentas de tintureiro e todos os utensílios artesanais.' },
-      { name: 'Infundir Item', description: 'Infunda objetos não mágicos com magia para criar itens mágicos temporários.' },
-      { name: 'O Certo Para o Trabalho', description: 'Produza uma ferramenta artesanal que você precisa com Alterar Objeto de Forma.' },
-      { name: 'Especialista Artesão', description: 'Ao 3º nível, escolha sua especialidade: Ferreiro de Batalha, Alquimista, Artileiro ou Mestre Marionete.' },
+      { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica segurando Ferramentas de Funileiro: cria um item mundano em espaço desocupado a até 1,5m de você. Usos = Mod Inteligência.' },
+      { name: 'Replicar Item Mágico (Infusões)', description: 'Crie itens mágicos temporários a partir de uma lista de planos conhecidos.' },
+      { name: 'A Ferramenta Certa para o Trabalho', description: 'Ao nível 3, pode criar ferramentas de artesão que você precisa usando ferramentas de funileiro.' },
+      { name: 'Especialista Artesão', description: 'Ao nível 3, escolha sua especialidade: Artilheiro, Ferreiro de Batalha, Alquimista ou Mestre Marionete.' },
     ]
   },
 ]

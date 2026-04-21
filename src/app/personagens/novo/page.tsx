@@ -96,6 +96,7 @@ export default function NovoPersonagem() {
       armorClass: calculateAC(form.class, finalAttrs, inventory),
       initiative: dexMod,
       proficiencyBonus: pb,
+      subclass: (featureChoices['Especialista Artesão'] as string) || (featureChoices['Caminho Primitivo'] as string) || (featureChoices['Juramento Sagrado'] as string) || (featureChoices['Tradição Monástica'] as string) || (featureChoices['Arquétipo Marcial'] as string) || (featureChoices['Origem de Feitiçaria'] as string) || (featureChoices['Patrono do Além'] as string) || (featureChoices['Tradição Arcana'] as string) || (featureChoices['Domínio Divino'] as string) || (featureChoices['Círculo Druídico'] as string) || (featureChoices['Colégio Bárdico'] as string) || (featureChoices['Conclave de Patrulheiro'] as string) || (featureChoices['Arquétipo de Ladino'] as string) || '',
       speed: RACES.find(r => r.name === form.race)?.speed || 30,
       spellSlots: JSON.stringify(['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(form.class) ? { "1": form.class === 'Bruxo' ? 1 : 2 } : {}),
       resources: (() => {
@@ -104,7 +105,31 @@ export default function NovoPersonagem() {
         if (form.class === 'Guerreiro') res['Retomada de Fôlego'] = 2;
         if (form.class === 'Monge' && form.level >= 2) res['Pontos de Foco'] = form.level;
         if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
-        if (form.class === 'Artesão Arcano') res['Magical Tinkering'] = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
+        if (form.class === 'Artesão Arcano') {
+          const modInt = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
+          res['Tinkering Mágico'] = modInt;
+          const selectedSubclass = featureChoices['Especialista Artesão'] as string;
+          if (form.level >= 3) {
+            if (selectedSubclass === 'Artilheiro') {
+              res['Canhão Élfico'] = 1;
+            } else if (selectedSubclass === 'Alquimista') {
+              res['Elixires Experimentais'] = 1;
+            } else if (selectedSubclass === 'Armeiro') {
+              res['Campo Defensivo'] = pb;
+              res['Estatura Gigante'] = modInt;
+            } else if (selectedSubclass === 'Serralheiro de Batalha' && form.level >= 10) {
+              res['Choque Arcano'] = modInt;
+            }
+          }
+          if (form.level >= 10 && selectedSubclass === 'Alquimista') {
+            res['Restauração Menor Grátis'] = modInt;
+          }
+          if (form.level >= 14 && selectedSubclass === 'Alquimista') {
+            res['Curar (Heal)'] = 1;
+            res['Restauração Maior Grátis'] = 1;
+          }
+          if (form.level >= 7) res['Brilho de Gênio'] = modInt;
+        }
         if (form.class === 'Paladino') res['Imposição de Mãos'] = form.level * 5;
         if (form.class === 'Feiticeiro' && form.level >= 2) res['Pontos de Feitiçaria'] = form.level;
         return JSON.stringify(res);
