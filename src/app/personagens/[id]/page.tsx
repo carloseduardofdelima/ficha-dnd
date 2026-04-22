@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
@@ -15,6 +15,8 @@ import { ITEM_CATALOG } from '@/lib/inventory'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { getFeatureDescription } from '@/lib/features'
+import { pdf } from '@react-pdf/renderer'
+import CharacterPDF from '@/components/CharacterPDF'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -43,6 +45,8 @@ export default function CharacterDetailPage() {
   // Inventory States
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false)
   const [inventorySearchTerm, setInventorySearchTerm] = useState('')
+  const [isClient, setIsClient] = useState(false)
+  const [pdfLoading, setPdfLoading] = useState(false)
 
   // Moved Hooks to follow Rules of Hooks (must be before conditional returns)
   const parsedTraits = useMemo(() => {
@@ -68,6 +72,7 @@ export default function CharacterDetailPage() {
   }, [(character as any)?.defenses])
 
   useEffect(() => {
+    setIsClient(true)
     fetch(`/api/personagens/${id}`)
       .then(res => res.json())
       .then(data => {
@@ -369,7 +374,7 @@ export default function CharacterDetailPage() {
       setSaveStatus('error');
     }
   };
-  const updateValue = (field: string, deltaOrVal: number | string) => {
+  const updateValue = (field: string, deltaOrVal: number | string, autoSave = true) => {
     if (!character) return;
     let newVal;
     if (typeof deltaOrVal === 'number') {
@@ -389,9 +394,38 @@ export default function CharacterDetailPage() {
       console.error('Error saving local stats', e);
     }
 
-    // Auto-save to DB
-    saveCharacterToDB(updatedChar);
+    // Auto-save to DB if requested
+    if (autoSave) {
+      saveCharacterToDB(updatedChar);
+    }
   };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !character) return
+
+    try {
+      setUploading(true)
+      const reader = new FileReader()
+      reader.onload = async (event) => {
+        const base64 = event.target?.result as string
+        const compressed = await compressImage(base64)
+        
+        const updated = { ...character, avatarUrl: compressed }
+        setCharacter(updated)
+        setShowUpload(false)
+        
+        // Persistence
+        await saveCharacterToDB(updated)
+      }
+      reader.readAsDataURL(file)
+    } catch (err) {
+      console.error(err)
+      alert('Erro ao processar imagem.')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const handleLevelUpPersistence = async (updatedChar: Character, alerts: string[]) => {
     setCharacter(updatedChar);
@@ -430,6 +464,21 @@ export default function CharacterDetailPage() {
     (window as any).updateCharValue = updateValue;
     (window as any).handleLevelUpPersistence = handleLevelUpPersistence;
   }
+
+  const handleOpenPDF = async () => {
+    if (!character) return;
+    try {
+      setPdfLoading(true);
+      const blob = await pdf(<CharacterPDF character={character} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert('Erro ao gerar PDF. Tente novamente.');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', color: 'var(--fg)', padding: '24px 0', position: 'relative' }}>
@@ -558,6 +607,21 @@ export default function CharacterDetailPage() {
                   }}
                 >
                   {character.isPublic ? '🌐 Público' : '🔒 Privado'}
+                </button>
+              )}
+
+              {isClient && character && (
+                <button
+                  className="btn btn-outline"
+                  style={{
+                    fontSize: 11,
+                    padding: '4px 12px',
+                  }}
+                  onClick={handleOpenPDF}
+                  disabled={pdfLoading}
+                >
+                  {pdfLoading ? <Loader2 className="animate-spin" size={14} /> : <FileDown size={14} />}
+                  Visualizar PDF
                 </button>
               )}
 
@@ -696,13 +760,18 @@ export default function CharacterDetailPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                       {/* Left: Image & Identity */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                        <div className="card" style={{ padding: 12 }}>
-                          <div style={{ width: '50%', margin: 'auto', aspectRatio: '1/1.2', borderRadius: 8, background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+                        <div className="card" onClick={() => isOwner && setShowUpload(true)} style={{ padding: 12, cursor: isOwner ? 'pointer' : 'default' }}>
+                          <div style={{ width: '50%', margin: 'auto', aspectRatio: '1/1.2', borderRadius: 8, background: 'var(--bg2)', border: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
                             {character.avatarUrl ? (
-                              <Image src={character.avatarUrl} alt={character.name} width={50} height={100} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              <Image src={character.avatarUrl} alt={character.name} width={300} height={400} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             ) : (
                               <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
                                 <User size={80} />
+                              </div>
+                            )}
+                            {isOwner && (
+                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', padding: 4, textAlign: 'center', fontSize: 10, color: '#fff' }}>
+                                Alterar Imagem
                               </div>
                             )}
                           </div>
@@ -728,17 +797,66 @@ export default function CharacterDetailPage() {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                         <div>
                           <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 12, borderBottom: '2px solid var(--accent)', display: 'inline-block', paddingBottom: 4 }}>Descrição Física</h3>
-                          <div style={{ fontSize: 14, color: 'var(--fg)', lineHeight: 1.6, background: 'var(--bg2)', padding: 16, borderRadius: 12, border: '1px solid var(--border)' }}>
-                            {character.appearance || 'Sem descrição física disponível.'}
+                          <div style={{ background: 'var(--bg2)', borderRadius: 12, border: '1px solid var(--border)', overflow: 'hidden' }}>
+                            <textarea
+                              value={character.appearance || ''}
+                              placeholder="Descreva a aparência física do seu personagem..."
+                              readOnly={!isOwner}
+                              onChange={(e) => isOwner && updateValue('appearance', e.target.value, false)}
+                              style={{
+                                width: '100%',
+                                minHeight: 120,
+                                background: 'transparent',
+                                color: 'var(--fg)',
+                                padding: 16,
+                                border: 'none',
+                                fontSize: 14,
+                                lineHeight: 1.6,
+                                resize: 'vertical',
+                                outline: 'none',
+                                fontFamily: 'inherit'
+                              }}
+                            />
                           </div>
                         </div>
 
                         <div>
                           <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, marginBottom: 12, borderBottom: '2px solid var(--accent)', display: 'inline-block', paddingBottom: 4 }}>História</h3>
-                          <div style={{ fontSize: 14, color: 'var(--fg)', lineHeight: 1.6, background: 'var(--bg2)', padding: 20, borderRadius: 12, border: '1px solid var(--border)', whiteSpace: 'pre-wrap' }}>
-                            {character.backstory || 'Sem história registrada.'}
+                          <div style={{ background: 'var(--bg2)', borderRadius: 12, border: '1px solid var(--border)', overflow: 'hidden' }}>
+                            <textarea
+                              value={character.backstory || ''}
+                              placeholder="Escreva a história do seu personagem..."
+                              readOnly={!isOwner}
+                              onChange={(e) => isOwner && updateValue('backstory', e.target.value, false)}
+                              style={{
+                                width: '100%',
+                                minHeight: 300,
+                                background: 'transparent',
+                                color: 'var(--fg)',
+                                padding: 20,
+                                borderRadius: 12,
+                                border: 'none',
+                                fontSize: 14,
+                                lineHeight: 1.6,
+                                resize: 'vertical',
+                                outline: 'none',
+                                fontFamily: 'inherit',
+                                whiteSpace: 'pre-wrap'
+                              }}
+                            />
                           </div>
                         </div>
+                        {isOwner && (
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+                            <button 
+                              className="btn btn-primary" 
+                              onClick={() => saveCharacterToDB(character)}
+                              disabled={saveStatus === 'saving'}
+                            >
+                              {saveStatus === 'saving' ? 'Salvando...' : 'Salvar Alterações'}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -753,7 +871,7 @@ export default function CharacterDetailPage() {
                           placeholder="Escreva aqui suas anotações de campanha, segredos, objetivos..."
                           value={character.notes || ''}
                           readOnly={!isOwner}
-                          onChange={(e) => isOwner && updateValue('notes', e.target.value)}
+                          onChange={(e) => isOwner && updateValue('notes', e.target.value, false)}
                           style={{
                             width: '100%',
                             minHeight: '60vh',
@@ -769,8 +887,19 @@ export default function CharacterDetailPage() {
                           }}
                         />
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic', textAlign: 'right' }}>
-                        {isOwner ? '💾 Alterações são salvas automaticamente.' : '👁️ Modo de apenas leitura.'}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>
+                          {isOwner ? '💾 Clique em salvar para persistir as alterações.' : '👁️ Modo de apenas leitura.'}
+                        </div>
+                        {isOwner && (
+                          <button 
+                            className="btn btn-primary" 
+                            onClick={() => saveCharacterToDB(character)}
+                            disabled={saveStatus === 'saving'}
+                          >
+                            {saveStatus === 'saving' ? 'Salvando...' : 'Salvar Notas'}
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -2006,6 +2135,44 @@ export default function CharacterDetailPage() {
                   ));
                 })()}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Upload Modal */}
+      {showUpload && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setShowUpload(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 400,
+            borderRadius: 16, overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,1)',
+            border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 18 }}>Alterar Avatar</h3>
+              <button className="btn btn-ghost" onClick={() => setShowUpload(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+            <div style={{ padding: 32, textAlign: 'center' }}>
+              <div style={{ 
+                width: 120, height: 120, borderRadius: '50%', background: 'var(--bg)', 
+                margin: '0 auto 24px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '2px dashed var(--border)', position: 'relative', overflow: 'hidden'
+              }}>
+                {uploading ? <Loader2 className="animate-spin" size={40} color="var(--accent)" /> : <Upload size={40} color="var(--fg3)" />}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', marginBottom: 24 }}>Escolha uma nova imagem para o seu personagem. Recomendamos imagens quadradas.</p>
+              
+              <label className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', cursor: 'pointer' }}>
+                <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                {uploading ? 'Processando...' : 'Selecionar Arquivo'}
+              </label>
             </div>
           </div>
         </div>
