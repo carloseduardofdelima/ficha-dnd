@@ -46,6 +46,19 @@ export interface Defense {
   detail?: string
 }
 
+export interface Companion {
+  id: string
+  name: string
+  type: string
+  ac: number
+  hp: number
+  maxHp: number
+  speed: string
+  perception: number
+  attacks: Array<{ name: string; bonus: string; damage: string; type: string }>
+  notes?: string
+}
+
 export interface Character {
   id: string
   slug: string
@@ -88,4 +101,5 @@ export interface Character {
   updatedAt: string | Date
   isSaved?: boolean
   sessionUserId?: string
+  companions?: Companion[] | string | null
 }

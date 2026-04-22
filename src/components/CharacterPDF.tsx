@@ -1,6 +1,44 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import { calcModifier, type Character, type Defense } from '@/types/character';
+import { RACES } from '@/lib/races';
+import CLASS_LEVEL1_DATA from '@/lib/class-features';
+import { CLASS_PROGRESSION_2024, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024';
+import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024';
+
+const getCharacterFeatures = (character: Character) => {
+  const features: string[] = [];
+  
+  // Race traits
+  const race = RACES.find(r => r.name === character.race);
+  if (race) {
+    race.traits.forEach(t => features.push(t.name));
+  }
+  
+  // Class Level 1
+  const lvl1 = CLASS_LEVEL1_DATA[character.class];
+  if (lvl1) {
+    lvl1.passiveFeatures.forEach(f => features.push(f.name));
+  }
+  
+  // Progression Features (up to current level)
+  for (let i = 1; i <= character.level; i++) {
+    const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[i] || [];
+    classFeats.forEach(f => features.push(f));
+    
+    // Species progression
+    const speciesFeats = SPECIES_PROGRESSION_2024[character.race]?.[i] || [];
+    speciesFeats.forEach(f => features.push(f));
+
+    // Subclass features
+    if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
+      const subFeats = SUBCLASSES_2024[character.class][character.subclass].features[i] || [];
+      subFeats.forEach(sf => features.push(typeof sf === 'string' ? sf : sf.name));
+    }
+  }
+  
+  return Array.from(new Set(features)); 
+};
 
 const styles = StyleSheet.create({
   page: {
@@ -570,8 +608,13 @@ const CharacterPDF = ({ character }: Props) => {
 
             <View style={styles.featuresBox}>
                <Text style={styles.sectionTitle}>Características e Talentos</Text>
-               <View style={{ marginTop: 6 }}>
-                  <Text style={{ fontSize: 7.5, lineHeight: 1.4 }}>{character.backstory?.slice(0, 1800)}</Text>
+               <View style={{ marginTop: 6, gap: 2 }}>
+                  {getCharacterFeatures(character).map((feat, idx) => (
+                    <Text key={idx} style={{ fontSize: 7, lineHeight: 1.3 }}>• {feat}</Text>
+                  ))}
+                  {getCharacterFeatures(character).length === 0 && (
+                    <Text style={{ fontSize: 7, color: '#999' }}>Nenhuma característica especial identificada.</Text>
+                  )}
                </View>
             </View>
           </View>

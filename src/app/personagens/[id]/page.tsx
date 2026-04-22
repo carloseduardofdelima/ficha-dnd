@@ -3,7 +3,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
-import { formatModifier, calcModifier, type Character, type Defense } from '@/types/character'
+import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { SPELLS } from '@/lib/spells'
@@ -25,6 +25,8 @@ export default function CharacterDetailPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [character, setCharacter] = useState<Character | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isCompanionModalOpen, setIsCompanionModalOpen] = useState(false)
+  const [newCompanion, setNewCompanion] = useState<Partial<Companion>>({})
 
   // Level Up States
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
@@ -70,6 +72,16 @@ export default function CharacterDetailPage() {
       return []
     }
   }, [(character as any)?.defenses])
+
+  const parsedCompanions = useMemo<Companion[]>(() => {
+    if (!character?.companions) return []
+    if (Array.isArray(character.companions)) return character.companions
+    try {
+      return JSON.parse(character.companions as string)
+    } catch (e) {
+      return []
+    }
+  }, [character?.companions])
 
   useEffect(() => {
     setIsClient(true)
@@ -353,6 +365,7 @@ export default function CharacterDetailPage() {
         spells: char.spells ? JSON.stringify(char.spells) : null,
         traits: char.traits ? JSON.stringify(char.traits) : null,
         defenses: (char as any).defenses ? JSON.stringify((char as any).defenses) : null,
+        companions: char.companions ? JSON.stringify(char.companions) : null,
       } as any;
 
       // Proficiency bonus fix if it's not in the Character type correctly but we have it in state
@@ -427,6 +440,52 @@ export default function CharacterDetailPage() {
     }
   }
 
+  const handleAddCompanion = (comp: Partial<Companion>) => {
+    if (!character) return;
+    const currentCompanions = parsedCompanions;
+    const newComp: Companion = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: comp.name || 'Novo Companheiro',
+      type: comp.type || 'Familiar',
+      ac: comp.ac || 10,
+      hp: comp.hp || 10,
+      maxHp: comp.maxHp || 10,
+      speed: comp.speed || '9m',
+      perception: comp.perception || 10,
+      attacks: comp.attacks || [],
+      notes: comp.notes || ''
+    };
+    const updated = { ...character, companions: [...currentCompanions, newComp] };
+    setCharacter(updated);
+    saveCharacterToDB(updated);
+    setIsCompanionModalOpen(false);
+    setNewCompanion({});
+  };
+
+  const handleRemoveCompanion = (compId: string) => {
+    if (!character) return;
+    const updated = { 
+      ...character, 
+      companions: parsedCompanions.filter(c => c.id !== compId) 
+    };
+    setCharacter(updated);
+    saveCharacterToDB(updated);
+  };
+
+  const handleUpdateCompanionHP = (compId: string, delta: number) => {
+    if (!character) return;
+    const updatedComps = parsedCompanions.map(c => {
+      if (c.id === compId) {
+        return { ...c, hp: Math.min(c.maxHp, Math.max(0, c.hp + delta)) };
+      }
+      return c;
+    });
+    const updated = { ...character, companions: updatedComps };
+    setCharacter(updated);
+    // Debounce or just save
+    saveCharacterToDB(updated);
+  };
+
   const handleLevelUpPersistence = async (updatedChar: Character, alerts: string[]) => {
     setCharacter(updatedChar);
     setIsLevelUpModalOpen(false);
@@ -496,6 +555,7 @@ export default function CharacterDetailPage() {
               { label: 'Inventário', id: 'inventory' },
               { label: 'Habilidades', id: 'features' },
               { label: 'Magias', id: 'spells' },
+              { label: 'Companheiros', id: 'companions' },
             ].map(item => (
               <div
                 key={item.label}
@@ -732,6 +792,7 @@ export default function CharacterDetailPage() {
                   { id: 'spells', label: 'Magias' },
                   { id: 'inventory', label: 'Inventário' },
                   { id: 'features', label: 'Características' },
+                  { id: 'companions', label: 'Companheiros' },
                   { id: 'notes', label: 'Notas' },
                   { id: 'about', label: 'Sobre' },
                 ].map(tab => (
@@ -1502,6 +1563,123 @@ export default function CharacterDetailPage() {
                   </div>
                 )}
 
+                {activeTab === 'companions' && (
+                  <div className="fade-up">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, fontWeight: 700, margin: 0 }}>Companheiros & Invocações</h2>
+                      {isOwner && (
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => setIsCompanionModalOpen(true)}
+                          style={{ gap: 8 }}
+                        >
+                          <Plus size={18} /> Adicionar
+                        </button>
+                      )}
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+                      {parsedCompanions.map((comp) => (
+                        <div key={comp.id} className="card" style={{ padding: 0, overflow: 'hidden', border: '1px solid var(--border)' }}>
+                          <div style={{ background: 'var(--bg2)', padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                              <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>{comp.name}</h3>
+                              <span style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800 }}>{comp.type}</span>
+                            </div>
+                            {isOwner && (
+                              <button 
+                                onClick={() => handleRemoveCompanion(comp.id)}
+                                style={{ background: 'transparent', border: 'none', color: 'var(--fg3)', cursor: 'pointer' }}
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            )}
+                          </div>
+                          
+                          <div style={{ padding: 20 }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
+                              <div style={{ textAlign: 'center', padding: 8, background: 'var(--bg)', borderRadius: 8, border: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>CA</div>
+                                <div style={{ fontSize: 18, fontWeight: 800 }}>{comp.ac}</div>
+                              </div>
+                              <div style={{ textAlign: 'center', padding: 8, background: 'var(--bg)', borderRadius: 8, border: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>Desloc.</div>
+                                <div style={{ fontSize: 14, fontWeight: 700 }}>{comp.speed}</div>
+                              </div>
+                              <div style={{ textAlign: 'center', padding: 8, background: 'var(--bg)', borderRadius: 8, border: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>Percepção</div>
+                                <div style={{ fontSize: 18, fontWeight: 800 }}>{comp.perception}</div>
+                              </div>
+                            </div>
+
+                            <div style={{ marginBottom: 20 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg2)' }}>Pontos de Vida</span>
+                                <span style={{ fontSize: 14, fontWeight: 800 }}>{comp.hp} / {comp.maxHp}</span>
+                              </div>
+                              <div style={{ width: '100%', height: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 4, overflow: 'hidden', marginBottom: 12 }}>
+                                <div style={{ 
+                                  width: `${(comp.hp / comp.maxHp) * 100}%`, 
+                                  height: '100%', 
+                                  background: comp.hp < comp.maxHp * 0.3 ? 'var(--accent)' : 'var(--ok)',
+                                  transition: 'width 0.3s ease'
+                                }} />
+                              </div>
+                              {isOwner && (
+                                <div style={{ display: 'flex', gap: 8 }}>
+                                  <button 
+                                    className="btn btn-outline" 
+                                    style={{ flex: 1, height: 32, fontSize: 12 }}
+                                    onClick={() => handleUpdateCompanionHP(comp.id, -1)}
+                                  >-1</button>
+                                  <button 
+                                    className="btn btn-outline" 
+                                    style={{ flex: 1, height: 32, fontSize: 12 }}
+                                    onClick={() => handleUpdateCompanionHP(comp.id, 1)}
+                                  >+1</button>
+                                </div>
+                              )}
+                            </div>
+
+                            {comp.attacks && comp.attacks.length > 0 && (
+                              <div style={{ gap: 8, display: 'flex', flexDirection: 'column' }}>
+                                <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Ataques</span>
+                                {comp.attacks.map((atk, idx) => (
+                                  <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', padding: 10, borderRadius: 8, border: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div>
+                                      <div style={{ fontWeight: 700, fontSize: 14 }}>{atk.name}</div>
+                                      <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{atk.type}</div>
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                      <div style={{ color: 'var(--accentL)', fontWeight: 800 }}>{atk.bonus}</div>
+                                      <div style={{ fontSize: 12, fontWeight: 700 }}>{atk.damage}</div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {comp.notes && (
+                              <div style={{ marginTop: 16 }}>
+                                <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Notas</span>
+                                <p style={{ fontSize: 12, color: 'var(--fg2)', margin: '4px 0 0', lineHeight: 1.5 }}>{comp.notes}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {parsedCompanions.length === 0 && (
+                        <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px', background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '2px dashed var(--border)' }}>
+                          <User size={48} color="var(--fg3)" style={{ marginBottom: 16, opacity: 0.5 }} />
+                          <h3 style={{ margin: 0, color: 'var(--fg2)' }}>Nenhum companheiro</h3>
+                          <p style={{ fontSize: 14, color: 'var(--fg3)', marginTop: 8 }}>Adicione pets, montarias ou espíritos invocados aqui.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {activeTab === 'combat' && (
                   <div className="attacks-container">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
@@ -2173,6 +2351,102 @@ export default function CharacterDetailPage() {
                 <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
                 {uploading ? 'Processando...' : 'Selecionar Arquivo'}
               </label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Companion Modal */}
+      {isCompanionModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setIsCompanionModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            borderRadius: 16, overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,1)',
+            border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Novo Companheiro</h3>
+              <button className="btn btn-ghost" onClick={() => setIsCompanionModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Nome</label>
+                <input 
+                  type="text" 
+                  className="card" 
+                  style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                  placeholder="Ex: Faísca, o Lobo"
+                  value={newCompanion.name || ''}
+                  onChange={e => setNewCompanion({...newCompanion, name: e.target.value})}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Tipo / Classe</label>
+                  <input 
+                    type="text" 
+                    className="card" 
+                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    placeholder="Ex: Primal Companion"
+                    value={newCompanion.type || ''}
+                    onChange={e => setNewCompanion({...newCompanion, type: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>CA</label>
+                  <input 
+                    type="number" 
+                    className="card" 
+                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    value={newCompanion.ac || 10}
+                    onChange={e => setNewCompanion({...newCompanion, ac: parseInt(e.target.value)})}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>HP Máximo</label>
+                  <input 
+                    type="number" 
+                    className="card" 
+                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    value={newCompanion.maxHp || 10}
+                    onChange={e => {
+                      const val = parseInt(e.target.value);
+                      setNewCompanion({...newCompanion, maxHp: val, hp: val});
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Deslocamento</label>
+                  <input 
+                    type="text" 
+                    className="card" 
+                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    placeholder="Ex: 9m"
+                    value={newCompanion.speed || ''}
+                    onChange={e => setNewCompanion({...newCompanion, speed: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <button 
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: 8, justifyContent: 'center' }}
+                onClick={() => handleAddCompanion(newCompanion)}
+              >
+                Criar Companheiro
+              </button>
             </div>
           </div>
         </div>
