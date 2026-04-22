@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -27,6 +27,7 @@ export default function CharacterDetailPage() {
   const [loading, setLoading] = useState(true)
   const [isCompanionModalOpen, setIsCompanionModalOpen] = useState(false)
   const [newCompanion, setNewCompanion] = useState<Partial<Companion>>({})
+  const [isCompTypeSelectOpen, setIsCompTypeSelectOpen] = useState(false)
 
   // Level Up States
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
@@ -1570,7 +1571,10 @@ export default function CharacterDetailPage() {
                       {isOwner && (
                         <button 
                           className="btn btn-primary"
-                          onClick={() => setIsCompanionModalOpen(true)}
+                          onClick={() => {
+                            setNewCompanion({ ac: 10, maxHp: 10, hp: 10 });
+                            setIsCompanionModalOpen(true);
+                          }}
                           style={{ gap: 8 }}
                         >
                           <Plus size={18} /> Adicionar
@@ -2366,7 +2370,7 @@ export default function CharacterDetailPage() {
         }} onClick={() => setIsCompanionModalOpen(false)}>
           <div style={{
             backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
-            borderRadius: 16, overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,1)',
+            borderRadius: 16, overflow: 'visible', boxShadow: '0 20px 50px rgba(0,0,0,1)',
             border: '1px solid rgba(255,255,255,0.1)'
           }} onClick={e => e.stopPropagation()}>
             <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -2390,16 +2394,59 @@ export default function CharacterDetailPage() {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div>
+                <div style={{ position: 'relative' }}>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Tipo / Classe</label>
-                  <input 
-                    type="text" 
-                    className="card" 
-                    style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
-                    placeholder="Ex: Primal Companion"
-                    value={newCompanion.type || ''}
-                    onChange={e => setNewCompanion({...newCompanion, type: e.target.value})}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <div 
+                      className="card" 
+                      onClick={() => setIsCompTypeSelectOpen(!isCompTypeSelectOpen)}
+                      style={{ 
+                        width: '100%', padding: '10px 12px', background: 'var(--bg)', 
+                        border: '1px solid var(--border)', color: newCompanion.type ? 'var(--fg)' : 'var(--fg3)', 
+                        fontSize: 14, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                      }}
+                    >
+                      {newCompanion.type || 'Selecione...'}
+                      <ChevronDown size={16} style={{ transform: isCompTypeSelectOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                    </div>
+
+                    {isCompTypeSelectOpen && (
+                      <div style={{ 
+                        position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, 
+                        background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
+                        zIndex: 100, overflowY: 'auto', maxHeight: '200px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                        animation: 'fadeUp 0.2s ease-out'
+                      }}>
+                        {[
+                          "Familiar", "Companheiro Primal", "Montaria Espiritual", 
+                          "Invocação", "Montaria", "Pet / Animal", "Outro"
+                        ].map((opt) => (
+                          <div 
+                            key={opt}
+                            onClick={() => {
+                              setNewCompanion({...newCompanion, type: opt});
+                              setIsCompTypeSelectOpen(false);
+                            }}
+                            style={{ 
+                              padding: '12px 16px', fontSize: 13, color: 'var(--fg2)', 
+                              cursor: 'pointer', transition: 'all 0.2s',
+                              borderBottom: '1px solid rgba(255,255,255,0.03)'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'var(--accentGlow)';
+                              e.currentTarget.style.color = 'var(--fg)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'transparent';
+                              e.currentTarget.style.color = 'var(--fg2)';
+                            }}
+                          >
+                            {opt}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>CA</label>
@@ -2442,7 +2489,12 @@ export default function CharacterDetailPage() {
 
               <button 
                 className="btn btn-primary"
-                style={{ width: '100%', marginTop: 8, justifyContent: 'center' }}
+                style={{ 
+                  width: '100%', marginTop: 8, justifyContent: 'center',
+                  opacity: (newCompanion.name && newCompanion.type && newCompanion.ac !== undefined && newCompanion.maxHp !== undefined && newCompanion.speed) ? 1 : 0.5,
+                  cursor: (newCompanion.name && newCompanion.type && newCompanion.ac !== undefined && newCompanion.maxHp !== undefined && newCompanion.speed) ? 'pointer' : 'not-allowed'
+                }}
+                disabled={!(newCompanion.name && newCompanion.type && newCompanion.ac !== undefined && newCompanion.maxHp !== undefined && newCompanion.speed)}
                 onClick={() => handleAddCompanion(newCompanion)}
               >
                 Criar Companheiro
