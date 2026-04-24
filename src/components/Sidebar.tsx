@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon, Sparkles } from 'lucide-react'
+import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon, Sparkles, Zap } from 'lucide-react'
 import { useState } from 'react'
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { href: '/campanhas', label: 'Campanhas', icon: BookOpen },
   { href: '/ameacas', label: 'Ameaças', icon: Shield },
   { href: '/magias', label: 'Magias', icon: Sparkles },
+  { href: '/deuses', label: 'Deuses', icon: Zap },
 ]
 
 export function Sidebar() {
