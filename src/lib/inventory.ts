@@ -22,6 +22,13 @@ export interface InventoryItem {
   ac?: number         // Base CA or bonus
   armorType?: 'light' | 'medium' | 'heavy' | 'shield'
   dexMax?: number     // Max Dex bonus allowed (usually 2 for medium)
+  effects?: ItemEffect[]
+}
+
+export interface ItemEffect {
+  type: 'stat_override' | 'stat_bonus' | 'ac_bonus'
+  target: 'strength' | 'dexterity' | 'constitution' | 'intelligence' | 'wisdom' | 'charisma' | 'ac'
+  value: number
 }
 
 export interface InventoryEntry {
@@ -101,6 +108,11 @@ export const ITEM_CATALOG: InventoryItem[] = [
   { id: 'bolsa-5po', name: 'Bolsa (5 po)', category: 'misc', icon: '💰', description: 'Bolsa com 5 peças de ouro.', weight: 0.1, cost: '5 po' },
   { id: 'bugiganga', name: 'Bugiganga', category: 'misc', icon: '🔮', description: 'Um item aleatório sem valor mecânico, mas rico em história.', weight: 0.1, cost: '—' },
   { id: 'tocha', name: 'Tocha', category: 'misc', icon: '🔥', description: 'Ilumina em 6 metros por 1 hora.', weight: 0.5, cost: '1 pc' },
+  
+  // Magic Items (Test)
+  { id: 'cinto-forca-gigante', name: 'Cinto da Força do Gigante', category: 'misc', icon: '💎', description: 'Sua Força se torna 21 enquanto você usar este cinto.', weight: 0.5, cost: '500 po', effects: [{ type: 'stat_override', target: 'strength', value: 21 }] },
+  { id: 'tiara-intelecto', name: 'Tiara do Intelecto', category: 'misc', icon: '👑', description: 'Sua Inteligência se torna 19 enquanto você usar esta tiara.', weight: 0.5, cost: '500 po', effects: [{ type: 'stat_override', target: 'intelligence', value: 19 }] },
+  { id: 'anel-protecao', name: 'Anel de Proteção', category: 'misc', icon: '💍', description: '+1 na CA e em todos os testes de salvaguarda.', weight: 0.1, cost: '500 po', effects: [{ type: 'ac_bonus', target: 'ac', value: 1 }] },
 ]
 
 // ── Helper ────────────────────────────────────────────────────────────────────

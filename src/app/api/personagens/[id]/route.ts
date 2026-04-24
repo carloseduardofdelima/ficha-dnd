@@ -45,6 +45,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     defenses: (character as any).defenses ? JSON.parse((character as any).defenses) : null,
     spellSlots: character.spellSlots,
     resources: character.resources,
+    companions: character.companions ? JSON.parse(character.companions) : null,
   }
 
   return NextResponse.json(parsedCharacter)
@@ -99,6 +100,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       appearance: body.appearance,
       backstory: body.backstory,
       defenses: body.defenses,
+      companions: body.companions,
     },
   })
 

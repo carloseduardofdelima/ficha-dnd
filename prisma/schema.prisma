@@ -97,6 +97,7 @@ model Character {
   resources        String?
   spellSlots       String?
   ruleset          String?          @default("2024")
+  companions       String?
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   savedBy          SavedCharacter[]
 }

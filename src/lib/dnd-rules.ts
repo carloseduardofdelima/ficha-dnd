@@ -20,11 +20,50 @@ export interface Attrs {
  * - Unarmored Defense (Monk): 10 + Dex + Wis
  * - Otherwise: 10 + Dex
  */
+/**
+ * Calculates effective attributes based on base stats and equipped items.
+ */
+export function calculateEffectiveStats(
+  baseAttrs: Attrs,
+  inventory: InventoryEntry[]
+): Attrs {
+  const effective = { ...baseAttrs }
+  const equippedItems = inventory.filter(e => e.isEquipped)
+
+  // 1. Apply bonuses (additive)
+  for (const entry of equippedItems) {
+    if (entry.item.effects) {
+      for (const effect of entry.item.effects) {
+        if (effect.type === 'stat_bonus' && effect.target !== 'ac') {
+          effective[effect.target] += effect.value
+        }
+      }
+    }
+  }
+
+  // 2. Apply overrides (take max of current or override)
+  for (const entry of equippedItems) {
+    if (entry.item.effects) {
+      for (const effect of entry.item.effects) {
+        if (effect.type === 'stat_override' && effect.target !== 'ac') {
+          effective[effect.target] = Math.max(effective[effect.target], effect.value)
+        }
+      }
+    }
+  }
+
+  return effective
+}
+
+/**
+ * Calculates Armor Class (CA) based on class, attributes, and inventory.
+ */
 export function calculateAC(
   className: string,
-  attrs: Attrs,
+  baseAttrs: Attrs,
   inventory: InventoryEntry[]
 ): number {
+  const attrs = calculateEffectiveStats(baseAttrs, inventory)
   const dexMod = Math.floor((attrs.dexterity - 10) / 2)
   const conMod = Math.floor((attrs.constitution - 10) / 2)
   const wisMod = Math.floor((attrs.wisdom - 10) / 2)
@@ -33,17 +72,28 @@ export function calculateAC(
   const shield = inventory.find(e => e.item.category === 'armor' && e.item.armorType === 'shield' && e.isEquipped)
   const shieldBonus = shield ? (shield.item.ac || 2) : 0
 
+  // Item AC bonuses (like Ring of Protection)
+  let itemACBonus = 0
+  const equippedItems = inventory.filter(e => e.isEquipped)
+  for (const entry of equippedItems) {
+    if (entry.item.effects) {
+      for (const effect of entry.item.effects) {
+        if (effect.type === 'ac_bonus') {
+          itemACBonus += effect.value
+        }
+      }
+    }
+  }
+
   // 1. Base Unarmored
-  let maxAC = 10 + dexMod + shieldBonus
+  let maxAC = 10 + dexMod + shieldBonus + itemACBonus
 
   // 2. Unarmored Defense (Class specific)
   if (className === 'Bárbaro') {
-    // Barbarian UD works with shields
-    maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus)
+    maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus + itemACBonus)
   } else if (className === 'Monge') {
-    // Monk UD ONLY works if NOT using armor AND NOT using shield
     if (armors.length === 0 && !shield) {
-      maxAC = Math.max(maxAC, 10 + dexMod + wisMod)
+      maxAC = Math.max(maxAC, 10 + dexMod + wisMod + itemACBonus)
     }
   }
 
@@ -60,7 +110,7 @@ export function calculateAC(
     } else if (armor.armorType === 'heavy') {
       currentArmorAC = acBase
     }
-    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus)
+    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus + itemACBonus)
   }
 
   return maxAC

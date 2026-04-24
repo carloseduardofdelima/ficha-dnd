@@ -10,7 +10,7 @@ import { SPELLS } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
-import { calculateAC } from '@/lib/dnd-rules'
+import { calculateAC, calculateEffectiveStats } from '@/lib/dnd-rules'
 import { ITEM_CATALOG } from '@/lib/inventory'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
@@ -235,17 +235,25 @@ export default function CharacterDetailPage() {
     </div>
   )
 
-  // Map database data to UI helpers
   const characterClass = CLASSES.find(c => c.name === character.class)
   const proficientSaves = characterClass?.savingThrows || []
+
+  const effectiveStats = calculateEffectiveStats({
+    strength: character.strength,
+    dexterity: character.dexterity,
+    constitution: character.constitution,
+    intelligence: character.intelligence,
+    wisdom: character.wisdom,
+    charisma: character.charisma
+  }, (character.inventory as any[]) || [])
 
   const attributes = [
     {
       name: 'Força',
-      score: character.strength,
-      mod: formatModifier(character.strength),
+      score: effectiveStats.strength,
+      mod: formatModifier(effectiveStats.strength),
       save: (() => {
-        const mod = calcModifier(character.strength)
+        const mod = calcModifier(effectiveStats.strength)
         const isProficient = proficientSaves.includes('Força')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus
@@ -254,10 +262,10 @@ export default function CharacterDetailPage() {
     },
     {
       name: 'Destreza',
-      score: character.dexterity,
-      mod: formatModifier(character.dexterity),
+      score: effectiveStats.dexterity,
+      mod: formatModifier(effectiveStats.dexterity),
       save: (() => {
-        const mod = calcModifier(character.dexterity)
+        const mod = calcModifier(effectiveStats.dexterity)
         const isProficient = proficientSaves.includes('Destreza')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus
@@ -266,10 +274,10 @@ export default function CharacterDetailPage() {
     },
     {
       name: 'Constituição',
-      score: character.constitution,
-      mod: formatModifier(character.constitution),
+      score: effectiveStats.constitution,
+      mod: formatModifier(effectiveStats.constitution),
       save: (() => {
-        const mod = calcModifier(character.constitution)
+        const mod = calcModifier(effectiveStats.constitution)
         const isProficient = proficientSaves.includes('Constituição')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus
@@ -278,10 +286,10 @@ export default function CharacterDetailPage() {
     },
     {
       name: 'Inteligência',
-      score: character.intelligence,
-      mod: formatModifier(character.intelligence),
+      score: effectiveStats.intelligence,
+      mod: formatModifier(effectiveStats.intelligence),
       save: (() => {
-        const mod = calcModifier(character.intelligence)
+        const mod = calcModifier(effectiveStats.intelligence)
         const isProficient = proficientSaves.includes('Inteligência')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus
@@ -290,10 +298,10 @@ export default function CharacterDetailPage() {
     },
     {
       name: 'Sabedoria',
-      score: character.wisdom,
-      mod: formatModifier(character.wisdom),
+      score: effectiveStats.wisdom,
+      mod: formatModifier(effectiveStats.wisdom),
       save: (() => {
-        const mod = calcModifier(character.wisdom)
+        const mod = calcModifier(effectiveStats.wisdom)
         const isProficient = proficientSaves.includes('Sabedoria')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus
@@ -302,10 +310,10 @@ export default function CharacterDetailPage() {
     },
     {
       name: 'Carisma',
-      score: character.charisma,
-      mod: formatModifier(character.charisma),
+      score: effectiveStats.charisma,
+      mod: formatModifier(effectiveStats.charisma),
       save: (() => {
-        const mod = calcModifier(character.charisma)
+        const mod = calcModifier(effectiveStats.charisma)
         const isProficient = proficientSaves.includes('Carisma')
         const bonus = isProficient ? character.proficiencyBonus : 0
         const total = mod + bonus

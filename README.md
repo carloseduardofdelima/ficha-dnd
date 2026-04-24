@@ -1,69 +1,88 @@
-# A Forja - Ficha de Personagem D&D 5e
+# 🛡️ A Forja - Ficha de Personagem D&D 5e
 
-A Forja é uma aplicação web avançada desenvolvida para jogadores de Dungeons & Dragons 5ª Edição. A plataforma oferece uma ficha de personagem digital responsiva, com design otimizado e alta performance, ideal para uso em dispositivos móveis durante sessões de RPG.
+**A Forja** é uma plataforma web premium para jogadores e mestres de Dungeons & Dragons 5ª Edição. Desenvolvida com as tecnologias mais modernas do ecossistema React, oferece uma experiência de ficha digital fluida, visualmente deslumbrante e otimizada para dispositivos móveis.
 
 ![Demonstração da Interface Principal](./public/assets/readme/main_navigation.webp)
 
 ---
 
-## Atualizações Recentes
+## ✨ Funcionalidades Atuais
 
-O sistema foi atualizado com funcionalidades avançadas para otimizar a gestão de personagens:
+### 📊 Gestão de Personagem
+- **Cálculos Automáticos**: Modificadores, proficiências, CA, iniciativa e bônus de ataque calculados em tempo real.
+- **Regras 2024 (One D&D)**: Suporte total às novas regras, incluindo mudanças em espécies (raças) e classes.
+- **Inventário Inteligente**: Catálogo de itens SRD com cálculo automático de peso e capacidade de carga.
+- **Grimório Visual**: Biblioteca de magias completa com ícones personalizados para identificação rápida por escola de magia.
 
-### Inventário com Cálculo de Carga Automático
-Gestão de inventário simplificada com cálculo automático de peso total. O sistema monitora a capacidade de carga do personagem e permite a inclusão de itens através de um catálogo integrado.
+### 📜 Utilitários & Compêndios
+- **Bestiário (Ameaças)**: Consulta rápida a monstros do SRD com blocos de estatísticas formatados.
+- **Exportação PDF**: Geração de ficha oficial em PDF via `@react-pdf/renderer` para impressão ou compartilhamento.
+- **Bloco de Notas**: Registro persistente de sessões e detalhes da campanha.
 
-### Interface Visual para Magias
-Substituição de listagens textuais por uma interface visual intuitiva. Cada magia conta com identificação visual específica para agilizar a tomada de decisão durante o combate.
-- **Identificação Visual**: Biblioteca de ícones associada às magias do System Reference Document (SRD).
-- **Acesso Rápido**: Detalhes como alcance, tempo de conjuração e efeitos disponíveis de forma imediata.
-
-### Registro de Habilidades (D&D 2024)
-Integração com as regras de 2024, incluindo um banco de dados completo de habilidades de classe.
-- **Consultas Integradas**: Descrições oficiais acessíveis via modais, eliminando a necessidade de consultas externas.
-- **Progressão Dinâmica**: Atualização automática da ficha de acordo com o nível do personagem, desbloqueando novas competências.
-
-### Bloco de Notas Persistente
-Módulo dedicado para anotações de campanha com persistência de dados, garantindo que informações cruciais sejam mantidas com segurança.
+### 🔐 Segurança & Sincronização
+- **Autenticação Multi-provedor**: Login seguro via Google e e-mail/senha através do NextAuth.
+- **Persistência em Nuvem**: Seus personagens salvos e sincronizados via Supabase/PostgreSQL.
 
 ---
 
-## Funcionalidades Principais
+## 🚀 Roadmap de Desenvolvimento (Próximas Features)
 
-- **Design Responsivo**: Interface mobile-first desenvolvida com estética moderna e navegação fluida.
-- **Cálculos Automatizados**: Processamento automático de modificadores de atributos, proficiências, Classe de Armadura (CA) e bônus de ataque.
-- **Gestão em Tempo Real**: Atualização instantânea de Pontos de Vida, espaços de magia e recursos de classe.
-- **Módulo de Combate**: Visualização otimizada de ataques e magias em cartões de alta legibilidade.
+Com base na análise do projeto, as seguintes funcionalidades estão planejadas:
 
----
-
-## Tecnologias Utilizadas
-
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + Turbopack)
-- **Linguagem**: TypeScript
-- **Frontend**: React 19, Tailwind CSS e Vanilla CSS.
-- **Ícones**: Lucide React & Biblioteca customizada de ícones de magias.
-- **Persistência**: Prisma ORM (PostgreSQL via Supabase).
-- **Autenticação**: NextAuth.js (Integração com Google Auth).
+1.  **🎲 Sistema de Rolagem Integrado**: Lançamento de dados (d20, d6, etc) diretamente da ficha para ataques, danos e perícias.
+2.  **⏳ Automação de Descansos**: Botões de Descanso Curto e Longo que resetam automaticamente PV, recursos de classe e espaços de magia.
+3.  **🏰 Gestão de Campanhas**: Dashboard para Mestres visualizarem as fichas de seus jogadores e gerenciarem o progresso do grupo.
+4.  **📈 Assistente de Level Up**: Guia passo a passo para subida de nível, sugerindo incrementos de HP e novas habilidades.
+5.  **🌍 Localização Internacional**: Suporte completo para Inglês (EN) além do Português (PT-BR).
+6.  **🔌 Integração VTT**: Exportação de personagens em formato compatível com FoundryVTT e Roll20.
 
 ---
 
-## Instruções de Instalação
+## 🛠️ Stack Tecnológica
 
-1.  **Clonagem do Repositório**:
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + React 19)
+- **Estilização**: Tailwind CSS 4 & Vanilla CSS
+- **Banco de Dados**: PostgreSQL (via Supabase)
+- **ORM**: Prisma
+- **Autenticação**: NextAuth.js
+- **PDF**: React-PDF Renderer
+
+---
+
+## ⚙️ Como Instalar e Rodar
+
+1.  **Clone o repositório**:
     ```bash
-    git clone [url-do-repositorio]
+    git clone https://github.com/seu-usuario/ficha-dnd.git
     ```
 
-2.  **Instalação de Dependências**:
+2.  **Instale as dependências**:
     ```bash
     npm install
     ```
 
-3.  **Configuração do Ambiente**:
-    Configure as variáveis de ambiente necessárias para o banco de dados e autenticação no arquivo `.env`.
+3.  **Configure o banco de dados**:
+    Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+    ```env
+    DATABASE_URL="sua_url_do_postgres"
+    DIRECT_URL="sua_url_direta_do_postgres"
+    NEXTAUTH_SECRET="seu_secret_aqui"
+    GOOGLE_CLIENT_ID="seu_id_do_google"
+    GOOGLE_CLIENT_SECRET="seu_secret_do_google"
+    ```
 
-4.  **Execução em Desenvolvimento**:
+4.  **Sincronize o Banco**:
+    ```bash
+    npx prisma db push
+    ```
+
+5.  **Inicie o servidor de desenvolvimento**:
     ```bash
     npm run dev
     ```
+
+---
+
+## ⚖️ Licença
+
+Este projeto utiliza o conteúdo do **System Reference Document 5.1/5.2** da Wizards of the Coast, sob a licença Creative Commons Attribution 4.0 International.
