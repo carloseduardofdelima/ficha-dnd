@@ -15,6 +15,7 @@ import { ITEM_CATALOG } from '@/lib/inventory'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { getFeatureDescription } from '@/lib/features'
+import { BACKGROUNDS } from '@/lib/backgrounds'
 import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
 import { SPELL_PROGRESSION } from '@/lib/spells'
@@ -38,6 +39,7 @@ export default function CharacterDetailPage() {
   const [useAverageHP, setUseAverageHP] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
+  const [isPreparing, setIsPreparing] = useState(false)
   const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
 
@@ -143,7 +145,8 @@ export default function CharacterDetailPage() {
     character?.intelligence, character?.wisdom, character?.charisma,
     character?.inventory, character?.currentHp, character?.maxHp,
     character?.spellSlots, character?.resources, character?.notes,
-    character?.level, character?.class
+    character?.level, character?.class, character?.spells,
+    character?.traits, character?.backstory, character?.appearance
   ]);
 
   // Get spell progression for current level
@@ -478,18 +481,16 @@ export default function CharacterDetailPage() {
       setSaveStatus('error');
     }
   };
-  const updateValue = (field: string, deltaOrVal: number | string, autoSave = true) => {
+  const updateValue = (field: string, deltaOrVal: any, autoSave = true) => {
     if (!character) return;
     let newVal;
-    if (typeof deltaOrVal === 'number') {
+    if (typeof deltaOrVal === 'number' && typeof (character as any)[field] === 'number') {
       newVal = Math.max(0, ((character as any)[field] || 0) + deltaOrVal);
     } else {
       newVal = deltaOrVal;
     }
     const updatedChar = { ...character, [field]: newVal };
     setCharacter(updatedChar);
-
-    // Persist ONLY to LocalStorage
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1437,24 +1438,36 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'spells' && (
                   <div className="fade-up">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Magias</h2>
-                      {currentProgression && (
-                        <div style={{ display: 'flex', gap: 12 }}>
-                          <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>Truques</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: totalCantripsSelected > currentProgression.cantrips ? 'var(--error)' : 'var(--fg)' }}>
-                              {totalCantripsSelected} / {currentProgression.cantrips}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                      <div>
+                        <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Magias</h2>
+                        <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>
+                          {isPreparing ? '🛡️ Selecione as magias para o dia' : '📖 Suas magias ativas'}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                        {isOwner && (
+                          <button 
+                            className={`btn ${isPreparing ? 'btn-primary' : 'btn-outline'}`}
+                            onClick={() => setIsPreparing(!isPreparing)}
+                            style={{ padding: '6px 12px', fontSize: 12, height: 'auto', gap: 6 }}
+                          >
+                            <Zap size={14} fill={isPreparing ? 'currentColor' : 'none'} />
+                            {isPreparing ? 'Finalizar Preparação' : 'Preparar Magias'}
+                          </button>
+                        )}
+                        
+                        {currentProgression && (
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Truques</div>
+                              <div style={{ fontSize: 14, fontWeight: 800, color: totalCantripsSelected > currentProgression.cantrips ? 'var(--error)' : 'var(--accentL)' }}>
+                                {totalCantripsSelected}<span style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 400 }}>/{currentProgression.cantrips}</span>
+                              </div>
                             </div>
                           </div>
-                          <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>Preparadas</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: totalLeveledSpellsSelected > currentProgression.prepared ? 'var(--error)' : 'var(--fg)' }}>
-                              {totalLeveledSpellsSelected} / {currentProgression.prepared}
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
 
                     {/* Spell Slots Display */}
@@ -1518,69 +1531,158 @@ export default function CharacterDetailPage() {
                       </div>
                     )}
 
-                    {character.spells && Array.isArray(character.spells) && character.spells.length > 0 ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                        {[0, 1].map(lvl => {
-                          const lvlSpells = (character.spells as string[])
-                            .map(id => SPELLS.find(s => s.id === id))
-                            .filter(s => s && s.level === lvl)
+                    {(() => {
+                      const currentSpells = (character.spells as string[]) || [];
+                      // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
+                      const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc, curr, idx) => curr > 0 ? idx : acc, 0) : 0;
+                      const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1;
+                      
+                      // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
+                      const baseList = isPreparing 
+                        ? SPELLS.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel)
+                        : currentSpells.map(id => SPELLS.find(s => s.id === id)).filter(Boolean);
 
-                          if (lvlSpells.length === 0) return null
+                      const toggleSpell = (id: string) => {
+                        if (!isOwner) return;
+                        const spell = SPELLS.find(s => s.id === id);
+                        if (!spell) return;
 
-                          return (
-                            <div key={lvl}>
-                              <h3 style={{ fontSize: 12, color: 'var(--accent)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
-                                {lvl === 0 ? 'Truques' : '1º Nível'}
-                              </h3>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                                {lvlSpells.map((spell: any) => (
-                                  <div key={spell.id} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
-                                    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 12 }}>
-                                      {spell.icon && (
-                                        <div style={{
-                                          flexShrink: 0, width: 44, height: 44, borderRadius: 10, overflow: 'hidden',
-                                          border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)',
-                                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                                        }}>
-                                          <Image
-                                            src={`/assets/spells-icons/${spell.icon}`}
-                                            alt={spell.name}
-                                            width={44}
-                                            height={44}
-                                            style={{ objectFit: 'cover' }}
-                                          />
-                                        </div>
-                                      )}
-                                      <div style={{ flex: 1 }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                          <div>
-                                            <div style={{ fontWeight: 700, fontSize: 16 }}>{spell.name}</div>
-                                            <div style={{ fontSize: 11, color: 'var(--accentL)', fontWeight: 600 }}>{spell.school}</div>
-                                          </div>
-                                          <div style={{ fontSize: 10, color: 'var(--fgM)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
-                                            {spell.range}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
+                        const newSpells = [...currentSpells];
+                        const index = newSpells.indexOf(id);
+                        
+                        if (index > -1) {
+                          // Se já está selecionada, sempre permite remover
+                          newSpells.splice(index, 1);
+                        } else {
+                          // Se for adicionar, verifica o limite do nível
+                          const lvl = spell.level;
+                          const selectedInLvl = currentSpells.filter(sid => {
+                            const s = SPELLS.find(sp => sp.id === sid);
+                            return s && s.level === lvl;
+                          }).length;
 
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 10, borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 10 }}>
-                                      <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
-                                      <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
-                                      {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONCENTRAÇÃO</div>}
-                                    </div>
-                                    <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
+                          const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
+
+                          if (selectedInLvl >= maxInLvl) {
+                            alert(`Você já atingiu o limite de magias para o ${lvl === 0 ? 'Truques' : lvl + 'º Nível'}!`);
+                            return;
+                          }
+                          newSpells.push(id);
+                        }
+                        updateValue('spells', newSpells, true);
+                      };
+
+                      if (baseList.length === 0 && !isPreparing) {
+                        return <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Nenhuma magia preparada para hoje.</p>;
+                      }
+
+                      const slots = character.spellSlots ? JSON.parse(character.spellSlots as string) : {};
+
+                      return (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(lvl => {
+                            const lvlSpells = (baseList as any[]).filter(s => s.level === lvl);
+
+                            if (lvlSpells.length === 0) return null;
+
+                            const selectedInLvl = currentSpells.filter(id => {
+                              const s = SPELLS.find(sp => sp.id === id);
+                              return s && s.level === lvl;
+                            }).length;
+
+                            const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
+
+                            return (
+                              <div key={lvl}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: 8 }}>
+                                  <h3 style={{ fontSize: 12, color: 'var(--accent)', textTransform: 'uppercase', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
+                                    {lvl === 0 ? 'Truques' : `${lvl}º Nível`}
+                                  </h3>
+                                  <div style={{ fontSize: 11, fontWeight: 700, color: selectedInLvl > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
+                                    {selectedInLvl} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{isPreparing ? 'SELECIONADAS' : 'PREPARADAS'}</span>
                                   </div>
-                                ))}
+                                </div>
+                                
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                  {lvlSpells.map((spell: any) => {
+                                    const isSelected = currentSpells.includes(spell.id);
+                                    return (
+                                      <div 
+                                        key={spell.id} 
+                                        className="card" 
+                                        onClick={() => isPreparing && toggleSpell(spell.id)}
+                                        style={{ 
+                                          padding: 16, 
+                                          background: isSelected ? 'var(--bg2)' : 'rgba(255,255,255,0.02)',
+                                          borderLeft: isSelected ? '3px solid var(--accent)' : '1px solid var(--border)',
+                                          cursor: isPreparing ? 'pointer' : 'default',
+                                          transition: 'all 0.2s',
+                                          position: 'relative',
+                                          overflow: 'hidden'
+                                        }}
+                                      >
+                                        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                                          {isPreparing && (
+                                            <div style={{ 
+                                              width: 20, height: 20, borderRadius: 6, border: '2px solid var(--accent)',
+                                              background: isSelected ? 'var(--accent)' : 'transparent',
+                                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                              flexShrink: 0
+                                            }}>
+                                              {isSelected && <Zap size={12} color="#fff" fill="#fff" />}
+                                            </div>
+                                          )}
+                                          
+                                          {spell.icon && (
+                                            <div style={{
+                                              flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
+                                              border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
+                                            }}>
+                                              <Image
+                                                src={`/assets/spells-icons/${spell.icon}`}
+                                                alt={spell.name}
+                                                width={40} height={40}
+                                                style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
+                                              />
+                                            </div>
+                                          )}
+                                          
+                                          <div style={{ flex: 1 }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                              <div>
+                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg3)' }}>{spell.name}</div>
+                                                <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>{spell.school}</div>
+                                              </div>
+                                              {!isPreparing && (
+                                                <div style={{ fontSize: 9, color: 'var(--fg3)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                                  {spell.range}
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {!isPreparing && (
+                                          <>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 10 }}>
+                                              <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
+                                              <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
+                                              {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONC.</div>}
+                                            </div>
+                                            <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
+                                          </>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
                               </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    ) : (
-                      <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Você não possui magias selecionadas.</p>
-                    )}
+                            );
+                          })}
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
 
@@ -1710,8 +1812,39 @@ export default function CharacterDetailPage() {
                             </p>
                           </div>
                         ))}
-                      </div>
                     </div>
+                  </div>
+                    
+                    {/* Background Feature */}
+                    {(() => {
+                      const backgroundName = character.background;
+                      if (!backgroundName) return null;
+                      
+                      const bg = BACKGROUNDS.find(b => 
+                        b.name.toLowerCase().trim() === backgroundName.toLowerCase().trim() ||
+                        b.id.toLowerCase() === backgroundName.toLowerCase().trim()
+                      );
+                      
+                      if (!bg) return null;
+                      return (
+                        <div style={{ marginBottom: 24 }}>
+                          <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                            Antecedente: {backgroundName}
+                          </h3>
+                          <div
+                            className="card clickable"
+                            style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                            onClick={() => setDetailFeature({ ...bg.feature, source: 'Antecedente', level: 1 })}
+                          >
+                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{bg.feature.name}</div>
+                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                              {bg.feature.description}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })()}
 
                     <div style={{ marginBottom: 24 }}>
                       <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
