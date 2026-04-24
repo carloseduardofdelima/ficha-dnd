@@ -67,7 +67,7 @@ export const RACES: Race[] = [
     traits: [
       { name: 'Visão no Escuro', description: '60 pés.' },
       { name: 'Resistência Dracônica', description: 'Você tem resistência ao tipo de dano associado à sua ancestralidade.' },
-      { name: 'Arma de Sopro (Nível 1)', description: 'Usada como parte de uma Ação de Ataque. Cone de 15 pés ou Linha de 30 pés. TR de Constituição. Dano: 1d10 (escala com nível). Usos: PB vezes por descanso longo.' },
+      { name: 'Arma de Sopro (Nível 1)', description: 'Quando você usa a ação de Ataque, pode substituir um dos ataques por um sopro em Cone (15 pés) ou Linha (30 pés). As criaturas na área devem fazer um Teste de Resistência de Destreza ou Constituição (sua escolha) contra Dificuldade 8 + Mod. Con + Bônus de Proficiência. Dano: 1d10 + seu nível (metade se passar). Usos: Bônus de Proficiência vezes por Descanso Longo.' },
       { name: 'Voo Dracônico (Nível 5)', description: 'Como uma Ação Bônus, você ganha asas espectrais e velocidade de voo por 10 minutos. Uma vez por descanso longo.' }
     ]
   },
@@ -84,7 +84,7 @@ export const RACES: Race[] = [
       { name: 'Resiliência Anã', description: 'Resistência a dano de Veneno e vantagem em salvaguardas contra envenenamento.' },
       { name: 'Robustez Anã', description: 'Conta como 1 tamanho maior para capacidade de carga e empurrar.' },
       { name: 'Treinamento Anão', description: 'Proficiência em Machados, Bestas de Mão, Picaretas e Martelos.' },
-      { name: 'Conhecimento da Pedra (Stonecunning)', description: 'Como Ação Bônus, ganha Sentido Sísmico 60 pés por 10 minutos em superfícies de pedra. Usos: PB vezes por descanso longo.' }
+      { name: 'Conhecimento da Pedra (Stonecunning)', description: 'Como Ação Bônus, ganha Sentido Sísmico 60 pés por 10 minutos em superfícies de pedra. Usos: Bônus de Proficiência vezes por Descanso Longo.' }
     ]
   },
   {

@@ -115,10 +115,10 @@ export default function CharacterDetailPage() {
     if (!character || loading) return;
 
     // Recalculate AC based on rules
-    const inventory = Array.isArray(character.inventory) 
-      ? character.inventory 
+    const inventory = Array.isArray(character.inventory)
+      ? character.inventory
       : (character.inventory ? JSON.parse(character.inventory as string) : []);
-    
+
     const calculatedAC = calculateAC(character.class, {
       strength: character.strength,
       dexterity: character.dexterity,
@@ -139,7 +139,7 @@ export default function CharacterDetailPage() {
 
     return () => clearTimeout(timer);
   }, [
-    character?.strength, character?.dexterity, character?.constitution, 
+    character?.strength, character?.dexterity, character?.constitution,
     character?.intelligence, character?.wisdom, character?.charisma,
     character?.inventory, character?.currentHp, character?.maxHp,
     character?.spellSlots, character?.resources, character?.notes,
@@ -240,11 +240,11 @@ export default function CharacterDetailPage() {
 
   async function handleAddInventoryItem(item: any) {
     if (!character) return;
-    
+
     // Check if item already exists
     const existingIdx = (character.inventory as any[]).findIndex(e => e.item.name === item.name);
     let newInventory = [...(character.inventory as any[])];
-    
+
     if (existingIdx >= 0) {
       newInventory[existingIdx] = {
         ...newInventory[existingIdx],
@@ -278,7 +278,7 @@ export default function CharacterDetailPage() {
 
   async function handleRemoveInventoryItem(itemName: string) {
     if (!character) return;
-    
+
     const newInventory = (character.inventory as any[]).filter(e => e.item.name !== itemName);
     const updatedChar = { ...character, inventory: newInventory };
     setCharacter(updatedChar);
@@ -502,11 +502,11 @@ export default function CharacterDetailPage() {
       reader.onload = async (event) => {
         const base64 = event.target?.result as string
         const compressed = await compressImage(base64)
-        
+
         const updated = { ...character, avatarUrl: compressed }
         setCharacter(updated)
         setShowUpload(false)
-        
+
         // Persistence
         await saveCharacterToDB(updated)
       }
@@ -543,9 +543,9 @@ export default function CharacterDetailPage() {
 
   const handleRemoveCompanion = (compId: string) => {
     if (!character) return;
-    const updated = { 
-      ...character, 
-      companions: parsedCompanions.filter(c => c.id !== compId) 
+    const updated = {
+      ...character,
+      companions: parsedCompanions.filter(c => c.id !== compId)
     };
     setCharacter(updated);
     saveCharacterToDB(updated);
@@ -634,7 +634,7 @@ export default function CharacterDetailPage() {
         <div className="menu-overlay fade-up">
           <div className="menu-grid">
             {[
-              { label: 'Informações', id: 'about' },
+              { label: 'Biografia', id: 'about' },
               { label: 'Notas', id: 'notes' },
               { label: 'Atributos', id: 'attributes' },
               { label: 'Perícias', id: 'skills' },
@@ -642,6 +642,7 @@ export default function CharacterDetailPage() {
               { label: 'Inventário', id: 'inventory' },
               { label: 'Habilidades', id: 'features' },
               { label: 'Magias', id: 'spells' },
+              { label: 'Proficiências', id: 'proficiencies' },
               { label: 'Companheiros', id: 'companions' },
             ].map(item => (
               <div
@@ -842,11 +843,11 @@ export default function CharacterDetailPage() {
         </button>
 
         {/* Attributes Banner */}
-        <div id="attr-banner" className={`attr-grid ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div id="attr-banner" className={`attr-grid ${activeTab !== 'attributes' ? 'hide-mobile' : ''}`} style={{ marginBottom: 24, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {attributes.map(attr => (
-            <div 
-              key={attr.name} 
-              className="card" 
+            <div
+              key={attr.name}
+              className="card"
               onClick={() => {
                 if (isOwner) {
                   setEditingAttrs({
@@ -860,8 +861,8 @@ export default function CharacterDetailPage() {
                   setIsAttrModalOpen(true);
                 }
               }}
-              style={{ 
-                padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%', 
+              style={{
+                padding: '12px 0', textAlign: 'center', background: 'var(--bg2)', width: '100%',
                 cursor: isOwner ? 'pointer' : 'default',
                 transition: 'transform 0.2s',
                 border: '1px solid var(--border)'
@@ -905,7 +906,8 @@ export default function CharacterDetailPage() {
                   { id: 'features', label: 'Características' },
                   { id: 'companions', label: 'Companheiros' },
                   { id: 'notes', label: 'Notas' },
-                  { id: 'about', label: 'Sobre' },
+                  { id: 'proficiencies', label: 'Idiomas + Prof' },
+                  { id: 'about', label: 'Biografia' },
                 ].map(tab => (
                   <button
                     key={tab.id}
@@ -1015,8 +1017,8 @@ export default function CharacterDetailPage() {
                         </div>
                         {isOwner && (
                           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
-                            <button 
-                              className="btn btn-primary" 
+                            <button
+                              className="btn btn-primary"
                               onClick={() => saveCharacterToDB(character)}
                               disabled={saveStatus === 'saving'}
                             >
@@ -1028,7 +1030,7 @@ export default function CharacterDetailPage() {
                     </div>
                   </div>
                 )}
-                
+
                 {activeTab === 'notes' && (
                   <div className="fade-up">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -1059,8 +1061,8 @@ export default function CharacterDetailPage() {
                           {isOwner ? '💾 Clique em salvar para persistir as alterações.' : '👁️ Modo de apenas leitura.'}
                         </div>
                         {isOwner && (
-                          <button 
-                            className="btn btn-primary" 
+                          <button
+                            className="btn btn-primary"
                             onClick={() => saveCharacterToDB(character)}
                             disabled={saveStatus === 'saving'}
                           >
@@ -1072,7 +1074,7 @@ export default function CharacterDetailPage() {
                   </div>
                 )}
 
-                {activeTab === 'attributes' && (
+                {activeTab === 'combat' && (
                   <div className="fade-up attributes-tab-container">
 
                     <div className="resources-section">
@@ -1267,56 +1269,57 @@ export default function CharacterDetailPage() {
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                         {(() => {
-                           const defs = [...parsedDefenses];
-                           // Racial fallbacks
-                           if (character.race.includes('Tiefling')) {
-                             if (character.subrace?.includes('Abissal') && !defs.some(d => (d as any).value === 'Veneno')) {
-                               defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
-                             } else if (character.subrace?.includes('Ctônico') && !defs.some(d => (d as any).value === 'Necrótico')) {
-                               defs.push({ value: 'Necrótico', type: 'resistance', detail: 'Raça' });
-                             } else if ((!character.subrace || character.subrace.includes('Infernal')) && !defs.some(d => (d as any).value === 'Fogo')) {
-                               defs.push({ value: 'Fogo', type: 'resistance', detail: 'Raça' });
-                             }
-                           }
-                           if (character.race.includes('Anão') && !defs.some(d => (d as any).value === 'Veneno')) {
-                             defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
-                           }
-                           if (character.race.includes('Draconato')) {
-                             const match = character.subrace?.match(/\(([^)]+)\)/);
-                             let type = match ? match[1] : null;
-                             
-                             if (!type && character.subrace) {
-                               if (/Vermelh|Ouro|Latão/i.test(character.subrace)) type = 'Fogo';
-                               else if (/Azul|Bronze/i.test(character.subrace)) type = 'Elétrico';
-                               else if (/Negra|Cobre/i.test(character.subrace)) type = 'Ácido';
-                               else if (/Prata|Branca/i.test(character.subrace)) type = 'Frio';
-                               else if (/Verde/i.test(character.subrace)) type = 'Veneno';
-                             }
+                          const defs = [...parsedDefenses];
+                          // Racial fallbacks
+                          if (character.race.includes('Tiefling')) {
+                            if (character.subrace?.includes('Abissal') && !defs.some(d => (d as any).value === 'Veneno')) {
+                              defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
+                            } else if (character.subrace?.includes('Ctônico') && !defs.some(d => (d as any).value === 'Necrótico')) {
+                              defs.push({ value: 'Necrótico', type: 'resistance', detail: 'Raça' });
+                            } else if ((!character.subrace || character.subrace.includes('Infernal')) && !defs.some(d => (d as any).value === 'Fogo')) {
+                              defs.push({ value: 'Fogo', type: 'resistance', detail: 'Raça' });
+                            }
+                          }
+                          if (character.race.includes('Anão') && !defs.some(d => (d as any).value === 'Veneno')) {
+                            defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
+                          }
+                          if (character.race.includes('Draconato')) {
+                            const match = character.subrace?.match(/\(([^)]+)\)/);
+                            let type = match ? match[1] : null;
 
-                             if (type && !defs.some(d => (d as any).value === type)) {
-                               defs.push({ value: type, type: 'resistance', detail: 'Raça' });
-                             }
-                           }
-                           
-                           if (defs.length === 0) return <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma resistência especial registrada.</div>;
-                           
-                           return defs.map((d, i) => (
-                             <div key={i} style={{ 
-                               display: 'flex', alignItems: 'center', gap: 6, padding: '4px 8px', borderRadius: 6,
-                               background: d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.1)' : 'rgba(59,130,246,0.1)',
-                               border: `1px solid ${d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)'}`,
-                               fontSize: 11
-                             }}>
-                               <span style={{ fontWeight: 700, color: d.type === 'immunity' || d.type === 'Imunidade' ? '#4ade80' : '#60a5fa' }}>
-                                 {d.type === 'immunity' || d.type === 'Imunidade' ? 'Imunidade' : 'Resistência'}:
-                               </span>
-                               <span>{d.value}</span>
-                               {d.detail && <span style={{ fontSize: 9, opacity: 0.6 }}>({d.detail})</span>}
-                             </div>
-                           ));
+                            if (!type && character.subrace) {
+                              if (/Vermelh|Ouro|Latão/i.test(character.subrace)) type = 'Fogo';
+                              else if (/Azul|Bronze/i.test(character.subrace)) type = 'Elétrico';
+                              else if (/Negra|Cobre/i.test(character.subrace)) type = 'Ácido';
+                              else if (/Prata|Branca/i.test(character.subrace)) type = 'Frio';
+                              else if (/Verde/i.test(character.subrace)) type = 'Veneno';
+                            }
+
+                            if (type && !defs.some(d => (d as any).value === type)) {
+                              defs.push({ value: type, type: 'resistance', detail: 'Raça' });
+                            }
+                          }
+
+                          if (defs.length === 0) return <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma resistência especial registrada.</div>;
+
+                          return defs.map((d, i) => (
+                            <div key={i} style={{
+                              display: 'flex', alignItems: 'center', gap: 6, padding: '4px 8px', borderRadius: 6,
+                              background: d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.1)' : 'rgba(59,130,246,0.1)',
+                              border: `1px solid ${d.type === 'immunity' || d.type === 'Imunidade' ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)'}`,
+                              fontSize: 11
+                            }}>
+                              <span style={{ fontWeight: 700, color: d.type === 'immunity' || d.type === 'Imunidade' ? '#4ade80' : '#60a5fa' }}>
+                                {d.type === 'immunity' || d.type === 'Imunidade' ? 'Imunidade' : 'Resistência'}:
+                              </span>
+                              <span>{d.value}</span>
+                              {d.detail && <span style={{ fontSize: 9, opacity: 0.6 }}>({d.detail})</span>}
+                            </div>
+                          ));
                         })()}
                       </div>
                     </div>
+
 
                     <h2 className="attr-title">Atributos</h2>
 
@@ -1354,7 +1357,7 @@ export default function CharacterDetailPage() {
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, fontSize: 11 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 1, fontSize: 15 }}>
                       <div style={{ display: 'flex', color: 'var(--fgM)', fontWeight: 700, paddingBottom: 8, borderBottom: '1px solid var(--border)', marginBottom: 8, fontSize: 10 }}>
                         <div style={{ flex: 1 }}>PERÍCIA</div>
                         <div style={{ width: 45, textAlign: 'center' }}>DADOS</div>
@@ -1391,12 +1394,12 @@ export default function CharacterDetailPage() {
                         const total = mod + trainingBonus + extraBonus
 
                         return (
-                          <div 
-                            key={skill.name} 
-                            style={{ 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              padding: '8px 4px', 
+                          <div
+                            key={skill.name}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '8px 4px',
                               borderBottom: '1px solid rgba(255,255,255,0.02)',
                               color: isTrained ? 'var(--accentL)' : 'var(--fg)',
                               opacity: isTrained ? 1 : 0.7,
@@ -1407,21 +1410,21 @@ export default function CharacterDetailPage() {
                               {skill.name}
                             </div>
                             <div style={{ width: 45, textAlign: 'center', color: 'var(--fg3)', fontSize: 10 }}>({skill.label})</div>
-                            <div style={{ 
-                              width: 45, 
-                              textAlign: 'center', 
-                              fontWeight: isTrained ? 800 : 400, 
-                              fontSize: 14, 
-                              color: isTrained ? 'var(--accentL)' : 'inherit' 
+                            <div style={{
+                              width: 45,
+                              textAlign: 'center',
+                              fontWeight: isTrained ? 800 : 400,
+                              fontSize: 14,
+                              color: isTrained ? 'var(--accentL)' : 'inherit'
                             }}>
                               {total >= 0 ? `+${total}` : total}
                             </div>
-                            <div style={{ 
-                              width: 45, 
-                              textAlign: 'center', 
-                              color: 'var(--fg3)', 
-                              fontSize: 11, 
-                              fontWeight: isTrained ? 700 : 400 
+                            <div style={{
+                              width: 45,
+                              textAlign: 'center',
+                              color: 'var(--fg3)',
+                              fontSize: 11,
+                              fontWeight: isTrained ? 700 : 400
                             }}>
                               {isTrained ? `+${trainingBonus + extraBonus}` : '0'}
                             </div>
@@ -1456,10 +1459,10 @@ export default function CharacterDetailPage() {
 
                     {/* Spell Slots Display */}
                     {currentProgression && currentProgression.slots.some(s => s > 0) && (
-                      <div style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', 
-                        gap: 8, 
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
+                        gap: 8,
                         marginBottom: 24,
                         background: 'rgba(255,255,255,0.02)',
                         padding: 12,
@@ -1473,10 +1476,10 @@ export default function CharacterDetailPage() {
                           return (
                             <div key={lvl} style={{ textAlign: 'center' }}>
                               <div style={{ fontSize: 10, color: 'var(--fg3)', marginBottom: 2 }}>{lvl}º Nvl</div>
-                              <div style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center', 
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                                 gap: 4,
                                 background: 'var(--bg)',
                                 padding: '4px 0',
@@ -1495,8 +1498,8 @@ export default function CharacterDetailPage() {
 
                     {/* Warlock Special Slot */}
                     {currentProgression && character?.class === 'Bruxo' && (
-                      <div style={{ 
-                        display: 'flex', 
+                      <div style={{
+                        display: 'flex',
                         justifyContent: 'center',
                         marginBottom: 24,
                         background: 'rgba(var(--accent-rgb), 0.05)',
@@ -1504,14 +1507,14 @@ export default function CharacterDetailPage() {
                         borderRadius: 12,
                         border: '1px solid rgba(var(--accent-rgb), 0.2)'
                       }}>
-                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>Espaços de Pacto ({currentProgression.slot_level}º Nvl)</div>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-                              <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--accent)' }}>{((character as any).currentSpellSlots)?.[1] ?? currentProgression.slots[0]}</div>
-                              <div style={{ fontSize: 20, opacity: 0.3 }}>/</div>
-                              <div style={{ fontSize: 24, fontWeight: 700 }}>{currentProgression.slots[0]}</div>
-                            </div>
-                         </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>Espaços de Pacto ({currentProgression.slot_level}º Nvl)</div>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+                            <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--accent)' }}>{((character as any).currentSpellSlots)?.[1] ?? currentProgression.slots[0]}</div>
+                            <div style={{ fontSize: 20, opacity: 0.3 }}>/</div>
+                            <div style={{ fontSize: 24, fontWeight: 700 }}>{currentProgression.slots[0]}</div>
+                          </div>
+                        </div>
                       </div>
                     )}
 
@@ -1535,16 +1538,16 @@ export default function CharacterDetailPage() {
                                   <div key={spell.id} className="card" style={{ padding: 16, background: 'var(--bg2)' }}>
                                     <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 12 }}>
                                       {spell.icon && (
-                                        <div style={{ 
-                                          flexShrink: 0, width: 44, height: 44, borderRadius: 10, overflow: 'hidden', 
+                                        <div style={{
+                                          flexShrink: 0, width: 44, height: 44, borderRadius: 10, overflow: 'hidden',
                                           border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)',
                                           boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
                                         }}>
-                                          <Image 
-                                            src={`/assets/spells-icons/${spell.icon}`} 
-                                            alt={spell.name} 
-                                            width={44} 
-                                            height={44} 
+                                          <Image
+                                            src={`/assets/spells-icons/${spell.icon}`}
+                                            alt={spell.name}
+                                            width={44}
+                                            height={44}
                                             style={{ objectFit: 'cover' }}
                                           />
                                         </div>
@@ -1599,8 +1602,8 @@ export default function CharacterDetailPage() {
                           </span>
                         </div>
                         {isOwner && (
-                          <button 
-                            className="btn btn-primary" 
+                          <button
+                            className="btn btn-primary"
                             style={{ padding: 8, height: 'auto' }}
                             onClick={() => setIsInventoryModalOpen(true)}
                           >
@@ -1792,12 +1795,134 @@ export default function CharacterDetailPage() {
                   </div>
                 )}
 
+                {activeTab === 'proficiencies' && (
+                  <div className="fade-up">
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Idiomas e Proficiências</h2>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                      
+                      {/* Languages Card */}
+                      <div className="card" style={{ padding: 20, background: 'var(--bg2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                          <Brain size={18} color="var(--accent)" />
+                          <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Idiomas</span>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                          {(() => {
+                            const traitLangs = Array.isArray(parsedTraits?.languages) ? parsedTraits.languages : [];
+                            const allLangs = [...new Set(['Comum', ...traitLangs])];
+                            
+                            // Adicionar Dracônico se for Draconato (automático)
+                            if (character.race === 'Draconato' && !allLangs.includes('Dracônico')) {
+                              allLangs.push('Dracônico');
+                            }
+                            
+                            return allLangs.map((lang: string) => (
+                              <div key={lang} style={{ 
+                                background: 'rgba(var(--accent-rgb), 0.1)', 
+                                border: '1px solid rgba(var(--accent-rgb), 0.2)',
+                                padding: '4px 12px',
+                                borderRadius: 20,
+                                fontSize: 13,
+                                color: 'var(--accentL)',
+                                fontWeight: 600
+                              }}>
+                                {lang}
+                              </div>
+                            ));
+                          })()}
+                        </div>
+                        <div style={{ marginTop: 12, fontSize: 11, color: 'var(--fg3)' }}>
+                          Personagens 2024 começam com Comum + 2 idiomas padrão à escolha.
+                        </div>
+                      </div>
+
+                      {/* Equipment Proficiencies */}
+                      <div className="card" style={{ padding: 20, background: 'var(--bg2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                          <Shield size={18} color="var(--accent)" />
+                          <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Equipamento</span>
+                        </div>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                          <div>
+                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
+                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.armorProf || 'Nenhuma'}</div>
+                            <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
+                              {characterClass?.armorProf?.includes('pesadas') 
+                                ? (
+                                  <>
+                                    <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
+                                    <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
+                                  </>
+                                )
+                                : characterClass?.armorProf?.includes('médias')
+                                ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
+                                : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
+                            </div>
+                          </div>
+                          <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
+                          <div>
+                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
+                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.weaponProf || 'Simples'}</div>
+                             <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
+                               {characterClass?.weaponProf?.includes('marciais') 
+                                 ? (
+                                   <>
+                                     <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
+                                     <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
+                                   </>
+                                 )
+                                 : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
+                             </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tool Proficiencies */}
+                      <div className="card" style={{ padding: 20, background: 'var(--bg2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                          <Settings size={18} color="var(--accent)" />
+                          <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Ferramentas</span>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                          {(() => {
+                            // Extract tools from class or traits
+                            const classTools = character.class === 'Artesão Arcano' ? ["Ferramentas de Ladrão", "Ferramentas de Funileiro", "1 Ferramenta de Artesão"] : [];
+                            const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
+                            const allTools = [...new Set([...classTools, ...traitTools])];
+                            
+                            if (allTools.length === 0) return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>;
+
+                            return allTools.map((tool: string) => (
+                              <div key={tool} style={{ 
+                                background: 'var(--bg)', 
+                                border: '1px solid var(--border)',
+                                padding: '6px 12px',
+                                borderRadius: 8,
+                                fontSize: 13,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 6
+                              }}>
+                                <Settings size={12} style={{ opacity: 0.5 }} />
+                                {tool}
+                              </div>
+                            ));
+                          })()}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+
                 {activeTab === 'companions' && (
                   <div className="fade-up">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, fontWeight: 700, margin: 0 }}>Companheiros & Invocações</h2>
                       {isOwner && (
-                        <button 
+                        <button
                           className="btn btn-primary"
                           onClick={() => {
                             setNewCompanion({ ac: 10, maxHp: 10, hp: 10 });
@@ -1819,7 +1944,7 @@ export default function CharacterDetailPage() {
                               <span style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800 }}>{comp.type}</span>
                             </div>
                             {isOwner && (
-                              <button 
+                              <button
                                 onClick={() => handleRemoveCompanion(comp.id)}
                                 style={{ background: 'transparent', border: 'none', color: 'var(--fg3)', cursor: 'pointer' }}
                               >
@@ -1827,7 +1952,7 @@ export default function CharacterDetailPage() {
                               </button>
                             )}
                           </div>
-                          
+
                           <div style={{ padding: 20 }}>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
                               <div style={{ textAlign: 'center', padding: 8, background: 'var(--bg)', borderRadius: 8, border: '1px solid var(--border)' }}>
@@ -1850,22 +1975,22 @@ export default function CharacterDetailPage() {
                                 <span style={{ fontSize: 14, fontWeight: 800 }}>{comp.hp} / {comp.maxHp}</span>
                               </div>
                               <div style={{ width: '100%', height: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 4, overflow: 'hidden', marginBottom: 12 }}>
-                                <div style={{ 
-                                  width: `${(comp.hp / comp.maxHp) * 100}%`, 
-                                  height: '100%', 
+                                <div style={{
+                                  width: `${(comp.hp / comp.maxHp) * 100}%`,
+                                  height: '100%',
                                   background: comp.hp < comp.maxHp * 0.3 ? 'var(--accent)' : 'var(--ok)',
                                   transition: 'width 0.3s ease'
                                 }} />
                               </div>
                               {isOwner && (
                                 <div style={{ display: 'flex', gap: 8 }}>
-                                  <button 
-                                    className="btn btn-outline" 
+                                  <button
+                                    className="btn btn-outline"
                                     style={{ flex: 1, height: 32, fontSize: 12 }}
                                     onClick={() => handleUpdateCompanionHP(comp.id, -1)}
                                   >-1</button>
-                                  <button 
-                                    className="btn btn-outline" 
+                                  <button
+                                    className="btn btn-outline"
                                     style={{ flex: 1, height: 32, fontSize: 12 }}
                                     onClick={() => handleUpdateCompanionHP(comp.id, 1)}
                                   >+1</button>
@@ -1890,7 +2015,7 @@ export default function CharacterDetailPage() {
                                 ))}
                               </div>
                             )}
-                            
+
                             {comp.notes && (
                               <div style={{ marginTop: 16 }}>
                                 <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Notas</span>
@@ -1900,7 +2025,7 @@ export default function CharacterDetailPage() {
                           </div>
                         </div>
                       ))}
-                      
+
                       {parsedCompanions.length === 0 && (
                         <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px', background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '2px dashed var(--border)' }}>
                           <User size={48} color="var(--fg3)" style={{ marginBottom: 16, opacity: 0.5 }} />
@@ -1912,7 +2037,7 @@ export default function CharacterDetailPage() {
                   </div>
                 )}
 
-                {activeTab === 'combat' && (
+                {activeTab === 'attributes' && (
                   <div className="attacks-container">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Ataques</h2>
@@ -2349,9 +2474,9 @@ export default function CharacterDetailPage() {
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 {isOwner && (
-                  <button 
-                    className="btn btn-ghost" 
-                    onClick={() => handleRemoveInventoryItem(detailItem.name)} 
+                  <button
+                    className="btn btn-ghost"
+                    onClick={() => handleRemoveInventoryItem(detailItem.name)}
                     style={{ padding: 8, borderRadius: '50%', color: 'var(--accent)' }}
                     title="Remover do Inventário"
                   >
@@ -2490,13 +2615,13 @@ export default function CharacterDetailPage() {
 
             <div style={{ padding: '16px 24px' }}>
               <div style={{ position: 'relative' }}>
-                <input 
-                  type="text" 
-                  placeholder="Buscar item por nome ou categoria..." 
+                <input
+                  type="text"
+                  placeholder="Buscar item por nome ou categoria..."
                   value={inventorySearchTerm}
                   onChange={(e) => setInventorySearchTerm(e.target.value)}
-                  style={{ 
-                    width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', 
+                  style={{
+                    width: '100%', background: 'var(--bg)', border: '1px solid var(--border)',
                     padding: '12px 16px', borderRadius: 12, color: 'var(--fg)', fontSize: 14,
                     outline: 'none', transition: 'border-color 0.2s'
                   }}
@@ -2508,19 +2633,19 @@ export default function CharacterDetailPage() {
             <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {(() => {
-                  const filtered = ITEM_CATALOG.filter(i => 
+                  const filtered = ITEM_CATALOG.filter(i =>
                     i.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
                     i.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
                   );
-                  
+
                   if (filtered.length === 0) return <p style={{ textAlign: 'center', padding: 40, color: 'var(--fg3)', fontSize: 13 }}>Nenhum item encontrado.</p>;
 
                   return filtered.map((item, idx) => (
-                    <div 
+                    <div
                       key={idx}
                       className="card"
-                      style={{ 
-                        padding: 12, display: 'flex', alignItems: 'center', gap: 12, 
+                      style={{
+                        padding: 12, display: 'flex', alignItems: 'center', gap: 12,
                         background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
                         transition: 'all 0.2s'
                       }}
@@ -2530,7 +2655,7 @@ export default function CharacterDetailPage() {
                         <div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div>
                         <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{item.category} • {item.weight} kg</div>
                       </div>
-                      <button 
+                      <button
                         className="btn btn-primary"
                         style={{ padding: '6px 12px', fontSize: 11, height: 'auto' }}
                         onClick={() => {
@@ -2570,15 +2695,15 @@ export default function CharacterDetailPage() {
               </button>
             </div>
             <div style={{ padding: 32, textAlign: 'center' }}>
-              <div style={{ 
-                width: 120, height: 120, borderRadius: '50%', background: 'var(--bg)', 
+              <div style={{
+                width: 120, height: 120, borderRadius: '50%', background: 'var(--bg)',
                 margin: '0 auto 24px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 border: '2px dashed var(--border)', position: 'relative', overflow: 'hidden'
               }}>
                 {uploading ? <Loader2 className="animate-spin" size={40} color="var(--accent)" /> : <Upload size={40} color="var(--fg3)" />}
               </div>
               <p style={{ fontSize: 14, color: 'var(--fg2)', marginBottom: 24 }}>Escolha uma nova imagem para o seu personagem. Recomendamos imagens quadradas.</p>
-              
+
               <label className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', cursor: 'pointer' }}>
                 <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
                 {uploading ? 'Processando...' : 'Selecionar Arquivo'}
@@ -2607,17 +2732,17 @@ export default function CharacterDetailPage() {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
                 <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Nome</label>
-                <input 
-                  type="text" 
-                  className="card" 
+                <input
+                  type="text"
+                  className="card"
                   style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
                   placeholder="Ex: Faísca, o Lobo"
                   value={newCompanion.name || ''}
-                  onChange={e => setNewCompanion({...newCompanion, name: e.target.value})}
+                  onChange={e => setNewCompanion({ ...newCompanion, name: e.target.value })}
                 />
               </div>
 
@@ -2625,12 +2750,12 @@ export default function CharacterDetailPage() {
                 <div style={{ position: 'relative' }}>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Tipo / Classe</label>
                   <div style={{ position: 'relative' }}>
-                    <div 
-                      className="card" 
+                    <div
+                      className="card"
                       onClick={() => setIsCompTypeSelectOpen(!isCompTypeSelectOpen)}
-                      style={{ 
-                        width: '100%', padding: '10px 12px', background: 'var(--bg)', 
-                        border: '1px solid var(--border)', color: newCompanion.type ? 'var(--fg)' : 'var(--fg3)', 
+                      style={{
+                        width: '100%', padding: '10px 12px', background: 'var(--bg)',
+                        border: '1px solid var(--border)', color: newCompanion.type ? 'var(--fg)' : 'var(--fg3)',
                         fontSize: 14, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
                       }}
                     >
@@ -2639,24 +2764,24 @@ export default function CharacterDetailPage() {
                     </div>
 
                     {isCompTypeSelectOpen && (
-                      <div style={{ 
-                        position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, 
+                      <div style={{
+                        position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
                         background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
                         zIndex: 100, overflowY: 'auto', maxHeight: '200px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
                         animation: 'fadeUp 0.2s ease-out'
                       }}>
                         {[
-                          "Familiar", "Companheiro Primal", "Montaria Espiritual", 
+                          "Familiar", "Companheiro Primal", "Montaria Espiritual",
                           "Invocação", "Montaria", "Pet / Animal", "Outro"
                         ].map((opt) => (
-                          <div 
+                          <div
                             key={opt}
                             onClick={() => {
-                              setNewCompanion({...newCompanion, type: opt});
+                              setNewCompanion({ ...newCompanion, type: opt });
                               setIsCompTypeSelectOpen(false);
                             }}
-                            style={{ 
-                              padding: '12px 16px', fontSize: 13, color: 'var(--fg2)', 
+                            style={{
+                              padding: '12px 16px', fontSize: 13, color: 'var(--fg2)',
                               cursor: 'pointer', transition: 'all 0.2s',
                               borderBottom: '1px solid rgba(255,255,255,0.03)'
                             }}
@@ -2678,12 +2803,12 @@ export default function CharacterDetailPage() {
                 </div>
                 <div>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>CA</label>
-                  <input 
-                    type="number" 
-                    className="card" 
+                  <input
+                    type="number"
+                    className="card"
                     style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
                     value={newCompanion.ac || 10}
-                    onChange={e => setNewCompanion({...newCompanion, ac: parseInt(e.target.value)})}
+                    onChange={e => setNewCompanion({ ...newCompanion, ac: parseInt(e.target.value) })}
                   />
                 </div>
               </div>
@@ -2691,33 +2816,33 @@ export default function CharacterDetailPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>HP Máximo</label>
-                  <input 
-                    type="number" 
-                    className="card" 
+                  <input
+                    type="number"
+                    className="card"
                     style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
                     value={newCompanion.maxHp || 10}
                     onChange={e => {
                       const val = parseInt(e.target.value);
-                      setNewCompanion({...newCompanion, maxHp: val, hp: val});
+                      setNewCompanion({ ...newCompanion, maxHp: val, hp: val });
                     }}
                   />
                 </div>
                 <div>
                   <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Deslocamento</label>
-                  <input 
-                    type="text" 
-                    className="card" 
+                  <input
+                    type="text"
+                    className="card"
                     style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
                     placeholder="Ex: 9m"
                     value={newCompanion.speed || ''}
-                    onChange={e => setNewCompanion({...newCompanion, speed: e.target.value})}
+                    onChange={e => setNewCompanion({ ...newCompanion, speed: e.target.value })}
                   />
                 </div>
               </div>
 
-              <button 
+              <button
                 className="btn btn-primary"
-                style={{ 
+                style={{
                   width: '100%', marginTop: 8, justifyContent: 'center',
                   opacity: (newCompanion.name && newCompanion.type && newCompanion.ac !== undefined && newCompanion.maxHp !== undefined && newCompanion.speed) ? 1 : 0.5,
                   cursor: (newCompanion.name && newCompanion.type && newCompanion.ac !== undefined && newCompanion.maxHp !== undefined && newCompanion.speed) ? 'pointer' : 'not-allowed'
@@ -2755,7 +2880,7 @@ export default function CharacterDetailPage() {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 {[
@@ -2769,18 +2894,18 @@ export default function CharacterDetailPage() {
                   <div key={attr.key}>
                     <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>{attr.label}</label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <input 
-                        type="number" 
+                      <input
+                        type="number"
                         min="1"
                         max="20"
-                        className="card" 
+                        className="card"
                         style={{ width: '100%', padding: '10px 12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 16, fontWeight: 700 }}
                         value={(editingAttrs as any)[attr.key]}
                         onChange={e => {
                           let val = parseInt(e.target.value) || 0;
                           if (val > 20) val = 20;
                           if (val < 1 && e.target.value !== '') val = 1;
-                          setEditingAttrs({...editingAttrs, [attr.key]: val});
+                          setEditingAttrs({ ...editingAttrs, [attr.key]: val });
                         }}
                       />
                       <div style={{ fontSize: 14, color: 'var(--accentL)', fontWeight: 700, width: 40 }}>
@@ -2795,7 +2920,7 @@ export default function CharacterDetailPage() {
                 ℹ️ Alterar os atributos base atualizará automaticamente seus modificadores, perícias e salvaguardas.
               </div>
 
-              <button 
+              <button
                 className="btn btn-primary"
                 style={{ width: '100%', marginTop: 8, justifyContent: 'center', height: 48, fontSize: 16 }}
                 onClick={handleSaveAttributes}

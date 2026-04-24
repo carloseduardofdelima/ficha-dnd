@@ -46,7 +46,7 @@ export const CLASSES: DndClass[] = [
     primaryAttr: 'Carisma',
     savingThrows: ['Destreza', 'Carisma'],
     armorProf: 'Armaduras leves',
-    weaponProf: 'Armas simples, bestões manuais, espadas longas, rapieiras e espadas curtas',
+    weaponProf: 'Armas simples',
     features: [
       { name: 'Conjuração', description: 'Você pode conjurar magias de bardo, usando Carisma como atributo de conjuração.' },
       { name: 'Inspiração Bárdica', description: 'Como ação bônus, confira um dado de Inspiração Bárdica (d6) a uma criatura que possa ouvir você.' },
@@ -63,8 +63,8 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd8',
     primaryAttr: 'Sabedoria',
     savingThrows: ['Sabedoria', 'Carisma'],
-    armorProf: 'Todas as armaduras e escudos',
-    weaponProf: 'Armas simples e marciais',
+    armorProf: 'Armaduras leves, médias e escudos',
+    weaponProf: 'Armas simples',
     features: [
       { name: 'Conjuração Divina', description: 'Você pode conjurar magias de clérigo usando Sabedoria como atributo de conjuração.' },
       { name: 'Domínio Divino', description: 'Escolha um domínio divino: Vida, Luz, Tempestade, Astúcia, Guerra, Ordem, entre outros — cada um concede magias e habilidades únicas.' },
@@ -81,8 +81,8 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd8',
     primaryAttr: 'Sabedoria',
     savingThrows: ['Inteligência', 'Sabedoria'],
-    armorProf: 'Armaduras leves e médias, escudos (exceto metal)',
-    weaponProf: 'Clavas, adagas, dardos, lanças, zarabatanas, foices, cajados, azagaias',
+    armorProf: 'Armaduras leves',
+    weaponProf: 'Armas simples',
     features: [
       { name: 'Conjuração', description: 'Conjure magias de druida usando Sabedoria como atributo de conjuração.' },
       { name: 'Forma Selvagem', description: 'Use sua ação para se transformar em uma besta. O CR máximo da besta aumenta com seu nível.' },
@@ -99,7 +99,7 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd10',
     primaryAttr: 'Força ou Destreza',
     savingThrows: ['Força', 'Constituição'],
-    armorProf: 'Todas as armaduras e escudos',
+    armorProf: 'Armaduras leves, médias, pesadas e escudos',
     weaponProf: 'Armas simples e marciais',
     features: [
       { name: 'Estilo de Combate', description: 'Escolha um estilo de combate especializado, como Arqueria, Defesa, Duelo, Luta com Duas Armas, entre outros.' },
@@ -118,7 +118,7 @@ export const CLASSES: DndClass[] = [
     primaryAttr: 'Destreza e Sabedoria',
     savingThrows: ['Força', 'Destreza'],
     armorProf: 'Nenhuma',
-    weaponProf: 'Armas simples e espadas curtas',
+    weaponProf: 'Armas simples e Espadas Curtas',
     features: [
       { name: 'Defesa sem Armadura', description: 'Sem armadura, sua CA é 10 + mod. de Des + mod. de Sab.' },
       { name: 'Artes Marciais', description: 'Pode usar Des em vez de For em ataques desarmados e com armas monásticas, e seu dado de dano desarmado sobe com o nível.' },
@@ -135,7 +135,7 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd10',
     primaryAttr: 'Força e Carisma',
     savingThrows: ['Sabedoria', 'Carisma'],
-    armorProf: 'Todas as armaduras e escudos',
+    armorProf: 'Armaduras leves, médias, pesadas e escudos',
     weaponProf: 'Armas simples e marciais',
     features: [
       { name: 'Sentido Divino', description: 'Detecte a presença de mal ou bem como ação. Usos iguais a 1 + mod. de Car por descanso longo.' },
@@ -153,7 +153,7 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd10',
     primaryAttr: 'Destreza e Sabedoria',
     savingThrows: ['Força', 'Destreza'],
-    armorProf: 'Armaduras leves e médias, escudos',
+    armorProf: 'Armaduras leves, médias e escudos',
     weaponProf: 'Armas simples e marciais',
     features: [
       { name: 'Inimigo Favorito', description: 'Escolha um tipo de inimigo favorito: você tem vantagem em testes de Sab (Sobrevivência) para rastreá-los e em testes de Int para lembrá-los.' },
@@ -172,7 +172,7 @@ export const CLASSES: DndClass[] = [
     primaryAttr: 'Destreza',
     savingThrows: ['Destreza', 'Inteligência'],
     armorProf: 'Armaduras leves',
-    weaponProf: 'Armas simples, bestões manuais, espadas longas, rapieiras e espadas curtas',
+    weaponProf: 'Armas simples, Bestas de Mão, Espadas Longas, Rapieiras e Espadas Curtas',
     features: [
       { name: 'Perícia', description: 'Dobre o bônus de proficiência em duas habilidades ou ferramentas de ladrão.' },
       { name: 'Ataque Furtivo', description: 'Uma vez por turno, cause dano extra (1d6 crescente) se tiver vantagem ou um aliado adjacente ao alvo.' },
@@ -190,7 +190,7 @@ export const CLASSES: DndClass[] = [
     primaryAttr: 'Carisma',
     savingThrows: ['Constituição', 'Carisma'],
     armorProf: 'Nenhuma',
-    weaponProf: 'Adagas, dardos, fundas, bastões e bestas leves',
+    weaponProf: 'Armas simples',
     features: [
       { name: 'Conjuração', description: 'Conjure magias de feiticeiro usando Carisma como atributo de conjuração.' },
       { name: 'Origem de Feitiçaria', description: 'Sua magia vem de uma Origem: Linhagem Dracônica, Alma Selvagem, Origem Divina, Sombra, entre outras.' },
@@ -226,7 +226,7 @@ export const CLASSES: DndClass[] = [
     primaryAttr: 'Inteligência',
     savingThrows: ['Inteligência', 'Sabedoria'],
     armorProf: 'Nenhuma',
-    weaponProf: 'Adagas, dardos, fundas, bastões e bestas leves',
+    weaponProf: 'Armas simples',
     features: [
       { name: 'Conjuração', description: 'Conjure magias de mago usando Inteligência como atributo de conjuração.' },
       { name: 'Recuperação Arcana', description: 'Uma vez por descanso curto, recupere espaços de magia cujo nível total não exceda metade do seu nível de mago.' },
@@ -243,7 +243,7 @@ export const CLASSES: DndClass[] = [
     hitDie: 'd8',
     primaryAttr: 'Inteligência',
     savingThrows: ['Constituição', 'Inteligência'],
-    armorProf: 'Armaduras leves e médias, escudos',
+    armorProf: 'Armaduras leves, médias e escudos',
     weaponProf: 'Armas simples',
     features: [
       { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica segurando Ferramentas de Funileiro: cria um item mundano em espaço desocupado a até 1,5m de você. Usos = Mod Inteligência.' },
