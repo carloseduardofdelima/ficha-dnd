@@ -90,6 +90,62 @@ export default function CharacterDetailPage() {
     }
   }, [character?.companions])
 
+  const parsedSpellSlots = useMemo<Record<string, number>>(() => {
+    if (!character?.spellSlots) return {}
+    if (typeof character.spellSlots === 'object') return character.spellSlots as any
+    try {
+      return JSON.parse(character.spellSlots as string)
+    } catch (e) {
+      return {}
+    }
+  }, [character?.spellSlots])
+
+  const parsedResources = useMemo<Record<string, number>>(() => {
+    if (!character?.resources) return {}
+    if (typeof character.resources === 'object') return character.resources as any
+    try {
+      return JSON.parse(character.resources as string)
+    } catch (e) {
+      return {}
+    }
+  }, [character?.resources])
+
+  // Derived Stats Sync & Debounced Autosave
+  useEffect(() => {
+    if (!character || loading) return;
+
+    // Recalculate AC based on rules
+    const inventory = Array.isArray(character.inventory) 
+      ? character.inventory 
+      : (character.inventory ? JSON.parse(character.inventory as string) : []);
+    
+    const calculatedAC = calculateAC(character.class, {
+      strength: character.strength,
+      dexterity: character.dexterity,
+      constitution: character.constitution,
+      intelligence: character.intelligence,
+      wisdom: character.wisdom,
+      charisma: character.charisma
+    }, inventory);
+
+    if (calculatedAC !== character.armorClass) {
+      setCharacter(prev => prev ? { ...prev, armorClass: calculatedAC } : null);
+      return; // Next render will handle save
+    }
+
+    const timer = setTimeout(() => {
+      saveCharacterToDB(character);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [
+    character?.strength, character?.dexterity, character?.constitution, 
+    character?.intelligence, character?.wisdom, character?.charisma,
+    character?.inventory, character?.currentHp, character?.maxHp,
+    character?.spellSlots, character?.resources, character?.notes,
+    character?.level, character?.class
+  ]);
+
   // Get spell progression for current level
   const currentProgression = useMemo(() => {
     if (!character) return null
@@ -434,18 +490,6 @@ export default function CharacterDetailPage() {
     setCharacter(updatedChar);
 
     // Persist ONLY to LocalStorage
-    try {
-      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
-      localData[field] = newVal;
-      localStorage.setItem(`char_stats_${id}`, JSON.stringify(localData));
-    } catch (e) {
-      console.error('Error saving local stats', e);
-    }
-
-    // Auto-save to DB if requested
-    if (autoSave) {
-      saveCharacterToDB(updatedChar);
-    }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -591,7 +635,7 @@ export default function CharacterDetailPage() {
           <div className="menu-grid">
             {[
               { label: 'Informações', id: 'about' },
-              { label: 'Descrição', id: 'notes' },
+              { label: 'Notas', id: 'notes' },
               { label: 'Atributos', id: 'attributes' },
               { label: 'Perícias', id: 'skills' },
               { label: 'Combate', id: 'combat' },
@@ -1225,11 +1269,33 @@ export default function CharacterDetailPage() {
                         {(() => {
                            const defs = [...parsedDefenses];
                            // Racial fallbacks
-                           if (character.race.includes('Tiefling') && !defs.some(d => (d as any).value === 'Fogo')) {
-                             defs.push({ value: 'Fogo', type: 'resistance', detail: 'Raça' });
+                           if (character.race.includes('Tiefling')) {
+                             if (character.subrace?.includes('Abissal') && !defs.some(d => (d as any).value === 'Veneno')) {
+                               defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
+                             } else if (character.subrace?.includes('Ctônico') && !defs.some(d => (d as any).value === 'Necrótico')) {
+                               defs.push({ value: 'Necrótico', type: 'resistance', detail: 'Raça' });
+                             } else if ((!character.subrace || character.subrace.includes('Infernal')) && !defs.some(d => (d as any).value === 'Fogo')) {
+                               defs.push({ value: 'Fogo', type: 'resistance', detail: 'Raça' });
+                             }
                            }
                            if (character.race.includes('Anão') && !defs.some(d => (d as any).value === 'Veneno')) {
                              defs.push({ value: 'Veneno', type: 'resistance', detail: 'Raça' });
+                           }
+                           if (character.race.includes('Draconato')) {
+                             const match = character.subrace?.match(/\(([^)]+)\)/);
+                             let type = match ? match[1] : null;
+                             
+                             if (!type && character.subrace) {
+                               if (/Vermelh|Ouro|Latão/i.test(character.subrace)) type = 'Fogo';
+                               else if (/Azul|Bronze/i.test(character.subrace)) type = 'Elétrico';
+                               else if (/Negra|Cobre/i.test(character.subrace)) type = 'Ácido';
+                               else if (/Prata|Branca/i.test(character.subrace)) type = 'Frio';
+                               else if (/Verde/i.test(character.subrace)) type = 'Veneno';
+                             }
+
+                             if (type && !defs.some(d => (d as any).value === type)) {
+                               defs.push({ value: type, type: 'resistance', detail: 'Raça' });
+                             }
                            }
                            
                            if (defs.length === 0) return <div style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma resistência especial registrada.</div>;
@@ -1403,7 +1469,7 @@ export default function CharacterDetailPage() {
                         {currentProgression.slots.map((max, idx) => {
                           if (max === 0) return null
                           const lvl = idx + 1
-                          const current = ((character as any).currentSpellSlots)?.[lvl] ?? max
+                          const current = (parsedSpellSlots as any)[lvl] ?? max
                           return (
                             <div key={lvl} style={{ textAlign: 'center' }}>
                               <div style={{ fontSize: 10, color: 'var(--fg3)', marginBottom: 2 }}>{lvl}º Nvl</div>

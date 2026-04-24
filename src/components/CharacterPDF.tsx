@@ -13,6 +13,14 @@ const getCharacterFeatures = (character: Character) => {
   const race = RACES.find(r => r.name === character.race);
   if (race) {
     race.traits.forEach(t => features.push(t.name));
+    
+    // Subrace traits
+    if (character.subrace && race.lineages) {
+      const lineage = race.lineages.find(l => l.name === character.subrace);
+      if (lineage) {
+        lineage.traits.forEach(t => features.push(`${t.name} (${character.subrace})`));
+      }
+    }
   }
   
   // Class Level 1
