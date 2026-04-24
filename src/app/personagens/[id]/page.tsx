@@ -17,6 +17,7 @@ import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { getFeatureDescription } from '@/lib/features'
 import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
+import { SPELL_PROGRESSION } from '@/lib/spells'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -88,6 +89,26 @@ export default function CharacterDetailPage() {
       return []
     }
   }, [character?.companions])
+
+  // Get spell progression for current level
+  const currentProgression = useMemo(() => {
+    if (!character) return null
+    return SPELL_PROGRESSION[character.class]?.[character.level] || null
+  }, [character?.class, character?.level])
+
+  const totalCantripsSelected = useMemo(() => {
+    if (!character?.spells) return 0
+    return (character.spells as string[]).map(id => SPELLS.find(s => s.id === id)).filter(s => s?.level === 0).length
+  }, [character?.spells])
+
+  const totalLeveledSpellsSelected = useMemo(() => {
+    if (!character?.spells) return 0
+    return (character.spells as string[]).map(id => SPELLS.find(s => s.id === id)).filter(s => s && s.level > 0).length
+  }, [character?.spells])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [activeTab, levelUpStep])
 
   useEffect(() => {
     setIsClient(true)
@@ -607,7 +628,7 @@ export default function CharacterDetailPage() {
         {/* Header Section */}
         <div className={`mobile-stack ${activeTab !== 'combat' ? 'hide-mobile' : ''}`} style={{ gap: 24, marginBottom: 24, alignItems: 'center' }}>
           {/* Avatar Card */}
-          <div className="card" onClick={() => isOwner && setShowUpload(true)} style={{ padding: 12, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: isOwner ? 'pointer' : 'default', transition: 'transform 0.2s' }}>
+          <div className="card" onClick={() => isOwner && setShowUpload(true)} style={{ padding: 2, width: '100%', maxWidth: 100, position: 'relative', overflow: 'visible', flexShrink: 0, cursor: isOwner ? 'pointer' : 'default', transition: 'transform 0.2s' }}>
             <div style={{ width: '100%', aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
               {character.avatarUrl ? (
                 <Image src={character.avatarUrl} alt={character.name} width={300} height={300} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -867,36 +888,31 @@ export default function CharacterDetailPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                       {/* Left: Image & Identity */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                        <div className="card" onClick={() => isOwner && setShowUpload(true)} style={{ padding: 12, cursor: isOwner ? 'pointer' : 'default' }}>
-                          <div style={{ width: '50%', margin: 'auto', aspectRatio: '1/1.2', borderRadius: 8, background: 'var(--bg2)', border: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
+                        <div onClick={() => isOwner && setShowUpload(true)} style={{ cursor: isOwner ? 'pointer' : 'default', display: 'flex', justifyContent: 'center' }}>
+                          <div style={{ width: '100%', maxWidth: 240, aspectRatio: '1/1.3', borderRadius: 20, position: 'relative', overflow: 'hidden' }}>
                             {character.avatarUrl ? (
-                              <Image src={character.avatarUrl} alt={character.name} width={300} height={400} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              <Image src={character.avatarUrl} alt={character.name} fill style={{ objectFit: 'cover' }} />
                             ) : (
-                              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)' }}>
+                              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg3)', background: 'var(--bg2)', borderRadius: 20 }}>
                                 <User size={80} />
                               </div>
                             )}
                             {isOwner && (
-                              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', padding: 4, textAlign: 'center', fontSize: 10, color: '#fff' }}>
-                                Alterar Imagem
+                              <div className="avatar-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.2s' }}>
+                                <Upload size={32} color="#fff" />
                               </div>
                             )}
                           </div>
                         </div>
 
-                        <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 12, textAlign: 'center' }}>
-                          {character.race}{character.subrace ? ` (${character.subrace})` : ''} • {character.class} • {character.background}
-                        </p>
-
-                        <div className="card" style={{ padding: 16 }}>
-                          <div style={{ marginBottom: 12 }}>
-                            <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 4 }}>Nome do Personagem</span>
-                            <div style={{ fontSize: 18, fontWeight: 700, fontFamily: 'Cinzel, serif' }}>{character.name}</div>
-                          </div>
-                          <div>
-                            <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 4 }}>Nome do Jogador</span>
-                            <div style={{ fontSize: 14, color: 'var(--fg2)' }}>{character.playerName || 'Não informado'}</div>
-                          </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <p style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 4 }}>
+                            {character.race}{character.subrace ? ` (${character.subrace})` : ''} • {character.background}
+                          </p>
+                          <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, fontWeight: 900, letterSpacing: '-0.5px', color: 'var(--fg)', textTransform: 'uppercase' }}>
+                            {character.name}
+                          </h1>
+                          <p style={{ color: 'var(--accent)', fontWeight: 700, fontSize: 16 }}>{character.class}</p>
                         </div>
                       </div>
 
@@ -1281,46 +1297,67 @@ export default function CharacterDetailPage() {
                       </div>
 
                       {[
-                        { name: 'Acrobacia', attr: 'dexterity', label: 'DES' },
-                        { name: 'Adestramento', attr: 'wisdom', label: 'SAB' },
-                        { name: 'Arcanismo', attr: 'intelligence', label: 'INT' },
-                        { name: 'Atletismo', attr: 'strength', label: 'FOR' },
-                        { name: 'Atuação', attr: 'charisma', label: 'CAR' },
-                        { name: 'Enganação', attr: 'charisma', label: 'CAR' },
-                        { name: 'Furtividade', attr: 'dexterity', label: 'DES' },
-                        { name: 'História', attr: 'intelligence', label: 'INT' },
-                        { name: 'Intimidação', attr: 'charisma', label: 'CAR' },
-                        { name: 'Intuição', attr: 'wisdom', label: 'SAB' },
-                        { name: 'Investigação', attr: 'intelligence', label: 'INT' },
-                        { name: 'Medicina', attr: 'wisdom', label: 'SAB' },
-                        { name: 'Natureza', attr: 'intelligence', label: 'INT' },
-                        { name: 'Percepção', attr: 'wisdom', label: 'SAB' },
-                        { name: 'Persuasão', attr: 'charisma', label: 'CAR' },
-                        { name: 'Prestidigitação', attr: 'dexterity', label: 'DES' },
-                        { name: 'Religião', attr: 'intelligence', label: 'INT' },
-                        { name: 'Sobrevivência', attr: 'wisdom', label: 'SAB' },
+                        { key: 'acrobatics', name: 'Acrobacia', attr: 'dexterity', label: 'DES' },
+                        { key: 'animalHandling', name: 'Adestramento', attr: 'wisdom', label: 'SAB' },
+                        { key: 'arcana', name: 'Arcanismo', attr: 'intelligence', label: 'INT' },
+                        { key: 'athletics', name: 'Atletismo', attr: 'strength', label: 'FOR' },
+                        { key: 'performance', name: 'Atuação', attr: 'charisma', label: 'CAR' },
+                        { key: 'deception', name: 'Enganação', attr: 'charisma', label: 'CAR' },
+                        { key: 'stealth', name: 'Furtividade', attr: 'dexterity', label: 'DES' },
+                        { key: 'history', name: 'História', attr: 'intelligence', label: 'INT' },
+                        { key: 'intimidation', name: 'Intimidação', attr: 'charisma', label: 'CAR' },
+                        { key: 'insight', name: 'Intuição', attr: 'wisdom', label: 'SAB' },
+                        { key: 'investigation', name: 'Investigação', attr: 'intelligence', label: 'INT' },
+                        { key: 'medicine', name: 'Medicina', attr: 'wisdom', label: 'SAB' },
+                        { key: 'nature', name: 'Natureza', attr: 'intelligence', label: 'INT' },
+                        { key: 'perception', name: 'Percepção', attr: 'wisdom', label: 'SAB' },
+                        { key: 'persuasion', name: 'Persuasão', attr: 'charisma', label: 'CAR' },
+                        { key: 'sleightOfHand', name: 'Prestidigitação', attr: 'dexterity', label: 'DES' },
+                        { key: 'religion', name: 'Religião', attr: 'intelligence', label: 'INT' },
+                        { key: 'survival', name: 'Sobrevivência', attr: 'wisdom', label: 'SAB' },
                       ].map(skill => {
                         const attrVal = (character as any)[skill.attr] || 10
                         const mod = Math.floor((attrVal - 10) / 2)
-                        const baseSkillName = skill.name.toLowerCase()
-                          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                        const isTrained = character.skills?.[baseSkillName] || false
-                        const isExpert = !!expertises[baseSkillName]
+                        const isTrained = character.skills?.[skill.key] || false
+                        const isExpert = !!expertises[skill.key]
                         const trainingBonus = isTrained ? character.proficiencyBonus : 0
                         const extraBonus = isExpert ? character.proficiencyBonus : 0
                         const total = mod + trainingBonus + extraBonus
 
                         return (
-                          <div key={skill.name} style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.03)', color: isTrained ? 'var(--accentL)' : 'var(--fg)' }}>
-                            <div style={{ flex: 1, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 6 }}>
-                              {isTrained && <div style={{ width: 6, height: 6, borderRadius: '50%', background: isExpert ? 'var(--accent)' : 'var(--accentL)' }} />}
+                          <div 
+                            key={skill.name} 
+                            style={{ 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              padding: '8px 4px', 
+                              borderBottom: '1px solid rgba(255,255,255,0.02)',
+                              color: isTrained ? 'var(--accentL)' : 'var(--fg)',
+                              opacity: isTrained ? 1 : 0.7,
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            <div style={{ flex: 1, fontWeight: isTrained ? 600 : 400, display: 'flex', alignItems: 'center', gap: 8 }}>
                               {skill.name}
-                              {isExpert && <Star size={10} fill="var(--accent)" color="var(--accent)" />}
                             </div>
-                            <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 10 }}>({skill.label})</div>
-                            <div style={{ width: 45, textAlign: 'center', fontWeight: 800, fontSize: 13, color: isExpert ? 'var(--accent)' : 'inherit' }}>{total >= 0 ? `+${total}` : total}</div>
-                            <div style={{ width: 45, textAlign: 'center', color: 'var(--fgM)', fontSize: 12 }}>
-                              {trainingBonus + extraBonus}
+                            <div style={{ width: 45, textAlign: 'center', color: 'var(--fg3)', fontSize: 10 }}>({skill.label})</div>
+                            <div style={{ 
+                              width: 45, 
+                              textAlign: 'center', 
+                              fontWeight: isTrained ? 800 : 400, 
+                              fontSize: 14, 
+                              color: isTrained ? 'var(--accentL)' : 'inherit' 
+                            }}>
+                              {total >= 0 ? `+${total}` : total}
+                            </div>
+                            <div style={{ 
+                              width: 45, 
+                              textAlign: 'center', 
+                              color: 'var(--fg3)', 
+                              fontSize: 11, 
+                              fontWeight: isTrained ? 700 : 400 
+                            }}>
+                              {isTrained ? `+${trainingBonus + extraBonus}` : '0'}
                             </div>
                           </div>
                         )
@@ -1331,7 +1368,87 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'spells' && (
                   <div className="fade-up">
-                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Magias</h2>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Magias</h2>
+                      {currentProgression && (
+                        <div style={{ display: 'flex', gap: 12 }}>
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>Truques</div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: totalCantripsSelected > currentProgression.cantrips ? 'var(--error)' : 'var(--fg)' }}>
+                              {totalCantripsSelected} / {currentProgression.cantrips}
+                            </div>
+                          </div>
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase' }}>Preparadas</div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: totalLeveledSpellsSelected > currentProgression.prepared ? 'var(--error)' : 'var(--fg)' }}>
+                              {totalLeveledSpellsSelected} / {currentProgression.prepared}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Spell Slots Display */}
+                    {currentProgression && currentProgression.slots.some(s => s > 0) && (
+                      <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', 
+                        gap: 8, 
+                        marginBottom: 24,
+                        background: 'rgba(255,255,255,0.02)',
+                        padding: 12,
+                        borderRadius: 12,
+                        border: '1px solid rgba(255,255,255,0.05)'
+                      }}>
+                        {currentProgression.slots.map((max, idx) => {
+                          if (max === 0) return null
+                          const lvl = idx + 1
+                          const current = ((character as any).currentSpellSlots)?.[lvl] ?? max
+                          return (
+                            <div key={lvl} style={{ textAlign: 'center' }}>
+                              <div style={{ fontSize: 10, color: 'var(--fg3)', marginBottom: 2 }}>{lvl}º Nvl</div>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                gap: 4,
+                                background: 'var(--bg)',
+                                padding: '4px 0',
+                                borderRadius: 6,
+                                border: '1px solid rgba(255,255,255,0.1)'
+                              }}>
+                                <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--accent)' }}>{current}</span>
+                                <span style={{ opacity: 0.3, fontSize: 10 }}>/</span>
+                                <span style={{ fontSize: 12, fontWeight: 600 }}>{max}</span>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Warlock Special Slot */}
+                    {currentProgression && character?.class === 'Bruxo' && (
+                      <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'center',
+                        marginBottom: 24,
+                        background: 'rgba(var(--accent-rgb), 0.05)',
+                        padding: 16,
+                        borderRadius: 12,
+                        border: '1px solid rgba(var(--accent-rgb), 0.2)'
+                      }}>
+                         <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>Espaços de Pacto ({currentProgression.slot_level}º Nvl)</div>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+                              <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--accent)' }}>{((character as any).currentSpellSlots)?.[1] ?? currentProgression.slots[0]}</div>
+                              <div style={{ fontSize: 20, opacity: 0.3 }}>/</div>
+                              <div style={{ fontSize: 24, fontWeight: 700 }}>{currentProgression.slots[0]}</div>
+                            </div>
+                         </div>
+                      </div>
+                    )}
+
                     {character.spells && Array.isArray(character.spells) && character.spells.length > 0 ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                         {[0, 1].map(lvl => {

@@ -199,6 +199,21 @@ export default function AttributesStep({
     return count
   }, [lockedSkillKeys, classSkillInfo])
 
+  // Automatically sync locked skills to the skills state
+  useMemo(() => {
+    let changed = false
+    const newSkills = { ...skills }
+    lockedSkillKeys.forEach(k => {
+      if (!newSkills[k]) {
+        newSkills[k] = true
+        changed = true
+      }
+    })
+    if (changed) {
+      onSkillsChange(newSkills)
+    }
+  }, [lockedSkillKeys, onSkillsChange, skills])
+
   // Primary attrs for the selected class
   const primaryAttrs = useMemo<Set<keyof Attrs>>(() => {
     return new Set(CLASS_PRIMARY_ATTRS[className] ?? [])
@@ -314,68 +329,6 @@ export default function AttributesStep({
         </p>
       </div>
 
-      {/* ── ASI Selection (Style 2024) ── */}
-      <div style={{
-        backgroundColor: 'rgba(255,255,255,0.02)',
-        borderRadius: 16,
-        padding: 24,
-        marginBottom: 32,
-        border: '1px solid rgba(255,255,255,0.06)',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 32
-      }} className="asi-section">
-        <div>
-          <h3 style={{ fontSize: 13, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>Bônus Primário (+2)</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {ATTR_INFO.map(({ key, abbr }) => (
-              <button
-                key={`p-${key}`}
-                onClick={() => handleAsiSelect('primary', key)}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  transition: 'all 0.2s',
-                  border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
-                  backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
-                  color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
-                  cursor: 'pointer'
-                }}
-              >
-                {abbr}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 style={{ fontSize: 13, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>Bônus Secundário (+1)</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {ATTR_INFO.map(({ key, abbr }) => (
-              <button
-                key={`s-${key}`}
-                onClick={() => handleAsiSelect('secondary', key)}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  transition: 'all 0.2s',
-                  border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
-                  backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
-                  color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
-                  cursor: 'pointer'
-                }}
-              >
-                {abbr}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       <div className="attrs-layout" style={{ gap: 32, alignItems: 'start' }}>
         {/* ── LEFT: Attributes ───────────────────────────────────────────────── */}
         <div>
@@ -419,7 +372,7 @@ export default function AttributesStep({
               const isSave = proficientSaves.has(key)
               const canInc = score < MAX_SCORE && remaining >= ((POINT_COST[score + 1] ?? 99) - POINT_COST[score])
               const canDec = score > MIN_SCORE
-
+              
               return (
                 <div key={key} style={{
                   display: 'flex', alignItems: 'center', gap: 12,
@@ -486,6 +439,74 @@ export default function AttributesStep({
                 </div>
               )
             })}
+          </div>
+
+          {/* ── ASI Selection (Moved down for better UX) ── */}
+          <div style={{
+            backgroundColor: 'rgba(255,255,255,0.02)',
+            borderRadius: 16,
+            padding: '20px 24px',
+            marginTop: 20,
+            border: '1px solid rgba(255,255,255,0.06)',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 24
+          }} className="asi-section">
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                <h3 style={{ fontSize: 11, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Bônus Origem (+2)</h3>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)' }} />
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {ATTR_INFO.map(({ key, abbr }) => (
+                  <button
+                    key={`p-${key}`}
+                    onClick={() => handleAsiSelect('primary', key)}
+                    style={{
+                      padding: '6px 10px',
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      transition: 'all 0.2s',
+                      border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
+                      backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
+                      color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {abbr}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                <h3 style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Bônus Origem (+1)</h3>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accentL)' }} />
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {ATTR_INFO.map(({ key, abbr }) => (
+                  <button
+                    key={`s-${key}`}
+                    onClick={() => handleAsiSelect('secondary', key)}
+                    style={{
+                      padding: '6px 10px',
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      transition: 'all 0.2s',
+                      border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
+                      backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
+                      color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {abbr}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Cost reference */}

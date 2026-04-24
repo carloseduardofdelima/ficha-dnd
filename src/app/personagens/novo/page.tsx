@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Save, ArrowLeft, X, ChevronRight, ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -203,6 +203,10 @@ export default function NovoPersonagem() {
     setCurrentStep(prev => Math.max(prev - 1, 0))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentStep])
 
   return (
     <div className="container" style={{ maxWidth: 1200, paddingBottom: 100 }}>

@@ -38,14 +38,14 @@ const WEAPON_MASTERY_OPTIONS: FeatureOption[] = [
 const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
   'Bárbaro': {
     passiveFeatures: [
-      { name: 'Raiva (Rage)', description: 'Ação Bônus para entrar em fúria por 10 minutos. Vantagem em testes de Força e TR de Força. Resistência a dano Contundente, Cortante e Perfurante. Bônus de dano: +2. Pode estender a Raiva usando uma Ação Bônus. Usos: 2 (descanso longo).' },
-      { name: 'Defesa Sem Armadura', description: 'Sem armadura, sua CA = 10 + Destreza + Constituição. Pode usar escudo.' },
+      { name: 'Fúria (Rage)', description: 'Ação Bônus: você entra em um estado de fúria por 10 min. Ganha Vantagem em testes e salvaguardas de Força, Resistência a dano físico (Contundente, Cortante e Perfurante) e bônus de +2 no dano de ataques de Força. Pode ser estendida com Ação Bônus ou ao causar dano. Usos: 2 por Descanso Longo.' },
+      { name: 'Defesa Sem Armadura', description: 'Enquanto não usar armadura, sua Classe de Armadura (CA) é 10 + Mod. de Destreza + Mod. de Constituição. Você pode usar um escudo e manter esse benefício.' },
     ],
     choices: [
       {
         id: 'barbarian-weapon-mastery',
         label: 'Maestria com Armas',
-        description: 'Escolha 2 tipos de armas (simples ou marciais corpo a corpo) para usar a propriedade de Maestria.',
+        description: 'Escolha 2 tipos de armas para desbloquear propriedades especiais de combate.',
         type: 'multi',
         maxSelections: 2,
         options: WEAPON_MASTERY_OPTIONS
@@ -55,25 +55,25 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Bardo': {
     passiveFeatures: [
-      { name: 'Inspiração Bárdica', description: 'Ação Bônus: 1d6 a um aliado (60 pés). Dura 1 hora. Pode ser usado APÓS ver o resultado do d20 para transformar falha em sucesso. Usos: mod Carisma (mín 1).' },
-      { name: 'Conjuração', description: 'Habilidade: Carisma. Foco: Instrumento Musical. Prepara 4 magias de nível 1 e conhece 2 truques.' },
+      { name: 'Inspiração Bárdica', description: 'Ação Bônus: você concede um dado de inspiração (1d6) a um aliado a até 18m. Por 1 hora, o aliado pode rolar o dado e somar o resultado a um teste de atributo, ataque ou salvaguarda que tenha falhado. Usos: Mod. de Carisma por Descanso Longo.' },
+      { name: 'Conjuração', description: 'Habilidade: Carisma. Você prepara suas magias e pode usar instrumentos musicais como foco. Começa com 2 Truques e 4 magias de Nível 1.' },
     ],
     choices: [],
   },
 
   'Clérigo': {
     passiveFeatures: [
-      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Foco: Símbolo Sagrado. Prepara magias (Nível + SAB) e conhece 3 truques.' },
+      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Você prepara suas magias através de orações. Começa com 3 Truques e prepara um número de magias igual a 1 + seu Nível + Mod. de Sabedoria.' },
     ],
     choices: [
       {
         id: 'divine-order',
         label: 'Ordem Divina',
-        description: 'Escolha seu foco inicial como servo divino.',
+        description: 'Escolha como você serve à sua divindade.',
         type: 'radio',
         options: [
-          { id: 'protector', name: 'Protetor (Protector)', description: 'Proficiência em Armadura Pesada e Armas Marciais.' },
-          { id: 'thaumaturge', name: 'Taumaturgo (Thaumaturge)', description: 'Aprende 1 truque adicional e ganha bônus em testes de Religião/Arcana.' },
+          { id: 'protector', name: 'Protetor (Protector)', description: 'Você ganha proficiência em Armaduras Pesadas e Armas Marciais.' },
+          { id: 'thaumaturge', name: 'Taumaturgo (Thaumaturge)', description: 'Você aprende um Truque adicional de Clérigo e ganha proficiência em Arcanismo ou Religião.' },
         ]
       }
     ],
@@ -81,36 +81,36 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Druida': {
     passiveFeatures: [
-      { name: 'Druídico', description: 'Conhece a língua secreta dos druidas e pode deixar mensagens ocultas.' },
-      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Foco: Druídico. Prepara magias (Nível + SAB) e conhece 2 truques.' },
+      { name: 'Druídico', description: 'Você conhece a língua secreta dos Druidas. Pode deixar mensagens ocultas e entender outras criaturas que falem este idioma naturalmente.' },
+      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Você utiliza o poder da natureza. Começa com 2 Truques e prepara magias diariamente.' },
     ],
     choices: [],
   },
 
   'Guerreiro': {
     passiveFeatures: [
-      { name: 'Segundo Fôlego (Second Wind)', description: 'Ação Bônus: recupera 1d10 + nível em PV. Usos: 2 (recupera 1 em descanso curto ou todos no longo).' },
-      { name: 'Mente Tática', description: 'Ao falhar um teste de perícia, pode gastar um uso de Segundo Fôlego para somar 1d10 ao resultado.' },
+      { name: 'Segundo Fôlego (Second Wind)', description: 'Ação Bônus: você recupera 1d10 + seu nível em PV. Usos: 2 por Descanso Longo (recupera 1 uso em Descanso Curto).' },
+      { name: 'Mente Tática', description: 'Ao falhar em um teste de perícia, você pode gastar 1 uso de Segundo Fôlego para adicionar 1d10 ao resultado, potencialmente transformando a falha em sucesso.' },
     ],
     choices: [
       {
         id: 'fighting-style-fighter',
         label: 'Estilo de Luta',
-        description: 'Escolha uma especialização de combate.',
+        description: 'Escolha sua especialização de combate.',
         type: 'radio',
         options: [
-          { id: 'archery', name: 'Arquearia', description: '+2 em ataques com armas de longa distância.' },
-          { id: 'defense', name: 'Defesa', description: '+1 CA enquanto usar armadura.' },
-          { id: 'dueling', name: 'Duelo', description: '+2 de dano com arma em uma mão (mão oposta livre).' },
-          { id: 'great-weapon', name: 'Grande Arma', description: 'Relança 1 ou 2 em dados de dano de armas de duas mãos.' },
-          { id: 'protection', name: 'Proteção', description: 'Reação: impõe desvantagem em ataque contra aliado (requer escudo).' },
-          { id: 'dual-wielder', name: 'Armas Emparelhadas', description: 'Pode usar maestria de ambas as armas leves ao atacar com duas armas.' },
+          { id: 'archery', name: 'Arquearia', description: 'Bônus de +2 em ataques com armas à distância.' },
+          { id: 'defense', name: 'Defesa', description: 'Bônus de +1 na CA enquanto estiver usando armadura.' },
+          { id: 'dueling', name: 'Duelo', description: 'Bônus de +2 no dano ao usar uma arma em uma mão e nenhuma outra arma.' },
+          { id: 'great-weapon', name: 'Armas Grandes', description: 'Ao rolar 1 ou 2 no dado de dano de armas de duas mãos, você pode relançar o dado (deve usar o novo resultado).' },
+          { id: 'protection', name: 'Proteção', description: 'Reação: impõe Desvantagem em um ataque contra um aliado adjacente (requer uso de escudo).' },
+          { id: 'dual-wielder', name: 'Combatente com Duas Armas', description: 'Você pode somar seu modificador de atributo ao dano do segundo ataque realizado com a ação bônus.' },
         ]
       },
       {
         id: 'fighter-weapon-mastery',
         label: 'Maestria com Armas',
-        description: 'Escolha 3 tipos de armas (simples ou marciais).',
+        description: 'Escolha 3 tipos de armas para dominar suas técnicas especiais.',
         type: 'multi',
         maxSelections: 3,
         options: WEAPON_MASTERY_OPTIONS
@@ -120,25 +120,25 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Monge': {
     passiveFeatures: [
-      { name: 'Artes Marciais', description: 'Ataques desarmados e com armas de monge usam Destreza. Dado inicial: 1d6. Pode fazer um ataque desarmado extra como Ação Bônus.' },
-      { name: 'Defesa Sem Armadura', description: 'Sem armadura/escudo, sua CA = 10 + Destreza + Sabedoria.' },
-      { name: 'Pontos de Foco', description: 'Total igual ao seu nível. Recupera em descanso curto/longo. Usos: Flurry of Blows (2 ataques bônus), Patient Defense (Desvio bônus), Step of the Wind (Disparada/Desengajar bônus + pulo duplo).' },
-      { name: 'Movimento Sem Armadura', description: 'Ganha +3 metros de deslocamento enquanto não usar armadura ou escudo.' },
+      { name: 'Artes Marciais', description: 'Ataques desarmados e armas de monge usam Destreza para ataque e dano. Dado de dano: 1d6. Pode realizar um ataque desarmado extra como Ação Bônus.' },
+      { name: 'Defesa Sem Armadura', description: 'Enquanto não usar armadura ou escudo, sua CA é 10 + Mod. de Destreza + Mod. de Sabedoria.' },
+      { name: 'Pontos de Foco (Ki)', description: 'Você possui pontos de Foco iguais ao seu nível. Recupera em descansos curtos ou longos. Usos: Rajada de Golpes (2 ataques desarmados bônus).' },
+      { name: 'Agilidade Disciplinada', description: 'Ação Bônus: você pode usar Desengajar (Defesa Paciente) ou Disparada (Passo do Vento) gratuitamente. Se gastar 1 ponto de Foco, ganha Esquiva (Defesa Paciente) ou dobra a distância de pulo e Desengaja (Passo do Vento).' },
     ],
     choices: [],
   },
 
   'Paladino': {
     passiveFeatures: [
-      { name: 'Conjuração', description: 'Habilidade: Carisma. Foco: Símbolo Sagrado. Prepara magias (Nível + CAR). Ganha espaços de magia no Nível 1.' },
-      { name: 'Sentido Divino', description: 'Detecta celestiais, demônios e mortos-vivos (60 pés).' },
-      { name: 'Sentido do Paladino', description: 'Detecta a localização de criaturas específicas.' },
+      { name: 'Mãos Curativas (Lay on Hands)', description: 'Ação: você possui uma reserva de cura igual a 5 x seu nível. Pode tocar uma criatura e gastar pontos dessa reserva para curar PV ou 5 pontos para remover uma doença ou veneno.' },
+      { name: 'Sentido Divino', description: 'Ação Bônus: por 10 min, você sente a localização de Celestiais, Demônios ou Mortos-vivos a até 18m. Usos: Mod. de Carisma por Descanso Longo.' },
+      { name: 'Conjuração', description: 'Habilidade: Carisma. Você prepara magias de Paladino desde o Nível 1. Prepara Nível/2 (arredondado para cima) + Mod. de Carisma.' },
     ],
     choices: [
       {
         id: 'paladin-weapon-mastery',
         label: 'Maestria com Armas',
-        description: 'Escolha 2 tipos de armas (simples ou marciais).',
+        description: 'Escolha 2 tipos de armas para dominar.',
         type: 'multi',
         maxSelections: 2,
         options: WEAPON_MASTERY_OPTIONS
@@ -148,14 +148,14 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Patrulheiro': {
     passiveFeatures: [
-      { name: 'Marca do Caçador (Favored Enemy)', description: 'Magia Hunter\'s Mark sempre preparada. Pode conjurá-la 2 vezes sem gastar slot por descanso longo.' },
-      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Foco: Druídico. Prepara magias (Nível + SAB). Ganha espaços de magia no Nível 1.' },
+      { name: 'Inimigo Favorito (Hunter\'s Mark)', description: 'Você sempre tem a magia Marca do Caçador preparada e ela não ocupa espaço na sua lista. Você pode conjurá-la 2 vezes sem gastar slots por Descanso Longo.' },
+      { name: 'Conjuração', description: 'Habilidade: Sabedoria. Você canaliza o poder da natureza para conjurar magias desde o nível 1.' },
     ],
     choices: [
       {
         id: 'ranger-expertise',
         label: 'Especialização (Expertise)',
-        description: 'Escolha 2 perícias com proficiência para dobrar o bônus.',
+        description: 'Escolha 2 perícias para dobrar seu bônus de proficiência.',
         type: 'multi',
         maxSelections: 2,
         options: [
@@ -172,7 +172,7 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
       {
         id: 'ranger-weapon-mastery',
         label: 'Maestria com Armas',
-        description: 'Escolha 2 tipos de armas (simples ou marciais).',
+        description: 'Escolha 2 tipos de armas para dominar.',
         type: 'multi',
         maxSelections: 2,
         options: WEAPON_MASTERY_OPTIONS
@@ -182,14 +182,14 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Ladino': {
     passiveFeatures: [
-      { name: 'Ataque Furtivo', description: '1/turno: +1d6 de dano com arma de Acuidade ou Distância se tiver vantagem ou aliado adjacente.' },
-      { name: 'Gíria dos Ladrões', description: 'Linguagem secreta e mensagens ocultas.' },
+      { name: 'Ataque Furtivo (Sneak Attack)', description: '1x por turno: você causa +1d6 de dano a uma criatura que acertar com arma de Acuidade ou Distância, desde que tenha Vantagem ou um aliado adjacente ao alvo.' },
+      { name: 'Gíria de Ladrão', description: 'Você conhece o código secreto usado no submundo para transmitir mensagens ocultas em conversas comuns.' },
     ],
     choices: [
       {
         id: 'rogue-expertise',
         label: 'Especialização (Expertise)',
-        description: 'Escolha 2 perícias (ou 1 perícia + Ferramentas de Ladrão) para dobrar o bônus.',
+        description: 'Escolha 2 perícias (ou Ferramentas de Ladrão) para dobrar seu bônus de proficiência.',
         type: 'multi',
         maxSelections: 2,
         options: [
@@ -210,7 +210,7 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
       {
         id: 'rogue-weapon-mastery',
         label: 'Maestria com Armas',
-        description: 'Escolha 2 tipos de armas (simples ou marciais com Acuidade ou Leve).',
+        description: 'Escolha 2 tipos de armas para dominar.',
         type: 'multi',
         maxSelections: 2,
         options: WEAPON_MASTERY_OPTIONS
@@ -220,29 +220,29 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Feiticeiro': {
     passiveFeatures: [
-      { name: 'Conjuração Inata', description: 'Ação Bônus: desencadeia onda de magia por 1 min. +1 na CD de suas magias e vantagem em ataques mágicos. Usos: 2 (descanso longo).' },
-      { name: 'Pontos de Feitiçaria', description: 'Começa com 2 pontos no Nível 1. Pode converter em slots (Fonte de Magia).' },
-      { name: 'Conjuração', description: 'Habilidade: Carisma. Conhece 4 truques e 2 magias.' },
+      { name: 'Conjuração Inata (Innate Sorcery)', description: 'Ação: você libera o poder no seu sangue por 1 min. Suas magias ganham +1 na CD de salvaguarda e você tem Vantagem em ataques mágicos. Usos: 2 por Descanso Longo.' },
+      { name: 'Pontos de Feitiçaria', description: 'Você possui 2 pontos de feitiçaria no nível 1. Pode usá-los para recuperar espaços de magia (Fonte de Magia).' },
+      { name: 'Conjuração', description: 'Habilidade: Carisma. Suas magias são parte de você. Começa com 4 Truques e 2 magias de Nível 1.' },
     ],
     choices: [],
   },
 
   'Bruxo': {
     passiveFeatures: [
-      { name: 'Magia de Pacto', description: 'Slots recuperam em descanso curto. 1 slot de nível 1. Conhece 2 truques e 1 magia.' },
+      { name: 'Magia de Pacto', description: 'Habilidade: Carisma. Seus espaços de magia são sempre do nível máximo possível e você os recupera em Descansos Curtos.' },
     ],
     choices: [
       {
         id: 'eldritch-invocations',
         label: 'Invocações Místicas',
-        description: 'Escolha 1 invocação secreta concedida pelo seu patrono.',
+        description: 'Escolha 1 dom sobrenatural concedido por seu Patrono.',
         type: 'radio',
         options: [
-          { id: 'agonizing-blast', name: 'Explosão Agonizante', description: 'Soma modificador de Carisma ao dano de Eldritch Blast.' },
-          { id: 'armor-of-shadows', name: 'Armadura de Sombras', description: 'Pode conjurar Armadura Arcana à vontade, sem slots/componentes.' },
-          { id: 'devils-sight', name: 'Visão do Diabo', description: 'Enxerga normalmente em escuridão (mágica ou não) até 36m.' },
-          { id: 'mask-of-many-faces', name: 'Máscara de Muitas Faces', description: 'Pode conjurar Disfarce Pessoal à vontade.' },
-          { id: 'whispers-of-the-grave', name: 'Sussurros da Tumba', description: 'Pode conjurar Falar com os Mortos à vontade.' },
+          { id: 'agonizing-blast', name: 'Explosão Agonizante', description: 'Soma seu Mod. de Carisma ao dano do Truque Descarga Sobrenatural.' },
+          { id: 'armor-of-shadows', name: 'Armadura de Sombras', description: 'Você pode conjurar Armadura Arcana em si mesmo à vontade, sem gastar slots.' },
+          { id: 'devils-sight', name: 'Visão do Diabo', description: 'Você enxerga normalmente na escuridão, inclusive mágica, até 36 metros.' },
+          { id: 'mask-of-many-faces', name: 'Máscara de Muitas Faces', description: 'Você pode conjurar Disfarce Pessoal à vontade, sem gastar slots.' },
+          { id: 'whispers-of-the-grave', name: 'Sussurros da Tumba', description: 'Você pode conjurar Falar com os Mortos à vontade, sem gastar slots.' },
         ]
       }
     ],
@@ -250,17 +250,17 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Mago': {
     passiveFeatures: [
-      { name: 'Ritual de Identificação', description: 'Pode conjurar rituais do livro sem prepará-los.' },
-      { name: 'Memória Arcana', description: '1x/descanso longo: recupera um slot gasto como Ação Bônus.' },
-      { name: 'Conjuração', description: 'Habilidade: Inteligência. Livro com 6 magias. Prepara Nível + INT. 3 truques.' },
+      { name: 'Recuperação Arcana', description: '1x por dia: após um Descanso Curto, você pode recuperar espaços de magia gastos cujo nível total seja igual ou menor que metade do seu nível (mín. 1).' },
+      { name: 'Memória Arcana', description: 'Ação: você pode trocar uma das suas magias preparadas por outra do seu grimório. Usos: 1 por Descanso Longo.' },
+      { name: 'Conjuração', description: 'Habilidade: Inteligência. Você usa um grimório para estudar suas magias. Começa com 3 Truques e 6 magias no livro.' },
     ],
     choices: [],
   },
 
   'Artesão Arcano': {
     passiveFeatures: [
-      { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica: cria um item mundano (luz, som, cheiro ou efeito visual) em objeto minúsculo. Usos: mod Inteligência.' },
-      { name: 'Conjuração', description: 'Habilidade: Inteligência. Foco: Ferramentas de Ladrão, Funileiro ou Artesão proficiente. Prepara magias (Nível/2 + INT).' },
+      { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica: imbuí um objeto minúsculo não mágico com uma propriedade: emite luz (1,5m), reproduz uma mensagem gravada de 6s ao ser tocado, emite um odor ou som contínuo, ou exibe um efeito visual estático. Dura até você terminar o efeito ou criar outro além do seu limite (Mod. INT).' },
+      { name: 'Conjuração', description: 'Habilidade: Inteligência. Você usa ferramentas para canalizar seus feitiços. Começa com 2 Truques e prepara magias igual a INT + metade do nível.' },
     ],
     choices: [
       {
