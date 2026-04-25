@@ -3,6 +3,7 @@
 **A Forja** é uma plataforma web premium para jogadores e mestres de Dungeons & Dragons 5ª Edição. Desenvolvida com as tecnologias mais modernas do ecossistema React, oferece uma experiência de ficha digital fluida, visualmente deslumbrante e otimizada para dispositivos móveis.
 
 ![Demonstração da Interface Principal](./public/assets/readme/main_navigation.webp)
+![Mockup do App Web e Mobile](./public/assets/readme/mockup_app.jpeg)
 
 ---
 
