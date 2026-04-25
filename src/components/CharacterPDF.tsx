@@ -417,6 +417,26 @@ interface Props {
 
 const CharacterPDF = ({ character }: Props) => {
   const profBonus = character.proficiencyBonus;
+
+  // Safe parsing for JSON fields that might be strings or objects
+  function parseJsonField<T>(field: T | string | null | undefined): T {
+    if (!field) return {} as T;
+    if (typeof field === 'string') {
+      try {
+        return JSON.parse(field) as T;
+      } catch {
+        return {} as T;
+      }
+    }
+    return field as T;
+  }
+
+  const skillsObj = parseJsonField<Record<string, boolean>>(character.skills);
+  const traitsObj = parseJsonField<Record<string, any>>(character.traits);
+  const inventoryArr = Array.isArray(character.inventory) 
+    ? character.inventory 
+    : (typeof character.inventory === 'string' ? parseJsonField<any[]>(character.inventory) : []);
+
   const formatMod = (score: number) => {
     const mod = calcModifier(score);
     return mod >= 0 ? `+${mod}` : `${mod}`;
@@ -424,7 +444,7 @@ const CharacterPDF = ({ character }: Props) => {
 
   const getSkillMod = (skill: string, attrScore: number) => {
     const mod = calcModifier(attrScore);
-    const isProficient = character.skills?.[skill];
+    const isProficient = skillsObj[skill];
     const total = mod + (isProficient ? profBonus : 0);
     return total >= 0 ? `+${total}` : `${total}`;
   };
@@ -517,7 +537,7 @@ const CharacterPDF = ({ character }: Props) => {
                     </View>
                     {abil.skills.map(s => (
                       <View key={s.id} style={styles.skillRow}>
-                        <View style={[styles.skillCircle, character.skills?.[s.id] ? styles.skillCircleFilled : {}]} />
+                        <View style={[styles.skillCircle, skillsObj[s.id] ? styles.skillCircleFilled : {}]} />
                         <Text style={styles.skillMod}>{getSkillMod(s.id, abil.score)}</Text>
                         <Text style={styles.skillName}>{s.name}</Text>
                       </View>
@@ -578,7 +598,7 @@ const CharacterPDF = ({ character }: Props) => {
                 <Text style={{ width: '20%', fontSize: 5 }}>BÔNUS</Text>
                 <Text style={{ width: '40%', fontSize: 5 }}>DANO/TIPO</Text>
               </View>
-              {(character.inventory as any[])?.filter(i => i.item?.category === 'weapon').slice(0, 5).map((w, idx) => (
+              {inventoryArr?.filter((i: any) => i.item?.category === 'weapon').slice(0, 5).map((w: any, idx: number) => (
                 <View key={idx} style={styles.attackRow}>
                    <Text style={{ width: '40%', fontSize: 8, paddingLeft: 4 }}>{w.item?.name}</Text>
                    <Text style={{ width: '20%', fontSize: 8 }}>{formatMod(character.strength)}</Text>
@@ -597,19 +617,19 @@ const CharacterPDF = ({ character }: Props) => {
           <View style={styles.columnRight}>
             <View style={styles.traitsSection}>
               <View style={styles.traitBox}>
-                <Text style={{ fontSize: 7 }}>{character.traits?.personality || ''}</Text>
+                <Text style={{ fontSize: 7 }}>{traitsObj?.personality || ''}</Text>
                 <Text style={styles.traitLabel}>Traços de Personalidade</Text>
               </View>
               <View style={styles.traitBox}>
-                <Text style={{ fontSize: 7 }}>{character.traits?.ideals || ''}</Text>
+                <Text style={{ fontSize: 7 }}>{traitsObj?.ideals || ''}</Text>
                 <Text style={styles.traitLabel}>Ideais</Text>
               </View>
               <View style={styles.traitBox}>
-                <Text style={{ fontSize: 7 }}>{character.traits?.bonds || ''}</Text>
+                <Text style={{ fontSize: 7 }}>{traitsObj?.bonds || ''}</Text>
                 <Text style={styles.traitLabel}>Vínculos</Text>
               </View>
               <View style={styles.traitBox}>
-                <Text style={{ fontSize: 7 }}>{character.traits?.flaws || ''}</Text>
+                <Text style={{ fontSize: 7 }}>{traitsObj?.flaws || ''}</Text>
                 <Text style={styles.traitLabel}>Defeitos</Text>
               </View>
             </View>
@@ -638,7 +658,7 @@ const CharacterPDF = ({ character }: Props) => {
               <Text style={styles.sectionTitle}>Equipamento</Text>
               <View style={{ flexDirection: 'row', gap: 20 }}>
                  <View style={{ gap: 2 }}>
-                    {(character.inventory as any[])?.slice(0, 10).map((item, idx) => (
+                    {inventoryArr?.slice(0, 10).map((item: any, idx: number) => (
                       <Text key={idx} style={{ fontSize: 7 }}>• {item.item?.name} (x{item.qty || item.quantity})</Text>
                     ))}
                  </View>
