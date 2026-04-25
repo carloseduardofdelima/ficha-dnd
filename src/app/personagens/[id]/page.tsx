@@ -19,6 +19,7 @@ import { BACKGROUNDS } from '@/lib/backgrounds'
 import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
 import { SPELL_PROGRESSION } from '@/lib/spells'
+import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -42,6 +43,9 @@ export default function CharacterDetailPage() {
   const [isPreparing, setIsPreparing] = useState(false)
   const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
+  const [selectedFeatId, setSelectedFeatId] = useState<string | null>(null)
+  const [featAttr1, setFeatAttr1] = useState<string | null>(null)
+  const [featAttr2, setFeatAttr2] = useState<string | null>(null)
 
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -72,6 +76,16 @@ export default function CharacterDetailPage() {
 
   const expertises = useMemo(() => parsedTraits.expertises || {}, [parsedTraits])
 
+  const parsedSkills = useMemo<Record<string, boolean>>(() => {
+    if (!character?.skills) return {}
+    if (typeof character.skills === 'object') return character.skills as Record<string, boolean>
+    try {
+      return JSON.parse(character.skills as string)
+    } catch (e) {
+      return {}
+    }
+  }, [character?.skills])
+
   const parsedDefenses = useMemo<Defense[]>(() => {
     if (!(character as any)?.defenses) return []
     if (Array.isArray((character as any).defenses)) return (character as any).defenses
@@ -82,6 +96,16 @@ export default function CharacterDetailPage() {
     }
   }, [(character as any)?.defenses])
 
+  const parsedInventory = useMemo<any[]>(() => {
+    if (!character?.inventory) return []
+    if (Array.isArray(character.inventory)) return character.inventory
+    try {
+      return JSON.parse(character.inventory as string)
+    } catch (e) {
+      return []
+    }
+  }, [character?.inventory])
+
   const parsedCompanions = useMemo<Companion[]>(() => {
     if (!character?.companions) return []
     if (Array.isArray(character.companions)) return character.companions
@@ -91,6 +115,16 @@ export default function CharacterDetailPage() {
       return []
     }
   }, [character?.companions])
+
+  const parsedSpells = useMemo<string[]>(() => {
+    if (!character?.spells) return []
+    if (Array.isArray(character.spells)) return character.spells as string[]
+    try {
+      return JSON.parse(character.spells as string)
+    } catch (e) {
+      return []
+    }
+  }, [character?.spells])
 
   const parsedSpellSlots = useMemo<Record<string, number>>(() => {
     if (!character?.spellSlots) return {}
@@ -410,7 +444,7 @@ export default function CharacterDetailPage() {
     intelligence: character.intelligence,
     wisdom: character.wisdom,
     charisma: character.charisma
-  }, (character.inventory as any[]) || []) : 10
+  }, parsedInventory) : 10
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
@@ -453,13 +487,13 @@ export default function CharacterDetailPage() {
     try {
       const payload = {
         ...char,
-        // Ensure complex types are stringified for DB
-        skills: char.skills ? JSON.stringify(char.skills) : null,
-        inventory: char.inventory ? JSON.stringify(char.inventory) : null,
-        spells: char.spells ? JSON.stringify(char.spells) : null,
-        traits: char.traits ? JSON.stringify(char.traits) : null,
-        defenses: (char as any).defenses ? JSON.stringify((char as any).defenses) : null,
-        companions: char.companions ? JSON.stringify(char.companions) : null,
+        // Ensure complex types are stringified for DB only if they are objects
+        skills: typeof char.skills === 'object' ? JSON.stringify(char.skills) : char.skills,
+        inventory: typeof char.inventory === 'object' ? JSON.stringify(char.inventory) : char.inventory,
+        spells: typeof char.spells === 'object' ? JSON.stringify(char.spells) : char.spells,
+        traits: typeof char.traits === 'object' ? JSON.stringify(char.traits) : char.traits,
+        defenses: typeof (char as any).defenses === 'object' ? JSON.stringify((char as any).defenses) : (char as any).defenses,
+        companions: typeof char.companions === 'object' ? JSON.stringify(char.companions) : char.companions,
       } as any;
 
       // Proficiency bonus fix if it's not in the Character type correctly but we have it in state
@@ -587,7 +621,14 @@ export default function CharacterDetailPage() {
         level: updatedChar.level,
         maxHp: updatedChar.maxHp,
         currentHp: updatedChar.currentHp,
-        proficiencyBonus: updatedChar.proficiencyBonus
+        proficiencyBonus: updatedChar.proficiencyBonus,
+        strength: updatedChar.strength,
+        dexterity: updatedChar.dexterity,
+        constitution: updatedChar.constitution,
+        intelligence: updatedChar.intelligence,
+        wisdom: updatedChar.wisdom,
+        charisma: updatedChar.charisma,
+        traits: updatedChar.traits
       };
       localStorage.setItem(`char_stats_${id}`, JSON.stringify(dataToSave));
 
@@ -1162,7 +1203,12 @@ export default function CharacterDetailPage() {
                                 </div>
                                 <button className="btn btn-outline" style={{ padding: '6px', fontSize: 11 }} disabled={!isOwner} onClick={async () => {
                                   if (!isOwner) return;
-                                  const resetSlots = isSpellcaster ? { "1": character.class === 'Bruxo' ? 1 : 2 } : {};
+                                  const resetSlots: Record<string, number> = {};
+                                  if (isSpellcaster && currentProgression) {
+                                    currentProgression.slots.forEach((s, i) => {
+                                      if (s > 0) resetSlots[(i + 1).toString()] = s;
+                                    });
+                                  }
                                   const resetRes: Record<string, number> = {};
                                   Object.keys(classResources).forEach(k => { resetRes[k] = classResources[k].max; });
 
@@ -1181,13 +1227,22 @@ export default function CharacterDetailPage() {
                               </div>
 
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                {isSpellcaster && (
-                                  <ResourceTracker
-                                    label="Espaços de Magia (Nível 1)"
-                                    max={character.class === 'Bruxo' ? 1 : 2}
-                                    current={slots["1"] ?? (character.class === 'Bruxo' ? 1 : 2)}
-                                    onChange={(val) => updateSlots(1, val)}
-                                  />
+                                {isSpellcaster && currentProgression && (
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                    {currentProgression.slots.map((max, idx) => {
+                                      if (max === 0) return null;
+                                      const lvl = idx + 1;
+                                      return (
+                                        <ResourceTracker
+                                          key={lvl}
+                                          label={character.class === 'Bruxo' ? `Espaços de Pacto (${currentProgression.slot_level}º Nível)` : `Espaços de Magia (Nível ${lvl})`}
+                                          max={max}
+                                          current={slots[lvl.toString()] ?? max}
+                                          onChange={(val) => updateSlots(lvl, val)}
+                                        />
+                                      );
+                                    })}
+                                  </div>
                                 )}
                                 {Object.keys(classResources).map(name => (
                                   <ResourceTracker
@@ -1217,7 +1272,7 @@ export default function CharacterDetailPage() {
                         {(() => {
                           const acRef = ac;
 
-                          const inv = (character.inventory as any[]) || [];
+                          const inv = parsedInventory;
                           const dexMod = Math.floor((character.dexterity - 10) / 2);
                           const conMod = Math.floor((character.constitution - 10) / 2);
                           const wisMod = Math.floor((character.wisdom - 10) / 2);
@@ -1388,7 +1443,7 @@ export default function CharacterDetailPage() {
                       ].map(skill => {
                         const attrVal = (character as any)[skill.attr] || 10
                         const mod = Math.floor((attrVal - 10) / 2)
-                        const isTrained = character.skills?.[skill.key] || false
+                        const isTrained = parsedSkills[skill.key] || false
                         const isExpert = !!expertises[skill.key]
                         const trainingBonus = isTrained ? character.proficiencyBonus : 0
                         const extraBonus = isExpert ? character.proficiencyBonus : 0
@@ -1532,7 +1587,7 @@ export default function CharacterDetailPage() {
                     )}
 
                     {(() => {
-                      const currentSpells = (character.spells as string[]) || [];
+                      const currentSpells = parsedSpells;
                       // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
                       const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc, curr, idx) => curr > 0 ? idx : acc, 0) : 0;
                       const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1;
@@ -1925,6 +1980,36 @@ export default function CharacterDetailPage() {
                         })}
                       </div>
                     </div>
+
+                    {/* Talentos (Feats) */}
+                    {(() => {
+                      const feats = parsedTraits?.feats || [];
+                      if (feats.length === 0) return null;
+
+                      return (
+                        <div style={{ marginBottom: 24, marginTop: 24 }}>
+                          <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                            Talentos Selecionados
+                          </h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                            {feats.map((feat: any, i: number) => (
+                              <div
+                                key={i}
+                                className="card clickable"
+                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--ok)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                                onClick={() => setDetailFeature({ ...feat, source: 'Talento', level: '-' })}
+                              >
+                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
+                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>
+                                  {feat.description}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
 
@@ -2217,7 +2302,7 @@ export default function CharacterDetailPage() {
                       </div>
 
                       {/* Weapons from Inventory */}
-                      {character.inventory && Array.isArray(character.inventory) && (character.inventory as any[])
+                      {parsedInventory
                         .filter(e => e.item.category === 'weapon')
                         .map((entry, idx) => {
                           const weapon = entry.item;
@@ -2495,14 +2580,17 @@ export default function CharacterDetailPage() {
                             (newLevel >= 3)
                           ));
 
+                        const needsFeat = [4, 8, 12, 16, 19].includes(newLevel);
+
                         if (needsSubclass) {
                           setLevelUpStep(3); // Go to subclass selector
                           setCharacter(updated); // Save progress locally in state
+                        } else if (needsFeat) {
+                          setLevelUpStep(4); // Go to feat selector
+                          setCharacter(updated);
                         } else {
                           // Final Save
-                          const alerts = [];
-                          if ([4, 8, 12, 16, 19].includes(newLevel)) alerts.push("⚠️ Você ganhou uma Melhoria de Atributo ou Talento!");
-                          handleLevelUpPersistence(updated, alerts);
+                          handleLevelUpPersistence(updated, []);
                         }
                       }}
                     >
@@ -2560,8 +2648,146 @@ export default function CharacterDetailPage() {
                           ruleset: character.ruleset || selectedRuleset
                         };
                         const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
-                        if ([4, 8, 12, 16, 19].includes(character.level)) alerts.push("⚠️ Você ganhou uma Melhoria de Atributo ou Talento!");
-                        handleLevelUpPersistence(updated, alerts);
+                        if ([4, 8, 12, 16, 19].includes(updated.level)) {
+                          setLevelUpStep(4);
+                          setCharacter(updated);
+                        } else {
+                          handleLevelUpPersistence(updated, alerts);
+                        }
+                      }}
+                    >
+                      Finalizar Level Up
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Passo 4: Escolha de Talento / ASI */}
+              {levelUpStep === 4 && (
+                <div className="fade-up">
+                  <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>
+                    {character.level === 19 ? 'Bênção Épica' : 'Melhoria de Atributo ou Talento'}
+                  </h3>
+                  <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 20 }}>
+                    Você atingiu o nível {character.level}! Escolha como seu personagem evoluiu.
+                  </p>
+
+                  <div style={{ maxHeight: 350, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+                    {(() => {
+                      const available = FEATS_2024.filter(f => character.level >= f.minLevel);
+                      const sorted = [...available].sort((a, b) => {
+                        if (character.level === 19) {
+                          if (a.category === 'Epic Boon' && b.category !== 'Epic Boon') return -1;
+                          if (a.category !== 'Epic Boon' && b.category === 'Epic Boon') return 1;
+                        }
+                        return a.name.localeCompare(b.name);
+                      });
+
+                      return sorted.map(feat => (
+                        <button
+                          key={feat.id}
+                          onClick={() => {
+                            setSelectedFeatId(feat.id);
+                            setFeatAttr1(null);
+                            setFeatAttr2(null);
+                          }}
+                          style={{
+                            padding: 12, borderRadius: 10, border: '1px solid',
+                            borderColor: selectedFeatId === feat.id ? 'var(--accent)' : 'var(--border)',
+                            background: selectedFeatId === feat.id ? 'var(--accentGlow)' : 'var(--bg2)',
+                            textAlign: 'left', transition: 'all 0.2s'
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                            <span style={{ fontWeight: 800, color: selectedFeatId === feat.id ? 'var(--accentL)' : 'var(--fg1)' }}>{feat.name}</span>
+                            <span style={{ fontSize: 9, opacity: 0.6, textTransform: 'uppercase' }}>{feat.category}</span>
+                          </div>
+                          <p style={{ fontSize: 11, color: 'var(--fg3)', margin: 0 }}>{feat.description}</p>
+                          {feat.requirement && <p style={{ fontSize: 10, color: 'var(--accent)', marginTop: 4, fontStyle: 'italic' }}>Req: {feat.requirement}</p>}
+                        </button>
+                      ));
+                    })()}
+                  </div>
+
+                  {selectedFeatId && (
+                    <div className="card" style={{ background: 'var(--bg2)', padding: 16, marginBottom: 24, border: '1px solid var(--accent)' }}>
+                      {selectedFeatId === 'asi' ? (
+                        <div>
+                          <p style={{ fontSize: 12, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>Escolha os Atributos (+2 ou +1/+1)</p>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <select 
+                              className="input" 
+                              style={{ width: '100%', padding: 8, fontSize: 12 }}
+                              value={featAttr1 || ''}
+                              onChange={e => setFeatAttr1(e.target.value)}
+                            >
+                              <option value="">Selecione o 1º Atributo (+1)</option>
+                              {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{a.toUpperCase()}</option>)}
+                            </select>
+                            <select 
+                              className="input" 
+                              style={{ width: '100%', padding: 8, fontSize: 12 }}
+                              value={featAttr2 || ''}
+                              onChange={e => setFeatAttr2(e.target.value)}
+                            >
+                              <option value="">Selecione o 2º Atributo (+1)</option>
+                              {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{a.toUpperCase()}</option>)}
+                            </select>
+                            <p style={{ fontSize: 10, color: 'var(--fg3)', textAlign: 'center', marginTop: 4 }}>Dica: Se escolher o mesmo duas vezes, ganha +2 nele.</p>
+                          </div>
+                        </div>
+                      ) : (
+                        FEATS_2024.find(f => f.id === selectedFeatId)?.description.includes('+1') && (
+                          <div>
+                            <p style={{ fontSize: 12, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>Escolha o Atributo para aumentar (+1)</p>
+                            <select 
+                              className="input" 
+                              style={{ width: '100%', padding: 8, fontSize: 12 }}
+                              value={featAttr1 || ''}
+                              onChange={e => setFeatAttr1(e.target.value)}
+                            >
+                              <option value="">Selecione o Atributo</option>
+                              {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => (
+                                <option key={a} value={a}>{a.toUpperCase()}</option>
+                              ))}
+                            </select>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(character.subclass ? 3 : 2)}>Voltar</button>
+                    <button
+                      className="btn bg-accent"
+                      style={{ flex: 2, justifyContent: 'center' }}
+                      disabled={!selectedFeatId || (selectedFeatId === 'asi' && (!featAttr1 || !featAttr2)) || (FEATS_2024.find(f => f.id === selectedFeatId)?.description.includes('+1') && !featAttr1)}
+                      onClick={() => {
+                        const feat = FEATS_2024.find(f => f.id === selectedFeatId)!;
+                        const updatedAttrs = {
+                          strength: (character.strength || 10) + (featAttr1 === 'strength' ? 1 : 0) + (featAttr2 === 'strength' ? 1 : 0),
+                          dexterity: (character.dexterity || 10) + (featAttr1 === 'dexterity' ? 1 : 0) + (featAttr2 === 'dexterity' ? 1 : 0),
+                          constitution: (character.constitution || 10) + (featAttr1 === 'constitution' ? 1 : 0) + (featAttr2 === 'constitution' ? 1 : 0),
+                          intelligence: (character.intelligence || 10) + (featAttr1 === 'intelligence' ? 1 : 0) + (featAttr2 === 'intelligence' ? 1 : 0),
+                          wisdom: (character.wisdom || 10) + (featAttr1 === 'wisdom' ? 1 : 0) + (featAttr2 === 'wisdom' ? 1 : 0),
+                          charisma: (character.charisma || 10) + (featAttr1 === 'charisma' ? 1 : 0) + (featAttr2 === 'charisma' ? 1 : 0),
+                        };
+
+                        // Update traits
+                        const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {});
+                        const newTraits = {
+                          ...currentTraits,
+                          feats: [...(currentTraits.feats || []), { name: feat.name, description: feat.description }]
+                        };
+
+                        const updated = {
+                          ...character,
+                          ...updatedAttrs,
+                          traits: newTraits
+                        };
+
+                        handleLevelUpPersistence(updated as Character, [`🎉 Novo Talento: ${feat.name}!`]);
                       }}
                     >
                       Finalizar Level Up

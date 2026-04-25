@@ -87,11 +87,11 @@ export interface Character {
   initiative: number
   proficiencyBonus: number
   exp?: string | null
-  defenses?: Defense[] | null
-  skills?: Record<string, boolean> | null
-  inventory?: Array<{ id: string; name: string; quantity: number }> | null
-  spells?: unknown
-  traits?: Record<string, string> | null
+  defenses?: Defense[] | string | null
+  skills?: Record<string, boolean> | string | null
+  inventory?: any[] | string | null
+  spells?: any[] | string | null
+  traits?: Record<string, any> | string | null
   appearance?: string | null
   backstory?: string | null
   playerName?: string | null
