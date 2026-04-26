@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -49,6 +49,7 @@ export default function CharacterDetailPage() {
 
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [uploadSuccess, setUploadSuccess] = useState(false)
   const [detailItem, setDetailItem] = useState<any | null>(null)
   const [detailFeature, setDetailFeature] = useState<any | null>(null)
   const [isAttrModalOpen, setIsAttrModalOpen] = useState(false)
@@ -247,33 +248,6 @@ export default function CharacterDetailPage() {
       })
   }, [id])
 
-  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    setUploading(true)
-    const reader = new FileReader()
-    reader.onloadend = async () => {
-      const base64 = reader.result as string
-      try {
-        const compressed = await compressImage(base64)
-        const res = await fetch(`/api/personagens/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ avatarUrl: compressed })
-        })
-        if (res.ok && character) {
-          setCharacter({ ...character, avatarUrl: compressed })
-          setShowUpload(false)
-        }
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setUploading(false)
-      }
-    }
-    reader.readAsDataURL(file)
-  }
 
   async function handleAddInventoryItem(item: any) {
     if (!character) return;
@@ -531,25 +505,51 @@ export default function CharacterDetailPage() {
     const file = e.target.files?.[0]
     if (!file || !character) return
 
+    // Basic Validation
+    const supportedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!supportedTypes.includes(file.type)) {
+      alert('Formato de arquivo não suportado. Use JPG, PNG, WEBP ou GIF.')
+      return
+    }
+
+    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+      alert('O arquivo é muito grande. Escolha uma imagem menor que 10MB.')
+      return
+    }
+
     try {
       setUploading(true)
+      setUploadSuccess(false)
       const reader = new FileReader()
       reader.onload = async (event) => {
-        const base64 = event.target?.result as string
-        const compressed = await compressImage(base64)
+        try {
+          const base64 = event.target?.result as string
+          const compressed = await compressImage(base64)
 
-        const updated = { ...character, avatarUrl: compressed }
-        setCharacter(updated)
-        setShowUpload(false)
-
-        // Persistence
-        await saveCharacterToDB(updated)
+          const updated = { ...character, avatarUrl: compressed }
+          
+          // Persistence
+          await saveCharacterToDB(updated)
+          
+          setCharacter(updated)
+          setUploadSuccess(true)
+          
+          // Close modal after a short delay to show success
+          setTimeout(() => {
+            setShowUpload(false)
+            setUploadSuccess(false)
+          }, 2000)
+        } catch (err) {
+          console.error(err)
+          alert('Erro ao processar imagem. Verifique se o arquivo não está corrompido.')
+        } finally {
+          setUploading(false)
+        }
       }
       reader.readAsDataURL(file)
     } catch (err) {
       console.error(err)
-      alert('Erro ao processar imagem.')
-    } finally {
+      alert('Erro ao carregar arquivo.')
       setUploading(false)
     }
   }
@@ -3042,13 +3042,33 @@ export default function CharacterDetailPage() {
                 margin: '0 auto 24px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 border: '2px dashed var(--border)', position: 'relative', overflow: 'hidden'
               }}>
-                {uploading ? <Loader2 className="animate-spin" size={40} color="var(--accent)" /> : <Upload size={40} color="var(--fg3)" />}
+                {uploading ? (
+                  <Loader2 className="animate-spin" size={40} color="var(--accent)" />
+                ) : uploadSuccess ? (
+                  <CheckCircle2 size={40} color="var(--ok)" />
+                ) : (
+                  <Upload size={40} color="var(--fg3)" />
+                )}
               </div>
-              <p style={{ fontSize: 14, color: 'var(--fg2)', marginBottom: 24 }}>Escolha uma nova imagem para o seu personagem. Recomendamos imagens quadradas.</p>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', marginBottom: 24 }}>
+                {uploadSuccess ? 'Imagem enviada com sucesso!' : 'Escolha uma nova imagem para o seu personagem. Recomendamos imagens quadradas.'}
+              </p>
 
-              <label className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', cursor: 'pointer' }}>
-                <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-                {uploading ? 'Processando...' : 'Selecionar Arquivo'}
+              <label className="btn btn-primary" style={{ 
+                width: '100%', 
+                justifyContent: 'center', 
+                cursor: (uploading || uploadSuccess) ? 'not-allowed' : 'pointer',
+                opacity: (uploading || uploadSuccess) ? 0.7 : 1,
+                background: uploadSuccess ? 'var(--ok)' : 'var(--accent)'
+              }}>
+                <input 
+                  type="file" 
+                  accept=".jpg,.jpeg,.png,.webp,.gif" 
+                  onChange={handleFileChange} 
+                  style={{ display: 'none' }} 
+                  disabled={uploading || uploadSuccess}
+                />
+                {uploading ? 'Processando...' : uploadSuccess ? 'Sucesso!' : 'Selecionar Arquivo'}
               </label>
             </div>
           </div>

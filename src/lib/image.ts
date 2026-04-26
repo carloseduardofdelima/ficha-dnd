@@ -12,33 +12,26 @@ export async function compressImage(
     img.src = base64;
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      let width = img.width;
-      let height = img.height;
+      // Force square crop for avatars
+      const size = Math.min(img.width, img.height);
+      const targetSize = Math.min(size, maxWidth); // Usually 800
+      
+      const sx = (img.width - size) / 2;
+      const sy = (img.height - size) / 2;
 
-      // Calculate new dimensions maintaining aspect ratio
-      if (width > height) {
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width = Math.round((width * maxHeight) / height);
-          height = maxHeight;
-        }
-      }
-
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = targetSize;
+      canvas.height = targetSize;
 
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        resolve(base64); // Fallback to original if canvas context fails
+        resolve(base64);
         return;
       }
 
       // Draw and compress
-      ctx.drawImage(img, 0, 0, width, height);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, targetSize, targetSize);
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, targetSize, targetSize);
       
       // Convert to JPEG with specified quality
       const compressedBase64 = canvas.toDataURL('image/jpeg', quality);

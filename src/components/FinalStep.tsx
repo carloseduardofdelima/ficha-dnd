@@ -36,6 +36,18 @@ export default function FinalStep({
     const file = e.target.files?.[0]
     if (!file) return
 
+    // Basic Validation
+    const supportedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!supportedTypes.includes(file.type)) {
+      alert('Formato de arquivo não suportado. Use JPG, PNG, WEBP ou GIF.')
+      return
+    }
+
+    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+      alert('O arquivo é muito grande. Escolha uma imagem menor que 10MB.')
+      return
+    }
+
     const reader = new FileReader()
     reader.onloadend = async () => {
       const base64 = reader.result as string
@@ -44,7 +56,7 @@ export default function FinalStep({
         onFormChange({ ...form, avatarUrl: compressed })
       } catch (err) {
         console.error('Compression failed', err)
-        onFormChange({ ...form, avatarUrl: base64 })
+        alert('Erro ao processar imagem. Verifique se o arquivo não está corrompido.')
       }
     }
     reader.readAsDataURL(file)
@@ -82,7 +94,7 @@ export default function FinalStep({
                   <span style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8 }}>Mudar Foto</span>
                 </>
               )}
-              <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleImageUpload} />
+              <input type="file" ref={fileInputRef} hidden accept=".jpg,.jpeg,.png,.webp,.gif" onChange={handleImageUpload} />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: 1 }}>
