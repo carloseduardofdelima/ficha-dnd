@@ -259,7 +259,7 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Artesão Arcano': {
     passiveFeatures: [
-      { name: 'Tinkering Mágico (Magical Tinkering)', description: 'Ação Mágica: imbuí um objeto minúsculo não mágico com uma propriedade: emite luz (1,5m), reproduz uma mensagem gravada de 6s ao ser tocado, emite um odor ou som contínuo, ou exibe um efeito visual estático. Dura até você terminar o efeito ou criar outro além do seu limite (Mod. INT).' },
+      { name: 'Engenharia Mágica (Magical Tinkering)', description: 'Ação Mágica: imbuí um objeto minúsculo não mágico com uma propriedade: emite luz (1,5m), reproduz uma mensagem gravada de 6s ao ser tocado, emite um odor ou som contínuo, ou exibe um efeito visual estático. Dura até você terminar o efeito ou criar outro além do seu limite (Mod. INT).' },
       { name: 'Conjuração', description: 'Habilidade: Inteligência. Você usa ferramentas para canalizar seus feitiços. Começa com 2 Truques e prepara magias igual a INT + metade do nível.' },
     ],
     choices: [

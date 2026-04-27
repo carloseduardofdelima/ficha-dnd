@@ -1118,7 +1118,7 @@ export default function CharacterDetailPage() {
                             if (character.class === 'Monge' && character.level >= 2) initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
                             if (character.class === 'Bardo') initial['Inspiração Bárdica'] = { max: Math.max(1, calcModifier(character.charisma)), current: Math.max(1, calcModifier(character.charisma)), color: '#ec4899' };
                             if (character.class === 'Artesão Arcano') {
-                              initial['Tinkering Mágico'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                              initial['Engenharia Mágica'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
                               if (character.level >= 3) {
                                 if (character.subclass === 'Artilheiro') {
                                   initial['Canhão Élfico'] = { max: 1, current: 1, color: '#06b6d4' };

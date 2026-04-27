@@ -286,12 +286,12 @@ export const CLASS_PROGRESSION_2024: Record<string, ClassProgression> = {
   'Artesão Arcano': {
     hitDie: 8,
     features: {
-      1: ['Tinkering Mágico (Magical Tinkering)', 'Spellcasting'],
+      1: ['Engenharia Mágica (Magical Tinkering)', 'Spellcasting'],
       2: ['Replicar Item Mágico (Infusões)', 'Replicação Expandida (Nível 2)'],
       3: ['Subclasse Artífice [SC]', 'A Ferramenta Certa para o Trabalho'],
       4: ['Melhoria de Atributo ou Talento [ASI]'],
       5: ['Ataque Extra (se Armeiro) ou Buff Alquimista'],
-      6: ['Feature de Subclasse [SC]', 'Tinkering de Item Mágico', 'Replicação Expandida (Nível 6)'],
+      6: ['Feature de Subclasse [SC]', 'Engenharia de Item Mágico', 'Replicação Expandida (Nível 6)'],
       7: ['Brilho de Gênio (Flash of Genius)'],
       8: ['Melhoria de Atributo ou Talento [ASI]'],
       9: ['Item de Armazenamento de Magia'],

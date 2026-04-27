@@ -107,7 +107,7 @@ export default function NovoPersonagem() {
         if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
         if (form.class === 'Artesão Arcano') {
           const modInt = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
-          res['Tinkering Mágico'] = modInt;
+          res['Engenharia Mágica'] = modInt;
           const selectedSubclass = featureChoices['Especialista Artesão'] as string;
           if (form.level >= 3) {
             if (selectedSubclass === 'Artilheiro') {
