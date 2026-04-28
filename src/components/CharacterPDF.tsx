@@ -1,20 +1,29 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import { calcModifier, type Character, type Defense } from '@/types/character';
-import { RACES } from '@/lib/races';
+import { RACES, type Race } from '@/lib/races';
+import { RACES_2014 } from '@/lib/races-2014';
+import { CLASSES } from '@/lib/classes';
+import { CLASSES_2014 } from '@/lib/classes-2014';
+import { BACKGROUNDS } from '@/lib/backgrounds';
+import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014';
+import SPELLS from '@/lib/spells';
+import { ITEM_CATALOG } from '@/lib/inventory';
 import CLASS_LEVEL1_DATA from '@/lib/class-features';
 import { CLASS_PROGRESSION_2024, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024';
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024';
 
-import { ITEM_CATALOG } from '@/lib/inventory';
-import SPELLS from '@/lib/spells';
-import { CLASSES } from '@/lib/classes';
-
 const getCharacterFeatures = (character: Character) => {
   const features: { name: string; description: string }[] = [];
+  const ruleset = character.ruleset || '2024';
   
+  // Resolve Lists
+  const raceList = ruleset === '2014' ? RACES_2014 : RACES;
+  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
+  const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+
   // Race traits
-  const race = RACES.find(r => r.name === character.race);
+  const race = raceList.find(r => r.name === character.race);
   if (race) {
     race.traits.forEach(t => features.push({ name: t.name, description: t.description }));
     
@@ -26,54 +35,77 @@ const getCharacterFeatures = (character: Character) => {
       }
     }
   }
-  
-  // Class Level 1
-  const lvl1 = CLASS_LEVEL1_DATA[character.class];
-  if (lvl1) {
-    lvl1.passiveFeatures.forEach(f => features.push({ name: f.name, description: f.description }));
+
+  // Background Feature
+  const background = bgList.find(b => b.name === character.background);
+  if (background && background.feature) {
+    features.push({ 
+      name: `Antecedente: ${background.feature.name}`, 
+      description: background.feature.description 
+    });
   }
   
-  // Progression Features (up to current level)
-  for (let i = 1; i <= character.level; i++) {
-    const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[i] || [];
-    classFeats.forEach(f => {
-      // Avoid duplicates if already added by passiveFeatures
-      if (!features.some(feat => feat.name === f)) {
-        features.push({ name: f, description: 'Consulte o livro de regras para mais detalhes.' });
-      }
-    });
-    
-    // Species progression
-    const speciesFeats = SPECIES_PROGRESSION_2024[character.race]?.[i] || [];
-    speciesFeats.forEach(f => {
-      if (!features.some(feat => feat.name === f)) {
-        features.push({ name: f, description: 'Característica racial adicional.' });
-      }
-    });
-
-    // Subclass features
-    if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
-      const subFeats = SUBCLASSES_2024[character.class][character.subclass].features[i] || [];
-      subFeats.forEach(sf => {
-        const name = typeof sf === 'string' ? sf : sf.name;
-        const desc = typeof sf === 'string' ? 'Habilidade de subclasse.' : sf.description;
-        if (!features.some(feat => feat.name === name)) {
-          features.push({ name, description: desc });
+  // Class Features
+  const dndClass = classList.find(c => c.name === character.class);
+  if (dndClass) {
+    dndClass.features.forEach(f => features.push({ name: f.name, description: f.description }));
+  }
+  
+  // 2024 Specific Progression
+  if (ruleset === '2024') {
+    // Class Level 1 Specific (Extra choices etc)
+    const lvl1 = CLASS_LEVEL1_DATA[character.class];
+    if (lvl1) {
+      lvl1.passiveFeatures.forEach(f => {
+        if (!features.some(feat => feat.name === f.name)) {
+          features.push({ name: f.name, description: f.description });
         }
       });
     }
+
+    // Progression Features (up to current level)
+    for (let i = 1; i <= character.level; i++) {
+      const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[i] || [];
+      classFeats.forEach(f => {
+        if (!features.some(feat => feat.name === f)) {
+          features.push({ name: f, description: 'Consulte o livro de regras para mais detalhes.' });
+        }
+      });
+      
+      const speciesFeats = SPECIES_PROGRESSION_2024[character.race]?.[i] || [];
+      speciesFeats.forEach(f => {
+        if (!features.some(feat => feat.name === f)) {
+          features.push({ name: f, description: 'Característica racial adicional.' });
+        }
+      });
+
+      if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
+        const subFeats = SUBCLASSES_2024[character.class][character.subclass].features[i] || [];
+        subFeats.forEach(sf => {
+          const name = typeof sf === 'string' ? sf : sf.name;
+          const desc = typeof sf === 'string' ? 'Habilidade de subclasse.' : sf.description;
+          if (!features.some(feat => feat.name === name)) {
+            features.push({ name, description: desc });
+          }
+        });
+      }
+    }
   }
 
-  // Feature Choices (from traits)
+  // Feature Choices (from traits JSON)
   if (character.traits) {
     const traits = typeof character.traits === 'string' ? JSON.parse(character.traits) : character.traits;
+    const lvl1 = CLASS_LEVEL1_DATA[character.class];
+    
     Object.values(traits).forEach((val: any) => {
       if (Array.isArray(val)) {
         val.forEach(v => {
           if (lvl1) {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === v);
-              if (opt) features.push({ name: opt.name, description: opt.description });
+              if (opt && !features.some(feat => feat.name === opt.name)) {
+                features.push({ name: opt.name, description: opt.description });
+              }
             });
           }
         });
@@ -81,7 +113,9 @@ const getCharacterFeatures = (character: Character) => {
          if (lvl1) {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === val);
-              if (opt) features.push({ name: opt.name, description: opt.description });
+              if (opt && !features.some(feat => feat.name === opt.name)) {
+                features.push({ name: opt.name, description: opt.description });
+              }
             });
          }
       }
@@ -562,9 +596,17 @@ const CharacterPDF = ({ character }: Props) => {
   const allSkills = abilities.flatMap(a => a.skills);
   const weapons = inventoryArr.filter((item: any) => item.item.category === 'weapon');
   
-  // Resolve Spells
+  // Resolve Spells, Race, Class and Background based on ruleset
   const resolvedSpells = spellsArr.map(id => SPELLS.find(s => s.id === id)).filter(Boolean);
-  const race = RACES.find(r => r.name === character.race);
+  
+  const ruleset = character.ruleset || '2024';
+  const raceList = ruleset === '2014' ? RACES_2014 : RACES;
+  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
+  const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+
+  const race = raceList.find(r => r.name === character.race);
+  const dndClass = classList.find(c => c.name === character.class);
+  const background = bgList.find(b => b.name === character.background);
 
   return (
     <Document>

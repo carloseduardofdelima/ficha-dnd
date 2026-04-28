@@ -13,12 +13,16 @@ export interface Race {
     name: string
     description?: string
     traits: RaceTrait[]
+    attributeBonuses?: Record<string, number>
   }[]
   subRaceTitle?: string
   subRaceMandatory?: boolean
   source: string
   speed: number
   size: 'Pequeno' | 'Médio' | 'Pequeno ou Médio'
+  fixedSkills?: string[]
+  bonusSkillCount?: number
+  attributeBonuses?: Record<string, number>
   skillProf?: string[]            // Fixed skill names in PT
   skillChoice?: {                 // Choice of skills
     count: number

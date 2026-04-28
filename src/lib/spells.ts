@@ -1,3 +1,5 @@
+import { SPELLS_2014, SPELL_SLOTS_2014 } from './spells-2014'
+
 export type SpellSchool =
   | 'Abjuração' | 'Adivinhação' | 'Conjuração' | 'Encantamento'
   | 'Evocação' | 'Ilusão' | 'Necromancia' | 'Transmutação'
@@ -18,6 +20,7 @@ export interface Spell {
   ritual?: boolean
   concentration?: boolean
   icon?: string
+  ruleset?: '2014' | '2024'
 }
 
 const SPELLS: Spell[] = [
@@ -183,8 +186,26 @@ const SPELLS: Spell[] = [
 export { SPELLS }
 export default SPELLS
 
-export function getSpellsForClass(className: string): Spell[] {
-  return SPELLS.filter(s => s.classes.includes(className))
+export function getSpellsForClass(className: string, ruleset: '2014' | '2024' = '2024'): Spell[] {
+  const allAvailable = [...SPELLS, ...SPELLS_2014]
+  
+  // 1. Filter by class
+  const classSpells = allAvailable.filter(s => s.classes.includes(className))
+  
+  // 2. Filter by ruleset:
+  if (ruleset === '2014') {
+    const legacy = classSpells.filter(s => s.id.endsWith('-2014'))
+    const standard = classSpells.filter(s => !s.id.endsWith('-2014'))
+    
+    const result = [...legacy]
+    standard.forEach(s => {
+      const hasLegacyVersion = legacy.some(l => l.name.startsWith(s.name))
+      if (!hasLegacyVersion) result.push(s)
+    })
+    return result
+  }
+  
+  return classSpells.filter(s => !s.id.endsWith('-2014'))
 }
 
 export const SPELLCASTING_CLASSES = [
@@ -192,17 +213,11 @@ export const SPELLCASTING_CLASSES = [
   'Paladino', 'Patrulheiro', 'Artesão Arcano'
 ]
 
-// How many cantrips and level-1 spell slots each class gets at level 1
-export const SPELL_SLOTS: Record<string, { cantrips: number; lvl1: number; prepared?: boolean }> = {
-  'Bardo':          { cantrips: 2, lvl1: 2 },
-  'Clérigo':        { cantrips: 3, lvl1: 2, prepared: true },
-  'Druida':         { cantrips: 2, lvl1: 2, prepared: true },
-  'Feiticeiro':     { cantrips: 4, lvl1: 2 },
-  'Bruxo':          { cantrips: 2, lvl1: 2 },
-  'Mago':           { cantrips: 3, lvl1: 2 },
-  'Paladino':       { cantrips: 0, lvl1: 2, prepared: true },
-  'Patrulheiro':    { cantrips: 0, lvl1: 2, prepared: true },
-  'Artesão Arcano': { cantrips: 2, lvl1: 2, prepared: true },
+export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024') {
+  const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
+  const classData = table[className]
+  if (!classData) return null
+  return classData[level] || classData[1]
 }
 
 export interface SpellSlots {

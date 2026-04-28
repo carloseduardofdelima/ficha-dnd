@@ -1,8 +1,11 @@
 'use client'
 import { useMemo } from 'react'
 import { BACKGROUNDS } from '@/lib/backgrounds'
+import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014'
 import { CLASSES } from '@/lib/classes'
+import { CLASSES_2014 } from '@/lib/classes-2014'
 import { RACES } from '@/lib/races'
+import { RACES_2014 } from '@/lib/races-2014'
 import { ChevronUp, ChevronDown, Star } from 'lucide-react'
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -132,15 +135,16 @@ function totalSpent(attrs: Attrs) {
 
 // ── Props ───────────────────────────────────────────────────────────────────
 interface AttributesStepProps {
-  className: string         // selected class name
-  raceName: string          // selected race name
-  subRaceName: string       // selected sub-race name
-  backgroundName: string    // selected background name
+  className: string
+  raceName: string
+  subRaceName: string
+  backgroundName: string
   level: number
   attrs: Attrs
   skills: Record<string, boolean>
   expertises: Record<string, boolean>
   asi: ASI
+  ruleset?: '2014' | '2024'
   onAttrsChange: (a: Attrs) => void
   onSkillsChange: (s: Record<string, boolean>) => void
   onExpertisesChange: (e: Record<string, boolean>) => void
@@ -155,16 +159,37 @@ const EXPERTISE_LIMITS: Record<string, (lv: number) => number> = {
 
 // ── Component ───────────────────────────────────────────────────────────────
 export default function AttributesStep({
-  className, raceName, subRaceName, backgroundName, level, attrs, skills, expertises, asi, onAttrsChange, onSkillsChange, onExpertisesChange, onAsiChange
+  className, raceName, subRaceName, backgroundName, level, attrs, skills, expertises, asi, ruleset = '2024', onAttrsChange, onSkillsChange, onExpertisesChange, onAsiChange
 }: AttributesStepProps) {
 
   const spent = totalSpent(attrs)
   const remaining = BUDGET - spent
 
+  // Racial Attribute Bonuses for 2014
+  const racialBonuses = useMemo<Record<string, number>>(() => {
+    if (ruleset !== '2014') return {}
+    const race = RACES_2014.find(r => r.name === raceName)
+    if (!race) return {}
+    
+    const bonuses: Record<string, number> = { ...race.attributeBonuses }
+    if (subRaceName) {
+      const lineage = race.lineages?.find(l => l.name === subRaceName)
+      if (lineage?.attributeBonuses) {
+        Object.entries(lineage.attributeBonuses).forEach(([attr, val]) => {
+          bonuses[attr] = (bonuses[attr] || 0) + val
+        })
+      }
+    }
+    return bonuses
+  }, [raceName, subRaceName, ruleset])
+
   // Background and Race auto-selected skills (locked)
   const lockedSkillKeys = useMemo<Set<string>>(() => {
-    const bg = BACKGROUNDS.find(b => b.name === backgroundName)
-    const race = RACES.find(r => r.name === raceName)
+    const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS
+    const raceList = ruleset === '2014' ? RACES_2014 : RACES
+    
+    const bg = bgList.find(b => b.name === backgroundName)
+    const race = raceList.find(r => r.name === raceName)
     const keys = new Set<string>()
     
     // BG Skills
@@ -174,20 +199,36 @@ export default function AttributesStep({
     })
     
     // Fixed Race Skills
-    race?.skillProf?.forEach(s => {
+    const fixedRaceSkills = ruleset === '2014' ? race?.fixedSkills : race?.skillProf
+    fixedRaceSkills?.forEach(s => {
       const k = SKILL_PT_TO_KEY[s]
       if (k) keys.add(k)
     })
     
     return keys
-  }, [backgroundName, raceName])
+  }, [backgroundName, raceName, ruleset])
 
   // Racial skill choice info
   const raceSkillChoice = useMemo(() => {
-    return RACES.find(r => r.name === raceName)?.skillChoice
-  }, [raceName])
+    const raceList = ruleset === '2014' ? RACES_2014 : RACES
+    const race = raceList.find(r => r.name === raceName)
+    if (ruleset === '2014') {
+      return race?.bonusSkillCount ? { count: race.bonusSkillCount } : undefined
+    }
+    return race?.skillChoice
+  }, [raceName, ruleset])
 
-  const classSkillInfo = useMemo(() => CLASS_SKILL_DATA[className], [className])
+  const classSkillInfo = useMemo(() => {
+    if (ruleset === '2014') {
+      const cls = CLASSES_2014.find(c => c.name === className)
+      if (!cls) return undefined
+      return {
+        count: cls.skillCount || 0,
+        options: cls.skillOptions?.map(s => SKILL_PT_TO_KEY[s] || s)
+      }
+    }
+    return CLASS_SKILL_DATA[className]
+  }, [className, ruleset])
 
   // Collision Logic: If a locked skill is also in class options, user gets a "free" choice
   const collisionCount = useMemo(() => {
@@ -221,9 +262,10 @@ export default function AttributesStep({
 
   // Saving throws for selected class
   const classSavingThrows = useMemo<string[]>(() => {
-    const cls = CLASSES.find(c => c.name === className)
+    const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES
+    const cls = classList.find(c => c.name === className)
     return cls?.savingThrows ?? []
-  }, [className])
+  }, [className, ruleset])
 
   // Attr → save throw mapping
   const ATTR_SAVE_PT: Record<string, keyof Attrs> = {
@@ -253,26 +295,28 @@ export default function AttributesStep({
   const toggleSkill = (key: string) => {
     if (lockedSkillKeys.has(key)) return 
 
+    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0) + collisionCount
+    const currentOutOfListSelections = Object.entries(skills).filter(([k, v]) => {
+      if (!v || lockedSkillKeys.has(k)) return false
+      const allowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(k)
+      const allowedByRace = raceSkillChoice?.options?.map(o => SKILL_PT_TO_KEY[o]).includes(k)
+      return !allowedByClass && !allowedByRace
+    }).length
+
     const totalAllowedCount = (classSkillInfo?.count || 0) + (raceSkillChoice?.count || 0) + collisionCount
-    const currentSelectedCount = Object.entries(skills).filter(([k, v]) => v && !lockedSkillKeys.has(k)).length
+    const selectedCount = Object.entries(skills).filter(([k, v]) => v && !lockedSkillKeys.has(k)).length
 
     // If trying to select a new skill
     if (!skills[key]) {
-      // Check if skill is allowed for the class OR for the race
-      const isAllowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(key)
-      const isAllowedByRace = !raceSkillChoice?.options || raceSkillChoice.options.map(o => SKILL_PT_TO_KEY[o]).includes(key)
-      
-      // If we have collisions, the user effectively has "floating" points from class
-      // In 5e/2024, if you have a collision, you pick ANY other skill.
-      const hasFloatingChoice = collisionCount > 0
-      
-      if (!isAllowedByClass && !isAllowedByRace && !hasFloatingChoice) {
-        return
-      }
-      
       // Check if already at the combined limit
-      if (currentSelectedCount >= totalAllowedCount) {
-        return
+      if (selectedCount >= totalAllowedCount) return
+
+      // If not allowed by class or race, check if we have free selections left
+      const isAllowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(key)
+      const isAllowedByRace = raceSkillChoice?.options?.map(o => SKILL_PT_TO_KEY[o]).includes(key)
+      
+      if (!isAllowedByClass && !isAllowedByRace) {
+        if (currentOutOfListSelections >= freeSelectionsAllowed) return
       }
     }
 
@@ -294,18 +338,26 @@ export default function AttributesStep({
   const isSkillDisabled = (key: string) => {
     if (lockedSkillKeys.has(key)) return false 
     if (skills[key]) return false 
-    
-    // If we have any "Any Skill" source (like Human or Bard or Collision), it's never disabled by options
-    const skipOptionsCheck = (classSkillInfo && !classSkillInfo.options) || (raceSkillChoice && !raceSkillChoice.options) || collisionCount > 0
-    
-    if (!skipOptionsCheck) {
-      const isAllowedByClass = classSkillInfo?.options?.includes(key)
-      const isAllowedByRace = raceSkillChoice?.options?.map(o => SKILL_PT_TO_KEY[o]).includes(key)
-      if (!isAllowedByClass && !isAllowedByRace) return true
-    }
+
+    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0) + collisionCount
+    const currentOutOfListSelections = Object.entries(skills).filter(([k, v]) => {
+      if (!v || lockedSkillKeys.has(k)) return false
+      const allowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(k)
+      const allowedByRace = raceSkillChoice?.options?.map(o => SKILL_PT_TO_KEY[o]).includes(k)
+      return !allowedByClass && !allowedByRace
+    }).length
 
     // Disabled if at the combined limit
     if (selectedCount >= totalAllowedCount) return true
+    
+    // Check if allowed by class or race
+    const isAllowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(key)
+    const isAllowedByRace = raceSkillChoice?.options?.map(o => SKILL_PT_TO_KEY[o]).includes(key)
+
+    if (!isAllowedByClass && !isAllowedByRace) {
+      // If not allowed, it's only enabled if we have free selections left
+      if (currentOutOfListSelections >= freeSelectionsAllowed) return true
+    }
 
     return false
   }
@@ -325,7 +377,7 @@ export default function AttributesStep({
       <div style={{ marginBottom: 24 }}>
         <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8 }}>Atributos & Perícias</h2>
         <p style={{ color: 'var(--fg2)' }}>
-          Distribua 27 pontos entre seus atributos básicos. Em seguida, escolha os <strong>Bônus de Origem</strong> (+2 e +1) para definir sua herança.
+          Distribua 27 pontos entre seus atributos básicos. {ruleset === '2024' ? 'Em seguida, escolha os bônus de origem (+2 e +1).' : 'Seus bônus raciais já foram aplicados automaticamente.'}
         </p>
       </div>
 
@@ -365,8 +417,17 @@ export default function AttributesStep({
           <div className='attr-row' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {ATTR_INFO.map(({ key, label, abbr }) => {
               const baseScore = attrs[key]
-              const bonus = (asi.primary === key ? 2 : 0) + (asi.secondary === key ? 1 : 0)
-              const score = baseScore + bonus
+              const racialBonus = racialBonuses[key] || 0
+              
+              let originBonus = 0
+              if (ruleset === '2024') {
+                originBonus = (asi.primary === key ? 2 : 0) + (asi.secondary === key ? 1 : 0)
+              } else if (raceName === 'Meio-Elfo') {
+                originBonus = (asi.primary === key ? 1 : 0) + (asi.secondary === key ? 1 : 0)
+              }
+              
+              const totalBonus = racialBonus + originBonus
+              const score = baseScore + totalBonus
               const mod = calcMod(score)
               const isPrimary = primaryAttrs.has(key)
               const isSave = proficientSaves.has(key)
@@ -377,10 +438,10 @@ export default function AttributesStep({
                 <div key={key} style={{
                   display: 'flex', alignItems: 'center', gap: 12,
                   backgroundColor: isPrimary ? 'rgba(147,51,234,0.12)' : 'var(--bg2)',
-                  border: `1px solid ${isPrimary ? 'rgba(147,51,234,0.4)' : bonus > 0 ? 'rgba(var(--accent-rgb, 191,155,48), 0.3)' : 'rgba(255,255,255,0.07)'}`,
+                  border: `1px solid ${isPrimary ? 'rgba(147,51,234,0.4)' : totalBonus > 0 ? 'rgba(var(--accent-rgb, 191,155,48), 0.3)' : 'rgba(255,255,255,0.07)'}`,
                   borderRadius: 12, padding: '12px 16px',
                   transition: 'all 0.2s',
-                  boxShadow: isPrimary ? '0 0 12px rgba(147,51,234,0.15)' : bonus > 0 ? '0 0 10px rgba(var(--accent-rgb, 191,155,48), 0.1)' : 'none'
+                  boxShadow: isPrimary ? '0 0 12px rgba(147,51,234,0.15)' : totalBonus > 0 ? '0 0 10px rgba(var(--accent-rgb, 191,155,48), 0.1)' : 'none'
                 }}>
                   {/* Abbr + label */}
                   <div style={{ width: 100, flexShrink: 0 }}>
@@ -410,9 +471,9 @@ export default function AttributesStep({
                     </button>
 
                     <div style={{ textAlign: 'center', minWidth: 48 }}>
-                      <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, color: bonus > 0 ? 'var(--accent)' : isPrimary ? '#c084fc' : 'var(--fg)' }}>{score}</div>
-                      <div style={{ fontSize: 11, color: bonus > 0 ? 'var(--accentL)' : 'var(--accentL)', fontWeight: 600 }}>{fmtMod(mod)}</div>
-                      {bonus > 0 && <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--accentL)' }}>+{bonus} bônus</div>}
+                      <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, color: totalBonus > 0 ? 'var(--accent)' : isPrimary ? '#c084fc' : 'var(--fg)' }}>{score}</div>
+                      <div style={{ fontSize: 11, color: totalBonus > 0 ? 'var(--accentL)' : 'var(--accentL)', fontWeight: 600 }}>{fmtMod(mod)}</div>
+                      {totalBonus > 0 && <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--accentL)' }}>+{totalBonus} bônus</div>}
                     </div>
 
                     <button
@@ -441,73 +502,83 @@ export default function AttributesStep({
             })}
           </div>
 
-          {/* ── ASI Selection (Moved down for better UX) ── */}
-          <div style={{
-            backgroundColor: 'rgba(255,255,255,0.02)',
-            borderRadius: 16,
-            padding: '20px 24px',
-            marginTop: 20,
-            border: '1px solid rgba(255,255,255,0.06)',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 24
-          }} className="asi-section">
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-                <h3 style={{ fontSize: 11, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Bônus Origem (+2)</h3>
-                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)' }} />
+          {/* ── ASI Selection ── */}
+          {(ruleset === '2024' || (ruleset === '2014' && raceName === 'Meio-Elfo')) && (
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.02)',
+              borderRadius: 16,
+              padding: '20px 24px',
+              marginTop: 20,
+              border: '1px solid rgba(255,255,255,0.06)',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 24
+            }} className="asi-section">
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 11, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
+                    {ruleset === '2024' ? 'Bônus Origem (+2)' : 'Versatilidade (+1)'}
+                  </h3>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)' }} />
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {ATTR_INFO.map(({ key, abbr }) => (
+                    <button
+                      key={`p-${key}`}
+                      onClick={() => handleAsiSelect('primary', key)}
+                      disabled={ruleset === '2014' && key === 'charisma'} // Fixed +2 in 2014
+                      style={{
+                        padding: '6px 10px',
+                        borderRadius: 6,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        transition: 'all 0.2s',
+                        border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
+                        backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
+                        color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
+                        cursor: (ruleset === '2014' && key === 'charisma') ? 'not-allowed' : 'pointer',
+                        opacity: (ruleset === '2014' && key === 'charisma') ? 0.3 : 1
+                      }}
+                    >
+                      {abbr}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {ATTR_INFO.map(({ key, abbr }) => (
-                  <button
-                    key={`p-${key}`}
-                    onClick={() => handleAsiSelect('primary', key)}
-                    style={{
-                      padding: '6px 10px',
-                      borderRadius: 6,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      transition: 'all 0.2s',
-                      border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
-                      backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
-                      color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {abbr}
-                  </button>
-                ))}
-              </div>
-            </div>
 
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-                <h3 style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>Bônus Origem (+1)</h3>
-                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accentL)' }} />
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {ATTR_INFO.map(({ key, abbr }) => (
-                  <button
-                    key={`s-${key}`}
-                    onClick={() => handleAsiSelect('secondary', key)}
-                    style={{
-                      padding: '6px 10px',
-                      borderRadius: 6,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      transition: 'all 0.2s',
-                      border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
-                      backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
-                      color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {abbr}
-                  </button>
-                ))}
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
+                    {ruleset === '2024' ? 'Bônus Origem (+1)' : 'Versatilidade (+1)'}
+                  </h3>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accentL)' }} />
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {ATTR_INFO.map(({ key, abbr }) => (
+                    <button
+                      key={`s-${key}`}
+                      onClick={() => handleAsiSelect('secondary', key)}
+                      disabled={ruleset === '2014' && key === 'charisma'} // Fixed +2 in 2014
+                      style={{
+                        padding: '6px 10px',
+                        borderRadius: 6,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        transition: 'all 0.2s',
+                        border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
+                        backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
+                        color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
+                        cursor: (ruleset === '2014' && key === 'charisma') ? 'not-allowed' : 'pointer',
+                        opacity: (ruleset === '2014' && key === 'charisma') ? 0.3 : 1
+                      }}
+                    >
+                      {abbr}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Cost reference */}
           <div style={{ marginTop: 16, backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: 10, padding: '12px 16px', border: '1px solid rgba(255,255,255,0.05)' }}>
@@ -555,7 +626,7 @@ export default function AttributesStep({
                  <div style={{ fontSize: 10, marginTop: 2, opacity: 0.8 }}>
                    Fontes: {className} ({classSkillInfo?.count || 0}) 
                    {raceSkillChoice && ` + ${raceName} (${raceSkillChoice.count})`}
-                   {collisionCount > 0 && ` + Colisão de Origem (${collisionCount})`}
+                   {collisionCount > 0 && ` + ${ruleset === '2024' ? 'Perícias Repetidas' : 'Colisão de Origem'} (${collisionCount})`}
                  </div>
                </div>
              )}

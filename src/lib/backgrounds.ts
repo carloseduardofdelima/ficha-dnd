@@ -7,6 +7,7 @@ export interface Background {
   id: string
   name: string
   description: string
+  image?: string
   skills: string[]
   toolProf?: string
   languages?: string

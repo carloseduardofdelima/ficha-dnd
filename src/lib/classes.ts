@@ -15,6 +15,8 @@ export interface DndClass {
   savingThrows: string[]
   armorProf: string
   weaponProf: string
+  skillCount?: number
+  skillOptions?: string[]
 }
 
 export const CLASSES: DndClass[] = [

@@ -1,11 +1,14 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { Save, ArrowLeft, X, ChevronRight, ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { RACES, Race } from '@/lib/races'
+import { RACES_2014 } from '@/lib/races-2014'
 import { CLASSES, DndClass } from '@/lib/classes'
+import { CLASSES_2014 } from '@/lib/classes-2014'
 import { BACKGROUNDS, Background } from '@/lib/backgrounds'
+import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014'
 import StepIndicator from '@/components/StepIndicator'
 import RaceCard from '@/components/RaceCard'
 import ClassCard from '@/components/ClassCard'
@@ -13,12 +16,12 @@ import BackgroundCard from '@/components/BackgroundCard'
 import AttributesStep, { Attrs, POINT_COST, BUDGET, ASI } from '@/components/AttributesStep'
 import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
-import { SPELL_SLOTS, SPELLCASTING_CLASSES, getSpellsForClass } from '@/lib/spells'
+import { getSpellSlots, SPELLCASTING_CLASSES, getSpellsForClass } from '@/lib/spells'
 import FinalStep from '@/components/FinalStep'
 import type { InventoryEntry } from '@/lib/inventory'
 import { calculateAC } from '@/lib/dnd-rules'
 
-const STEPS = ['Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
+const STEPS = ['Edição', 'Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
 export default function NovoPersonagem() {
   const router = useRouter()
@@ -42,12 +45,24 @@ export default function NovoPersonagem() {
   const [expertises, setExpertises] = useState<Record<string, boolean>>({})
   const [inventory, setInventory] = useState<InventoryEntry[]>([])
   const [selectedSpells, setSelectedSpells] = useState<string[]>([])
-  const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
-
   const [form, setForm] = useState({
     name: '', class: '', race: '', subRace: '', background: '', level: 1, avatarUrl: '', isPublic: false,
-    playerName: '', appearance: '', backstory: ''
+    playerName: '', appearance: '', backstory: '', ruleset: '2024' as '2014' | '2024'
   })
+
+  const availableRaces = useMemo(() => {
+    return form.ruleset === '2014' ? RACES_2014 : RACES;
+  }, [form.ruleset]);
+
+  const availableClasses = useMemo(() => {
+    return form.ruleset === '2014' ? CLASSES_2014 : CLASSES;
+  }, [form.ruleset]);
+
+  const availableBackgrounds = useMemo(() => {
+    return form.ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+  }, [form.ruleset]);
+
+  const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
 
   // ASI (Ability Score Increase) - Style 2024
   const [asi, setAsi] = useState<ASI>({
@@ -61,14 +76,38 @@ export default function NovoPersonagem() {
     // Proficiency Bonus Calculation
     const pb = Math.ceil(form.level / 4) + 1
 
-    // Final attributes including bonuses
-    const finalAttrs = {
-      strength: attrs.strength + (asi.primary === 'strength' ? 2 : 0) + (asi.secondary === 'strength' ? 1 : 0),
-      dexterity: attrs.dexterity + (asi.primary === 'dexterity' ? 2 : 0) + (asi.secondary === 'dexterity' ? 1 : 0),
-      constitution: attrs.constitution + (asi.primary === 'constitution' ? 2 : 0) + (asi.secondary === 'constitution' ? 1 : 0),
-      intelligence: attrs.intelligence + (asi.primary === 'intelligence' ? 2 : 0) + (asi.secondary === 'intelligence' ? 1 : 0),
-      wisdom: attrs.wisdom + (asi.primary === 'wisdom' ? 2 : 0) + (asi.secondary === 'wisdom' ? 1 : 0),
-      charisma: attrs.charisma + (asi.primary === 'charisma' ? 2 : 0) + (asi.secondary === 'charisma' ? 1 : 0),
+    // Final attributes calculation based on ruleset
+    let finalAttrs = { ...attrs };
+    
+    if (form.ruleset === '2024') {
+      // 2024 style: +2/+1 from ASI
+      (Object.keys(finalAttrs) as Array<keyof Attrs>).forEach(key => {
+        if (asi.primary === key) finalAttrs[key] += 2;
+        if (asi.secondary === key) finalAttrs[key] += 1;
+      });
+    } else {
+      // 2014 style: Structured bonuses from race/subrace
+      const race = RACES_2014.find(r => r.name === form.race);
+      if (race) {
+        // Base race bonuses
+        if (race.attributeBonuses) {
+          Object.entries(race.attributeBonuses).forEach(([attr, val]) => {
+            finalAttrs[attr as keyof Attrs] += val;
+          });
+        }
+        // Sub-race bonuses
+        const lineage = race.lineages?.find(l => l.name === form.subRace);
+        if (lineage?.attributeBonuses) {
+          Object.entries(lineage.attributeBonuses).forEach(([attr, val]) => {
+            finalAttrs[attr as keyof Attrs] += val;
+          });
+        }
+        // Special case: Half-Elf choice of two +1s
+        if (form.race === 'Meio-Elfo') {
+          if (asi.primary) finalAttrs[asi.primary] += 1;
+          if (asi.secondary) finalAttrs[asi.secondary] += 1;
+        }
+      }
     }
 
     // Derived stats calculation (simple level 1 logic)
@@ -97,8 +136,18 @@ export default function NovoPersonagem() {
       initiative: dexMod,
       proficiencyBonus: pb,
       subclass: (featureChoices['Especialista Artesão'] as string) || (featureChoices['Caminho Primitivo'] as string) || (featureChoices['Juramento Sagrado'] as string) || (featureChoices['Tradição Monástica'] as string) || (featureChoices['Arquétipo Marcial'] as string) || (featureChoices['Origem de Feitiçaria'] as string) || (featureChoices['Patrono do Além'] as string) || (featureChoices['Tradição Arcana'] as string) || (featureChoices['Domínio Divino'] as string) || (featureChoices['Círculo Druídico'] as string) || (featureChoices['Colégio Bárdico'] as string) || (featureChoices['Conclave de Patrulheiro'] as string) || (featureChoices['Arquétipo de Ladino'] as string) || '',
-      speed: RACES.find(r => r.name === form.race)?.speed || 30,
-      spellSlots: JSON.stringify(['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(form.class) ? { "1": form.class === 'Bruxo' ? 1 : 2 } : {}),
+      speed: availableRaces.find(r => r.name === form.race)?.speed || 30,
+      spellSlots: (() => {
+        const slots = getSpellSlots(form.class, form.level, form.ruleset as any);
+        if (!slots) return JSON.stringify({});
+        const result: Record<string, number> = {};
+        if (slots.slots) {
+          slots.slots.forEach((s: number, i: number) => {
+            if (s > 0) result[String(i + 1)] = s;
+          });
+        }
+        return JSON.stringify(result);
+      })(),
       resources: (() => {
         const res: Record<string, number> = {};
         if (form.class === 'Bárbaro') res['Fúrias'] = 2;
@@ -147,33 +196,42 @@ export default function NovoPersonagem() {
   }
 
   const handleRaceSelect = (raceId: string) => {
-    const race = RACES.find(r => r.id === raceId) || null
+    const race = availableRaces.find(r => r.id === raceId) || null
     setForm({ ...form, race: race?.name || '', subRace: '' })
+    if (race?.lineages) setSubRaceModalOpen(true)
+    else nextStep()
   }
 
   const handleClassSelect = (classId: string) => {
-    const dndClass = CLASSES.find(c => c.id === classId) || null
+    const dndClass = availableClasses.find(c => c.id === classId) || null
     setForm({ ...form, class: dndClass?.name || '' })
+    nextStep()
   }
 
   const handleBgSelect = (bgId: string) => {
-    const bg = BACKGROUNDS.find(b => b.id === bgId) || null
+    const bg = availableBackgrounds.find(b => b.id === bgId) || null
     setForm({ ...form, background: bg?.name || '' })
+    nextStep()
   }
 
   const canGoNext = () => {
-    if (currentStep === 0) return !!form.race
-    if (currentStep === 1) return !!form.class
-    if (currentStep === 2) return !!form.background
-    if (currentStep === 3) return remainingPoints === 0 && !!asi.primary && !!asi.secondary
-    if (currentStep === 5) {
+    if (currentStep === 0) return !!form.ruleset
+    if (currentStep === 1) return !!form.race
+    if (currentStep === 2) return !!form.class
+    if (currentStep === 3) return !!form.background
+    if (currentStep === 4) {
+      const pointsValid = spentPoints === BUDGET;
+      if (form.ruleset === '2014') return pointsValid;
+      return pointsValid && !!asi.primary && !!asi.secondary;
+    }
+    if (currentStep === 6) {
       const isCaster = SPELLCASTING_CLASSES.includes(form.class)
       if (!isCaster) return true
       
-      const slots = SPELL_SLOTS[form.class]
+      const slots = getSpellSlots(form.class, form.level, form.ruleset as any)
       if (!slots) return true
       
-      const availableSpells = getSpellsForClass(form.class)
+      const availableSpells = getSpellsForClass(form.class, form.ruleset as any)
       const selectedCantrips = selectedSpells.filter(id => {
         const s = availableSpells.find(sp => sp.id === id)
         return s?.level === 0
@@ -183,24 +241,20 @@ export default function NovoPersonagem() {
         return s && s.level > 0
       }).length
 
-      return selectedCantrips === slots.cantrips && selectedLvl1 === slots.lvl1
+      const maxCantrips = slots.cantrips || 0
+      const maxLvl1 = (slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)
+
+      return selectedCantrips === maxCantrips && selectedLvl1 === maxLvl1
     }
     return true
   }
 
   const nextStep = () => {
-    if (currentStep === 0) {
-      const selectedRace = RACES.find(r => r.name === form.race)
-      if (selectedRace?.lineages && !form.subRace) {
-        setSubRaceModalOpen(true)
-        return
-      }
-    }
-    setCurrentStep(prev => Math.min(prev + 1, STEPS.length - 1))
+    if (canGoNext()) setCurrentStep(s => Math.min(s + 1, STEPS.length - 1))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 0))
+    setCurrentStep(s => Math.max(s - 1, 0))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -229,66 +283,83 @@ export default function NovoPersonagem() {
 
       <StepIndicator currentStep={currentStep} steps={STEPS} />
 
-      {/* Step 0: Race Selection */}
+      {/* Step 0: Edition Selection */}
       {currentStep === 0 && (
-        <div className="fade-in">
-          <div style={{ marginBottom: 24 }}>
-            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8 }}>Escolha sua Raça</h2>
-            <p style={{ color: 'var(--fg2)' }}>Sua raça define suas habilidades naturais e herança.</p>
-          </div>
-
-          <div className="card-grid">
-            {RACES.map(race => (
-              <RaceCard
-                key={race.id}
-                race={race}
-                selected={form.race === race.name}
-                onSelect={handleRaceSelect}
-                onViewDetails={setDetailRace}
-              />
-            ))}
+        <div className="fade-in" style={{ maxWidth: 800, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8, textAlign: 'center' }}>Escolha a Edição</h2>
+          <p style={{ color: 'var(--fg3)', textAlign: 'center', marginBottom: 32 }}>Selecione qual conjunto de regras você deseja usar para este personagem.</p>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div 
+              className={`card ${form.ruleset === '2014' ? 'active' : ''}`}
+              onClick={() => setForm({ ...form, ruleset: '2014', race: '', class: '', background: '' })}
+              style={{ padding: 24, cursor: 'pointer', border: form.ruleset === '2014' ? '2px solid var(--accent)' : '1px solid var(--border)' }}
+            >
+              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 5e (2014)</h3>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5 }}>
+                As regras clássicas da 5ª Edição. Atributos são fixos por raça e o Patrulheiro usa as regras originais de Inimigo Favorito.
+              </p>
+            </div>
+            
+            <div 
+              className={`card ${form.ruleset === '2024' ? 'active' : ''}`}
+              onClick={() => setForm({ ...form, ruleset: '2024', race: '', class: '', background: '' })}
+              style={{ padding: 24, cursor: 'pointer', border: form.ruleset === '2024' ? '2px solid var(--accent)' : '1px solid var(--border)' }}
+            >
+              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 2024 (5.5e)</h3>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5 }}>
+                A nova atualização das regras. Atributos são escolhidos via Antecedente e as raças possuem novas habilidades balanceadas.
+              </p>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Step 1: Class Selection */}
+      {/* Step 1: Race */}
       {currentStep === 1 && (
         <div className="fade-in">
-          <div style={{ marginBottom: 24 }}>
-            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8 }}>Escolha sua Classe</h2>
-            <p style={{ color: 'var(--fg2)' }}>Sua classe define suas habilidades e papel no grupo.</p>
-          </div>
-
-          <div className="card-grid">
-            {CLASSES.map(dndClass => (
-              <ClassCard
-                key={dndClass.id}
-                dndClass={dndClass}
-                selected={form.class === dndClass.name}
-                onSelect={handleClassSelect}
-                onViewDetails={setDetailClass}
+          <div className="grid-cards">
+            {availableRaces.map(race => (
+              <RaceCard 
+                key={race.id} 
+                race={race} 
+                selected={form.race === race.name}
+                onSelect={handleRaceSelect} 
+                onViewDetails={setDetailRace} 
               />
             ))}
           </div>
         </div>
       )}
 
-      {/* Step 2: Background Selection */}
+      {/* Step 2: Class */}
       {currentStep === 2 && (
         <div className="fade-in">
-          <div style={{ marginBottom: 24 }}>
-            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8 }}>Escolha seu Antecedente</h2>
-            <p style={{ color: 'var(--fg2)' }}>Seu antecedente revela de onde você vem, como você se tornou um aventureiro e qual é o seu lugar no mundo.</p>
+          <div className="grid-cards">
+            {availableClasses.map(cls => (
+              <ClassCard 
+                key={cls.id} 
+                dndClass={cls} 
+                selected={form.class === cls.name}
+                onSelect={handleClassSelect} 
+                onViewDetails={setDetailClass} 
+              />
+            ))}
           </div>
+        </div>
+      )}
 
-          <div className="bg-grid">
-            {BACKGROUNDS.map(bg => (
-              <BackgroundCard
-                key={bg.id}
-                background={bg}
+      {/* Step 3: Background */}
+      {currentStep === 3 && (
+        <div className="fade-in">
+          <div className="grid-cards">
+            {availableBackgrounds.map(bg => (
+              <BackgroundCard 
+                key={bg.id} 
+                background={bg} 
                 selected={form.background === bg.name}
-                onSelect={handleBgSelect}
-                onViewDetails={setDetailBg}
+                onSelect={handleBgSelect} 
+                onViewDetails={setDetailBg} 
               />
             ))}
           </div>
@@ -296,8 +367,8 @@ export default function NovoPersonagem() {
       )}
 
 
-      {/* Step 3: Attributes + Skills */}
-      {currentStep === 3 && (
+      {/* Step 4: Attributes + Skills */}
+      {currentStep === 4 && (
         <AttributesStep
           className={form.class}
           raceName={form.race}
@@ -308,6 +379,7 @@ export default function NovoPersonagem() {
           skills={skills}
           expertises={expertises}
           asi={asi}
+          ruleset={form.ruleset}
           onAttrsChange={setAttrs}
           onSkillsChange={setSkills}
           onExpertisesChange={setExpertises}
@@ -316,8 +388,8 @@ export default function NovoPersonagem() {
       )}
 
 
-      {/* Step 4: Inventory */}
-      {currentStep === 4 && (
+      {/* Step 5: Inventory */}
+      {currentStep === 5 && (
         <InventoryStep
           className={form.class}
           backgroundName={form.background}
@@ -327,20 +399,22 @@ export default function NovoPersonagem() {
       )}
 
 
-      {/* Step 5: Spells & Class Features */}
-      {currentStep === 5 && (
+      {/* Step 6: Spells & Class Features */}
+      {currentStep === 6 && (
         <SpellsStep
           className={form.class}
           selectedSpells={selectedSpells}
           onSpellsChange={setSelectedSpells}
           featureChoices={featureChoices}
           onFeatureChoicesChange={setFeatureChoices}
+          ruleset={form.ruleset as any}
+          level={form.level}
         />
       )}
 
 
-      {/* Step 6: Finalization */}
-      {currentStep === 6 && (
+      {/* Step 7: Finalization */}
+      {currentStep === 7 && (
         <FinalStep
           form={form}
           onFormChange={setForm}
@@ -640,7 +714,7 @@ export default function NovoPersonagem() {
             <div style={{ padding: '24px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h2 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 24 }}>
-                  {RACES.find(r => r.name === form.race)?.subRaceTitle || 'Escolha sua Linhagem'}
+                  {availableRaces.find(r => r.name === form.race)?.subRaceTitle || 'Escolha sua Linhagem'}
                 </h2>
                 <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--fg3)' }}>Você selecionou {form.race}. Agora escolha a característica da sua linhagem.</p>
               </div>
@@ -650,7 +724,7 @@ export default function NovoPersonagem() {
             </div>
 
             <div style={{ padding: 24, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
-              {RACES.find(r => r.name === form.race)?.lineages?.map(lineage => (
+              {availableRaces.find(r => r.name === form.race)?.lineages?.map(lineage => (
                 <div
                   key={lineage.name}
                   onClick={() => {
@@ -699,8 +773,7 @@ export default function NovoPersonagem() {
                 disabled={!form.subRace}
                 onClick={() => {
                   setSubRaceModalOpen(false)
-                  setCurrentStep(1)
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                  nextStep()
                 }}
                 style={{ padding: '0 32px' }}
               >

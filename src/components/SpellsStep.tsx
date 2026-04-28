@@ -1,8 +1,9 @@
 'use client'
 import { useState, useMemo } from 'react'
 import { Check, ChevronDown, ChevronUp, BookOpen, Zap, Clock, Target, Shield } from 'lucide-react'
-import SPELLS, { Spell, getSpellsForClass, SPELLCASTING_CLASSES, SPELL_SLOTS } from '@/lib/spells'
+import SPELLS, { Spell, getSpellsForClass, SPELLCASTING_CLASSES, getSpellSlots } from '@/lib/spells'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
+import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface SpellsStepProps {
@@ -11,6 +12,8 @@ interface SpellsStepProps {
   onSpellsChange: (ids: string[]) => void
   featureChoices: Record<string, string | string[]>
   onFeatureChoicesChange: (c: Record<string, string | string[]>) => void
+  ruleset: '2014' | '2024'
+  level: number
 }
 
 // ── School color map ──────────────────────────────────────────────────────────
@@ -22,18 +25,18 @@ const SCHOOL_COLORS: Record<string, string> = {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function SpellsStep({
-  className, selectedSpells, onSpellsChange, featureChoices, onFeatureChoicesChange
+  className, selectedSpells, onSpellsChange, featureChoices, onFeatureChoicesChange, ruleset, level
 }: SpellsStepProps) {
   const [expandedSpell, setExpandedSpell] = useState<string | null>(null)
   const [filterLevel, setFilterLevel] = useState<'all' | 0 | 1>('all')
   const [search, setSearch] = useState('')
 
   const isCaster = SPELLCASTING_CLASSES.includes(className)
-  const slots = SPELL_SLOTS[className]
-  const classData = CLASS_LEVEL1_DATA[className]
+  const slots = useMemo(() => getSpellSlots(className, level, ruleset), [className, level, ruleset])
+  const classData = ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[className] : CLASS_LEVEL1_DATA[className]
 
   // Spells available to this class
-  const availableSpells = useMemo(() => getSpellsForClass(className), [className])
+  const availableSpells = useMemo(() => getSpellsForClass(className, ruleset), [className, ruleset])
 
   const cantripsSelected = selectedSpells.filter(id => {
     const s = availableSpells.find(sp => sp.id === id)
@@ -64,8 +67,13 @@ export default function SpellsStep({
       return
     }
     if (!slots) return
-    if (spell.level === 0 && slots.cantrips > 0 && cantripsSelected.length >= slots.cantrips) return
-    if (spell.level === 1 && lvl1Selected.length >= slots.lvl1) return
+    
+    // Legacy 2014 uses slots array, 2024 uses direct properties for lvl1
+    const maxCantrips = slots.cantrips || 0
+    const maxLvl1 = (slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)
+
+    if (spell.level === 0 && maxCantrips > 0 && cantripsSelected.length >= maxCantrips) return
+    if (spell.level === 1 && lvl1Selected.length >= maxLvl1) return
     onSpellsChange([...selectedSpells, spell.id])
   }
 
@@ -112,15 +120,21 @@ export default function SpellsStep({
                   <div style={{ fontSize: 10, color: 'var(--fg3)', marginTop: 4 }}>{cantripsSelected.length}/{slots.cantrips} selecionados</div>
                 </div>
               )}
-              <div style={{ flex: 1, backgroundColor: 'var(--bg2)', borderRadius: 10, padding: '10px 14px', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>Espaços 1º Nível</div>
-                <div style={{ display: 'flex', gap: 5 }}>
-                  {Array.from({ length: slots.lvl1 }).map((_, i) => (
-                    <div key={i} style={{ width: 20, height: 20, borderRadius: 4, backgroundColor: i < lvl1Selected.length ? 'var(--accent)' : 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }} />
-                  ))}
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--fg3)', marginTop: 4 }}>{lvl1Selected.length}/{slots.lvl1} selecionados</div>
-              </div>
+              {(() => {
+                const maxLvl1 = (slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)
+                if (maxLvl1 === 0) return null
+                return (
+                  <div style={{ flex: 1, backgroundColor: 'var(--bg2)', borderRadius: 10, padding: '10px 14px', border: '1px solid rgba(255,255,255,0.07)' }}>
+                    <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>Espaços 1º Nível</div>
+                    <div style={{ display: 'flex', gap: 5 }}>
+                      {Array.from({ length: maxLvl1 }).map((_, i) => (
+                        <div key={i} style={{ width: 20, height: 20, borderRadius: 4, backgroundColor: i < lvl1Selected.length ? 'var(--accent)' : 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }} />
+                      ))}
+                    </div>
+                    <div style={{ fontSize: 10, color: 'var(--fg3)', marginTop: 4 }}>{lvl1Selected.length}/{maxLvl1} selecionados</div>
+                  </div>
+                )
+              })()}
             </div>
           )}
 
@@ -169,8 +183,10 @@ export default function SpellsStep({
                 const selected = isSelected(spell.id)
                 const expanded = expandedSpell === spell.id
                 const schoolColor = SCHOOL_COLORS[spell.school] ?? 'var(--fg3)'
-                const cantripFull = spell.level === 0 && slots && !selected && cantripsSelected.length >= (slots.cantrips ?? 0)
-                const lvl1Full = spell.level === 1 && slots && !selected && lvl1Selected.length >= (slots.lvl1 ?? 0)
+                const maxCantrips = slots?.cantrips || 0
+                const maxLvl1 = slots ? ((slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)) : 0
+                const cantripFull = spell.level === 0 && maxCantrips > 0 && !selected && cantripsSelected.length >= maxCantrips
+                const lvl1Full = spell.level === 1 && maxLvl1 > 0 && !selected && lvl1Selected.length >= maxLvl1
                 const locked = !!(cantripFull || lvl1Full)
 
                 return (
