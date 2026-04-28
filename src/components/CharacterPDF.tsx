@@ -608,6 +608,10 @@ const CharacterPDF = ({ character }: Props) => {
   const dndClass = classList.find(c => c.name === character.class);
   const background = bgList.find(b => b.name === character.background);
 
+  const allFeatures = getCharacterFeatures(character);
+  const firstTenFeatures = allFeatures.slice(0, 10);
+  const remainingFeatures = allFeatures.slice(10);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -855,7 +859,7 @@ const CharacterPDF = ({ character }: Props) => {
  
             <View style={[styles.featuresBox, { flex: 1 }]}>
                <View style={{ gap: 4 }}>
-                  {getCharacterFeatures(character).map((feat, idx) => (
+                  {firstTenFeatures.map((feat, idx) => (
                     <View key={idx} style={{ marginBottom: 3 }}>
                        <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>• {feat.name}</Text>
                        <Text style={{ fontSize: 6, color: '#333', marginLeft: 6 }}>{feat.description}</Text>
@@ -871,6 +875,34 @@ const CharacterPDF = ({ character }: Props) => {
           Gerado por Ficha D&D - {new Date().toLocaleDateString('pt-BR')}
         </Text>
       </Page>
+
+      {remainingFeatures.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <View style={[styles.header, { marginBottom: 10 }]}>
+            <View style={styles.logoArea}>
+              <View style={styles.charNameBox}>
+                <Text style={styles.charName}>{character.name}</Text>
+              </View>
+              <Text style={styles.headerLabel}>Características e Habilidades (Continuação)</Text>
+            </View>
+          </View>
+
+          <View style={[styles.featuresBox, { flex: 1, padding: 15 }]}>
+            <View style={{ gap: 6 }}>
+              {remainingFeatures.map((feat, idx) => (
+                <View key={idx} style={{ marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: '#eee', paddingBottom: 4 }}>
+                  <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>• {feat.name}</Text>
+                  <Text style={{ fontSize: 7, color: '#333', marginLeft: 8, marginTop: 1 }}>{feat.description}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          <Text style={{ textAlign: 'right', fontSize: 6, color: '#999', marginTop: 10 }}>
+            Gerado por Ficha D&D - {new Date().toLocaleDateString('pt-BR')} - Página 2
+          </Text>
+        </Page>
+      )}
     </Document>
   );
 };
