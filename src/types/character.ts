@@ -94,6 +94,10 @@ export interface Character {
   traits?: Record<string, any> | string | null
   appearance?: string | null
   backstory?: string | null
+  personalityTraits?: string | null
+  ideals?: string | null
+  bonds?: string | null
+  flaws?: string | null
   playerName?: string | null
   notes?: string | null
   isPublic: boolean

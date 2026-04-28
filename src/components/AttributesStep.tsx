@@ -1,5 +1,5 @@
 'use client'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { BACKGROUNDS } from '@/lib/backgrounds'
 import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014'
 import { CLASSES } from '@/lib/classes'
@@ -241,7 +241,7 @@ export default function AttributesStep({
   }, [lockedSkillKeys, classSkillInfo])
 
   // Automatically sync locked skills to the skills state
-  useMemo(() => {
+  useEffect(() => {
     let changed = false
     const newSkills = { ...skills }
     lockedSkillKeys.forEach(k => {
@@ -662,10 +662,12 @@ export default function AttributesStep({
               const finalBonus = mod + (isChecked ? pb : 0) + (isExpert ? pb : 0)
 
               return (
-                <button
+                <div
                   key={key}
-                  onClick={() => toggleSkill(key)}
-                  disabled={disabled && !isFromOrigin}
+                  onClick={() => { if (!(disabled && !isFromOrigin)) toggleSkill(key); }}
+                  onKeyDown={(e) => { if (!(disabled && !isFromOrigin) && (e.key === 'Enter' || e.key === ' ')) toggleSkill(key); }}
+                  role="button"
+                  tabIndex={disabled && !isFromOrigin ? -1 : 0}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
                     padding: '9px', borderRadius: 8,
@@ -722,7 +724,7 @@ export default function AttributesStep({
                   {isFromOrigin && (
                     <div style={{ fontSize: 9, color: '#c084fc', fontWeight: 700 }}>ORIGEM</div>
                   )}
-                </button>
+                </div>
               )
             })}
           </div>

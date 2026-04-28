@@ -159,8 +159,11 @@ export default function InventoryStep({
                     key={item.id}
                     style={{ position: 'relative' }}
                   >
-                    <button
+                    <div
                       onClick={() => setDetailItem(item)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDetailItem(item); }}
+                      role="button"
+                      tabIndex={0}
                       style={{
                         width: '100%',
                         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -204,7 +207,7 @@ export default function InventoryStep({
                       <span style={{ fontSize: 9, textAlign: 'center', color: 'var(--fg2)', lineHeight: 1.2, fontWeight: 500 }}>
                         {item.name}
                       </span>
-                    </button>
+                    </div>
                   </div>
                 )
               })}

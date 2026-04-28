@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
-import { SPELLS } from '@/lib/spells'
+import { SPELLS, ALL_SPELLS } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
@@ -181,7 +181,8 @@ export default function CharacterDetailPage() {
     character?.inventory, character?.currentHp, character?.maxHp,
     character?.spellSlots, character?.resources, character?.notes,
     character?.level, character?.class, character?.spells,
-    character?.traits, character?.backstory, character?.appearance
+    character?.traits, character?.backstory, character?.appearance,
+    character?.personalityTraits, character?.ideals, character?.bonds, character?.flaws
   ]);
 
   // Get spell progression for current level
@@ -192,7 +193,7 @@ export default function CharacterDetailPage() {
 
   const totalCantripsSelected = useMemo(() => {
     if (!character?.spells) return 0
-    return (character.spells as string[]).map(id => SPELLS.find(s => s.id === id)).filter(s => s?.level === 0).length
+    return (character.spells as string[]).map(id => ALL_SPELLS.find(s => s.id === id)).filter(s => s?.level === 0).length
   }, [character?.spells])
 
   const totalLeveledSpellsSelected = useMemo(() => {
@@ -960,6 +961,45 @@ export default function CharacterDetailPage() {
                         </div>
                       </div>
 
+                      {/* Personality Pillars Grid */}
+                      <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+                        gap: 20 
+                      }}>
+                        {[
+                          { label: 'Traços de Personalidade', key: 'personalityTraits', placeholder: 'Ex: Sou muito educado, mesmo com inimigos.' },
+                          { label: 'Ideais', key: 'ideals', placeholder: 'Ex: Justiça. Todos merecem um julgamento justo.' },
+                          { label: 'Ligações', key: 'bonds', placeholder: 'Ex: Devo proteger minha vila a qualquer custo.' },
+                          { label: 'Defeitos', key: 'flaws', placeholder: 'Ex: Tenho pavor de aranhas.' },
+                        ].map(pillar => (
+                          <div key={pillar.key}>
+                            <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 16, marginBottom: 8, borderBottom: '1px solid var(--accent)', display: 'inline-block', paddingBottom: 2 }}>{pillar.label}</h3>
+                            <div style={{ background: 'var(--bg2)', borderRadius: 10, border: '1px solid var(--border)', overflow: 'hidden' }}>
+                              <textarea
+                                value={(character as any)[pillar.key] || ''}
+                                placeholder={pillar.placeholder}
+                                readOnly={!isOwner}
+                                onChange={(e) => isOwner && updateValue(pillar.key, e.target.value, false)}
+                                style={{
+                                  width: '100%',
+                                  minHeight: 80,
+                                  background: 'transparent',
+                                  color: 'var(--fg)',
+                                  padding: 12,
+                                  border: 'none',
+                                  fontSize: 13,
+                                  lineHeight: 1.5,
+                                  resize: 'vertical',
+                                  outline: 'none',
+                                  fontFamily: 'inherit'
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
                       {/* Right: Description & Backstory */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                         <div>
@@ -1020,7 +1060,7 @@ export default function CharacterDetailPage() {
                               onClick={() => saveCharacterToDB(character)}
                               disabled={saveStatus === 'saving'}
                             >
-                              {saveStatus === 'saving' ? 'Salvando...' : 'Salvar Alterações'}
+                              {saveStatus === 'saving' ? 'Salvando...' : 'Salvar Biografia'}
                             </button>
                           </div>
                         )}
@@ -1578,11 +1618,11 @@ export default function CharacterDetailPage() {
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
                       const baseList = isPreparing 
                         ? SPELLS.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel)
-                        : currentSpells.map(id => SPELLS.find(s => s.id === id)).filter(Boolean);
+                        : currentSpells.map(id => ALL_SPELLS.find(s => s.id === id)).filter(Boolean);
 
                       const toggleSpell = (id: string) => {
                         if (!isOwner) return;
-                        const spell = SPELLS.find(s => s.id === id);
+                        const spell = ALL_SPELLS.find(s => s.id === id);
                         if (!spell) return;
 
                         const newSpells = [...currentSpells];
@@ -1595,7 +1635,7 @@ export default function CharacterDetailPage() {
                           // Se for adicionar, verifica o limite do nível
                           const lvl = spell.level;
                           const selectedInLvl = currentSpells.filter(sid => {
-                            const s = SPELLS.find(sp => sp.id === sid);
+                            const s = ALL_SPELLS.find(sp => sp.id === sid);
                             return s && s.level === lvl;
                           }).length;
 
@@ -1624,7 +1664,7 @@ export default function CharacterDetailPage() {
                             if (lvlSpells.length === 0) return null;
 
                             const selectedInLvl = currentSpells.filter(id => {
-                              const s = SPELLS.find(sp => sp.id === id);
+                              const s = ALL_SPELLS.find(sp => sp.id === id);
                               return s && s.level === lvl;
                             }).length;
 

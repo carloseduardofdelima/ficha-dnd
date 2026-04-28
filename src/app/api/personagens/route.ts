@@ -24,6 +24,7 @@ export async function GET() {
     playerName: true,
     exp: true,
     proficiencyBonus: true,
+    ruleset: true,
   }
 
   // Fetch characters
@@ -102,12 +103,17 @@ export async function POST(req: NextRequest) {
       traits: body.traits ? JSON.stringify(body.traits) : null,
       appearance: body.appearance,
       backstory: body.backstory,
+      personalityTraits: body.personalityTraits,
+      ideals: body.ideals,
+      bonds: body.bonds,
+      flaws: body.flaws,
       playerName: body.playerName,
       avatarUrl: body.avatarUrl,
       isPublic: body.isPublic || false,
       notes: body.notes,
       spellSlots: body.spellSlots,
       resources: body.resources,
+      ruleset: body.ruleset,
     } as any, // Cast to any to avoid error until prisma generate succeeds
   })
 

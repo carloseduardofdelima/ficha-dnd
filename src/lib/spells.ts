@@ -183,6 +183,7 @@ const SPELLS: Spell[] = [
   { id: 'heal', name: 'Curar', level: 6, school: 'Evocação', castingTime: '1 ação', duration: 'Instantânea', range: '18 m', components: 'V, S', description: 'Cura 70 PV e remove cegueira, surdez e qualquer doença.', damageEffect: '70 Cura', classes: ['Clérigo', 'Druida'], icon: 'divine-heal.png' },
 ]
 
+export const ALL_SPELLS = [...SPELLS, ...SPELLS_2014]
 export { SPELLS }
 export default SPELLS
 

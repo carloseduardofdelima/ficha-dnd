@@ -47,7 +47,7 @@ export default function NovoPersonagem() {
   const [selectedSpells, setSelectedSpells] = useState<string[]>([])
   const [form, setForm] = useState({
     name: '', class: '', race: '', subRace: '', background: '', level: 1, avatarUrl: '', isPublic: false,
-    playerName: '', appearance: '', backstory: '', ruleset: '2024' as '2014' | '2024'
+    playerName: '', appearance: '', backstory: '', personalityTraits: '', ideals: '', bonds: '', flaws: '', ruleset: '2024' as '2014' | '2024'
   })
 
   const availableRaces = useMemo(() => {
@@ -124,7 +124,7 @@ export default function NovoPersonagem() {
 
     const payload = {
       ...form,
-      subrace: form.subRace, // Ensure lowercase for backend
+      subrace: form.subRace, 
       ...finalAttrs,
       skills,
       traits: { ...featureChoices, expertises },

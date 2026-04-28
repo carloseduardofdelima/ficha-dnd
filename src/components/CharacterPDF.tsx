@@ -847,10 +847,10 @@ const CharacterPDF = ({ character }: Props) => {
                       </View>
           <View style={styles.columnRight}>
             <View style={{ gap: 5 }}>
-               <View style={styles.traitBox}><Text style={styles.traitContent}>{traitsObj?.personality || ''}</Text><Text style={styles.traitLabel}>Traços de Personalidade</Text></View>
-               <View style={styles.traitBox}><Text style={styles.traitContent}>{traitsObj?.ideals || ''}</Text><Text style={styles.traitLabel}>Ideais</Text></View>
-               <View style={styles.traitBox}><Text style={styles.traitContent}>{traitsObj?.bonds || ''}</Text><Text style={styles.traitLabel}>Ligações</Text></View>
-               <View style={styles.traitBox}><Text style={styles.traitContent}>{traitsObj?.flaws || ''}</Text><Text style={styles.traitLabel}>Defeitos</Text></View>
+               <View style={styles.traitBox}><Text style={styles.traitContent}>{character.personalityTraits || traitsObj?.personality || ''}</Text><Text style={styles.traitLabel}>Traços de Personalidade</Text></View>
+               <View style={styles.traitBox}><Text style={styles.traitContent}>{character.ideals || traitsObj?.ideals || ''}</Text><Text style={styles.traitLabel}>Ideais</Text></View>
+               <View style={styles.traitBox}><Text style={styles.traitContent}>{character.bonds || traitsObj?.bonds || ''}</Text><Text style={styles.traitLabel}>Ligações</Text></View>
+               <View style={styles.traitBox}><Text style={styles.traitContent}>{character.flaws || traitsObj?.flaws || ''}</Text><Text style={styles.traitLabel}>Defeitos</Text></View>
             </View>
  
             <View style={[styles.featuresBox, { flex: 1 }]}>

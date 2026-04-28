@@ -12,7 +12,7 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
     if (!character.isPublic) {
       alert('⚠️ Este personagem está PRIVADO. Ative a opção "Público" nas configurações para que outras pessoas consigam ver a ficha pelo link.')
     }
-    
+
     const link = `${window.location.origin}/personagens/${character.slug || character.id}`
     navigator.clipboard.writeText(link)
     alert('Link copiado!')
@@ -64,9 +64,26 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
           <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 12 }}>
-          <Calendar size={11} color="var(--fgM)" />
-          <span style={{ fontSize: 11, color: 'var(--fgM)' }}>{new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <Calendar size={11} color="var(--fgM)" />
+            <span style={{ fontSize: 11, color: 'var(--fgM)' }}>{new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
+          </div>
+
+          {character.ruleset && (
+            <span style={{
+              background: character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(156, 163, 175, 0.1)',
+              color: character.ruleset === '2024' ? '#3b82f6' : '#9ca3af',
+              border: `1px solid ${character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(156, 163, 175, 0.2)'}`,
+              padding: '4px',
+              borderRadius: '4px',
+              fontSize: '9px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+            }}>
+              {character.ruleset === '2024' ? '5.5e 2024' : '5e 2014'}
+            </span>
+          )}
         </div>
 
         <Link href={`/personagens/${character.id}`}>

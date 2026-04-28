@@ -12,6 +12,10 @@ interface FinalStepProps {
     avatarUrl: string
     appearance?: string
     backstory?: string
+    personalityTraits?: string
+    ideals?: string
+    bonds?: string
+    flaws?: string
     playerName?: string
     level: number
   }
@@ -122,31 +126,74 @@ export default function FinalStep({
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Aparência Física</label>
+                <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Traços de Personalidade</label>
                 <textarea
-                  value={form.appearance || ''}
-                  onChange={(e) => onFormChange({ ...form, appearance: e.target.value })}
-                  placeholder="Descreva cicatrizes, cores, vestimentas e traços marcantes..."
+                  value={form.personalityTraits || ''}
+                  onChange={(e) => onFormChange({ ...form, personalityTraits: e.target.value })}
+                  placeholder="Descreva o comportamento e temperamento do seu herói..."
                   className="input"
-                  style={{ minHeight: 100, fontSize: 14 }}
+                  style={{ minHeight: 80, fontSize: 14 }}
                 />
               </div>
             </div>
           </div>
         </section>
 
+        <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Ideais</label>
+            <textarea
+              value={form.ideals || ''}
+              onChange={(e) => onFormChange({ ...form, ideals: e.target.value })}
+              placeholder="No que seu personagem acredita?"
+              className="input"
+              style={{ minHeight: 80, fontSize: 14 }}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Ligações (Bonds)</label>
+            <textarea
+              value={form.bonds || ''}
+              onChange={(e) => onFormChange({ ...form, bonds: e.target.value })}
+              placeholder="Quem ou o que é importante para ele?"
+              className="input"
+              style={{ minHeight: 80, fontSize: 14 }}
+            />
+          </div>
+        </section>
+
+        <section>
+          <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 8, display: 'block' }}>Defeitos (Flaws)</label>
+          <textarea
+            value={form.flaws || ''}
+            onChange={(e) => onFormChange({ ...form, flaws: e.target.value })}
+            placeholder="Qual é a fraqueza do seu herói?"
+            className="input"
+            style={{ minHeight: 80, fontSize: 14 }}
+          />
+        </section>
+
         <section>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <ScrollText size={20} color="var(--accent)" />
-            <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, margin: 0 }}>História (Backstory)</h3>
+            <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, margin: 0 }}>História & Aparencia</h3>
           </div>
-          <textarea
-            value={form.backstory || ''}
-            onChange={(e) => onFormChange({ ...form, backstory: e.target.value })}
-            placeholder="Como seu personagem se tornou um aventureiro? Quais são seus objetivos?"
-            className="input"
-            style={{ minHeight: 200, fontSize: 14, lineHeight: 1.6, resize: 'vertical' }}
-          />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <textarea
+              value={form.backstory || ''}
+              onChange={(e) => onFormChange({ ...form, backstory: e.target.value })}
+              placeholder="História do personagem..."
+              className="input"
+              style={{ minHeight: 120, fontSize: 14, lineHeight: 1.6, resize: 'vertical' }}
+            />
+            <textarea
+              value={form.appearance || ''}
+              onChange={(e) => onFormChange({ ...form, appearance: e.target.value })}
+              placeholder="Aparência detalhada..."
+              className="input"
+              style={{ minHeight: 120, fontSize: 14, lineHeight: 1.6, resize: 'vertical' }}
+            />
+          </div>
         </section>
 
         <button
