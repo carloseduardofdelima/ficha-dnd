@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { CLASSES_2014 } from '../src/lib/classes-2014'
+import { RACES_2014 } from '../src/lib/races-2014'
 import { nanoid } from 'nanoid'
 import { getStartingInventory } from '../src/lib/inventory'
 import { getSpellsForClass, getSpellSlots, SPELLCASTING_CLASSES } from '../src/lib/spells'
@@ -70,22 +71,82 @@ async function main() {
       }
     }
 
+    // Mapeamento de perícias (PT -> EN)
+    const skillMap: Record<string, string> = {
+      'Acrobacia': 'acrobatics', 'Adestrar Animais': 'animalHandling', 'Arcanismo': 'arcana',
+      'Atletismo': 'athletics', 'Atuação': 'performance', 'Enganação': 'deception',
+      'Furtividade': 'stealth', 'História': 'history', 'Intimidação': 'intimidation',
+      'Intuição': 'insight', 'Investigação': 'investigation', 'Medicina': 'medicine',
+      'Natureza': 'nature', 'Percepção': 'perception', 'Persuasão': 'persuasion',
+      'Prestidigitação': 'sleightOfHand', 'Religião': 'religion', 'Sobrevivência': 'survival'
+    }
+
+    // Definir perícias iniciais
+    const selectedSkills: Record<string, boolean> = {
+      insight: true, // Do Antecedente Acólito
+      religion: true // Do Antecedente Acólito
+    }
+
+    // Pegar as primeiras N perícias da classe
+    const options = dndClass.skillOptions || []
+    options.slice(0, dndClass.skillCount || 2).forEach(s => {
+      const key = skillMap[s]
+      if (key) selectedSkills[key] = true
+    })
+
+    // Mapeamento de raças lógicas para cada classe
+    const classRaceMap: Record<string, { race: string; subrace?: string }> = {
+      'Bárbaro': { race: 'Meio-Orc' },
+      'Bardo': { race: 'Meio-Elfo' },
+      'Clérigo': { race: 'Anão', subrace: 'Anão da Colina' },
+      'Druida': { race: 'Elfo', subrace: 'Elfo da Floresta' },
+      'Guerreiro': { race: 'Anão', subrace: 'Anão da Montanha' },
+      'Monge': { race: 'Humano' },
+      'Paladino': { race: 'Draconato' },
+      'Patrulheiro': { race: 'Elfo', subrace: 'Elfo da Floresta' },
+      'Ladino': { race: 'Halfling', subrace: 'Pés-Leves' },
+      'Feiticeiro': { race: 'Tiefling' },
+      'Bruxo': { race: 'Tiefling' },
+      'Mago': { race: 'Gnomo', subrace: 'Gnomo das Rochas' }
+    }
+
+    const { race, subrace } = classRaceMap[dndClass.name] || { race: 'Humano' }
+
+    // Calcular Atributos Finais (Base 12 + Bônus Raciais)
+    const finalAttrs: Record<string, number> = {
+      strength: 12, dexterity: 12, constitution: 12,
+      intelligence: 12, wisdom: 12, charisma: 12
+    }
+
+    const raceData = RACES_2014.find(r => r.name === race)
+    if (raceData) {
+      if (raceData.attributeBonuses) {
+        Object.entries(raceData.attributeBonuses).forEach(([attr, val]) => {
+          finalAttrs[attr] += val
+        })
+      }
+      if (subrace) {
+        const lineage = raceData.lineages?.find(l => l.name === subrace)
+        if (lineage?.attributeBonuses) {
+          Object.entries(lineage.attributeBonuses).forEach(([attr, val]) => {
+            finalAttrs[attr] += val
+          })
+        }
+      }
+    }
+
     await prisma.character.create({
       data: {
         userId: user.id,
         slug: slug,
         name: charName,
         class: dndClass.name,
-        race: 'Humano',
+        race: race,
+        subrace: subrace || '',
         level: 1,
-        strength: 12,
-        dexterity: 12,
-        constitution: 12,
-        intelligence: 12,
-        wisdom: 12,
-        charisma: 12,
-        maxHp: parseInt(dndClass.hitDie.replace('d', '')) + 1, // Con mod +1
-        currentHp: parseInt(dndClass.hitDie.replace('d', '')) + 1,
+        ...finalAttrs,
+        maxHp: parseInt(dndClass.hitDie.replace('d', '')) + Math.floor((finalAttrs.constitution - 10) / 2),
+        currentHp: parseInt(dndClass.hitDie.replace('d', '')) + Math.floor((finalAttrs.constitution - 10) / 2),
         armorClass: 10,
         speed: 9,
         initiative: 0,
@@ -97,6 +158,7 @@ async function main() {
         inventory: JSON.stringify(inventory),
         spells: JSON.stringify(spellIds), // IDs apenas!
         spellSlots: spellSlotsStr,
+        skills: JSON.stringify(selectedSkills),
         appearance: 'Um aventureiro exemplar pronto para a jornada com equipamento completo.',
         backstory: `Este personagem foi criado automaticamente para demonstrar a classe ${dndClass.name} com inventário e magias iniciais.`,
         personalityTraits: 'Dedicado ao seu treinamento e sempre pronto para ajudar.',
