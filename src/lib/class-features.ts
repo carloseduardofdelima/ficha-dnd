@@ -148,16 +148,23 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
 
   'Patrulheiro': {
     passiveFeatures: [
-      { name: 'Inimigo Favorito (Hunter\'s Mark)', description: 'Você sempre tem a magia Marca do Caçador preparada e ela não ocupa espaço na sua lista. Você pode conjurá-la 2 vezes sem gastar slots por Descanso Longo.' },
+      { 
+        name: 'Explorador Ágil (Especialização)', 
+        description: 'Você ganha Especialização (Expertise) em uma perícia à sua escolha. Além disso, você aprende dois idiomas adicionais de sua preferência.' 
+      },
+      { 
+        name: 'Inimigo Favorito (Marca do Caçador)', 
+        description: 'Você sempre tem a magia Marca do Caçador (Hunter\'s Mark) preparada. Você pode conjurá-la sem gastar espaços de magia um número de vezes igual ao seu Bônus de Proficiência por Descanso Longo.' 
+      },
       { name: 'Conjuração', description: 'Habilidade: Sabedoria. Você canaliza o poder da natureza para conjurar magias desde o nível 1.' },
     ],
     choices: [
       {
         id: 'ranger-expertise',
-        label: 'Especialização (Expertise)',
-        description: 'Escolha 2 perícias para dobrar seu bônus de proficiência.',
+        label: 'Escolha de Especialização',
+        description: 'Escolha a perícia para o benefício de Explorador Ágil.',
         type: 'multi',
-        maxSelections: 2,
+        maxSelections: 1,
         options: [
           { id: 'animal-handling', name: 'Lidar com Animais', description: '' },
           { id: 'athletics', name: 'Atletismo', description: '' },

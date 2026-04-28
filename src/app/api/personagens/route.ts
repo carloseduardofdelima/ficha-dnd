@@ -26,30 +26,44 @@ export async function GET() {
     proficiencyBonus: true,
   }
 
-  // Fetch owned characters
-  const owned = await prisma.character.findMany({
-    where: { userId: session.user.id },
-    select: listFields,
-    orderBy: { updatedAt: 'desc' },
-  })
+  // Fetch characters
+  let allCharacters;
+  
+  // Simple Admin check by email - change this to your email
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "carloseduardoff12@gmail.com";
+  const isAdmin = session.user.email === ADMIN_EMAIL;
 
-  // Fetch saved characters
-  const savedEntries = await prisma.savedCharacter.findMany({
-    where: { userId: session.user.id },
-    include: {
-      character: {
-        select: listFields
-      }
-    },
-    orderBy: { createdAt: 'desc' },
-  })
+  if (isAdmin) {
+    // Admin sees everything
+    allCharacters = await prisma.character.findMany({
+      select: listFields,
+      orderBy: { updatedAt: 'desc' },
+    });
+  } else {
+    // Regular user sees owned and saved
+    const owned = await prisma.character.findMany({
+      where: { userId: session.user.id },
+      select: listFields,
+      orderBy: { updatedAt: 'desc' },
+    })
 
-  const saved = savedEntries.map((entry: any) => ({
-    ...entry.character,
-    isSaved: true
-  }))
+    const savedEntries = await prisma.savedCharacter.findMany({
+      where: { userId: session.user.id },
+      include: {
+        character: {
+          select: listFields
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+    })
 
-  const allCharacters = [...owned, ...saved]
+    const saved = savedEntries.map((entry: any) => ({
+      ...entry.character,
+      isSaved: true
+    }))
+
+    allCharacters = [...owned, ...saved]
+  }
 
   return NextResponse.json(allCharacters)
 }
