@@ -2008,87 +2008,76 @@ export default function CharacterDetailPage() {
                         Classe: {character.class} {character.subclass ? ` - ${character.subclass}` : ''}
                       </h3>
 
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        {/* Habilidades Nível 1 */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          {(() => {
-                            const is2014 = character.ruleset === '2014';
-                            const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
-                            return level1Data[character.class]?.passiveFeatures.map((feat, i) => (
-                              <div
-                                key={i}
-                                className="card clickable"
-                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                onClick={() => setDetailFeature({ ...feat, source: 'Classe', level: 1 })}
-                              >
-                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                  {feat.description}
-                                </p>
-                              </div>
-                            ));
-                          })()}
-                        </div>
-
-                        {/* Habilidades de Progressão */}
-                        {Array.from({ length: character.level }).map((_, i) => {
-                          const lvl = i + 1;
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {/* Habilidades de Classe Unificadas */}
+                        {(() => {
                           const is2014 = character.ruleset === '2014';
-                          
-                          // For 2024 we have a full progression object
-                          // For 2014 we use SUBCLASSES_2014 and maybe future 2014 progression
-                          const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+                          const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
+                          const features: any[] = [];
 
-                          // Subclass features
-                          let subFeats: any[] = [];
-                          const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
-                          
-                          if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
-                            subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
+                          // 1. Habilidades Passivas Iniciais
+                          level1Data[character.class]?.passiveFeatures.forEach((feat: any) => {
+                            features.push({ ...feat, source: 'Classe Base', level: 1 });
+                          });
+
+                          // 2. Progressão de Nível
+                          for (let lvl = 1; lvl <= character.level; lvl++) {
+                            // Base Class Features
+                            const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+                            classFeats.forEach((f: string) => {
+                              // Avoid duplicates if already added in passiveFeatures
+                              if (!features.some(ex => ex.name === f)) {
+                                features.push({
+                                  name: f,
+                                  description: getFeatureDescription(f),
+                                  source: 'Classe Base',
+                                  level: lvl
+                                });
+                              }
+                            });
+
+                            // Subclass Features
+                            const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
+                            if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
+                              const subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
+                              subFeats.forEach((sf: any) => {
+                                features.push({ ...sf, source: character.subclass, level: lvl });
+                              });
+                            }
                           }
 
-                          if (classFeats.length === 0 && subFeats.length === 0) return null;
-
-                          return (
-                            <div key={lvl} style={{ marginTop: 8 }}>
-                              <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, paddingLeft: 8 }}>
-                                Nível {lvl}
+                          return features.map((feat, i) => (
+                            <div
+                              key={`${feat.name}-${i}`}
+                              className="card clickable"
+                              style={{ 
+                                padding: 16, 
+                                background: 'var(--bg2)', 
+                                borderLeft: `3px solid ${feat.source === character.subclass ? 'var(--accent)' : 'var(--border)'}`, 
+                                cursor: 'pointer', 
+                                transition: 'all 0.2s ease' 
+                              }}
+                              onClick={() => setDetailFeature(feat)}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                <div style={{ fontWeight: 700, fontSize: 15, color: feat.source === character.subclass ? 'var(--accentL)' : 'var(--fg)' }}>
+                                  {feat.name}
+                                </div>
+                                <div style={{ fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                  Nível {feat.level}
+                                </div>
                               </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                {classFeats.map((f, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="card clickable"
-                                    style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                    onClick={() => setDetailFeature({
-                                      name: f,
-                                      description: getFeatureDescription(f),
-                                      source: 'Classe',
-                                      level: lvl
-                                    })}
-                                  >
-                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{f}</div>
-                                    <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Classe Base</div>
-                                  </div>
-                                ))}
-                                {subFeats.map((sf, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="card clickable"
-                                    style={{ padding: 16, background: 'var(--accentGlow)', borderLeft: '3px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                    onClick={() => setDetailFeature({ ...sf, source: character.subclass, level: lvl })}
-                                  >
-                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--accentL)' }}>{sf.name}</div>
-                                    <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                      {sf.description}
-                                    </p>
-                                    <div style={{ fontSize: 11, color: 'var(--accent)', marginTop: 4, fontWeight: 700 }}>{character.subclass}</div>
-                                  </div>
-                                ))}
+                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                {feat.description}
+                              </p>
+                              <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
+                                <span style={{ fontSize: 10, color: feat.source === character.subclass ? 'var(--accent)' : 'var(--fg4)', fontWeight: 700 }}>
+                                  {feat.source}
+                                </span>
                               </div>
                             </div>
-                          );
-                        })}
+                          ));
+                        })()}
                       </div>
                     </div>
 
@@ -2174,37 +2163,96 @@ export default function CharacterDetailPage() {
                         </div>
                         
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                          <div>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
-                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.armorProf || 'Nenhuma'}</div>
-                            <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
-                              {characterClass?.armorProf?.includes('pesadas') 
-                                ? (
-                                  <>
-                                    <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
-                                    <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
-                                  </>
-                                )
-                                : characterClass?.armorProf?.includes('médias')
-                                ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
-                                : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
-                            </div>
-                          </div>
-                          <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
-                          <div>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
-                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.weaponProf || 'Simples'}</div>
-                             <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
-                               {characterClass?.weaponProf?.includes('marciais') 
-                                 ? (
-                                   <>
-                                     <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
-                                     <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
-                                   </>
-                                 )
-                                 : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
-                             </div>
-                          </div>
+                          {(() => {
+                            const is2014 = character.ruleset === '2014';
+                            const raceData = is2014 
+                              ? RACES_2014.find(r => r.name === character.race) 
+                              : RACES.find(r => r.name === character.race);
+                            
+                            let racialTraits = raceData?.traits || [];
+                            if (is2014 && character.subrace && raceData?.lineages) {
+                              const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                              if (lineage) racialTraits = [...racialTraits, ...lineage.traits];
+                            }
+
+                            const weaponTraining = racialTraits.filter(t => 
+                              (t.name.toLowerCase().includes('treinamento') || t.name.toLowerCase().includes('proficiência')) && 
+                              (t.name.toLowerCase().includes('armas') || t.name.toLowerCase().includes('combate'))
+                            );
+                            
+                            const armorTraining = racialTraits.filter(t => 
+                              (t.name.toLowerCase().includes('treinamento') || t.name.toLowerCase().includes('proficiência')) && 
+                              t.name.toLowerCase().includes('armadura')
+                            );
+
+                            return (
+                              <>
+                                <div>
+                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
+                                  <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                                    {characterClass?.armorProf || 'Nenhuma'}
+                                  </div>
+                                  
+                                  {/* Racial Armor Proficiencies */}
+                                  {armorTraining.length > 0 && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                                      {armorTraining.map((t, idx) => (
+                                        <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                                    {characterClass?.armorProf?.includes('pesadas') 
+                                      ? (
+                                        <>
+                                          <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
+                                          <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
+                                        </>
+                                      )
+                                      : characterClass?.armorProf?.includes('médias')
+                                      ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
+                                      : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
+                                  </div>
+                                </div>
+
+                                <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
+
+                                <div>
+                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
+                                  <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                                    {characterClass?.weaponProf || 'Simples'}
+                                  </div>
+
+                                  {/* Racial Weapon Proficiencies */}
+                                  {weaponTraining.length > 0 && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                                      {weaponTraining.map((t, idx) => (
+                                        <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                                    {characterClass?.weaponProf?.includes('marciais') 
+                                      ? (
+                                        <>
+                                          <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
+                                          <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
+                                        </>
+                                      )
+                                      : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })()}
                         </div>
                       </div>
 
@@ -2214,32 +2262,67 @@ export default function CharacterDetailPage() {
                           <Settings size={18} color="var(--accent)" />
                           <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Ferramentas</span>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                          {(() => {
-                            // Extract tools from class or traits
-                            const classTools = character.class === 'Artesão Arcano' ? ["Ferramentas de Ladrão", "Ferramentas de Funileiro", "1 Ferramenta de Artesão"] : [];
-                            const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
-                            const allTools = [...new Set([...classTools, ...traitTools])];
-                            
-                            if (allTools.length === 0) return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>;
+                        
+                        {(() => {
+                          const is2014 = character.ruleset === '2014';
+                          const raceData = is2014 ? RACES_2014.find(r => r.name === character.race) : RACES.find(r => r.name === character.race);
+                          let racialTraits = raceData?.traits || [];
+                          if (is2014 && character.subrace && raceData?.lineages) {
+                            const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                            if (lineage) racialTraits = [...racialTraits, ...lineage.traits];
+                          }
 
-                            return allTools.map((tool: string) => (
-                              <div key={tool} style={{ 
-                                background: 'var(--bg)', 
-                                border: '1px solid var(--border)',
-                                padding: '6px 12px',
-                                borderRadius: 8,
-                                fontSize: 13,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 6
-                              }}>
-                                <Settings size={12} style={{ opacity: 0.5 }} />
-                                {tool}
+                          const racialToolTraits = racialTraits.filter(t => 
+                            t.name.toLowerCase().includes('ferramenta') || 
+                            t.description.toLowerCase().includes('ferramenta') ||
+                            t.name.toLowerCase().includes('engenhoca')
+                          );
+
+                          // Extract tools from class or traits
+                          const classTools = character.class === 'Artesão Arcano' ? ["Ferramentas de Ladrão", "Ferramentas de Funileiro", "1 Ferramenta de Artesão"] : [];
+                          const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
+                          const allTools = [...new Set([...classTools, ...traitTools])];
+
+                          return (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                              {/* Standard Chips */}
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                                {allTools.length > 0 ? allTools.map((tool: string) => (
+                                  <div key={tool} style={{ 
+                                    background: 'var(--bg)', 
+                                    border: '1px solid var(--border)',
+                                    padding: '6px 12px',
+                                    borderRadius: 8,
+                                    fontSize: 13,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 6
+                                  }}>
+                                    <Settings size={12} style={{ opacity: 0.5 }} />
+                                    {tool}
+                                  </div>
+                                )) : (
+                                  !racialToolTraits.length && <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>
+                                )}
                               </div>
-                            ));
-                          })()}
-                        </div>
+
+                              {/* Racial Tool Traits (Detailed) */}
+                              {racialToolTraits.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                  {racialToolTraits.map((t, idx) => (
+                                    <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                                        <Settings size={14} color="var(--accentL)" />
+                                        <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)', textTransform: 'uppercase' }}>{t.name} (Racial)</div>
+                                      </div>
+                                      <div style={{ fontSize: 11, color: 'var(--fg3)', lineHeight: 1.4 }}>{t.description}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
                       </div>
 
                     </div>

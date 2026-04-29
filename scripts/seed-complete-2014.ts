@@ -69,7 +69,7 @@ async function main() {
     'Druida': { race: 'Elfo', subrace: 'Elfo da Floresta' },
     'Guerreiro': { race: 'Humano', subrace: '' },
     'Monge': { race: 'Halfling', subrace: 'Pés-Leves' },
-    'Paladino': { race: 'Draconato', subrace: 'Ouro (Fogo)' },
+    'Paladino': { race: 'Draconato', subrace: 'Dragão de Ouro (Fogo)' },
     'Patrulheiro': { race: 'Elfo', subrace: 'Elfo da Floresta' },
     'Ladino': { race: 'Halfling', subrace: 'Pés-Leves' },
     'Feiticeiro': { race: 'Tiefling', subrace: '' },
