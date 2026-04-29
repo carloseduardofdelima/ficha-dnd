@@ -17,6 +17,7 @@ export interface ClassFeatureChoice {
 export interface ClassPassiveFeature {
   name: string
   description: string
+  level?: number
 }
 
 export interface ClassLevel1Data {

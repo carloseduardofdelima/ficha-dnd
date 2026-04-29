@@ -30,9 +30,8 @@ export async function GET() {
   // Fetch characters
   let allCharacters;
   
-  // Simple Admin check by email - change this to your email
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "carloseduardoff12@gmail.com";
-  const isAdmin = session.user.email === ADMIN_EMAIL;
+  const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com'];
+  const isAdmin = ADMIN_EMAILS.includes(session.user.email ?? '');
 
   if (isAdmin) {
     // Admin sees everything

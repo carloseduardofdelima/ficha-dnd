@@ -344,7 +344,9 @@ export default function CharacterDetailPage() {
     </div>
   )
 
-  const characterClass = CLASSES.find(c => c.name === character.class)
+  const characterClass = character.ruleset === '2014' 
+    ? CLASSES_2014.find(c => c.name === character.class) 
+    : CLASSES.find(c => c.name === character.class)
   const proficientSaves = characterClass?.savingThrows || []
 
   const effectiveStats = calculateEffectiveStats({
@@ -2121,7 +2123,7 @@ export default function CharacterDetailPage() {
 
                           // 1. Habilidades Passivas Iniciais
                           level1Data[character.class]?.passiveFeatures.forEach((feat: any) => {
-                            features.push({ ...feat, source: 'Classe Base', level: 1 });
+                            features.push({ ...feat, source: 'Classe Base', level: feat.level || 1 });
                           });
 
                           // 2. Progressão de Nível
@@ -2150,7 +2152,9 @@ export default function CharacterDetailPage() {
                             }
                           }
 
-                          return features.map((feat, i) => (
+                          return features
+                            .filter(feat => feat.level <= character.level)
+                            .map((feat, i) => (
                             <div
                               key={`${feat.name}-${i}`}
                               className="card clickable"
@@ -2383,7 +2387,7 @@ export default function CharacterDetailPage() {
                           );
 
                           // Extract tools from class or traits
-                          const classTools = character.class === 'Artesão Arcano' ? ["Ferramentas de Ladrão", "Ferramentas de Funileiro", "1 Ferramenta de Artesão"] : [];
+                          const classTools = characterClass?.toolProf ? characterClass.toolProf.split(',').map(s => s.trim()) : [];
                           const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
                           const allTools = [...new Set([...classTools, ...traitTools])];
 

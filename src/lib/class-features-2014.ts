@@ -163,11 +163,11 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   },
   'Artífice': {
     passiveFeatures: [
-      { name: 'Engenharia Mágica', description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos (como emitir luz, som ou odor). O número máximo de itens é igual ao seu Mod. de Inteligência.' },
-      { name: 'Conjuração', description: 'Você aprendeu a canalizar magia através de ferramentas. Você usa Inteligência como atributo de conjuração e prepara suas magias diariamente.' },
-      { name: 'Infundir Item (Nvl 2)', description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas, transformando-os em itens mágicos.' },
-      { name: 'A Ferramenta Certa para o Trabalho (Nvl 3)', description: 'Você pode criar magicamente um conjunto de ferramentas de artesão em 1 hora.' },
-      { name: 'Lampejo de Genialidade (Nvl 7)', description: 'Como reação, você pode adicionar seu modificador de Inteligência a um teste de habilidade ou salvaguarda (INT/dia).' },
+      { name: 'Engenharia Mágica', description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos (como emitir luz, som ou odor). O número máximo de itens é igual ao seu Mod. de Inteligência.', level: 1 },
+      { name: 'Conjuração', description: 'Você aprendeu a canalizar magia através de ferramentas. Você usa Inteligência como atributo de conjuração e prepara suas magias diariamente.', level: 1 },
+      { name: 'Infundir Item', description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas, transformando-os em itens mágicos.', level: 2 },
+      { name: 'A Ferramenta Certa para o Trabalho', description: 'Você pode criar magicamente um conjunto de ferramentas de artesão em 1 hora.', level: 3 },
+      { name: 'Lampejo de Genialidade', description: 'Como reação, você pode adicionar seu modificador de Inteligência a um teste de habilidade ou salvaguarda (INT/dia).', level: 7 },
     ],
     choices: [
       {
