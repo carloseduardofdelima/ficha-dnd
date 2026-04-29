@@ -2313,18 +2313,20 @@ export default function CharacterDetailPage() {
                                     </div>
                                   )}
 
-                                  <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
-                                    {characterClass?.armorProf?.includes('pesadas') 
-                                      ? (
-                                        <>
-                                          <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
-                                          <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
-                                        </>
-                                      )
-                                      : characterClass?.armorProf?.includes('médias')
-                                      ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
-                                      : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
-                                  </div>
+                                  {characterClass?.armorProf && !characterClass.armorProf.toLowerCase().includes('nenhuma') && (
+                                    <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                                      {characterClass.armorProf.includes('pesadas') 
+                                        ? (
+                                          <>
+                                            <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
+                                            <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
+                                          </>
+                                        )
+                                        : characterClass.armorProf.includes('médias')
+                                        ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
+                                        : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
+                                    </div>
+                                  )}
                                 </div>
 
                                 <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
