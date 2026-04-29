@@ -157,9 +157,23 @@ export const RACES_2014: Race[] = [
     speed: 30,
     size: 'Médio',
     attributeBonuses: { strength: 2, charisma: 1 },
+    subRaceTitle: 'Ancestralidade Dracônica',
+    subRaceMandatory: true,
+    lineages: [
+      { name: 'Dragão Negro (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
+      { name: 'Dragão Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
+      { name: 'Dragão de Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
+      { name: 'Dragão de Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
+      { name: 'Dragão de Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
+      { name: 'Dragão de Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. DES).' }] },
+      { name: 'Dragão Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Veneno.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
+      { name: 'Dragão Vermelho (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. DES).' }] },
+      { name: 'Dragão de Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
+      { name: 'Dragão Branco (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
+    ],
     traits: [
       { name: 'Força +2, Carisma +1', description: 'Seus atributos aumentam.' },
-      { name: 'Resistência a Dano', description: 'Resistência ao tipo de dano da sua ancestralidade.' },
+      { name: 'Ancestralidade Dracônica', description: 'Você escolhe um tipo de dragão que define sua resistência e sopro.' },
       { name: 'Arma de Sopro', description: '2d6 de dano (escala no nível 6, 11 e 16). 1x por descanso curto/longo.' }
     ]
   },
