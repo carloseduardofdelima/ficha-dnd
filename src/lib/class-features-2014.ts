@@ -3,15 +3,15 @@ import { ClassLevel1Data } from './class-features';
 export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   'Bárbaro': {
     passiveFeatures: [
-      { name: 'Fúria', description: 'Em seu turno, você pode entrar em fúria como uma ação bônus. Enquanto estiver em fúria, você tem vantagem em testes de Força e salvaguardas de Força, bônus de dano (+2) em ataques com armas de Força e resistência a dano de concussão, cortante e perfurante.' },
-      { name: 'Defesa Sem Armadura', description: 'Enquanto você não estiver usando nenhuma armadura, sua Classe de Armadura é igual a 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode usar um escudo e ainda ganhar este benefício.' }
+      { name: 'Fúria', description: 'Em seu turno, você pode entrar em fúria como uma ação bônus. Enquanto estiver em fúria, você tem vantagem em testes de Força e testes de resistência de Força, bônus de dano (+2) em ataques com armas de Força e resistência a dano de concussão, cortante e perfurante.' },
+      { name: 'Defesa sem Armadura', description: 'Quando não estiver vestindo qualquer armadura, sua Classe de Armadura é igual a 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode usar um escudo.' }
     ],
     choices: []
   },
   'Bardo': {
     passiveFeatures: [
       { name: 'Conjuração', description: 'Você conhece truques e magias da lista de bardo.' },
-      { name: 'Inspiração Bárdica (d6)', description: 'Você pode inspirar outros através de palavras ou música. Como uma ação bônus, escolha uma criatura a até 18 metros que possa ouvi-lo. Ela ganha um dado de Inspiração Bárdica (d6) que pode ser adicionado a um teste de habilidade, jogada de ataque ou salvaguarda nos próximos 10 minutos.' }
+      { name: 'Inspiração Bárdica (d6)', description: 'Você pode inspirar outros através de palavras ou música. Como uma ação bônus, escolha uma criatura a até 18 metros que possa ouvi-lo. Ela ganha um dado de Inspiração Bárdica (d6) que pode ser adicionado a um teste de habilidade, jogada de ataque ou teste de resistência nos próximos 10 minutos.' }
     ],
     choices: []
   },
@@ -70,8 +70,8 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   },
   'Paladino': {
     passiveFeatures: [
-      { name: 'Sentido Divino', description: 'Como uma ação, você pode detectar a presença de seres celestiais, fiéis ou mortos-vivos a até 18 metros.' },
-      { name: 'Mãos Curadoras', description: 'Sua mão abençoada pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' }
+      { name: 'Sentido Divino', description: 'Como uma ação, você pode detectar a localização de celestiais, corruptores ou mortos-vivos a até 18 metros.' },
+      { name: 'Cura pelas Mãos', description: 'Sua mão abençoada pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' }
     ],
     choices: []
   },
@@ -142,18 +142,18 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   },
   'Bruxo': {
     passiveFeatures: [
-      { name: 'Magia de Pacto', description: 'Você conhece truques e magias da lista de bruxo. Seus espaços de magia são recuperados em descansos curtos.' }
+      { name: 'Magia de Pacto', description: 'Você conhece truques e magias de bruxo. Seus espaços de magia são recuperados em descansos curtos e são todos do mesmo nível.' }
     ],
     choices: [
       {
         id: 'warlock-patron-2014',
-        label: 'Patrono Sobrenatural',
+        label: 'Patrono Transcendental',
         description: 'Escolha o ser com quem você fez seu pacto.',
         type: 'radio',
         options: [
-          { id: 'pat-archfey', name: 'A Arquifada', description: 'Seu patrono é um lorde ou dama das fadas. Ganha a habilidade Presença Feérica.' },
-          { id: 'pat-fiend', name: 'O Ínfero', description: 'Seu patrono é um demônio ou diabo. Ganha a habilidade Bênção do Obscuro (PV temporário ao matar).' },
-          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade além do tempo. Ganha a habilidade Mente Desperta (telepatia).' }
+          { id: 'pat-archfey', name: 'A Arquifada', description: 'Seu patrono é um lorde ou dama das fadas. Ganha a característica Presença Feérica.' },
+          { id: 'pat-fiend', name: 'O Corruptor', description: 'Seu patrono é um demônio ou diabo. Ganha a característica Bênção do Obscuro (PV temporários ao reduzir inimigo a 0).' },
+          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade além do tempo. Ganha a característica Despertar a Mente (telepatia).' }
         ]
       }
     ]

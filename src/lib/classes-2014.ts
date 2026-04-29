@@ -16,9 +16,9 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência'],
     features: [
       { name: 'Fúria', description: 'Em batalha, você luta com ferocidade primitiva. Você pode entrar em fúria como uma ação bônus.' },
-      { name: 'Defesa Sem Armadura', description: 'Enquanto não estiver usando armadura, sua CA é 10 + Mod. Des + Mod. Con.' },
-      { name: 'Ataque Descuidado', description: 'Você pode escolher atacar com vantagem, mas ataques contra você também têm vantagem.' },
-      { name: 'Sentido de Perigo', description: 'Vantagem em salvaguardas de Destreza contra efeitos que você possa ver.' }
+      { name: 'Defesa sem Armadura', description: 'Quando não estiver vestindo armadura, sua CA é 10 + Mod. Destreza + Mod. Constituição. Você pode usar um escudo.' },
+      { name: 'Ataque Descuidado', description: 'No seu primeiro ataque do turno, você pode ganhar vantagem em ataques de Força corpo-a-corpo, mas ataques contra você têm vantagem.' },
+      { name: 'Sentido de Perigo', description: 'Você tem vantagem em testes de resistência de Destreza contra efeitos que você possa ver.' }
     ]
   },
   {
@@ -133,9 +133,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Sentido Divino', description: 'Você pode detectar forças celestiais, abissais ou mortos-vivos.' },
-      { name: 'Mãos Curadoras', description: 'Seu toque abençoado pode curar ferimentos (Piscina de 5x nível).' },
-      { name: 'Destruição Divina', description: 'Você pode converter espaços de magia em dano radiante extra ao atingir um alvo.' }
+      { name: 'Sentido Divino', description: 'Como uma ação, você pode detectar a localização de celestiais, corruptores ou mortos-vivos a até 18 metros.' },
+      { name: 'Cura pelas Mãos', description: 'Seu toque abençoado pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' },
+      { name: 'Destruição Divina', description: 'Quando você atingir uma criatura com um ataque, pode gastar um espaço de magia para causar dano radiante extra.' }
     ]
   },
   {
@@ -211,9 +211,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião'],
     features: [
-      { name: 'Patrono Transplanar', description: 'Você fez um pacto com um ser de outro plano de existência.' },
-      { name: 'Magia de Pacto', description: 'Sua magia é concedida por seu patrono e recuperada rapidamente.' },
-      { name: 'Invocações Místicas', description: 'Você descobriu segredos ocultos que te concedem habilidades especiais.' }
+      { name: 'Patrono Transcendental', description: 'Você fez um pacto com um ser de outro plano de existência: A Arquifada, O Corruptor ou O Grande Antigo.' },
+      { name: 'Magia de Pacto', description: 'Sua magia é concedida por seu patrono e você recupera seus espaços de magia em descansos curtos.' },
+      { name: 'Invocações Místicas', description: 'Você descobriu segredos ocultos que te concedem habilidades mágicas permanentes.' }
     ]
   },
   {

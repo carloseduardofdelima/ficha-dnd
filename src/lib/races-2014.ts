@@ -28,17 +28,17 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { strength: 2 },
         traits: [
           { name: 'Força +2', description: 'Seu valor de Força aumenta em 2.' },
-          { name: 'Treinamento com Armaduras Anãs', description: 'Você tem proficiência com armaduras leves e médias.' }
+          { name: 'Treinamento Anão com Armaduras', description: 'Você tem proficiência com armaduras leves e médias.' }
         ]
       }
     ],
     traits: [
       { name: 'Constituição +2', description: 'Seu valor de Constituição aumenta em 2.' },
-      { name: 'Visão no Escuro', description: '18 metros (60 pés).' },
-      { name: 'Resiliência Anã', description: 'Vantagem em salvaguardas contra veneno e resistência a dano de veneno.' },
-      { name: 'Treinamento Anão em Combate', description: 'Proficiência com machado de batalha, machadinha, martelo leve e martelo de guerra.' },
-      { name: 'Proficiência com Ferramentas', description: 'Proficiência com uma ferramenta de artesão (ferreiro, cervejeiro ou pedreiro).' },
-      { name: 'Especialização em Rochas', description: 'Bônus de proficiência dobrado em testes de Inteligência (História) relacionados a trabalhos em pedra.' }
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena, e no escuro como se fosse na penumbra.' },
+      { name: 'Resiliência Anã', description: 'Você possui vantagem em testes de resistência contra venenos e resistência contra dano de veneno.' },
+      { name: 'Treinamento Anão em Combate', description: 'Você tem proficiência com machados de batalha, machadinhas, martelos leves e martelos de guerra.' },
+      { name: 'Proficiência com Ferramentas', description: 'Você tem proficiência em uma ferramenta de artesão à sua escolha: ferramentas de ferreiro, suprimentos de cervejeiro ou ferramentas de pedreiro.' },
+      { name: 'Especialização em Rochas', description: 'Sempre que você realizar um teste de Inteligência (História) relacionado à origem de um trabalho em pedra, você adiciona o dobro do seu bônus de proficiência.' }
     ]
   },
   {
@@ -89,10 +89,10 @@ export const RACES_2014: Race[] = [
     ],
     traits: [
       { name: 'Destreza +2', description: 'Seu valor de Destreza aumenta em 2.' },
-      { name: 'Visão no Escuro', description: '18 metros (60 pés).' },
-      { name: 'Sentidos Aguçados', description: 'Proficiência na perícia Percepção.' },
-      { name: 'Ancestralidade Feérica', description: 'Vantagem contra ser enfeitiçado e imunidade a sono mágico.' },
-      { name: 'Transe', description: 'Meditação de 4 horas equivale a 8 horas de sono.' }
+      { name: 'Visão no Escuro', description: 'Você possui uma visão superior em condições de escuridão e na penumbra a até 18 metros.' },
+      { name: 'Sentidos Aguçados', description: 'Você tem proficiência na perícia Percepção.' },
+      { name: 'Ancestral Feérico', description: 'Você tem vantagem nos testes de resistência para resistir a ser enfeitiçado e magias não podem colocá-lo para dormir.' },
+      { name: 'Transe', description: 'Elfos não precisam dormir. Ao invés disso, eles meditam profundamente por 4 horas por dia.' }
     ]
   },
   {
@@ -161,16 +161,16 @@ export const RACES_2014: Race[] = [
     subRaceTitle: 'Ancestralidade Dracônica',
     subRaceMandatory: true,
     lineages: [
-      { name: 'Dragão Negro (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
-      { name: 'Dragão Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
-      { name: 'Dragão de Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
-      { name: 'Dragão de Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
-      { name: 'Dragão de Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (Salva. DES).' }] },
-      { name: 'Dragão de Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. DES).' }] },
-      { name: 'Dragão Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Veneno.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
-      { name: 'Dragão Vermelho (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. DES).' }] },
-      { name: 'Dragão de Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
-      { name: 'Dragão Branco (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (Salva. CON).' }] },
+      { name: 'Dragão Negro (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
+      { name: 'Dragão Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
+      { name: 'Dragão de Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
+      { name: 'Dragão de Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
+      { name: 'Dragão de Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
+      { name: 'Dragão de Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Des).' }] },
+      { name: 'Dragão Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Veneno.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
+      { name: 'Dragão Vermelho (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Des).' }] },
+      { name: 'Dragão de Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
+      { name: 'Dragão Branco (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
     ],
     traits: [
       { name: 'Força +2, Carisma +1', description: 'Seus atributos aumentam.' },
@@ -205,13 +205,13 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { constitution: 1 },
         traits: [
           { name: 'Constituição +1', description: 'Seu valor de Constituição aumenta em 1.' },
-          { name: 'Engenhoca', description: 'Você tem proficiência com ferramentas de artesão (ferramentas de funileiro).' }
+          { name: 'Engenhoqueiro', description: 'Você tem proficiência com ferramentas de artesão (ferramentas de engenhoqueiro).' }
         ]
       }
     ],
     traits: [
       { name: 'Inteligência +2', description: 'Seu valor de Inteligência aumenta em 2.' },
-      { name: 'Esperteza Gnômica', description: 'Vantagem em salvaguardas de INT, SAB e CAR contra magia.' }
+      { name: 'Esperteza Gnômica', description: 'Você possui vantagem em todos os testes de resistência de Inteligência, Sabedoria e Carisma contra magia.' }
     ]
   },
   {
