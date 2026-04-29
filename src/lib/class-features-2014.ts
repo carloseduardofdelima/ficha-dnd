@@ -42,7 +42,7 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   },
   'Guerreiro': {
     passiveFeatures: [
-      { name: 'Retomada de Fôlego', description: 'Você possui uma reserva de vitalidade que pode usar para se curar. Como uma ação bônus, você pode recuperar 1d10 + seu nível de guerreiro pontos de vida. Você deve terminar um descanso curto ou longo para usar este recurso novamente.' }
+      { name: 'Retomar o Fôlego', description: 'Você pode usar uma ação bônus para recuperar 1d10 + seu nível de guerreiro PV. Requer descanso curto ou longo para usar de novo.' }
     ],
     choices: [
       {
@@ -51,10 +51,12 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
         description: 'Adote um estilo particular de combate como sua especialidade.',
         type: 'radio',
         options: [
-          { id: 'style-archery', name: 'Arquearia', description: 'Bônus de +2 nas jogadas de ataque com armas de ataque à distância.' },
+          { id: 'style-archery', name: 'Arquearia', description: 'Bônus de +2 nas jogadas de ataque com armas à distância.' },
           { id: 'style-defense', name: 'Defesa', description: 'Enquanto estiver usando armadura, você ganha +1 de bônus em sua CA.' },
-          { id: 'style-dueling', name: 'Duelismo', description: 'Ao empunhar uma arma de ataque corpo-a-corpo em uma mão e nenhuma outra arma, você ganha +2 de bônus nas jogadas de dano com essa arma.' },
-          { id: 'style-great-weapon', name: 'Combate com Armas Grandes', description: 'Ao rolar um 1 ou 2 no dado de dano de um ataque com arma de duas mãos, você pode rolar o dado novamente.' }
+          { id: 'style-dueling', name: 'Duelismo', description: 'Ao empunhar uma arma corpo-a-corpo em uma mão e nenhuma outra arma, você ganha +2 no dano.' },
+          { id: 'style-great-weapon', name: 'Combate com Armas Grandes', description: 'Ao rolar 1 ou 2 no dano de arma de duas mãos, você pode rolar de novo.' },
+          { id: 'style-protection', name: 'Proteção', description: 'Use sua reação para impor desvantagem em um ataque contra um aliado a até 1,5m (requer escudo).' },
+          { id: 'style-two-weapon', name: 'Combate com Duas Armas', description: 'Adiciona seu modificador de habilidade no dano do segundo ataque.' }
         ]
       }
     ]
@@ -79,59 +81,61 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
       {
         id: 'ranger-favored-enemy-2014',
         label: 'Inimigo Favorito',
-        description: 'Escolha um tipo de inimigo: feras, fey, humanoides, mortos-vivos, etc.',
+        description: 'Escolha um tipo de inimigo. Você ganha +2 de bônus no dano contra eles e vantagem em testes de rastreio.',
         type: 'radio',
         options: [
-          { id: 'fav-beasts', name: 'Feras', description: 'Vantagem em testes de Sobrevivência para rastrear e Inteligência para obter informações.' },
-          { id: 'fav-undead', name: 'Mortos-Vivos', description: 'Vantagem em testes de Sobrevivência para rastrear e Inteligência para obter informações.' },
-          { id: 'fav-humanoids', name: 'Humanoides (Escolha dois tipos)', description: 'Vantagem em testes de Sobrevivência para rastrear e Inteligência para obter informações.' }
+          { id: 'fav-beasts', name: 'Feras', description: '+2 no dano. Vantagem em Sobrevivência (rastrear) e Inteligência (info).' },
+          { id: 'fav-fey', name: 'Fadas', description: '+2 no dano. Vantagem em Sobrevivência (rastrear) e Inteligência (info).' },
+          { id: 'fav-humanoids', name: 'Humanoides', description: '+2 no dano. Vantagem em Sobrevivência (rastrear) e Inteligência (info). Escolha um idioma.' },
+          { id: 'fav-monstrosities', name: 'Monstruosidades', description: '+2 no dano. Vantagem em Sobrevivência (rastrear) e Inteligência (info).' },
+          { id: 'fav-undead', name: 'Mortos-Vivos', description: '+2 no dano. Vantagem em Sobrevivência (rastrear) e Inteligência (info).' }
         ]
       },
       {
         id: 'ranger-natural-explorer-2014',
         label: 'Explorador Natural',
-        description: 'Escolha um tipo de terreno favorito: floresta, montanha, pântano, etc.',
+        description: 'Você é um mestre da navegação e combate no mundo natural.',
         type: 'radio',
         options: [
-          { id: 'ter-forest', name: 'Floresta', description: 'Dobrou seu bônus de proficiência em testes de Inteligência ou Sabedoria relacionados ao terreno.' },
-          { id: 'ter-mountain', name: 'Montanha', description: 'Dobrou seu bônus de proficiência em testes de Inteligência ou Sabedoria relacionados ao terreno.' }
+          { id: 'nat-exp-revised', name: 'Explorador Natural (Revisado)', description: 'Ignora terreno difícil. Vantagem em Iniciativa e em ataques contra quem não agiu no 1º turno.' }
         ]
       }
     ]
   },
   'Ladino': {
     passiveFeatures: [
-      { name: 'Ataque Furtivo (1d6)', description: 'Uma vez por turno, você pode causar 1d6 de dano extra a uma criatura que atingir com um ataque se tiver vantagem na jogada ou se um aliado estiver a 1,5m do alvo.' },
-      { name: 'Gíria de Ladrão', description: 'Você conhece o código secreto dos ladrões.' }
+      { name: 'Ataque Furtivo', description: 'Uma vez por turno, você pode causar 1d6 de dano extra a uma criatura se tiver vantagem ou um aliado a 1,5m. Deve usar arma de acuidade ou à distância.' },
+      { name: 'Gíria de Ladrão', description: 'Você conhece o jargão e códigos secretos que permitem passar mensagens ocultas durante uma conversa normal.' }
     ],
     choices: [
       {
         id: 'rogue-expertise-2014',
         label: 'Especialização',
-        description: 'Escolha duas de suas proficiências em perícias (ou uma perícia e ferramentas de ladrão).',
+        description: 'Escolha duas de suas perícias proficientes (ou uma perícia e ferramentas de ladrão) para dobrar o bônus de proficiência.',
         type: 'multi',
         maxSelections: 2,
         options: [
-          { id: 'exp-stealth', name: 'Furtividade', description: 'Bônus de proficiência dobrado.' },
-          { id: 'exp-thieves-tools', name: 'Ferramentas de Ladrão', description: 'Bônus de proficiência dobrado.' },
-          { id: 'exp-perception', name: 'Percepção', description: 'Bônus de proficiência dobrado.' }
+          { id: 'exp-stealth', name: 'Furtividade', description: 'Bônus de proficiência dobrado em testes de Furtividade.' },
+          { id: 'exp-thieves-tools', name: 'Ferramentas de Ladrão', description: 'Bônus de proficiência dobrado em testes com ferramentas de ladrão.' },
+          { id: 'exp-perception', name: 'Percepção', description: 'Bônus de proficiência dobrado em testes de Percepção.' },
+          { id: 'exp-investigation', name: 'Investigação', description: 'Bônus de proficiência dobrado em testes de Investigação.' }
         ]
       }
     ]
   },
   'Feiticeiro': {
     passiveFeatures: [
-      { name: 'Conjuração', description: 'Você conhece truques e magias da lista de feiticeiro.' }
+      { name: 'Conjuração', description: 'Você conhece truques e magias da lista de feiticeiro. Sua habilidade de conjuração é Carisma.' }
     ],
     choices: [
       {
         id: 'sorcerous-origin-2014',
-        label: 'Origem Feiticeira',
-        description: 'Escolha a fonte do seu poder mágico.',
+        label: 'Origem de Feitiçaria',
+        description: 'Escolha a fonte do seu poder mágico inato.',
         type: 'radio',
         options: [
-          { id: 'orig-draconic', name: 'Linhagem Dracônica', description: 'Sua magia vem de ancestrais dragões. Ganha +1 PV por nível e CA 13 + Des quando sem armadura.' },
-          { id: 'orig-wild', name: 'Magia Selvagem', description: 'Sua magia vem das forças do caos. Pode rolar na tabela de Surto de Magia Selvagem.' }
+          { id: 'orig-draconic', name: 'Linhagem Dracônica', description: 'Sua magia vem de um ancestral dragão. Ganha Ancestral Dracônico e Resiliência Dracônica (+1 PV/nível e CA 13+Des).' },
+          { id: 'orig-wild', name: 'Magia Selvagem', description: 'Sua magia vem das forças do caos. Ganha Surto de Magia Selvagem e Marés de Caos.' }
         ]
       }
     ]

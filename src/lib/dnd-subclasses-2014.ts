@@ -88,23 +88,69 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Campeão": {
       features: {
         3: [{ name: "Crítico Aprimorado", description: "Suas jogadas de ataque com arma acertam crítico com 19 ou 20." }],
-        7: [{ name: "Atleta Extraordinário", description: "Metade da proficiência em testes físicos sem proficiência; aumenta distância de salto." }],
-        10: [{ name: "Estilo de Luta Adicional", description: "Escolhe um segundo Fighting Style da lista do guerreiro." }],
+        7: [{ name: "Atleta Extraordinário", description: "Soma metade da proficiência em testes físicos sem proficiência; aumenta distância de salto." }],
+        10: [{ name: "Estilo de Luta Adicional", description: "Escolhe um segundo Estilo de Luta da lista da classe." }],
         15: [{ name: "Crítico Superior", description: "Suas jogadas de ataque com arma acertam crítico com 18, 19 ou 20." }],
-        18: [{ name: "Sobrevivente", description: "Recupera 5 + CON de vida no início do turno se estiver com menos de 50% HP." }]
+        18: [{ name: "Sobrevivente", description: "Recupera 5 + Mod. Con de vida se estiver com menos de 50% HP (e acima de 0)." }]
+      }
+    },
+    "Cavaleiro Arcano": {
+      features: {
+        3: [
+          { name: "Conjuração", description: "Você aprende truques e magias de mago (abjuração/evocação) usando Inteligência." },
+          { name: "Vínculo com Arma", description: "Cria um elo com até 2 armas; pode invocá-las para sua mão com ação bônus." }
+        ],
+        7: [{ name: "Magia de Guerra", description: "Quando usa ação para conjurar um truque, pode fazer um ataque como ação bônus." }],
+        10: [{ name: "Golpe Místico", description: "Ataque com arma impõe desvantagem no próximo save contra sua magia." }],
+        15: [{ name: "Investida Arcana", description: "Ao usar Surto de Ação, pode se teletransportar até 9 metros." }],
+        18: [{ name: "Magia de Guerra Aprimorada", description: "Quando usa ação para conjurar uma magia, pode fazer um ataque como ação bônus." }]
+      }
+    },
+    "Mestre de Batalha": {
+      features: {
+        3: [
+          { name: "Superioridade em Combate", description: "Ganha 4 dados de superioridade (d8) para usar manobras como Aparar, Derrubar, etc." },
+          { name: "Estudioso da Guerra", description: "Ganha proficiência com um tipo de ferramenta de artesão." }
+        ],
+        7: [{ name: "Conheça Seu Inimigo", description: "Observar criatura por 1 min revela se ela é superior/igual/inferior em certos atributos." }],
+        10: [{ name: "Superioridade em Combate Aprimorada", description: "Seus dados de superioridade se tornam d10s." }],
+        15: [{ name: "Implacável", description: "Se rolar iniciativa sem dados de superioridade, você recupera um." }],
+        18: [{ name: "Superioridade em Combate Aprimorada (d12)", description: "Seus dados de superioridade se tornam d12s." }]
       }
     }
   },
   'Ladino': {
+    "Assassino": {
+      features: {
+        3: [
+          { name: "Proficiências Adicionais", description: "Ganha proficiência com kit de disfarce e kit de venenos." },
+          { name: "Assassinar", description: "Vantagem contra criaturas que ainda não agiram. Acertos contra criaturas surpresas são críticos." }
+        ],
+        9: [{ name: "Especialização em Infiltração", description: "Pode criar identidades falsas infalíveis com 7 dias de trabalho e 25 po." }],
+        13: [{ name: "Impostor", description: "Pode imitar a fala, escrita e comportamento de outra pessoa após estudá-la por 3 horas." }],
+        17: [{ name: "Golpe Letal", description: "Ao atingir uma criatura surpresa, ela deve passar num save de Con ou sofrer dano dobrado." }]
+      }
+    },
     "Ladrão": {
       features: {
         3: [
-          { name: "Mãos Rápidas", description: "Ação bônus para usar kit de ladino, objeto ou Sleight of Hand." },
-          { name: "Trabalho no Segundo Andar", description: "Escalar não custa extra; aumenta distância de salto com Destreza." }
+          { name: "Mãos Rápidas", description: "Ação bônus para usar ferramentas de ladrão, bater carteiras ou usar um objeto." },
+          { name: "Andarilho de Telhados", description: "Escalar não custa movimento extra e aumenta a distância de saltos." }
         ],
-        9: [{ name: "Furtividade Suprema", description: "Vantagem em Furtividade se mover metade da velocidade ou menos." }],
-        13: [{ name: "Usar Dispositivo Mágico", description: "Ignora restrições de raça, classe e nível em itens mágicos." }],
-        17: [{ name: "Reflexos de Ladrão", description: "Pode realizar dois turnos no primeiro round de combate." }]
+        9: [{ name: "Furtividade Suprema", description: "Vantagem em Furtividade se mover metade do deslocamento ou menos." }],
+        13: [{ name: "Usar Instrumento Mágico", description: "Ignora requisitos de classe, raça e nível para usar qualquer item mágico." }],
+        17: [{ name: "Reflexos de Ladrão", description: "Pode realizar dois turnos durante o primeiro turno de cada combate." }]
+      }
+    },
+    "Trapaceiro Arcano": {
+      features: {
+        3: [
+          { name: "Conjuração", description: "Você aprende truques e magias de mago (encantamento/ilusão) usando Inteligência." },
+          { name: "Mãos Mágicas Malabaristas", description: "Suas Mãos Mágicas ficam invisíveis e podem realizar tarefas como abrir fechaduras à distância." }
+        ],
+        9: [{ name: "Emboscada Mágica", description: "Se estiver escondido, o alvo tem desvantagem no save contra sua magia." }],
+        13: [{ name: "Trapaceiro Versátil", description: "Usa ação bônus para dar vantagem a si mesmo com as Mãos Mágicas." }],
+        17: [{ name: "Ladrão de Magia", description: "Pode usar sua reação para roubar o conhecimento de uma magia conjurada contra você." }]
       }
     }
   },
@@ -112,23 +158,23 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Linhagem Dracônica": {
       features: {
         1: [
-          { name: "Ancestral Dragão", description: "Escolha um tipo de dragão: Negro/Cobre (Ácido), Azul/Bronze (Elétrico), Verde (Veneno), Vermelho/Latão/Ouro (Fogo) ou Branco/Prata (Frio). Você aprende o idioma Dracônico e tem vantagem em testes de Carisma para interagir com dragões." },
-          { name: "Resiliência Dracônica", description: "+1 PV por nível e CA 13 + DES sem armadura." }
+          { name: "Ancestral Dracônico", description: "Você escolhe um tipo de dragão como seu ancestral. Você pode falar, ler e escrever em Dracônico e seu bônus de proficiência é dobrado em testes de Carisma com dragões." },
+          { name: "Resiliência Dracônica", description: "Seu máximo de PV aumenta em 1 por nível. Quando sem armadura, sua CA é 13 + Modificador de Destreza." }
         ],
-        6: [{ name: "Afinidade Elemental", description: "Adiciona Carisma ao dano do elemento; gasta 1 ponto para resistência." }],
-        14: [{ name: "Asas de Dragão", description: "Ganha velocidade de voo igual à de caminhada." }],
-        18: [{ name: "Presença Dracônica", description: "Aura de medo ou encanto em 60 pés (5 pontos de feitiçaria)." }]
+        6: [{ name: "Afinidade Elemental", description: "Adicione seu modificador de Carisma ao dano de magias do tipo do seu ancestral. Pode gastar 1 ponto de feitiçaria para ganhar resistência a esse dano por 1 hora." }],
+        14: [{ name: "Asas de Dragão", description: "Você pode criar um par de asas de dragão com uma ação bônus, ganhando deslocamento de voo igual ao seu deslocamento atual." }],
+        18: [{ name: "Presença Dracônica", description: "Gasta 5 pontos para exalar uma aura de admiração ou medo (18m) por 1 minuto (concentração)." }]
       }
     },
     "Magia Selvagem": {
       features: {
         1: [
-          { name: "Surto de Magia Selvagem", description: "Ao conjurar magia de nível 1+, mestre pode pedir 1d20. Se rolar 1, ocorre efeito na tabela de Magia Selvagem." },
-          { name: "Marés do Caos", description: "Ganha vantagem em um ataque, teste ou salvaguarda. Recarrega com descanso longo ou surto forçado pelo mestre." }
+          { name: "Surto de Magia Selvagem", description: "Após conjurar magia de 1º nível+, o Mestre pode pedir um d20. Se rolar 1, ocorre um efeito aleatório da tabela de Surto de Magia Selvagem." },
+          { name: "Marés de Caos", description: "Ganha vantagem em uma jogada de ataque, teste de habilidade ou salvaguarda. Recupera após um descanso longo ou se o Mestre forçar um Surto." }
         ],
-        6: [{ name: "Dobra da Sorte", description: "Usa reação + 2 pontos para adicionar ou subtrair 1d4 da rolagem de outra criatura." }],
-        14: [{ name: "Caos Controlado", description: "Ao rolar na tabela de Magia Selvagem, rola duas vezes e escolhe o resultado." }],
-        18: [{ name: "Bombardeio de Feitiços", description: "Ao rolar dano máximo em um dado de magia, rola um dado adicional desse tipo e soma." }]
+        6: [{ name: "Sortudo", description: "Usa reação e 2 pontos para adicionar ou subtrair 1d4 da jogada de outra criatura." }],
+        14: [{ name: "Caos Controlado", description: "Ao rolar na tabela de Surto de Magia Selvagem, você pode rolar duas vezes e escolher o resultado." }],
+        18: [{ name: "Bombardeio de Feitiços", description: "Quando rolar o dano máximo em um dado de magia, role um dado adicional e some ao total." }]
       }
     }
   },
@@ -140,6 +186,41 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         6: [{ name: "Sorte do Próprio Obscuro", description: "Adiciona 1d10 a um teste ou save (1x/descanso curto)." }],
         10: [{ name: "Resiliência Infernal", description: "Escolhe um tipo de resistência a dano após cada descanso." }],
         14: [{ name: "Atirar pelo Inferno", description: "Transporta alvo para o Inferno; causa 10d10 de dano psíquico." }]
+      }
+    }
+  },
+  'Patrulheiro': {
+    "Conclave da Besta": {
+      features: {
+        3: [
+          { name: "Companheiro Animal", description: "Invoca um animal leal (lobo, pantera, urso negro, etc.). Ele ganha seu bônus de proficiência na CA e dano, e dados de vida extras conforme você sobe de nível." },
+          { name: "Vínculo com o Companheiro", description: "O animal obedece seus comandos, tem iniciativa própria e compartilha seus inimigos favoritos." }
+        ],
+        5: [{ name: "Ataque Coordenado", description: "Quando você usa a ação de Ataque, seu companheiro pode usar a reação dele para realizar um ataque corpo-a-corpo." }],
+        7: [{ name: "Defesa da Besta", description: "Enquanto seu companheiro puder ver você, ele tem vantagem em todos os testes de resistência." }],
+        11: [{ name: "Tempestade de Garras e Presas", description: "Seu companheiro pode usar a ação dele para atacar cada criatura a até 1,5m dele." }],
+        15: [{ name: "Defesa da Besta Superior", description: "Seu companheiro pode usar a reação para reduzir o dano de um ataque pela metade." }]
+      }
+    },
+    "Conclave do Caçador": {
+      features: {
+        3: [{ name: "Presa do Caçador", description: "Escolha uma opção: Assassino de Colossos (+1d8 dano em alvos feridos), Matador de Gigantes (contra-ataque como reação) ou Destruidor de Hordas (ataque extra em alvo adjacente)." }],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes ao realizar a ação de Ataque." }],
+        7: [{ name: "Táticas Defensivas", description: "Escolha uma opção: Escapar da Horda (desvantagem em AdO), Defesa Contra Múltiplos Ataques (+4 CA contra ataques subsequentes) ou Vontade de Aço (vantagem contra medo)." }],
+        11: [{ name: "Ataque Múltiplo", description: "Escolha uma opção: Saraivada (ataque em área à distância) ou Ataque Giratório (ataque em área corpo-a-corpo)." }],
+        15: [{ name: "Defesa de Caçador Superior", description: "Escolha uma opção: Evasão, Manter-se Contra a Maré ou Esquiva Sobrenatural." }]
+      }
+    },
+    "Conclave do Rastreador Subterrâneo": {
+      features: {
+        3: [
+          { name: "Batedor do Subterrâneo", description: "No primeiro turno, ganha +3m de deslocamento e ataque adicional. Você é invisível para criaturas que usam visão no escuro na escuridão." },
+          { name: "Magia do Rastreador Subterrâneo", description: "Ganha visão no escuro (27m) e acesso a magias como Disfarçar-se." }
+        ],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes ao realizar a ação de Ataque." }],
+        7: [{ name: "Mente de Aço", description: "Ganha proficiência em testes de resistência de Sabedoria." }],
+        11: [{ name: "Rajada do Rastreador", description: "Se errar um ataque, você pode realizar outro ataque no mesmo turno." }],
+        15: [{ name: "Esquiva do Rastreador", description: "Usa reação para impor desvantagem em um ataque inimigo." }]
       }
     }
   }

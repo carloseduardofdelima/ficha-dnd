@@ -93,9 +93,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência'],
     features: [
-      { name: 'Estilo de Luta', description: 'Você adota um estilo particular de luta como sua especialidade.' },
-      { name: 'Retomar o Fôlego', description: 'Você pode usar uma ação bônus para recuperar PV (1d10 + nível).' },
-      { name: 'Surto de Ação', description: 'Você pode forçar o seu limite e realizar uma ação adicional no seu turno.' }
+      { name: 'Estilo de Luta', description: 'Você adota um estilo de combate particular como sua especialidade.' },
+      { name: 'Retomar o Fôlego', description: 'Você pode usar uma ação bônus para recuperar pontos de vida igual a 1d10 + seu nível de guerreiro.' },
+      { name: 'Surto de Ação', description: 'Você pode realizar uma ação adicional juntamente com sua ação e possível ação bônus.' }
     ]
   },
   {
@@ -150,9 +150,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 3,
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência'],
     features: [
-      { name: 'Inimigo Favorito', description: 'Você tem vantagem em testes de Sobrevivência e Inteligência contra certos tipos de inimigos.' },
-      { name: 'Explorador Natural', description: 'Você é um mestre da navegação em certos tipos de terreno selvagem.' },
-      { name: 'Prontidão Primal', description: 'Você pode usar sua ação para focar sua percepção e detectar criaturas próximas.' }
+      { name: 'Inimigo Favorito', description: 'Você ganha +2 de bônus nas jogadas de dano contra o tipo escolhido e vantagem em testes para rastrear e obter informações.' },
+      { name: 'Explorador Natural', description: 'Você ignora terreno difícil, tem vantagem em iniciativa e vantagem em ataques contra criaturas que ainda não agiram no 1º turno.' },
+      { name: 'Consciência Primitiva', description: 'Você pode se comunicar com bestas e sentir a presença de seus inimigos favoritos a até 8 km.' }
     ]
   },
   {
@@ -169,9 +169,10 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 4,
     skillOptions: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'],
     features: [
-      { name: 'Ataque Furtivo (1d6)', description: 'Você sabe como atingir sutilmente e explorar a distração de um oponente.' },
-      { name: 'Gíria de Ladrão', description: 'Você conhece o código secreto usado pelos criminosos.' },
-      { name: 'Ação Astuta', description: 'Você pode usar uma ação bônus para Correr, Desengajar ou Esconder.' }
+      { name: 'Especialização', description: 'Você escolhe duas de suas proficiências em perícias para dobrar seu bônus de proficiência.' },
+      { name: 'Ataque Furtivo', description: 'Você sabe como atacar sutilmente e explorar a distração de seus inimigos para causar dano extra.' },
+      { name: 'Gíria de Ladrão', description: 'Você conhece o jargão e códigos secretos que permitem passar mensagens ocultas.' },
+      { name: 'Ação Ardilosa', description: 'Você pode usar uma ação bônus em cada turno para Disparada, Desengajar ou Esconder.' }
     ]
   },
   {
@@ -188,9 +189,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Conjuração', description: 'Você pode conjurar magias de feiticeiro usando seu Carisma.' },
-      { name: 'Origem Feérica', description: 'Escolha a fonte do seu poder mágico.' },
-      { name: 'Fonte de Magia', description: 'Você possui pontos de feitiçaria que permitem manipular sua magia.' }
+      { name: 'Conjuração', description: 'Você pode conjurar magias de feiticeiro usando seu Carisma como habilidade de conjuração.' },
+      { name: 'Origem de Feitiçaria', description: 'Escolha a fonte do seu poder mágico inato: Linhagem Dracônica ou Magia Selvagem.' },
+      { name: 'Fonte de Magia', description: 'Você possui pontos de feitiçaria que permitem criar espaços de magia ou alterar suas magias.' }
     ]
   },
   {
