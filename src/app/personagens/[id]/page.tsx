@@ -1176,27 +1176,27 @@ export default function CharacterDetailPage() {
                           const getInitialResources = () => {
                             const initial: any = {};
                             const is2014 = character.ruleset === '2014';
+                            const modCharisma = Math.floor((character.charisma - 10) / 2);
+                            const modIntelligence = Math.floor((character.intelligence - 10) / 2);
+                            const modWisdom = Math.floor((character.wisdom - 10) / 2);
                             
                             if (character.class === 'Bárbaro') {
-                              // 2014: 1:2, 3:3, 6:4, 12:5, 17:6, 20:Inf
-                              // 2024: 1:2, 3:3, 6:4, 12:5, 17:6
                               let rages = 2;
                               if (character.level >= 17) rages = 6;
                               else if (character.level >= 12) rages = 5;
                               else if (character.level >= 6) rages = 4;
                               else if (character.level >= 3) rages = 3;
-                              
-                              if (is2014 && character.level === 20) rages = 99; // Infinity placeholder
-                              
-                              initial['Fúrias'] = { max: rages, current: rages, color: '#f97316' };
+                              if (is2014 && character.level === 20) rages = 99;
+                              initial['Fúria'] = { max: rages, current: rages, color: '#f97316' };
                             }
                             
                             if (character.class === 'Guerreiro') {
-                              // 2014: 1 use per short rest
-                              // 2024: 2 uses at lvl 1, 4 at lvl 10
                               let uses = is2014 ? 1 : 2;
                               if (!is2014 && character.level >= 10) uses = 4;
-                              initial['Retomada de Fôlego'] = { max: uses, current: uses, color: '#94a3b8' };
+                              initial['Segundo Fôlego'] = { max: uses, current: uses, color: '#94a3b8' };
+                              if (character.level >= 2) {
+                                initial['Surto de Ação'] = { max: 1, current: 1, color: '#94a3b8' };
+                              }
                             }
                             
                             if (character.class === 'Monge' && character.level >= 2) {
@@ -1204,46 +1204,73 @@ export default function CharacterDetailPage() {
                             }
                             
                             if (character.class === 'Bardo') {
-                              const maxInspiration = Math.max(1, calcModifier(character.charisma));
+                              const maxInspiration = Math.max(1, modCharisma);
                               initial['Inspiração Bárdica'] = { max: maxInspiration, current: maxInspiration, color: '#ec4899' };
+                            }
+
+                            if (character.class === 'Clérigo' && character.level >= 2) {
+                              const uses = character.level >= 18 ? 3 : (character.level >= 6 ? 2 : 1);
+                              initial['Canalizar Divindade'] = { max: uses, current: uses, color: '#facc15' };
+                            }
+
+                            if (character.class === 'Druida' && character.level >= 2) {
+                              initial['Forma Selvagem'] = { max: 2, current: 2, color: '#22c55e' };
                             }
                             
                             if (character.class === 'Artesão Arcano') {
-                              initial['Engenharia Mágica'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                              if (character.level >= 3) {
-                                if (character.subclass === 'Artilheiro') {
-                                  initial['Canhão Élfico'] = { max: 1, current: 1, color: '#06b6d4' };
-                                } else if (character.subclass === 'Alquimista') {
-                                  initial['Elixires Experimentais'] = { max: 1, current: 1, color: '#06b6d4' };
-                                } else if (character.subclass === 'Armeiro') {
-                                  initial['Campo Defensivo'] = { max: character.proficiencyBonus || 2, current: character.proficiencyBonus || 2, color: '#06b6d4' };
-                                  initial['Estatura Gigante'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                                } else if (character.subclass === 'Serralheiro de Batalha' && character.level >= 10) {
-                                  initial['Choque Arcano'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                                }
-                              }
-                              if (character.level >= 10 && character.subclass === 'Alquimista') {
-                                initial['Restauração Menor Grátis'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                              }
-                              if (character.level >= 14 && character.subclass === 'Alquimista') {
-                                initial['Curar (Heal)'] = { max: 1, current: 1, color: '#06b6d4' };
-                                initial['Restauração Maior Grátis'] = { max: 1, current: 1, color: '#06b6d4' };
-                              }
+                              const maxTinkering = Math.max(1, modIntelligence);
+                              initial['Engenharia Mágica'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               if (character.level >= 7) {
-                                initial['Brilho de Gênio'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                                initial['Brilho de Gênio'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               }
                             }
                             
                             if (character.class === 'Paladino') {
-                              initial['Imposição de Mãos'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
+                              initial['Mãos Curativas'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
+                              initial['Sentido Divino'] = { max: Math.max(1, 1 + modCharisma), current: Math.max(1, 1 + modCharisma), color: '#facc15' };
                             }
                             
-                            if (character.class === 'Feiticeiro' && character.level >= 2) {
-                              initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                            if (character.class === 'Feiticeiro' && character.level >= 1) {
+                              if (!is2014) {
+                                initial['Conjuração Inata'] = { max: 2, current: 2, color: '#c084fc' };
+                              }
+                              if (character.level >= 2) {
+                                initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                              }
+                            }
+
+                            if (character.class === 'Mago') {
+                              initial['Recuperação Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
+                              initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
+                            }
+
+                            if (character.class === 'Patrulheiro') {
+                              initial['Marca do Caçador'] = { max: character.proficiencyBonus, current: character.proficiencyBonus, color: '#22c55e' };
+                            }
+
+                            if (character.class === 'Bruxo' && character.level >= 2 && !is2014) {
+                              initial['Astúcia Mística (Magical Cunning)'] = { max: 1, current: 1, color: '#c084fc' };
+                            }
+
+                            if (character.class === 'Clérigo' && character.level >= 10 && !is2014) {
+                              initial['Intervenção Divina'] = { max: 1, current: 1, color: '#facc15' };
+                            }
+
+                            if (character.class === 'Guerreiro' && character.level >= 9) {
+                              let uses = 1;
+                              if (character.level >= 17) uses = 3;
+                              else if (character.level >= 13) uses = 2;
+                              initial['Indomável'] = { max: uses, current: uses, color: '#94a3b8' };
+                            }
+
+                            if (character.class === 'Artesão Arcano' && character.level >= 7) {
+                              initial['Brilho de Gênio'] = { max: Math.max(1, modIntelligence), current: Math.max(1, modIntelligence), color: '#06b6d4' };
                             }
                             
                             return initial;
                           };
+
+
 
                           const classResources = getInitialResources();
                           const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(character.class);

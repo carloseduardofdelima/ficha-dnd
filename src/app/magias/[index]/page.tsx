@@ -20,6 +20,17 @@ const SCHOOL_ICONS: Record<string, string> = {
   'transmutation': '/assets/spells-icons/elemental-spiral.png',
 }
 
+const SCHOOL_NAMES: Record<string, string> = {
+  'abjuration': 'Abjuração',
+  'conjuration': 'Conjuração',
+  'divination': 'Adivinhação',
+  'enchantment': 'Encantamento',
+  'evocation': 'Evocação',
+  'illusion': 'Ilusão',
+  'necromancy': 'Necromancia',
+  'transmutation': 'Transmutação',
+}
+
 interface PageProps {
   params: Promise<{ index: string }>
 }
@@ -30,7 +41,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`https://www.dnd5eapi.co/api/2014/spells/${index}`)
+    fetch(`https://www.dnd5eapi.co/api/2014/spells/${index}?lang=pt-BR`)
       .then(res => res.json())
       .then(data => {
         setSpell(data)
@@ -98,7 +109,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
               </span>
               
               <span style={{ color: 'var(--fg2)', fontSize: 18, fontStyle: 'italic', fontWeight: 500 }}>
-                de {spell.school.name}
+                de {SCHOOL_NAMES[spell.school.index] || spell.school.name}
               </span>
 
               <div style={{ display: 'flex', gap: 12, marginLeft: 8 }}>
