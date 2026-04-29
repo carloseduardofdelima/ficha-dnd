@@ -431,8 +431,8 @@ export default function AttributesStep({
               const mod = calcMod(score)
               const isPrimary = primaryAttrs.has(key)
               const isSave = proficientSaves.has(key)
-              const canInc = score < MAX_SCORE && remaining >= ((POINT_COST[score + 1] ?? 99) - POINT_COST[score])
-              const canDec = score > MIN_SCORE
+              const canInc = baseScore < MAX_SCORE && remaining >= ((POINT_COST[baseScore + 1] ?? 99) - POINT_COST[baseScore])
+              const canDec = baseScore > MIN_SCORE
               
               return (
                 <div key={key} style={{
@@ -440,7 +440,7 @@ export default function AttributesStep({
                   backgroundColor: isPrimary ? 'rgba(147,51,234,0.12)' : 'var(--bg2)',
                   border: `1px solid ${isPrimary ? 'rgba(147,51,234,0.4)' : totalBonus > 0 ? 'rgba(var(--accent-rgb, 191,155,48), 0.3)' : 'rgba(255,255,255,0.07)'}`,
                   borderRadius: 12, padding: '12px 16px',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.2s', position: 'relative',
                   boxShadow: isPrimary ? '0 0 12px rgba(147,51,234,0.15)' : totalBonus > 0 ? '0 0 10px rgba(var(--accent-rgb, 191,155,48), 0.1)' : 'none'
                 }}>
                   {/* Abbr + label */}
@@ -470,10 +470,12 @@ export default function AttributesStep({
                       <ChevronDown size={14} />
                     </button>
 
-                    <div style={{ textAlign: 'center', minWidth: 48 }}>
-                      <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, color: totalBonus > 0 ? 'var(--accent)' : isPrimary ? '#c084fc' : 'var(--fg)' }}>{score}</div>
-                      <div style={{ fontSize: 11, color: totalBonus > 0 ? 'var(--accentL)' : 'var(--accentL)', fontWeight: 600 }}>{fmtMod(mod)}</div>
-                      {totalBonus > 0 && <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--accentL)' }}>+{totalBonus} bônus</div>}
+                    <div style={{ textAlign: 'center', minWidth: 54 }}>
+                      <div style={{ fontSize: 26, fontWeight: 900, lineHeight: 1, color: totalBonus > 0 ? 'var(--accent)' : isPrimary ? '#c084fc' : 'var(--fg)' }}>{score}</div>
+                      <div style={{ fontSize: 11, color: totalBonus > 0 ? 'var(--accentL)' : 'var(--fg3)', fontWeight: 700 }}>{fmtMod(mod)}</div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: totalBonus > 0 ? 'var(--accentL)' : 'var(--fg3)', opacity: 0.8, marginTop: 2 }}>
+                        {baseScore} <span style={{ fontSize: 8, opacity: 0.6 }}>BASE</span> {totalBonus > 0 ? `+ ${totalBonus}` : ''}
+                      </div>
                     </div>
 
                     <button
@@ -490,13 +492,24 @@ export default function AttributesStep({
                     </button>
                   </div>
 
-                  {/* Cost badge */}
-                  <div style={{
-                    width: 32, textAlign: 'right', fontSize: 10, fontWeight: 700,
-                    color: 'var(--fg3)', flexShrink: 0
-                  }}>
-                    {baseScore} <span style={{ opacity: 0.5 }}>bás.</span>
-                  </div>
+                  {/* Label for primary/save */}
+                  {(isPrimary || isSave) && (
+                    <div style={{ 
+                      position: 'absolute', 
+                      top: -8, 
+                      right: 12, 
+                      fontSize: 8, 
+                      background: isPrimary ? 'var(--accent)' : 'var(--bg2)', 
+                      padding: '2px 6px', 
+                      borderRadius: 4,
+                      fontWeight: 800,
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: isPrimary ? '#fff' : 'var(--accentL)',
+                      letterSpacing: '0.05em'
+                    }}>
+                      {isPrimary ? 'PRIMÁRIO' : 'SALVAGUARDA'}
+                    </div>
+                  )}
                 </div>
               )
             })}
