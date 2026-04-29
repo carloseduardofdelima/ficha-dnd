@@ -195,8 +195,16 @@ export default function CharacterDetailPage() {
   // Get spell progression for current level
   const currentProgression = useMemo(() => {
     if (!character) return null
-    return getSpellSlots(character.class, character.level, character.ruleset || '2024')
-  }, [character?.class, character?.level, character?.ruleset])
+    const modifiers = {
+      strength: calcModifier(character.strength),
+      dexterity: calcModifier(character.dexterity),
+      constitution: calcModifier(character.constitution),
+      intelligence: calcModifier(character.intelligence),
+      wisdom: calcModifier(character.wisdom),
+      charisma: calcModifier(character.charisma)
+    }
+    return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers)
+  }, [character?.class, character?.level, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
 
   const totalCantripsSelected = useMemo(() => {
     if (!character?.spells) return 0
@@ -1674,21 +1682,46 @@ export default function CharacterDetailPage() {
                         const index = newSpells.indexOf(id);
                         
                         if (index > -1) {
-                          // Se já está selecionada, sempre permite remover
                           newSpells.splice(index, 1);
                         } else {
-                          // Se for adicionar, verifica o limite do nível
                           const lvl = spell.level;
-                          const selectedInLvl = currentSpells.filter(sid => {
-                            const s = ALL_SPELLS.find(sp => sp.id === sid);
-                            return s && s.level === lvl;
-                          }).length;
-
-                          const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
-
-                          if (selectedInLvl >= maxInLvl) {
-                            alert(`Você já atingiu o limite de magias para o ${lvl === 0 ? 'Truques' : lvl + 'º Nível'}!`);
-                            return;
+                          
+                          if (lvl === 0) {
+                            const selectedCantrips = currentSpells.filter(sid => {
+                              const s = ALL_SPELLS.find(sp => sp.id === sid);
+                              return s && s.level === 0;
+                            }).length;
+                            if (selectedCantrips >= (currentProgression?.cantrips || 0)) {
+                              alert(`Você já atingiu o limite de Truques!`);
+                              return;
+                            }
+                          } else {
+                            const is2014Prepared = character.ruleset === '2014' && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artesão Arcano'].includes(character.class);
+                            
+                            const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
+                            
+                            if (isPoolBased) {
+                              const selectedLeveled = currentSpells.filter(sid => {
+                                const s = ALL_SPELLS.find(sp => sp.id === sid);
+                                return s && s.level > 0;
+                              }).length;
+                              const maxPool = currentProgression?.prepared || currentProgression?.known || 0;
+                              if (selectedLeveled >= maxPool) {
+                                alert(`Você já atingiu o limite de magias ${currentProgression?.known ? 'conhecidas' : 'preparadas'} (${maxPool})!`);
+                                return;
+                              }
+                            } else {
+                              // Default logic: Per level (if no global pool defined)
+                              const selectedInLvl = currentSpells.filter(sid => {
+                                const s = ALL_SPELLS.find(sp => sp.id === sid);
+                                return s && s.level === lvl;
+                              }).length;
+                              const maxInLvl = slots[lvl.toString()] || 0;
+                              if (selectedInLvl >= maxInLvl) {
+                                alert(`Você já atingiu o limite de magias para o ${lvl}º Nível!`);
+                                return;
+                              }
+                            }
                           }
                           newSpells.push(id);
                         }
@@ -1727,7 +1760,25 @@ export default function CharacterDetailPage() {
                               return s && s.level === lvl;
                             }).length;
 
-                            const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
+                            const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
+                            
+                            let maxInLvl = 0;
+                            let currentCount = selectedInLvl;
+                            let label = isPreparing ? 'SELECIONADAS' : 'PREPARADAS';
+
+                            if (lvl === 0) {
+                              maxInLvl = currentProgression?.cantrips || 0;
+                              label = 'CONHECIDOS';
+                            } else if (isPoolBased) {
+                              maxInLvl = currentProgression?.prepared || currentProgression?.known || 0;
+                              currentCount = currentSpells.filter(id => {
+                                const s = ALL_SPELLS.find(sp => sp.id === id);
+                                return s && s.level > 0;
+                              }).length;
+                              label = currentProgression?.known ? 'CONHECIDAS' : (isPreparing ? 'TOTAL SELECIONADAS' : 'TOTAL PREPARADAS');
+                            } else {
+                              maxInLvl = slots[lvl.toString()] || 0;
+                            }
 
                             return (
                               <div key={lvl}>
@@ -1736,8 +1787,8 @@ export default function CharacterDetailPage() {
                                     <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
                                     {lvl === 0 ? 'Truques' : `${lvl}º Nível`}
                                   </h3>
-                                  <div style={{ fontSize: 11, fontWeight: 700, color: selectedInLvl > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
-                                    {selectedInLvl} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{isPreparing ? 'SELECIONADAS' : 'PREPARADAS'}</span>
+                                  <div style={{ fontSize: 11, fontWeight: 700, color: currentCount > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
+                                    {currentCount} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{label}</span>
                                   </div>
                                 </div>
                                 
@@ -2053,14 +2104,14 @@ export default function CharacterDetailPage() {
                               style={{ 
                                 padding: 16, 
                                 background: 'var(--bg2)', 
-                                borderLeft: `3px solid ${feat.source === character.subclass ? 'var(--accent)' : 'var(--border)'}`, 
+                                borderLeft: `3px solid var(--border)`, 
                                 cursor: 'pointer', 
                                 transition: 'all 0.2s ease' 
                               }}
                               onClick={() => setDetailFeature(feat)}
                             >
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                                <div style={{ fontWeight: 700, fontSize: 15, color: feat.source === character.subclass ? 'var(--accentL)' : 'var(--fg)' }}>
+                                <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>
                                   {feat.name}
                                 </div>
                                 <div style={{ fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.5 }}>
@@ -2071,7 +2122,7 @@ export default function CharacterDetailPage() {
                                 {feat.description}
                               </p>
                               <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
-                                <span style={{ fontSize: 10, color: feat.source === character.subclass ? 'var(--accent)' : 'var(--fg4)', fontWeight: 700 }}>
+                                <span style={{ fontSize: 10, color: 'var(--fg4)', fontWeight: 700 }}>
                                   {feat.source}
                                 </span>
                               </div>

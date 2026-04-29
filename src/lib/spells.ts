@@ -233,7 +233,7 @@ export const SPELLCASTING_CLASSES = [
   'Paladino', 'Patrulheiro', 'Artesão Arcano'
 ]
 
-export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024') {
+export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024', modifiers?: any) {
   const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
   const classData = table[className]
   if (!classData) return null
@@ -243,15 +243,37 @@ export function getSpellSlots(className: string, level: number, ruleset: '2014' 
   const maxLevel = levels[levels.length - 1]
   const minLevel = levels[0]
   
-  if (level > maxLevel) return classData[maxLevel]
-  if (level < minLevel) return classData[minLevel]
+  const rawData = level > maxLevel ? classData[maxLevel] : (level < minLevel ? classData[minLevel] : (classData[level] || classData[1]));
   
-  return classData[level] || classData[1]
+  if (ruleset === '2014' && typeof rawData.prepared === 'string' && modifiers) {
+    const formula = rawData.prepared;
+    const lvl = level;
+    let mod = 0;
+    
+    if (formula.includes('Wis')) mod = modifiers.wisdom || 0;
+    if (formula.includes('Int')) mod = modifiers.intelligence || 0;
+    if (formula.includes('Cha')) mod = modifiers.charisma || 0;
+    
+    let base = 0;
+    if (formula.includes('Lvl/2')) {
+      base = Math.floor(lvl / 2);
+    } else if (formula.includes('Lvl')) {
+      base = lvl;
+    }
+    
+    return {
+      ...rawData,
+      prepared: Math.max(1, base + mod)
+    };
+  }
+  
+  return rawData;
 }
 
 export interface SpellSlots {
   cantrips: number;
-  prepared: number;
+  prepared?: number; // Number of spells that can be prepared
+  known?: number;    // Number of spells known (for Bard, Sorcerer, etc.)
   slots: number[];
   slot_level?: number; // Only for Warlocks
 }
