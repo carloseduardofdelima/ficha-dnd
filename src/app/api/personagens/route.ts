@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
       race: body.race || '',
       subrace: body.subrace || '',
       class: body.class || '',
+      subclass: body.subclass || '',
       level: body.level || 1,
       background: body.background || '',
       strength: body.strength || 10,

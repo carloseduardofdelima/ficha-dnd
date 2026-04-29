@@ -14,6 +14,7 @@ export interface Race {
     description?: string
     traits: RaceTrait[]
     attributeBonuses?: Record<string, number>
+    speed?: number
   }[]
   subRaceTitle?: string
   subRaceMandatory?: boolean
@@ -120,6 +121,7 @@ export const RACES: Race[] = [
       { 
         name: 'Elfo da Floresta', 
         description: 'Moldado pela magia das florestas antigas.', 
+        speed: 35,
         traits: [
           { name: 'Velocidade', description: '35 pés.' },
           { name: 'Magia de Elfo da Floresta', description: '[Nível 1] Druidismo, [Nível 3] Passos Longos, [Nível 5] Passos sem Pegadas.' }

@@ -68,6 +68,7 @@ export const RACES_2014: Race[] = [
         name: 'Elfo da Floresta',
         description: 'Seus sentidos e pés são ágeis, e você pode se esconder rapidamente na natureza.',
         attributeBonuses: { wisdom: 1 },
+        speed: 35,
         traits: [
           { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
           { name: 'Treinamento com Armas Élficas', description: 'Proficiência com espada longa, espada curta, arco curto e arco longo.' },

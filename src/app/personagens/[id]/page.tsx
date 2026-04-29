@@ -741,10 +741,10 @@ export default function CharacterDetailPage() {
             </div>
             <div style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 16 }} className="mobile-center-text">
               <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2 }}>
-                {character.class}{character.subclass ? ` - ${character.subclass}` : ''}
+                {character.class}{character.subclass ? ` — ${character.subclass}` : ''}
               </div>
               <div style={{ fontSize: 14, color: 'var(--fgM)' }}>
-                {character.race} — {character.background}
+                {character.race}{character.subrace ? ` (${character.subrace})` : ''} — {character.background}
               </div>
             </div>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
@@ -1307,8 +1307,8 @@ export default function CharacterDetailPage() {
                           DESLOCAMENTO (m) <Info size={12} style={{ opacity: 0.6, flexShrink: 0 }} />
                         </div>
                         <div className="stat-value-box">
-                          <div className="stat-value">{character.speed}</div>
-                          <RotateCcw size={20} color="var(--fg2)" />
+                          <div className="stat-value">{Math.round((character.speed / 5) * 1.5)}</div>
+                          <Footprints size={20} color="var(--fg2)" />
                         </div>
                         <div className="stat-subtext" style={{ opacity: 0 }}>Metros</div>
                       </div>

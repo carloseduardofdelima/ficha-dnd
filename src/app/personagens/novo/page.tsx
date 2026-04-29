@@ -20,6 +20,8 @@ import { getSpellSlots, SPELLCASTING_CLASSES, getSpellsForClass } from '@/lib/sp
 import FinalStep from '@/components/FinalStep'
 import type { InventoryEntry } from '@/lib/inventory'
 import { calculateAC } from '@/lib/dnd-rules'
+import CLASS_LEVEL1_DATA from '@/lib/class-features'
+import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
 
 const STEPS = ['Edição', 'Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
@@ -135,8 +137,37 @@ export default function NovoPersonagem() {
       armorClass: calculateAC(form.class, finalAttrs, inventory),
       initiative: dexMod,
       proficiencyBonus: pb,
-      subclass: (featureChoices['Especialista Artesão'] as string) || (featureChoices['Caminho Primitivo'] as string) || (featureChoices['Juramento Sagrado'] as string) || (featureChoices['Tradição Monástica'] as string) || (featureChoices['Arquétipo Marcial'] as string) || (featureChoices['Origem de Feitiçaria'] as string) || (featureChoices['Patrono do Além'] as string) || (featureChoices['Tradição Arcana'] as string) || (featureChoices['Domínio Divino'] as string) || (featureChoices['Círculo Druídico'] as string) || (featureChoices['Colégio Bárdico'] as string) || (featureChoices['Conclave de Patrulheiro'] as string) || (featureChoices['Arquétipo de Ladino'] as string) || '',
-      speed: availableRaces.find(r => r.name === form.race)?.speed || 30,
+      subclass: (() => {
+        const classData = form.ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class];
+        if (!classData) return '';
+        
+        const subclassChoiceIds = [
+          'cleric-domain-2014', 'sorcerous-origin-2014', 'warlock-patron-2014',
+          'Especialista Artesão', 'Caminho Primitivo', 'Juramento Sagrado', 'Tradição Monástica', 
+          'Arquétipo Marcial', 'Origem de Feitiçaria', 'Patrono do Além', 'Tradição Arcana', 
+          'Domínio Divino', 'Círculo Druídico', 'Colégio Bárdico', 'Conclave de Patrulheiro', 
+          'Arquétipo de Ladino'
+        ];
+        
+        for (const id of subclassChoiceIds) {
+          const val = featureChoices[id];
+          if (val && typeof val === 'string') {
+            const choice = classData.choices.find(c => c.id === id);
+            if (choice) {
+              const opt = choice.options.find(o => o.id === val);
+              if (opt) return opt.name;
+            }
+            return val;
+          }
+        }
+        return '';
+      })(),
+      speed: (() => {
+        const race = availableRaces.find(r => r.name === form.race);
+        if (!race) return 30;
+        const lineage = race.lineages?.find(l => l.name === form.subRace);
+        return lineage?.speed || race.speed || 30;
+      })(),
       spellSlots: (() => {
         const slots = getSpellSlots(form.class, form.level, form.ruleset as any);
         if (!slots) return JSON.stringify({});
@@ -226,6 +257,20 @@ export default function NovoPersonagem() {
     }
     if (currentStep === 6) {
       const isCaster = SPELLCASTING_CLASSES.includes(form.class)
+      const classData = form.ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
+      
+      // Validate mandatory feature choices
+      if (classData && classData.choices) {
+        for (const choice of classData.choices) {
+          const selection = featureChoices[choice.id];
+          if (choice.type === 'radio' && !selection) return false;
+          if (choice.type === 'multi' && choice.maxSelections) {
+            const current = (selection as string[] | undefined) ?? [];
+            if (current.length < choice.maxSelections) return false;
+          }
+        }
+      }
+
       if (!isCaster) return true
       
       const slots = getSpellSlots(form.class, form.level, form.ruleset as any)
@@ -429,14 +474,7 @@ export default function NovoPersonagem() {
         />
       )}
 
-      {/* Steps 7+ placeholder (if needed) */}
-      {currentStep > 6 && (
-        <div className="card fade-in" style={{ padding: 40, textAlign: 'center', backgroundColor: 'var(--bg2)' }}>
-          <h2 style={{ fontFamily: 'Cinzel, serif' }}>Próximas Etapas</h2>
-          <p style={{ color: 'var(--fg3)' }}>Esta etapa ({STEPS[currentStep]}) será implementada em breve.</p>
-          <button className="btn btn-ghost" onClick={prevStep} style={{ marginTop: 20 }}>Voltar para {STEPS[currentStep - 1]}</button>
-        </div>
-      )}
+
 
       {/* Navigation Bar Fixed at Bottom */}
       <div style={{
@@ -510,8 +548,8 @@ export default function NovoPersonagem() {
                 </p>
                 <div style={{ display: 'flex', gap: 20, marginTop: 16 }}>
                   <div>
-                    <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Velocidade</span>
-                    <div style={{ fontWeight: 'bold' }}>{detailRace.speed} pés</div>
+                    <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Deslocamento</span>
+                    <div style={{ fontWeight: 'bold' }}>{Math.round((detailRace.speed / 5) * 1.5)}m</div>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Tamanho</span>
