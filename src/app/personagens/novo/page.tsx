@@ -452,6 +452,7 @@ export default function NovoPersonagem() {
           backgroundName={form.background}
           inventory={inventory}
           onInventoryChange={setInventory}
+          ruleset={form.ruleset}
         />
       )}
 

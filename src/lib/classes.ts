@@ -15,6 +15,7 @@ export interface DndClass {
   savingThrows: string[]
   armorProf: string
   weaponProf: string
+  toolProf?: string
   skillCount?: number
   skillOptions?: string[]
 }
@@ -49,6 +50,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Destreza', 'Carisma'],
     armorProf: 'Armaduras leves',
     weaponProf: 'Armas simples',
+    toolProf: 'Três instrumentos musicais à sua escolha',
     features: [
       { name: 'Conjuração', description: 'Você pode conjurar magias de bardo, usando Carisma como atributo de conjuração.' },
       { name: 'Inspiração Bárdica', description: 'Como ação bônus, confira um dado de Inspiração Bárdica (d6) a uma criatura que possa ouvir você.' },
@@ -121,6 +123,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Força', 'Destreza'],
     armorProf: 'Nenhuma',
     weaponProf: 'Armas simples e Espadas Curtas',
+    toolProf: 'Um tipo de ferramenta de artesão ou um instrumento musical à sua escolha',
     features: [
       { name: 'Defesa sem Armadura', description: 'Sem armadura, sua CA é 10 + mod. de Des + mod. de Sab.' },
       { name: 'Artes Marciais', description: 'Pode usar Des em vez de For em ataques desarmados e com armas monásticas, e seu dado de dano desarmado sobe com o nível.' },
@@ -175,6 +178,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Destreza', 'Inteligência'],
     armorProf: 'Armaduras leves',
     weaponProf: 'Armas simples, Bestas de Mão, Espadas Longas, Rapieiras e Espadas Curtas',
+    toolProf: 'Ferramentas de ladrão',
     features: [
       { name: 'Perícia', description: 'Dobre o bônus de proficiência em duas habilidades ou ferramentas de ladrão.' },
       { name: 'Ataque Furtivo', description: 'Uma vez por turno, cause dano extra (1d6 crescente) se tiver vantagem ou um aliado adjacente ao alvo.' },
@@ -238,8 +242,8 @@ export const CLASSES: DndClass[] = [
   },
   {
     id: 'artificer',
-    name: 'Artesão Arcano',
-    description: 'Um inventor que infunde objetos com magia. Artesãos combinam engenho tecnológico com poder mágico para criar itens e construtos que servem como armas e aliados.',
+    name: 'Artífice',
+    description: 'Um inventor que infunde objetos com magia. Artífices combinam engenho tecnológico com poder mágico para criar itens e construtos que servem como armas e aliados.',
     image: '/assets/artificer.png',
     source: "Tasha's Cauldron of Everything",
     hitDie: 'd8',
@@ -247,11 +251,12 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Constituição', 'Inteligência'],
     armorProf: 'Armaduras leves, médias e escudos',
     weaponProf: 'Armas simples',
+    toolProf: 'Ferramentas de ladrão, ferramentas de funileiro, um tipo de ferramenta de artesão à sua escolha',
     features: [
-      { name: 'Engenharia Mágica (Magical Tinkering)', description: 'Ação Mágica segurando Ferramentas de Funileiro: cria um item mundano em espaço desocupado a até 1,5m de você. Usos = Mod Inteligência.' },
-      { name: 'Replicar Item Mágico (Infusões)', description: 'Crie itens mágicos temporários a partir de uma lista de planos conhecidos.' },
-      { name: 'A Ferramenta Certa para o Trabalho', description: 'Ao nível 3, pode criar ferramentas de artesão que você precisa usando ferramentas de funileiro.' },
-      { name: 'Especialista Artesão', description: 'Ao nível 3, escolha sua especialidade: Artilheiro, Ferreiro de Batalha, Alquimista ou Mestre Marionete.' },
+      { name: 'Tinkering Mágico', description: 'Crie pequenos efeitos mágicos em objetos mundanos (luz, som, cheiro).' },
+      { name: 'Infundir Item', description: 'Crie itens mágicos temporários a partir de uma lista de infusões conhecidas.' },
+      { name: 'A Ferramenta Certa para o Trabalho', description: 'Pode criar ferramentas de artesão que você precisa usando ferramentas de funileiro.' },
+      { name: 'Especialidade de Artífice', description: 'Escolha sua especialidade: Alquimista, Armeiro, Artilheiro ou Serralheiro de Batalha.' },
     ]
   },
 ]

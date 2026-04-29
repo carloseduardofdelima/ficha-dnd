@@ -7,7 +7,7 @@ import { CLASSES } from '@/lib/classes';
 import { CLASSES_2014 } from '@/lib/classes-2014';
 import { BACKGROUNDS } from '@/lib/backgrounds';
 import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014';
-import SPELLS from '@/lib/spells';
+import SPELLS, { ALL_SPELLS } from '@/lib/spells';
 import { ITEM_CATALOG } from '@/lib/inventory';
 import CLASS_LEVEL1_DATA from '@/lib/class-features';
 import { CLASS_PROGRESSION_2024, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024';
@@ -122,10 +122,20 @@ const getCharacterFeatures = (character: Character) => {
     });
   }
   
-  // Remove duplicates by name
+  // Remove duplicates and proficiency traits (that are already in the proficiencies box)
   const seen = new Set();
   return features.filter(f => {
     if (seen.has(f.name)) return false;
+    
+    // Filter out traits that are strictly about weapon/armor/tool training
+    const nameLow = f.name.toLowerCase();
+    const descLow = f.description.toLowerCase();
+    const isProficiencyTrait = nameLow.includes('treinamento') || 
+                               nameLow.includes('proficiência') ||
+                               descLow.includes('proficiência em');
+    
+    if (isProficiencyTrait) return false;
+
     seen.add(f.name);
     return true;
   });
@@ -704,26 +714,124 @@ const CharacterPDF = ({ character }: Props) => {
                <View style={styles.passiveValue}><Text style={{fontSize: 10, fontFamily: 'Helvetica-Bold'}}>{10 + calcModifier(character.wisdom) + (skillsObj['perception'] ? profBonus : 0)}</Text></View>
                <Text style={styles.headerLabel}>Sabedoria (Percepção) Passiva</Text>
             </View>
-            <View style={[styles.blueSection, { minHeight: 80 }]}>
+            <View style={[styles.blueSection, { flex: 1, minHeight: 120 }]}>
+                {/* Languages Logic */}
                 <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Linguagens:</Text>
-                <Text style={{ fontSize: 7, marginLeft: 4 }}>• Comum</Text>
-                {race?.name === 'Elfo' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Élfico</Text>}
-                {race?.name === 'Anão' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Anão</Text>}
-                {race?.name === 'Tiefling' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Infernal</Text>}
-                {race?.name === 'Dragonborn' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Dracônico</Text>}
-                {race?.name === 'Orc' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Orc</Text>}
-                {race?.name === 'Gnome' && <Text style={{ fontSize: 7, marginLeft: 4 }}>• Gnômico</Text>}
+                <View style={{ marginLeft: 4, marginBottom: 4 }}>
+                  <Text style={{ fontSize: 7 }}>• Comum</Text>
+                  {(() => {
+                    const languages = [];
+                    if (race?.name === 'Elfo' || race?.name === 'Meio-Elfo') languages.push('Élfico');
+                    if (race?.name === 'Anão') languages.push('Anão');
+                    if (race?.name === 'Tiefling') languages.push('Infernal');
+                    if (race?.name === 'Draconato') languages.push('Dracônico');
+                    if (race?.name === 'Orc' || race?.name === 'Meio-Orc') languages.push('Orc');
+                    if (race?.name === 'Gnomo') languages.push('Gnômico');
+                    if (race?.name === 'Halfling') languages.push('Halfling');
+                    
+                    return languages.map(lang => (
+                      <Text key={lang} style={{ fontSize: 7 }}>• {lang}</Text>
+                    ));
+                  })()}
+                </View>
 
-                {/* Class Proficiencies */}
+                {/* Combined Proficiencies Logic */}
                 {(() => {
-                  const charClass = CLASSES.find(c => c.name === character.class);
-                  if (!charClass) return null;
+                  const ruleset = character.ruleset || '2024';
+                  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
+                  const charClass = classList.find(c => c.name === character.class);
+                  
+                  // Scan Racial Traits for proficiencies
+                  const raceData = (ruleset === '2014' ? RACES_2014 : RACES).find(r => r.name === character.race);
+                  const racialTraits = raceData ? [...(raceData.traits || [])] : [];
+                  if (character.subrace && raceData?.lineages) {
+                    const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                    if (lineage) racialTraits.push(...(lineage.traits || []));
+                  }
+
+                  const racialProfs = racialTraits.filter(t => 
+                    t.name.toLowerCase().includes('treinamento') || 
+                    t.name.toLowerCase().includes('proficiência') ||
+                    t.description.toLowerCase().includes('proficiência em')
+                  );
+
+                  const weaponRacial = racialProfs.filter(t => 
+                    t.name.toLowerCase().includes('arma') || 
+                    t.name.toLowerCase().includes('combate') ||
+                    t.description.toLowerCase().includes('arma') ||
+                    t.description.toLowerCase().includes('machado') ||
+                    t.description.toLowerCase().includes('martelo') ||
+                    t.description.toLowerCase().includes('espada') ||
+                    t.description.toLowerCase().includes('arco') ||
+                    t.description.toLowerCase().includes('beste')
+                  );
+                  const armorRacial = racialProfs.filter(t => t.name.toLowerCase().includes('armadura') || t.description.toLowerCase().includes('armadura'));
+                  const toolRacial = racialProfs.filter(t => 
+                    t.name.toLowerCase().includes('ferramenta') || 
+                    t.description.toLowerCase().includes('ferramenta') ||
+                    t.name.toLowerCase().includes('instrumento') ||
+                    t.name.toLowerCase().includes('jogo')
+                  );
+
                   return (
-                    <View style={{ marginTop: 4 }}>
-                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Armaduras:</Text>
-                      <Text style={{ fontSize: 7, marginLeft: 4 }}>{charClass.armorProf}</Text>
-                      <Text style={{ fontSize: 7, marginTop: 2, fontFamily: 'Helvetica-Bold' }}>Armas:</Text>
-                      <Text style={{ fontSize: 7, marginLeft: 4 }}>{charClass.weaponProf}</Text>
+                    <View style={{ gap: 4 }}>
+                      <View>
+                        <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Armaduras:</Text>
+                        <Text style={{ fontSize: 7, marginLeft: 4 }}>{charClass?.armorProf || 'Nenhuma'}</Text>
+                        {/* Armor Category Detail - Only show if class has armor profs and it's not "Nenhuma" */}
+                        {charClass?.armorProf && charClass.armorProf.toLowerCase() !== 'nenhuma' && (
+                          <Text style={{ fontSize: 5.5, color: '#444', marginLeft: 4, marginTop: 1, fontStyle: 'italic' }}>
+                            {charClass.armorProf.toLowerCase().includes('pesadas') 
+                              ? 'Leves/Médias (Couro, Peitoral, Cota de Malha) e Pesadas (Talas, Placas).'
+                              : charClass.armorProf.toLowerCase().includes('médias')
+                              ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral).'
+                              : 'Apenas Leves (Couro, Acolchoada, Couro Batido).'}
+                          </Text>
+                        )}
+                        {armorRacial.map(t => (
+                          <View key={t.name} style={{ marginLeft: 4, marginTop: 1 }}>
+                            <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color: '#000' }}>• {t.name} (Racial)</Text>
+                            <Text style={{ fontSize: 5.5, color: '#000', marginLeft: 4 }}>{t.description}</Text>
+                          </View>
+                        ))}
+                      </View>
+
+                      <View>
+                        <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Armas:</Text>
+                        <Text style={{ fontSize: 7, marginLeft: 4 }}>{charClass?.weaponProf || 'Nenhuma'}</Text>
+                        {/* Weapon Category Detail */}
+                        <View style={{ marginLeft: 4, marginTop: 1 }}>
+                          <Text style={{ fontSize: 5.5, color: '#444', fontStyle: 'italic' }}>
+                            {charClass?.weaponProf?.toLowerCase().includes('marciais') 
+                              ? 'Simples: Adaga, Lança, Maça, Besta Leve, Arco Curto.'
+                              : 'Simples: Adaga, Clava, Lança, Maça, Bordão, Besta Leve.'}
+                          </Text>
+                          {charClass?.weaponProf?.toLowerCase().includes('marciais') && (
+                            <Text style={{ fontSize: 5.5, color: '#444', fontStyle: 'italic' }}>
+                              Marciais: Espadas, Rapieira, Machado, Arco Longo, Martelo de Guerra.
+                            </Text>
+                          )}
+                        </View>
+                        {weaponRacial.map(t => (
+                          <View key={t.name} style={{ marginLeft: 4, marginTop: 1 }}>
+                            <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color: '#000' }}>• {t.name} (Racial)</Text>
+                            <Text style={{ fontSize: 5.5, color: '#000', marginLeft: 4 }}>{t.description}</Text>
+                          </View>
+                        ))}
+                      </View>
+
+                      {(toolRacial.length > 0 || charClass?.toolProf) && (
+                        <View>
+                          <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Ferramentas e Outros:</Text>
+                          {charClass?.toolProf && <Text style={{ fontSize: 7, marginLeft: 4 }}>• {charClass.toolProf}</Text>}
+                          {toolRacial.map(t => (
+                            <View key={t.name} style={{ marginLeft: 4, marginTop: 1 }}>
+                              <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color: '#000' }}>• {t.name} (Racial)</Text>
+                              <Text style={{ fontSize: 5.5, color: '#000', marginLeft: 4 }}>{t.description}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      )}
                     </View>
                   );
                 })()}
@@ -903,6 +1011,156 @@ const CharacterPDF = ({ character }: Props) => {
           </Text>
         </Page>
       )}
+      {/* Page 3: Spells (For Spellcasters) */}
+      {(() => {
+        const is2014 = character.ruleset === '2014';
+        const spellcastingClasses = ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Feiticeiro', 'Bruxo', 'Mago'];
+        const isSpellcaster = spellcastingClasses.includes(character.class);
+        
+        if (!isSpellcaster) return null;
+
+        const allSpells = is2014 ? ALL_SPELLS : SPELLS; // Use legacy spells if 2014
+        const charSpells = Array.isArray(character.spells) 
+          ? character.spells.map(id => allSpells.find(s => s.id === id)).filter(Boolean)
+          : [];
+
+        // Group spells by level
+        const spellsByLevel: Record<number, any[]> = {};
+        for (let i = 0; i <= 9; i++) {
+          spellsByLevel[i] = charSpells.filter(s => s && s.level === i);
+        }
+
+        // Spellcasting Stats
+        const castingAbility = is2014 ? (CLASSES_2014.find(c => c.name === character.class)?.primaryAttr || 'Sabedoria') : 'Sabedoria';
+        const abilityMod = calcModifier((character as any)[castingAbility.toLowerCase() === 'carisma' ? 'charisma' : castingAbility.toLowerCase() === 'sabedoria' ? 'wisdom' : 'intelligence']);
+        const saveDC = 8 + profBonus + abilityMod;
+        const attackBonus = profBonus + abilityMod;
+
+        return (
+          <Page size="A4" style={styles.page}>
+            {/* Header */}
+            <View style={{ flexDirection: 'row', borderBottom: 2, borderBottomColor: '#000', paddingBottom: 10, marginBottom: 15, gap: 10 }}>
+              <View style={{ flex: 2, border: 1, borderColor: '#000', padding: 5 }}>
+                <Text style={{ fontSize: 6, textTransform: 'uppercase', fontFamily: 'Helvetica-Bold' }}>Classe de Conjurador</Text>
+                <Text style={{ fontSize: 10, marginTop: 2 }}>{character.class}</Text>
+              </View>
+              <View style={{ flex: 1, border: 1, borderColor: '#000', padding: 5, alignItems: 'center' }}>
+                <Text style={{ fontSize: 6, textTransform: 'uppercase', fontFamily: 'Helvetica-Bold' }}>Habilidade Chave</Text>
+                <Text style={{ fontSize: 10, marginTop: 2 }}>{castingAbility}</Text>
+              </View>
+              <View style={{ flex: 1, border: 1, borderColor: '#000', padding: 5, alignItems: 'center' }}>
+                <Text style={{ fontSize: 6, textTransform: 'uppercase', fontFamily: 'Helvetica-Bold' }}>CD de Resistência</Text>
+                <Text style={{ fontSize: 10, marginTop: 2 }}>{saveDC}</Text>
+              </View>
+              <View style={{ flex: 1, border: 1, borderColor: '#000', padding: 5, alignItems: 'center' }}>
+                <Text style={{ fontSize: 6, textTransform: 'uppercase', fontFamily: 'Helvetica-Bold' }}>Bônus de Ataque</Text>
+                <Text style={{ fontSize: 10, marginTop: 2 }}>+{attackBonus}</Text>
+              </View>
+            </View>
+
+            {/* Spell Levels Grid */}
+            <View style={{ flexDirection: 'row', gap: 10, flex: 1, paddingBottom: 20 }}>
+              {/* Column 1: Cantrips, Lvl 1, Lvl 2 */}
+              <View style={{ flex: 1, gap: 10 }}>
+                {[0, 1, 2].map(lvl => (
+                  <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                      </View>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>
+                        {lvl === 0 ? 'Truques' : `Nível ${lvl}`}
+                      </Text>
+                      {lvl > 0 && (
+                        <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
+                          <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                          <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        </View>
+                      )}
+                    </View>
+                    {/* Spell Lines */}
+                    <View style={{ marginTop: 2 }}>
+                      {Array.from({ length: lvl === 0 ? 15 : 13 }).map((_, lineIdx) => {
+                        const spell = spellsByLevel[lvl]?.[lineIdx];
+                        return (
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* Column 2: Lvl 3, 4, 5 */}
+              <View style={{ flex: 1, gap: 10 }}>
+                {[3, 4, 5].map(lvl => (
+                  <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                      </View>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>Nível {lvl}</Text>
+                      <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
+                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                      </View>
+                    </View>
+                    {/* Spell Lines */}
+                    <View style={{ marginTop: 2 }}>
+                      {Array.from({ length: 13 }).map((_, lineIdx) => {
+                        const spell = spellsByLevel[lvl]?.[lineIdx];
+                        return (
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* Column 3: Lvl 6, 7, 8, 9 */}
+              <View style={{ flex: 1, gap: 10 }}>
+                {[6, 7, 8, 9].map(lvl => (
+                  <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                      </View>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>Nível {lvl}</Text>
+                      <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
+                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                      </View>
+                    </View>
+                    {/* Spell Lines */}
+                    <View style={{ marginTop: 2 }}>
+                      {Array.from({ length: 9 }).map((_, lineIdx) => {
+                        const spell = spellsByLevel[lvl]?.[lineIdx];
+                        return (
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            <Text style={{ textAlign: 'right', fontSize: 6, color: '#999', marginTop: 10 }}>
+              Folha de Conjurador - {character.name} - {new Date().toLocaleDateString('pt-BR')}
+            </Text>
+          </Page>
+        );
+      })()}
     </Document>
   );
 };

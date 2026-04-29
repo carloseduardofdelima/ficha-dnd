@@ -12,7 +12,7 @@ export default function AmeacasPage() {
 
   useEffect(() => {
     // Check cache
-    const cached = localStorage.getItem('forja_monsters_cache')
+    const cached = localStorage.getItem('forja_monsters_cache_ptbr')
     if (cached) {
       try {
         const data = JSON.parse(cached)
@@ -26,12 +26,12 @@ export default function AmeacasPage() {
     }
 
     // Fetch if no cache
-    fetch('https://www.dnd5eapi.co/api/2014/monsters')
+    fetch('https://www.dnd5eapi.co/api/2014/monsters?lang=pt-BR')
       .then(res => res.json())
       .then((data: MonsterListResponse) => {
         setMonsters(data.results)
         setFilteredMonsters(data.results)
-        localStorage.setItem('forja_monsters_cache', JSON.stringify(data.results))
+        localStorage.setItem('forja_monsters_cache_ptbr', JSON.stringify(data.results))
         setLoading(false)
       })
       .catch(() => setLoading(false))

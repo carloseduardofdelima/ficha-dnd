@@ -82,6 +82,7 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Carisma +1', description: 'Seu valor de Carisma aumenta em 1.' },
           { name: 'Visão no Escuro Superior', description: 'Sua visão no escuro tem alcance de 36 metros (120 pés).' },
+          { name: 'Treinamento com Armas Drow', description: 'Você tem proficiência com rapieiras, espadas curtas e bestas de mão.' },
           { name: 'Magia Drow', description: 'Você conhece o truque Globos de Luz.' }
         ]
       }

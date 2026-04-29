@@ -105,5 +105,7 @@ export interface Character {
   updatedAt: string | Date
   isSaved?: boolean
   sessionUserId?: string
+  isAdmin?: boolean
+  isOwner?: boolean
   companions?: Companion[] | string | null
 }

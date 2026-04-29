@@ -28,7 +28,7 @@ export default function MagiasPage() {
   useEffect(() => {
     const fetchSpells = async () => {
       setLoading(true)
-      const cacheKey = `forja_spells_cache_${selectedLevel}`
+      const cacheKey = `forja_spells_cache_ptbr_${selectedLevel}`
       
       // Try cache
       const cached = localStorage.getItem(cacheKey)
@@ -45,8 +45,8 @@ export default function MagiasPage() {
 
       // Fetch
       const url = selectedLevel === 'all' 
-        ? 'https://www.dnd5eapi.co/api/2014/spells'
-        : `https://www.dnd5eapi.co/api/2014/spells?level=${selectedLevel}`
+        ? 'https://www.dnd5eapi.co/api/2014/spells?lang=pt-BR'
+        : `https://www.dnd5eapi.co/api/2014/spells?level=${selectedLevel}&lang=pt-BR`
 
       try {
         const res = await fetch(url)

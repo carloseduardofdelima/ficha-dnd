@@ -37,6 +37,44 @@ const TRANSLATIONS: Record<string, string> = {
   condition_immunities: 'Imunidades a Condição'
 }
 
+const MONSTER_PROPS: Record<string, string> = {
+  // Sizes
+  'Tiny': 'Minúsculo',
+  'Small': 'Pequeno',
+  'Medium': 'Médio',
+  'Large': 'Grande',
+  'Huge': 'Enorme',
+  'Gargantuan': 'Imenso',
+  // Types
+  'aberration': 'Aberração',
+  'beast': 'Bestia',
+  'celestial': 'Celestial',
+  'construct': 'Construto',
+  'dragon': 'Dragão',
+  'elemental': 'Elemental',
+  'fey': 'Fada',
+  'fiend': 'Ínfero',
+  'giant': 'Gigante',
+  'humanoid': 'Humanoide',
+  'monstrosity': 'Monstruosidade',
+  'ooze': 'Limo',
+  'plant': 'Planta',
+  'undead': 'Morto-Vivo',
+  // Alignments
+  'lawful good': 'Ordeiro e Bom',
+  'neutral good': 'Neutro e Bom',
+  'chaotic good': 'Caótico e Bom',
+  'lawful neutral': 'Ordeiro e Neutro',
+  'true neutral': 'Neutro',
+  'neutral': 'Neutro',
+  'chaotic neutral': 'Caótico e Neutro',
+  'lawful evil': 'Ordeiro e Mau',
+  'neutral evil': 'Neutro e Mau',
+  'chaotic evil': 'Caótico e Mau',
+  'unaligned': 'Sem Alinhamento',
+  'any alignment': 'Qualquer Alinhamento'
+}
+
 const getMod = (val: number) => {
   const mod = Math.floor((val - 10) / 2)
   return mod >= 0 ? `+${mod}` : mod
@@ -48,7 +86,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`https://www.dnd5eapi.co/api/2014/monsters/${index}`)
+    fetch(`https://www.dnd5eapi.co/api/2014/monsters/${index}?lang=pt-BR`)
       .then(res => res.json())
       .then(data => {
         setMonster(data)
@@ -125,7 +163,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
             <div style={{ flex: 1, minWidth: 300 }} className="monster-title-container">
               <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 40, color: 'var(--accentL)', marginBottom: 4 }}>{monster.name}</h1>
               <p style={{ color: 'var(--fg2)', fontSize: 16, textTransform: 'capitalize', fontStyle: 'italic' }}>
-                {monster.size} {monster.type}{monster.subtype ? ` (${monster.subtype})` : ''}, {monster.alignment}
+                {MONSTER_PROPS[monster.size] || monster.size} {MONSTER_PROPS[monster.type] || monster.type}{monster.subtype ? ` (${monster.subtype})` : ''}, {MONSTER_PROPS[monster.alignment] || monster.alignment}
               </p>
             </div>
             <div style={{ textAlign: 'right', marginLeft: 'auto' }} className="challenge-rating-container">

@@ -14,23 +14,23 @@ export interface ClassSubclasses {
 
 export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   'Bárbaro': {
-    "Caminho do Berserker": {
+    "Caminho do Furioso": {
       features: {
-        3: [{ name: "Frenzy", description: "Durante a Rage, pode entrar em Frenzy como ação bônus. Pode fazer um ataque de arma corpo a corpo como ação bônus em cada um dos seus turnos. Quando a Rage termina, sofre 1 nível de Exaustão." }],
-        6: [{ name: "Mindless Rage", description: "Enquanto em Rage, não pode ser encantado nem amedrontado. Se você já estava encantado ou amedrontado quando entra em Rage, o efeito é suspenso." }],
-        10: [{ name: "Intimidating Presence", description: "Como ação, pode aterrorizar uma criatura visível a até 30 pés (Save SAB CD 8+Prof+CAR)." }],
-        14: [{ name: "Retaliation", description: "Quando sofre dano de uma criatura que está a até 5 pés de você, pode usar sua reação para fazer um ataque corpo a corpo contra ela." }]
+        3: [{ name: "Frenesi", description: "Pode entrar em frenesi ao enfurecer; permite um ataque de arma corpo-a-corpo como ação bônus em cada turno. Sofre exaustão ao fim da fúria." }],
+        6: [{ name: "Fúria Inconsciente", description: "Não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Efeitos atuais são suspensos." }],
+        10: [{ name: "Presença Intimidante", description: "Usa ação para amedrontar criatura a até 9m (CD 8+Prof+Car). Pode estender com ações em turnos seguintes." }],
+        14: [{ name: "Retaliação", description: "Quando sofrer dano de criatura a até 1,5m, pode usar reação para atacar quem te atingiu." }]
       }
     },
     "Caminho do Guerreiro Totêmico": {
       features: {
         3: [
-          { name: "Spirit Seeker", description: "Aprende os feitiços Beast Sense e Speak with Animals, ambos podendo ser conjurados como rituais." },
-          { name: "Totem Spirit", description: "Escolha um animal totêmico: Urso (Resistência a tudo exceto psíquico), Águia (Dash bônus + desvantagem em AdO), Lobo (Vantagem para aliados)." }
+          { name: "Conselheiro Espiritual", description: "Pode conjurar Sentido Bestial e Falar com Animais como rituais." },
+          { name: "Totem Espiritual", description: "Escolha um totem: Urso (Resistência a quase tudo), Águia (Disparada como ação bônus e AdO com desvantagem), Lobo (Vantagem para aliados próximos)." }
         ],
-        6: [{ name: "Aspect of the Beast", description: "Escolha: Urso (Carga dobrada + Vantagem Força), Águia (Visão aguçada), Lobo (Rastrear em ritmo rápido)." }],
-        10: [{ name: "Spirit Walker", description: "Pode conjurar o feitiço Commune with Nature como ritual." }],
-        14: [{ name: "Totemic Attunement", description: "Escolha: Urso (Desvantagem para inimigos), Águia (Voo), Lobo (Derrubar como ação bônus)." }]
+        6: [{ name: "Aspecto da Besta", description: "Escolha: Urso (Dobrar capacidade de carga), Águia (Visão de 1,6km), Lobo (Rastrear em passo rápido)." }],
+        10: [{ name: "Andarilho Espiritual", description: "Pode conjurar Comunhão com a Natureza como ritual." }],
+        14: [{ name: "Sintonia Totêmica", description: "Escolha: Urso (Inimigos tem desvantagem ao atacar aliados), Águia (Voo temporário), Lobo (Derrubar com ação bônus)." }]
       }
     }
   },
@@ -38,49 +38,110 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Colégio do Conhecimento": {
       features: {
         3: [
-          { name: "Proficiências Bônus", description: "Ganha proficiência em 3 perícias de sua escolha." },
-          { name: "Palavras de Corte", description: "Use sua reação e gaste Inspiração Bárdica para subtrair do ataque, teste ou dano de uma criatura." }
+          { name: "Proficiência Adicional", description: "Ganha proficiência em três perícias à sua escolha." },
+          { name: "Palavras de Interrupção", description: "Usa sua reação para gastar Inspiração Bárdica e subtrair o valor do ataque, dano ou teste de uma criatura." }
         ],
-        6: [{ name: "Segredos Mágicos Adicionais", description: "Aprende 2 feitiços de qualquer classe (contam como feitiços de bardo)." }],
-        14: [{ name: "Habilidade Inigualável", description: "Adiciona Inspiração Bárdica aos seus próprios testes de habilidade." }]
+        6: [{ name: "Segredos Mágicos Adicionais", description: "Você aprende duas magias de qualquer classe, que contam como magias de bardo." }],
+        14: [{ name: "Perícia Inigualável", description: "Pode gastar Inspiração Bárdica para adicionar o dado ao seu próprio teste de habilidade." }]
       }
     },
-    "Colégio da Valentia": {
+    "Colégio da Bravura": {
       features: {
         3: [
-          { name: "Proficiências Bônus", description: "Ganha proficiência em armaduras médias, escudos e armas marciais." },
-          { name: "Inspiração de Combate", description: "Aliados podem adicionar o dado à CA ou à jogada de dano." }
+          { name: "Proficiência Adicional", description: "Ganha proficiência com armaduras médias, escudos e armas marciais." },
+          { name: "Inspiração em Combate", description: "Criaturas podem usar o dado de inspiração para aumentar o dano ou a CA contra um ataque." }
         ],
-        6: [{ name: "Ataque Extra", description: "Pode atacar duas vezes quando usa a ação Ataque." }],
-        14: [{ name: "Magia de Batalha", description: "Quando conjura um feitiço usando sua ação, pode fazer um ataque de arma como ação bônus." }]
+        6: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes quando usa a ação de Ataque." }],
+        14: [{ name: "Magia de Batalha", description: "Quando usa ação para conjurar uma magia, pode realizar um ataque com arma como ação bônus." }]
       }
     }
   },
   'Clérigo': {
-    "Domínio da Vida": {
-      spells: ["Bless", "Cure Wounds", "Lesser Restoration", "Spiritual Weapon", "Beacon of Hope", "Revivify", "Death Ward", "Guardian of Faith", "Mass Cure Wounds", "Raise Dead"],
+    "Domínio do Conhecimento": {
+      spells: ["Comando", "Identificação", "Augúrio", "Sugestão", "Dificultar Detecção", "Falar com os Mortos", "Olho Arcano", "Confusão", "Conhecimento Lendário", "Vidência"],
       features: {
         1: [
-          { name: "Proficiência Bônus", description: "Proficiência em armaduras pesadas." },
-          { name: "Discípulo da Vida", description: "Sempre que usar um feitiço de cura, a criatura recupera PV adicionais iguais a 2 + o nível do feitiço." }
+          { name: "Bênçãos do Conhecimento", description: "Aprende dois idiomas e ganha proficiência (com bônus dobrado) em duas perícias de conhecimento." }
         ],
-        2: [{ name: "Canalizar Divindade: Preservar a Vida", description: "Restaura PV (5x nível) para criaturas a 30 pés (limite 50% do HP)." }],
-        6: [{ name: "Curandeiro Abençoado", description: "Quando conjura cura para outra criatura, você também recupera PV iguais a 2 + nível do feitiço." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano radiante com arma." }],
-        17: [{ name: "Cura Suprema", description: "Ao restaurar PV com feitiço, usa o valor máximo possível de cada dado." }]
+        2: [{ name: "Canalizar Divindade: Conhecimento das Eras", description: "Ganha proficiência com uma perícia ou ferramenta por 10 minutos." }],
+        6: [{ name: "Canalizar Divindade: Ler Pensamentos", description: "Lê pensamentos superficiais e pode conjurar Sugestão sem gastar espaço." }],
+        8: [{ name: "Conjuração Poderosa", description: "Adiciona modificador de Sabedoria ao dano de seus truques de clérigo." }],
+        17: [{ name: "Visões do Passado", description: "Pode ver eventos passados relacionados a um objeto ou local." }]
+      }
+    },
+    "Domínio da Enganação": {
+      spells: ["Enfeitiçar Pessoa", "Disfarçar-se", "Reflexos", "Passos sem Pegadas", "Piscar", "Dissipar Magia", "Porta Dimensional", "Metamorfose", "Dominar Pessoa", "Modificar Memória"],
+      features: {
+        1: [{ name: "Bênção do Trapaceiro", description: "Dá vantagem em testes de Furtividade para um aliado tocado por 1 hora." }],
+        2: [{ name: "Canalizar Divindade: Invocar Duplicidade", description: "Cria uma duplicata ilusória perfeita; pode conjurar magias a partir dela." }],
+        6: [{ name: "Canalizar Divindade: Manto de Sombras", description: "Fica invisível até o final do seu próximo turno ou até atacar/conjurar." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano de veneno com ataques de arma." }],
+        17: [{ name: "Duplicidade Aprimorada", description: "Pode criar até quatro duplicatas de si mesmo com Invocar Duplicidade." }]
+      }
+    },
+    "Domínio da Guerra": {
+      spells: ["Auxílio Divino", "Escudo da Fé", "Arma Mágica", "Arma Espiritual", "Manto do Cruzado", "Espíritos Guardiões", "Movimentação Livre", "Pele de Pedra", "Coluna de Chamas", "Imobilizar Monstro"],
+      features: {
+        1: [
+          { name: "Proficiência Adicional", description: "Ganha proficiência com armas marciais e armaduras pesadas." },
+          { name: "Sacerdote da Guerra", description: "Pode fazer um ataque de arma como ação bônus (número de vezes igual ao Mod. Sab)." }
+        ],
+        2: [{ name: "Canalizar Divindade: Ataque Dirigido", description: "Ganha +10 de bônus em uma jogada de ataque própria." }],
+        6: [{ name: "Canalizar Divindade: Bênção do Deus da Guerra", description: "Dá +10 de bônus em uma jogada de ataque de um aliado a até 9m." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano do tipo da arma." }],
+        17: [{ name: "Avatar da Batalha", description: "Resistência a dano de concussão, cortante e perfurante de ataques não-mágicos." }]
       }
     },
     "Domínio da Luz": {
-      spells: ["Burning Hands", "Faerie Fire", "Flaming Sphere", "Scorching Ray", "Daylight", "Fireball", "Guardian of Faith", "Wall of Fire", "Flame Strike", "Scrying"],
+      spells: ["Mãos Flamejantes", "Fogo das Fadas", "Esfera Flamejante", "Raio Ardente", "Luz do Dia", "Bola de Fogo", "Guardião da Fé", "Muralha de Fogo", "Coluna de Chamas", "Vidência"],
       features: {
         1: [
-          { name: "Truque Bônus", description: "Aprende o cantrip Light." },
-          { name: "Fulgor Protetor", description: "Impõe desvantagem em ataque recebido como reação (Sab/dia)." }
+          { name: "Truque Adicional", description: "Você aprende o truque Luz." },
+          { name: "Labareda Protetora", description: "Usa sua reação para imponer desvantagem no ataque de uma criatura a até 9m." }
         ],
-        2: [{ name: "Canalizar Divindade: Radiância da Alvorada", description: "Dano radiante (2d10+nv) e dissipa trevas mágicas em 30 pés." }],
-        6: [{ name: "Fulgor Protetor Aprimorado", description: "Warding Flare pode ser usado para proteger aliados." }],
-        8: [{ name: "Conjuração Potente", description: "Adiciona modificador de Sabedoria ao dano de cantrips de clérigo." }],
-        17: [{ name: "Corona de Luz", description: "Aura de 60 pés que impõe desvantagem em saves contra fogo/radiante." }]
+        2: [{ name: "Canalizar Divindade: Radiação do Amanhecer", description: "Dissipa escuridão mágica e causa 2d10 + nível de dano radiante em inimigos (9m)." }],
+        6: [{ name: "Labareda Aprimorada", description: "Pode usar Labareda Protetora para proteger aliados." }],
+        8: [{ name: "Conjuração Poderosa", description: "Adiciona seu modificador de Sabedoria ao dano de truques de clérigo." }],
+        17: [{ name: "Coroa de Luz", description: "Usa ação para emitir luz solar; inimigos têm desvantagem em saves contra fogo ou radiante." }]
+      }
+    },
+    "Domínio da Natureza": {
+      spells: ["Amizade Animal", "Falar com Animais", "Pele de Árvore", "Crescer Espinhos", "Ampliar Plantas", "Muralha de Vento", "Dominar Besta", "Vinha Esmagadora", "Praga de Insetos", "Caminhar em Árvores"],
+      features: {
+        1: [
+          { name: "Acólito da Natureza", description: "Aprende um truque de druida e ganha proficiência em uma perícia (Natureza, Sobrevivência ou Adestrar Animais)." },
+          { name: "Proficiência Adicional", description: "Ganha proficiência com armaduras pesadas." }
+        ],
+        2: [{ name: "Canalizar Divindade: Enfeitiçar Animais e Plantas", description: "Usa ação para enfeitiçar bestas e plantas a até 9m por 1 minuto." }],
+        6: [{ name: "Amortecer Elementos", description: "Usa reação para dar resistência a dano elemental a uma criatura a até 9m." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano de frio, fogo ou elétrico." }],
+        17: [{ name: "Senhor da Natureza", description: "Pode comandar criaturas enfeitiçadas por seu Canalizar Divindade com ação bônus." }]
+      }
+    },
+    "Domínio da Tempestade": {
+      spells: ["Névoa Obscurecente", "Onda Trovejante", "Lufada de Vento", "Despedaçar", "Convocar Relâmpagos", "Nevasca", "Controlar a Água", "Tempestade de Gelo", "Onda Destrutiva", "Praga de Insetos"],
+      features: {
+        1: [
+          { name: "Proficiência Adicional", description: "Ganha proficiência com armas marciais e armaduras pesadas." },
+          { name: "Ira da Tormenta", description: "Ao ser atingido por criatura a 1,5m, usa reação para causar 2d8 de dano elétrico ou trovão." }
+        ],
+        2: [{ name: "Canalizar Divindade: Ira Destruidora", description: "Ao rolar dano elétrico ou trovejante, pode usar o dano máximo em vez de rolar." }],
+        6: [{ name: "Golpe de Relâmpago", description: "Ao causar dano elétrico em criatura Grande ou menor, pode empurrá-la até 3m." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano trovejante com ataques de arma." }],
+        17: [{ name: "Filho da Tormenta", description: "Ganha deslocamento de voo igual ao seu deslocamento de caminhada ao ar livre." }]
+      }
+    },
+    "Domínio da Vida": {
+      spells: ["Bênção", "Curar Ferimentos", "Restauração Menor", "Arma Espiritual", "Sinal de Esperança", "Revivificar", "Proteção Contra a Morte", "Guardião da Fé", "Curar Ferimentos em Massa", "Reviver os Mortos"],
+      features: {
+        1: [
+          { name: "Proficiência Adicional", description: "Proficiência em armaduras pesadas." },
+          { name: "Discípulo da Vida", description: "Sempre que usar magia de cura, o alvo recupera PV adicionais iguais a 2 + nível da magia." }
+        ],
+        2: [{ name: "Canalizar Divindade: Preservar a Vida", description: "Cura criaturas a até 9m (5x nível de clérigo) até metade do HP máximo." }],
+        6: [{ name: "Curandeiro Abençoado", description: "Quando curar outra criatura, você também se cura em 2 + nível da magia." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano radiante com ataques de arma." }],
+        17: [{ name: "Cura Suprema", description: "Ao curar com magia, usa o valor máximo de cada dado em vez de rolar." }]
       }
     }
   },
@@ -179,13 +240,31 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     }
   },
   'Bruxo': {
-    "O Ínfero": {
-      spells: ["Burning Hands", "Command", "Blindness/Deafness", "Scorching Ray", "Fireball", "Stinking Cloud", "Fire Shield", "Wall of Fire", "Flame Strike", "Hallow"],
+    "A Arquifada": {
+      spells: ["Fogo das Fadas", "Sono", "Acalmar Emoções", "Força Fantasmagórica", "Piscar", "Ampliar Plantas", "Dominar Besta", "Invisibilidade Maior", "Dominar Pessoa", "Similaridade"],
       features: {
-        1: [{ name: "Bênção do Obscuro", description: "Ganha PV temporários (CAR + nível) ao reduzir inimigo a 0 PV." }],
-        6: [{ name: "Sorte do Próprio Obscuro", description: "Adiciona 1d10 a um teste ou save (1x/descanso curto)." }],
-        10: [{ name: "Resiliência Infernal", description: "Escolhe um tipo de resistência a dano após cada descanso." }],
-        14: [{ name: "Atirar pelo Inferno", description: "Transporta alvo para o Inferno; causa 10d10 de dano psíquico." }]
+        1: [{ name: "Presença Feérica", description: "Usa sua ação para amedrontar ou enfeitiçar criaturas em um cubo de 3m (CD de magia)." }],
+        6: [{ name: "Névoa de Fuga", description: "Ao sofrer dano, usa reação para ficar invisível e se teletransportar até 18m." }],
+        10: [{ name: "Defesa Sedutora", description: "Imune a ser enfeitiçado. Pode usar reação para tentar voltar um encanto contra o conjurador." }],
+        14: [{ name: "Delírio Sombrio", description: "Usa ação para mergulhar criatura em reino ilusório (enfeitiçada ou amedrontada por 1 min)." }]
+      }
+    },
+    "O Corruptor": {
+      spells: ["Mãos Flamejantes", "Comando", "Cegueira/Surdez", "Raio Ardente", "Bola de Fogo", "Névoa Fétida", "Escudo de Fogo", "Muralha de Fogo", "Coluna de Chamas", "Consagrar"],
+      features: {
+        1: [{ name: "Bênção do Obscuro", description: "Ganha PV temporários (Mod. Car + nível) ao reduzir inimigo hostil a 0 PV." }],
+        6: [{ name: "Sorte do Próprio Obscuro", description: "Adiciona 1d10 a um teste de habilidade ou resistência (1x/descanso curto)." }],
+        10: [{ name: "Resiliência Demoníaca", description: "Escolhe um tipo de dano para ganhar resistência após cada descanso longo." }],
+        14: [{ name: "Lançar no Inferno", description: "Ao atingir com ataque, transporta alvo para planos inferiores; causa 10d10 de dano psíquico." }]
+      }
+    },
+    "O Grande Antigo": {
+      spells: ["Sussurros Dissonantes", "Riso Histérico de Tasha", "Detectar Pensamentos", "Força Fantasmagórica", "Clarividência", "Enviar Mensagem", "Dominar Besta", "Tentáculos Negros de Evard", "Dominar Pessoa", "Telecinésia"],
+      features: {
+        1: [{ name: "Despertar a Mente", description: "Pode se comunicar telepaticamente com qualquer criatura a até 18 metros." }],
+        6: [{ name: "Proteção Entrópica", description: "Usa reação para impor desvantagem em ataque; se errar, ganha vantagem no próximo ataque contra ele." }],
+        10: [{ name: "Escudo de Pensamentos", description: "Pensamentos não podem ser lidos. Resistência a dano psíquico; reflete dano psíquico recebido." }],
+        14: [{ name: "Criar Lacaio", description: "Toca humanoide incapacitado para deixá-lo enfeitiçado permanentemente (até remover maldição)." }]
       }
     }
   },
@@ -221,6 +300,106 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         7: [{ name: "Mente de Aço", description: "Ganha proficiência em testes de resistência de Sabedoria." }],
         11: [{ name: "Rajada do Rastreador", description: "Se errar um ataque, você pode realizar outro ataque no mesmo turno." }],
         15: [{ name: "Esquiva do Rastreador", description: "Usa reação para impor desvantagem em um ataque inimigo." }]
+      }
+    }
+  },
+  'Druida': {
+    "Círculo da Terra": {
+      features: {
+        2: [
+          { name: "Truque Adicional", description: "Você aprende um truque de druida adicional." },
+          { name: "Recuperação Natural", description: "Recupera espaços de magia (nível total = metade do nível de druida) em descanso curto." }
+        ],
+        6: [{ name: "Caminho da Floresta", description: "Ignora terreno difícil não-mágico e tem vantagem contra plantas mágicas." }],
+        10: [{ name: "Proteção Natural", description: "Imune a venenos, doenças e a ser enfeitiçado ou amedrontado por fadas/elementais." }],
+        14: [{ name: "Santuário Natural", description: "Criaturas do mundo natural devem passar em save de Sabedoria para atacar você." }]
+      }
+    },
+    "Círculo da Lua": {
+      features: {
+        2: [
+          { name: "Forma Selvagem de Combate", description: "Pode usar Forma Selvagem como ação bônus e gastar slots de magia para curar 1d8 PV." },
+          { name: "Formas de Círculo", description: "Pode se transformar em bestas com ND 1 (ou Nível/3 a partir do nível 6)." }
+        ],
+        6: [{ name: "Ataque Primordial", description: "Seus ataques na forma de besta contam como mágicos." }],
+        10: [{ name: "Forma Selvagem de Elemental", description: "Gasta dois usos de Forma Selvagem para se tornar um Elemental (Ar, Terra, Fogo ou Água)." }],
+        14: [{ name: "Mil Formas", description: "Pode conjurar Alterar-se à vontade." }]
+      }
+    }
+  },
+  'Mago': {
+    "Escola de Abjuração": {
+      features: {
+        2: [
+          { name: "Abjuração Instruída", description: "O custo em ouro e tempo para copiar magias de abjuração é reduzido à metade." },
+          { name: "Proteção Arcana", description: "Cria uma barreira mágica com PV (2x nível + Int) ao conjurar magia de abjuração de nível 1+." }
+        ],
+        6: [{ name: "Proteção Projetada", description: "Usa sua reação para que sua Proteção Arcana absorva dano de um aliado a até 9m." }],
+        10: [{ name: "Abjuração Aprimorada", description: "Adiciona seu bônus de proficiência em testes de habilidade para magias de abjuração (ex: Contramágica)." }],
+        14: [{ name: "Resistência à Magia", description: "Vantagem em saves contra magias e resistência contra o dano de magias." }]
+      }
+    },
+    "Escola de Evocação": {
+      features: {
+        2: [
+          { name: "Evocação Instruída", description: "O custo em ouro e tempo para copiar magias de evocação é reduzido à metade." },
+          { name: "Esculpir Magias", description: "Cria áreas seguras em suas magias de evocação; aliados escolhidos passam automaticamente no save e não sofrem dano." }
+        ],
+        6: [{ name: "Truque Potente", description: "Suas magias de truque causam metade do dano mesmo se a criatura passar no save." }],
+        10: [{ name: "Evocação Potencializada", description: "Adiciona seu modificador de Inteligência ao dano de suas magias de evocação." }],
+        14: [{ name: "Sobrecarga", description: "Suas magias de nível 1-5 causam dano máximo, mas usar repetidamente causa dano necrótico a você." }]
+      }
+    }
+  },
+  'Artífice': {
+    "Alquimista": {
+      spells: ["Palavra Curativa", "Raio Nauseante", "Esfera Flamejante", "Flecha Ácida de Melf", "Forma Gasosa", "Palavra Curativa em Massa", "Malogro", "Proteção Contra a Morte", "Névoa Mortal", "Reviver os Mortos"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em suprimentos de alquimista." },
+          { name: "Elixir Experimental", description: "Ao fim de um descanso longo, cria um elixir aleatório. Pode gastar espaços de magia para criar mais escolhendo o efeito." }
+        ],
+        5: [{ name: "Sábio Alquímico", description: "Adiciona modificador de Inteligência ao dano de ácido, fogo, necrótico ou veneno, e em curas (mínimo +1)." }],
+        9: [{ name: "Reagentes Restauradores", description: "Criaturas ganham PV temporários (2d6 + INT) ao beber seus elixires. Pode conjurar Restauração Menor sem slot (INT/dia)." }],
+        15: [{ name: "Maestria Química", description: "Resistência a ácido e veneno; imune à condição envenenado. Pode conjurar Restauração Maior e Curar sem gastar espaços (1x/descanso longo cada)." }]
+      }
+    },
+    "Armeiro": {
+      spells: ["Mísseis Mágicos", "Onda Trovejante", "Reflexos", "Despedaçar", "Padrão Hipnótico", "Relâmpago", "Escudo Ardente", "Invisibilidade Maior", "Criar Passagem", "Muralha de Energia"],
+      features: {
+        3: [
+          { name: "Ferramentas Ideais", description: "Proficiência em ferramentas de ferreiro e armaduras pesadas." },
+          { name: "Armadura Arcana", description: "Transforma sua armadura em um condutor mágico que ignora requisitos de Força e serve como foco." },
+          { name: "Modelo de Armadura", description: "Escolha entre Guardião (Manoplas Trovejantes e Campo Defensivo) ou Infiltrador (Lança-Relâmpagos e Passos Energizados)." }
+        ],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque." }],
+        9: [{ name: "Modificações da Armadura", description: "Sua armadura conta como itens separados (peito, botas, elmo e arma) para os propósitos de infusões. Limite de infusões aumenta em 2 (apenas na armadura)." }],
+        15: [{ name: "Armadura Perfeita", description: "Ganha bônus potentes baseados no seu modelo de armadura (Guardião: puxar inimigo com reação; Infiltrador: vantagem em ataque e dano extra)." }]
+      }
+    },
+    "Artilheiro": {
+      spells: ["Escudo", "Onda Trovejante", "Raio Ardente", "Despedaçar", "Bola de Fogo", "Muralha de Vento", "Tempestade Glacial", "Muro de Fogo", "Cone de Frio", "Muralha de Energia"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em ferramentas de carpinteiro." },
+          { name: "Canhão Místico", description: "Cria um canhão mágico pequeno ou minúsculo. Opções: Lança-chamas, Força de Balista ou Protetor." }
+        ],
+        5: [{ name: "Arma de Fogo Arcana", description: "Foca magia em um objeto para causar +1d8 de dano em feitiços de artífice." }],
+        9: [{ name: "Canhão Explosivo", description: "Dano do canhão aumenta em 1d8. Pode usar uma ação para detonar o canhão (3d8 de dano em área)." }],
+        15: [{ name: "Posição Fortificada", description: "Pode ter dois canhões ativos. Seus canhões fornecem meia-cobertura a você e aliados a até 3 metros." }]
+      }
+    },
+    "Ferreiro de Batalha": {
+      spells: ["Escudo", "Heroísmo", "Marca da Punição", "Vínculo de Proteção", "Aura de Vitalidade", "Invocar Barragem", "Aura de Pureza", "Escudo de Fogo", "Banimento Destruidor", "Curar Ferimentos em Massa"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em ferramentas de ferreiro e armas marciais." },
+          { name: "Pronto para a Batalha", description: "Usa Inteligência para ataques e dano com armas mágicas." },
+          { name: "Defensor de Aço", description: "Cria um companheiro mecânico que compartilha sua iniciativa e protege aliados." }
+        ],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque." }],
+        9: [{ name: "Pulso Arcano", description: "Quando atinge com arma mágica ou o defensor atinge, pode causar 2d6 extra ou curar 2d6 a aliado próximo (INT/dia)." }],
+        15: [{ name: "Defensor Aprimorado", description: "Dano e cura do Pulso Arcano aumentam para 4d6. O defensor ganha +2 na CA e causa dano quando usa Defletir Ataque." }]
       }
     }
   }

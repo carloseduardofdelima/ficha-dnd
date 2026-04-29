@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2 } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -12,6 +12,7 @@ import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
 import { calculateAC, calculateEffectiveStats } from '@/lib/dnd-rules'
 import { ITEM_CATALOG } from '@/lib/inventory'
+import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014'
@@ -67,6 +68,8 @@ export default function CharacterDetailPage() {
 
   // Inventory States
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false)
+  const [isCustomItemModalOpen, setIsCustomItemModalOpen] = useState(false)
+  const [customItem, setCustomItem] = useState({ name: '', description: '', weight: 0, category: 'misc' as any, icon: '📦' })
   const [inventorySearchTerm, setInventorySearchTerm] = useState('')
   const [isClient, setIsClient] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
@@ -195,8 +198,16 @@ export default function CharacterDetailPage() {
   // Get spell progression for current level
   const currentProgression = useMemo(() => {
     if (!character) return null
-    return getSpellSlots(character.class, character.level, character.ruleset || '2024')
-  }, [character?.class, character?.level, character?.ruleset])
+    const modifiers = {
+      strength: calcModifier(character.strength),
+      dexterity: calcModifier(character.dexterity),
+      constitution: calcModifier(character.constitution),
+      intelligence: calcModifier(character.intelligence),
+      wisdom: calcModifier(character.wisdom),
+      charisma: calcModifier(character.charisma)
+    }
+    return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers)
+  }, [character?.class, character?.level, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
 
   const totalCantripsSelected = useMemo(() => {
     if (!character?.spells) return 0
@@ -229,7 +240,8 @@ export default function CharacterDetailPage() {
               data.resources = parsed.resources ?? data.resources;
               if (parsed.inventory) {
                 data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
-                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
                   return {
                     ...dbItem,
                     item: { ...catalogItem, ...dbItem.item },
@@ -239,7 +251,8 @@ export default function CharacterDetailPage() {
               } else {
                 // Even without local stats, enrich with catalog
                 data.inventory = (data.inventory as any[]).map((dbItem: any) => {
-                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
                   return {
                     ...dbItem,
                     item: { ...catalogItem, ...dbItem.item }
@@ -331,7 +344,9 @@ export default function CharacterDetailPage() {
     </div>
   )
 
-  const characterClass = CLASSES.find(c => c.name === character.class)
+  const characterClass = character.ruleset === '2014' 
+    ? CLASSES_2014.find(c => c.name === character.class) 
+    : CLASSES.find(c => c.name === character.class)
   const proficientSaves = characterClass?.savingThrows || []
 
   const effectiveStats = calculateEffectiveStats({
@@ -430,7 +445,7 @@ export default function CharacterDetailPage() {
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
-  const isOwner = character.userId === character.sessionUserId
+  const isOwner = character.isOwner || character.isAdmin
 
   const toggleEquip = (index: number) => {
     if (!character || !character.inventory) return;
@@ -1163,27 +1178,27 @@ export default function CharacterDetailPage() {
                           const getInitialResources = () => {
                             const initial: any = {};
                             const is2014 = character.ruleset === '2014';
+                            const modCharisma = Math.floor((character.charisma - 10) / 2);
+                            const modIntelligence = Math.floor((character.intelligence - 10) / 2);
+                            const modWisdom = Math.floor((character.wisdom - 10) / 2);
                             
                             if (character.class === 'Bárbaro') {
-                              // 2014: 1:2, 3:3, 6:4, 12:5, 17:6, 20:Inf
-                              // 2024: 1:2, 3:3, 6:4, 12:5, 17:6
                               let rages = 2;
                               if (character.level >= 17) rages = 6;
                               else if (character.level >= 12) rages = 5;
                               else if (character.level >= 6) rages = 4;
                               else if (character.level >= 3) rages = 3;
-                              
-                              if (is2014 && character.level === 20) rages = 99; // Infinity placeholder
-                              
-                              initial['Fúrias'] = { max: rages, current: rages, color: '#f97316' };
+                              if (is2014 && character.level === 20) rages = 99;
+                              initial['Fúria'] = { max: rages, current: rages, color: '#f97316' };
                             }
                             
                             if (character.class === 'Guerreiro') {
-                              // 2014: 1 use per short rest
-                              // 2024: 2 uses at lvl 1, 4 at lvl 10
                               let uses = is2014 ? 1 : 2;
                               if (!is2014 && character.level >= 10) uses = 4;
-                              initial['Retomada de Fôlego'] = { max: uses, current: uses, color: '#94a3b8' };
+                              initial['Segundo Fôlego'] = { max: uses, current: uses, color: '#94a3b8' };
+                              if (character.level >= 2) {
+                                initial['Surto de Ação'] = { max: 1, current: 1, color: '#94a3b8' };
+                              }
                             }
                             
                             if (character.class === 'Monge' && character.level >= 2) {
@@ -1191,49 +1206,74 @@ export default function CharacterDetailPage() {
                             }
                             
                             if (character.class === 'Bardo') {
-                              const maxInspiration = Math.max(1, calcModifier(character.charisma));
+                              const maxInspiration = Math.max(1, modCharisma);
                               initial['Inspiração Bárdica'] = { max: maxInspiration, current: maxInspiration, color: '#ec4899' };
                             }
+
+                            if (character.class === 'Clérigo' && character.level >= 2) {
+                              const uses = character.level >= 18 ? 3 : (character.level >= 6 ? 2 : 1);
+                              initial['Canalizar Divindade'] = { max: uses, current: uses, color: '#facc15' };
+                            }
+
+                            if (character.class === 'Druida' && character.level >= 2) {
+                              initial['Forma Selvagem'] = { max: 2, current: 2, color: '#22c55e' };
+                            }
                             
-                            if (character.class === 'Artesão Arcano') {
-                              initial['Engenharia Mágica'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                              if (character.level >= 3) {
-                                if (character.subclass === 'Artilheiro') {
-                                  initial['Canhão Élfico'] = { max: 1, current: 1, color: '#06b6d4' };
-                                } else if (character.subclass === 'Alquimista') {
-                                  initial['Elixires Experimentais'] = { max: 1, current: 1, color: '#06b6d4' };
-                                } else if (character.subclass === 'Armeiro') {
-                                  initial['Campo Defensivo'] = { max: character.proficiencyBonus || 2, current: character.proficiencyBonus || 2, color: '#06b6d4' };
-                                  initial['Estatura Gigante'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                                } else if (character.subclass === 'Serralheiro de Batalha' && character.level >= 10) {
-                                  initial['Choque Arcano'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                                }
-                              }
-                              if (character.level >= 10 && character.subclass === 'Alquimista') {
-                                initial['Restauração Menor Grátis'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
-                              }
-                              if (character.level >= 14 && character.subclass === 'Alquimista') {
-                                initial['Curar (Heal)'] = { max: 1, current: 1, color: '#06b6d4' };
-                                initial['Restauração Maior Grátis'] = { max: 1, current: 1, color: '#06b6d4' };
-                              }
+                            if (character.class === 'Artífice') {
+                              const maxTinkering = Math.max(1, modIntelligence);
+                              initial['Engenharia Mágica'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               if (character.level >= 7) {
-                                initial['Brilho de Gênio'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
+                                initial['Brilho de Gênio'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               }
                             }
                             
                             if (character.class === 'Paladino') {
-                              initial['Imposição de Mãos'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
+                              initial['Mãos Curativas'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
+                              initial['Sentido Divino'] = { max: Math.max(1, 1 + modCharisma), current: Math.max(1, 1 + modCharisma), color: '#facc15' };
                             }
                             
-                            if (character.class === 'Feiticeiro' && character.level >= 2) {
-                              initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                            if (character.class === 'Feiticeiro' && character.level >= 1) {
+                              if (!is2014) {
+                                initial['Conjuração Inata'] = { max: 2, current: 2, color: '#c084fc' };
+                              }
+                              if (character.level >= 2) {
+                                initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                              }
                             }
+
+                            if (character.class === 'Mago') {
+                              initial['Recuperação Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
+                              initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
+                            }
+
+                            if (character.class === 'Patrulheiro') {
+                              initial['Marca do Caçador'] = { max: character.proficiencyBonus, current: character.proficiencyBonus, color: '#22c55e' };
+                            }
+
+                            if (character.class === 'Bruxo' && character.level >= 2 && !is2014) {
+                              initial['Astúcia Mística (Magical Cunning)'] = { max: 1, current: 1, color: '#c084fc' };
+                            }
+
+                            if (character.class === 'Clérigo' && character.level >= 10 && !is2014) {
+                              initial['Intervenção Divina'] = { max: 1, current: 1, color: '#facc15' };
+                            }
+
+                            if (character.class === 'Guerreiro' && character.level >= 9) {
+                              let uses = 1;
+                              if (character.level >= 17) uses = 3;
+                              else if (character.level >= 13) uses = 2;
+                              initial['Indomável'] = { max: uses, current: uses, color: '#94a3b8' };
+                            }
+
+
                             
                             return initial;
                           };
 
+
+
                           const classResources = getInitialResources();
-                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(character.class);
+                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artífice'].includes(character.class);
 
                           return (
                             <div className="card compact-card resources-card">
@@ -1674,21 +1714,46 @@ export default function CharacterDetailPage() {
                         const index = newSpells.indexOf(id);
                         
                         if (index > -1) {
-                          // Se já está selecionada, sempre permite remover
                           newSpells.splice(index, 1);
                         } else {
-                          // Se for adicionar, verifica o limite do nível
                           const lvl = spell.level;
-                          const selectedInLvl = currentSpells.filter(sid => {
-                            const s = ALL_SPELLS.find(sp => sp.id === sid);
-                            return s && s.level === lvl;
-                          }).length;
-
-                          const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
-
-                          if (selectedInLvl >= maxInLvl) {
-                            alert(`Você já atingiu o limite de magias para o ${lvl === 0 ? 'Truques' : lvl + 'º Nível'}!`);
-                            return;
+                          
+                          if (lvl === 0) {
+                            const selectedCantrips = currentSpells.filter(sid => {
+                              const s = ALL_SPELLS.find(sp => sp.id === sid);
+                              return s && s.level === 0;
+                            }).length;
+                            if (selectedCantrips >= (currentProgression?.cantrips || 0)) {
+                              alert(`Você já atingiu o limite de Truques!`);
+                              return;
+                            }
+                          } else {
+                            const is2014Prepared = character.ruleset === '2014' && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artesão Arcano'].includes(character.class);
+                            
+                            const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
+                            
+                            if (isPoolBased) {
+                              const selectedLeveled = currentSpells.filter(sid => {
+                                const s = ALL_SPELLS.find(sp => sp.id === sid);
+                                return s && s.level > 0;
+                              }).length;
+                              const maxPool = currentProgression?.prepared || currentProgression?.known || 0;
+                              if (selectedLeveled >= maxPool) {
+                                alert(`Você já atingiu o limite de magias ${currentProgression?.known ? 'conhecidas' : 'preparadas'} (${maxPool})!`);
+                                return;
+                              }
+                            } else {
+                              // Default logic: Per level (if no global pool defined)
+                              const selectedInLvl = currentSpells.filter(sid => {
+                                const s = ALL_SPELLS.find(sp => sp.id === sid);
+                                return s && s.level === lvl;
+                              }).length;
+                              const maxInLvl = slots[lvl.toString()] || 0;
+                              if (selectedInLvl >= maxInLvl) {
+                                alert(`Você já atingiu o limite de magias para o ${lvl}º Nível!`);
+                                return;
+                              }
+                            }
                           }
                           newSpells.push(id);
                         }
@@ -1727,7 +1792,25 @@ export default function CharacterDetailPage() {
                               return s && s.level === lvl;
                             }).length;
 
-                            const maxInLvl = lvl === 0 ? (currentProgression?.cantrips || 0) : (slots[lvl.toString()] || 0);
+                            const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
+                            
+                            let maxInLvl = 0;
+                            let currentCount = selectedInLvl;
+                            let label = isPreparing ? 'SELECIONADAS' : 'PREPARADAS';
+
+                            if (lvl === 0) {
+                              maxInLvl = currentProgression?.cantrips || 0;
+                              label = 'CONHECIDOS';
+                            } else if (isPoolBased) {
+                              maxInLvl = currentProgression?.prepared || currentProgression?.known || 0;
+                              currentCount = currentSpells.filter(id => {
+                                const s = ALL_SPELLS.find(sp => sp.id === id);
+                                return s && s.level > 0;
+                              }).length;
+                              label = currentProgression?.known ? 'CONHECIDAS' : (isPreparing ? 'TOTAL SELECIONADAS' : 'TOTAL PREPARADAS');
+                            } else {
+                              maxInLvl = slots[lvl.toString()] || 0;
+                            }
 
                             return (
                               <div key={lvl}>
@@ -1736,8 +1819,8 @@ export default function CharacterDetailPage() {
                                     <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
                                     {lvl === 0 ? 'Truques' : `${lvl}º Nível`}
                                   </h3>
-                                  <div style={{ fontSize: 11, fontWeight: 700, color: selectedInLvl > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
-                                    {selectedInLvl} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{isPreparing ? 'SELECIONADAS' : 'PREPARADAS'}</span>
+                                  <div style={{ fontSize: 11, fontWeight: 700, color: currentCount > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
+                                    {currentCount} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{label}</span>
                                   </div>
                                 </div>
                                 
@@ -1771,19 +1854,32 @@ export default function CharacterDetailPage() {
                                             </div>
                                           )}
                                           
-                                          {spell.icon && (
-                                            <div style={{
-                                              flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
-                                              border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
-                                            }}>
-                                              <Image
-                                                src={`/assets/spells-icons/${spell.icon}`}
-                                                alt={spell.name}
-                                                width={40} height={40}
-                                                style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
-                                              />
-                                            </div>
-                                          )}
+                                          {(() => {
+                                            const icon = spell.icon || (
+                                              spell.school === 'Abjuração' ? 'protection-field.png' :
+                                              spell.school === 'Adivinhação' ? 'all-seeing-eye.png' :
+                                              spell.school === 'Conjuração' ? 'magic-sparks.png' :
+                                              spell.school === 'Encantamento' ? 'heart-heal.png' :
+                                              spell.school === 'Evocação' ? 'fire-blast.png' :
+                                              spell.school === 'Ilusão' ? 'mirror-image.png' :
+                                              spell.school === 'Necromancia' ? 'undead-skull.png' :
+                                              spell.school === 'Transmutação' ? 'elemental-spiral.png' :
+                                              'magic-scroll.png'
+                                            );
+                                            return (
+                                              <div style={{
+                                                flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
+                                                border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
+                                              }}>
+                                                <Image
+                                                  src={`/assets/spells-icons/${icon}`}
+                                                  alt={spell.name}
+                                                  width={40} height={40}
+                                                  style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
+                                                />
+                                              </div>
+                                            );
+                                          })()}
                                           
                                           <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -1827,28 +1923,17 @@ export default function CharacterDetailPage() {
                   <div className="fade-up">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Inventário</h2>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                          <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
-                          <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
-                            {(() => {
-                              const weight = (character.inventory as any[]).reduce((sum, entry) => {
-                                const w = parseFloat(entry.item.weight) || 0;
-                                return sum + (w * (entry.qty || 1));
-                              }, 0);
-                              return weight.toFixed(1);
-                            })()} kg
-                          </span>
-                        </div>
-                        {isOwner && (
-                          <button
-                            className="btn btn-primary"
-                            style={{ padding: 8, height: 'auto' }}
-                            onClick={() => setIsInventoryModalOpen(true)}
-                          >
-                            <Plus size={18} />
-                          </button>
-                        )}
+                      <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 10 }}>
+                        <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
+                        <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
+                          {(() => {
+                            const weight = (character.inventory as any[]).reduce((sum, entry) => {
+                              const w = parseFloat(entry.item.weight) || 0;
+                              return sum + (w * (entry.qty || 1));
+                            }, 0);
+                            return weight.toFixed(1);
+                          })()} kg
+                        </span>
                       </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -1908,6 +1993,27 @@ export default function CharacterDetailPage() {
                         ))
                       ) : (
                         <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Seu inventário está vazio.</p>
+                      )}
+
+                      {isOwner && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
+                          <button
+                            className="btn btn-outline"
+                            style={{ height: 45, fontSize: 13, gap: 8 }}
+                            onClick={() => setIsInventoryModalOpen(true)}
+                          >
+                            <Package size={18} />
+                            Adicionar Item
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            style={{ height: 45, fontSize: 13, gap: 8 }}
+                            onClick={() => setIsCustomItemModalOpen(true)}
+                          >
+                            <Plus size={18} />
+                            Criar Item
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -2008,87 +2114,78 @@ export default function CharacterDetailPage() {
                         Classe: {character.class} {character.subclass ? ` - ${character.subclass}` : ''}
                       </h3>
 
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        {/* Habilidades Nível 1 */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          {(() => {
-                            const is2014 = character.ruleset === '2014';
-                            const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
-                            return level1Data[character.class]?.passiveFeatures.map((feat, i) => (
-                              <div
-                                key={i}
-                                className="card clickable"
-                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                onClick={() => setDetailFeature({ ...feat, source: 'Classe', level: 1 })}
-                              >
-                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                  {feat.description}
-                                </p>
-                              </div>
-                            ));
-                          })()}
-                        </div>
-
-                        {/* Habilidades de Progressão */}
-                        {Array.from({ length: character.level }).map((_, i) => {
-                          const lvl = i + 1;
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {/* Habilidades de Classe Unificadas */}
+                        {(() => {
                           const is2014 = character.ruleset === '2014';
-                          
-                          // For 2024 we have a full progression object
-                          // For 2014 we use SUBCLASSES_2014 and maybe future 2014 progression
-                          const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+                          const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
+                          const features: any[] = [];
 
-                          // Subclass features
-                          let subFeats: any[] = [];
-                          const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
-                          
-                          if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
-                            subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
+                          // 1. Habilidades Passivas Iniciais
+                          level1Data[character.class]?.passiveFeatures.forEach((feat: any) => {
+                            features.push({ ...feat, source: 'Classe Base', level: feat.level || 1 });
+                          });
+
+                          // 2. Progressão de Nível
+                          for (let lvl = 1; lvl <= character.level; lvl++) {
+                            // Base Class Features
+                            const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+                            classFeats.forEach((f: string) => {
+                              // Avoid duplicates if already added in passiveFeatures
+                              if (!features.some(ex => ex.name === f)) {
+                                features.push({
+                                  name: f,
+                                  description: getFeatureDescription(f),
+                                  source: 'Classe Base',
+                                  level: lvl
+                                });
+                              }
+                            });
+
+                            // Subclass Features
+                            const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
+                            if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
+                              const subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
+                              subFeats.forEach((sf: any) => {
+                                features.push({ ...sf, source: character.subclass, level: lvl });
+                              });
+                            }
                           }
 
-                          if (classFeats.length === 0 && subFeats.length === 0) return null;
-
-                          return (
-                            <div key={lvl} style={{ marginTop: 8 }}>
-                              <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, paddingLeft: 8 }}>
-                                Nível {lvl}
+                          return features
+                            .filter(feat => feat.level <= character.level)
+                            .map((feat, i) => (
+                            <div
+                              key={`${feat.name}-${i}`}
+                              className="card clickable"
+                              style={{ 
+                                padding: 16, 
+                                background: 'var(--bg2)', 
+                                borderLeft: `3px solid var(--border)`, 
+                                cursor: 'pointer', 
+                                transition: 'all 0.2s ease' 
+                              }}
+                              onClick={() => setDetailFeature(feat)}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>
+                                  {feat.name}
+                                </div>
+                                <div style={{ fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                  Nível {feat.level}
+                                </div>
                               </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                {classFeats.map((f, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="card clickable"
-                                    style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                    onClick={() => setDetailFeature({
-                                      name: f,
-                                      description: getFeatureDescription(f),
-                                      source: 'Classe',
-                                      level: lvl
-                                    })}
-                                  >
-                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{f}</div>
-                                    <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Classe Base</div>
-                                  </div>
-                                ))}
-                                {subFeats.map((sf, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="card clickable"
-                                    style={{ padding: 16, background: 'var(--accentGlow)', borderLeft: '3px solid var(--accent)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                                    onClick={() => setDetailFeature({ ...sf, source: character.subclass, level: lvl })}
-                                  >
-                                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--accentL)' }}>{sf.name}</div>
-                                    <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                      {sf.description}
-                                    </p>
-                                    <div style={{ fontSize: 11, color: 'var(--accent)', marginTop: 4, fontWeight: 700 }}>{character.subclass}</div>
-                                  </div>
-                                ))}
+                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                {feat.description}
+                              </p>
+                              <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
+                                <span style={{ fontSize: 10, color: 'var(--fg4)', fontWeight: 700 }}>
+                                  {feat.source}
+                                </span>
                               </div>
                             </div>
-                          );
-                        })}
+                          ));
+                        })()}
                       </div>
                     </div>
 
@@ -2174,37 +2271,98 @@ export default function CharacterDetailPage() {
                         </div>
                         
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                          <div>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
-                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.armorProf || 'Nenhuma'}</div>
-                            <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
-                              {characterClass?.armorProf?.includes('pesadas') 
-                                ? (
-                                  <>
-                                    <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
-                                    <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
-                                  </>
-                                )
-                                : characterClass?.armorProf?.includes('médias')
-                                ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
-                                : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
-                            </div>
-                          </div>
-                          <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
-                          <div>
-                            <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
-                            <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>{characterClass?.weaponProf || 'Simples'}</div>
-                             <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4, lineHeight: 1.4 }}>
-                               {characterClass?.weaponProf?.includes('marciais') 
-                                 ? (
-                                   <>
-                                     <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
-                                     <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
-                                   </>
-                                 )
-                                 : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
-                             </div>
-                          </div>
+                          {(() => {
+                            const is2014 = character.ruleset === '2014';
+                            const raceData = is2014 
+                              ? RACES_2014.find(r => r.name === character.race) 
+                              : RACES.find(r => r.name === character.race);
+                            
+                            let racialTraits = raceData?.traits || [];
+                            if (is2014 && character.subrace && raceData?.lineages) {
+                              const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                              if (lineage) racialTraits = [...racialTraits, ...lineage.traits];
+                            }
+
+                            const weaponTraining = racialTraits.filter(t => 
+                              (t.name.toLowerCase().includes('treinamento') || t.name.toLowerCase().includes('proficiência')) && 
+                              (t.name.toLowerCase().includes('armas') || t.name.toLowerCase().includes('combate'))
+                            );
+                            
+                            const armorTraining = racialTraits.filter(t => 
+                              (t.name.toLowerCase().includes('treinamento') || t.name.toLowerCase().includes('proficiência')) && 
+                              t.name.toLowerCase().includes('armadura')
+                            );
+
+                            return (
+                              <>
+                                <div>
+                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
+                                  <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                                    {characterClass?.armorProf || 'Nenhuma'}
+                                  </div>
+                                  
+                                  {/* Racial Armor Proficiencies */}
+                                  {armorTraining.length > 0 && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                                      {armorTraining.map((t, idx) => (
+                                        <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {characterClass?.armorProf && !characterClass.armorProf.toLowerCase().includes('nenhuma') && (
+                                    <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                                      {characterClass.armorProf.includes('pesadas') 
+                                        ? (
+                                          <>
+                                            <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
+                                            <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
+                                          </>
+                                        )
+                                        : characterClass.armorProf.includes('médias')
+                                        ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
+                                        : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
+                                    </div>
+                                  )}
+                                </div>
+
+                                <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
+
+                                <div>
+                                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
+                                  <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                                    {characterClass?.weaponProf || 'Simples'}
+                                  </div>
+
+                                  {/* Racial Weapon Proficiencies */}
+                                  {weaponTraining.length > 0 && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                                      {weaponTraining.map((t, idx) => (
+                                        <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                                    {characterClass?.weaponProf?.includes('marciais') 
+                                      ? (
+                                        <>
+                                          <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
+                                          <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
+                                        </>
+                                      )
+                                      : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })()}
                         </div>
                       </div>
 
@@ -2214,32 +2372,67 @@ export default function CharacterDetailPage() {
                           <Settings size={18} color="var(--accent)" />
                           <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Ferramentas</span>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                          {(() => {
-                            // Extract tools from class or traits
-                            const classTools = character.class === 'Artesão Arcano' ? ["Ferramentas de Ladrão", "Ferramentas de Funileiro", "1 Ferramenta de Artesão"] : [];
-                            const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
-                            const allTools = [...new Set([...classTools, ...traitTools])];
-                            
-                            if (allTools.length === 0) return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>;
+                        
+                        {(() => {
+                          const is2014 = character.ruleset === '2014';
+                          const raceData = is2014 ? RACES_2014.find(r => r.name === character.race) : RACES.find(r => r.name === character.race);
+                          let racialTraits = raceData?.traits || [];
+                          if (is2014 && character.subrace && raceData?.lineages) {
+                            const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                            if (lineage) racialTraits = [...racialTraits, ...lineage.traits];
+                          }
 
-                            return allTools.map((tool: string) => (
-                              <div key={tool} style={{ 
-                                background: 'var(--bg)', 
-                                border: '1px solid var(--border)',
-                                padding: '6px 12px',
-                                borderRadius: 8,
-                                fontSize: 13,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 6
-                              }}>
-                                <Settings size={12} style={{ opacity: 0.5 }} />
-                                {tool}
+                          const racialToolTraits = racialTraits.filter(t => 
+                            t.name.toLowerCase().includes('ferramenta') || 
+                            t.description.toLowerCase().includes('ferramenta') ||
+                            t.name.toLowerCase().includes('engenhoca')
+                          );
+
+                          // Extract tools from class or traits
+                          const classTools = characterClass?.toolProf ? characterClass.toolProf.split(',').map(s => s.trim()) : [];
+                          const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
+                          const allTools = [...new Set([...classTools, ...traitTools])];
+
+                          return (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                              {/* Standard Chips */}
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                                {allTools.length > 0 ? allTools.map((tool: string) => (
+                                  <div key={tool} style={{ 
+                                    background: 'var(--bg)', 
+                                    border: '1px solid var(--border)',
+                                    padding: '6px 12px',
+                                    borderRadius: 8,
+                                    fontSize: 13,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 6
+                                  }}>
+                                    <Settings size={12} style={{ opacity: 0.5 }} />
+                                    {tool}
+                                  </div>
+                                )) : (
+                                  !racialToolTraits.length && <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>
+                                )}
                               </div>
-                            ));
-                          })()}
-                        </div>
+
+                              {/* Racial Tool Traits (Detailed) */}
+                              {racialToolTraits.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                  {racialToolTraits.map((t, idx) => (
+                                    <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                                        <Settings size={14} color="var(--accentL)" />
+                                        <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)', textTransform: 'uppercase' }}>{t.name} (Racial)</div>
+                                      </div>
+                                      <div style={{ fontSize: 11, color: 'var(--fg3)', lineHeight: 1.4 }}>{t.description}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
                       </div>
 
                     </div>
@@ -3206,7 +3399,8 @@ export default function CharacterDetailPage() {
             <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {(() => {
-                  const filtered = ITEM_CATALOG.filter(i =>
+                  const currentCatalog = character.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const filtered = currentCatalog.filter(i =>
                     i.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
                     i.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
                   );
@@ -3243,6 +3437,103 @@ export default function CharacterDetailPage() {
                   ));
                 })()}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Item Modal */}
+      {isCustomItemModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setIsCustomItemModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <Plus size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Item Original</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Criar novo item</span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setIsCustomItemModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Nome do Item</label>
+                <input
+                  type="text"
+                  className="card"
+                  style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                  placeholder="Ex: Anel da Proteção, Mapa Antigo..."
+                  value={customItem.name}
+                  onChange={e => setCustomItem({ ...customItem, name: e.target.value })}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Peso (kg)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    className="card"
+                    style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    value={customItem.weight}
+                    onChange={e => setCustomItem({ ...customItem, weight: parseFloat(e.target.value) || 0 })}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Ícone</label>
+                  <input
+                    type="text"
+                    className="card"
+                    style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14, textAlign: 'center' }}
+                    value={customItem.icon}
+                    onChange={e => setCustomItem({ ...customItem, icon: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>O que o item faz?</label>
+                <textarea
+                  className="card"
+                  style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14, minHeight: 100, resize: 'vertical' }}
+                  placeholder="Descreva as propriedades e efeitos do item..."
+                  value={customItem.description}
+                  onChange={e => setCustomItem({ ...customItem, description: e.target.value })}
+                />
+              </div>
+
+              <button
+                className="btn btn-primary"
+                style={{ width: '100%', height: 48, justifyContent: 'center' }}
+                disabled={!customItem.name}
+                onClick={() => {
+                  handleAddInventoryItem({
+                    id: `custom-${Date.now()}`,
+                    ...customItem,
+                    cost: '---'
+                  });
+                  setIsCustomItemModalOpen(false);
+                  setCustomItem({ name: '', description: '', weight: 0, category: 'misc', icon: '📦' });
+                }}
+              >
+                Criar e Adicionar
+              </button>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import {
   ITEM_CATALOG, InventoryEntry, InventoryItem, ItemCategory,
   getStartingInventory
 } from '@/lib/inventory'
+import { ITEM_CATALOG_2014, getStartingInventory2014 } from '@/lib/inventory-2014'
 
 // ── Category config ───────────────────────────────────────────────────────────
 const CATEGORIES: { key: ItemCategory | 'all'; label: string; Icon: React.ElementType }[] = [
@@ -34,11 +35,12 @@ interface InventoryStepProps {
   backgroundName: string
   inventory: InventoryEntry[]
   onInventoryChange: (inv: InventoryEntry[]) => void
+  ruleset?: '2014' | '2024'
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function InventoryStep({
-  className, backgroundName, inventory, onInventoryChange
+  className, backgroundName, inventory, onInventoryChange, ruleset = '2024'
 }: InventoryStepProps) {
   const [tab, setTab] = useState<ItemCategory | 'all'>('all')
   const [search, setSearch] = useState('')
@@ -48,14 +50,19 @@ export default function InventoryStep({
   // Auto-populate inventory on first render
   useEffect(() => {
     if (!initialized && inventory.length === 0 && (className || backgroundName)) {
-      onInventoryChange(getStartingInventory(className, backgroundName))
+      const initial = ruleset === '2014' 
+        ? getStartingInventory2014(className, backgroundName)
+        : getStartingInventory(className, backgroundName)
+      onInventoryChange(initial)
       setInitialized(true)
     }
     if (!initialized) setInitialized(true)
   }, [className, backgroundName])
 
   // ── Catalog helpers ─────────────────────────────────────────────────────────
-  const filtered = ITEM_CATALOG.filter(item => {
+  const catalog = ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG
+
+  const filtered = catalog.filter(item => {
     const matchCat = tab === 'all' || item.category === tab
     const matchSearch = !search || item.name.toLowerCase().includes(search.toLowerCase())
     return matchCat && matchSearch
@@ -110,8 +117,8 @@ export default function InventoryStep({
           {/* Catalog header */}
           <div style={{ padding: '16px 16px 0', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontFamily: 'Cinzel, serif', fontSize: 16, fontWeight: 700 }}>Catálogo de Itens</span>
-              <span style={{ fontSize: 11, color: 'var(--fg3)' }}>{ITEM_CATALOG.length} itens</span>
+              <span style={{ fontFamily: 'Cinzel, serif', fontSize: 16, fontWeight: 700 }}>Catálogo de Itens ({ruleset})</span>
+              <span style={{ fontSize: 11, color: 'var(--fg3)' }}>{catalog.length} itens</span>
             </div>
             {/* Search */}
             <input
