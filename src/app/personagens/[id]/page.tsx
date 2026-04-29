@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2 } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -12,6 +12,7 @@ import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
 import { calculateAC, calculateEffectiveStats } from '@/lib/dnd-rules'
 import { ITEM_CATALOG } from '@/lib/inventory'
+import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014'
@@ -67,6 +68,8 @@ export default function CharacterDetailPage() {
 
   // Inventory States
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false)
+  const [isCustomItemModalOpen, setIsCustomItemModalOpen] = useState(false)
+  const [customItem, setCustomItem] = useState({ name: '', description: '', weight: 0, category: 'misc' as any, icon: '📦' })
   const [inventorySearchTerm, setInventorySearchTerm] = useState('')
   const [isClient, setIsClient] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
@@ -237,7 +240,8 @@ export default function CharacterDetailPage() {
               data.resources = parsed.resources ?? data.resources;
               if (parsed.inventory) {
                 data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
-                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
                   return {
                     ...dbItem,
                     item: { ...catalogItem, ...dbItem.item },
@@ -247,7 +251,8 @@ export default function CharacterDetailPage() {
               } else {
                 // Even without local stats, enrich with catalog
                 data.inventory = (data.inventory as any[]).map((dbItem: any) => {
-                  const catalogItem = ITEM_CATALOG.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
                   return {
                     ...dbItem,
                     item: { ...catalogItem, ...dbItem.item }
@@ -438,7 +443,7 @@ export default function CharacterDetailPage() {
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
-  const isOwner = character.userId === character.sessionUserId
+  const isOwner = character.isOwner || character.isAdmin
 
   const toggleEquip = (index: number) => {
     if (!character || !character.inventory) return;
@@ -1822,19 +1827,32 @@ export default function CharacterDetailPage() {
                                             </div>
                                           )}
                                           
-                                          {spell.icon && (
-                                            <div style={{
-                                              flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
-                                              border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
-                                            }}>
-                                              <Image
-                                                src={`/assets/spells-icons/${spell.icon}`}
-                                                alt={spell.name}
-                                                width={40} height={40}
-                                                style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
-                                              />
-                                            </div>
-                                          )}
+                                          {(() => {
+                                            const icon = spell.icon || (
+                                              spell.school === 'Abjuração' ? 'protection-field.png' :
+                                              spell.school === 'Adivinhação' ? 'all-seeing-eye.png' :
+                                              spell.school === 'Conjuração' ? 'magic-sparks.png' :
+                                              spell.school === 'Encantamento' ? 'heart-heal.png' :
+                                              spell.school === 'Evocação' ? 'fire-blast.png' :
+                                              spell.school === 'Ilusão' ? 'mirror-image.png' :
+                                              spell.school === 'Necromancia' ? 'undead-skull.png' :
+                                              spell.school === 'Transmutação' ? 'elemental-spiral.png' :
+                                              'magic-scroll.png'
+                                            );
+                                            return (
+                                              <div style={{
+                                                flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
+                                                border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
+                                              }}>
+                                                <Image
+                                                  src={`/assets/spells-icons/${icon}`}
+                                                  alt={spell.name}
+                                                  width={40} height={40}
+                                                  style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
+                                                />
+                                              </div>
+                                            );
+                                          })()}
                                           
                                           <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -1878,28 +1896,17 @@ export default function CharacterDetailPage() {
                   <div className="fade-up">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Inventário</h2>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                          <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
-                          <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
-                            {(() => {
-                              const weight = (character.inventory as any[]).reduce((sum, entry) => {
-                                const w = parseFloat(entry.item.weight) || 0;
-                                return sum + (w * (entry.qty || 1));
-                              }, 0);
-                              return weight.toFixed(1);
-                            })()} kg
-                          </span>
-                        </div>
-                        {isOwner && (
-                          <button
-                            className="btn btn-primary"
-                            style={{ padding: 8, height: 'auto' }}
-                            onClick={() => setIsInventoryModalOpen(true)}
-                          >
-                            <Plus size={18} />
-                          </button>
-                        )}
+                      <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 10 }}>
+                        <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
+                        <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
+                          {(() => {
+                            const weight = (character.inventory as any[]).reduce((sum, entry) => {
+                              const w = parseFloat(entry.item.weight) || 0;
+                              return sum + (w * (entry.qty || 1));
+                            }, 0);
+                            return weight.toFixed(1);
+                          })()} kg
+                        </span>
                       </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -1959,6 +1966,27 @@ export default function CharacterDetailPage() {
                         ))
                       ) : (
                         <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Seu inventário está vazio.</p>
+                      )}
+
+                      {isOwner && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
+                          <button
+                            className="btn btn-outline"
+                            style={{ height: 45, fontSize: 13, gap: 8 }}
+                            onClick={() => setIsInventoryModalOpen(true)}
+                          >
+                            <Package size={18} />
+                            Adicionar Item
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            style={{ height: 45, fontSize: 13, gap: 8 }}
+                            onClick={() => setIsCustomItemModalOpen(true)}
+                          >
+                            <Plus size={18} />
+                            Criar Item
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -3340,7 +3368,8 @@ export default function CharacterDetailPage() {
             <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {(() => {
-                  const filtered = ITEM_CATALOG.filter(i =>
+                  const currentCatalog = character.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const filtered = currentCatalog.filter(i =>
                     i.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
                     i.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
                   );
@@ -3377,6 +3406,103 @@ export default function CharacterDetailPage() {
                   ));
                 })()}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Item Modal */}
+      {isCustomItemModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setIsCustomItemModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <Plus size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Item Original</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Criar novo item</span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setIsCustomItemModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Nome do Item</label>
+                <input
+                  type="text"
+                  className="card"
+                  style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                  placeholder="Ex: Anel da Proteção, Mapa Antigo..."
+                  value={customItem.name}
+                  onChange={e => setCustomItem({ ...customItem, name: e.target.value })}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Peso (kg)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    className="card"
+                    style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                    value={customItem.weight}
+                    onChange={e => setCustomItem({ ...customItem, weight: parseFloat(e.target.value) || 0 })}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>Ícone</label>
+                  <input
+                    type="text"
+                    className="card"
+                    style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14, textAlign: 'center' }}
+                    value={customItem.icon}
+                    onChange={e => setCustomItem({ ...customItem, icon: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, display: 'block', marginBottom: 6 }}>O que o item faz?</label>
+                <textarea
+                  className="card"
+                  style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14, minHeight: 100, resize: 'vertical' }}
+                  placeholder="Descreva as propriedades e efeitos do item..."
+                  value={customItem.description}
+                  onChange={e => setCustomItem({ ...customItem, description: e.target.value })}
+                />
+              </div>
+
+              <button
+                className="btn btn-primary"
+                style={{ width: '100%', height: 48, justifyContent: 'center' }}
+                disabled={!customItem.name}
+                onClick={() => {
+                  handleAddInventoryItem({
+                    id: `custom-${Date.now()}`,
+                    ...customItem,
+                    cost: '---'
+                  });
+                  setIsCustomItemModalOpen(false);
+                  setCustomItem({ name: '', description: '', weight: 0, category: 'misc', icon: '📦' });
+                }}
+              >
+                Criar e Adicionar
+              </button>
             </div>
           </div>
         </div>

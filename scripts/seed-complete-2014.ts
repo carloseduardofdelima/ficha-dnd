@@ -4,6 +4,7 @@ import { RACES_2014 } from '../src/lib/races-2014'
 import { CLASS_LEVEL1_DATA_2014 } from '../src/lib/class-features-2014'
 import { nanoid } from 'nanoid'
 import { getStartingInventory } from '../src/lib/inventory'
+import { getStartingInventory2014 } from '../src/lib/inventory-2014'
 import { getSpellsForClass, getSpellSlots, SPELLCASTING_CLASSES } from '../src/lib/spells'
 import { calculateAC } from '../src/lib/dnd-rules'
 
@@ -12,7 +13,11 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('--- Iniciando Semeadura de Personagens Completos (D&D 2014) ---')
 
-  let user = await prisma.user.findFirst()
+  const ADMIN_EMAIL = 'carloseduardoff12@gmail.com'
+  let user = await prisma.user.findFirst({ where: { email: ADMIN_EMAIL } })
+  if (!user) {
+    user = await prisma.user.findFirst()
+  }
   if (!user) {
     user = await prisma.user.create({ data: { name: 'Mestre D&D', email: 'mestre@exemplo.com' } })
   }
@@ -130,7 +135,7 @@ async function main() {
     const hitDie = parseInt(dndClass.hitDie.replace('d', ''))
     const maxHp = hitDie + conMod + (Math.floor(hitDie/2) + 1 + conMod) * 2
 
-    const inventory = getStartingInventory(dndClass.name, background)
+    const inventory = getStartingInventory2014(dndClass.name, background)
     const slots = getSpellSlots(dndClass.name, level, '2014')
     
     const resources: Record<string, number> = {}

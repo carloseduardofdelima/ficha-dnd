@@ -38,6 +38,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   
   const parsedCharacter = {
     ...character,
+    isAdmin,
+    isOwner,
     sessionUserId: session?.user?.id,
     isSaved,
     skills: character.skills ? JSON.parse(character.skills) : null,
