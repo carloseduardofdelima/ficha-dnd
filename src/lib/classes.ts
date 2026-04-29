@@ -50,6 +50,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Destreza', 'Carisma'],
     armorProf: 'Armaduras leves',
     weaponProf: 'Armas simples',
+    toolProf: 'Três instrumentos musicais à sua escolha',
     features: [
       { name: 'Conjuração', description: 'Você pode conjurar magias de bardo, usando Carisma como atributo de conjuração.' },
       { name: 'Inspiração Bárdica', description: 'Como ação bônus, confira um dado de Inspiração Bárdica (d6) a uma criatura que possa ouvir você.' },
@@ -122,6 +123,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Força', 'Destreza'],
     armorProf: 'Nenhuma',
     weaponProf: 'Armas simples e Espadas Curtas',
+    toolProf: 'Um tipo de ferramenta de artesão ou um instrumento musical à sua escolha',
     features: [
       { name: 'Defesa sem Armadura', description: 'Sem armadura, sua CA é 10 + mod. de Des + mod. de Sab.' },
       { name: 'Artes Marciais', description: 'Pode usar Des em vez de For em ataques desarmados e com armas monásticas, e seu dado de dano desarmado sobe com o nível.' },
@@ -176,6 +178,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Destreza', 'Inteligência'],
     armorProf: 'Armaduras leves',
     weaponProf: 'Armas simples, Bestas de Mão, Espadas Longas, Rapieiras e Espadas Curtas',
+    toolProf: 'Ferramentas de ladrão',
     features: [
       { name: 'Perícia', description: 'Dobre o bônus de proficiência em duas habilidades ou ferramentas de ladrão.' },
       { name: 'Ataque Furtivo', description: 'Uma vez por turno, cause dano extra (1d6 crescente) se tiver vantagem ou um aliado adjacente ao alvo.' },
@@ -248,6 +251,7 @@ export const CLASSES: DndClass[] = [
     savingThrows: ['Constituição', 'Inteligência'],
     armorProf: 'Armaduras leves, médias e escudos',
     weaponProf: 'Armas simples',
+    toolProf: 'Ferramentas de ladrão, ferramentas de funileiro, um tipo de ferramenta de artesão à sua escolha',
     features: [
       { name: 'Tinkering Mágico', description: 'Crie pequenos efeitos mágicos em objetos mundanos (luz, som, cheiro).' },
       { name: 'Infundir Item', description: 'Crie itens mágicos temporários a partir de uma lista de infusões conhecidas.' },

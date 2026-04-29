@@ -32,6 +32,7 @@ export const CLASSES_2014: DndClass[] = [
     savingThrows: ['Destreza', 'Carisma'],
     armorProf: 'Armaduras Leves',
     weaponProf: 'Armas Simples, Bestas de mão, Espadas longas, Rapieiras, Espadas curtas',
+    toolProf: 'Três instrumentos musicais à sua escolha',
     skillCount: 3,
     skillOptions: ['Acrobacia', 'Adestrar Animais', 'Arcanismo', 'Atletismo', 'Atuação', 'Enganação', 'Furtividade', 'História', 'Intimidação', 'Intuição', 'Investigação', 'Medicina', 'Natureza', 'Percepção', 'Persuasão', 'Prestidigitação', 'Religião', 'Sobrevivência'],
     features: [
@@ -109,6 +110,7 @@ export const CLASSES_2014: DndClass[] = [
     savingThrows: ['Força', 'Destreza'],
     armorProf: 'Nenhuma',
     weaponProf: 'Armas Simples e Espadas Curtas',
+    toolProf: 'Um tipo de ferramenta de artesão ou um instrumento musical à sua escolha',
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade'],
     features: [
@@ -166,6 +168,7 @@ export const CLASSES_2014: DndClass[] = [
     savingThrows: ['Destreza', 'Inteligência'],
     armorProf: 'Armaduras Leves',
     weaponProf: 'Armas Simples, Bestas de mão, Espadas longas, Rapieiras, Espadas curtas',
+    toolProf: 'Ferramentas de ladrão',
     skillCount: 4,
     skillOptions: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'],
     features: [
@@ -242,6 +245,7 @@ export const CLASSES_2014: DndClass[] = [
     savingThrows: ['Constituição', 'Inteligência'],
     armorProf: 'Armaduras Leves, Médias e Escudos',
     weaponProf: 'Armas Simples',
+    toolProf: 'Ferramentas de ladrão, ferramentas de funileiro, um tipo de ferramenta de artesão à sua escolha',
     skillCount: 2,
     skillOptions: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Percepção', 'Prestidigitação'],
     features: [
