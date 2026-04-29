@@ -14,8 +14,13 @@ import { calculateAC, calculateEffectiveStats } from '@/lib/dnd-rules'
 import { ITEM_CATALOG } from '@/lib/inventory'
 import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024'
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
+import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014'
 import { getFeatureDescription } from '@/lib/features'
 import { BACKGROUNDS } from '@/lib/backgrounds'
+import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014'
+import { RACES_2014 } from '@/lib/races-2014'
+import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
+import { CLASSES_2014 } from '@/lib/classes-2014'
 import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
 import { SPELL_PROGRESSION } from '@/lib/spells'
@@ -46,6 +51,8 @@ export default function CharacterDetailPage() {
   const [selectedFeatId, setSelectedFeatId] = useState<string | null>(null)
   const [featAttr1, setFeatAttr1] = useState<string | null>(null)
   const [featAttr2, setFeatAttr2] = useState<string | null>(null)
+  const [isDraconicModalOpen, setIsDraconicModalOpen] = useState(false)
+  const [selectedAncestry, setSelectedAncestry] = useState<string | null>(null)
 
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -741,7 +748,9 @@ export default function CharacterDetailPage() {
             </div>
             <div style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 16 }} className="mobile-center-text">
               <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2 }}>
-                {character.class}{character.subclass ? ` — ${character.subclass}` : ''}
+                {character.class}
+                {character.subclass ? ` — ${character.subclass}` : ''}
+                {parsedTraits.draconicAncestry && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
               </div>
               <div style={{ fontSize: 14, color: 'var(--fgM)' }}>
                 {character.race}{character.subrace ? ` (${character.subrace})` : ''} — {character.background}
@@ -1153,10 +1162,39 @@ export default function CharacterDetailPage() {
 
                           const getInitialResources = () => {
                             const initial: any = {};
-                            if (character.class === 'Bárbaro') initial['Fúrias'] = { max: 2, current: 2, color: '#f97316' };
-                            if (character.class === 'Guerreiro') initial['Retomada de Fôlego'] = { max: 2, current: 2, color: '#94a3b8' };
-                            if (character.class === 'Monge' && character.level >= 2) initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
-                            if (character.class === 'Bardo') initial['Inspiração Bárdica'] = { max: Math.max(1, calcModifier(character.charisma)), current: Math.max(1, calcModifier(character.charisma)), color: '#ec4899' };
+                            const is2014 = character.ruleset === '2014';
+                            
+                            if (character.class === 'Bárbaro') {
+                              // 2014: 1:2, 3:3, 6:4, 12:5, 17:6, 20:Inf
+                              // 2024: 1:2, 3:3, 6:4, 12:5, 17:6
+                              let rages = 2;
+                              if (character.level >= 17) rages = 6;
+                              else if (character.level >= 12) rages = 5;
+                              else if (character.level >= 6) rages = 4;
+                              else if (character.level >= 3) rages = 3;
+                              
+                              if (is2014 && character.level === 20) rages = 99; // Infinity placeholder
+                              
+                              initial['Fúrias'] = { max: rages, current: rages, color: '#f97316' };
+                            }
+                            
+                            if (character.class === 'Guerreiro') {
+                              // 2014: 1 use per short rest
+                              // 2024: 2 uses at lvl 1, 4 at lvl 10
+                              let uses = is2014 ? 1 : 2;
+                              if (!is2014 && character.level >= 10) uses = 4;
+                              initial['Retomada de Fôlego'] = { max: uses, current: uses, color: '#94a3b8' };
+                            }
+                            
+                            if (character.class === 'Monge' && character.level >= 2) {
+                              initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
+                            }
+                            
+                            if (character.class === 'Bardo') {
+                              const maxInspiration = Math.max(1, calcModifier(character.charisma));
+                              initial['Inspiração Bárdica'] = { max: maxInspiration, current: maxInspiration, color: '#ec4899' };
+                            }
+                            
                             if (character.class === 'Artesão Arcano') {
                               initial['Engenharia Mágica'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
                               if (character.level >= 3) {
@@ -1182,8 +1220,15 @@ export default function CharacterDetailPage() {
                                 initial['Brilho de Gênio'] = { max: Math.max(1, calcModifier(character.intelligence)), current: Math.max(1, calcModifier(character.intelligence)), color: '#06b6d4' };
                               }
                             }
-                            if (character.class === 'Paladino') initial['Imposição de Mãos'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
-                            if (character.class === 'Feiticeiro' && character.level >= 2) initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                            
+                            if (character.class === 'Paladino') {
+                              initial['Imposição de Mãos'] = { max: character.level * 5, current: character.level * 5, color: '#facc15' };
+                            }
+                            
+                            if (character.class === 'Feiticeiro' && character.level >= 2) {
+                              initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
+                            }
+                            
                             return initial;
                           };
 
@@ -1877,28 +1922,47 @@ export default function CharacterDetailPage() {
                         })()}
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        {RACES.find(r => r.name === character.race)?.traits.map((trait, i) => (
-                          <div
-                            key={i}
-                            className="card clickable"
-                            style={{ padding: 16, background: 'var(--bg2)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                            onClick={() => setDetailFeature({ ...trait, source: 'Raça', level: 1 })}
-                          >
-                            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
-                            <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                              {trait.description}
-                            </p>
-                          </div>
-                        ))}
+                        {(() => {
+                          const is2014 = character.ruleset === '2014';
+                          const raceData = is2014 
+                            ? RACES_2014.find(r => r.name === character.race) 
+                            : RACES.find(r => r.name === character.race);
+                          
+                          const raceTraits = raceData?.traits || [];
+                          
+                          // If it's a subrace, add subrace traits too for 2014
+                          let allTraits = [...raceTraits];
+                          if (is2014 && character.subrace && raceData?.lineages) {
+                            const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                            if (lineage) {
+                              allTraits = [...allTraits, ...lineage.traits];
+                            }
+                          }
+
+                          return allTraits.map((trait, i) => (
+                            <div
+                              key={i}
+                              className="card clickable"
+                              style={{ padding: 16, background: 'var(--bg2)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                              onClick={() => setDetailFeature({ ...trait, source: 'Raça', level: 1 })}
+                            >
+                              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
+                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                {trait.description}
+                              </p>
+                            </div>
+                          ));
+                        })()}
+                      </div>
                     </div>
-                  </div>
                     
                     {/* Background Feature */}
                     {(() => {
+                      const is2014 = character.ruleset === '2014';
                       const backgroundName = character.background;
                       if (!backgroundName) return null;
                       
-                      const bg = BACKGROUNDS.find(b => 
+                      const bg = (is2014 ? BACKGROUNDS_2014 : BACKGROUNDS).find(b => 
                         b.name.toLowerCase().trim() === backgroundName.toLowerCase().trim() ||
                         b.id.toLowerCase() === backgroundName.toLowerCase().trim()
                       );
@@ -1931,32 +1995,42 @@ export default function CharacterDetailPage() {
                       </h3>
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        {/* Habilidades Nível 1 (De lib/classes) */}
+                        {/* Habilidades Nível 1 */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          {CLASS_LEVEL1_DATA[character.class]?.passiveFeatures.map((feat, i) => (
-                            <div
-                              key={i}
-                              className="card clickable"
-                              style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                              onClick={() => setDetailFeature({ ...feat, source: 'Classe', level: 1 })}
-                            >
-                              <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                              <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                {feat.description}
-                              </p>
-                            </div>
-                          ))}
+                          {(() => {
+                            const is2014 = character.ruleset === '2014';
+                            const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
+                            return level1Data[character.class]?.passiveFeatures.map((feat, i) => (
+                              <div
+                                key={i}
+                                className="card clickable"
+                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--border)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                                onClick={() => setDetailFeature({ ...feat, source: 'Classe', level: 1 })}
+                              >
+                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
+                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                  {feat.description}
+                                </p>
+                              </div>
+                            ));
+                          })()}
                         </div>
 
-                        {/* Habilidades de Progressão (D&D 2024) */}
+                        {/* Habilidades de Progressão */}
                         {Array.from({ length: character.level }).map((_, i) => {
                           const lvl = i + 1;
-                          const classFeats = CLASS_PROGRESSION_2024[character.class]?.features[lvl] || [];
+                          const is2014 = character.ruleset === '2014';
+                          
+                          // For 2024 we have a full progression object
+                          // For 2014 we use SUBCLASSES_2014 and maybe future 2014 progression
+                          const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
 
                           // Subclass features
                           let subFeats: any[] = [];
-                          if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
-                            subFeats = SUBCLASSES_2024[character.class][character.subclass].features[lvl] || [];
+                          const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
+                          
+                          if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
+                            subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
                           }
 
                           if (classFeats.length === 0 && subFeats.length === 0) return null;
@@ -2632,7 +2706,8 @@ export default function CharacterDetailPage() {
                   <div style={{ maxHeight: 300, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
                     {(() => {
                       const rulesetToUse = character.ruleset || selectedRuleset;
-                      const options = rulesetToUse === '2024' ? Object.keys(SUBCLASSES_2024[character.class] || {}) : [];
+                      const subclassData = rulesetToUse === '2024' ? SUBCLASSES_2024 : SUBCLASSES_2014;
+                      const options = Object.keys(subclassData[character.class] || {});
 
                       if (options.length === 0) return <div style={{ textAlign: 'center', padding: 20, color: 'var(--fg3)' }}>Nenhuma subclasse cadastrada para {character.class} {rulesetToUse}.</div>;
 
@@ -2670,6 +2745,12 @@ export default function CharacterDetailPage() {
                           subclass: selectedSubclass,
                           ruleset: character.ruleset || selectedRuleset
                         };
+
+                        if (selectedSubclass === 'Linhagem Dracônica' || selectedSubclass === 'Draconic Bloodline') {
+                          setIsDraconicModalOpen(true);
+                          return;
+                        }
+
                         const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
                         if ([4, 8, 12, 16, 19].includes(updated.level)) {
                           setLevelUpStep(4);
@@ -2823,7 +2904,65 @@ export default function CharacterDetailPage() {
         </div>
       )}
 
-      {/* Celebration Overlay */}
+      {/* Draconic Ancestry Modal */}
+      {isDraconicModalOpen && character && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }} />
+          <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 460, padding: 0, overflow: 'hidden', border: '1px solid var(--accent)' }}>
+            <div style={{ background: 'var(--accent)', padding: '24px 32px', textAlign: 'center' }}>
+              <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, color: '#fff' }}>Ancestral Dracônico</h2>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>Escolha sua linhagem e tipo de dano</p>
+            </div>
+            <div style={{ padding: 24 }}>
+              <div style={{ maxHeight: 400, overflowY: 'auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
+                {[
+                  { name: 'Negro', type: 'Ácido' }, { name: 'Cobre', type: 'Ácido' },
+                  { name: 'Azul', type: 'Elétrico' }, { name: 'Bronze', type: 'Elétrico' },
+                  { name: 'Verde', type: 'Veneno' },
+                  { name: 'Vermelho', type: 'Fogo' }, { name: 'Latão', type: 'Fogo' }, { name: 'Ouro', type: 'Fogo' },
+                  { name: 'Branco', type: 'Frio' }, { name: 'Prata', type: 'Frio' }
+                ].map(drag => (
+                  <button
+                    key={drag.name}
+                    onClick={() => setSelectedAncestry(drag.name + ' (' + drag.type + ')')}
+                    style={{
+                      padding: 12, borderRadius: 10, border: '1px solid',
+                      borderColor: selectedAncestry?.startsWith(drag.name) ? 'var(--accent)' : 'var(--border)',
+                      background: selectedAncestry?.startsWith(drag.name) ? 'var(--accentGlow)' : 'var(--bg2)',
+                      textAlign: 'center', transition: 'all 0.2s'
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{drag.name}</div>
+                    <div style={{ fontSize: 10, color: 'var(--accentL)', marginTop: 2 }}>{drag.type}</div>
+                  </button>
+                ))}
+              </div>
+              <button
+                className="btn bg-accent"
+                style={{ width: '100%', justifyContent: 'center' }}
+                disabled={!selectedAncestry}
+                onClick={() => {
+                  const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {});
+                  const updated = {
+                    ...character,
+                    traits: { ...currentTraits, draconicAncestry: selectedAncestry }
+                  };
+                  setIsDraconicModalOpen(false);
+                  const alerts = [`✨ Nova Subclasse: ${character.subclass}!`, `🐲 Ancestral: ${selectedAncestry}`];
+                  if ([4, 8, 12, 16, 19].includes(updated.level)) {
+                    setLevelUpStep(4);
+                    setCharacter(updated);
+                  } else {
+                    handleLevelUpPersistence(updated as Character, alerts);
+                  }
+                }}
+              >
+                Confirmar Linhagem
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showCelebration && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
           <div className="fade-up" style={{ textAlign: 'center' }}>

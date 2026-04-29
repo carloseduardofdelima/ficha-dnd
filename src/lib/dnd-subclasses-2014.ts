@@ -112,12 +112,23 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Linhagem Dracônica": {
       features: {
         1: [
-          { name: "Ancestral Dragão", description: "Escolha um tipo de dragão; aprende idioma Dracônico e vantagem social." },
+          { name: "Ancestral Dragão", description: "Escolha um tipo de dragão: Negro/Cobre (Ácido), Azul/Bronze (Elétrico), Verde (Veneno), Vermelho/Latão/Ouro (Fogo) ou Branco/Prata (Frio). Você aprende o idioma Dracônico e tem vantagem em testes de Carisma para interagir com dragões." },
           { name: "Resiliência Dracônica", description: "+1 PV por nível e CA 13 + DES sem armadura." }
         ],
         6: [{ name: "Afinidade Elemental", description: "Adiciona Carisma ao dano do elemento; gasta 1 ponto para resistência." }],
         14: [{ name: "Asas de Dragão", description: "Ganha velocidade de voo igual à de caminhada." }],
         18: [{ name: "Presença Dracônica", description: "Aura de medo ou encanto em 60 pés (5 pontos de feitiçaria)." }]
+      }
+    },
+    "Magia Selvagem": {
+      features: {
+        1: [
+          { name: "Surto de Magia Selvagem", description: "Ao conjurar magia de nível 1+, mestre pode pedir 1d20. Se rolar 1, ocorre efeito na tabela de Magia Selvagem." },
+          { name: "Marés do Caos", description: "Ganha vantagem em um ataque, teste ou salvaguarda. Recarrega com descanso longo ou surto forçado pelo mestre." }
+        ],
+        6: [{ name: "Dobra da Sorte", description: "Usa reação + 2 pontos para adicionar ou subtrair 1d4 da rolagem de outra criatura." }],
+        14: [{ name: "Caos Controlado", description: "Ao rolar na tabela de Magia Selvagem, rola duas vezes e escolhe o resultado." }],
+        18: [{ name: "Bombardeio de Feitiços", description: "Ao rolar dano máximo em um dado de magia, rola um dado adicional desse tipo e soma." }]
       }
     }
   },

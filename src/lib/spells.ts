@@ -14,7 +14,7 @@ export interface Spell {
   range: string
   components: string
   description: string
-  damageEffect: string
+  damageEffect?: string
   attackSave?: string
   classes: string[]
   ritual?: boolean
@@ -139,7 +139,7 @@ const SPELLS: Spell[] = [
   { id: 'cause-fear', name: 'Causar Medo', level: 1, school: 'Necromancia', castingTime: '1 ação', duration: '1 min', range: '18 m', components: 'V', description: 'Desperta medo em uma criatura.', damageEffect: 'Assustado', attackSave: 'Res. Sab', concentration: true, classes: ['Bruxo', 'Mago'], icon: 'shadow-mask.png' },
   { id: 'catapult', name: 'Catapulta', level: 1, school: 'Transmutação', castingTime: '1 ação', duration: 'Instantânea', range: '18 m', components: 'S', description: 'Arremessa um objeto.', damageEffect: '3d8 Concussão', attackSave: 'Res. Des', classes: ['Mago', 'Feiticeiro', 'Artesão Arcano'], icon: 'heavy-weight.png' },
   { id: 'snare', name: 'Armadilha', level: 1, school: 'Abjuração', castingTime: '1 min', duration: '8 horas', range: 'Toque', components: 'V, S, M', description: 'Você cria um laço mágico no chão. Uma criatura que entrar na área deve fazer teste de Destreza ou ficar pendurada de cabeça para baixo e contida.', damageEffect: 'Contido', attackSave: 'Res. Des', classes: ['Druida', 'Patrulheiro', 'Mago', 'Artesão Arcano'], icon: 'arcane-lock.png' },
-  { id: 'caustic-brew', name: 'Riso Ácido de Tasha', level: 1, school: 'Evocação', castingTime: '1 ação', duration: '1 min', range: 'Pessoal (linha de 9m)', components: 'V, S, M', description: 'Um jato de ácido jorra de você. Criaturas na linha sofrem 2d4 de dano ácido no início de cada turno até que alguém use uma ação para limpar o ácido.', damageEffect: '2d4 Ácido por turno', attackSave: 'Res. Des', concentration: true, classes: ['Artesão Arcano', 'Mago', 'Feiticeiro'], icon: 'acid-puddle.png' },
+  { id: 'caustic-brew', name: 'Fervura Cáustica de Tasha', level: 1, school: 'Evocação', castingTime: '1 ação', duration: '1 min', range: 'Pessoal (linha de 9m)', components: 'V, S, M', description: 'Um jato de ácido jorra de você. Criaturas na linha sofrem 2d4 de dano ácido no início de cada turno até que alguém use uma ação para limpar o ácido.', damageEffect: '2d4 Ácido por turno', attackSave: 'Res. Des', concentration: true, classes: ['Artesão Arcano', 'Mago', 'Feiticeiro'], icon: 'acid-puddle.png' },
 
   // ── Nível 2 ─────────────────────────────────────────────────────────────────
   { id: 'scorching-ray', name: 'Raio Escaldante', level: 2, school: 'Evocação', castingTime: '1 ação', duration: 'Instantânea', range: '36 m', components: 'V, S', description: 'Você cria três raios de fogo. Cada raio causa 2d6 de dano de fogo.', damageEffect: '2d6 Fogo (x3)', attackSave: 'Ataque', classes: ['Mago', 'Feiticeiro', 'Artesão Arcano'], icon: 'flame-blast.png' },
@@ -188,25 +188,44 @@ export { SPELLS }
 export default SPELLS
 
 export function getSpellsForClass(className: string, ruleset: '2014' | '2024' = '2024'): Spell[] {
-  const allAvailable = [...SPELLS, ...SPELLS_2014]
-  
-  // 1. Filter by class
-  const classSpells = allAvailable.filter(s => s.classes.includes(className))
-  
-  // 2. Filter by ruleset:
+  // 1. Prioritize 2014 list if ruleset is 2014
   if (ruleset === '2014') {
-    const legacy = classSpells.filter(s => s.id.endsWith('-2014'))
-    const standard = classSpells.filter(s => !s.id.endsWith('-2014'))
+    const legacy = SPELLS_2014.filter(s => s.classes.includes(className))
     
-    const result = [...legacy]
-    standard.forEach(s => {
-      const hasLegacyVersion = legacy.some(l => l.name.startsWith(s.name))
-      if (!hasLegacyVersion) result.push(s)
-    })
-    return result
+    // Lista de IDs da versão 2024 que são substituídos pelas versões 2014 acima
+    const replacedIds = [
+      // Truques
+      'acid-splash', 'blade-ward', 'chill-touch', 'dancing-lights', 
+      'druidcraft', 'eldritch-blast', 'fire-bolt', 'friends', 
+      'guidance', 'light', 'mage-hand', 'mending', 'message', 
+      'minor-illusion', 'poison-spray', 'prestidigitation', 
+      'ray-of-frost', 'resistance', 'sacred-flame', 'shillelagh', 
+      'shocking-grasp', 'spare-dying', 'thaumaturgy', 'true-strike',
+      // Nível 1
+      'alarm', 'animal-friendship', 'bane', 'bless', 'burning-hands',
+      'charm-person', 'chromatic-orb', 'color-spray', 'command',
+      'comprehend-languages', 'create-destroy-water', 'cure-wounds',
+      'detect-evil-good', 'detect-magic', 'disguise-self', 'dissonant-whispers',
+      'divine-favor', 'entangle', 'expeditious-retreat', 'false-life',
+      'feather-fall', 'find-familiar', 'fog-cloud', 'grease', 'guiding-bolt',
+      'hail-of-thorns', 'healing-word', 'heroism', 'tashas-hideous-laughter',
+      'hunters-mark', 'identify', 'illusory-script', 'inflict-wounds',
+      'jump', 'longstrider', 'mage-armor', 'magic-missile', 'protection-evil',
+      'purify-food-drink', 'ray-of-sickness', 'sanctuary', 'shield',
+      'shield-of-faith', 'silent-image', 'sleep', 'speak-with-animals',
+      'thunderwave', 'unseen-servant', 'witch-bolt'
+    ]
+    
+    const others = SPELLS.filter(s => 
+      s.classes.includes(className) && 
+      !replacedIds.includes(s.id)
+    )
+    
+    return [...legacy, ...others]
   }
   
-  return classSpells.filter(s => !s.id.endsWith('-2014'))
+  // 2024 ruleset: filter out 2014-only versions
+  return SPELLS.filter(s => s.classes.includes(className))
 }
 
 export const SPELLCASTING_CLASSES = [
