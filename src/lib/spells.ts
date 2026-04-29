@@ -237,6 +237,15 @@ export function getSpellSlots(className: string, level: number, ruleset: '2014' 
   const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
   const classData = table[className]
   if (!classData) return null
+  
+  // If level is beyond table, return last level
+  const levels = Object.keys(classData).map(Number).sort((a, b) => a - b)
+  const maxLevel = levels[levels.length - 1]
+  const minLevel = levels[0]
+  
+  if (level > maxLevel) return classData[maxLevel]
+  if (level < minLevel) return classData[minLevel]
+  
   return classData[level] || classData[1]
 }
 

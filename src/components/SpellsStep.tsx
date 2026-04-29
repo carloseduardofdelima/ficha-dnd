@@ -35,8 +35,17 @@ export default function SpellsStep({
   const slots = useMemo(() => getSpellSlots(className, level, ruleset), [className, level, ruleset])
   const classData = ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[className] : CLASS_LEVEL1_DATA[className]
 
-  // Spells available to this class
-  const availableSpells = useMemo(() => getSpellsForClass(className, ruleset), [className, ruleset])
+  // Spells available to this class, filtered by character level
+  const availableSpells = useMemo(() => {
+    const allClassSpells = getSpellsForClass(className, ruleset);
+    if (!slots) return allClassSpells;
+
+    // Determine max spell level allowed for this character level
+    const lastSlotIdx = slots.slots ? [...slots.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0;
+    const maxLevel = slots.slot_level || (slots.slots && slots.slots.some((s: number) => s > 0) ? lastSlotIdx + 1 : 1);
+    
+    return allClassSpells.filter(s => s.level <= maxLevel);
+  }, [className, ruleset, slots]);
 
   const cantripsSelected = selectedSpells.filter(id => {
     const s = availableSpells.find(sp => sp.id === id)

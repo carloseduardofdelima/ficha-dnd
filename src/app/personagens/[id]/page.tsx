@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
-import { SPELLS, ALL_SPELLS } from '@/lib/spells'
+import { SPELLS, ALL_SPELLS, getSpellSlots } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
@@ -195,8 +195,8 @@ export default function CharacterDetailPage() {
   // Get spell progression for current level
   const currentProgression = useMemo(() => {
     if (!character) return null
-    return SPELL_PROGRESSION[character.class]?.[character.level] || null
-  }, [character?.class, character?.level])
+    return getSpellSlots(character.class, character.level, character.ruleset || '2024')
+  }, [character?.class, character?.level, character?.ruleset])
 
   const totalCantripsSelected = useMemo(() => {
     if (!character?.spells) return 0
@@ -1246,7 +1246,7 @@ export default function CharacterDetailPage() {
                                   if (!isOwner) return;
                                   const resetSlots: Record<string, number> = {};
                                   if (isSpellcaster && currentProgression) {
-                                    currentProgression.slots.forEach((s, i) => {
+                                    currentProgression.slots.forEach((s: number, i: number) => {
                                       if (s > 0) resetSlots[(i + 1).toString()] = s;
                                     });
                                   }
@@ -1270,7 +1270,7 @@ export default function CharacterDetailPage() {
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                 {isSpellcaster && currentProgression && (
                                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                                    {currentProgression.slots.map((max, idx) => {
+                                    {currentProgression.slots.map((max: number, idx: number) => {
                                       if (max === 0) return null;
                                       const lvl = idx + 1;
                                       return (
@@ -1594,7 +1594,7 @@ export default function CharacterDetailPage() {
                     </div>
 
                     {/* Spell Slots Display */}
-                    {currentProgression && currentProgression.slots.some(s => s > 0) && (
+                    {currentProgression && currentProgression.slots.some((s: number) => s > 0) && (
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
@@ -1605,7 +1605,7 @@ export default function CharacterDetailPage() {
                         borderRadius: 12,
                         border: '1px solid rgba(255,255,255,0.05)'
                       }}>
-                        {currentProgression.slots.map((max, idx) => {
+                        {currentProgression.slots.map((max: number, idx: number) => {
                           if (max === 0) return null
                           const lvl = idx + 1
                           const current = (parsedSpellSlots as any)[lvl] ?? max
@@ -1657,7 +1657,7 @@ export default function CharacterDetailPage() {
                     {(() => {
                       const currentSpells = parsedSpells;
                       // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
-                      const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc, curr, idx) => curr > 0 ? idx : acc, 0) : 0;
+                      const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0;
                       const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1;
                       
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
@@ -1696,7 +1696,21 @@ export default function CharacterDetailPage() {
                       };
 
                       if (baseList.length === 0 && !isPreparing) {
-                        return <p style={{ color: 'var(--fg3)', textAlign: 'center', padding: 24 }}>Nenhuma magia preparada para hoje.</p>;
+                        const hasFutureSlots = character.ruleset === '2014' && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1;
+                        return (
+                          <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.05)' }}>
+                            <p style={{ color: 'var(--fg3)', margin: 0 }}>
+                              {hasFutureSlots 
+                                ? '🛡️ Você desbloqueará espaços de magia no Nível 2 (Regras 2014).' 
+                                : '📖 Nenhuma magia preparada para hoje.'}
+                            </p>
+                            {hasFutureSlots && (
+                              <p style={{ fontSize: 11, color: 'var(--fg4)', marginTop: 8 }}>
+                                No D&D 2014, Paladinos e Patrulheiros começam sua jornada mística apenas no segundo nível.
+                              </p>
+                            )}
+                          </div>
+                        );
                       }
 
                       const slots = character.spellSlots ? JSON.parse(character.spellSlots as string) : {};
@@ -2659,13 +2673,37 @@ export default function CharacterDetailPage() {
                         const newMaxHp = character.maxHp + finalIncrease;
                         const newProf = getProficiencyBonus(newLevel);
 
+                        // Recalculate spell slots and resources for the new level
+                        const newSpellSlotsRaw = getSpellSlots(character.class, newLevel, character.ruleset || '2024');
+                        const newSpellSlots: Record<string, number> = {};
+                        if (newSpellSlotsRaw?.slots) {
+                          newSpellSlotsRaw.slots.forEach((s: number, i: number) => {
+                            if (s > 0) newSpellSlots[String(i + 1)] = s;
+                          });
+                        }
+
+                        const newResources: Record<string, number> = character.resources ? JSON.parse(character.resources as string) : {};
+                        if (character.class === 'Paladino') newResources['Imposição de Mãos'] = newLevel * 5;
+                        if (character.class === 'Monge') newResources['Pontos de Foco'] = newLevel;
+                        if (character.class === 'Feiticeiro') newResources['Pontos de Feitiçaria'] = newLevel;
+                        if (character.class === 'Bárbaro') {
+                          if (newLevel >= 20) newResources['Fúrias'] = 99; // Unlimited
+                          else if (newLevel >= 17) newResources['Fúrias'] = 6;
+                          else if (newLevel >= 12) newResources['Fúrias'] = 5;
+                          else if (newLevel >= 6) newResources['Fúrias'] = 4;
+                          else if (newLevel >= 3) newResources['Fúrias'] = 3;
+                          else newResources['Fúrias'] = 2;
+                        }
+
                         const updated = {
                           ...character,
                           level: newLevel,
                           maxHp: newMaxHp,
                           currentHp: character.currentHp + finalIncrease,
                           proficiencyBonus: newProf,
-                          ruleset: character.ruleset || selectedRuleset
+                          ruleset: character.ruleset || selectedRuleset,
+                          spellSlots: JSON.stringify(newSpellSlots),
+                          resources: JSON.stringify(newResources)
                         };
 
                         // Determinar se precisa de Subclasse
@@ -2751,12 +2789,26 @@ export default function CharacterDetailPage() {
                           return;
                         }
 
+                        // Recalculate spell slots and resources for the new level (subclass might affect this in some cases, but level definitely does)
+                        const newSpellSlotsRaw = getSpellSlots(updated.class, updated.level, updated.ruleset as any);
+                        const newSpellSlots: Record<string, number> = {};
+                        if (newSpellSlotsRaw?.slots) {
+                          newSpellSlotsRaw.slots.forEach((s: number, i: number) => {
+                            if (s > 0) newSpellSlots[String(i + 1)] = s;
+                          });
+                        }
+
+                        const finalUpdated = {
+                          ...updated,
+                          spellSlots: JSON.stringify(newSpellSlots)
+                        };
+
                         const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
                         if ([4, 8, 12, 16, 19].includes(updated.level)) {
                           setLevelUpStep(4);
-                          setCharacter(updated);
+                          setCharacter(finalUpdated);
                         } else {
-                          handleLevelUpPersistence(updated, alerts);
+                          handleLevelUpPersistence(finalUpdated, alerts);
                         }
                       }}
                     >
