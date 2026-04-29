@@ -2,33 +2,22 @@
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import {
-  ArrowLeft, Wand2, Clock, Globe, 
-  Wind, Shield, Loader2, Sparkles,
-  BookOpen, Layers, Info
+  ArrowLeft, Clock, Globe, 
+  Wind, Shield, Loader2,
+  BookOpen, Layers
 } from 'lucide-react'
 import Image from 'next/image'
-import { SpellDetail } from '@/types/spell'
+import { ALL_SPELLS, Spell } from '@/lib/spells'
 
 const SCHOOL_ICONS: Record<string, string> = {
-  'abjuration': '/assets/spells-icons/protection-field.png',
-  'conjuration': '/assets/spells-icons/teleport-swirl.png',
-  'divination': '/assets/spells-icons/all-seeing-eye.png',
-  'enchantment': '/assets/spells-icons/mind-waves.png',
-  'evocation': '/assets/spells-icons/fire-blast.png',
-  'illusion': '/assets/spells-icons/mirror-image.png',
-  'necromancy': '/assets/spells-icons/undead-skull.png',
-  'transmutation': '/assets/spells-icons/elemental-spiral.png',
-}
-
-const SCHOOL_NAMES: Record<string, string> = {
-  'abjuration': 'Abjuração',
-  'conjuration': 'Conjuração',
-  'divination': 'Adivinhação',
-  'enchantment': 'Encantamento',
-  'evocation': 'Evocação',
-  'illusion': 'Ilusão',
-  'necromancy': 'Necromancia',
-  'transmutation': 'Transmutação',
+  'Abjuração': '/assets/spells-icons/protection-field.png',
+  'Conjuração': '/assets/spells-icons/teleport-swirl.png',
+  'Adivinhação': '/assets/spells-icons/all-seeing-eye.png',
+  'Encantamento': '/assets/spells-icons/mind-waves.png',
+  'Evocação': '/assets/spells-icons/fire-blast.png',
+  'Ilusão': '/assets/spells-icons/mirror-image.png',
+  'Necromancia': '/assets/spells-icons/undead-skull.png',
+  'Transmutação': '/assets/spells-icons/elemental-spiral.png',
 }
 
 interface PageProps {
@@ -37,17 +26,16 @@ interface PageProps {
 
 export default function SpellDetailsPage({ params }: PageProps) {
   const { index } = use(params)
-  const [spell, setSpell] = useState<SpellDetail | null>(null)
+  const [spell, setSpell] = useState<Spell | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`https://www.dnd5eapi.co/api/2014/spells/${index}?lang=pt-BR`)
-      .then(res => res.json())
-      .then(data => {
-        setSpell(data)
-        setLoading(false)
-      })
-      .catch(() => setLoading(false))
+    // Busca na biblioteca local pelo ID (que é o 'index' na URL)
+    const found = ALL_SPELLS.find(s => s.id === index)
+    if (found) {
+      setSpell(found)
+    }
+    setLoading(false)
   }, [index])
 
   if (loading) return (
@@ -57,13 +45,21 @@ export default function SpellDetailsPage({ params }: PageProps) {
     </div>
   )
 
-  if (!spell) return <div className="container">Magia não encontrada.</div>
+  if (!spell) return (
+    <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
+      <h2 style={{ fontFamily: 'Cinzel, serif', color: 'var(--accentL)' }}>Magia não encontrada</h2>
+      <p style={{ color: 'var(--fg2)', marginBottom: 24 }}>O feitiço que você procura parece ter sido perdido no tempo.</p>
+      <Link href="/magias">
+        <button className="btn btn-primary">Voltar para o Grimório</button>
+      </Link>
+    </div>
+  )
 
   return (
     <div className="container">
       <Link href="/magias">
         <button className="btn btn-ghost" style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <ArrowLeft size={16} /> Voltar
+          <ArrowLeft size={16} /> Voltar para o Grimório
         </button>
       </Link>
 
@@ -109,7 +105,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
               </span>
               
               <span style={{ color: 'var(--fg2)', fontSize: 18, fontStyle: 'italic', fontWeight: 500 }}>
-                de {SCHOOL_NAMES[spell.school.index] || spell.school.name}
+                de {spell.school}
               </span>
 
               <div style={{ display: 'flex', gap: 12, marginLeft: 8 }}>
@@ -128,7 +124,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
           </div>
 
           {/* Ícone da Escola na Direita */}
-          {SCHOOL_ICONS[spell.school.index] && (
+          {SCHOOL_ICONS[spell.school] && (
             <div style={{
               zIndex: 1,
               width: 120,
@@ -139,8 +135,8 @@ export default function SpellDetailsPage({ params }: PageProps) {
               position: 'relative'
             }} className="school-icon-container">
               <Image 
-                src={SCHOOL_ICONS[spell.school.index]} 
-                alt={spell.school.name} 
+                src={SCHOOL_ICONS[spell.school]} 
+                alt={spell.school} 
                 width={100} 
                 height={100} 
                 style={{ 
@@ -158,9 +154,9 @@ export default function SpellDetailsPage({ params }: PageProps) {
           gap: 1,
           background: 'var(--border)'
         }}>
-          <InfoBox icon={<Clock size={20} color="var(--accentL)" />} label="TEMPO DE CONJURAÇÃO" value={spell.casting_time} />
+          <InfoBox icon={<Clock size={20} color="var(--accentL)" />} label="TEMPO DE CONJURAÇÃO" value={spell.castingTime} />
           <InfoBox icon={<Globe size={20} color="var(--accent2)" />} label="ALCANCE" value={spell.range} />
-          <InfoBox icon={<Wind size={20} color="var(--fg2)" />} label="COMPONENTES" value={spell.components.join(', ')} sub={spell.material} />
+          <InfoBox icon={<Wind size={20} color="var(--fg2)" />} label="COMPONENTES" value={spell.components} />
           <InfoBox icon={<Shield size={20} color="var(--accentL)" />} label="DURAÇÃO" value={spell.duration} />
         </div>
 
@@ -168,26 +164,25 @@ export default function SpellDetailsPage({ params }: PageProps) {
         <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 40 }}>
           {/* Description */}
           <Section title="Descrição">
-            {spell.desc.map((p, i) => (
-              <p key={i} style={{ color: 'var(--fg)', lineHeight: 1.7, fontSize: 16, marginBottom: 16, whiteSpace: 'pre-wrap' }}>{p}</p>
-            ))}
+            <p style={{ color: 'var(--fg)', lineHeight: 1.7, fontSize: 16, marginBottom: 16, whiteSpace: 'pre-wrap' }}>
+              {spell.description}
+            </p>
           </Section>
 
-          {/* Higher Level */}
-          {spell.higher_level && spell.higher_level.length > 0 && (
-            <Section title="Em Níveis Superiores">
-              {spell.higher_level.map((p, i) => (
-                <p key={i} style={{ color: 'var(--fg2)', fontStyle: 'italic', lineHeight: 1.7, fontSize: 15 }}>{p}</p>
-              ))}
+          {/* Higher Level (if available in description or extra field) */}
+          {spell.damageEffect && (
+            <Section title="Efeito / Dano">
+              <p style={{ color: 'var(--accentL)', fontWeight: 700, fontSize: 18 }}>{spell.damageEffect}</p>
+              {spell.attackSave && <p style={{ color: 'var(--fg2)', fontSize: 14 }}>Salvaguarda/Ataque: {spell.attackSave}</p>}
             </Section>
           )}
 
           {/* Classes */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }} className="footer-info">
-            <InfoSection title="Classes">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }} className="footer-info">
+            <InfoSection title="Disponível para as Classes">
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {spell.classes.map(c => (
-                  <span key={c.index} style={{
+                  <span key={c} style={{
                     background: 'var(--bg2)',
                     border: '1px solid var(--border)',
                     padding: '6px 12px',
@@ -195,30 +190,11 @@ export default function SpellDetailsPage({ params }: PageProps) {
                     color: 'var(--fg)',
                     fontSize: 14
                   }}>
-                    {c.name}
+                    {c}
                   </span>
                 ))}
               </div>
             </InfoSection>
-
-            {spell.subclasses.length > 0 && (
-              <InfoSection title="Subclasses">
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {spell.subclasses.map(sc => (
-                    <span key={sc.index} style={{
-                      background: 'rgba(212, 175, 55, 0.05)',
-                      border: '1px solid rgba(212, 175, 55, 0.2)',
-                      padding: '6px 12px',
-                      borderRadius: 8,
-                      color: 'var(--accentL)',
-                      fontSize: 13
-                    }}>
-                      {sc.name}
-                    </span>
-                  ))}
-                </div>
-              </InfoSection>
-            )}
           </div>
         </div>
       </div>
