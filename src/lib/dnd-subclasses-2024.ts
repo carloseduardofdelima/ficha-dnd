@@ -520,7 +520,7 @@ export const SUBCLASSES_2024: Record<string, ClassSubclasses> = {
       }
     }
   },
-  'Artesão Arcano': {
+  'Artífice': {
     "Artilheiro": {
       spells: ["Escudo", "Onda de Trovão", "Raio Escaldante", "Fragmentar", "Bola de Fogo", "Muro de Vento", "Tempestade de Gelo", "Muro de Fogo", "Cone de Frio", "Muro de Força"],
       features: {

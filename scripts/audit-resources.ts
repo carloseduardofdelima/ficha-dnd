@@ -44,9 +44,11 @@ const CLASS_RESOURCES: Record<string, (char: any) => Record<string, number>> = {
     if (char.level < 2) return {}
     return { 'Forma Selvagem': 2 }
   },
-  'Artesão Arcano': (char) => {
+  'Artífice': (char) => {
     const mod = Math.floor((char.intelligence - 10) / 2)
-    return { 'Engenharia Mágica': Math.max(1, mod) }
+    const res: Record<string, number> = { 'Engenharia Mágica': Math.max(1, mod) }
+    if (char.level >= 7) res['Lampejo de Genialidade'] = Math.max(1, mod)
+    return res
   }
 }
 

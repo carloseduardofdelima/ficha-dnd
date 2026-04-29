@@ -1217,7 +1217,7 @@ export default function CharacterDetailPage() {
                               initial['Forma Selvagem'] = { max: 2, current: 2, color: '#22c55e' };
                             }
                             
-                            if (character.class === 'Artesão Arcano') {
+                            if (character.class === 'Artífice') {
                               const maxTinkering = Math.max(1, modIntelligence);
                               initial['Engenharia Mágica'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               if (character.level >= 7) {
@@ -1263,9 +1263,7 @@ export default function CharacterDetailPage() {
                               initial['Indomável'] = { max: uses, current: uses, color: '#94a3b8' };
                             }
 
-                            if (character.class === 'Artesão Arcano' && character.level >= 7) {
-                              initial['Brilho de Gênio'] = { max: Math.max(1, modIntelligence), current: Math.max(1, modIntelligence), color: '#06b6d4' };
-                            }
+
                             
                             return initial;
                           };
@@ -1273,7 +1271,7 @@ export default function CharacterDetailPage() {
 
 
                           const classResources = getInitialResources();
-                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artesão Arcano'].includes(character.class);
+                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artífice'].includes(character.class);
 
                           return (
                             <div className="card compact-card resources-card">

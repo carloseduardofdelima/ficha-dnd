@@ -160,5 +160,30 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
       { name: 'Recuperação Arcana', description: 'Uma vez por dia, após um descanso curto, você pode recuperar espaços de magia cujo nível total seja igual ou inferior a metade do seu nível de mago (mínimo 1).' }
     ],
     choices: []
+  },
+  'Artífice': {
+    passiveFeatures: [
+      { name: 'Engenharia Mágica', description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos (como emitir luz, som ou odor). O número máximo de itens é igual ao seu Mod. de Inteligência.' },
+      { name: 'Conjuração', description: 'Você aprendeu a canalizar magia através de ferramentas. Você usa Inteligência como atributo de conjuração e prepara suas magias diariamente.' },
+      { name: 'Infundir Item (Nvl 2)', description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas, transformando-os em itens mágicos.' },
+      { name: 'A Ferramenta Certa para o Trabalho (Nvl 3)', description: 'Você pode criar magicamente um conjunto de ferramentas de artesão em 1 hora.' },
+      { name: 'Lampejo de Genialidade (Nvl 7)', description: 'Como reação, você pode adicionar seu modificador de Inteligência a um teste de habilidade ou salvaguarda (INT/dia).' },
+    ],
+    choices: [
+      {
+        id: 'artificer-tool-2014',
+        label: 'Ferramentas de Artesão',
+        description: 'Escolha um tipo de ferramenta de artesão para ganhar proficiência adicional.',
+        type: 'radio',
+        options: [
+          { id: 'art-alchemist', name: 'Alquimista', description: 'Suprimentos de Alquimista' },
+          { id: 'art-smith', name: 'Ferreiro', description: 'Ferramentas de Ferreiro' },
+          { id: 'art-tinker', name: 'Funileiro', description: 'Ferramentas de Funileiro' },
+          { id: 'art-woodcarver', name: 'Entalhador', description: 'Ferramentas de Entalhador' },
+          { id: 'art-cook', name: 'Cozinheiro', description: 'Utensílios de Cozinheiro' }
+        ]
+      }
+    ]
   }
 };
+

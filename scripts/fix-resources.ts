@@ -6,7 +6,8 @@ const prisma = new PrismaClient()
 const RENAME_MAP: Record<string, string> = {
   'Fúrias': 'Fúria',
   'Retomada de Fôlego': 'Segundo Fôlego',
-  'Imposição de Mãos': 'Mãos Curativas'
+  'Imposição de Mãos': 'Mãos Curativas',
+  'Brilho de Gênio': 'Lampejo de Genialidade'
 }
 
 const CLASS_RESOURCES: Record<string, (char: any) => Record<string, number>> = {
@@ -77,10 +78,10 @@ const CLASS_RESOURCES: Record<string, (char: any) => Record<string, number>> = {
   'Patrulheiro': (char) => {
     return { 'Marca do Caçador': char.proficiencyBonus || 2 }
   },
-  'Artesão Arcano': (char) => {
+  'Artífice': (char) => {
     const mod = Math.floor((char.intelligence - 10) / 2)
     const res: Record<string, number> = { 'Engenharia Mágica': Math.max(1, mod) }
-    if (char.level >= 7) res['Brilho de Gênio'] = Math.max(1, mod)
+    if (char.level >= 7) res['Lampejo de Genialidade'] = Math.max(1, mod)
     return res
   }
 
@@ -109,6 +110,12 @@ async function fixResources() {
     }
 
     // 2. Ensure mandatory resources exist
+    // Rename class if legacy name found
+    if (char.class === 'Artesão Arcano') {
+      char.class = 'Artífice';
+      changed = true;
+    }
+
     const expectedGenerator = CLASS_RESOURCES[char.class]
     if (expectedGenerator) {
       const expected = expectedGenerator(char)
@@ -131,7 +138,10 @@ async function fixResources() {
     if (changed) {
       await prisma.character.update({
         where: { id: char.id },
-        data: { resources: JSON.stringify(resources) }
+        data: { 
+          resources: JSON.stringify(resources),
+          class: char.class 
+        }
       })
       console.log(`✅ [${char.name}] Atualizado.`)
     }

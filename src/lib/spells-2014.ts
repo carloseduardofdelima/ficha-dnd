@@ -130,7 +130,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, M', 
     description: 'Você toca um objeto que não tenha mais de 3 metros em qualquer dimensão. Até a magia acabar, o objeto emite luz brilhante num raio de 6 metros e luz penumbra por mais 6 metros adicionais.', 
-    classes: ['Bardo', 'Clérigo', 'Feiticeiro', 'Mago'] 
+    classes: ['Bardo', 'Clérigo', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'mage-hand-2014', 
@@ -154,7 +154,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S, M', 
     description: 'Esta magia repara uma única fenda ou rasgo em um objeto que você tocar, como um elo quebrado de uma corrente, duas metades de uma chave quebrada, um manto rasgado ou um vazamento em um odre.', 
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago'] 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'message-2014', 
@@ -461,7 +461,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Uma criatura que você tocar recupera um número de pontos de vida igual a 1d8 + seu modificador de habilidade de conjuração. Esta magia não tem efeito em mortos-vivos ou construtos.', 
     damageEffect: '1d8 + Mod Cura', 
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro'] 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Artífice'] 
   },
   { 
     id: 'detect-evil-and-good-2014', 
@@ -486,7 +486,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal', 
     components: 'V, S', 
     description: 'Pela duração, você sente a presença de magia a até 9 metros de você. Se você sentir magia desta forma, você pode usar sua ação para ver uma aura tênue ao redor de qualquer criatura ou objeto visível na área que carregue magia.', 
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Mago'], 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -655,7 +655,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V', 
     description: 'Uma criatura à sua escolha, que você possa ver dentro do alcance, recupera um número de pontos de vida igual a 1d4 + seu modificador de habilidade de conjuração. Esta magia não tem efeito em mortos-vivos ou construtos.', 
     damageEffect: '1d4 + Mod Cura', 
-    classes: ['Bardo', 'Clérigo', 'Druida'] 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Artífice'] 
   },
   { 
     id: 'heroism-2014', 
@@ -708,7 +708,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S, M', 
     description: 'Você escolhe um objeto que deve tocar durante toda a conjuração da magia. Se for um item mágico ou algum outro objeto imbuído de magia, você aprende suas propriedades e como usá-las.', 
-    classes: ['Bardo', 'Mago'] 
+    classes: ['Bardo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'illusory-script-2014', 
@@ -745,7 +745,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S, M', 
     description: 'Você toca uma criatura. A distância de salto da criatura é triplicada até a magia terminar.', 
-    classes: ['Druida', 'Feiticeiro', 'Mago'] 
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'longstrider-2014', 
@@ -758,7 +758,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M', 
     description: 'Você toca uma criatura. O deslocamento do alvo aumenta em 3 metros até a magia terminar.', 
     damageEffect: '+3m deslocamento', 
-    classes: ['Bardo', 'Druida', 'Patrulheiro', 'Mago'] 
+    classes: ['Bardo', 'Druida', 'Patrulheiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'mage-armor-2014', 
@@ -1119,7 +1119,7 @@ export const SPELL_SLOTS_2014: Record<string, Record<number, any>> = {
     19: { cantrips: 0, known: 11, slots: [4, 3, 3, 3, 2] },
     20: { cantrips: 0, known: 11, slots: [4, 3, 3, 3, 2] },
   },
-  'Artesão Arcano': {
+  'Artífice': {
     1: { cantrips: 2, prepared: 'Int + Lvl/2', slots: [2, 0, 0, 0, 0] },
     2: { cantrips: 2, prepared: 'Int + Lvl/2', slots: [2, 0, 0, 0, 0] },
     3: { cantrips: 2, prepared: 'Int + Lvl/2', slots: [3, 0, 0, 0, 0] },

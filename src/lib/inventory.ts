@@ -225,10 +225,12 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('pack-estudioso', 1, true),
     entry('bolsa-15po', 1, true),
   ],
-  'Artesão Arcano': [
-    entry('martelo-guerra', 1, true),
+  'Artífice': [
+    entry('adaga', 2, true),
+    entry('besta-leve', 1, true),
+    entry('virotes-20', 1, true),
     entry('couro', 1, true),
-    entry('ferramentas-ferreiro', 1, true),
+    entry('ferramentas-ladrao', 1, true),
     entry('pack-explorador', 1, true),
     entry('bolsa-15po', 1, true),
   ],

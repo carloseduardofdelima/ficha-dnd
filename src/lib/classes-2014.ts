@@ -230,5 +230,25 @@ export const CLASSES_2014: DndClass[] = [
       { name: 'Recuperação Arcana', description: 'Você pode recuperar parte do seu poder mágico durante um descanso curto.' },
       { name: 'Livro de Magias', description: 'Você possui um livro contendo as fórmulas de suas magias.' }
     ]
+  },
+  {
+    id: 'artificer_2014',
+    name: 'Artífice',
+    description: 'Um mestre da invenção e da engenharia mágica, capaz de imbuir itens comuns com poder arcano.',
+    image: '/assets/artificer.png',
+    source: "Tasha's Cauldron of Everything",
+    hitDie: 'd8',
+    primaryAttr: 'Inteligência',
+    savingThrows: ['Constituição', 'Inteligência'],
+    armorProf: 'Armaduras Leves, Médias e Escudos',
+    weaponProf: 'Armas Simples',
+    skillCount: 2,
+    skillOptions: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Percepção', 'Prestidigitação'],
+    features: [
+      { name: 'Conjuração', description: 'Você aprendeu a canalizar magia através de ferramentas e objetos.' },
+      { name: 'Engenharia Mágica', description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos.' },
+      { name: 'Infundir Item', description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas.' }
+    ]
   }
 ];
+

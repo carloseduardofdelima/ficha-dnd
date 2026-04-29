@@ -142,5 +142,58 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         14: [{ name: "Atirar pelo Inferno", description: "Transporta alvo para o Inferno; causa 10d10 de dano psíquico." }]
       }
     }
+  },
+  'Artífice': {
+    "Alquimista": {
+      spells: ["Palavra Curativa", "Raio Nauseante", "Esfera Flamejante", "Flecha Ácida de Melf", "Forma Gasosa", "Palavra Curativa em Massa", "Malogro", "Proteção Contra a Morte", "Névoa Mortal", "Reviver os Mortos"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em suprimentos de alquimista." },
+          { name: "Elixir Experimental", description: "Ao fim de um descanso longo, cria um elixir aleatório. Pode gastar espaços de magia para criar mais escolhendo o efeito." }
+        ],
+        5: [{ name: "Sábio Alquímico", description: "Adiciona modificador de Inteligência ao dano de ácido, fogo, necrótico ou veneno, e em curas (mínimo +1)." }],
+        9: [{ name: "Reagentes Restauradores", description: "Criaturas ganham PV temporários (2d6 + INT) ao beber seus elixires. Pode conjurar Restauração Menor sem slot (INT/dia)." }],
+        15: [{ name: "Maestria Química", description: "Resistência a ácido e veneno; imune à condição envenenado. Pode conjurar Restauração Maior e Curar sem gastar espaços (1x/descanso longo cada)." }]
+      }
+    },
+    "Armeiro": {
+      spells: ["Mísseis Mágicos", "Onda Trovejante", "Reflexos", "Despedaçar", "Padrão Hipnótico", "Relâmpago", "Escudo Ardente", "Invisibilidade Maior", "Criar Passagem", "Muralha de Energia"],
+      features: {
+        3: [
+          { name: "Ferramentas Ideais", description: "Proficiência em ferramentas de ferreiro e armaduras pesadas." },
+          { name: "Armadura Arcana", description: "Transforma sua armadura em um condutor mágico que ignora requisitos de Força e serve como foco." },
+          { name: "Modelo de Armadura", description: "Escolha entre Guardião (Manoplas Trovejantes e Campo Defensivo) ou Infiltrador (Lança-Relâmpagos e Passos Energizados)." }
+        ],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque." }],
+        9: [{ name: "Modificações da Armadura", description: "Sua armadura conta como itens separados (peito, botas, elmo e arma) para os propósitos de infusões. Limite de infusões aumenta em 2 (apenas na armadura)." }],
+        15: [{ name: "Armadura Perfeita", description: "Ganha bônus potentes baseados no seu modelo de armadura (Guardião: puxar inimigo com reação; Infiltrador: vantagem em ataque e dano extra)." }]
+      }
+    },
+    "Artilheiro": {
+      spells: ["Escudo", "Onda Trovejante", "Raio Ardente", "Despedaçar", "Bola de Fogo", "Muralha de Vento", "Tempestade Glacial", "Muro de Fogo", "Cone de Frio", "Muralha de Energia"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em ferramentas de carpinteiro." },
+          { name: "Canhão Místico", description: "Cria um canhão mágico pequeno ou minúsculo. Opções: Lança-chamas, Força de Balista ou Protetor." }
+        ],
+        5: [{ name: "Arma de Fogo Arcana", description: "Foca magia em um objeto para causar +1d8 de dano em feitiços de artífice." }],
+        9: [{ name: "Canhão Explosivo", description: "Dano do canhão aumenta em 1d8. Pode usar uma ação para detonar o canhão (3d8 de dano em área)." }],
+        15: [{ name: "Posição Fortificada", description: "Pode ter dois canhões ativos. Seus canhões fornecem meia-cobertura a você e aliados a até 3 metros." }]
+      }
+    },
+    "Ferreiro de Batalha": {
+      spells: ["Escudo", "Heroísmo", "Marca da Punição", "Vínculo de Proteção", "Aura de Vitalidade", "Invocar Barragem", "Aura de Pureza", "Escudo de Fogo", "Banimento Destruidor", "Curar Ferimentos em Massa"],
+      features: {
+        3: [
+          { name: "Proficiência com Ferramentas", description: "Proficiência em ferramentas de ferreiro e armas marciais." },
+          { name: "Pronto para a Batalha", description: "Usa Inteligência para ataques e dano com armas mágicas." },
+          { name: "Defensor de Aço", description: "Cria um companheiro mecânico que compartilha sua iniciativa e protege aliados." }
+        ],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque." }],
+        9: [{ name: "Pulso Arcano", description: "Quando atinge com arma mágica ou o defensor atinge, pode causar 2d6 extra ou curar 2d6 a aliado próximo (INT/dia)." }],
+        15: [{ name: "Defensor Aprimorado", description: "Dano e cura do Pulso Arcano aumentam para 4d6. O defensor ganha +2 na CA e causa dano quando usa Defletir Ataque." }]
+      }
+    }
   }
 };
+

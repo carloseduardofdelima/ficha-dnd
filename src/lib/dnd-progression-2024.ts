@@ -283,7 +283,7 @@ export const CLASS_PROGRESSION_2024: Record<string, ClassProgression> = {
       20: ['Signature Spells'],
     }
   },
-  'Artesão Arcano': {
+  'Artífice': {
     hitDie: 8,
     features: {
       1: ['Engenharia Mágica (Magical Tinkering)', 'Spellcasting'],
