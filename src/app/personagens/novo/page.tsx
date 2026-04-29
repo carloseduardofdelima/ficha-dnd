@@ -212,6 +212,18 @@ export default function NovoPersonagem() {
         }
         if (form.class === 'Paladino') res['Imposição de Mãos'] = form.level * 5;
         if (form.class === 'Feiticeiro' && form.level >= 2) res['Pontos de Feitiçaria'] = form.level;
+        
+        // Cleric Domain Resources (2014)
+        if (form.class === 'Clérigo' && form.ruleset === '2014') {
+          const domain = featureChoices['cleric-domain-2014'] as string;
+          const wisMod = Math.max(1, Math.floor((finalAttrs.wisdom - 10) / 2));
+          if (domain === 'dom-guerra') {
+            res['Sacerdote da Guerra'] = wisMod;
+          } else if (domain === 'dom-tempestade') {
+            res['Ira da Tempestade'] = wisMod;
+          }
+        }
+        
         return JSON.stringify(res);
       })(),
     }
