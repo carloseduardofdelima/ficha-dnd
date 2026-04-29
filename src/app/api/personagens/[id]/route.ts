@@ -14,9 +14,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   
-  // Privacy check: Must be owner OR the character must be public
+  // Privacy check: Must be owner OR the character must be public OR be admin
+  const isAdmin = session?.user?.email === 'carloseduardoff12@gmail.com'
   const isOwner = session?.user?.id === character.userId
-  if (!character.isPublic && !isOwner) {
+  
+  if (!character.isPublic && !isOwner && !isAdmin) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -59,7 +61,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const body = await req.json()
 
   const existing = await prisma.character.findUnique({ where: { id } })
-  if (!existing || existing.userId !== session.user.id) {
+  const isAdmin = session?.user?.email === 'carloseduardoff12@gmail.com'
+  if (!existing || (existing.userId !== session.user.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -117,7 +120,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
   const { id } = await params
   const existing = await prisma.character.findUnique({ where: { id } })
-  if (!existing || existing.userId !== session.user.id) {
+  const isAdmin = session?.user?.email === 'carloseduardoff12@gmail.com'
+  if (!existing || (existing.userId !== session.user.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 

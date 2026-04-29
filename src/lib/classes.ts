@@ -15,6 +15,7 @@ export interface DndClass {
   savingThrows: string[]
   armorProf: string
   weaponProf: string
+  toolProf?: string
   skillCount?: number
   skillOptions?: string[]
 }
