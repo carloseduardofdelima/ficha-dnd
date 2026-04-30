@@ -16,7 +16,7 @@ export async function PATCH(
 
   try {
     const npc = await prisma.npc.update({
-      where: { id: npcId, userId: session.user.id },
+      where: { id: npcId, userId: session?.user?.id },
       data,
       include: { combat: true }
     })
@@ -40,7 +40,7 @@ export async function DELETE(
 
   try {
     await prisma.npc.delete({
-      where: { id: npcId, userId: session.user.id }
+      where: { id: npcId, userId: session?.user?.id }
     })
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -15,7 +15,7 @@ export async function GET(
 
   try {
     const npcs = await prisma.npc.findMany({
-      where: { campaignId: id, userId: session.user.id },
+      where: { campaignId: id, userId: session?.user?.id },
       include: { combat: true, sessions: true },
       orderBy: { createdAt: 'desc' }
     })
@@ -44,7 +44,7 @@ export async function POST(
       data: {
         ...data,
         campaignId: id,
-        userId: session.user.id
+        userId: session?.user?.id
       },
       include: { combat: true }
     })

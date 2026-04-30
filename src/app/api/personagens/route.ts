@@ -31,7 +31,7 @@ export async function GET() {
   let allCharacters;
   
   const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com'];
-  const isAdmin = ADMIN_EMAILS.includes(session.user.email ?? '');
+  const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '');
 
   if (isAdmin) {
     // Admin sees everything
@@ -42,13 +42,13 @@ export async function GET() {
   } else {
     // Regular user sees owned and saved
     const owned = await prisma.character.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session?.user?.id },
       select: listFields,
       orderBy: { updatedAt: 'desc' },
     })
 
     const savedEntries = await prisma.savedCharacter.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session?.user?.id },
       include: {
         character: {
           select: listFields
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
   const character = await prisma.character.create({
     data: {
       slug: nanoid(10),
-      userId: session.user.id,
+      userId: session?.user?.id,
       name: body.name || 'Novo Personagem',
       race: body.race || '',
       subrace: body.subrace || '',

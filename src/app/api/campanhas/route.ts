@@ -12,12 +12,12 @@ export async function GET() {
     const campaigns = await prisma.campaign.findMany({
       where: {
         OR: [
-          { userId: session.user.id },
+          { userId: session?.user?.id },
           {
             characters: {
               some: {
                 character: {
-                  userId: session.user.id
+                  userId: session?.user?.id
                 }
               }
             }
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     const campaign = await prisma.campaign.create({
       data: {
         ...data,
-        userId: session.user.id
+        userId: session?.user?.id
       }
     })
     return NextResponse.json(campaign)

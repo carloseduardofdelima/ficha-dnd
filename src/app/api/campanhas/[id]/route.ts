@@ -30,8 +30,8 @@ export async function GET(
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
-    const isOwner = campaign.userId === session.user.id
-    const isPlayer = campaign.characters.some(link => link.character.userId === session.user.id)
+    const isOwner = campaign.userId === session?.user?.id
+    const isPlayer = campaign.characters.some(link => link.character.userId === session?.user?.id)
 
     if (!isOwner && !isPlayer) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -78,7 +78,7 @@ export async function PATCH(
 
   try {
     const campaign = await prisma.campaign.update({
-      where: { id, userId: session.user.id },
+      where: { id, userId: session?.user?.id },
       data
     })
     return NextResponse.json(campaign)
@@ -101,7 +101,7 @@ export async function DELETE(
 
   try {
     await prisma.campaign.delete({
-      where: { id, userId: session.user.id }
+      where: { id, userId: session?.user?.id }
     })
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const saved = await prisma.savedCharacter.findUnique({
       where: {
         userId_characterId: {
-          userId: session.user.id,
+          userId: session?.user?.id,
           characterId: id
         }
       }
@@ -66,7 +66,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const existing = await prisma.character.findUnique({ where: { id } })
   const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com']
   const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '')
-  if (!existing || (existing.userId !== session.user.id && !isAdmin)) {
+  if (!existing || (existing.userId !== session?.user?.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -126,7 +126,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   const existing = await prisma.character.findUnique({ where: { id } })
   const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com']
   const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '')
-  if (!existing || (existing.userId !== session.user.id && !isAdmin)) {
+  if (!existing || (existing.userId !== session?.user?.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
