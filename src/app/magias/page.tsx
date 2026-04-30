@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, Wand2, Sparkles, Filter, ChevronRight, BookOpen, User, Shield, Zap, Info, X, Clock, Globe, Wind, Layers } from 'lucide-react'
-import { ALL_SPELLS, Spell } from '@/lib/spells'
+import { SPELLS_2014, Spell } from '@/lib/spells'
 import Image from 'next/image'
 
 const LEVELS = [
@@ -47,21 +47,30 @@ const SCHOOL_ICONS: Record<string, string> = {
 
 export default function MagiasPage() {
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [selectedLevel, setSelectedLevel] = useState<string | number>('all')
   const [selectedSchool, setSelectedSchool] = useState<string>('all')
   const [selectedClass, setSelectedClass] = useState<string>('all')
   const [selectedSpell, setSelectedSpell] = useState<Spell | null>(null)
   const [showFilters, setShowFilters] = useState(false)
 
+  // Efeito de Debounce para a busca
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 300)
+    return () => clearTimeout(handler)
+  }, [search])
+
   const filteredSpells = useMemo(() => {
-    return ALL_SPELLS.filter(spell => {
-      const matchesSearch = spell.name.toLowerCase().includes(search.toLowerCase())
+    return SPELLS_2014.filter(spell => {
+      const matchesSearch = spell.name.toLowerCase().includes(debouncedSearch.toLowerCase())
       const matchesLevel = selectedLevel === 'all' || spell.level === Number(selectedLevel)
       const matchesSchool = selectedSchool === 'all' || spell.school === selectedSchool
       const matchesClass = selectedClass === 'all' || spell.classes.includes(selectedClass)
       return matchesSearch && matchesLevel && matchesSchool && matchesClass
     }).sort((a, b) => a.name.localeCompare(b.name))
-  }, [search, selectedLevel, selectedSchool, selectedClass])
+  }, [debouncedSearch, selectedLevel, selectedSchool, selectedClass])
 
   // Close modal with ESC
   useEffect(() => {
@@ -92,104 +101,55 @@ export default function MagiasPage() {
         </p>
       </div>
 
-      <div className="spells-layout">
-        {/* Botão de Filtros Mobile */}
-        <button 
-          className="mobile-filters-toggle"
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <Filter size={18} /> {showFilters ? 'Fechar Filtros' : 'Filtrar Magias'}
-        </button>
-
-        {/* Sidebar Lateral */}
-        <aside className={`filters-sidebar ${showFilters ? 'mobile-visible' : ''}`}>
-          <button 
-            className="close-sidebar-mobile"
-            onClick={() => setShowFilters(false)}
-          >
-            <X size={24} />
-          </button>
-          <div className="sidebar-section">
-            <h3 className="section-title"><Search size={16} /> Buscar</h3>
-            <div style={{ position: 'relative' }}>
-              <input
-                type="text"
-                placeholder="Nome da magia..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="sidebar-input"
-              />
-            </div>
+      <div className="search-main-container">
+        <div className="search-wrapper">
+          <div className="search-icon-box">
+            <Search size={20} />
           </div>
+          <input
+            type="text"
+            placeholder="Buscar magia pelo nome..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="main-search-input"
+          />
+          {search && (
+            <button className="clear-search" onClick={() => setSearch('')}>
+              <X size={16} />
+            </button>
+          )}
+        </div>
+      </div>
 
-          <div className="sidebar-section">
-            <h3 className="section-title"><Filter size={16} /> Nível</h3>
-            <div className="filter-group">
-              {LEVELS.map(l => (
-                <button
-                  key={l.val}
-                  onClick={() => { setSelectedLevel(l.val); if(window.innerWidth < 1024) setShowFilters(false); }}
-                  className={`filter-btn ${selectedLevel === l.val ? 'active' : ''}`}
-                >
-                  {l.label}
-                </button>
-              ))}
-            </div>
-          </div>
+      <div className="horizontal-filters-container">
+        <div className="filter-item">
+          <label><Layers size={14} /> Nível</label>
+          <select value={selectedLevel} onChange={(e) => setSelectedLevel(e.target.value)}>
+            {LEVELS.map(l => <option key={l.val} value={l.val}>{l.label}</option>)}
+          </select>
+        </div>
 
-          <div className="sidebar-section">
-            <h3 className="section-title"><BookOpen size={16} /> Escola</h3>
-            <div className="filter-group">
-              <button
-                onClick={() => { setSelectedSchool('all'); if(window.innerWidth < 1024) setShowFilters(false); }}
-                className={`filter-btn ${selectedSchool === 'all' ? 'active' : ''}`}
-              >
-                Todas as Escolas
-              </button>
-              {SCHOOLS.map(s => (
-                <button
-                  key={s}
-                  onClick={() => { setSelectedSchool(s); if(window.innerWidth < 1024) setShowFilters(false); }}
-                  className={`filter-btn ${selectedSchool === s ? 'active' : ''}`}
-                >
-                  <span style={{ 
-                    width: 8, height: 8, borderRadius: '50%', 
-                    backgroundColor: SCHOOL_COLORS[s], marginRight: 8,
-                    display: 'inline-block'
-                  }}></span>
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="filter-item">
+          <label><BookOpen size={14} /> Escola</label>
+          <select value={selectedSchool} onChange={(e) => setSelectedSchool(e.target.value)}>
+            <option value="all">Todas as Escolas</option>
+            {SCHOOLS.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
 
-          <div className="sidebar-section">
-            <h3 className="section-title"><User size={16} /> Classe</h3>
-            <div className="filter-group">
-              <button
-                onClick={() => { setSelectedClass('all'); if(window.innerWidth < 1024) setShowFilters(false); }}
-                className={`filter-btn ${selectedClass === 'all' ? 'active' : ''}`}
-              >
-                Todas as Classes
-              </button>
-              {CLASSES.map(c => (
-                <button
-                  key={c}
-                  onClick={() => { setSelectedClass(c); if(window.innerWidth < 1024) setShowFilters(false); }}
-                  className={`filter-btn ${selectedClass === c ? 'active' : ''}`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
+        <div className="filter-item">
+          <label><User size={14} /> Classe</label>
+          <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+            <option value="all">Todas as Classes</option>
+            {CLASSES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+      </div>
 
-        {/* Grid Principal */}
-        <main className="spells-main">
-          <div className="results-count">
-            Encontradas <strong>{filteredSpells.length}</strong> magias
-          </div>
+      <div className="spells-main-content">
+        <div className="results-count">
+          Encontradas <strong>{filteredSpells.length}</strong> magias
+        </div>
 
           <div className="grid-spells">
             {filteredSpells.map(spell => (
@@ -246,8 +206,7 @@ export default function MagiasPage() {
               </div>
             )}
           </div>
-        </main>
-      </div>
+        </div>
 
       {/* Modal de Detalhes */}
       {selectedSpell && (
@@ -259,15 +218,15 @@ export default function MagiasPage() {
 
             <div className="modal-header">
               <div>
-                <h2 className="modal-title">{selectedSpell.name}</h2>
+                <h2 className="modal-title">{selectedSpell?.name}</h2>
                 <div className="modal-tags">
-                  <span className="level-tag">{selectedSpell.level === 0 ? 'TRUQUE' : `${selectedSpell.level}º NÍVEL`}</span>
-                  <span className="school-tag-modal" style={{ color: SCHOOL_COLORS[selectedSpell.school] }}>de {selectedSpell.school}</span>
-                  {selectedSpell.ritual && <span className="badge-ritual">RITUAL</span>}
-                  {selectedSpell.concentration && <span className="badge-concentration">CONCENTRAÇÃO</span>}
+                  <span className="level-tag">{selectedSpell?.level === 0 ? 'TRUQUE' : `${selectedSpell?.level}º NÍVEL`}</span>
+                  <span className="school-tag-modal" style={{ color: selectedSpell ? SCHOOL_COLORS[selectedSpell.school] : 'inherit' }}>de {selectedSpell?.school}</span>
+                  {selectedSpell?.ritual && <span className="badge-ritual">RITUAL</span>}
+                  {selectedSpell?.concentration && <span className="badge-concentration">CONCENTRAÇÃO</span>}
                 </div>
               </div>
-              {SCHOOL_ICONS[selectedSpell.school] && (
+              {selectedSpell && SCHOOL_ICONS[selectedSpell.school] && (
                 <div className="modal-icon hide-mobile">
                   <Image src={SCHOOL_ICONS[selectedSpell.school]} alt={selectedSpell.school} width={64} height={64} />
                 </div>
@@ -279,37 +238,37 @@ export default function MagiasPage() {
                 <Clock size={16} color="var(--accentL)" />
                 <div>
                   <label>Tempo</label>
-                  <span>{selectedSpell.castingTime}</span>
+                  <span>{selectedSpell?.castingTime}</span>
                 </div>
               </div>
               <div className="info-box">
                 <Globe size={16} color="var(--accent2)" />
                 <div>
                   <label>Alcance</label>
-                  <span>{selectedSpell.range}</span>
+                  <span>{selectedSpell?.range}</span>
                 </div>
               </div>
               <div className="info-box">
                 <Wind size={16} color="var(--fg2)" />
                 <div>
                   <label>Componentes</label>
-                  <span>{selectedSpell.components}</span>
+                  <span>{selectedSpell?.components}</span>
                 </div>
               </div>
               <div className="info-box">
                 <Shield size={16} color="var(--accentL)" />
                 <div>
                   <label>Duração</label>
-                  <span>{selectedSpell.duration}</span>
+                  <span>{selectedSpell?.duration}</span>
                 </div>
               </div>
             </div>
 
             <div className="modal-body">
               <h3 className="body-title">Descrição</h3>
-              <p className="description-text">{selectedSpell.description}</p>
+              <p className="description-text">{selectedSpell?.description}</p>
 
-              {selectedSpell.damageEffect && (
+              {selectedSpell?.damageEffect && (
                 <>
                   <h3 className="body-title" style={{ marginTop: 24 }}>Efeito</h3>
                   <p className="effect-text">{selectedSpell.damageEffect}</p>
@@ -319,14 +278,14 @@ export default function MagiasPage() {
 
               <h3 className="body-title" style={{ marginTop: 24 }}>Classes</h3>
               <div className="classes-list">
-                {selectedSpell.classes.map(c => (
+                {selectedSpell?.classes.map(c => (
                   <span key={c} className="class-badge">{c}</span>
                 ))}
               </div>
             </div>
             
             <div className="modal-footer">
-               <Link href={`/magias/${selectedSpell.id}`}>
+               <Link href={`/magias/${selectedSpell?.id}`}>
                  <button className="btn btn-ghost" style={{ width: '100%', fontSize: 13 }}>Ver página completa</button>
                </Link>
             </div>
@@ -428,6 +387,176 @@ export default function MagiasPage() {
         .sidebar-input:focus {
           border-color: var(--accent);
           box-shadow: 0 0 0 2px var(--accentGlow);
+        }
+
+        .search-main-container {
+          margin-bottom: 16px;
+          width: 100%;
+          animation: fadeIn 0.5s ease;
+        }
+
+        .search-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 800px;
+          margin: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .search-icon-box {
+          position: absolute;
+          left: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--fg3);
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        .main-search-input {
+          width: 100%;
+          padding: 18px 20px 18px 56px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          color: var(--fg);
+          font-size: 16px;
+          outline: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .main-search-input:focus {
+          border-color: var(--accent);
+          background: var(--card);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 0 0 4px var(--accentGlow);
+        }
+
+        .horizontal-filters-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          margin-bottom: 32px;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--border);
+        }
+
+        .filter-item {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          min-width: 200px;
+        }
+
+        .filter-item label {
+          font-size: 11px;
+          font-weight: 800;
+          color: var(--fg3);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .filter-item select {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          padding: 10px 16px;
+          border-radius: 10px;
+          color: var(--fg);
+          font-size: 14px;
+          outline: none;
+          cursor: pointer;
+          transition: all 0.2s;
+          appearance: none;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          background-size: 12px;
+        }
+
+        .filter-item select:hover {
+          background-color: var(--bg3);
+          border-color: var(--fg3);
+        }
+
+        .filter-item select:focus {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 3px var(--accentGlow);
+        }
+
+        .spells-main-content {
+          width: 100%;
+        }
+
+        .search-main-container {
+          margin-bottom: 32px;
+          width: 100%;
+          animation: fadeIn 0.5s ease;
+        }
+
+        .search-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 800px;
+          margin: 0;
+        }
+
+        .search-icon {
+          position: absolute;
+          left: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--fg3);
+          pointer-events: none;
+        }
+
+        .main-search-input {
+          width: 100%;
+          padding: 16px 48px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          color: var(--fg);
+          font-size: 16px;
+          outline: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .main-search-input:focus {
+          border-color: var(--accent);
+          background: var(--card);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 0 0 4px var(--accentGlow);
+          transform: translateY(-1px);
+        }
+
+        .clear-search {
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: var(--bg3);
+          border: none;
+          color: var(--fg2);
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .clear-search:hover {
+          background: var(--accent);
+          color: white;
         }
 
         .filter-group {

@@ -237,7 +237,7 @@ const SPELLS: Spell[] = [
 ]
 
 export const ALL_SPELLS = [...SPELLS, ...SPELLS_2014]
-export { SPELLS }
+export { SPELLS, SPELLS_2014 }
 export default SPELLS
 
 export function getSpellsForClass(className: string, ruleset: '2014' | '2024' = '2024'): Spell[] {
