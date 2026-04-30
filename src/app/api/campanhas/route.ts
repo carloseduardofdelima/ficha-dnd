@@ -10,7 +10,20 @@ export async function GET() {
 
   try {
     const campaigns = await prisma.campaign.findMany({
-      where: { userId: session.user.id },
+      where: {
+        OR: [
+          { userId: session.user.id },
+          {
+            characters: {
+              some: {
+                character: {
+                  userId: session.user.id
+                }
+              }
+            }
+          }
+        ]
+      },
       orderBy: { updatedAt: 'desc' }
     })
     return NextResponse.json(campaigns)

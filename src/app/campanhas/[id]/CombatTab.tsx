@@ -10,9 +10,10 @@ interface CombatTabProps {
   campaignId: string
   campaign: any
   onUpdate: () => void
+  isOwner?: boolean
 }
 
-export default function CombatTab({ campaignId, campaign, onUpdate }: CombatTabProps) {
+export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: CombatTabProps) {
   const [combats, setCombats] = useState<any[]>([])
   const [activeCombat, setActiveCombat] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -20,7 +21,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate }: CombatTabP
   const [showAddParticipant, setShowAddParticipant] = useState(false)
   const [localTurnIndex, setLocalTurnIndex] = useState(0)
   
-  const isMaster = campaign?.userId !== undefined // Simplified, assumes campaign was fetched by master or verified
+  const isMaster = isOwner ?? (campaign?.isOwner || false)
 
   const fetchCombats = useCallback(async () => {
     try {

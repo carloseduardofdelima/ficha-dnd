@@ -9,12 +9,14 @@ import {
 import { compressImage } from '@/lib/image'
 
 interface NpcTabProps {
-  campaignId: string
-  npcs: any[]
+  campaign: any
   onUpdate: () => void
+  isOwner: boolean
 }
 
-export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
+export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
+  const campaignId = campaign.id
+  const npcs = campaign.npcs || []
   const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState('todos')
   const [showModal, setShowModal] = useState(false)
@@ -36,10 +38,10 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
     avatarUrl: ''
   })
 
-  const filteredNpcs = npcs.filter(npc => {
-    const matchesSearch = npc.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         npc.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         npc.tags?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredNpcs = npcs.filter((npc: { name: string; title: string; tags: string; type: string }) => {
+    const matchesSearch = npc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      npc.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      npc.tags?.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesType = filterType === 'todos' || npc.type === filterType
     return matchesSearch && matchesType
   })
@@ -84,10 +86,10 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
     setLoading(true)
 
     try {
-      const url = editingNpc 
+      const url = editingNpc
         ? `/api/campanhas/${campaignId}/npcs/${editingNpc.id}`
         : `/api/campanhas/${campaignId}/npcs`
-      
+
       const res = await fetch(url, {
         method: editingNpc ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -145,7 +147,7 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
   }
 
   const getTypeColor = (type: string) => {
-    switch(type) {
+    switch (type) {
       case 'aliado': return '#10b981'
       case 'inimigo': return '#ef4444'
       case 'boss': return '#8b5cf6'
@@ -160,9 +162,9 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
       <div className="manager-header">
         <div className="search-bar">
           <Search size={18} />
-          <input 
-            type="text" 
-            placeholder="Buscar NPC por nome ou tag..." 
+          <input
+            type="text"
+            placeholder="Buscar NPC por nome ou tag..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -177,14 +179,16 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
             <option value="comerciante">Comerciantes</option>
             <option value="quest_giver">Missão (Quest)</option>
           </select>
-          <button className="btn-add" onClick={() => handleOpenModal()}>
-            <Plus size={18} /> Novo NPC
-          </button>
+          {isOwner && (
+            <button className="btn-add" onClick={() => handleOpenModal()}>
+              <Plus size={18} /> Novo NPC
+            </button>
+          )}
         </div>
       </div>
 
       <div className="npcs-grid">
-        {filteredNpcs.map(npc => (
+        {filteredNpcs.map((npc: any) => (
           <div key={npc.id} className="npc-card" onClick={() => setViewingNpc(npc)}>
             <div className="npc-type-indicator" style={{ backgroundColor: getTypeColor(npc.type) }}></div>
             <div className="npc-card-header">
@@ -206,14 +210,16 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
                   <span key={tag} className="tag">{tag.trim()}</span>
                 ))}
               </div>
-              <div className="npc-actions">
-                <button onClick={(e) => { e.stopPropagation(); handleOpenModal(npc); }} className="action-btn">
-                  <Edit size={14} />
-                </button>
-                <button onClick={(e) => { e.stopPropagation(); handleDelete(npc.id); }} className="action-btn delete">
-                  <Trash2 size={14} />
-                </button>
-              </div>
+              {isOwner && (
+                <div className="npc-actions">
+                  <button onClick={(e) => { e.stopPropagation(); handleOpenModal(npc); }} className="action-btn">
+                    <Edit size={14} />
+                  </button>
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(npc.id); }} className="action-btn delete">
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -238,25 +244,25 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
               <div className="form-grid">
                 <div className="form-group">
                   <label>Nome *</label>
-                  <input 
+                  <input
                     required
-                    type="text" 
-                    value={formData.name} 
-                    onChange={e => setFormData({...formData, name: e.target.value})} 
+                    type="text"
+                    value={formData.name}
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
                 <div className="form-group">
                   <label>Título / Cargo</label>
-                  <input 
-                    type="text" 
-                    value={formData.title} 
+                  <input
+                    type="text"
+                    value={formData.title}
                     placeholder="Ex: Guarda da Cidade"
-                    onChange={e => setFormData({...formData, title: e.target.value})} 
+                    onChange={e => setFormData({ ...formData, title: e.target.value })}
                   />
                 </div>
                 <div className="form-group">
                   <label>Tipo</label>
-                  <select value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
+                  <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })}>
                     <option value="aliado">Aliado</option>
                     <option value="neutro">Neutro</option>
                     <option value="inimigo">Inimigo</option>
@@ -267,7 +273,7 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
                 </div>
                 <div className="form-group">
                   <label>Status</label>
-                  <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})}>
+                  <select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })}>
                     <option value="vivo">Vivo</option>
                     <option value="morto">Morto</option>
                     <option value="desaparecido">Desaparecido</option>
@@ -276,8 +282,8 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
                 <div className="form-group" style={{ gridColumn: 'span 2' }}>
                   <label>Avatar do NPC</label>
                   <div className="upload-container">
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       id="npc-avatar-upload"
                       accept="image/*"
                       onChange={handleFileUpload}
@@ -305,53 +311,53 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
 
               <div className="form-group">
                 <label>Descrição Curta</label>
-                <input 
-                  type="text" 
-                  value={formData.description} 
-                  onChange={e => setFormData({...formData, description: e.target.value})} 
+                <input
+                  type="text"
+                  value={formData.description}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                 />
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Aparência</label>
-                  <textarea 
-                    value={formData.appearance} 
-                    onChange={e => setFormData({...formData, appearance: e.target.value})} 
+                  <textarea
+                    value={formData.appearance}
+                    onChange={e => setFormData({ ...formData, appearance: e.target.value })}
                   />
                 </div>
                 <div className="form-group">
                   <label>Personalidade</label>
-                  <textarea 
-                    value={formData.personality} 
-                    onChange={e => setFormData({...formData, personality: e.target.value})} 
+                  <textarea
+                    value={formData.personality}
+                    onChange={e => setFormData({ ...formData, personality: e.target.value })}
                   />
                 </div>
               </div>
 
               <div className="form-group">
                 <label>Notas Gerais</label>
-                <textarea 
-                  value={formData.notes} 
-                  onChange={e => setFormData({...formData, notes: e.target.value})} 
+                <textarea
+                  value={formData.notes}
+                  onChange={e => setFormData({ ...formData, notes: e.target.value })}
                 />
               </div>
 
               <div className="form-group secret-group">
                 <label><EyeOff size={14} /> Segredos do Mestre (Só você vê)</label>
-                <textarea 
-                  value={formData.secrets} 
-                  onChange={e => setFormData({...formData, secrets: e.target.value})} 
+                <textarea
+                  value={formData.secrets}
+                  onChange={e => setFormData({ ...formData, secrets: e.target.value })}
                 />
               </div>
 
               <div className="form-group">
                 <label>Tags (separadas por vírgula)</label>
-                <input 
-                  type="text" 
-                  value={formData.tags} 
+                <input
+                  type="text"
+                  value={formData.tags}
                   placeholder="nobre, elfo, perigoso"
-                  onChange={e => setFormData({...formData, tags: e.target.value})} 
+                  onChange={e => setFormData({ ...formData, tags: e.target.value })}
                 />
               </div>
 
@@ -414,9 +420,11 @@ export default function NpcTab({ campaignId, npcs, onUpdate }: NpcTabProps) {
                   <span key={tag} className="tag">{tag.trim()}</span>
                 ))}
               </div>
-              <button onClick={() => { handleOpenModal(viewingNpc); setViewingNpc(null); }} className="btn-edit-view">
-                <Edit size={18} /> Editar NPC
-              </button>
+              {isOwner && (
+                <button onClick={() => { handleOpenModal(viewingNpc); setViewingNpc(null); }} className="btn-edit-view">
+                  <Edit size={18} /> Editar NPC
+                </button>
+              )}
             </div>
           </div>
         </div>

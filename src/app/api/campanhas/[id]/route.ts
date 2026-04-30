@@ -18,7 +18,7 @@ export async function GET(
       where: { id },
       include: {
         sessions: { orderBy: { number: 'desc' } },
-        characters: { include: { character: true } },
+        characters: { include: { character: { include: { user: true } } } },
         notes_list: true,
         threats: { include: { attributes: true, combat: true, actions: true, skills: true } },
         combats: { include: { participants: true } },
@@ -30,11 +30,34 @@ export async function GET(
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
-    if (campaign.userId !== session.user.id) {
+    const isOwner = campaign.userId === session.user.id
+    const isPlayer = campaign.characters.some(link => link.character.userId === session.user.id)
+
+    if (!isOwner && !isPlayer) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    return NextResponse.json(campaign)
+    // If it's a player (and not owner), filter the data
+    if (!isOwner) {
+      // Filter notes
+      campaign.notes_list = campaign.notes_list.filter(n => n.isPublic)
+      
+      // Hide NPC secrets and private info
+      campaign.npcs = campaign.npcs.map(npc => ({
+        ...npc,
+        secrets: null, // Hide secrets
+        notes: null,   // Hide private DM notes
+      }))
+
+      // Hide some details of threats (optional, but safer)
+      // campaign.threats = campaign.threats.map(t => ({ ...t, attributes: null, combat: null }))
+    }
+
+    return NextResponse.json({
+      ...campaign,
+      isOwner,
+      isPlayer
+    })
   } catch (error) {
     console.error('Error fetching campaign:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

@@ -175,12 +175,14 @@ export default function CampaignDetailsPage() {
             </div>
           </div>
           <div className="banner-actions">
-            <Link 
-              href={`/campanhas/${id}/escudo`}
-              className="flex items-center justify-center gap-4 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 font-bold py-6 px-12 rounded-xl border border-rose-600/50 transition-all duration-300 uppercase tracking-[0.2em] text-[12px] backdrop-blur-md shadow-2xl shadow-black/60 hover:border-rose-500 hover:text-rose-200 no-underline"
-            >
-                <Shield size={24} className="opacity-90" /> Escudo do Mestre
-            </Link>
+            {campaign.isOwner && (
+              <Link 
+                href={`/campanhas/${id}/escudo`}
+                className="flex items-center justify-center gap-4 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 font-bold py-6 px-12 rounded-xl border border-rose-600/50 transition-all duration-300 uppercase tracking-[0.2em] text-[12px] backdrop-blur-md shadow-2xl shadow-black/60 hover:border-rose-500 hover:text-rose-200 no-underline"
+              >
+                  <Shield size={24} className="opacity-90" /> Escudo do Mestre
+              </Link>
+            )}
 
             {campaign.type === 'campaign' && (
               <div className="progress-widget">
@@ -220,10 +222,12 @@ export default function CampaignDetailsPage() {
                 <h3>Sobre a Campanha</h3>
                 <p>{campaign.description || 'Nenhuma descrição fornecida.'}</p>
               </section>
-              <section className="resumo-section">
-                <h3>Notas Internas do Mestre</h3>
-                <p>{campaign.notes || 'Sem notas internas ainda.'}</p>
-              </section>
+              {campaign.isOwner && (
+                <section className="resumo-section">
+                  <h3>Notas Internas do Mestre</h3>
+                  <p>{campaign.notes || 'Sem notas internas ainda.'}</p>
+                </section>
+              )}
             </div>
             <div className="resumo-sidebar">
               <div className="sidebar-card">
@@ -249,15 +253,17 @@ export default function CampaignDetailsPage() {
           <div className="sessions-list">
             <div className="list-header">
               <h3>Diário de Sessões</h3>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => {
-                  setNewSession({ ...newSession, number: (campaign.sessions?.length || 0) + 1 })
-                  setShowSessionModal(true)
-                }}
-              >
-                <Plus size={16} /> Nova Sessão
-              </button>
+              {campaign.isOwner && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() => {
+                    setNewSession({ ...newSession, number: (campaign.sessions?.length || 0) + 1 })
+                    setShowSessionModal(true)
+                  }}
+                >
+                  <Plus size={16} /> Nova Sessão
+                </button>
+              )}
             </div>
 
             <div className="sessions-grid">
@@ -287,12 +293,14 @@ export default function CampaignDetailsPage() {
           <div className="characters-section">
             <div className="list-header">
               <h3>Personagens do Grupo</h3>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => setShowCharModal(true)}
-              >
-                <Plus size={16} /> Vincular Personagem
-              </button>
+              {campaign.isOwner && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() => setShowCharModal(true)}
+                >
+                  <Plus size={16} /> Vincular Personagem
+                </button>
+              )}
             </div>
 
             <div className="chars-grid">
@@ -323,15 +331,17 @@ export default function CampaignDetailsPage() {
           <div className="notes-section">
             <div className="list-header">
               <h3>Bloco de Notas</h3>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => {
-                  setNewNote({ title: '', content: '', isPublic: false, isFixed: false })
-                  setShowNoteModal(true)
-                }}
-              >
-                <Plus size={16} /> Nova Nota
-              </button>
+              {campaign.isOwner && (
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() => {
+                    setNewNote({ title: '', content: '', isPublic: false, isFixed: false })
+                    setShowNoteModal(true)
+                  }}
+                >
+                  <Plus size={16} /> Nova Nota
+                </button>
+              )}
             </div>
 
             <div className="notes-grid-layout">
@@ -361,17 +371,19 @@ export default function CampaignDetailsPage() {
           <div className="threats-section">
             <div className="list-header">
               <h3>Biblioteca de Ameaças</h3>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={() => {
-                    fetchGlobalThreats()
-                    setShowSelectThreatModal(true)
-                  }}
-                >
-                  <Plus size={16} /> Adicionar do Bestiário
-                </button>
-              </div>
+              {campaign.isOwner && (
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => {
+                      fetchGlobalThreats()
+                      setShowSelectThreatModal(true)
+                    }}
+                  >
+                    <Plus size={16} /> Adicionar do Bestiário
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="threats-grid">
@@ -392,25 +404,29 @@ export default function CampaignDetailsPage() {
                     </div>
                     <p className="threat-desc-short">{threat.description || 'Sem descrição.'}</p>
                   </div>
-                  <div className="threat-actions-btns">
-                    <button className="btn-icon"><Edit size={14} /></button>
-                    <button className="btn-icon danger"><Trash2 size={14} /></button>
-                  </div>
+                  {campaign.isOwner && (
+                    <div className="threat-actions-btns">
+                      <button className="btn-icon"><Edit size={14} /></button>
+                      <button className="btn-icon danger"><Trash2 size={14} /></button>
+                    </div>
+                  )}
                 </div>
               ))}
               {(!campaign.threats || campaign.threats.length === 0) && (
                 <div className="empty-list">
                   <Shield size={48} opacity={0.2} />
                   <p>Nenhuma ameaça cadastrada nesta campanha.</p>
-                  <button
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => {
-                      fetchGlobalThreats()
-                      setShowSelectThreatModal(true)
-                    }}
-                  >
-                    Adicionar do Bestiário
-                  </button>
+                  {campaign.isOwner && (
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => {
+                        fetchGlobalThreats()
+                        setShowSelectThreatModal(true)
+                      }}
+                    >
+                      Adicionar do Bestiário
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -463,24 +479,23 @@ export default function CampaignDetailsPage() {
           </div>
         )}
 
+        {activeTab === 'npcs' && (
+          <NpcTab 
+            campaign={campaign} 
+            onUpdate={fetchCampaign}
+            isOwner={campaign.isOwner} 
+          />
+        )}
+
         {activeTab === 'combate' && (
           <div className="combat-redirect-card">
             <Sword size={64} opacity={0.2} />
             <h2>Arena de Combate</h2>
             <p>Gerencie turnos, HP de ameaças e visualize o estado dos jogadores em tempo real.</p>
             <Link href={`/campanhas/${id}/combate`} className="btn btn-primary btn-lg">
-              <Play size={20} /> Entrar na Arena
+              <Play size={20} /> {campaign.isOwner ? 'Entrar na Arena' : 'Ver Combate em Tempo Real'}
             </Link>
-
           </div>
-        )}
-
-        {activeTab === 'npcs' && (
-          <NpcTab 
-            campaignId={id as string} 
-            npcs={campaign.npcs || []} 
-            onUpdate={fetchCampaign}
-          />
         )}
       </div>
 
