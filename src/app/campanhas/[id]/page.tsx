@@ -106,7 +106,24 @@ export default function CampaignDetailsPage() {
     }
   }
 
-  if (loading) return <div className="loading">Carregando aventura...</div>
+  if (loading) {
+    return (
+      <div className="loading-overlay">
+        <div className="loading-content">
+          <div className="loading-icons">
+            <Sword size={48} className="icon-sword" />
+            <Skull size={64} className="icon-skull" />
+            <Shield size={48} className="icon-shield" />
+          </div>
+          <h2 className="loading-text">Preparando sua Aventura...</h2>
+          <div className="loading-bar-container">
+            <div className="loading-bar-fill"></div>
+          </div>
+          <p className="loading-subtext">Consultando o mestre dos magos...</p>
+        </div>
+      </div>
+    )
+  }
   if (!campaign) return <div>Campanha não encontrada.</div>
 
   const allTabs = [
@@ -144,10 +161,14 @@ export default function CampaignDetailsPage() {
               <span className="dot">•</span>
               <span>{campaign.system}</span>
               <span className="dot">•</span>
-              <span style={{
+              <span className="status-tag" style={{
                 color: campaign.status === 'active' ? '#10b981' :
                   campaign.status === 'paused' ? '#f59e0b' : '#3b82f6'
               }}>
+                <span className="status-dot" style={{ 
+                  backgroundColor: campaign.status === 'active' ? '#10b981' :
+                    campaign.status === 'paused' ? '#f59e0b' : '#3b82f6'
+                }}></span>
                 {campaign.status === 'active' ? 'ATIVO' :
                   campaign.status === 'paused' ? 'PAUSADO' : 'FINALIZADO'}
               </span>
@@ -162,13 +183,13 @@ export default function CampaignDetailsPage() {
             </Link>
 
             {campaign.type === 'campaign' && (
-              <div className="progress-container">
-                <div className="progress-header">
+              <div className="progress-widget">
+                <div className="progress-info">
                   <span>Progresso</span>
                   <span>{campaign.progress}%</span>
                 </div>
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${campaign.progress}%` }}></div>
+                <div className="progress-bar-bg">
+                  <div className="progress-bar-fill" style={{ width: `${campaign.progress}%` }}></div>
                 </div>
               </div>
             )}
@@ -672,6 +693,38 @@ export default function CampaignDetailsPage() {
 
         .dot {
           opacity: 0.3;
+        }
+
+        .status-tag {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-weight: 800;
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          animation: pulse-dot 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-dot {
+          0% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 1;
+            box-shadow: 0 0 8px currentColor;
+          }
+          100% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
         }
         .banner-actions {
           display: flex;
@@ -1363,9 +1416,6 @@ export default function CampaignDetailsPage() {
           }
         }
 
-        .tabs-nav::-webkit-scrollbar {
-          display: none;
-        }
         .tabs-nav {
           -ms-overflow-style: none;
           scrollbar-width: none;

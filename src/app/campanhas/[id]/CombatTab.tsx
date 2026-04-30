@@ -543,8 +543,28 @@ export default function CombatTab({ campaignId, campaign, onUpdate }: CombatTabP
           right: 16px;
         }
 
-        .status-dot.ativo { background: #10b981; box-shadow: 0 0 8px #10b981; }
+        .status-dot.ativo { 
+          background: #10b981; 
+          box-shadow: 0 0 8px #10b981; 
+          animation: pulse-dot 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
         .status-dot.finalizado { background: var(--fg3); }
+
+        @keyframes pulse-dot {
+          0% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 1;
+            box-shadow: 0 0 12px #10b981;
+          }
+          100% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
+        }
 
         .combat-main {
           padding: 32px;

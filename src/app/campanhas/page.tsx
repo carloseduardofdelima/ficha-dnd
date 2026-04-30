@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Search, Filter, BookOpen, Info, Loader2, X } from 'lucide-react'
+import { Plus, Search, Filter, BookOpen, Info, Loader2, X, Sword, Skull, Shield } from 'lucide-react'
 import { CampaignCard } from '@/components/CampaignCard'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -88,10 +88,21 @@ export default function CampanhasPage() {
     return matchesSearch && matchesFilter
   })
 
-  if (loading && sessionStatus === 'loading') {
+  if (loading || sessionStatus === 'loading') {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-        <Loader2 className="animate-spin" size={40} color="var(--accent)" />
+      <div className="loading-overlay">
+        <div className="loading-content">
+          <div className="loading-icons">
+            <Sword size={48} className="icon-sword" />
+            <Skull size={64} className="icon-skull" />
+            <Shield size={48} className="icon-shield" />
+          </div>
+          <h2 className="loading-text">Convocando Aventureiros...</h2>
+          <div className="loading-bar-container">
+            <div className="loading-bar-fill"></div>
+          </div>
+          <p className="loading-subtext">Quase lá...</p>
+        </div>
       </div>
     )
   }
@@ -115,27 +126,27 @@ export default function CampanhasPage() {
       <div className="controls-row">
         <div className="search-box">
           <Search size={18} />
-          <input 
-            type="text" 
-            placeholder="Buscar campanhas..." 
+          <input
+            type="text"
+            placeholder="Buscar campanhas..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="filters">
-          <button 
+          <button
             className={`filter-tag ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
           >
             Todas
           </button>
-          <button 
+          <button
             className={`filter-tag ${filter === 'campaign' ? 'active' : ''}`}
             onClick={() => setFilter('campaign')}
           >
             Campanhas
           </button>
-          <button 
+          <button
             className={`filter-tag ${filter === 'one-shot' ? 'active' : ''}`}
             onClick={() => setFilter('one-shot')}
           >
@@ -147,11 +158,11 @@ export default function CampanhasPage() {
       {/* Grid */}
       <div className="campaigns-grid">
         {filteredCampaigns.map(c => (
-          <CampaignCard 
-            key={c.id} 
-            campaign={c} 
-            onDelete={handleDelete} 
-            onUpdate={fetchCampaigns} 
+          <CampaignCard
+            key={c.id}
+            campaign={c}
+            onDelete={handleDelete}
+            onUpdate={fetchCampaigns}
           />
         ))}
 
@@ -178,20 +189,20 @@ export default function CampanhasPage() {
             <form onSubmit={handleCreate} className="modal-form">
               <div className="form-group">
                 <label>Nome da Campanha</label>
-                <input 
-                  type="text" 
-                  required 
+                <input
+                  type="text"
+                  required
                   placeholder="Ex: A Maldição de Strahd"
                   value={formData.name}
-                  onChange={e => setFormData({...formData, name: e.target.value})}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label>Tipo</label>
-                  <select 
+                  <select
                     value={formData.type}
-                    onChange={e => setFormData({...formData, type: e.target.value})}
+                    onChange={e => setFormData({ ...formData, type: e.target.value })}
                   >
                     <option value="campaign">Campanha</option>
                     <option value="one-shot">One-Shot</option>
@@ -199,21 +210,21 @@ export default function CampanhasPage() {
                 </div>
                 <div className="form-group">
                   <label>Sistema</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="D&D 5e, Ordem Paranormal..."
                     value={formData.system}
-                    onChange={e => setFormData({...formData, system: e.target.value})}
+                    onChange={e => setFormData({ ...formData, system: e.target.value })}
                   />
                 </div>
               </div>
               <div className="form-group">
                 <label>Descrição (Opcional)</label>
-                <textarea 
+                <textarea
                   rows={3}
                   placeholder="Uma breve descrição sobre a temática ou o grupo..."
                   value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                 ></textarea>
               </div>
               <div className="modal-footer">

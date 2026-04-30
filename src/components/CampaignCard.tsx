@@ -355,6 +355,23 @@ export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps
           width: 6px;
           height: 6px;
           border-radius: 50%;
+          animation: pulse-dot 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-dot {
+          0% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 1;
+            box-shadow: 0 0 8px currentColor;
+          }
+          100% {
+            transform: scale(0.9);
+            opacity: 0.8;
+          }
         }
       `}</style>
     </div>
