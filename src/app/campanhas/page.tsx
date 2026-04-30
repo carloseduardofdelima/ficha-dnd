@@ -147,7 +147,12 @@ export default function CampanhasPage() {
       {/* Grid */}
       <div className="campaigns-grid">
         {filteredCampaigns.map(c => (
-          <CampaignCard key={c.id} campaign={c} onDelete={handleDelete} />
+          <CampaignCard 
+            key={c.id} 
+            campaign={c} 
+            onDelete={handleDelete} 
+            onUpdate={fetchCampaigns} 
+          />
         ))}
 
         {!loading && filteredCampaigns.length === 0 && (

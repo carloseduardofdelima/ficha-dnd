@@ -5,10 +5,12 @@ import Link from 'next/link'
 import {
   Users, BookOpen, Shield, Zap, Info, ChevronLeft,
   Settings, Save, Plus, Target, MessageSquare,
-  Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search, Contact
+  Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search, Contact,
+  Play
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import NpcTab from './NpcTab'
+import CombatTab from './CombatTab'
 
 export default function CampaignDetailsPage() {
   const { id } = useParams()
@@ -107,7 +109,7 @@ export default function CampaignDetailsPage() {
   if (loading) return <div className="loading">Carregando aventura...</div>
   if (!campaign) return <div>Campanha não encontrada.</div>
 
-  const tabs = [
+  const allTabs = [
     { id: 'resumo', label: 'Resumo', icon: Info },
     { id: 'sessoes', label: 'Sessões', icon: Calendar },
     { id: 'personagens', label: 'Jogadores', icon: Users },
@@ -116,6 +118,11 @@ export default function CampaignDetailsPage() {
     { id: 'combate', label: 'Combate', icon: Sword },
     { id: 'notas', label: 'Notas', icon: BookOpen },
   ]
+
+  const tabs = allTabs.filter(tab => {
+    if (tab.id === 'sessoes' && campaign.type === 'oneshot') return false
+    return true
+  })
 
   return (
     <div className="campaign-detail-container">
@@ -154,15 +161,17 @@ export default function CampaignDetailsPage() {
                 <Shield size={24} className="opacity-90" /> Escudo do Mestre
             </Link>
 
-            <div className="progress-widget">
-              <div className="progress-info">
-                <span>Progresso da Jornada</span>
-                <span>{campaign.progress}%</span>
+            {campaign.type !== 'oneshot' && (
+              <div className="progress-container">
+                <div className="progress-header">
+                  <span>Progresso</span>
+                  <span>{campaign.progress}%</span>
+                </div>
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{ width: `${campaign.progress}%` }}></div>
+                </div>
               </div>
-              <div className="progress-bar-bg">
-                <div className="progress-bar-fill" style={{ width: `${campaign.progress}%` }}></div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -433,11 +442,15 @@ export default function CampaignDetailsPage() {
           </div>
         )}
 
-        {/* Other tabs will be implemented as skeletons for now */}
-        {['combate'].includes(activeTab) && (
-          <div className="empty-list">
-            <Target size={48} opacity={0.2} />
-            <p>Esta funcionalidade será implementada em breve.</p>
+        {activeTab === 'combate' && (
+          <div className="combat-redirect-card">
+            <Sword size={64} opacity={0.2} />
+            <h2>Arena de Combate</h2>
+            <p>Gerencie turnos, HP de ameaças e visualize o estado dos jogadores em tempo real.</p>
+            <Link href={`/campanhas/${id}/combate`} className="btn btn-primary btn-lg">
+              <Play size={20} /> Entrar na Arena
+            </Link>
+
           </div>
         )}
 
@@ -1287,6 +1300,21 @@ export default function CampaignDetailsPage() {
             line-height: 1.2;
           }
         }
+
+        .combat-redirect-card {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 24px;
+          padding: 80px 40px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 20px;
+          margin-top: 24px;
+        }
+        .combat-redirect-card h2 { font-family: 'Cinzel', serif; margin: 0; }
+        .combat-redirect-card p { color: var(--fg3); max-width: 400px; margin-bottom: 20px; }
 
         @media (max-width: 640px) {
           .campaign-banner {

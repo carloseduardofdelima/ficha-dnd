@@ -30,9 +30,7 @@ export async function GET(
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
-    // Check if user is owner or has access (to be improved with links)
     if (campaign.userId !== session.user.id) {
-      // For now only owner can access
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

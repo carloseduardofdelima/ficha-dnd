@@ -1,7 +1,8 @@
 'use client'
 import Link from 'next/link'
-import { Calendar, Users, Target, MoreVertical, Edit2, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { Calendar, Users, Target, MoreVertical, Edit2, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { compressCover } from '@/lib/image'
 
 interface CampaignCardProps {
   campaign: {
@@ -16,10 +17,13 @@ interface CampaignCardProps {
     updatedAt: Date | string
   }
   onDelete?: (id: string) => void
+  onUpdate?: () => void
 }
 
-export function CampaignCard({ campaign, onDelete }: CampaignCardProps) {
+export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const statusColors: Record<string, string> = {
     active: '#10b981',
@@ -36,6 +40,36 @@ export function CampaignCard({ campaign, onDelete }: CampaignCardProps) {
   const typeLabels: Record<string, string> = {
     campaign: 'Campanha',
     'one-shot': 'One-Shot'
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    try {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = async () => {
+        const base64 = reader.result as string
+        const compressed = await compressCover(base64)
+        
+        const res = await fetch(`/api/campanhas/${campaign.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ coverUrl: compressed })
+        })
+
+        if (res.ok) {
+          onUpdate?.()
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading cover:', error)
+    } finally {
+      setUploading(false)
+      setMenuOpen(false)
+    }
   }
 
   return (
@@ -67,11 +101,26 @@ export function CampaignCard({ campaign, onDelete }: CampaignCardProps) {
                 <Link href={`/campanhas/${campaign.id}/editar`} className="dropdown-item">
                   <Edit2 size={14} /> Editar
                 </Link>
+                <button 
+                  className="dropdown-item" 
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                >
+                  {uploading ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+                  Mudar Capa
+                </button>
                 <button onClick={() => onDelete?.(campaign.id)} className="dropdown-item danger">
                   <Trash2 size={14} /> Excluir
                 </button>
               </div>
             )}
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              style={{ display: 'none' }} 
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </div>
         </div>
 

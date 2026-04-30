@@ -28,7 +28,9 @@ export async function GET(req: NextRequest) {
       },
       include: {
         attributes: true,
-        combat: true
+        combat: true,
+        actions: true,
+        skills: true
       },
       orderBy: { updatedAt: 'desc' }
     })

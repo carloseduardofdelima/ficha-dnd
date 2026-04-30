@@ -3,8 +3,8 @@
  */
 export async function compressImage(
   base64: string,
-  maxWidth = 800,
-  maxHeight = 800,
+  maxWidth = 400,
+  maxHeight = 400,
   quality = 0.8
 ): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -41,5 +41,52 @@ export async function compressImage(
       console.error('Error loading image for compression', err);
       reject(err);
     };
+  });
+}
+
+export async function compressCover(
+  base64: string,
+  maxWidth = 1200,
+  maxHeight = 675,
+  quality = 0.8
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = base64;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(base64);
+        return;
+      }
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+      resolve(compressedBase64);
+    };
+    img.onerror = (err) => reject(err);
   });
 }
