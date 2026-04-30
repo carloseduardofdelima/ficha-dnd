@@ -1,12 +1,7 @@
 'use client'
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
-import {
-  ArrowLeft, Sword, Shield, Heart, Zap,
-  Brain, Eye, MessageSquare, Award,
-  Flame, Wind, Droplets, Target, Loader2
-} from 'lucide-react'
-import { Monster } from '@/types/monster'
+import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2 } from 'lucide-react'
 
 interface PageProps {
   params: Promise<{ index: string }>
@@ -82,17 +77,22 @@ const getMod = (val: number) => {
 
 export default function MonsterDetailsPage({ params }: PageProps) {
   const { index } = use(params)
-  const [monster, setMonster] = useState<Monster | null>(null)
+  const [monster, setMonster] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`https://www.dnd5eapi.co/api/2014/monsters/${index}?lang=pt-BR`)
+    setLoading(true)
+    fetch(`/api/ameacas/${index}`)
       .then(res => res.json())
       .then(data => {
+        if (data.error) throw new Error(data.error)
         setMonster(data)
         setLoading(false)
       })
-      .catch(() => setLoading(false))
+      .catch((e) => {
+        console.error(e)
+        setLoading(false)
+      })
   }, [index])
 
   if (loading) return (
@@ -105,13 +105,15 @@ export default function MonsterDetailsPage({ params }: PageProps) {
   if (!monster) return <div>Monstro não encontrado.</div>
 
   const stats = [
-    { label: 'FOR', value: monster.strength, key: 'strength' },
-    { label: 'DES', value: monster.dexterity, key: 'dexterity' },
-    { label: 'CON', value: monster.constitution, key: 'constitution' },
-    { label: 'INT', value: monster.intelligence, key: 'intelligence' },
-    { label: 'SAB', value: monster.wisdom, key: 'wisdom' },
-    { label: 'CAR', value: monster.charisma, key: 'charisma' },
+    { label: 'FOR', value: monster.attributes?.strength || 10, key: 'strength' },
+    { label: 'DES', value: monster.attributes?.dexterity || 10, key: 'dexterity' },
+    { label: 'CON', value: monster.attributes?.constitution || 10, key: 'constitution' },
+    { label: 'INT', value: monster.attributes?.intelligence || 10, key: 'intelligence' },
+    { label: 'SAB', value: monster.attributes?.wisdom || 10, key: 'wisdom' },
+    { label: 'CAR', value: monster.attributes?.charisma || 10, key: 'charisma' },
   ]
+  
+  const m = monster as any
 
   return (
     <div className="container">
@@ -138,37 +140,15 @@ export default function MonsterDetailsPage({ params }: PageProps) {
           gap: 12
         }} className="monster-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }} className="header-flex">
-            {monster.image && (
-              <div style={{
-                width: 140,
-                height: 140,
-                borderRadius: 16,
-                overflow: 'hidden',
-                border: '2px solid var(--border)',
-                boxShadow: '0 0 20px rgba(0,0,0,0.3)',
-                background: 'var(--bg2)',
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 8
-              }} className="monster-image-container">
-                <img
-                  src={`https://www.dnd5eapi.co${monster.image}`}
-                  alt={monster.name}
-                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                />
-              </div>
-            )}
             <div style={{ flex: 1, minWidth: 300 }} className="monster-title-container">
               <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 40, color: 'var(--accentL)', marginBottom: 4 }}>{monster.name}</h1>
               <p style={{ color: 'var(--fg2)', fontSize: 16, textTransform: 'capitalize', fontStyle: 'italic' }}>
-                {MONSTER_PROPS[monster.size] || monster.size} {MONSTER_PROPS[monster.type] || monster.type}{monster.subtype ? ` (${monster.subtype})` : ''}, {MONSTER_PROPS[monster.alignment] || monster.alignment}
+                {m.threatType?.toUpperCase()} • {m.level ? `Lvl ${m.level}` : ''}
               </p>
             </div>
             <div style={{ textAlign: 'right', marginLeft: 'auto' }} className="challenge-rating-container">
               <div style={{ fontSize: 14, color: 'var(--fg3)', fontWeight: 600 }}>NÍVEL DE DESAFIO</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--accentL)' }}>{monster.challenge_rating} <span style={{ fontSize: 14, fontWeight: 400, color: 'var(--fg2)' }}>({monster.xp} XP)</span></div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--accentL)' }}>{m.challengeRating || 'N/A'}</div>
             </div>
           </div>
         </div>
@@ -180,10 +160,10 @@ export default function MonsterDetailsPage({ params }: PageProps) {
           gap: 1,
           background: 'var(--border)'
         }} className="essential-stats-grid">
-          <StatBox icon={<Shield size={20} color="var(--accentL)" />} label="CA" value={monster.armor_class[0].value} sub={`${monster.armor_class[0].type}`} />
-          <StatBox icon={<Heart size={20} color="var(--danger)" />} label="PV" value={monster.hit_points} sub={`${monster.hit_dice} (${monster.hit_points_roll})`} />
-          <StatBox icon={<Zap size={20} color="var(--accent2)" />} label="DESLOC." value={monster.speed.walk || '0 ft.'} />
-          <StatBox icon={<Target size={20} color="var(--accentL)" />} label="BÔNUS PROF." value={`+${monster.proficiency_bonus}`} />
+          <StatBox icon={<Shield size={20} color="var(--accentL)" />} label="CA" value={m.attributes?.ac || 10} />
+          <StatBox icon={<Heart size={20} color="var(--danger)" />} label="PV" value={m.attributes?.hp || 10} />
+          <StatBox icon={<Zap size={20} color="var(--accent2)" />} label="DESLOC." value={m.attributes?.speed || '30ft'} />
+          <StatBox icon={<Sword size={20} color="var(--accentL)" />} label="BÔNUS ATK" value={`+${m.combat?.attackBonus || 0}`} />
         </div>
 
         <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 40 }}>
@@ -204,73 +184,41 @@ export default function MonsterDetailsPage({ params }: PageProps) {
             ))}
           </div>
 
-          {/* Left Column: Proficiencies, Senses, Languages */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <InfoSection title="Perícias & Salvaguardas">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                {monster.proficiencies.map((p, idx) => (
-                  <Tag key={idx} text={`${p.proficiency.name}: +${p.value}`} />
-                ))}
-                {monster.proficiencies.length === 0 && <span style={{ color: 'var(--fg3)' }}>Nenhuma</span>}
-              </div>
-            </InfoSection>
-
-            <InfoSection title="Sentidos">
-              <div style={{ color: 'var(--fg)' }}>
-                {Object.entries(monster.senses).map(([key, val]) => (
-                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', padding: '6px 0' }}>
-                    <span style={{ color: 'var(--fg2)', textTransform: 'capitalize' }}>{key.replace('_', ' ')}:</span>
-                    <span style={{ fontWeight: 600 }}>{val}</span>
-                  </div>
-                ))}
-              </div>
-            </InfoSection>
-
-            <InfoSection title="Idiomas">
-              <p style={{ color: 'var(--fg)' }}>{monster.languages || 'Nenhum'}</p>
+            <InfoSection title="Descrição & Detalhes">
+              <p style={{ color: 'var(--fg2)', lineHeight: 1.6 }}>{monster.description || 'Nenhuma descrição detalhada.'}</p>
             </InfoSection>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <ResistanceSection title="Vulnerabilidades" items={monster.damage_vulnerabilities} color="var(--danger)" />
-              <ResistanceSection title="Resistências" items={monster.damage_resistances} color="var(--accent2)" />
-              <ResistanceSection title="Imunidades" items={monster.damage_immunities} color="var(--accentL)" />
-              <ResistanceSection title="Imunidades a Condição" items={monster.condition_immunities.map(c => c.name)} color="var(--accentL)" />
+              <ResistanceSection title="Resistências" items={m.combat?.resistances?.split(',') || []} color="var(--accent2)" />
+              <ResistanceSection title="Imunidades" items={m.combat?.immunities?.split(',') || []} color="var(--accentL)" />
+              <ResistanceSection title="Vulnerabilidades" items={m.combat?.vulnerabilities?.split(',') || []} color="var(--danger)" />
             </div>
           </div>
 
-          {/* Right Column: Traits and Actions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-            {monster.special_abilities && monster.special_abilities.length > 0 && (
-              <Section title="Habilidades Especiais">
-                {monster.special_abilities.map((ability, idx) => (
-                  <AbilityItem key={idx} name={ability.name} desc={ability.desc} />
-                ))}
-              </Section>
-            )}
-
-            {monster.actions && monster.actions.length > 0 && (
+            {m.actions && m.actions.length > 0 && (
               <Section title="Ações">
-                {monster.actions.map((action, idx) => (
-                  <AbilityItem key={idx} name={action.name} desc={action.desc} highlights={action.damage} />
+                {m.actions.map((action: any, idx: number) => (
+                  <AbilityItem key={idx} name={action.name} desc={action.description} />
                 ))}
               </Section>
             )}
 
-            {monster.legendary_actions && monster.legendary_actions.length > 0 && (
-              <Section title="Ações Lendárias">
-                {monster.legendary_actions.map((action, idx) => (
-                  <AbilityItem key={idx} name={action.name} desc={action.desc} />
+            {m.skills && m.skills.length > 0 && (
+              <Section title="Habilidades Especiais">
+                {m.skills.map((skill: any, idx: number) => (
+                  <AbilityItem key={idx} name={skill.name} desc={skill.description} />
                 ))}
               </Section>
             )}
-
-            {monster.reactions && monster.reactions.length > 0 && (
-              <Section title="Reações">
-                {monster.reactions.map((action, idx) => (
-                  <AbilityItem key={idx} name={action.name} desc={action.desc} />
-                ))}
-              </Section>
-            )}
+            
+            <Section title="Ataque Padrão">
+              <div style={{ background: 'var(--bg2)', padding: '20px', borderRadius: 12, border: '1px solid var(--border)' }}>
+                <div style={{ fontWeight: 800, color: 'var(--accentL)', marginBottom: 8 }}>{m.combat?.damage || 'Sem dano definido'}</div>
+                <p style={{ color: 'var(--fg3)', fontSize: 14 }}>Tipo: {m.combat?.damageType || 'Desconhecido'}</p>
+              </div>
+            </Section>
           </div>
         </div>
       </div>

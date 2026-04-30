@@ -20,8 +20,7 @@ export async function GET(
         sessions: { orderBy: { number: 'desc' } },
         characters: { include: { character: true } },
         notes_list: true,
-        monsters: true,
-        entities: true,
+        threats: { include: { attributes: true, combat: true, actions: true, skills: true } },
         combats: { include: { participants: true } }
       }
     })

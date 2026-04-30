@@ -22,6 +22,7 @@ model User {
   savedCharacters SavedCharacter[]
   sessions        Session[]
   campaigns       Campaign[]
+  threats         Threat[]
 }
 
 model Account {
@@ -141,8 +142,7 @@ model Campaign {
   notes_list  CampaignNote[]
   sharedLinks CampaignSharedLink[]
   combats     CampaignCombatSession[]
-  monsters    Monster[]
-  entities    Entity[]
+  threats     Threat[]
   characters  CharacterCampaignLink[]
 }
 
@@ -201,41 +201,90 @@ model CampaignCombatSession {
   participants CombatParticipant[]
 }
 
-model Entity {
-  id          String   @id @default(cuid())
-  campaignId  String?
-  ownerId     String
-  name        String
-  type        String?
-  description String?
-  attributes  String?
-  hp          Int?
-  actions     String?
-  flags       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Threat {
+  id              String           @id @default(cuid())
+  userId          String
+  campaignId      String?
+  name            String
+  description     String?
+  threatType      String           @default("monster") // "monster", "npc", "boss", "entity", "custom"
+  level           Int?
+  challengeRating Float?
+  isTemplate      Boolean          @default(false)
+  isPublic        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
-  campaign    Campaign? @relation(fields: [campaignId], references: [id])
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign        Campaign?        @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  attributes      ThreatAttribute?
+  combat          ThreatCombat?
+  skills          ThreatSkill[]
+  actions         ThreatAction[]
+  instances       CombatInstance[]
 }
 
-model Monster {
-  id          String   @id @default(cuid())
-  campaignId  String?
-  ownerId     String
-  name        String
-  type        String?
-  description String?
-  attributes  String?
-  hp          Int?
-  ac          Int?
-  resistances String?
-  immunities  String?
-  actions     String?
-  notes       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model ThreatAttribute {
+  id              String   @id @default(cuid())
+  threatId        String   @unique
+  strength        Int      @default(10)
+  dexterity       Int      @default(10)
+  constitution    Int      @default(10)
+  intelligence    Int      @default(10)
+  wisdom          Int      @default(10)
+  charisma        Int      @default(10)
+  hp              Int      @default(10)
+  ac              Int      @default(10)
+  speed           String?  @default("30ft")
+  initiativeBonus Int      @default(0)
 
-  campaign    Campaign? @relation(fields: [campaignId], references: [id])
+  threat          Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+}
+
+model ThreatCombat {
+  id              String   @id @default(cuid())
+  threatId        String   @unique
+  attackBonus     Int      @default(0)
+  damage          String?
+  damageType      String?
+  multiattack     String?
+  abilities       String?  // JSON string
+  resistances     String?  // Comma separated or JSON
+  immunities      String?  // Comma separated or JSON
+  vulnerabilities String? // Comma separated or JSON
+
+  threat          Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+}
+
+model ThreatSkill {
+  id          String   @id @default(cuid())
+  threatId    String
+  name        String
+  description String
+  cooldown    Int?
+
+  threat      Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+}
+
+model ThreatAction {
+  id          String   @id @default(cuid())
+  threatId    String
+  name        String
+  description String
+  actionType  String   @default("action") // "action", "bonus_action", "reaction", "passive"
+
+  threat      Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+}
+
+model CombatInstance {
+  id            String   @id @default(cuid())
+  threatId      String
+  currentHp     Int
+  initiative    Int      @default(0)
+  statusEffects String?  // JSON string
+  customName    String?
+
+  threat        Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
 }
 
 model CharacterCampaignLink {
@@ -253,7 +302,7 @@ model CharacterCampaignLink {
 model CombatParticipant {
   id              String   @id @default(cuid())
   combatSessionId String
-  entityId        String?
+  threatId        String?
   characterId     String?
   initiative      Int      @default(0)
   hpCurrent       Int?
