@@ -61,7 +61,8 @@ export function calculateEffectiveStats(
 export function calculateAC(
   className: string,
   baseAttrs: Attrs,
-  inventory: InventoryEntry[]
+  inventory: InventoryEntry[],
+  traits: any = {}
 ): number {
   const attrs = calculateEffectiveStats(baseAttrs, inventory)
   const dexMod = Math.floor((attrs.dexterity - 10) / 2)
@@ -86,7 +87,15 @@ export function calculateAC(
   }
 
   // 1. Base Unarmored
-  let maxAC = 10 + dexMod + shieldBonus + itemACBonus
+  let unarmoredBase = 10;
+  
+  // Draconic Resilience (Sorcerer)
+  const isDraconic = traits?.['sorcerous-origin-2014'] === 'orig-draconic' || traits?.['sorcerous-origin'] === 'draconic';
+  if (isDraconic) {
+    unarmoredBase = 13;
+  }
+
+  let maxAC = unarmoredBase + dexMod + shieldBonus + itemACBonus
 
   // 2. Unarmored Defense (Class specific)
   if (className === 'Bárbaro') {

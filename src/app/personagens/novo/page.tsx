@@ -124,6 +124,14 @@ export default function NovoPersonagem() {
     }
     const baseHp = hitDiceMap[form.class] || 8
 
+    // HP Bonuses
+    let hpBonus = 0;
+    if (form.ruleset === '2014') {
+      if (form.race === 'Anão' && form.subRace === 'Anão da Colina') hpBonus += form.level;
+      if (form.class === 'Feiticeiro' && featureChoices['sorcerous-origin-2014'] === 'orig-draconic') hpBonus += form.level;
+    }
+    const totalHp = baseHp + conMod + hpBonus;
+
     const payload = {
       ...form,
       subrace: form.subRace, 
@@ -132,8 +140,8 @@ export default function NovoPersonagem() {
       traits: { ...featureChoices, expertises },
       inventory,
       spells: selectedSpells,
-      maxHp: baseHp + conMod,
-      currentHp: baseHp + conMod,
+      maxHp: totalHp,
+      currentHp: totalHp,
       armorClass: calculateAC(form.class, finalAttrs, inventory),
       initiative: dexMod,
       proficiencyBonus: pb,
@@ -181,10 +189,35 @@ export default function NovoPersonagem() {
       })(),
       resources: (() => {
         const res: Record<string, number> = {};
-        if (form.class === 'Bárbaro') res['Fúrias'] = 2;
-        if (form.class === 'Guerreiro') res['Retomada de Fôlego'] = 2;
-        if (form.class === 'Monge' && form.level >= 2) res['Pontos de Foco'] = form.level;
-        if (form.class === 'Bardo') res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
+        const is2014 = form.ruleset === '2014';
+
+        if (form.class === 'Bárbaro') res['Fúria'] = 2;
+        
+        if (form.class === 'Guerreiro') {
+          res['Retomada de Fôlego'] = is2014 ? 1 : 2;
+        }
+
+        if (form.class === 'Monge' && form.level >= 2) {
+          res[is2014 ? 'Pontos de Ki' : 'Pontos de Foco'] = form.level;
+        }
+
+        if (form.class === 'Bardo') {
+          res['Inspiração Bárdica'] = Math.max(1, Math.floor((finalAttrs.charisma - 10) / 2));
+        }
+
+        if (form.class === 'Patrulheiro' && !is2014) {
+          res['Marca do Caçador'] = pb;
+        }
+
+        if (form.class === 'Clérigo') {
+          if (!is2014) res['Canalizar Divindade'] = 2;
+          else if (form.level >= 2) res['Canalizar Divindade'] = 1;
+        }
+
+        if (form.class === 'Druida' && form.level >= 2) {
+          res['Forma Selvagem'] = 2;
+        }
+
         if (form.class === 'Artesão Arcano') {
           const modInt = Math.max(1, Math.floor((finalAttrs.intelligence - 10) / 2));
           res['Engenharia Mágica'] = modInt;
@@ -211,10 +244,18 @@ export default function NovoPersonagem() {
           if (form.level >= 7) res['Brilho de Gênio'] = modInt;
         }
         if (form.class === 'Paladino') res['Imposição de Mãos'] = form.level * 5;
-        if (form.class === 'Feiticeiro' && form.level >= 2) res['Pontos de Feitiçaria'] = form.level;
+        
+        if (form.class === 'Feiticeiro') {
+          if (form.level >= 2) res['Pontos de Feitiçaria'] = form.level;
+          if (!is2014) res['Feitiçaria Inata'] = 2;
+        }
+
+        if (form.class === 'Bruxo' && !is2014 && form.level >= 2) {
+          res['Astúcia Mística'] = 1;
+        }
         
         // Cleric Domain Resources (2014)
-        if (form.class === 'Clérigo' && form.ruleset === '2014') {
+        if (form.class === 'Clérigo' && is2014) {
           const domain = featureChoices['cleric-domain-2014'] as string;
           const wisMod = Math.max(1, Math.floor((finalAttrs.wisdom - 10) / 2));
           if (domain === 'dom-guerra') {

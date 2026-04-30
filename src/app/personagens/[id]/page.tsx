@@ -173,7 +173,7 @@ export default function CharacterDetailPage() {
       intelligence: character.intelligence,
       wisdom: character.wisdom,
       charisma: character.charisma
-    }, inventory);
+    }, inventory, parsedTraits);
 
     if (calculatedAC !== character.armorClass) {
       setCharacter(prev => prev ? { ...prev, armorClass: calculatedAC } : null);
@@ -441,7 +441,7 @@ export default function CharacterDetailPage() {
     intelligence: character.intelligence,
     wisdom: character.wisdom,
     charisma: character.charisma
-  }, parsedInventory) : 10
+  }, parsedInventory, parsedTraits) : 10
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
@@ -1246,7 +1246,7 @@ export default function CharacterDetailPage() {
                               initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
                             }
 
-                            if (character.class === 'Patrulheiro') {
+                            if (character.class === 'Patrulheiro' && !is2014) {
                               initial['Marca do Caçador'] = { max: character.proficiencyBonus, current: character.proficiencyBonus, color: '#22c55e' };
                             }
 
@@ -1367,7 +1367,9 @@ export default function CharacterDetailPage() {
                             if (baseArmor.armorType === 'light') parts.push(`Des: ${dexMod >= 0 ? '+' : ''}${dexMod}`);
                             else if (baseArmor.armorType === 'medium') parts.push(`Des (máx 2): ${Math.min(dexMod, 2) >= 0 ? '+' : ''}${Math.min(dexMod, 2)}`);
                           } else {
-                            parts.push(`Base: 10`);
+                            const isDraconic = parsedTraits?.['sorcerous-origin-2014'] === 'orig-draconic' || parsedTraits?.['sorcerous-origin'] === 'draconic';
+                            const baseAC = isDraconic ? 13 : 10;
+                            parts.push(`Base: ${baseAC}`);
                             parts.push(`Des: ${dexMod >= 0 ? '+' : ''}${dexMod}`);
                             if (character.class === 'Bárbaro') parts.push(`Con: ${conMod >= 0 ? '+' : ''}${conMod}`);
                             else if (character.class === 'Monge') parts.push(`Sab: ${wisMod >= 0 ? '+' : ''}${wisMod}`);
@@ -2315,14 +2317,14 @@ export default function CharacterDetailPage() {
 
                                   {characterClass?.armorProf && !characterClass.armorProf.toLowerCase().includes('nenhuma') && (
                                     <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
-                                      {characterClass.armorProf.includes('pesadas') 
+                                      {characterClass.armorProf.toLowerCase().includes('pesadas') 
                                         ? (
                                           <>
                                             <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
                                             <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
                                           </>
                                         )
-                                        : characterClass.armorProf.includes('médias')
+                                        : characterClass.armorProf.toLowerCase().includes('médias')
                                         ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
                                         : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
                                     </div>
@@ -2350,7 +2352,7 @@ export default function CharacterDetailPage() {
                                   )}
 
                                   <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
-                                    {characterClass?.weaponProf?.includes('marciais') 
+                                    {characterClass?.weaponProf?.toLowerCase().includes('marciais') 
                                       ? (
                                         <>
                                           <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>

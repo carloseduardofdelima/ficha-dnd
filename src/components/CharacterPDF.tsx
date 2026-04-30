@@ -48,7 +48,13 @@ const getCharacterFeatures = (character: Character) => {
   // Class Features
   const dndClass = classList.find(c => c.name === character.class);
   if (dndClass) {
-    dndClass.features.forEach(f => features.push({ name: f.name, description: f.description }));
+    dndClass.features.forEach(f => {
+      // Filter level-specific features for 2014 rules if necessary
+      if (ruleset === '2014' && character.class === 'Bárbaro' && character.level < 2) {
+        if (f.name === 'Ataque Descuidado' || f.name === 'Sentido de Perigo') return;
+      }
+      features.push({ name: f.name, description: f.description });
+    });
   }
   
   // 2024 Specific Progression
@@ -860,8 +866,8 @@ const CharacterPDF = ({ character }: Props) => {
 
             <View style={{ flexDirection: 'row', gap: 5 }}>
                <View style={[styles.hpContainer, { flex: 1 }]}>
-                  <View style={styles.hpHeader}><Text style={styles.headerLabel}>Total</Text><Text style={{ fontSize: 8 }}>1d{character.level}</Text></View>
-                  <View style={[styles.hpMain, { height: 25 }]}><Text style={{ fontSize: 12 }}>d10</Text></View>
+                  <View style={styles.hpHeader}><Text style={styles.headerLabel}>Total</Text><Text style={{ fontSize: 8 }}>{character.level}d{dndClass?.hitDie?.replace('d', '') || '10'}</Text></View>
+                  <View style={[styles.hpMain, { height: 25 }]}><Text style={{ fontSize: 12 }}>{dndClass?.hitDie || 'd10'}</Text></View>
                   <View style={styles.hpFooter}><Text style={styles.hpFooterText}>Dados de Vida</Text></View>
                </View>
                <View style={[styles.hpContainer, { flex: 1.2 }]}>
@@ -895,13 +901,18 @@ const CharacterPDF = ({ character }: Props) => {
                     const atkBonus = mod + profBonus;
                     
                     // Extract damage from properties string (e.g. "1d8 cortante, versátil")
-                    const damageInfo = catalogItem?.properties?.split(',')[0] || '1d4 —';
+                    const damageParts = (catalogItem?.properties || '1d4 —').split(',');
+                    const firstPart = damageParts[0].trim();
+                    const damageDie = firstPart.split(' ')[0]; // gets "1d8"
+                    const damageType = firstPart.split(' ').slice(1).join(' '); // gets "cortante"
+                    
+                    const damageText = `${damageDie} ${mod >= 0 ? '+' : ''}${mod} ${damageType}`;
                     
                     return (
                       <View key={`wpn-${idx}`} style={styles.attackRow}>
                          <Text style={[styles.attackCell, { width: '40%', fontFamily: 'Helvetica-Bold' }]}>{w.item.name}</Text>
                          <Text style={[styles.attackCell, { width: '20%', textAlign: 'center' }]}>+{atkBonus}</Text>
-                         <Text style={[styles.attackCell, { width: '40%' }]}>{damageInfo}</Text>
+                         <Text style={[styles.attackCell, { width: '40%' }]}>{damageText}</Text>
                       </View>
                     );
                   })}
