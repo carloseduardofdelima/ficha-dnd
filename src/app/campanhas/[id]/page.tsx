@@ -144,13 +144,22 @@ export default function CampaignDetailsPage() {
               </span>
             </div>
           </div>
-          <div className="progress-widget">
-            <div className="progress-info">
-              <span>Progresso da Jornada</span>
-              <span>{campaign.progress}%</span>
-            </div>
-            <div className="progress-bar-bg">
-              <div className="progress-bar-fill" style={{ width: `${campaign.progress}%` }}></div>
+          <div className="banner-actions">
+            <Link 
+              href={`/campanhas/${id}/escudo`}
+              className="flex items-center justify-center gap-4 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 font-bold py-6 px-12 rounded-xl border border-rose-600/50 transition-all duration-300 uppercase tracking-[0.2em] text-[12px] backdrop-blur-md shadow-2xl shadow-black/60 hover:border-rose-500 hover:text-rose-200 no-underline"
+            >
+                <Shield size={24} className="opacity-90" /> Escudo do Mestre
+            </Link>
+
+            <div className="progress-widget">
+              <div className="progress-info">
+                <span>Progresso da Jornada</span>
+                <span>{campaign.progress}%</span>
+              </div>
+              <div className="progress-bar-bg">
+                <div className="progress-bar-fill" style={{ width: `${campaign.progress}%` }}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -641,13 +650,32 @@ export default function CampaignDetailsPage() {
         .dot {
           opacity: 0.3;
         }
+        .banner-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-end;
+        }
+
+        @media (max-width: 768px) {
+          .banner-actions {
+            align-items: center;
+            width: 100%;
+            margin-top: 20px;
+          }
+
+          .progress-widget {
+            width: 100% !important;
+          }
+        }
 
         .progress-widget {
           width: 300px;
-          background: rgba(0,0,0,0.2);
+          background: rgba(0,0,0,0.4);
           padding: 16px;
           border-radius: 12px;
           border: 1px solid var(--border);
+          backdrop-filter: blur(8px);
         }
 
         .progress-info {
