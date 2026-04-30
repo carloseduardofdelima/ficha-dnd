@@ -103,6 +103,12 @@ export default function MagiasPage() {
 
         {/* Sidebar Lateral */}
         <aside className={`filters-sidebar ${showFilters ? 'mobile-visible' : ''}`}>
+          <button 
+            className="close-sidebar-mobile"
+            onClick={() => setShowFilters(false)}
+          >
+            <X size={24} />
+          </button>
           <div className="sidebar-section">
             <h3 className="section-title"><Search size={16} /> Buscar</h3>
             <div style={{ position: 'relative' }}>
@@ -363,6 +369,30 @@ export default function MagiasPage() {
           padding: 24px;
           border-radius: 16px;
           border: 1px solid var(--border);
+        }
+
+        .close-sidebar-mobile {
+          display: none;
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          color: var(--fg2);
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          z-index: 10;
+        }
+
+        .close-sidebar-mobile:hover {
+          background: var(--accentGlow);
+          color: var(--accentL);
+          border-color: var(--accent);
         }
 
         .sidebar-section {
@@ -759,6 +789,9 @@ export default function MagiasPage() {
             border-radius: 0;
           }
           .filters-sidebar.mobile-visible {
+            display: flex;
+          }
+          .close-sidebar-mobile {
             display: flex;
           }
           .filter-group {

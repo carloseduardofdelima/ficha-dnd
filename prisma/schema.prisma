@@ -21,6 +21,7 @@ model User {
   characters      Character[]
   savedCharacters SavedCharacter[]
   sessions        Session[]
+  campaigns       Campaign[]
 }
 
 model Account {
@@ -104,6 +105,7 @@ model Character {
   companions       String?
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   savedBy          SavedCharacter[]
+  campaigns        CharacterCampaignLink[]
 }
 
 model SavedCharacter {
@@ -115,4 +117,148 @@ model SavedCharacter {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, characterId])
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  type        String   @default("campaign") // "one-shot" or "campaign"
+  status      String   @default("active")   // "active", "paused", "finished"
+  progress    Int      @default(0)
+  coverUrl    String?
+  system      String?
+  averageLevel Int?
+  startDate   DateTime?
+  tags        String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions    CampaignSession[]
+  notes_list  CampaignNote[]
+  sharedLinks CampaignSharedLink[]
+  combats     CampaignCombatSession[]
+  monsters    Monster[]
+  entities    Entity[]
+  characters  CharacterCampaignLink[]
+}
+
+model CampaignSession {
+  id          String   @id @default(cuid())
+  campaignId  String
+  title       String
+  number      Int
+  date        DateTime?
+  summary     String?
+  objectives  String?
+  events      String?
+  notes       String?
+  status      String   @default("planned") // "planned", "in-progress", "completed"
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model CampaignNote {
+  id          String   @id @default(cuid())
+  campaignId  String
+  title       String
+  content     String
+  isPublic    Boolean  @default(false)
+  isFixed     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model CampaignSharedLink {
+  id          String   @id @default(cuid())
+  campaignId  String
+  token       String   @unique
+  permissions String?
+  expiresAt   DateTime?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model CampaignCombatSession {
+  id          String   @id @default(cuid())
+  campaignId  String
+  name        String?
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  participants CombatParticipant[]
+}
+
+model Entity {
+  id          String   @id @default(cuid())
+  campaignId  String?
+  ownerId     String
+  name        String
+  type        String?
+  description String?
+  attributes  String?
+  hp          Int?
+  actions     String?
+  flags       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaign    Campaign? @relation(fields: [campaignId], references: [id])
+}
+
+model Monster {
+  id          String   @id @default(cuid())
+  campaignId  String?
+  ownerId     String
+  name        String
+  type        String?
+  description String?
+  attributes  String?
+  hp          Int?
+  ac          Int?
+  resistances String?
+  immunities  String?
+  actions     String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaign    Campaign? @relation(fields: [campaignId], references: [id])
+}
+
+model CharacterCampaignLink {
+  id          String   @id @default(cuid())
+  campaignId  String
+  characterId String
+  createdAt   DateTime @default(now())
+
+  campaign    Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, characterId])
+}
+
+model CombatParticipant {
+  id              String   @id @default(cuid())
+  combatSessionId String
+  entityId        String?
+  characterId     String?
+  initiative      Int      @default(0)
+  hpCurrent       Int?
+  conditions      String?
+  createdAt       DateTime @default(now())
+
+  combatSession   CampaignCombatSession @relation(fields: [combatSessionId], references: [id], onDelete: Cascade)
 }
