@@ -126,15 +126,17 @@ export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps
 
         <p className="campaign-desc">{campaign.description || 'Sem descrição.'}</p>
 
-        <div className="progress-container">
-          <div className="progress-header">
-            <span>Progresso</span>
-            <span>{campaign.progress}%</span>
+        {campaign.type === 'campaign' && (
+          <div className="progress-container">
+            <div className="progress-header">
+              <span>Progresso</span>
+              <span>{campaign.progress}%</span>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${campaign.progress}%` }}></div>
+            </div>
           </div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${campaign.progress}%` }}></div>
-          </div>
-        </div>
+        )}
 
         <div className="campaign-footer">
           <div className="footer-item">

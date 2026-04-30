@@ -120,7 +120,7 @@ export default function CampaignDetailsPage() {
   ]
 
   const tabs = allTabs.filter(tab => {
-    if (tab.id === 'sessoes' && campaign.type === 'oneshot') return false
+    if (tab.id === 'sessoes' && campaign.type !== 'campaign') return false
     return true
   })
 
@@ -161,7 +161,7 @@ export default function CampaignDetailsPage() {
                 <Shield size={24} className="opacity-90" /> Escudo do Mestre
             </Link>
 
-            {campaign.type !== 'oneshot' && (
+            {campaign.type === 'campaign' && (
               <div className="progress-container">
                 <div className="progress-header">
                   <span>Progresso</span>
