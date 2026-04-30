@@ -21,7 +21,8 @@ export async function GET(
         characters: { include: { character: true } },
         notes_list: true,
         threats: { include: { attributes: true, combat: true, actions: true, skills: true } },
-        combats: { include: { participants: true } }
+        combats: { include: { participants: true } },
+        npcs: { include: { combat: true, sessions: true }, orderBy: { createdAt: 'desc' } }
       }
     })
 

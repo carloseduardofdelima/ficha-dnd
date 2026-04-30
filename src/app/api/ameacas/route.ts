@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
           { isPublic: true }
         ],
         AND: [
-          campaignId ? { campaignId } : {},
+          campaignId ? { campaignId } : { isTemplate: true },
           type ? { threatType: type } : {},
           search ? { name: { contains: search, mode: 'insensitive' } } : {}
         ]

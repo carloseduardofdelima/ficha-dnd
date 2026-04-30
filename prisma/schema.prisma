@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -23,6 +24,7 @@ model User {
   sessions        Session[]
   campaigns       Campaign[]
   threats         Threat[]
+  npcs            Npc[]
 }
 
 model Account {
@@ -143,6 +145,7 @@ model Campaign {
   sharedLinks CampaignSharedLink[]
   combats     CampaignCombatSession[]
   threats     Threat[]
+  npcs        Npc[]
   characters  CharacterCampaignLink[]
 }
 
@@ -162,6 +165,7 @@ model CampaignSession {
   updatedAt   DateTime @updatedAt
 
   campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  npcs        SessionNpc[]
 }
 
 model CampaignNote {
@@ -310,4 +314,51 @@ model CombatParticipant {
   createdAt       DateTime @default(now())
 
   combatSession   CampaignCombatSession @relation(fields: [combatSessionId], references: [id], onDelete: Cascade)
+}
+
+model Npc {
+  id           String   @id @default(cuid())
+  userId       String
+  campaignId   String
+  name         String
+  title        String?
+  avatarUrl    String?
+  type         String   @default("neutro") // "aliado", "neutro", "inimigo", "comerciante", "quest_giver", "boss"
+  description  String?
+  notes        String?
+  secrets      String?
+  personality  String?
+  appearance   String?
+  status       String   @default("vivo") // "vivo", "morto", "desaparecido"
+  tags         String?  // Store as comma separated string
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sessions     SessionNpc[]
+  combat       NpcCombat?
+}
+
+model SessionNpc {
+  id         String   @id @default(cuid())
+  sessionId  String
+  npcId      String
+  role       String? // ex: ajudou, atacou, apareceu
+  createdAt  DateTime @default(now())
+
+  npc        Npc      @relation(fields: [npcId], references: [id], onDelete: Cascade)
+  session    CampaignSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model NpcCombat {
+  id           String   @id @default(cuid())
+  npcId        String   @unique
+  hp           Int      @default(10)
+  ac           Int      @default(10)
+  attackBonus  Int      @default(0)
+  damage       String?
+  notes        String?
+
+  npc          Npc      @relation(fields: [npcId], references: [id], onDelete: Cascade)
 }

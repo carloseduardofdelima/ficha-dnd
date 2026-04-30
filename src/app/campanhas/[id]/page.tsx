@@ -5,9 +5,10 @@ import Link from 'next/link'
 import {
   Users, BookOpen, Shield, Zap, Info, ChevronLeft,
   Settings, Save, Plus, Target, MessageSquare,
-  Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search
+  Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search, Contact
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import NpcTab from './NpcTab'
 
 export default function CampaignDetailsPage() {
   const { id } = useParams()
@@ -110,6 +111,7 @@ export default function CampaignDetailsPage() {
     { id: 'resumo', label: 'Resumo', icon: Info },
     { id: 'sessoes', label: 'Sessões', icon: Calendar },
     { id: 'personagens', label: 'Jogadores', icon: Users },
+    { id: 'npcs', label: 'NPCs', icon: Contact },
     { id: 'ameacas', label: 'Ameaças', icon: Shield },
     { id: 'combate', label: 'Combate', icon: Sword },
     { id: 'notas', label: 'Notas', icon: BookOpen },
@@ -437,6 +439,14 @@ export default function CampaignDetailsPage() {
             <Target size={48} opacity={0.2} />
             <p>Esta funcionalidade será implementada em breve.</p>
           </div>
+        )}
+
+        {activeTab === 'npcs' && (
+          <NpcTab 
+            campaignId={id as string} 
+            npcs={campaign.npcs || []} 
+            onUpdate={fetchCampaign}
+          />
         )}
       </div>
 
