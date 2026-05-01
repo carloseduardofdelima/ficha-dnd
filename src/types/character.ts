@@ -108,4 +108,5 @@ export interface Character {
   isAdmin?: boolean
   isOwner?: boolean
   companions?: Companion[] | string | null
+  inspiration: boolean
 }

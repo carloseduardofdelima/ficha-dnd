@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -106,6 +105,7 @@ model Character {
   spellSlots       String?
   ruleset          String?          @default("2024")
   companions       String?
+  inspiration      Boolean          @default(false)
   user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   savedBy          SavedCharacter[]
   campaigns        CharacterCampaignLink[]

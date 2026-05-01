@@ -702,7 +702,7 @@ const CharacterPDF = ({ character }: Props) => {
                   ))}
                </View>
                <View style={{ flex: 1, gap: 5 }}>
-                  <View style={styles.smallStatBox}><View style={styles.smallStatValue}><Text style={styles.smallStatText}>0</Text></View><Text style={styles.headerLabel}>Inspiração</Text></View>
+                  <View style={styles.smallStatBox}><View style={styles.smallStatValue}><Text style={styles.smallStatText}>{character.inspiration ? '1' : '0'}</Text></View><Text style={styles.headerLabel}>Inspiração</Text></View>
                   <View style={styles.smallStatBox}><View style={styles.smallStatValue}><Text style={styles.smallStatText}>+{profBonus}</Text></View><Text style={styles.headerLabel}>Bônus de Proficiência</Text></View>
                   <View style={styles.blueSection}>
                      {abilities.map(abil => (

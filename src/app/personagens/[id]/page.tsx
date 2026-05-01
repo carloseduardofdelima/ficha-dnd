@@ -192,7 +192,8 @@ export default function CharacterDetailPage() {
     character?.spellSlots, character?.resources, character?.notes,
     character?.level, character?.class, character?.spells,
     character?.traits, character?.backstory, character?.appearance,
-    character?.personalityTraits, character?.ideals, character?.bonds, character?.flaws
+    character?.personalityTraits, character?.ideals, character?.bonds, character?.flaws,
+    character?.inspiration
   ]);
 
   // Get spell progression for current level
@@ -524,6 +525,12 @@ export default function CharacterDetailPage() {
     setCharacter(updatedChar);
   };
 
+  const toggleInspiration = async () => {
+    if (!character || !isOwner) return;
+    const nextVal = !character.inspiration;
+    updateValue('inspiration', nextVal, true);
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !character) return
@@ -748,6 +755,58 @@ export default function CharacterDetailPage() {
                 </div>
               )}
             </div>
+
+            {/* Inspiration Toggle (Top Right of Photo) */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleInspiration();
+              }}
+              disabled={!isOwner}
+              title={character.inspiration ? "Inspiração Heroica Ativa" : "Usar Inspiração Heroica"}
+              style={{
+                position: 'absolute',
+                top: -8,
+                right: -8,
+                background: 'var(--bg2)',
+                border: character.inspiration ? '2px solid #EAB308' : '2px solid var(--border)',
+                borderRadius: '50%',
+                padding: 4,
+                width: 38,
+                height: 38,
+                cursor: isOwner ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: character.inspiration ? 'scale(1.1)' : 'scale(0.95)',
+                opacity: character.inspiration ? 1 : 0.6,
+                boxShadow: character.inspiration ? '0 0 15px rgba(234, 179, 8, 0.4)' : 'none',
+                zIndex: 10
+              }}
+            >
+              <div className={character.inspiration ? 'dice-rolling' : ''} style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Image 
+                  src="/d20-yellow.png" 
+                  alt="D20" 
+                  width={28} 
+                  height={28} 
+                  style={{ 
+                    filter: character.inspiration ? 'none' : 'grayscale(1) brightness(0.7)',
+                    transition: 'filter 0.3s'
+                  }}
+                />
+                {character.inspiration && (
+                  <span style={{
+                    position: 'absolute',
+                    inset: -6,
+                    borderRadius: '50%',
+                    border: '1px solid rgba(234, 179, 8, 0.4)',
+                    animation: 'pulse-gold 2s infinite'
+                  }} />
+                )}
+              </div>
+            </button>
             <div style={{ position: 'absolute', bottom: -12, left: '50%', transform: 'translateX(-50%)', background: 'var(--accent)', color: '#fff', padding: '2px 8px', borderRadius: '4px 4px 12px 12px', fontSize: 14, fontWeight: 700, boxShadow: '0 4px 10px rgba(225,29,72,.4)' }}>
               {character.level}
             </div>
@@ -4117,6 +4176,24 @@ export default function CharacterDetailPage() {
           .stat-value-box {
             padding: 8px 0;
           }
+        }
+
+        @keyframes dice-roll {
+          0% { transform: rotate(0deg) scale(1); }
+          25% { transform: rotate(5deg) scale(1.05); }
+          50% { transform: rotate(0deg) scale(1); }
+          75% { transform: rotate(-5deg) scale(1.05); }
+          100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .dice-rolling {
+          animation: dice-roll 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-gold {
+          0% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.5); opacity: 0; }
+          100% { transform: scale(1); opacity: 0; }
         }
       `}</style>
     </div>
