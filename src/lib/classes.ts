@@ -1,6 +1,7 @@
 export interface ClassFeature {
   name: string
   description: string
+  level?: number
 }
 
 export interface DndClass {

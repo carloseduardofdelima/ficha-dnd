@@ -48,11 +48,15 @@ const getCharacterFeatures = (character: Character) => {
   // Class Features
   const dndClass = classList.find(c => c.name === character.class);
   if (dndClass) {
-    dndClass.features.forEach(f => {
-      // Filter level-specific features for 2014 rules if necessary
-      if (ruleset === '2014' && character.class === 'Bárbaro' && character.level < 2) {
-        if (f.name === 'Ataque Descuidado' || f.name === 'Sentido de Perigo') return;
-      }
+    dndClass.features.forEach((f: any) => {
+      // Filter level-specific features
+      const featLevel = f.level || 1;
+      if (featLevel > character.level) return;
+
+      // Avoid duplicates if this will be added as a choice (is2014 specific)
+      const isChoiceFeature = ruleset === '2014' && CLASS_LEVEL1_DATA[character.class]?.choices.some((c: any) => c.label === f.name);
+      if (isChoiceFeature) return;
+      
       features.push({ name: f.name, description: f.description });
     });
   }
@@ -109,8 +113,11 @@ const getCharacterFeatures = (character: Character) => {
           if (lvl1) {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === v);
-              if (opt && !features.some(feat => feat.name === opt.name)) {
-                features.push({ name: opt.name, description: opt.description });
+              if (opt) {
+                const name = ruleset === '2014' ? `${c.label}: ${opt.name}` : opt.name;
+                if (!features.some(feat => feat.name === name)) {
+                  features.push({ name, description: opt.description });
+                }
               }
             });
           }
@@ -119,8 +126,11 @@ const getCharacterFeatures = (character: Character) => {
          if (lvl1) {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === val);
-              if (opt && !features.some(feat => feat.name === opt.name)) {
-                features.push({ name: opt.name, description: opt.description });
+              if (opt) {
+                const name = ruleset === '2014' ? `${c.label}: ${opt.name}` : opt.name;
+                if (!features.some(feat => feat.name === name)) {
+                  features.push({ name, description: opt.description });
+                }
               }
             });
          }

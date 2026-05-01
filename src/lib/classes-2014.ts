@@ -15,10 +15,10 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência'],
     features: [
-      { name: 'Fúria', description: 'Em batalha, você luta com ferocidade primitiva. Você pode entrar em fúria como uma ação bônus.' },
-      { name: 'Defesa sem Armadura', description: 'Quando não estiver vestindo armadura, sua CA é 10 + Mod. Destreza + Mod. Constituição. Você pode usar um escudo.' },
-      { name: 'Ataque Descuidado', description: 'No seu primeiro ataque do turno, você pode ganhar vantagem em ataques de Força corpo-a-corpo, mas ataques contra você têm vantagem.' },
-      { name: 'Sentido de Perigo', description: 'Você tem vantagem em testes de resistência de Destreza contra efeitos que você possa ver.' }
+      { name: 'Fúria', level: 1, description: 'Em batalha, você luta com ferocidade primitiva. Você pode entrar em fúria como uma ação bônus.' },
+      { name: 'Defesa sem Armadura', level: 1, description: 'Quando não estiver vestindo armadura, sua CA is 10 + Mod. Destreza + Mod. Constituição. Você pode usar um escudo.' },
+      { name: 'Ataque Descuidado', level: 2, description: 'No seu primeiro ataque do turno, você pode ganhar vantagem em ataques de Força corpo-a-corpo, mas ataques contra você têm vantagem.' },
+      { name: 'Sentido de Perigo', level: 2, description: 'Você tem vantagem em testes de resistência de Destreza contra efeitos que você possa ver.' }
     ]
   },
   {
@@ -36,10 +36,10 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 3,
     skillOptions: ['Acrobacia', 'Adestrar Animais', 'Arcanismo', 'Atletismo', 'Atuação', 'Enganação', 'Furtividade', 'História', 'Intimidação', 'Intuição', 'Investigação', 'Medicina', 'Natureza', 'Percepção', 'Persuasão', 'Prestidigitação', 'Religião', 'Sobrevivência'],
     features: [
-      { name: 'Conjuração', description: 'Você pode conjurar magias de bardo usando seu Carisma.' },
-      { name: 'Inspiração Bárdica (d6)', description: 'Você pode inspirar outros através de palavras ou música como uma ação bônus.' },
-      { name: 'Pau para Toda Obra', description: 'Você pode adicionar metade do seu bônus de proficiência em qualquer teste de atributo que não possua proficiência.' },
-      { name: 'Canção de Descanso', description: 'Você pode ajudar a curar seus aliados durante um descanso curto.' }
+      { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de bardo usando seu Carisma.' },
+      { name: 'Inspiração Bárdica (d6)', level: 1, description: 'Você pode inspirar outros através de palavras ou música como uma ação bônus.' },
+      { name: 'Pau para Toda Obra', level: 2, description: 'Você pode adicionar metade do seu bônus de proficiência em qualquer teste de atributo que não possua proficiência.' },
+      { name: 'Canção de Descanso', level: 2, description: 'Você pode ajudar a curar seus aliados durante um descanso curto.' }
     ]
   },
   {
@@ -56,9 +56,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Conjuração', description: 'Você pode conjurar magias de clérigo usando sua Sabedoria.' },
-      { name: 'Domínio Divino', description: 'Escolha um domínio relacionado à sua divindade.' },
-      { name: 'Canalizar Divindade', description: 'Você pode canalizar energia divina diretamente de sua divindade.' }
+      { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de clérigo usando sua Sabedoria.' },
+      { name: 'Domínio Divino', level: 1, description: 'Escolha um domínio relacionado à sua divindade.' },
+      { name: 'Canalizar Divindade', level: 2, description: 'Você pode canalizar energia divina diretamente de sua divindade.' }
     ]
   },
   {
@@ -75,9 +75,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'Adestrar Animais', 'Intuição', 'Medicina', 'Natureza', 'Percepção', 'Religião', 'Sobrevivência'],
     features: [
-      { name: 'Druídico', description: 'Você conhece o idioma secreto dos druidas.' },
-      { name: 'Conjuração', description: 'Você pode conjurar magias de druida usando sua Sabedoria.' },
-      { name: 'Forma Selvagem', description: 'Você pode usar sua ação para assumir a forma de uma fera que você já tenha visto.' }
+      { name: 'Druídico', level: 1, description: 'Você conhece o idioma secreto dos druidas.' },
+      { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de druida usando sua Sabedoria.' },
+      { name: 'Forma Selvagem', level: 2, description: 'Você pode usar sua ação para assume a forma de uma fera que você já tenha visto.' }
     ]
   },
   {
@@ -94,9 +94,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência'],
     features: [
-      { name: 'Estilo de Luta', description: 'Você adota um estilo de combate particular como sua especialidade.' },
-      { name: 'Retomar o Fôlego', description: 'Você pode usar uma ação bônus para recuperar pontos de vida igual a 1d10 + seu nível de guerreiro.' },
-      { name: 'Surto de Ação', description: 'Você pode realizar uma ação adicional juntamente com sua ação e possível ação bônus.' }
+      { name: 'Estilo de Luta', level: 1, description: 'Você adota um estilo de combate particular como sua especialidade.' },
+      { name: 'Retomar o Fôlego', level: 1, description: 'Você pode usar uma ação bônus para recuperar pontos de vida igual a 1d10 + seu nível de guerreiro.' },
+      { name: 'Surto de Ação', level: 2, description: 'Você pode realizar uma ação adicional juntamente com sua ação e possível ação bônus.' }
     ]
   },
   {
@@ -114,9 +114,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade'],
     features: [
-      { name: 'Defesa Sem Armadura', description: 'Sua CA é 10 + Mod. Des + Mod. Sab.' },
-      { name: 'Artes Marciais', description: 'Você pode usar Destreza em vez de Força para ataques desarmados.' },
-      { name: 'Ki', description: 'Você pode canalizar a energia mágica do Ki.' }
+      { name: 'Defesa Sem Armadura', level: 1, description: 'Sua CA is 10 + Mod. Des + Mod. Sab.' },
+      { name: 'Artes Marciais', level: 1, description: 'Você pode usar Destreza em vez de Força para ataques desarmados.' },
+      { name: 'Ki', level: 2, description: 'Você pode canalizar a energia mágica do Ki.' }
     ]
   },
   {
@@ -133,9 +133,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Sentido Divino', description: 'Como uma ação, você pode detectar a localização de celestiais, corruptores ou mortos-vivos a até 18 metros.' },
-      { name: 'Cura pelas Mãos', description: 'Seu toque abençoado pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' },
-      { name: 'Destruição Divina', description: 'Quando você atingir uma criatura com um ataque, pode gastar um espaço de magia para causar dano radiante extra.' }
+      { name: 'Sentido Divino', level: 1, description: 'Como uma ação, você pode detectar a localização de celestiais, corruptores ou mortos-vivos a até 18 metros.' },
+      { name: 'Cura pelas Mãos', level: 1, description: 'Seu toque abençoado pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' },
+      { name: 'Destruição Divina', level: 2, description: 'Quando você atingir uma criatura com um ataque, pode gastar um espaço de magia para causar dano radiante extra.' }
     ]
   },
   {
@@ -152,9 +152,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 3,
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência'],
     features: [
-      { name: 'Inimigo Favorito', description: 'Você ganha +2 de bônus nas jogadas de dano contra o tipo escolhido e vantagem em testes para rastrear e obter informações.' },
-      { name: 'Explorador Natural', description: 'Você ignora terreno difícil, tem vantagem em iniciativa e vantagem em ataques contra criaturas que ainda não agiram no 1º turno.' },
-      { name: 'Consciência Primitiva', description: 'Você pode se comunicar com bestas e sentir a presença de seus inimigos favoritos a até 8 km.' }
+      { name: 'Inimigo Favorito', level: 1, description: 'Você ganha +2 de bônus nas jogadas de dano contra o tipo escolhido e vantagem em testes para rastrear e obter informações.' },
+      { name: 'Explorador Natural', level: 1, description: 'Você ignora terreno difícil, tem vantagem em iniciativa e vantagem em ataques contra criaturas que ainda não agiram no 1º turno.' },
+      { name: 'Consciência Primitiva', level: 3, description: 'Você pode se comunicar com bestas e sentir a presença de seus inimigos favoritos a até 8 km.' }
     ]
   },
   {
@@ -172,10 +172,10 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 4,
     skillOptions: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'],
     features: [
-      { name: 'Especialização', description: 'Você escolhe duas de suas proficiências em perícias para dobrar seu bônus de proficiência.' },
-      { name: 'Ataque Furtivo', description: 'Você sabe como atacar sutilmente e explorar a distração de seus inimigos para causar dano extra.' },
-      { name: 'Gíria de Ladrão', description: 'Você conhece o jargão e códigos secretos que permitem passar mensagens ocultas.' },
-      { name: 'Ação Ardilosa', description: 'Você pode usar uma ação bônus em cada turno para Disparada, Desengajar ou Esconder.' }
+      { name: 'Especialização', level: 1, description: 'Você escolhe duas de suas proficiências em perícias para dobrar seu bônus de proficiência.' },
+      { name: 'Ataque Furtivo', level: 1, description: 'Você sabe como atacar sutilmente e explorar a distração de seus inimigos para causar dano extra.' },
+      { name: 'Gíria de Ladrão', level: 1, description: 'Você conhece o jargão e códigos secretos que permitem passar mensagens ocultas.' },
+      { name: 'Ação Ardilosa', level: 2, description: 'Você pode usar uma ação bônus em cada turno para Disparada, Desengajar ou Esconder.' }
     ]
   },
   {
@@ -192,9 +192,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Conjuração', description: 'Você pode conjurar magias de feiticeiro usando seu Carisma como habilidade de conjuração.' },
-      { name: 'Origem de Feitiçaria', description: 'Escolha a fonte do seu poder mágico inato: Linhagem Dracônica ou Magia Selvagem.' },
-      { name: 'Fonte de Magia', description: 'Você possui pontos de feitiçaria que permitem criar espaços de magia ou alterar suas magias.' }
+      { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de feiticeiro usando seu Carisma como habilidade de conjuração.' },
+      { name: 'Origem de Feitiçaria', level: 1, description: 'Escolha a fonte do seu poder mágico inato: Linhagem Dracônica ou Magia Selvagem.' },
+      { name: 'Fonte de Magia', level: 2, description: 'Você possui pontos de feitiçaria que permitem criar espaços de magia ou alterar suas magias.' }
     ]
   },
   {
@@ -211,9 +211,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião'],
     features: [
-      { name: 'Patrono Transcendental', description: 'Você fez um pacto com um ser de outro plano de existência: A Arquifada, O Corruptor ou O Grande Antigo.' },
-      { name: 'Magia de Pacto', description: 'Sua magia é concedida por seu patrono e você recupera seus espaços de magia em descansos curtos.' },
-      { name: 'Invocações Místicas', description: 'Você descobriu segredos ocultos que te concedem habilidades mágicas permanentes.' }
+      { name: 'Patrono Transcendental', level: 1, description: 'Você fez um pacto com um ser de outro plano de existência: A Arquifada, O Corruptor ou O Grande Antigo.' },
+      { name: 'Magia de Pacto', level: 1, description: 'Sua magia é concedida por seu patrono e você recupera seus espaços de magia em descansos curtos.' },
+      { name: 'Invocações Místicas', level: 2, description: 'Você descobriu segredos ocultos que te concedem habilidades mágicas permanentes.' }
     ]
   },
   {
@@ -230,9 +230,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião'],
     features: [
-      { name: 'Conjuração', description: 'Você pode conjurar magias de mago usando sua Inteligência.' },
-      { name: 'Recuperação Arcana', description: 'Você pode recuperar parte do seu poder mágico durante um descanso curto.' },
-      { name: 'Livro de Magias', description: 'Você possui um livro contendo as fórmulas de suas magias.' }
+      { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de mago usando sua Inteligência.' },
+      { name: 'Recuperação Arcana', level: 1, description: 'Você pode recuperar parte do seu poder mágico durante um descanso curto.' },
+      { name: 'Livro de Magias', level: 1, description: 'Você possui um livro contendo as fórmulas de suas magias.' }
     ]
   },
   {
@@ -250,9 +250,9 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Percepção', 'Prestidigitação'],
     features: [
-      { name: 'Conjuração', description: 'Você aprendeu a canalizar magia através de ferramentas e objetos.' },
-      { name: 'Engenharia Mágica', description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos.' },
-      { name: 'Infundir Item', description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas.' }
+      { name: 'Conjuração', level: 1, description: 'Você aprendeu a canalizar magia através de ferramentas e objetos.' },
+      { name: 'Engenharia Mágica', level: 1, description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos.' },
+      { name: 'Infundir Item', level: 2, description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas.' }
     ]
   }
 ];

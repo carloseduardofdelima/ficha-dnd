@@ -2128,16 +2128,41 @@ export default function CharacterDetailPage() {
                             features.push({ ...feat, source: 'Classe Base', level: feat.level || 1 });
                           });
 
-                          // 2. Progressão de Nível
+                          // 2. Escolhas de Nível 1 (2014) - Importante para Inimigo Favorito, Estilo de Luta, etc.
+                          if (is2014 && level1Data[character.class]?.choices) {
+                            level1Data[character.class].choices.forEach((choice: any) => {
+                              const selectedId = parsedTraits[choice.id];
+                              if (selectedId) {
+                                const selectedIds = Array.isArray(selectedId) ? selectedId : [selectedId];
+                                selectedIds.forEach((sid: string) => {
+                                  const option = choice.options.find((opt: any) => opt.id === sid);
+                                  if (option) {
+                                    features.push({
+                                      name: `${choice.label}: ${option.name}`,
+                                      description: option.description,
+                                      source: 'Classe (Escolha)',
+                                      level: 1
+                                    });
+                                  }
+                                });
+                              }
+                            });
+                          }
+
+                          // 3. Progressão de Nível
                           for (let lvl = 1; lvl <= character.level; lvl++) {
                             // Base Class Features
-                            const classFeats = is2014 ? [] : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+                            const classFeats = is2014 
+                              ? (characterClass?.features.filter((f: any) => f.level === lvl).map((f: any) => f.name) || [])
+                              : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
+
                             classFeats.forEach((f: string) => {
-                              // Avoid duplicates if already added in passiveFeatures
-                              if (!features.some(ex => ex.name === f)) {
+                              // Avoid duplicates if already added in passiveFeatures or as a Choice (Choice names usually start with the feature name)
+                              if (!features.some(ex => ex.name === f || ex.name.startsWith(`${f}:`))) {
+                                const baseFeat = characterClass?.features.find((feat: any) => feat.name === f);
                                 features.push({
                                   name: f,
-                                  description: getFeatureDescription(f),
+                                  description: baseFeat?.description || getFeatureDescription(f),
                                   source: 'Classe Base',
                                   level: lvl
                                 });
