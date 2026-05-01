@@ -1242,7 +1242,11 @@ export default function CharacterDetailPage() {
                             const modWisdom = Math.floor((character.wisdom - 10) / 2);
                             
                             // Racial/Feat Features
-                            if (parsedTraits?.['feat-lucky'] || parsedTraits?.['feat-lucky-2014'] || (character.traits as string)?.includes('Sortudo')) {
+                            const hasLucky = parsedTraits?.['feat-lucky'] || 
+                                            parsedTraits?.['feat-lucky-2014'] || 
+                                            (typeof character.traits === 'string' && character.traits.includes('Sortudo'));
+                            
+                            if (hasLucky) {
                               initial['Pontos de Sorte'] = { max: 3, current: 3, color: '#fbbf24' };
                             }
 
