@@ -309,6 +309,19 @@ export const SPELLS_2014: Spell[] = [
     classes: ['Feiticeiro', 'Bruxo', 'Mago'], 
     concentration: true 
   },
+  { 
+    id: 'booming-blade-2014', 
+    name: 'Lâmina Estrondosa', 
+    level: 0, 
+    school: 'Evocação', 
+    castingTime: '1 ação', 
+    duration: '1 rodada', 
+    range: '1,5 metros', 
+    components: 'V, M', 
+    description: 'Como parte da ação usada para conjurar esta magia, você deve fazer um ataque corpo a corpo com uma arma. Se acertar, o alvo sofre os efeitos normais do ataque e fica envolto em energia trovejante até o início do seu próximo turno. Se o alvo se mover voluntariamente antes disso, ele sofre 1d8 de dano de trovão.', 
+    damageEffect: '1d8 Trovão (movimento)', 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
+  },
 
   // ── Nível 1 2014 ─────────────────────────────────────────────────────────────
   { 
@@ -1127,6 +1140,43 @@ export const SPELLS_2014: Spell[] = [
     damageEffect: '1d12 Elétrico contínuo', 
     classes: ['Feiticeiro', 'Bruxo', 'Mago'], 
     concentration: true 
+  },
+  { 
+    id: 'absorb-elements-2014', 
+    name: 'Absorver Elementos', 
+    level: 1, 
+    school: 'Abjuração', 
+    castingTime: '1 reação', 
+    duration: '1 rodada', 
+    range: 'Pessoal', 
+    components: 'S', 
+    description: 'A magia captura parte da energia recebida, diminuindo seu efeito sobre você e armazenando-a para seu próximo ataque corpo a corpo. Você tem resistência ao tipo de dano desencadeante até o início do seu próximo turno. Além disso, a primeira vez que você acertar um ataque corpo a corpo no seu próximo turno, o alvo sofre 1d6 de dano extra do tipo desencadeante.', 
+    damageEffect: 'Resistência + 1d6 extra', 
+    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago'] 
+  },
+  { 
+    id: 'distort-value-2014', 
+    name: 'Distorcer Valor', 
+    level: 1, 
+    school: 'Ilusão', 
+    castingTime: '1 ação', 
+    duration: '8 horas', 
+    range: 'Toque', 
+    components: 'V', 
+    description: 'Você lança uma ilusão sobre um objeto que você toca para fazê-lo parecer valer o dobro ou metade do seu valor real.', 
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
+  },
+  { 
+    id: 'snare-2014', 
+    name: 'Armadilha', 
+    level: 1, 
+    school: 'Abjuração', 
+    castingTime: '1 minuto', 
+    duration: '8 horas', 
+    range: 'Toque', 
+    components: 'V, S, M', 
+    description: 'Enquanto você conjura esta magia, você usa uma corda para criar um laço em uma superfície. Quando a magia termina, o laço torna-se invisível. Uma criatura que entrar na área deve ser bem-sucedida num teste de resistência de Destreza ou ficará pendurada de cabeça para baixo e impedida.', 
+    classes: ['Druida', 'Patrulheiro', 'Mago'] 
   },
   {
     id: 'acalmar-emocoes',
@@ -3865,6 +3915,68 @@ export const SPELLS_2014: Spell[] = [
     duration: '1 hora',
     description: 'Uma prisão invisível e imóvel em forma de cubo ou caixa sólida brota em volta de uma área, impedindo a passagem de qualquer matéria ou magia.',
     classes: ['Bardo', 'Mago']
+  },
+  {
+    id: 'feather-fall-2014',
+    name: 'Queda Suave',
+    level: 1,
+    school: 'Transmutação',
+    castingTime: '1 reação, que você conjura quando você ou uma criatura a até 18 metros de você cai',
+    range: '18 metros',
+    components: 'V, M (uma pena pequena ou um pouco de penugem)',
+    duration: '1 minuto',
+    description: 'Escolha até cinco criaturas em queda dentro do alcance. A velocidade de queda das criaturas afetadas cai para 3 metros por rodada até a magia terminar. Se a criatura atingir o chão antes da magia acabar, ela não sofre dano de queda e pode pousar em pé, e a magia termina para essa criatura.',
+    classes: ['Bardo', 'Feiticeiro', 'Mago']
+  },
+  {
+    id: 'booming-blade-2014',
+    name: 'Lâmina Estrondosa',
+    level: 0,
+    school: 'Evocação',
+    castingTime: '1 ação',
+    range: '5 pés (1,5 metro)',
+    components: 'V, M (uma arma)',
+    duration: '1 rodada',
+    description: 'Como parte da ação usada para conjurar esta magia, você deve realizar um ataque corpo-a-corpo com uma arma contra uma criatura dentro do alcance da magia, do contrário a magia falha. Se atingir, o alvo sofre os efeitos normais do ataque e fica envolto por energia estrondosa até o início do seu próximo turno. Se o alvo se mover voluntariamente antes disso, ele sofre 1d8 de dano trovejante imediatamente, e a magia termina.',
+    damageEffect: 'Efeito de Movimento: 1d8 Trovejante',
+    classes: ['Feiticeiro', 'Bruxo', 'Mago']
+  },
+  {
+    id: 'absorb-elements-2014',
+    name: 'Absorver Elementos',
+    level: 1,
+    school: 'Abjuração',
+    castingTime: '1 ação de reação, que você conjura quando sofre dano de ácido, frio, fogo, elétrico ou trovejante',
+    range: 'Pessoal',
+    components: 'S',
+    duration: '1 rodada',
+    description: 'A magia captura parte da energia recebida, mitigando seu efeito sobre você e armazenando-a para o seu próximo ataque corpo-a-corpo. Você tem resistência ao tipo de dano gatilho até o início do seu próximo turno. Além disso, na primeira vez que você atingir com um ataque corpo-a-corpo no seu próximo turno, o alvo sofre 1d6 de dano extra do tipo gatilho, e a magia termina.',
+    damageEffect: 'Resistência + 1d6 extra no próximo ataque',
+    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice']
+  },
+  {
+    id: 'snare-2014',
+    name: 'Armadilha',
+    level: 1,
+    school: 'Abjuração',
+    castingTime: '1 minuto',
+    range: 'Toque',
+    components: 'V, S, M (7,5 metros de corda, que a magia consome)',
+    duration: '8 horas',
+    description: 'Enquanto você conjura esta magia, você usa a corda para criar um laço no chão. Quando a magia termina, o laço torna-se invisível. Se uma criatura Pequena ou maior entrar no local, ela deve ser bem-sucedida num teste de resistência de Destreza ou será içada de cabeça para baixo no ar, ficando impedida.',
+    classes: ['Druida', 'Patrulheiro', 'Mago', 'Artífice']
+  },
+  {
+    id: 'distort-value-2014',
+    name: 'Distorcer Valor',
+    level: 1,
+    school: 'Ilusão',
+    castingTime: '1 ação',
+    range: 'Toque',
+    components: 'V',
+    duration: '8 horas',
+    description: 'Você toca um objeto e altera sua aparência para que ele pareça valer o dobro ou a metade do seu valor real. Um teste de Investigação contra a CD da sua magia revela a ilusão.',
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago']
   }
 ];
 

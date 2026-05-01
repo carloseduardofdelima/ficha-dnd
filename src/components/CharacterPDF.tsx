@@ -789,6 +789,11 @@ const CharacterPDF = ({ character }: Props) => {
                     t.name.toLowerCase().includes('jogo')
                   );
 
+                  const bgData = (ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS).find(b => 
+                    b.name.toLowerCase().trim() === character.background?.toLowerCase().trim() ||
+                    b.id.toLowerCase() === character.background?.toLowerCase().trim()
+                  );
+
                   return (
                     <View style={{ gap: 4 }}>
                       <View>
@@ -836,10 +841,11 @@ const CharacterPDF = ({ character }: Props) => {
                         ))}
                       </View>
 
-                      {(toolRacial.length > 0 || charClass?.toolProf) && (
+                      {(toolRacial.length > 0 || charClass?.toolProf || bgData?.toolProf) && (
                         <View>
                           <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold' }}>Ferramentas e Outros:</Text>
                           {charClass?.toolProf && <Text style={{ fontSize: 7, marginLeft: 4 }}>• {charClass.toolProf}</Text>}
+                          {bgData?.toolProf && <Text style={{ fontSize: 7, marginLeft: 4 }}>• {bgData.toolProf} (Antecedente)</Text>}
                           {toolRacial.map(t => (
                             <View key={t.name} style={{ marginLeft: 4, marginTop: 1 }}>
                               <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color: '#000' }}>• {t.name} (Racial)</Text>

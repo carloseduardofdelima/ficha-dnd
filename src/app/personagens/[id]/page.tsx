@@ -1241,6 +1241,11 @@ export default function CharacterDetailPage() {
                             const modIntelligence = Math.floor((character.intelligence - 10) / 2);
                             const modWisdom = Math.floor((character.wisdom - 10) / 2);
                             
+                            // Racial/Feat Features
+                            if (parsedTraits?.['feat-lucky'] || parsedTraits?.['feat-lucky-2014'] || (character.traits as string)?.includes('Sortudo')) {
+                              initial['Pontos de Sorte'] = { max: 3, current: 3, color: '#fbbf24' };
+                            }
+
                             if (character.class === 'Bárbaro') {
                               let rages = 2;
                               if (character.level >= 17) rages = 6;
@@ -2474,10 +2479,17 @@ export default function CharacterDetailPage() {
                             t.name.toLowerCase().includes('engenhoca')
                           );
 
-                          // Extract tools from class or traits
+                          // Extract tools from background, class or traits
+                          const backgroundName = character.background;
+                          const bg = (is2014 ? BACKGROUNDS_2014 : BACKGROUNDS).find(b => 
+                            b.name.toLowerCase().trim() === backgroundName?.toLowerCase().trim() ||
+                            b.id.toLowerCase() === backgroundName?.toLowerCase().trim()
+                          );
+                          const bgTools = bg?.toolProf ? bg.toolProf.split(',').map(s => s.trim()) : [];
+
                           const classTools = characterClass?.toolProf ? characterClass.toolProf.split(',').map(s => s.trim()) : [];
                           const traitTools = Array.isArray(parsedTraits?.tools) ? parsedTraits.tools : [];
-                          const allTools = [...new Set([...classTools, ...traitTools])];
+                          const allTools = [...new Set([...bgTools, ...classTools, ...traitTools])];
 
                           return (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

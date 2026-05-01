@@ -7,6 +7,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você passou sua vida em serviço a um templo de uma divindade específica, realizando rituais e oferecendo sacrifícios.',
     image: '/assets/spells-icons/cleric.png',
     skills: ['Intuição', 'Religião'],
+    languages: 'Dois idiomas à sua escolha',
     equipment: 'Um símbolo sagrado, um livro de orações, 5 varetas de incenso, vestes, roupas comuns e 15 po.',
     feature: {
       name: 'Abrigo dos Fiéis',
@@ -20,6 +21,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você sabe como as pessoas funcionam e como tirar proveito de suas fraquezas, seja por ganância ou necessidade.',
     image: '/assets/spells-icons/rogue.png',
     skills: ['Enganação', 'Prestidigitação'],
+    toolProf: 'Kit de disfarce, kit de falsificação',
     equipment: 'Roupas finas, kit de disfarce, ferramentas de falsificação e 15 po.',
     feature: {
       name: 'Identidade Falsa',
@@ -33,6 +35,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você tem um histórico de quebrar a lei e sobreviveu em um ambiente de crime e perigo.',
     image: '/assets/spells-icons/rogue.png',
     skills: ['Enganação', 'Furtividade'],
+    toolProf: 'Um tipo de kit de jogo, ferramentas de ladrão',
     equipment: 'Um pé de cabra, roupas escuras comuns com capuz e 15 po.',
     feature: {
       name: 'Contato Criminoso',
@@ -46,6 +49,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você prospera na frente de um público e sabe como cativá-lo com sua arte e carisma.',
     image: '/assets/spells-icons/bard.png',
     skills: ['Acrobacia', 'Atuação'],
+    toolProf: 'Kit de disfarce, um tipo de instrumento musical',
     equipment: 'Um instrumento musical, o favor de um admirador, um figurino e 15 po.',
     feature: {
       name: 'A Pedido do Público',
@@ -59,6 +63,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você veio de uma origem humilde e se tornou um campeão para as pessoas comuns contra a opressão.',
     image: '/assets/spells-icons/fighter.png',
     skills: ['Adestrar Animais', 'Sobrevivência'],
+    toolProf: 'Um tipo de ferramenta de artesão, veículos (terrestre)',
     equipment: 'Ferramentas de artesão, uma pá, um pote de ferro, roupas comuns e 10 po.',
     feature: {
       name: 'Hospitalidade Rústica',
@@ -72,6 +77,8 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você é um membro estabelecido de uma guilda de artesãos, respeitado por sua habilidade e ofício.',
     image: '/assets/spells-icons/artificer.png',
     skills: ['Intuição', 'Persuasão'],
+    toolProf: 'Um tipo de ferramenta de artesão',
+    languages: 'Um idioma à sua escolha',
     equipment: 'Ferramentas de artesão, uma carta de apresentação da sua guilda, roupas finas e 15 po.',
     feature: {
       name: 'Membro de Guilda',
@@ -85,6 +92,8 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você viveu em isolamento em busca de iluminação espiritual ou de uma verdade oculta.',
     image: '/assets/spells-icons/druid.png',
     skills: ['Medicina', 'Religião'],
+    toolProf: 'Kit de herbalismo',
+    languages: 'Um idioma à sua escolha',
     equipment: 'Um estojo de pergaminho cheio de notas, um cobertor de inverno, roupas comuns, kit de herbalismo e 5 po.',
     feature: {
       name: 'Descoberta',
@@ -98,6 +107,8 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você pertence a uma linhagem de privilégio e poder, acostumado a comandar e ser respeitado.',
     image: '/assets/spells-icons/paladin.png',
     skills: ['História', 'Persuasão'],
+    toolProf: 'Um tipo de kit de jogos',
+    languages: 'Um idioma à sua escolha',
     equipment: 'Roupas finas, um anel de sinete, um pergaminho de linhagem e 25 po.',
     feature: {
       name: 'Posição Privilegiada',
@@ -111,6 +122,8 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você cresceu nas terras selvagens e conhece os segredos da natureza intocada.',
     image: '/assets/spells-icons/ranger.png',
     skills: ['Atletismo', 'Sobrevivência'],
+    toolProf: 'Um tipo de instrumento musical',
+    languages: 'Um idioma à sua escolha',
     equipment: 'Um bordão, uma armadilha de caça, um troféu de animal, roupas de viajante e 10 po.',
     feature: {
       name: 'Andarilho',
@@ -124,6 +137,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você passou anos estudando a lore do multiverso em bibliotecas e monastérios.',
     image: '/assets/spells-icons/wizard.png',
     skills: ['Arcanismo', 'História'],
+    languages: 'Dois idiomas à sua escolha',
     equipment: 'Um vidro de tinta preta, uma pena, uma faca pequena, uma carta de um falecido mentor, roupas comuns e 10 po.',
     feature: {
       name: 'Pesquisador',
@@ -137,6 +151,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você passou sua vida em navios, enfrentando os perigos dos mares e oceanos.',
     image: '/assets/spells-icons/ranger.png',
     skills: ['Atletismo', 'Percepção'],
+    toolProf: 'Ferramentas de navegador, veículos aquáticos',
     equipment: 'Um malhete de marinheiro, 15 metros de corda de seda, um amuleto da sorte, roupas comuns e 10 po.',
     feature: {
       name: 'Passagem de Navio',
@@ -150,6 +165,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você serviu em um exército e conhece a disciplina, a hierarquia e o custo da guerra.',
     image: '/assets/spells-icons/fighter.png',
     skills: ['Atletismo', 'Intimidação'],
+    toolProf: 'Um tipo de kit de jogo, veículos (terrestre)',
     equipment: 'Uma insígnia de patente, um troféu de um inimigo caído, roupas comuns e 10 po.',
     feature: {
       name: 'Patente Militar',
@@ -163,6 +179,7 @@ export const BACKGROUNDS_2014: Background[] = [
     description: 'Você cresceu sozinho nas ruas de uma grande cidade, sobrevivendo através da astúcia.',
     image: '/assets/spells-icons/rogue.png',
     skills: ['Prestidigitação', 'Furtividade'],
+    toolProf: 'Kit de disfarce, ferramentas de ladrão',
     equipment: 'Uma faca pequena, um mapa da cidade em que você cresceu, um rato de estimação, um amuleto e 10 po.',
     feature: {
       name: 'Segredos da Cidade',
