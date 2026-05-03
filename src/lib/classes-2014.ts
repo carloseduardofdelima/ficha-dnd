@@ -127,7 +127,21 @@ export const CLASSES_2014: DndClass[] = [
     features: [
       { name: 'Druídico', level: 1, description: 'Você conhece o idioma secreto dos druidas.' },
       { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de druida usando sua Sabedoria.' },
-      { name: 'Forma Selvagem', level: 2, description: 'Você pode usar sua ação para assume a forma de uma fera que você já tenha visto.' }
+      { name: 'Forma Selvagem', level: 2, description: 'Você pode assumir a forma de uma fera que você já tenha visto.' },
+      { name: 'Círculo Druídico', level: 2, description: 'Escolha um círculo druídico: Círculo da Terra ou Círculo da Lua.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Melhoria na Forma Selvagem (ND 1/2)', level: 4, description: 'Você pode se transformar em criaturas de ND 1/2 que não possuam deslocamento de voo.' },
+      { name: 'Característica de Círculo', level: 6, description: 'Você ganha uma nova característica baseada no seu Círculo Druídico.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Melhoria na Forma Selvagem (ND 1)', level: 8, description: 'Você pode se transformar em criaturas de ND 1, incluindo criaturas voadoras.' },
+      { name: 'Característica de Círculo', level: 10, description: 'Você ganha uma nova característica baseada no seu Círculo Druídico.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Círculo', level: 14, description: 'Você ganha a característica final baseada no seu Círculo Druídico.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Corpo Atemporal', level: 18, description: 'Para cada 10 anos que passarem, seu corpo envelhece apenas 1 ano.' },
+      { name: 'Conjuração de Besta', level: 18, description: 'Você pode conjurar magias em forma selvagem que possuam apenas componentes verbais e somáticos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Arquidruida', level: 20, description: 'Você pode usar Forma Selvagem um número ilimitado de vezes.' }
     ]
   },
   {
@@ -151,8 +165,20 @@ export const CLASSES_2014: DndClass[] = [
       { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
       { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes sempre que realizar a ação de Ataque.' },
       { name: 'Incremento no Valor de Habilidade', level: 6, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Arquétipo', level: 7, description: 'Você ganha uma nova característica baseada no seu Arquétipo Marcial.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
       { name: 'Indomável', level: 9, description: 'Você pode jogar de novo um teste de resistência que falhou. (2 usos no nível 13, 3 usos no nível 17)' },
+      { name: 'Característica de Arquétipo', level: 10, description: 'Você ganha uma nova característica baseada no seu Arquétipo Marcial.' },
       { name: 'Ataque Extra (2)', level: 11, description: 'Você pode atacar três vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Indomável (2 usos)', level: 13, description: 'Você pode usar Indomável duas vezes entre descansos longos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 14, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Arquétipo', level: 15, description: 'Você ganha uma nova característica baseada no seu Arquétipo Marcial.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Surto de Ação (2 usos)', level: 17, description: 'Você pode usar Surto de Ação duas vezes entre descansos.' },
+      { name: 'Indomável (3 usos)', level: 17, description: 'Você pode usar Indomável três vezes entre descansos longos.' },
+      { name: 'Característica de Arquétipo', level: 18, description: 'Você ganha a característica final do seu Arquétipo Marcial.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
       { name: 'Ataque Extra (3)', level: 20, description: 'Você pode atacar quatro vezes sempre que realizar a ação de Ataque.' }
     ]
   },
@@ -171,9 +197,33 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade'],
     features: [
-      { name: 'Defesa Sem Armadura', level: 1, description: 'Sua CA is 10 + Mod. Des + Mod. Sab.' },
-      { name: 'Artes Marciais', level: 1, description: 'Você pode usar Destreza em vez de Força para ataques desarmados.' },
-      { name: 'Ki', level: 2, description: 'Você pode canalizar a energia mágica do Ki.' }
+      { name: 'Defesa sem Armadura', level: 1, description: 'Sua CA is 10 + Mod. Des + Mod. Sab.' },
+      { name: 'Artes Marciais', level: 1, description: 'Você pode usar Destreza ao invés de Força para as jogadas de ataque e dano dos seus golpes desarmados e de suas armas de monge.' },
+      { name: 'Chi', level: 2, description: 'Você pode canalizar a energia mística do chi para realizar feitos extraordinários.' },
+      { name: 'Movimento sem Armadura', level: 2, description: 'Seu deslocamento aumenta em 3 metros enquanto você não estiver usando armadura nem empunhando um escudo.' },
+      { name: 'Tradição Monástica', level: 3, description: 'Escolha uma tradição: Caminho da Mão Aberta, Caminho da Sombra ou Caminho dos Quatro Elementos.' },
+      { name: 'Defletir Projéteis', level: 3, description: 'Você pode usar sua reação para defletir ou apanhar o projétil quando você é atingido por um ataque de arma à distância.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Queda Lenta', level: 4, description: 'Você pode usar sua reação, quando você cai, para reduzir o dano de queda sofrido por um valor igual a cinco vezes seu nível de monge.' },
+      { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes, ao invés de uma, sempre que você realizar a ação de Ataque no seu turno.' },
+      { name: 'Ataque Atordoante', level: 5, description: 'Você pode gastar 1 ponto de chi para tentar um ataque atordoante (CD de resistência de Chi).' },
+      { name: 'Golpes de Chi', level: 6, description: 'Seus golpes desarmados contam como armas mágicas com o propósito de ultrapassar resistência ou imunidade.' },
+      { name: 'Característica de Tradição Monástica', level: 6, description: 'Você ganha uma nova característica baseada na sua Tradição Monástica.' },
+      { name: 'Evasão', level: 7, description: 'Você não sofre dano algum se passar num teste de Destreza para metade do dano, e somente metade se falhar.' },
+      { name: 'Mente Tranquila', level: 7, description: 'Você pode usar sua ação para terminar um efeito em si mesmo, que esteja lhe enfeitiçando ou amedrontando.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Aprimoramento de Movimento sem Armadura', level: 9, description: 'Você ganha a habilidade de se mover através de superfícies verticais e sobre líquidos sem cair.' },
+      { name: 'Pureza Corporal', level: 10, description: 'Você se torna imune a doenças e venenos.' },
+      { name: 'Característica de Tradição Monástica', level: 11, description: 'Você ganha uma nova característica baseada na sua Tradição Monástica.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Idiomas do Sol e da Lua', level: 13, description: 'Você compreende todos os idiomas falados e qualquer criatura pode entender o que você fala.' },
+      { name: 'Alma de Diamante', level: 14, description: 'Você ganha proficiência em todos os testes de resistência.' },
+      { name: 'Corpo Atemporal', level: 15, description: 'Você não sofre os efeitos da velhice, não pode envelhecer magicamente e não precisa de comida ou água.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Tradição Monástica', level: 17, description: 'Você ganha a característica final da sua Tradição Monástica.' },
+      { name: 'Corpo Vazio', level: 18, description: 'Você pode gastar 4 pontos de chi para ficar invisível por 1 minuto e ganhar resistência a danos exceto energia.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Auto Aperfeiçoamento', level: 20, description: 'Se rolar iniciativa e não tiver nenhum ponto de chi restante, você recupera 4 pontos de chi.' }
     ]
   },
   {
@@ -190,9 +240,28 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião'],
     features: [
-      { name: 'Sentido Divino', level: 1, description: 'Como uma ação, você pode detectar a localização de celestiais, corruptores ou mortos-vivos a até 18 metros.' },
-      { name: 'Cura pelas Mãos', level: 1, description: 'Seu toque abençoado pode curar ferimentos. Você tem uma reserva de cura igual a 5x seu nível de paladino.' },
-      { name: 'Destruição Divina', level: 2, description: 'Quando você atingir uma criatura com um ataque, pode gastar um espaço de magia para causar dano radiante extra.' }
+      { name: 'Sentido Divino', level: 1, description: 'Com uma ação, detecta localização de celestiais, corruptores ou mortos-vivos a até 18m.' },
+      { name: 'Cura pelas Mãos', level: 1, description: 'Você tem um poço de poder curativo igual ao seu nível x 5.' },
+      { name: 'Estilo de Luta', level: 2, description: 'Escolha: Combate com Armas Grandes, Defesa, Duelismo ou Proteção.' },
+      { name: 'Conjuração', level: 2, description: 'Você prepara magias de paladino iguais ao seu Mod. Carisma + metade do seu nível.' },
+      { name: 'Destruição Divina', level: 2, description: 'Gaste um espaço de magia para causar dano radiante extra (2d8 para 1º nível, +1d8/nível extra).' },
+      { name: 'Saúde Divina', level: 3, description: 'Você se torna imune a doenças.' },
+      { name: 'Juramento Sagrado', level: 3, description: 'Escolha: Juramento de Devoção, Juramento dos Anciãos ou Juramento de Vingança.' },
+      { name: 'Canalizar Divindade', level: 3, description: 'Você ganha opções de Canalizar Divindade baseadas no seu juramento.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Aura de Proteção', level: 6, description: 'Aliados a até 3 metros ganham bônus em salvaguardas igual ao seu Carisma.' },
+      { name: 'Característica de Juramento Sagrado', level: 7, description: 'Você ganha uma nova característica baseada no seu Juramento Sagrado.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Aura de Coragem', level: 10, description: 'Aliados a até 3 metros não podem ser amedrontados enquanto estiver consciente.' },
+      { name: 'Destruição Divina Aprimorada', level: 11, description: 'Seus ataques corpo-a-corpo causam 1d8 de dano radiante extra.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Toque Purificador', level: 14, description: 'Você pode remover uma magia em si mesmo ou em um aliado voluntário com um toque.' },
+      { name: 'Característica de Juramento Sagrado', level: 15, description: 'Você ganha uma nova característica baseada no seu Juramento Sagrado.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Aprimoramentos de Aura', level: 18, description: 'O alcance de suas auras aumenta para 9 metros.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Juramento Sagrado', level: 20, description: 'Você ganha a característica final do seu Juramento Sagrado.' }
     ]
   },
   {
@@ -248,9 +317,27 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'],
     features: [
       { name: 'Especialização', level: 1, description: 'Você escolhe duas de suas proficiências em perícias para dobrar seu bônus de proficiência.' },
-      { name: 'Ataque Furtivo', level: 1, description: 'Você sabe como atacar sutilmente e explorar a distração de seus inimigos para causar dano extra.' },
+      { name: 'Ataque Furtivo', level: 1, description: 'Você causa dano extra ao atingir uma criatura com vantagem ou se houver um aliado próximo.' },
       { name: 'Gíria de Ladrão', level: 1, description: 'Você conhece o jargão e códigos secretos que permitem passar mensagens ocultas.' },
-      { name: 'Ação Ardilosa', level: 2, description: 'Você pode usar uma ação bônus em cada turno para Disparada, Desengajar ou Esconder.' }
+      { name: 'Ação Ardilosa', level: 2, description: 'Você pode usar uma ação bônus em cada turno para Disparada, Desengajar ou Esconder.' },
+      { name: 'Arquétipo Ladino', level: 3, description: 'Escolha um arquétipo: Assassino ou Ladrão.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Esquiva Sobrenatural', level: 5, description: 'Quando um atacante que você possa ver atinge você, pode usar sua reação para reduzir o dano pela metade.' },
+      { name: 'Especialização (Adicional)', level: 6, description: 'Escolha mais duas perícias para dobrar seu bônus de proficiência.' },
+      { name: 'Evasão', level: 7, description: 'Você não sofre dano em sucessos de Destreza e apenas metade em falhas.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Arquétipo', level: 9, description: 'Você ganha uma nova característica baseada no seu Arquétipo Ladino.' },
+      { name: 'Incremento no Valor de Habilidade', level: 10, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Talento Confiável', level: 11, description: 'Sempre que fizer um teste com uma perícia proficiente, um resultado de 9 ou menos no d20 torna-se 10.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Arquétipo', level: 13, description: 'Você ganha uma nova característica baseada no seu Arquétipo Ladino.' },
+      { name: 'Sentido Cego', level: 14, description: 'Você percebe qualquer criatura oculta ou invisível a até 3 metros.' },
+      { name: 'Mente Escorregadia', level: 15, description: 'Você ganha proficiência em testes de resistência de Sabedoria.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Arquétipo', level: 17, description: 'Você ganha a característica final baseada no seu Arquétipo Ladino.' },
+      { name: 'Elusivo', level: 18, description: 'Nenhuma jogada de ataque tem vantagem contra você enquanto você não estiver incapacitado.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Golpe de Sorte', level: 20, description: 'Se você errar um ataque ou falhar em um teste, pode transformar o resultado em um sucesso automático (1x/descanso).' }
     ]
   },
   {
@@ -328,8 +415,19 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião'],
     features: [
       { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de mago usando sua Inteligência.' },
-      { name: 'Recuperação Arcana', level: 1, description: 'Você pode recuperar parte do seu poder mágico durante um descanso curto.' },
-      { name: 'Livro de Magias', level: 1, description: 'Você possui um livro contendo as fórmulas de suas magias.' }
+      { name: 'Recuperação Arcana', level: 1, description: 'Você recupera espaços de magia igual a metade do seu nível em um descanso curto.' },
+      { name: 'Grimório', level: 1, description: 'Você possui um livro contendo as fórmulas de suas magias.' },
+      { name: 'Tradição Arcana', level: 2, description: 'Escolha uma das oito escolas: Abjuração, Adivinhação, Conjuração, Encantamento, Evocação, Ilusão, Necromancia ou Transmutação.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Tradição Arcana', level: 6, description: 'Você ganha uma nova característica baseada na sua Tradição Arcana.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Tradição Arcana', level: 10, description: 'Você ganha uma nova característica baseada na sua Tradição Arcana.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Tradição Arcana', level: 14, description: 'Você ganha a característica final baseada na sua Tradição Arcana.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Dominar Magia', level: 18, description: 'Escolha uma magia de 1º e uma de 2º círculo para conjurar sem gastar espaços.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Assinatura Mágica', level: 20, description: 'Escolha duas magias de 3º círculo que você pode conjurar uma vez cada sem gastar espaços.' }
     ]
   },
   {

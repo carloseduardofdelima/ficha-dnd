@@ -332,11 +332,44 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       features: {
         2: [
           { name: "Abjuração Instruída", description: "O custo em ouro e tempo para copiar magias de abjuração é reduzido à metade." },
-          { name: "Proteção Arcana", description: "Cria uma barreira mágica com PV (2x nível + Int) ao conjurar magia de abjuração de nível 1+." }
+          { name: "Proteção Arcana", description: "Cria uma proteção mágica com PV (2x nível + Int) ao conjurar magia de abjuração de nível 1+." }
         ],
         6: [{ name: "Proteção Projetada", description: "Usa sua reação para que sua Proteção Arcana absorva dano de um aliado a até 9m." }],
-        10: [{ name: "Abjuração Aprimorada", description: "Adiciona seu bônus de proficiência em testes de habilidade para magias de abjuração (ex: Contramágica)." }],
+        10: [{ name: "Abjuração Aprimorada", description: "Adiciona seu bônus de proficiência em testes para magias de abjuração (ex: Contramágica)." }],
         14: [{ name: "Resistência à Magia", description: "Vantagem em saves contra magias e resistência contra o dano de magias." }]
+      }
+    },
+    "Escola de Adivinhação": {
+      features: {
+        2: [
+          { name: "Adivinhação Instruída", description: "O custo para copiar magias de adivinhação é reduzido à metade." },
+          { name: "Prodígio", description: "Role dois d20s ao fim de um descanso longo; use os resultados para substituir jogadas de ataque/save/teste." }
+        ],
+        6: [{ name: "Especialista em Adivinhação", description: "Ao conjurar magia de adivinhação de 2º+, recupera um espaço de nível inferior." }],
+        10: [{ name: "O Terceiro Olho", description: "Ganha benefício: Visão no Escuro, Visão Etérea, Compreensão Maior ou Ver Invisibilidade." }],
+        14: [{ name: "Prodígio Maior", description: "Você rola três d20s para a característica Prodígio em vez de dois." }]
+      }
+    },
+    "Escola de Conjuração": {
+      features: {
+        2: [
+          { name: "Conjuração Instruída", description: "O custo para copiar magias de conjuração é reduzido à metade." },
+          { name: "Conjuração Menor", description: "Usa ação para conjurar um objeto inanimado não-mágico de até 5kg." }
+        ],
+        6: [{ name: "Transposição Benigna", description: "Teletransporta-se 9m ou troca de lugar com uma criatura voluntária." }],
+        10: [{ name: "Conjuração Focada", description: "Sua concentração em magias de conjuração não pode ser interrompida por dano." }],
+        14: [{ name: "Invocações Resistentes", description: "Qualquer criatura que você invocar terá 30 pontos de vida temporários." }]
+      }
+    },
+    "Escola de Encantamento": {
+      features: {
+        2: [
+          { name: "Encantamento Instruído", description: "O custo para copiar magias de encantamento é reduzido à metade." },
+          { name: "Olhar Hipnotizante", description: "Usa ação para enfeitiçar criatura a 1,5m; alvo fica incapacitado e com 0 de deslocamento." }
+        ],
+        6: [{ name: "Encanto Instintivo", description: "Usa reação para desviar um ataque contra você para outra criatura próxima." }],
+        10: [{ name: "Dividir Encantamento", description: "Ao conjurar magia de encantamento de alvo único, pode afetar uma segunda criatura." }],
+        14: [{ name: "Alterar Memórias", description: "Alvos de seus encantamentos não sabem que foram enfeitiçados; pode fazer o alvo esquecer horas da memória." }]
       }
     },
     "Escola de Evocação": {
@@ -348,6 +381,41 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         6: [{ name: "Truque Potente", description: "Suas magias de truque causam metade do dano mesmo se a criatura passar no save." }],
         10: [{ name: "Evocação Potencializada", description: "Adiciona seu modificador de Inteligência ao dano de suas magias de evocação." }],
         14: [{ name: "Sobrecarga", description: "Suas magias de nível 1-5 causam dano máximo, mas usar repetidamente causa dano necrótico a você." }]
+      }
+    },
+    "Escola de Ilusão": {
+      features: {
+        2: [
+          { name: "Ilusão Instruída", description: "O custo para copiar magias de ilusão é reduzido à metade." },
+          { name: "Ilusão Menor Aprimorada", description: "Aprende Ilusão Menor; pode criar som e imagem simultaneamente." }
+        ],
+        6: [{ name: "Ilusões Moldáveis", description: "Usa ação para mudar a natureza de uma ilusão ativa que você possa ver." }],
+        10: [{ name: "Eu Ilusório", description: "Usa reação para interpor duplicata ilusória e fazer um ataque errar automaticamente." }],
+        14: [{ name: "Realidade Ilusória", description: "Usa ação bônus para tornar um objeto inanimado de uma ilusão real por 1 minuto." }]
+      }
+    },
+    "Escola de Necromancia": {
+      features: {
+        2: [
+          { name: "Necromancia Instruída", description: "O custo para copiar magias de necromancia é reduzido à metade." },
+          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." }
+        ],
+        6: [
+          { name: "Escravos Mortos-Vivos", description: "Aprende Animar Mortos; cria um morto-vivo extra; eles ganham PV e dano adicionais." }
+        ],
+        10: [{ name: "Acostumado à Morte-Vida", description: "Resistência a dano necrótico e seu máximo de PV não pode ser reduzido." }],
+        14: [{ name: "Comandar Mortos-Vivos", description: "Usa ação para tentar trazer um morto-vivo sob seu controle (save de Carisma)." }]
+      }
+    },
+    "Escola de Transmutação": {
+      features: {
+        2: [
+          { name: "Transmutação Instruída", description: "O custo para copiar magias de transmutação é reduzido à metade." },
+          { name: "Alquimia Menor", description: "Altera temporariamente propriedades físicas de objetos não-mágicos (madeira, pedra, ferro, etc)." }
+        ],
+        6: [{ name: "Pedra de Transmutador", description: "Cria pedra que dá benefício: Visão no Escuro, Velocidade, Proficiência em Con ou Resistência Elemental." }],
+        10: [{ name: "Metamorfo", description: "Pode conjurar Metamorfose em si mesmo sem gastar espaço (ND 1 ou menor)." }],
+        14: [{ name: "Mestre Transmutador", description: "Consome a pedra para efeito: Transformação Maior, Panaceia, Restaurar Vida ou Restaurar Juventude." }]
       }
     }
   },
@@ -400,6 +468,67 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque." }],
         9: [{ name: "Pulso Arcano", description: "Quando atinge com arma mágica ou o defensor atinge, pode causar 2d6 extra ou curar 2d6 a aliado próximo (INT/dia)." }],
         15: [{ name: "Defensor Aprimorado", description: "Dano e cura do Pulso Arcano aumentam para 4d6. O defensor ganha +2 na CA e causa dano quando usa Defletir Ataque." }]
+      }
+    }
+  },
+  'Paladino': {
+    "Juramento de Devoção": {
+      features: {
+        3: [
+          { name: "Canalizar Divindade: Arma Sagrada", description: "Soma Mod. Carisma nas jogadas de ataque; arma emite luz e conta como mágica." },
+          { name: "Canalizar Divindade: Expulsar o Profano", description: "Usa ação para fazer corruptores e mortos-vivos (9m) fugirem se falharem no save." }
+        ],
+        7: [{ name: "Aura de Devoção", description: "Você e aliados a até 3 metros não podem ser enfeitiçados." }],
+        15: [{ name: "Pureza de Espírito", description: "Você está sempre sob o efeito da magia Proteção contra o Bem e Mal." }],
+        20: [{ name: "Halo Sagrado", description: "Emite luz solar, causa 10 de dano radiante a inimigos próximos e ganha vantagem contra magias de corruptores/mortos-vivos." }]
+      }
+    },
+    "Juramento dos Anciãos": {
+      features: {
+        3: [
+          { name: "Canalizar Divindade: Fúria da Natureza", description: "Invoca vinhas para prender uma criatura a até 3 metros (save de For/Des)." },
+          { name: "Canalizar Divindade: Expulsar os Infiéis", description: "Faz fadas e corruptores (9m) fugirem se falharem no save de Sabedoria." }
+        ],
+        7: [{ name: "Aura de Vigilância", description: "Você e aliados a até 3 metros têm resistência a dano de magias." }],
+        15: [{ name: "Sentinela Imortal", description: "Quando cair a 0 PV e não morrer, pode escolher voltar a 1 PV (1x/descanso longo). Não sofre fragilidades da velhice." }],
+        20: [{ name: "Campeão dos Anciões", description: "Assume forma da natureza: regenera 10 PV/turno, conjura magias de ação como bônus e inimigos têm desvantagem nos saves." }]
+      }
+    },
+    "Juramento de Vingança": {
+      features: {
+        3: [
+          { name: "Canalizar Divindade: Abjurar Inimigo", description: "Amedronta uma criatura a até 18m; corruptores e mortos-vivos têm desvantagem." },
+          { name: "Canalizar Divindade: Voto de Inimizade", description: "Ganha vantagem nas jogadas de ataque contra uma criatura por 1 minuto." }
+        ],
+        7: [{ name: "Vingador Implacável", description: "Ao atingir AdO, move metade do deslocamento sem provocar AdO." }],
+        15: [{ name: "Alma de Vingança", description: "Quando o alvo do Voto de Inimizade ataca, você pode usar reação para atacá-lo." }],
+        20: [{ name: "Anjo Vingador", description: "Ganha asas (voo 18m) e emite aura de ameaça que amedronta inimigos." }]
+      }
+    }
+  },
+  'Monge': {
+    "Caminho da Mão Aberta": {
+      features: {
+        3: [{ name: "Técnica da Mão Aberta", description: "Sua Rajada de Golpes pode derrubar, empurrar ou impedir reações do alvo." }],
+        6: [{ name: "Integridade Corporal", description: "Pode recuperar PV igual a 3x seu nível de monge (1x/descanso longo)." }],
+        11: [{ name: "Tranquilidade", description: "Ganha o efeito da magia santuário ao terminar um descanso longo, durando até você atacar ou conjurar." }],
+        17: [{ name: "Palma Vibrante", description: "Gasta 3 pontos de chi para criar vibrações letais; alvo deve passar em save de Con ou cair a 0 PV (ou sofrer 10d10)." }]
+      }
+    },
+    "Caminho da Sombra": {
+      features: {
+        3: [{ name: "Artes Sombrias", description: "Pode gastar 2 pontos de chi para conjurar: Escuridão, Visão no Escuro, Passos sem Pegadas ou Silêncio." }],
+        6: [{ name: "Passo das Sombras", description: "Pode se teletransportar de uma sombra para outra (18m) como ação bônus, ganhando vantagem no próximo ataque." }],
+        11: [{ name: "Manto de Sombras", description: "Em luz plena ou escuridão, pode usar sua ação para ficar invisível." }],
+        17: [{ name: "Oportunista", description: "Quando uma criatura a 1,5m é atingida por um ataque, você pode usar sua reação para atacá-la." }]
+      }
+    },
+    "Caminho dos Quatro Elementos": {
+      features: {
+        3: [{ name: "Discípulo dos Elementos", description: "Aprende disciplinas mágicas que manipulam os elementos gastando pontos de chi." }],
+        6: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }],
+        11: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }],
+        17: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }]
       }
     }
   }
