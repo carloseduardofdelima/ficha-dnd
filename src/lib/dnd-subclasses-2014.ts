@@ -377,7 +377,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         15: [{ name: "Armadura Perfeita", description: "Ganha bônus potentes baseados no seu modelo de armadura (Guardião: puxar inimigo com reação; Infiltrador: vantagem em ataque e dano extra)." }]
       }
     },
-    "Artilheiro": {
+    "Atirador": {
       spells: ["Escudo", "Onda Trovejante", "Raio Ardente", "Despedaçar", "Bola de Fogo", "Muralha de Vento", "Tempestade Glacial", "Muro de Fogo", "Cone de Frio", "Muralha de Energia"],
       features: {
         3: [

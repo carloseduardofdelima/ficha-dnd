@@ -349,7 +349,28 @@ export const CLASSES_2014: DndClass[] = [
     features: [
       { name: 'Conjuração', level: 1, description: 'Você aprendeu a canalizar magia através de ferramentas e objetos.' },
       { name: 'Engenharia Mágica', level: 1, description: 'Você pode imbuir propriedades mágicas em objetos minúsculos não mágicos.' },
-      { name: 'Infundir Item', level: 2, description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas.' }
+      { name: 'Infundir Item', level: 2, description: 'Você ganha a habilidade de imbuir itens mundanos com infusões mágicas.' },
+      { name: 'Especialização de Artífice', level: 3, description: 'Escolha uma especialização: Alquimista, Armeiro, Atirador ou Ferreiro de Batalha.' },
+      { name: 'A Ferramenta Certa para o Trabalho', level: 3, description: 'Você pode criar magicamente um conjunto de ferramentas de artesão que você precise.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Especialização', level: 5, description: 'Você ganha uma característica da sua especialização escolhida.' },
+      { name: 'Maestria em Ferramenta', level: 6, description: 'Seu bônus de proficiência é dobrado para qualquer teste com ferramentas que você seja proficiente.' },
+      { name: 'Infusões de Artífice (6 conhecidas, 3 itens)', level: 6, description: 'Você aprende novas infusões e pode manter mais itens infundidos simultaneamente.' },
+      { name: 'Lampejo de Genialidade', level: 7, description: 'Você pode adicionar seu modificador de Inteligência ao teste de habilidade ou salvaguarda de alguém.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Especialização', level: 9, description: 'Você ganha uma nova característica da sua especialização escolhida.' },
+      { name: 'Perito em Itens Mágicos', level: 10, description: 'Você pode se sintonizar com até quatro itens mágicos; criação de itens comuns/incomuns é mais rápida e barata.' },
+      { name: 'Infusões de Artífice (8 conhecidas, 4 itens)', level: 10, description: 'Você aprende novas infusões e pode manter mais itens infundidos simultaneamente.' },
+      { name: 'Item de Armazenar Magia', level: 11, description: 'Você pode armazenar uma magia de 1º ou 2º círculo em um objeto para uso posterior.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Versado em Itens Mágicos', level: 14, description: 'Você pode se sintonizar com até cinco itens mágicos e ignora requisitos de classe/raça/nível.' },
+      { name: 'Infusões de Artífice (10 conhecidas, 5 itens)', level: 14, description: 'Você aprende novas infusões e pode manter mais itens infundidos simultaneamente.' },
+      { name: 'Característica de Especialização', level: 15, description: 'Você ganha a característica final da sua especialização escolhida.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Maestria em Itens Mágicos', level: 18, description: 'Você pode se sintonizar com até seis itens mágicos de uma vez.' },
+      { name: 'Infusões de Artífice (12 conhecidas, 6 itens)', level: 18, description: 'Você aprende novas infusões e pode manter mais itens infundidos simultaneamente.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Alma do Artífice', level: 20, description: 'Você ganha bônus em salvaguardas por item sintonizado e pode evitar a morte encerrando uma infusão.' }
     ]
   }
 ];
