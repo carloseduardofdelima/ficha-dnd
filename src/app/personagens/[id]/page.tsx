@@ -1364,10 +1364,22 @@ export default function CharacterDetailPage() {
                               if (character.level >= 2) {
                                 initial['Surto de Ação'] = { max: 1, current: 1, color: '#94a3b8' };
                               }
+                              
+                              // Subclasses 2014
+                              if (character.subclass === 'Mestre de Batalha') {
+                                let dice = 4;
+                                if (character.level >= 15) dice = 6;
+                                else if (character.level >= 7) dice = 5;
+                                initial['Dados de Superioridade'] = { max: dice, current: dice, color: '#b45309' };
+                              }
                             }
 
                             if (character.class === 'Monge' && character.level >= 2) {
                               initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
+                              
+                              if (character.subclass === 'Caminho da Mão Aberta' && character.level >= 6) {
+                                initial['Integridade Corporal'] = { max: 1, current: 1, color: '#10b981' };
+                              }
                             }
 
                             if (character.class === 'Bardo') {
@@ -1378,10 +1390,25 @@ export default function CharacterDetailPage() {
                             if (character.class === 'Clérigo' && character.level >= 2) {
                               const uses = character.level >= 18 ? 3 : (character.level >= 6 ? 2 : 1);
                               initial['Canalizar Divindade'] = { max: uses, current: uses, color: '#facc15' };
+                              
+                              // Subclasses
+                              if (character.subclass === 'Domínio da Guerra') {
+                                initial['Sacerdote da Guerra'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#94a3b8' };
+                              }
+                              if (character.subclass === 'Domínio da Luz') {
+                                initial['Labareda Protetora'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#fbbf24' };
+                              }
+                              if (character.subclass === 'Domínio da Tempestade') {
+                                initial['Ira da Tormenta'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#3b82f6' };
+                              }
                             }
 
                             if (character.class === 'Druida' && character.level >= 2) {
                               initial['Forma Selvagem'] = { max: 2, current: 2, color: '#22c55e' };
+                              
+                              if (character.subclass === 'Círculo da Terra') {
+                                initial['Recuperação Natural'] = { max: 1, current: 1, color: '#22c55e' };
+                              }
                             }
 
                             if (character.class === 'Artífice') {
@@ -1404,11 +1431,19 @@ export default function CharacterDetailPage() {
                               if (character.level >= 2) {
                                 initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
                               }
+                              
+                              if (character.subclass === 'Magia Selvagem') {
+                                initial['Marés de Caos'] = { max: 1, current: 1, color: '#f97316' };
+                              }
                             }
 
                             if (character.class === 'Mago') {
                               initial['Recuperação Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
                               initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
+                              
+                              if (character.subclass === 'Escola de Adivinhação') {
+                                initial['Dados de Portento'] = { max: character.level >= 14 ? 3 : 2, current: character.level >= 14 ? 3 : 2, color: '#3b82f6' };
+                              }
                             }
 
                             if (character.class === 'Patrulheiro' && !is2014) {
@@ -1417,6 +1452,15 @@ export default function CharacterDetailPage() {
 
                             if (character.class === 'Bruxo' && character.level >= 2 && !is2014) {
                               initial['Astúcia Mística (Magical Cunning)'] = { max: 1, current: 1, color: '#c084fc' };
+                            }
+
+                            if (character.class === 'Bruxo' && is2014) {
+                              if (character.subclass === 'O Corruptor' && character.level >= 6) {
+                                initial["Sorte do Próprio Obscuro"] = { max: 1, current: 1, color: '#ef4444' };
+                              }
+                              if (character.subclass === 'A Arquifada') {
+                                initial["Presença Feérica"] = { max: 1, current: 1, color: '#ec4899' };
+                              }
                             }
 
                             if (character.class === 'Clérigo' && character.level >= 10 && !is2014) {
