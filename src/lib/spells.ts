@@ -257,7 +257,17 @@ export const SPELLCASTING_CLASSES = [
 
 export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024', modifiers?: any) {
   const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
-  const classData = table[className]
+  let classData = table[className]
+  
+  // Robust fallback for accented names if direct lookup fails
+  if (!classData) {
+    const normalizedName = className.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const key = Object.keys(table).find(k => 
+      k.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === normalizedName
+    );
+    if (key) classData = table[key];
+  }
+
   if (!classData) return null
   
   // If level is beyond table, return last level

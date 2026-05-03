@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
-import { SPELLS, ALL_SPELLS, getSpellSlots } from '@/lib/spells'
+import { SPELLS, ALL_SPELLS, getSpellSlots, SPELLS_2014 } from '@/lib/spells'
 import { compressImage } from '@/lib/image'
 import { CLASSES } from '@/lib/classes'
 import ResourceTracker from '@/components/ResourceTracker'
@@ -211,14 +211,20 @@ export default function CharacterDetailPage() {
   }, [character?.class, character?.level, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
 
   const totalCantripsSelected = useMemo(() => {
-    if (!character?.spells) return 0
-    return (character.spells as string[]).map(id => ALL_SPELLS.find(s => s.id === id)).filter(s => s?.level === 0).length
-  }, [character?.spells])
+    if (!parsedSpells) return 0
+    return parsedSpells
+      .filter(id => character?.ruleset === '2014' ? id.endsWith('-2014') : !id.endsWith('-2014'))
+      .map(id => ALL_SPELLS.find(s => s.id === id))
+      .filter(s => s?.level === 0).length
+  }, [parsedSpells, character?.ruleset])
 
   const totalLeveledSpellsSelected = useMemo(() => {
-    if (!character?.spells) return 0
-    return (character.spells as string[]).map(id => SPELLS.find(s => s.id === id)).filter(s => s && s.level > 0).length
-  }, [character?.spells])
+    if (!parsedSpells) return 0
+    return parsedSpells
+      .filter(id => character?.ruleset === '2014' ? id.endsWith('-2014') : !id.endsWith('-2014'))
+      .map(id => ALL_SPELLS.find(s => s.id === id))
+      .filter(s => s && s.level > 0).length
+  }, [parsedSpells, character?.ruleset])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -1765,14 +1771,18 @@ export default function CharacterDetailPage() {
                     )}
 
                     {(() => {
-                      const currentSpells = parsedSpells;
+                      const currentSpells = parsedSpells.filter(id => {
+                        if (character.ruleset === '2014') return id.endsWith('-2014');
+                        return !id.endsWith('-2014');
+                      });
                       // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
                       const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0;
                       const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1;
                       
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
+                      const availableSpellsList = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
                       const baseList = isPreparing 
-                        ? SPELLS.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel)
+                        ? availableSpellsList.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel)
                         : currentSpells.map(id => ALL_SPELLS.find(s => s.id === id)).filter(Boolean);
 
                       const toggleSpell = (id: string) => {
@@ -1793,12 +1803,12 @@ export default function CharacterDetailPage() {
                               const s = ALL_SPELLS.find(sp => sp.id === sid);
                               return s && s.level === 0;
                             }).length;
-                            if (selectedCantrips >= (currentProgression?.cantrips || 0)) {
-                              alert(`Você já atingiu o limite de Truques!`);
+                            if (currentProgression && selectedCantrips >= (currentProgression?.cantrips || 0)) {
+                              alert(`Você já atingiu o limite de Truques! (${currentProgression.cantrips})`);
                               return;
                             }
                           } else {
-                            const is2014Prepared = character.ruleset === '2014' && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artesão Arcano'].includes(character.class);
+                            const is2014Prepared = character.ruleset === '2014' && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artífice'].includes(character.class);
                             
                             const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
                             
