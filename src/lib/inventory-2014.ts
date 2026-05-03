@@ -2,7 +2,7 @@ import { InventoryEntry, InventoryItem, ItemCategory } from './inventory'
 
 export const ITEM_CATALOG_2014: InventoryItem[] = [
   // --- Armas Simples Corpo a Corpo ---
-  { id: 'bordao-2014', name: 'Bordão', category: 'weapon', icon: '🪵', description: 'Arma simples corpo a corpo. Dano: 1d4 contundente.', weight: 0.9, cost: '1 pp', properties: 'Leve, 1d4 contundente' },
+  { id: 'clava-2014', name: 'Clava', category: 'weapon', icon: '🪵', description: 'Arma simples corpo a corpo. Dano: 1d4 contundente.', weight: 0.9, cost: '1 pp', properties: 'Leve, 1d4 contundente' },
   { id: 'adaga-2014', name: 'Adaga', category: 'weapon', icon: '🔪', description: 'Arma simples corpo a corpo. Dano: 1d4 perfurante.', weight: 0.45, cost: '2 po', properties: 'Acuidade, Leve, Arremesso (6/18m), 1d4 perfurante' },
   { id: 'clava-grande-2014', name: 'Clava Grande', category: 'weapon', icon: '🪵', description: 'Arma simples corpo a corpo. Dano: 1d8 contundente.', weight: 4.5, cost: '2 pp', properties: 'Duas Mãos, 1d8 contundente' },
   { id: 'machado-mao-2014', name: 'Machado de Mão', category: 'weapon', icon: '🪓', description: 'Arma simples corpo a corpo. Dano: 1d6 cortante.', weight: 0.9, cost: '5 po', properties: 'Leve, Arremesso (6/18m), 1d6 cortante' },
@@ -54,7 +54,7 @@ export const ITEM_CATALOG_2014: InventoryItem[] = [
   // --- Armaduras Médias ---
   { id: 'peles-2014', name: 'Couro (Hide)', category: 'armor', icon: '🧥', description: 'CA 12 + Des (máx 2). Armadura média.', weight: 5.4, cost: '10 po', properties: '12 + Mod. Des (máx 2)', ac: 12, armorType: 'medium', dexMax: 2 },
   { id: 'camisa-malha-2014', name: 'Camisa de Malha', category: 'armor', icon: '⛓️', description: 'CA 13 + Des (máx 2). Armadura média.', weight: 9, cost: '50 po', properties: '13 + Mod. Des (máx 2)', ac: 13, armorType: 'medium', dexMax: 2 },
-  { id: 'cota-talas-2014', name: 'Cota de Talas', category: 'armor', icon: '🛡️', description: 'CA 14 + Des (máx 2). Armadura média.', weight: 20.25, cost: '50 po', properties: '14 + Mod. Des (máx 2), Desvantagem Furtividade', ac: 14, armorType: 'medium', dexMax: 2 },
+  { id: 'cota-escamas-2014', name: 'Cota de Escamas', category: 'armor', icon: '🛡️', description: 'CA 14 + Des (máx 2). Armadura média.', weight: 20.25, cost: '50 po', properties: '14 + Mod. Des (máx 2), Desvantagem Furtividade', ac: 14, armorType: 'medium', dexMax: 2 },
   { id: 'peitoral-2014', name: 'Peitoral', category: 'armor', icon: '🛡️', description: 'CA 14 + Des (máx 2). Armadura média.', weight: 9, cost: '400 po', properties: '14 + Mod. Des (máx 2)', ac: 14, armorType: 'medium', dexMax: 2 },
   { id: 'meia-armadura-2014', name: 'Meia Armadura', category: 'armor', icon: '🛡️', description: 'CA 15 + Des (máx 2). Armadura média.', weight: 18, cost: '750 po', properties: '15 + Mod. Des (máx 2), Desvantagem Furtividade', ac: 15, armorType: 'medium', dexMax: 2 },
 
@@ -116,7 +116,7 @@ export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
   ],
   'Clérigo': [
     { item: ITEM_CATALOG_2014.find(i => i.id === 'maca-2014')!, qty: 1, locked: true },
-    { item: ITEM_CATALOG_2014.find(i => i.id === 'cota-talas-2014')!, qty: 1, locked: true },
+    { item: ITEM_CATALOG_2014.find(i => i.id === 'cota-escamas-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'besta-leve-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'pack-sacerdote-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'escudo-2014')!, qty: 1, locked: true },
@@ -147,7 +147,7 @@ export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
     { item: ITEM_CATALOG_2014.find(i => i.id === 'cota-malha-2014')!, qty: 1, locked: true },
   ],
   'Patrulheiro': [
-    { item: ITEM_CATALOG_2014.find(i => i.id === 'cota-talas-2014')!, qty: 1, locked: true },
+    { item: ITEM_CATALOG_2014.find(i => i.id === 'cota-escamas-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'espada-curta-2014')!, qty: 2, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'pack-explorador-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'arco-longo-2014')!, qty: 1, locked: true },

@@ -15,6 +15,9 @@ export interface Race {
     traits: RaceTrait[]
     attributeBonuses?: Record<string, number>
     speed?: number
+    bonusSkillCount?: number
+    bonusFeatCount?: number
+    selectableAttributesCount?: number
   }[]
   subRaceTitle?: string
   subRaceMandatory?: boolean
@@ -23,6 +26,8 @@ export interface Race {
   size: 'Pequeno' | 'Médio' | 'Pequeno ou Médio'
   fixedSkills?: string[]
   bonusSkillCount?: number
+  bonusFeatCount?: number
+  selectableAttributesCount?: number
   attributeBonuses?: Record<string, number>
   skillProf?: string[]            // Fixed skill names in PT
   skillChoice?: {                 // Choice of skills

@@ -3,15 +3,15 @@ import { ClassLevel1Data } from './class-features';
 export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   'Bárbaro': {
     passiveFeatures: [
-      { name: 'Fúria', description: 'Em seu turno, você pode entrar em fúria como uma ação bônus. Enquanto estiver em fúria, você tem vantagem em testes de Força e testes de resistência de Força, bônus de dano (+2) em ataques com armas de Força e resistência a dano de concussão, cortante e perfurante.' },
-      { name: 'Defesa sem Armadura', description: 'Quando não estiver vestindo qualquer armadura, sua Classe de Armadura é igual a 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode usar um escudo.' }
+      { name: 'Fúria', description: 'Em batalha, você luta com uma ferocidade primitiva. No seu turno, você pode entrar em fúria com uma ação bônus. Enquanto estiver em fúria, você recebe: Vantagem em testes e salvaguardas de Força; Bônus no dano de ataques corpo-a-corpo com Força; Resistência a dano de concussão, cortante e perfurante.' },
+      { name: 'Defesa sem Armadura', description: 'Quando você não estiver vestindo qualquer armadura, sua Classe de Armadura será 10 + seu modificador de Destreza + seu modificador de Constituição. Você pode usar um escudo e continuar a receber esse benefício.' }
     ],
     choices: []
   },
   'Bardo': {
     passiveFeatures: [
-      { name: 'Conjuração', description: 'Você conhece truques e magias da lista de bardo.' },
-      { name: 'Inspiração Bárdica (d6)', description: 'Você pode inspirar outros através de palavras ou música. Como uma ação bônus, escolha uma criatura a até 18 metros que possa ouvi-lo. Ela ganha um dado de Inspiração Bárdica (d6) que pode ser adicionado a um teste de habilidade, jogada de ataque ou teste de resistência nos próximos 10 minutos.' }
+      { name: 'Conjuração', description: 'Você aprendeu a desembaraçar e remodelar o tecido da realidade em harmonia com os seus desejos e música. Usa Carisma como habilidade de conjuração.' },
+      { name: 'Inspiração de Bardo (d6)', description: 'Você pode inspirar os outros através de palavras animadoras ou música. Com uma ação bônus, escolha uma criatura a até 18 metros que possa ouvi-lo. Ela ganha um d6 que pode ser adicionado a um teste de habilidade, jogada de ataque ou teste de resistência nos próximos 10 minutos.' }
     ],
     choices: []
   },
@@ -26,9 +26,13 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
         description: 'Escolha um domínio relacionado à sua divindade.',
         type: 'radio',
         options: [
-          { id: 'dom-vida', name: 'Domínio da Vida', description: 'Focado em cura e preservação da vida. Ganha proficiência com armaduras pesadas e o recurso Discípulo da Vida.' },
-          { id: 'dom-guerra', name: 'Domínio da Guerra', description: 'Focado em combate. Ganha proficiência com armas marciais e armaduras pesadas, e pode fazer um ataque extra como ação bônus.' },
-          { id: 'dom-tempestade', name: 'Domínio da Tempestade', description: 'Poder dos raios e trovões. Ganha proficiência com armas marciais e armaduras pesadas, e pode usar sua reação para causar dano elétrico.' }
+          { id: 'dom-conhecimento', name: 'Domínio do Conhecimento', description: 'Focado em estudo e compreensão. Ganha idiomas, perícias e pode ler mentes.' },
+          { id: 'dom-enganacao', name: 'Domínio da Enganação', description: 'Focado em subterfúgio e ilusão. Pode criar duplicatas ilusórias e ficar invisível.' },
+          { id: 'dom-guerra', name: 'Domínio da Guerra', description: 'Focado em combate. Ganha proficiência com armas marciais e armaduras pesadas, e bônus em ataques.' },
+          { id: 'dom-luz', name: 'Domínio da Luz', description: 'Focado em verdade e radiação. Pode impor desvantagem em ataques e causar dano radiante.' },
+          { id: 'dom-natureza', name: 'Domínio da Natureza', description: 'Focado no mundo selvagem. Ganha proficiência com armaduras pesadas e pode enfeitiçar animais/plantas.' },
+          { id: 'dom-tempestade', name: 'Domínio da Tempestade', description: 'Poder dos mares e trovões. Ganha proficiência com armas marciais e armaduras pesadas, e pode causar dano máximo elétrico.' },
+          { id: 'dom-vida', name: 'Domínio da Vida', description: 'Focado em cura e preservação. Ganha proficiência com armaduras pesadas e bônus em magias de cura.' }
         ]
       }
     ]
@@ -142,18 +146,29 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
   },
   'Bruxo': {
     passiveFeatures: [
-      { name: 'Magia de Pacto', description: 'Você conhece truques e magias de bruxo. Seus espaços de magia são recuperados em descansos curtos e são todos do mesmo nível.' }
+      { name: 'Magia de Pacto', description: 'Sua pesquisa arcana e a magia outorgada a você por seu patrono lhe concedem uma gama de magias. Você recupera todos os espaços de magia gastos quando completa um descanso curto ou longo.' }
     ],
     choices: [
       {
         id: 'warlock-patron-2014',
         label: 'Patrono Transcendental',
-        description: 'Escolha o ser com quem você fez seu pacto.',
+        description: 'Escolha o ser transcendental com quem você concluiu uma barganha.',
         type: 'radio',
         options: [
-          { id: 'pat-archfey', name: 'A Arquifada', description: 'Seu patrono é um lorde ou dama das fadas. Ganha a característica Presença Feérica.' },
-          { id: 'pat-fiend', name: 'O Corruptor', description: 'Seu patrono é um demônio ou diabo. Ganha a característica Bênção do Obscuro (PV temporários ao reduzir inimigo a 0).' },
-          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade além do tempo. Ganha a característica Despertar a Mente (telepatia).' }
+          { id: 'pat-archfey', name: 'A Arquifada', description: 'Seu patrono é um senhor ou senhora das fadas. Concede Presença Feérica.' },
+          { id: 'pat-fiend', name: 'O Corruptor', description: 'Seu patrono é um corruptor dos planos inferiores. Concede Bênção do Obscuro.' },
+          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade misteriosa de fora da realidade. Concede Despertar a Mente.' }
+        ]
+      },
+      {
+        id: 'warlock-pact-boon-2014',
+        label: 'Dádiva do Pacto',
+        description: 'No 3° nível, seu patrono transcendental lhe confere um dom por seus leais serviços.',
+        type: 'radio',
+        options: [
+          { id: 'pact-chain', name: 'Pacto da Corrente', description: 'Você aprende a magia convocar familiar (ritual) e ganha formas especiais: diabrete, pseudodragão, quasit ou sprite.' },
+          { id: 'pact-blade', name: 'Pacto da Lâmina', description: 'Você pode criar uma arma de pacto em sua mão vazia. Você é proficiente com ela.' },
+          { id: 'pact-tome', name: 'Pacto do Tomo', description: 'Seu patrono lhe dá um grimório chamado Livro das Sombras com três truques de qualquer classe.' }
         ]
       }
     ]

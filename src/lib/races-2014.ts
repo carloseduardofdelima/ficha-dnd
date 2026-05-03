@@ -61,7 +61,8 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Inteligência +1', description: 'Seu valor de Inteligência aumenta em 1.' },
           { name: 'Treinamento com Armas Élficas', description: 'Proficiência com espada longa, espada curta, arco curto e arco longo.' },
-          { name: 'Truque', description: 'Você conhece um truque da lista de magias do mago.' }
+          { name: 'Truque', description: 'Você conhece um truque da lista de magias do mago.' },
+          { name: 'Idioma Adicional', description: 'Você pode falar, ler e escrever um idioma adicional à sua escolha.' }
         ]
       },
       {
@@ -72,7 +73,8 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
           { name: 'Treinamento com Armas Élficas', description: 'Proficiência com espada longa, espada curta, arco curto e arco longo.' },
-          { name: 'Pés Ligeiros', description: 'Seu deslocamento aumenta para 10,5 metros (35 pés).' }
+          { name: 'Pés Ligeiros', description: 'Seu deslocamento aumenta para 10,5 metros (35 pés).' },
+          { name: 'Máscara da Natureza', description: 'Você pode tentar se esconder mesmo quando está apenas levemente obscurecido por folhagem, chuva forte, neve, névoa ou outro fenômeno natural.' }
         ]
       },
       {
@@ -82,8 +84,9 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Carisma +1', description: 'Seu valor de Carisma aumenta em 1.' },
           { name: 'Visão no Escuro Superior', description: 'Sua visão no escuro tem alcance de 36 metros (120 pés).' },
-          { name: 'Treinamento com Armas Drow', description: 'Você tem proficiência com rapieiras, espadas curtas e bestas de mão.' },
-          { name: 'Magia Drow', description: 'Você conhece o truque Globos de Luz.' }
+          { name: 'Sensibilidade à Luz Solar', description: 'Desvantagem em ataques e Percepção visual sob luz solar direta.' },
+          { name: 'Magia Drow', description: 'Você conhece Globos de Luz. No nível 3 conhece Fogo das Fadas e no nível 5, Escuridão.' },
+          { name: 'Treinamento com Armas Drow', description: 'Você tem proficiência com rapieiras, espadas curtas e bestas de mão.' }
         ]
       }
     ],
@@ -144,9 +147,33 @@ export const RACES_2014: Race[] = [
     attributeBonuses: {
       strength: 1, dexterity: 1, constitution: 1, intelligence: 1, wisdom: 1, charisma: 1
     },
+    subRaceTitle: 'Variante Étnica',
+    subRaceMandatory: false,
+    lineages: [
+      {
+        name: 'Humano Padrão',
+        description: 'Aumento em todos os valores de habilidade.',
+        attributeBonuses: { strength: 1, dexterity: 1, constitution: 1, intelligence: 1, wisdom: 1, charisma: 1 },
+        traits: [
+          { name: 'Atributos +1', description: 'Todos os seus valores de atributo aumentam em 1.' }
+        ]
+      },
+      {
+        name: 'Humano Variante',
+        description: 'Regra opcional que permite um talento e uma perícia adicional.',
+        bonusSkillCount: 1,
+        bonusFeatCount: 1,
+        selectableAttributesCount: 2,
+        traits: [
+          { name: 'Atributos +1 (x2)', description: 'Dois valores de habilidade, à sua escolha, aumentam em 1.' },
+          { name: 'Perícia Extra', description: 'Você ganha proficiência em uma perícia à sua escolha.' },
+          { name: 'Talento Extra', description: 'Você adquire um talento de sua escolha.' }
+        ]
+      }
+    ],
     traits: [
-      { name: 'Atributos +1', description: 'Todos os seus valores de atributo aumentam em 1.' },
-      { name: 'Idioma Adicional', description: 'Um idioma à sua escolha.' }
+      { name: 'Adaptabilidade', description: 'Humanos são versáteis e ambiciosos.' },
+      { name: 'Idioma Adicional', description: 'Você pode falar, ler e escrever um idioma adicional à sua escolha.' }
     ]
   },
   {
@@ -196,7 +223,8 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { dexterity: 1 },
         traits: [
           { name: 'Destreza +1', description: 'Seu valor de Destreza aumenta em 1.' },
-          { name: 'Ilusionista Nato', description: 'Você conhece o truque Ilusão Menor.' }
+          { name: 'Ilusionista Nato', description: 'Você conhece o truque Ilusão Menor.' },
+          { name: 'Falar com Bestas Pequenas', description: 'Através de sons e gestos, você pode comunicar ideias simples para Bestas pequenas ou menores.' }
         ]
       },
       {
@@ -205,7 +233,8 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { constitution: 1 },
         traits: [
           { name: 'Constituição +1', description: 'Seu valor de Constituição aumenta em 1.' },
-          { name: 'Engenhoqueiro', description: 'Você tem proficiência com ferramentas de artesão (ferramentas de engenhoqueiro).' }
+          { name: 'Conhecimento de Artífice', description: 'Bônus dobrado em testes de História relacionados a itens mágicos, alquímicos ou mecânicos.' },
+          { name: 'Engenhoqueiro', description: 'Você pode construir mecanismos miúdos (brinquedo, isqueiro ou caixa de música) gastando 1h e 10 po.' }
         ]
       }
     ],
@@ -224,6 +253,7 @@ export const RACES_2014: Race[] = [
     size: 'Médio',
     attributeBonuses: { charisma: 2 },
     bonusSkillCount: 2,
+    selectableAttributesCount: 2,
     traits: [
       { name: 'Carisma +2', description: '+2 Carisma e +1 em outros dois atributos.' },
       { name: 'Ancestralidade Feérica', description: 'Vantagem contra encanto e imunidade a sono mágico.' },

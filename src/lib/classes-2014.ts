@@ -16,9 +16,25 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência'],
     features: [
       { name: 'Fúria', level: 1, description: 'Em batalha, você luta com ferocidade primitiva. Você pode entrar em fúria como uma ação bônus.' },
-      { name: 'Defesa sem Armadura', level: 1, description: 'Quando não estiver vestindo armadura, sua CA is 10 + Mod. Destreza + Mod. Constituição. Você pode usar um escudo.' },
+      { name: 'Defesa sem Armadura', level: 1, description: 'Quando não estiver vestindo armadura, sua CA é 10 + Mod. Destreza + Mod. Constituição. Você pode usar um escudo.' },
       { name: 'Ataque Descuidado', level: 2, description: 'No seu primeiro ataque do turno, você pode ganhar vantagem em ataques de Força corpo-a-corpo, mas ataques contra você têm vantagem.' },
-      { name: 'Sentido de Perigo', level: 2, description: 'Você tem vantagem em testes de resistência de Destreza contra efeitos que você possa ver.' }
+      { name: 'Sentido de Perigo', level: 2, description: 'Você tem vantagem em testes de resistência de Destreza contra efeitos que você possa ver.' },
+      { name: 'Caminho Primitivo', level: 3, description: 'Escolha um caminho que molda a natureza da sua fúria: Caminho do Furioso ou Caminho do Guerreiro Totêmico.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Movimento Rápido', level: 5, description: 'Seu deslocamento aumenta em 3 metros enquanto não estiver vestindo armadura pesada.' },
+      { name: 'Instinto Selvagem', level: 7, description: 'Vantagem em iniciativa. Pode agir surpreso se entrar em fúria primeiro.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Crítico Brutal (1 dado)', level: 9, description: 'Rola um dado de dano extra em um acerto crítico corpo-a-corpo.' },
+      { name: 'Fúria Implacável', level: 11, description: 'Ao cair a 0 PV, pode fazer um teste de Con CD 10 para voltar a 1 PV.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Crítico Brutal (2 dados)', level: 13, description: 'Rola dois dados de dano extra em um acerto crítico corpo-a-corpo.' },
+      { name: 'Fúria Persistente', level: 15, description: 'Sua fúria só termina prematuramente se você cair inconsciente ou decidir terminá-la.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Crítico Brutal (3 dados)', level: 17, description: 'Rola três dados de dano extra em um acerto crítico corpo-a-corpo.' },
+      { name: 'Força Indomável', level: 18, description: 'Se um teste de Força for menor que seu valor de Força, você pode usar o valor do atributo.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Campeão Primitivo', level: 20, description: 'Seus valores de Força e Constituição aumentam em 4, até o máximo de 24.' }
     ]
   },
   {
@@ -39,7 +55,27 @@ export const CLASSES_2014: DndClass[] = [
       { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de bardo usando seu Carisma.' },
       { name: 'Inspiração Bárdica (d6)', level: 1, description: 'Você pode inspirar outros através de palavras ou música como uma ação bônus.' },
       { name: 'Pau para Toda Obra', level: 2, description: 'Você pode adicionar metade do seu bônus de proficiência em qualquer teste de atributo que não possua proficiência.' },
-      { name: 'Canção de Descanso', level: 2, description: 'Você pode ajudar a curar seus aliados durante um descanso curto.' }
+      { name: 'Canção de Descanso (d6)', level: 2, description: 'Você pode ajudar a curar seus aliados durante um descanso curto (1d6).' },
+      { name: 'Colégio de Bardo', level: 3, description: 'Escolha um colégio que define suas técnicas: Colégio do Conhecimento ou Colégio da Bravura.' },
+      { name: 'Aptidão', level: 3, description: 'Escolha duas perícias proficientes para dobrar seu bônus de proficiência.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Inspiração Bárdica (d8)', level: 5, description: 'Seu dado de inspiração aumenta para d8 e você recupera usos em descansos curtos.' },
+      { name: 'Fonte de Inspiração', level: 5, description: 'Você recupera todos os usos de Inspiração Bárdica após um descanso curto ou longo.' },
+      { name: 'Canção de Proteção', level: 6, description: 'Use sua música para dar vantagem em testes contra ser amedrontado ou enfeitiçado.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Canção de Descanso (d8)', level: 9, description: 'Sua cura adicional em descansos curtos aumenta para 1d8.' },
+      { name: 'Inspiração Bárdica (d10)', level: 10, description: 'Seu dado de inspiração aumenta para d10.' },
+      { name: 'Aptidão (Adicional)', level: 10, description: 'Escolha mais duas perícias para ganhar o benefício de Aptidão.' },
+      { name: 'Segredos Mágicos', level: 10, description: 'Escolha duas magias de qualquer classe para aprender.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Canção de Descanso (d10)', level: 13, description: 'Sua cura adicional em descansos curtos aumenta para 1d10.' },
+      { name: 'Segredos Mágicos (Adicional)', level: 14, description: 'Escolha mais duas magias de qualquer classe para aprender.' },
+      { name: 'Inspiração Bárdica (d12)', level: 15, description: 'Seu dado de inspiração aumenta para d12.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Canção de Descanso (d12)', level: 17, description: 'Sua cura adicional em descansos curtos aumenta para 1d12.' },
+      { name: 'Segredos Mágicos (Adicional)', level: 18, description: 'Escolha mais duas magias de qualquer classe para aprender.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Inspiração Superior', level: 20, description: 'Se rolar iniciativa sem usos de Inspiração Bárdica, recupera um uso.' }
     ]
   },
   {
@@ -57,8 +93,22 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião'],
     features: [
       { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de clérigo usando sua Sabedoria.' },
-      { name: 'Domínio Divino', level: 1, description: 'Escolha um domínio relacionado à sua divindade.' },
-      { name: 'Canalizar Divindade', level: 2, description: 'Você pode canalizar energia divina diretamente de sua divindade.' }
+      { name: 'Domínio Divino', level: 1, description: 'Escolha um domínio relacionado à sua divindade. Concede magias e habilidades específicas.' },
+      { name: 'Canalizar Divindade (1/descanso)', level: 2, description: 'Você pode canalizar energia divina para criar efeitos mágicos, como Expulsar Mortos-vivos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Destruir Mortos-Vivos (ND 1/2)', level: 5, description: 'Mortos-vivos que falharem na expulsão são destruídos se o ND for 1/2 ou menor.' },
+      { name: 'Canalizar Divindade (2/descanso)', level: 6, description: 'Você pode usar Canalizar Divindade duas vezes entre descansos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Destruir Mortos-Vivos (ND 1)', level: 8, description: 'Destrói mortos-vivos de ND 1 ou menor.' },
+      { name: 'Intervenção Divina', level: 10, description: 'Você pode rogar à sua divindade por auxílio. Rola d% (sucesso se <= nível).' },
+      { name: 'Destruir Mortos-Vivos (ND 2)', level: 11, description: 'Destrói mortos-vivos de ND 2 ou menor.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Destruir Mortos-Vivos (ND 3)', level: 14, description: 'Destrói mortos-vivos de ND 3 ou menor.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Destruir Mortos-Vivos (ND 4)', level: 17, description: 'Destrói mortos-vivos de ND 4 ou menor.' },
+      { name: 'Canalizar Divindade (3/descanso)', level: 18, description: 'Você pode usar Canalizar Divindade três vezes entre descansos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Aprimoramento de Intervenção Divina', level: 20, description: 'Seu pedido de intervenção divina funciona automaticamente.' }
     ]
   },
   {
@@ -94,9 +144,16 @@ export const CLASSES_2014: DndClass[] = [
     skillCount: 2,
     skillOptions: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência'],
     features: [
-      { name: 'Estilo de Luta', level: 1, description: 'Você adota um estilo de combate particular como sua especialidade.' },
+      { name: 'Estilo de Luta', level: 1, description: 'Você adota um estilo de combate particular como sua especialidade (Arquearia, Defesa, Duelismo, etc).' },
       { name: 'Retomar o Fôlego', level: 1, description: 'Você pode usar uma ação bônus para recuperar pontos de vida igual a 1d10 + seu nível de guerreiro.' },
-      { name: 'Surto de Ação', level: 2, description: 'Você pode realizar uma ação adicional juntamente com sua ação e possível ação bônus.' }
+      { name: 'Surto de Ação', level: 2, description: 'Você pode realizar uma ação adicional juntamente com sua ação e possível ação bônus. (2 usos no nível 17)' },
+      { name: 'Arquétipo Marcial', level: 3, description: 'Escolha um arquétipo: Campeão, Cavaleiro Arcano ou Mestre de Batalha.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Incremento no Valor de Habilidade', level: 6, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Indomável', level: 9, description: 'Você pode jogar de novo um teste de resistência que falhou. (2 usos no nível 13, 3 usos no nível 17)' },
+      { name: 'Ataque Extra (2)', level: 11, description: 'Você pode atacar três vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Ataque Extra (3)', level: 20, description: 'Você pode atacar quatro vezes sempre que realizar a ação de Ataque.' }
     ]
   },
   {
@@ -153,8 +210,26 @@ export const CLASSES_2014: DndClass[] = [
     skillOptions: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência'],
     features: [
       { name: 'Inimigo Favorito', level: 1, description: 'Você ganha +2 de bônus nas jogadas de dano contra o tipo escolhido e vantagem em testes para rastrear e obter informações.' },
-      { name: 'Explorador Natural', level: 1, description: 'Você ignora terreno difícil, tem vantagem em iniciativa e vantagem em ataques contra criaturas que ainda não agiram no 1º turno.' },
-      { name: 'Consciência Primitiva', level: 3, description: 'Você pode se comunicar com bestas e sentir a presença de seus inimigos favoritos a até 8 km.' }
+      { name: 'Explorador Natural', level: 1, description: 'Você ignora terreno difícil, tem vantagem em iniciativa e vantagem em ataques contra quem ainda não agiu no 1º turno.' },
+      { name: 'Estilo de Luta', level: 2, description: 'Você adota um estilo de combate particular como sua especialidade (Arquearia, Combate com Duas Armas, Defesa ou Duelismo).' },
+      { name: 'Conjuração', level: 2, description: 'Você aprende a usar a essência mágica da natureza para conjurar magias.' },
+      { name: 'Conclave de Patrulheiro', level: 3, description: 'Você escolhe emular os ideais de um conclave: Besta, Caçador ou Rastreador Subterrâneo.' },
+      { name: 'Consciência Primitiva', level: 3, description: 'Você pode se comunicar com bestas e sentir a presença de seus inimigos favoritos a até 8 km.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Conclave', level: 5, description: 'Você ganha uma característica baseada no seu Conclave (ex: Ataque Extra ou Ataque Coordenado).' },
+      { name: 'Inimigo Favorito Maior', level: 6, description: 'Escolha um novo tipo de inimigo. Seu bônus de dano contra todos os inimigos favoritos aumenta para +4.' },
+      { name: 'Característica de Conclave', level: 7, description: 'Você ganha uma nova característica defensiva baseada no seu Conclave.' },
+      { name: 'Pés Rápidos', level: 8, description: 'Você pode usar a ação de Disparada como uma ação bônus no seu turno.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Mimetismo', level: 10, description: 'Se você permanecer imóvel, inimigos sofrem -10 de penalidade para detectar você.' },
+      { name: 'Característica de Conclave', level: 11, description: 'Você ganha uma nova característica de ataque múltiplo baseada no seu Conclave.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Desaparecer', level: 14, description: 'Você pode usar a ação de Esconder como uma ação bônus e não pode ser rastreado por meios não mágicos.' },
+      { name: 'Característica de Conclave', level: 15, description: 'Você ganha uma característica defensiva superior baseada no seu Conclave.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Sentidos Selvagens', level: 18, description: 'Você luta contra criaturas que não pode ver sem desvantagem e detecta criaturas invisíveis a até 9 metros.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Matador de Inimigos', level: 20, description: 'Uma vez por turno, adicione seu modificador de Sabedoria na jogada de ataque ou de dano contra um inimigo.' }
     ]
   },
   {
@@ -194,7 +269,15 @@ export const CLASSES_2014: DndClass[] = [
     features: [
       { name: 'Conjuração', level: 1, description: 'Você pode conjurar magias de feiticeiro usando seu Carisma como habilidade de conjuração.' },
       { name: 'Origem de Feitiçaria', level: 1, description: 'Escolha a fonte do seu poder mágico inato: Linhagem Dracônica ou Magia Selvagem.' },
-      { name: 'Fonte de Magia', level: 2, description: 'Você possui pontos de feitiçaria que permitem criar espaços de magia ou alterar suas magias.' }
+      { name: 'Fonte de Magia', level: 2, description: 'Você possui pontos de feitiçaria que permitem criar espaços de magia ou alterar suas magias.' },
+      { name: 'Metamágica', level: 3, description: 'Você ganha a habilidade de distorcer suas magias (ex: Magia Sutil, Acelerada, Duplicada).' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Origem', level: 6, description: 'Você ganha uma nova característica baseada na sua Origem de Feitiçaria.' },
+      { name: 'Metamágica (Adicional)', level: 10, description: 'Você escolhe uma terceira opção de Metamágica.' },
+      { name: 'Característica de Origem', level: 14, description: 'Você ganha uma nova característica baseada na sua Origem de Feitiçaria.' },
+      { name: 'Metamágica (Adicional)', level: 17, description: 'Você escolhe uma quarta opção de Metamágica.' },
+      { name: 'Característica de Origem', level: 18, description: 'Você ganha uma nova característica baseada na sua Origem de Feitiçaria.' },
+      { name: 'Restauração Mística', level: 20, description: 'Você recupera 4 pontos de feitiçaria gastos sempre que terminar um descanso curto.' }
     ]
   },
   {
@@ -213,7 +296,21 @@ export const CLASSES_2014: DndClass[] = [
     features: [
       { name: 'Patrono Transcendental', level: 1, description: 'Você fez um pacto com um ser de outro plano de existência: A Arquifada, O Corruptor ou O Grande Antigo.' },
       { name: 'Magia de Pacto', level: 1, description: 'Sua magia é concedida por seu patrono e você recupera seus espaços de magia em descansos curtos.' },
-      { name: 'Invocações Místicas', level: 2, description: 'Você descobriu segredos ocultos que te concedem habilidades mágicas permanentes.' }
+      { name: 'Invocações Místicas', level: 2, description: 'Você descobriu segredos ocultos que te concedem habilidades mágicas permanentes.' },
+      { name: 'Dádiva do Pacto', level: 3, description: 'Seu patrono lhe confere um dom: Pacto da Corrente, Pacto da Lâmina ou Pacto do Tomo.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Patrono Transcendental', level: 6, description: 'Você ganha uma nova característica concedida pelo seu patrono.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Característica de Patrono Transcendental', level: 10, description: 'Você ganha uma nova característica concedida pelo seu patrono.' },
+      { name: 'Arcana Mística (6° nível)', level: 11, description: 'Seu patrono confere a você um segredo mágico (uma magia de 6° nível).' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Arcana Mística (7° nível)', level: 13, description: 'Seu patrono confere a você um segredo mágico (uma magia de 7° nível).' },
+      { name: 'Característica de Patrono Transcendental', level: 14, description: 'Você ganha uma nova característica concedida pelo seu patrono.' },
+      { name: 'Arcana Mística (8° nível)', level: 15, description: 'Seu patrono confere a você um segredo mágico (uma magia de 8° nível).' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Arcana Mística (9° nível)', level: 17, description: 'Seu patrono confere a você um segredo mágico (uma magia de 9° nível).' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Mestre Místico', level: 20, description: 'Você pode recuperar todos os seus espaços de magia de pacto em 1 minuto.' }
     ]
   },
   {

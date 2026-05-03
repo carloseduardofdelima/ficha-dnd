@@ -243,38 +243,7 @@ export default SPELLS
 export function getSpellsForClass(className: string, ruleset: '2014' | '2024' = '2024'): Spell[] {
   // 1. Prioritize 2014 list if ruleset is 2014
   if (ruleset === '2014') {
-    const legacy = SPELLS_2014.filter(s => s.classes.includes(className))
-    
-    // Lista de IDs da versão 2024 que são substituídos pelas versões 2014 acima
-    const replacedIds = [
-      // Truques
-      'acid-splash', 'blade-ward', 'chill-touch', 'dancing-lights', 
-      'druidcraft', 'eldritch-blast', 'fire-bolt', 'friends', 
-      'guidance', 'light', 'mage-hand', 'mending', 'message', 
-      'minor-illusion', 'poison-spray', 'prestidigitation', 
-      'ray-of-frost', 'resistance', 'sacred-flame', 'shillelagh', 
-      'shocking-grasp', 'spare-dying', 'thaumaturgy', 'true-strike',
-      // Nível 1
-      'alarm', 'animal-friendship', 'bane', 'bless', 'burning-hands',
-      'charm-person', 'chromatic-orb', 'color-spray', 'command',
-      'comprehend-languages', 'create-destroy-water', 'cure-wounds',
-      'detect-evil-good', 'detect-magic', 'disguise-self', 'dissonant-whispers',
-      'divine-favor', 'entangle', 'expeditious-retreat', 'false-life',
-      'feather-fall', 'find-familiar', 'fog-cloud', 'grease', 'guiding-bolt',
-      'hail-of-thorns', 'healing-word', 'heroism', 'tashas-hideous-laughter',
-      'hunters-mark', 'identify', 'illusory-script', 'inflict-wounds',
-      'jump', 'longstrider', 'mage-armor', 'magic-missile', 'protection-evil',
-      'purify-food-drink', 'ray-of-sickness', 'sanctuary', 'shield',
-      'shield-of-faith', 'silent-image', 'sleep', 'speak-with-animals',
-      'thunderwave', 'unseen-servant', 'witch-bolt'
-    ]
-    
-    const others = SPELLS.filter(s => 
-      s.classes.includes(className) && 
-      !replacedIds.includes(s.id)
-    )
-    
-    return [...legacy, ...others]
+    return SPELLS_2014.filter(s => s.classes.includes(className))
   }
   
   // 2024 ruleset: filter out 2014-only versions

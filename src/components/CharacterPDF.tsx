@@ -9,9 +9,11 @@ import { BACKGROUNDS } from '@/lib/backgrounds';
 import { BACKGROUNDS_2014 } from '@/lib/backgrounds-2014';
 import SPELLS, { ALL_SPELLS } from '@/lib/spells';
 import { ITEM_CATALOG } from '@/lib/inventory';
+import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014';
 import CLASS_LEVEL1_DATA from '@/lib/class-features';
 import { CLASS_PROGRESSION_2024, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024';
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024';
+import { SUBCLASSES_2014 } from '@/lib/subclasses-2014';
 
 const getCharacterFeatures = (character: Character) => {
   const features: { name: string; description: string }[] = [];
@@ -81,16 +83,26 @@ const getCharacterFeatures = (character: Character) => {
           features.push({ name: f, description: 'Consulte o livro de regras para mais detalhes.' });
         }
       });
-      
       const speciesFeats = SPECIES_PROGRESSION_2024[character.race]?.[i] || [];
       speciesFeats.forEach(f => {
         if (!features.some(feat => feat.name === f)) {
           features.push({ name: f, description: 'Característica racial adicional.' });
         }
       });
+    }
+  }
 
-      if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
-        const subFeats = SUBCLASSES_2024[character.class][character.subclass].features[i] || [];
+  // Subclass Features (for both 2014 and 2024)
+  if (character.subclass) {
+    const subCatalog = (character.ruleset === '2014') ? SUBCLASSES_2014 : SUBCLASSES_2024;
+    const classId = character.class?.toLowerCase().includes('patrulheiro') || character.class?.toLowerCase().includes('ranger') 
+      ? (character.ruleset === '2014' ? 'ranger_2014' : 'ranger') 
+      : character.class;
+      
+    if (subCatalog[classId]?.[character.subclass]) {
+      const subObj = subCatalog[classId][character.subclass];
+      for (let i = 1; i <= character.level; i++) {
+        const subFeats = subObj.features[i] || [];
         subFeats.forEach(sf => {
           const name = typeof sf === 'string' ? sf : sf.name;
           const desc = typeof sf === 'string' ? 'Habilidade de subclasse.' : sf.description;
@@ -910,17 +922,42 @@ const CharacterPDF = ({ character }: Props) => {
                
                <View style={{ gap: 2 }}>
                   {weapons.map((w: any, idx: number) => {
-                    const catalogItem = ITEM_CATALOG.find(i => i.id === w.item.id || i.name === w.item.name);
-                    const isFinesse = catalogItem?.properties?.includes('Acuidade');
-                    const isRanged = catalogItem?.category === 'weapon' && (catalogItem as any).range;
-                    const mod = (isFinesse || isRanged) ? calcModifier(character.dexterity) : calcModifier(character.strength);
+                    const ruleset = character.ruleset || '2024';
+                    const currentCatalog = ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                    const catalogItem = currentCatalog.find(i => i.id === w.item.id || i.name === w.item.name) || w.item;
+                    
+                    const isFinesse = catalogItem?.properties?.toLowerCase().includes('acuidade');
+                    const isRanged = catalogItem?.category === 'weapon' && (
+                      catalogItem.properties?.toLowerCase().includes('munição') || 
+                      catalogItem.properties?.toLowerCase().includes('arco') ||
+                      catalogItem.properties?.toLowerCase().includes('besta') ||
+                      catalogItem.properties?.toLowerCase().includes('funda') ||
+                      (catalogItem as any).range
+                    );
+                    const strMod = calcModifier(character.strength);
+                    const dexMod = calcModifier(character.dexterity);
+                    const mod = (isFinesse) ? Math.max(strMod, dexMod) : (isRanged ? dexMod : strMod);
                     const atkBonus = mod + profBonus;
                     
-                    // Extract damage from properties string (e.g. "1d8 cortante, versátil")
-                    const damageParts = (catalogItem?.properties || '1d4 —').split(',');
-                    const firstPart = damageParts[0].trim();
-                    const damageDie = firstPart.split(' ')[0]; // gets "1d8"
-                    const damageType = firstPart.split(' ').slice(1).join(' '); // gets "cortante"
+                    // Extract damage more robustly
+                    const props = catalogItem?.properties || '';
+                    // Try to find a pattern like "1d8 cortante" or "2d6 concussão"
+                    const damageMatch = props.match(/(\d+d\d+|\d+)\s+([a-zà-ú-]+)/i);
+                    
+                    let damageDie = '';
+                    let damageType = '';
+                    
+                    if (damageMatch) {
+                      damageDie = damageMatch[1];
+                      damageType = damageMatch[2];
+                    } else {
+                      // Fallback for items with special damage or no type
+                      const parts = props.split(',');
+                      const damagePart = parts.find((p: string) => p.match(/(\d+d\d+|\d+)/)) || parts[0] || '1d4 —';
+                      const bits = damagePart.trim().split(' ');
+                      damageDie = bits[0];
+                      damageType = bits.slice(1).join(' ') || '—';
+                    }
                     
                     const damageText = `${damageDie} ${mod >= 0 ? '+' : ''}${mod} ${damageType}`;
                     

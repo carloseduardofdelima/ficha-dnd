@@ -30,7 +30,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'chill-touch-2014', 
-    name: 'Toque Gelado', 
+    name: 'Toque Arrepiante', 
     level: 0, 
     school: 'Necromancia', 
     castingTime: '1 ação', 
@@ -43,7 +43,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'dancing-lights-2014', 
-    name: 'Luzes Dançantes', 
+    name: 'Globos de Luz', 
     level: 0, 
     school: 'Evocação', 
     castingTime: '1 ação', 
@@ -56,7 +56,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'druidcraft-2014', 
-    name: 'Artifício de Druida', 
+    name: 'Druidismo', 
     level: 0, 
     school: 'Transmutação', 
     castingTime: '1 ação', 
@@ -94,7 +94,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'friends-2014', 
-    name: 'Amigos', 
+    name: 'Amizade', 
     level: 0, 
     school: 'Encantamento', 
     castingTime: '1 ação', 
@@ -322,6 +322,19 @@ export const SPELLS_2014: Spell[] = [
     damageEffect: '1d8 Trovão (movimento)', 
     classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
   },
+  { 
+    id: 'vicious-mockery-2014', 
+    name: 'Zombaria Viciosa', 
+    level: 0, 
+    school: 'Encantamento', 
+    castingTime: '1 ação', 
+    duration: 'Instantânea', 
+    range: '18 metros', 
+    components: 'V', 
+    description: 'Você solta uma corda de insultos sutilmente imbuídos de encantamentos mágicos em uma criatura que você possa ver dentro do alcance. Se o alvo puder ouvir você (ele não precisa entender você), ele deve ser bem-sucedido num teste de resistência de Sabedoria ou sofrerá 1d4 de dano psíquico e terá desvantagem na próxima jogada de ataque que fizer antes do final do próximo turno dele.', 
+    damageEffect: '1d4 Psíquico + Desvantagem', 
+    classes: ['Bardo'] 
+  },
 
   // ── Nível 1 2014 ─────────────────────────────────────────────────────────────
   { 
@@ -442,7 +455,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'color-spray-2014', 
-    name: 'Borrifo de Cores', 
+    name: 'Leque Cromático', 
     level: 1, 
     school: 'Ilusão', 
     castingTime: '1 ação', 
@@ -676,7 +689,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'false-life-2014', 
-    name: 'Falsa Vida', 
+    name: 'Vitalidade Falsa', 
     level: 1, 
     school: 'Necromancia', 
     castingTime: '1 ação', 
@@ -713,7 +726,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'fog-cloud-2014', 
-    name: 'Nuvem de Névoa', 
+    name: 'Névoa Obscurecente', 
     level: 1, 
     school: 'Conjuração', 
     castingTime: '1 ação', 
@@ -726,7 +739,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'goodberry-2014', 
-    name: 'Bons Frutos', 
+    name: 'Bom Fruto', 
     level: 1, 
     school: 'Transmutação', 
     castingTime: '1 ação', 
@@ -921,7 +934,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'mage-armor-2014', 
-    name: 'Armadura de Mago', 
+    name: 'Armadura Arcana', 
     level: 1, 
     school: 'Abjuração', 
     castingTime: '1 ação', 
@@ -1011,7 +1024,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'shield-2014', 
-    name: 'Escudo', 
+    name: 'Escudo Arcano', 
     level: 1, 
     school: 'Abjuração', 
     castingTime: '1 reação', 
@@ -2489,6 +2502,45 @@ export const SPELLS_2014: Spell[] = [
     classes: ['Clérigo', 'Paladino'],
     description: 'Você toca uma criatura que tenha morrido dentro do último minuto. Essa criatura volta a vida com 1 ponto de vida. Essa magia não pode trazer de volta a vida criaturas que tenham morrido de velhice nem pode restaurar quaisquer partes do corpo perdidas.'
   },
+  { 
+    id: 'voo-2014', 
+    name: 'Voo', 
+    level: 3, 
+    school: 'Transmutação', 
+    castingTime: '1 ação', 
+    range: 'Toque', 
+    components: 'V, S, M (uma pena de uma asa de pássaro)', 
+    duration: 'Concentração, até 10 minutos', 
+    classes: ['Bruxo', 'Feiticeiro', 'Mago'], 
+    description: 'Você toca uma criatura voluntária. O alvo ganha deslocamento de voo de 18 metros pela duração. Quando a magia acaba, o alvo cai se ainda estiver no ar, a menos que ele possa impedir a queda.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 4° nível ou superior, você pode atingir uma criatura adicional para cada nível do espaço acima do 3°.', 
+    concentration: true 
+  },
+  {
+    id: 'slow-2014',
+    name: 'Lentidão',
+    level: 3,
+    school: 'Transmutação',
+    castingTime: '1 ação',
+    range: '36 metros',
+    components: 'V, S, M (uma gota de melaço)',
+    duration: 'Concentração, até 1 minuto',
+    classes: ['Feiticeiro', 'Mago'],
+    description: 'Você altera o tempo em torno de até seis criaturas à sua escolha em um cubo de 12 metros dentro do alcance. Cada alvo deve ser bem-sucedido num teste de resistência de Sabedoria ou será afetado por esta magia pela duração. O deslocamento de uma criatura afetada é reduzido à metade, ela sofre uma penalidade de -2 na CA e em testes de resistência de Destreza, e não pode usar reações. Em seu turno, ela pode usar ou uma ação ou uma ação bônus, não ambas. Independentemente das habilidades ou itens mágicos da criatura, ela não pode realizar mais de um ataque corpo a corpo ou à distância durante seu turno.',
+    concentration: true
+  },
+  {
+    id: 'fear-2014',
+    name: 'Medo',
+    level: 3,
+    school: 'Ilusão',
+    castingTime: '1 ação',
+    range: 'Pessoal (cone de 9 metros)',
+    components: 'V, S, M (uma pena de uma galinha ou um pedaço de lã branca)',
+    duration: 'Concentração, até 1 minuto',
+    classes: ['Bardo', 'Bruxo', 'Feiticeiro', 'Mago'],
+    description: 'Você projeta uma imagem fantasmagórica dos piores medos de cada criatura em um cone de 9 metros. Cada criatura na área deve ser bem-sucedida num teste de resistência de Sabedoria ou largará o que estiver segurando e ficará amedrontada pela duração. Enquanto estiver amedrontada por esta magia, uma criatura deve realizar a ação de Disparar e fugir de você pelo caminho mais curto disponível em cada um dos turnos dela, a menos que não haja lugar para onde ir.',
+    concentration: true
+  },
   {
     id: 'rogar-maldicao',
     name: 'Rogar Maldição',
@@ -3916,67 +3968,144 @@ export const SPELLS_2014: Spell[] = [
     description: 'Uma prisão invisível e imóvel em forma de cubo ou caixa sólida brota em volta de uma área, impedindo a passagem de qualquer matéria ou magia.',
     classes: ['Bardo', 'Mago']
   },
+  // ── Nível 8 2014 ─────────────────────────────────────────────────────────────
   {
-    id: 'feather-fall-2014',
-    name: 'Queda Suave',
-    level: 1,
-    school: 'Transmutação',
-    castingTime: '1 reação, que você conjura quando você ou uma criatura a até 18 metros de você cai',
+    id: 'dominate-monster-2014',
+    name: 'Dominar Monstro',
+    level: 8,
+    school: 'Encantamento',
+    castingTime: '1 ação',
     range: '18 metros',
-    components: 'V, M (uma pena pequena ou um pouco de penugem)',
-    duration: '1 minuto',
-    description: 'Escolha até cinco criaturas em queda dentro do alcance. A velocidade de queda das criaturas afetadas cai para 3 metros por rodada até a magia terminar. Se a criatura atingir o chão antes da magia acabar, ela não sofre dano de queda e pode pousar em pé, e a magia termina para essa criatura.',
-    classes: ['Bardo', 'Feiticeiro', 'Mago']
+    components: 'V, S',
+    duration: 'Concentração, até 1 hora',
+    description: 'Você tenta enfeitiçar uma criatura que você possa ver dentro do alcance. Ela deve ser bem-sucedida num teste de resistência de Sabedoria ou ficará enfeitiçada por você pela duração. Enquanto a criatura estiver enfeitiçada, você tem uma ligação telepática com ela.',
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'],
+    concentration: true
   },
   {
-    id: 'booming-blade-2014',
-    name: 'Lâmina Estrondosa',
-    level: 0,
+    id: 'feeblemind-2014',
+    name: 'Enganar a Mente',
+    level: 8,
+    school: 'Encantamento',
+    castingTime: '1 ação',
+    range: '45 metros',
+    components: 'V, S, M (um punhado de esferas de argila, cristal ou vidro)',
+    duration: 'Instantânea',
+    description: 'Você blasting a mente de uma criatura. O alvo sofre 4d6 de dano psíquico e deve fazer um teste de resistência de Inteligência. Se falhar, sua Int e Car se tornam 1. O alvo não pode conjurar magias ou entender idiomas.',
+    classes: ['Bardo', 'Druida', 'Bruxo', 'Mago']
+  },
+  {
+    id: 'sunburst-2014',
+    name: 'Explosão Solar',
+    level: 8,
     school: 'Evocação',
     castingTime: '1 ação',
-    range: '5 pés (1,5 metro)',
-    components: 'V, M (uma arma)',
-    duration: '1 rodada',
-    description: 'Como parte da ação usada para conjurar esta magia, você deve realizar um ataque corpo-a-corpo com uma arma contra uma criatura dentro do alcance da magia, do contrário a magia falha. Se atingir, o alvo sofre os efeitos normais do ataque e fica envolto por energia estrondosa até o início do seu próximo turno. Se o alvo se mover voluntariamente antes disso, ele sofre 1d8 de dano trovejante imediatamente, e a magia termina.',
-    damageEffect: 'Efeito de Movimento: 1d8 Trovejante',
-    classes: ['Feiticeiro', 'Bruxo', 'Mago']
+    range: '45 metros',
+    components: 'V, S, M (uma lupa e uma peça de ouro)',
+    duration: 'Instantânea',
+    description: 'Luz solar brilhante explode em um raio de 18 metros. Cada criatura na área deve fazer um teste de resistência de Constituição. Se falhar, sofre 12d6 de dano radiante e fica cega por 1 minuto.',
+    damageEffect: '12d6 Radiante',
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Clérigo']
   },
   {
-    id: 'absorb-elements-2014',
-    name: 'Absorver Elementos',
-    level: 1,
-    school: 'Abjuração',
-    castingTime: '1 ação de reação, que você conjura quando sofre dano de ácido, frio, fogo, elétrico ou trovejante',
+    id: 'power-word-stun-2014',
+    name: 'Palavra de Poder Atordoar',
+    level: 8,
+    school: 'Encantamento',
+    castingTime: '1 ação',
+    range: '18 metros',
+    components: 'V',
+    duration: 'Instantânea',
+    description: 'Você profere uma palavra de poder que pode inundar a mente de uma criatura com energia, deixando-a estupefata. Se a criatura que você escolher tiver 150 pontos de vida ou menos, ela ficará atordoada.',
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago']
+  },
+  {
+    id: 'earthquake-2014',
+    name: 'Terremoto',
+    level: 8,
+    school: 'Evocação',
+    castingTime: '1 ação',
+    range: '150 metros',
+    components: 'V, S, M (um pouco de terra e uma pedra pequena)',
+    duration: 'Concentração, até 1 minuto',
+    description: 'Você cria um tremor sísmico no chão em um raio de 30 metros. O chão na área torna-se terreno difícil. Cada criatura deve fazer um teste de resistência de Destreza ou cairá caída. A magia pode derrubar estruturas e criar fendas.',
+    classes: ['Clérigo', 'Druida', 'Feiticeiro'],
+    concentration: true
+  },
+  // ── Nível 9 2014 ─────────────────────────────────────────────────────────────
+  {
+    id: 'meteor-swarm-2014',
+    name: 'Chuva de Meteoros',
+    level: 9,
+    school: 'Evocação',
+    castingTime: '1 ação',
+    range: '1,5 quilômetro',
+    components: 'V, S',
+    duration: 'Instantânea',
+    description: 'Esferas de fogo atingem o solo em quatro pontos diferentes. Cada criatura em uma esfera de 12 metros de raio centrada em cada ponto deve fazer um teste de resistência de Destreza, sofrendo 20d6 de dano de fogo e 20d6 de dano de concussão.',
+    damageEffect: '20d6 Fogo + 20d6 Conc',
+    classes: ['Feiticeiro', 'Mago']
+  },
+  {
+    id: 'wish-2014',
+    name: 'Desejo',
+    level: 9,
+    school: 'Conjuração',
+    castingTime: '1 ação',
     range: 'Pessoal',
-    components: 'S',
-    duration: '1 rodada',
-    description: 'A magia captura parte da energia recebida, mitigando seu efeito sobre você e armazenando-a para o seu próximo ataque corpo-a-corpo. Você tem resistência ao tipo de dano gatilho até o início do seu próximo turno. Além disso, na primeira vez que você atingir com um ataque corpo-a-corpo no seu próximo turno, o alvo sofre 1d6 de dano extra do tipo gatilho, e a magia termina.',
-    damageEffect: 'Resistência + 1d6 extra no próximo ataque',
-    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice']
+    components: 'V',
+    duration: 'Instantânea',
+    description: 'Desejo é a magia mais poderosa que uma criatura mortal pode conjurar. Ao simplesmente proferi-lo, você pode alterar as próprias fundações da realidade. O uso mais básico é duplicar qualquer outra magia de 8º nível ou inferior.',
+    classes: ['Feiticeiro', 'Mago']
   },
   {
-    id: 'snare-2014',
-    name: 'Armadilha',
-    level: 1,
-    school: 'Abjuração',
+    id: 'time-stop-2014',
+    name: 'Parar o Tempo',
+    level: 9,
+    school: 'Transmutação',
+    castingTime: '1 ação',
+    range: 'Pessoal',
+    components: 'V',
+    duration: 'Instantânea',
+    description: 'Você para brevemente o fluxo do tempo para todos, exceto para si mesmo. Você ganha 1d4 + 1 turnos extras em sequência, durante os quais você pode usar ações e se mover normalmente.',
+    classes: ['Feiticeiro', 'Mago']
+  },
+  {
+    id: 'power-word-kill-2014',
+    name: 'Palavra de Poder Matar',
+    level: 9,
+    school: 'Encantamento',
+    castingTime: '1 ação',
+    range: '18 metros',
+    components: 'V',
+    duration: 'Instantânea',
+    description: 'Você profere uma palavra de poder que pode compelir uma criatura a morrer instantaneamente. Se a criatura que você escolher tiver 100 pontos de vida ou menos, ela morre.',
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago']
+  },
+  {
+    id: 'gate-2014',
+    name: 'Portal',
+    level: 9,
+    school: 'Conjuração',
+    castingTime: '1 ação',
+    range: '18 metros',
+    components: 'V, S, M (um diamante valendo pelo menos 5.000 po)',
+    duration: 'Concentração, até 1 minuto',
+    description: 'Você conjura um portal ligando um espaço desocupado que você possa ver dentro do alcance a um local preciso em um plano de existência diferente.',
+    classes: ['Clérigo', 'Feiticeiro', 'Mago'],
+    concentration: true
+  },
+  {
+    id: 'foresight-2014',
+    name: 'Sexto Sentido',
+    level: 9,
+    school: 'Adivinhação',
     castingTime: '1 minuto',
     range: 'Toque',
-    components: 'V, S, M (7,5 metros de corda, que a magia consome)',
+    components: 'V, S, M (uma pena de beija-flor)',
     duration: '8 horas',
-    description: 'Enquanto você conjura esta magia, você usa a corda para criar um laço no chão. Quando a magia termina, o laço torna-se invisível. Se uma criatura Pequena ou maior entrar no local, ela deve ser bem-sucedida num teste de resistência de Destreza ou será içada de cabeça para baixo no ar, ficando impedida.',
-    classes: ['Druida', 'Patrulheiro', 'Mago', 'Artífice']
-  },
-  {
-    id: 'distort-value-2014',
-    name: 'Distorcer Valor',
-    level: 1,
-    school: 'Ilusão',
-    castingTime: '1 ação',
-    range: 'Toque',
-    components: 'V',
-    duration: '8 horas',
-    description: 'Você toca um objeto e altera sua aparência para que ele pareça valer o dobro ou a metade do seu valor real. Um teste de Investigação contra a CD da sua magia revela a ilusão.',
-    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago']
+    description: 'Você toca uma criatura voluntária e concede a ela uma habilidade limitada de ver o futuro imediato. Pela duração, o alvo não pode ser surpreendido e tem vantagem em todas as jogadas de ataque, testes de habilidade e testes de resistência.',
+    classes: ['Bardo', 'Druida', 'Mago']
   }
 ];
 

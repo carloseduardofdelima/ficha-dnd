@@ -63,13 +63,23 @@ export default function MagiasPage() {
   }, [search])
 
   const filteredSpells = useMemo(() => {
-    return SPELLS_2014.filter(spell => {
+    const filtered = SPELLS_2014.filter(spell => {
       const matchesSearch = spell.name.toLowerCase().includes(debouncedSearch.toLowerCase())
       const matchesLevel = selectedLevel === 'all' || spell.level === Number(selectedLevel)
       const matchesSchool = selectedSchool === 'all' || spell.school === selectedSchool
       const matchesClass = selectedClass === 'all' || spell.classes.includes(selectedClass)
       return matchesSearch && matchesLevel && matchesSchool && matchesClass
     }).sort((a, b) => a.name.localeCompare(b.name))
+
+    // Debug duplicate IDs
+    const ids = filtered.map(s => s.id)
+    const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index)
+    if (duplicates.length > 0) {
+      console.error('IDs duplicados em filteredSpells:', duplicates)
+    }
+
+    // De-duplicate as a safety measure
+    return Array.from(new Map(filtered.map(s => [s.id, s])).values())
   }, [debouncedSearch, selectedLevel, selectedSchool, selectedClass])
 
   // Close modal with ESC
