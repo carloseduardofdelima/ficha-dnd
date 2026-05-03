@@ -40,6 +40,7 @@ export default function CharacterDetailPage() {
 
   // Level Up States
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
+  const [isProgressionModalOpen, setIsProgressionModalOpen] = useState(false)
   const [levelUpStep, setLevelUpStep] = useState(1)
   const [levelUpRoll, setLevelUpRoll] = useState<number | null>(null)
   const [isRolling, setIsRolling] = useState(false)
@@ -209,6 +210,66 @@ export default function CharacterDetailPage() {
     }
     return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers)
   }, [character?.class, character?.level, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
+
+  const progressionData = useMemo(() => {
+    if (!character) return [];
+    const is2014 = character.ruleset === '2014';
+    
+    const classData = is2014 
+      ? CLASSES_2014.find(c => c.name === character.class)
+      : CLASS_PROGRESSION_2024[character.class];
+    
+    const subclassData = is2014
+      ? SUBCLASSES_2014[character.class]?.[character.subclass || '']
+      : SUBCLASSES_2024[character.class]?.[character.subclass || ''];
+
+    const raceProgression = !is2014 ? SPECIES_PROGRESSION_2024[character.race] : null;
+
+    const hitDieValue = is2014 
+      ? parseInt(String((classData as any)?.hitDie || 'd8').replace('d', '')) 
+      : (classData as any)?.hitDie || 8;
+    
+    const conMod = Math.floor(((character.constitution || 10) - 10) / 2);
+
+    const levels = [];
+    for (let i = 1; i <= 20; i++) {
+      const levelFeatures: string[] = [];
+      
+      // Class Features
+      if (is2014) {
+        (classData as any)?.features?.filter((f: any) => f.level === i).forEach((f: any) => levelFeatures.push(f.name));
+      } else {
+        (classData as any)?.features[i]?.forEach((f: string) => levelFeatures.push(f));
+      }
+
+      // Subclass Features
+      if (subclassData) {
+        subclassData.features[i]?.forEach(f => levelFeatures.push(f.name));
+      }
+
+      // Race Features
+      if (raceProgression?.[i]) {
+        raceProgression[i].forEach(f => levelFeatures.push(f));
+      }
+
+      // HP Calculation (Cumulative average)
+      let hpAtLevel = hitDieValue + conMod;
+      if (i > 1) {
+        hpAtLevel += (i - 1) * (Math.floor(hitDieValue / 2) + 1 + conMod);
+      }
+      
+      // Prof Bonus
+      const pb = is2014 ? Math.floor((i - 1) / 4) + 2 : getProficiencyBonus(i);
+
+      levels.push({
+        level: i,
+        features: levelFeatures,
+        hp: Math.max(i, hpAtLevel), // Minimum 1 HP per level
+        pb: pb
+      });
+    }
+    return levels;
+  }, [character?.class, character?.subclass, character?.race, character?.ruleset, character?.constitution, character?.strength, character?.dexterity, character?.intelligence, character?.wisdom, character?.charisma]);
 
   const totalCantripsSelected = useMemo(() => {
     if (!parsedSpells) return 0
@@ -845,19 +906,29 @@ export default function CharacterDetailPage() {
               </div>
 
               {isOwner && (
-                <button
-                  className="btn btn-primary"
-                  style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
-                  onClick={() => {
-                    setLevelUpStep(character.ruleset ? 1 : 0);
-                    setLevelUpRoll(null);
-                    setUseAverageHP(false);
-                    setIsLevelUpModalOpen(true);
-                  }}
-                >
-                  <TrendingUp size={14} />
-                  Subir de Nível
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <button
+                    className="btn btn-primary"
+                    style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
+                    onClick={() => {
+                      setLevelUpStep(character.ruleset ? 1 : 0);
+                      setLevelUpRoll(null);
+                      setUseAverageHP(false);
+                      setIsLevelUpModalOpen(true);
+                    }}
+                  >
+                    <TrendingUp size={14} />
+                    Subir de Nível
+                  </button>
+                  <button
+                    className="btn btn-outline"
+                    style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
+                    onClick={() => setIsProgressionModalOpen(true)}
+                  >
+                    <Eye size={14} />
+                    Ver Progressão
+                  </button>
+                </div>
               )}
 
               {/* Privacy Toggle (Only for owners) */}
@@ -3923,6 +3994,80 @@ export default function CharacterDetailPage() {
               >
                 Salvar Atributos
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Progression Modal */}
+      {isProgressionModalOpen && character && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setIsProgressionModalOpen(false)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 700,
+            maxHeight: '90vh',
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <TrendingUp size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Progressão do Personagem</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Nível 1 ao 20 — {character.class}</span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setIsProgressionModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid var(--border)', color: 'var(--fgM)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <th style={{ textAlign: 'left', padding: '8px 12px' }}>Nvl</th>
+                    <th style={{ textAlign: 'left', padding: '8px 12px' }}>B.P.</th>
+                    <th style={{ textAlign: 'left', padding: '8px 12px' }}>Vida (Média)</th>
+                    <th style={{ textAlign: 'left', padding: '8px 12px' }}>Características</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {progressionData.map((lvl) => (
+                    <tr key={lvl.level} style={{ 
+                      borderBottom: '1px solid rgba(255,255,255,0.03)', 
+                      background: lvl.level === character.level ? 'rgba(225,29,72,0.1)' : 'transparent',
+                      transition: 'background 0.2s'
+                    }}>
+                      <td style={{ padding: '12px', fontWeight: 700, color: lvl.level === character.level ? 'var(--accentL)' : 'var(--fg2)' }}>{lvl.level}</td>
+                      <td style={{ padding: '12px', color: 'var(--ok)' }}>+{lvl.pb}</td>
+                      <td style={{ padding: '12px', color: 'var(--fg2)' }}>{lvl.hp} <span style={{ fontSize: 10, color: 'var(--fg3)' }}>PV</span></td>
+                      <td style={{ padding: '12px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                          {lvl.features.length > 0 ? lvl.features.map((f, idx) => (
+                            <span key={idx} style={{ 
+                              padding: '2px 8px', background: 'var(--bg)', border: '1px solid var(--border)', 
+                              borderRadius: 6, fontSize: 11, color: 'var(--fg)' 
+                            }}>
+                              {f}
+                            </span>
+                          )) : <span style={{ color: 'var(--fg3)', fontStyle: 'italic', fontSize: 11 }}>—</span>}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div style={{ padding: '16px 24px', background: 'rgba(0,0,0,0.2)', borderTop: '1px solid var(--border)', fontSize: 11, color: 'var(--fg3)', textAlign: 'center' }}>
+              ℹ️ A vida é calculada com base na média dos dados por nível + modificador de Constituição ({formatModifier(character.constitution)}).
             </div>
           </div>
         </div>
