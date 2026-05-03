@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package, Globe, Lock } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -897,147 +897,167 @@ export default function CharacterDetailPage() {
                 {character.race}{character.subrace ? ` (${character.subrace})` : ''} — {character.background}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
-              <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                <span style={{ color: 'var(--fgM)' }}>Exp: </span>{character.exp ?? '0/2700'}
-              </div>
-              <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}>
-                <span style={{ color: 'var(--fgM)' }}>Bônus de Proficiência: </span><span style={{ color: 'var(--ok)' }}>{profBonus}</span>
+            
+            {/* Optimized Header Actions/Status */}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 8 }} className="mobile-stack mobile-justify-center">
+              
+              {/* Status Info Group */}
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }} className="mobile-justify-center">
+                {/* Exp Box */}
+                <div style={{ padding: '6px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ color: 'var(--fgM)', fontWeight: 500 }}>EXP</span>
+                  <span style={{ fontWeight: 700 }}>{character.exp ?? '0/2700'}</span>
+                </div>
+
+                {/* Proficiency Box */}
+                <div style={{ padding: '6px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ color: 'var(--fgM)', fontWeight: 500 }}>PROF</span>
+                  <span style={{ color: 'var(--ok)', fontWeight: 700 }}>+{profBonus}</span>
+                </div>
+
+                {/* Save Status */}
+                <div
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '6px 12px',
+                    background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10,
+                    color: saveStatus === 'error' ? 'var(--accent)' : saveStatus === 'saving' ? 'var(--fgM)' : 'var(--ok)',
+                    transition: 'all 0.3s'
+                  }}
+                  title={saveStatus === 'error' ? 'Erro ao salvar!' : saveStatus === 'saving' ? 'Salvando...' : 'Salvo no Banco'}
+                >
+                  {saveStatus === 'saving' ? <CloudDownload size={14} className="animate-pulse" /> :
+                    saveStatus === 'error' ? <CloudOff size={14} /> : <Cloud size={14} />}
+                  <span className="hide-mobile" style={{ fontWeight: 500 }}>
+                    {saveStatus === 'saving' ? 'Salvando...' : saveStatus === 'error' ? 'Erro ao Salvar' : 'Sincronizado'}
+                  </span>
+                </div>
               </div>
 
-              {isOwner && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <button
-                    className="btn btn-primary"
-                    style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
-                    onClick={() => {
-                      setLevelUpStep(character.ruleset ? 1 : 0);
-                      setLevelUpRoll(null);
-                      setUseAverageHP(false);
-                      setIsLevelUpModalOpen(true);
-                    }}
-                  >
-                    <TrendingUp size={14} />
-                    Subir de Nível
-                  </button>
+              {/* Actions Group */}
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }} className="mobile-justify-center">
+                {!isOwner && (
+                  <div style={{ padding: '6px 12px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: 10, fontSize: 11, color: '#10b981', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Globe size={12} /> Ficha Pública
+                  </div>
+                )}
+
+                {isOwner && (
+                  <div style={{ display: 'flex', background: 'var(--bg2)', padding: 2, borderRadius: 10, border: '1px solid var(--border)', height: 32 }}>
+                    <button
+                      className="btn btn-primary"
+                      style={{ padding: '0 14px', height: '100%', fontSize: 11, gap: 6, borderRadius: 8, border: 'none' }}
+                      onClick={() => {
+                        setLevelUpStep(character.ruleset ? 1 : 0);
+                        setLevelUpRoll(null);
+                        setUseAverageHP(false);
+                        setIsLevelUpModalOpen(true);
+                      }}
+                    >
+                      <TrendingUp size={14} />
+                      Subir de Nível
+                    </button>
+                    <button
+                      className="btn btn-ghost"
+                      style={{ padding: '0 10px', height: '100%', fontSize: 11, gap: 6, borderRadius: 8, color: 'var(--fgM)' }}
+                      onClick={() => setIsProgressionModalOpen(true)}
+                      title="Ver Progressão"
+                    >
+                      <Eye size={14} />
+                    </button>
+                  </div>
+                )}
+
+                {/* PDF Button */}
+                {isClient && character && (
                   <button
                     className="btn btn-outline"
-                    style={{ padding: '4px 12px', height: 'auto', fontSize: 11, gap: 6 }}
-                    onClick={() => setIsProgressionModalOpen(true)}
+                    style={{ fontSize: 11, padding: '0 14px', borderRadius: 10, height: 32, gap: 6, display: 'flex', alignItems: 'center' }}
+                    onClick={handleOpenPDF}
+                    disabled={pdfLoading}
                   >
-                    <Eye size={14} />
-                    Ver Progressão
+                    {pdfLoading ? <Loader2 className="animate-spin" size={14} /> : <FileDown size={14} />}
+                    PDF
                   </button>
-                </div>
-              )}
+                )}
 
-              {/* Privacy Toggle (Only for owners) */}
-              {character.userId === character.sessionUserId && (
-                <button
-                  className="btn btn-outline"
-                  style={{
-                    fontSize: 11,
-                    padding: '4px 12px',
-                    borderColor: character.isPublic ? 'var(--ok)' : 'var(--fg3)',
-                    color: character.isPublic ? 'var(--ok)' : 'var(--fg2)'
-                  }}
-                  onClick={async () => {
-                    const nextPublic = !character.isPublic;
-                    try {
-                      const res = await fetch(`/api/personagens/${id}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ isPublic: nextPublic })
-                      });
-                      if (res.ok) {
-                        setCharacter({ ...character, isPublic: nextPublic });
+                {/* Privacy Toggle */}
+                {character.userId === character.sessionUserId && (
+                  <button
+                    className="btn btn-outline"
+                    style={{
+                      fontSize: 11,
+                      padding: '0 14px',
+                      borderRadius: 10,
+                      height: 32,
+                      borderColor: character.isPublic ? 'var(--ok)' : 'var(--fg3)',
+                      color: character.isPublic ? 'var(--ok)' : 'var(--fg2)',
+                      gap: 6,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    onClick={async () => {
+                      const nextPublic = !character.isPublic;
+                      try {
+                        const res = await fetch(`/api/personagens/${id}`, {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ isPublic: nextPublic })
+                        });
+                        if (res.ok) {
+                          setCharacter({ ...character, isPublic: nextPublic });
+                        }
+                      } catch (err) {
+                        console.error(err);
                       }
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  {character.isPublic ? '🌐 Público' : '🔒 Privado'}
-                </button>
-              )}
+                    }}
+                  >
+                    {character.isPublic ? <Globe size={14} /> : <Lock size={14} />}
+                    {character.isPublic ? 'Público' : 'Privado'}
+                  </button>
+                )}
 
-              {isClient && character && (
-                <button
-                  className="btn btn-outline"
-                  style={{
-                    fontSize: 11,
-                    padding: '4px 12px',
-                  }}
-                  onClick={handleOpenPDF}
-                  disabled={pdfLoading}
-                >
-                  {pdfLoading ? <Loader2 className="animate-spin" size={14} /> : <FileDown size={14} />}
-                  Visualizar PDF
-                </button>
-              )}
-
-              {/* Save Status (Autosave Indicator) */}
-              <div
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '4px 10px',
-                  background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8,
-                  color: saveStatus === 'error' ? 'var(--accent)' : saveStatus === 'saving' ? 'var(--fgM)' : 'var(--ok)',
-                  transition: 'all 0.3s'
-                }}
-                title={saveStatus === 'error' ? 'Erro ao salvar!' : saveStatus === 'saving' ? 'Salvando...' : 'Salvo no Banco'}
-              >
-                {saveStatus === 'saving' ? <CloudDownload size={14} className="animate-pulse" /> :
-                  saveStatus === 'error' ? <CloudOff size={14} /> : <Cloud size={14} />}
-                <span className="hide-mobile">
-                  {saveStatus === 'saving' ? 'Salvando...' : saveStatus === 'error' ? 'Erro ao Salvar' : 'Salvo no Banco'}
-                </span>
+                {/* Save/Follow Button (Only for non-owners) */}
+                {character.sessionUserId && character.userId !== character.sessionUserId && character.isPublic && (
+                  <button
+                    className={`btn ${character.isSaved ? 'btn-primary' : 'btn-outline'}`}
+                    style={{
+                      fontSize: 11,
+                      padding: '0 14px',
+                      borderRadius: 10,
+                      height: 32,
+                      borderColor: character.isSaved ? 'var(--accent)' : 'var(--fg3)',
+                      color: character.isSaved ? '#fff' : 'var(--fg2)',
+                      gap: 6,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    onClick={async () => {
+                      try {
+                        const res = await fetch(`/api/personagens/save`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ characterId: id })
+                        });
+                        if (res.ok) {
+                          const data = await res.json();
+                          setCharacter({ ...character, isSaved: data.saved });
+                        }
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                  >
+                    {character.isSaved ? <Star size={14} fill="currentColor" /> : <Star size={14} />}
+                    {character.isSaved ? 'Salva' : 'Salvar'}
+                  </button>
+                )}
               </div>
-
-              {!isOwner && (
-                <div style={{ padding: '4px 12px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: 8, fontSize: 11, color: '#10b981' }}>
-                  🌐 Ficha Pública
-                </div>
-              )}
-
-              {/* Save/Follow Button (Only for non-owners on public sheets) */}
-              {character.sessionUserId && character.userId !== character.sessionUserId && character.isPublic && (
-                <button
-                  className={`btn ${character.isSaved ? 'btn-primary' : 'btn-outline'}`}
-                  style={{
-                    fontSize: 11,
-                    padding: '4px 12px',
-                    borderColor: character.isSaved ? 'var(--accent)' : 'var(--fg3)',
-                    color: character.isSaved ? '#fff' : 'var(--fg2)'
-                  }}
-                  onClick={async () => {
-                    try {
-                      const res = await fetch(`/api/personagens/save`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ characterId: id })
-                      });
-                      if (res.ok) {
-                        const data = await res.json();
-                        setCharacter({ ...character, isSaved: data.saved });
-                      }
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  {character.isSaved ? '⭐ Salva na Conta' : '★ Salvar na Conta'}
-                </button>
-              )}
-
             </div>
           </div>
         </div>
 
-
-        {/* Floating Mobile Menu Trigger */}
-
-        {/* Floating Mobile Menu Trigger */}
-        <button
+      {/* Floating Mobile Menu Trigger */}
+      <button
           className="mobile-only floating-menu-btn"
           style={{ display: 'none' }}
           onClick={() => setIsMenuOpen(true)}
