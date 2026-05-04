@@ -26,6 +26,7 @@ import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
 import { SPELL_PROGRESSION } from '@/lib/spells'
 import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
+import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 
 export default function CharacterDetailPage() {
   const { id } = useParams()
@@ -55,6 +56,9 @@ export default function CharacterDetailPage() {
   const [featAttr2, setFeatAttr2] = useState<string | null>(null)
   const [isDraconicModalOpen, setIsDraconicModalOpen] = useState(false)
   const [selectedAncestry, setSelectedAncestry] = useState<string | null>(null)
+  const [selectedInvocations, setSelectedInvocations] = useState<string[]>([])
+  const [selectedFightingStyle, setSelectedFightingStyle] = useState<string | null>(null)
+  const [selectedPactBoon, setSelectedPactBoon] = useState<string | null>(null)
 
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -912,7 +916,7 @@ export default function CharacterDetailPage() {
                 {/* Proficiency Box */}
                 <div style={{ padding: '6px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{ color: 'var(--fgM)', fontWeight: 500 }}>PROF</span>
-                  <span style={{ color: 'var(--ok)', fontWeight: 700 }}>+{profBonus}</span>
+                  <span style={{ color: 'var(--ok)', fontWeight: 700 }}>{profBonus}</span>
                 </div>
 
                 {/* Save Status */}
@@ -3156,15 +3160,21 @@ export default function CharacterDetailPage() {
                           ));
 
                         const needsFeat = [4, 8, 12, 16, 19].includes(newLevel);
+                        const needsSpecialChoice = rulesetToUse === '2014' && (
+                          (['Paladino', 'Patrulheiro'].includes(character.class) && newLevel === 2) ||
+                          (character.class === 'Bruxo' && (newLevel === 2 || newLevel === 3))
+                        );
 
                         if (needsSubclass) {
-                          setLevelUpStep(3); // Go to subclass selector
-                          setCharacter(updated); // Save progress locally in state
+                          setLevelUpStep(3);
+                          setCharacter(updated);
+                        } else if (needsSpecialChoice) {
+                          setLevelUpStep(5);
+                          setCharacter(updated);
                         } else if (needsFeat) {
-                          setLevelUpStep(4); // Go to feat selector
+                          setLevelUpStep(4);
                           setCharacter(updated);
                         } else {
-                          // Final Save
                           handleLevelUpPersistence(updated, []);
                         }
                       }}
@@ -3243,8 +3253,17 @@ export default function CharacterDetailPage() {
                           spellSlots: JSON.stringify(newSpellSlots)
                         };
 
+                        const needsFeat = [4, 8, 12, 16, 19].includes(updated.level);
+                        const needsSpecialChoice = updated.ruleset === '2014' && (
+                          (['Paladino', 'Patrulheiro'].includes(updated.class) && updated.level === 2) ||
+                          (updated.class === 'Bruxo' && (updated.level === 2 || updated.level === 3))
+                        );
+
                         const alerts = [`✨ Nova Subclasse: ${selectedSubclass}!`];
-                        if ([4, 8, 12, 16, 19].includes(updated.level)) {
+                        if (needsSpecialChoice) {
+                          setLevelUpStep(5);
+                          setCharacter(finalUpdated);
+                        } else if (needsFeat) {
                           setLevelUpStep(4);
                           setCharacter(finalUpdated);
                         } else {
@@ -3389,6 +3408,179 @@ export default function CharacterDetailPage() {
                       Finalizar Level Up
                     </button>
                   </div>
+                </div>
+              )}
+
+              {/* Passo 5: Escolhas de Classe (Estilos, Invocações, Pactos) */}
+              {levelUpStep === 5 && character && (
+                <div className="fade-up">
+                  {(() => {
+                    if (character.class === 'Bruxo') {
+                      if (character.level === 2) {
+                        return (
+                          <>
+                            <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Invocações Místicas</h3>
+                            <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 20 }}>Escolha 2 invocações para moldar seu poder oculto.</p>
+                            <div style={{ maxHeight: 300, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+                              {INVOCATIONS_2014.filter(inv => !inv.level || inv.level <= character.level).map(inv => (
+                                <button
+                                  key={inv.id}
+                                  onClick={() => {
+                                    if (selectedInvocations.includes(inv.id)) {
+                                      setSelectedInvocations(selectedInvocations.filter(id => id !== inv.id));
+                                    } else if (selectedInvocations.length < 2) {
+                                      setSelectedInvocations([...selectedInvocations, inv.id]);
+                                    }
+                                  }}
+                                  style={{
+                                    padding: 12, borderRadius: 10, border: '1px solid',
+                                    borderColor: selectedInvocations.includes(inv.id) ? 'var(--accent)' : 'var(--border)',
+                                    background: selectedInvocations.includes(inv.id) ? 'var(--accentGlow)' : 'var(--bg2)',
+                                    textAlign: 'left', transition: 'all 0.2s'
+                                  }}
+                                >
+                                  <div style={{ fontWeight: 800, color: selectedInvocations.includes(inv.id) ? 'var(--accentL)' : 'var(--fg1)' }}>{inv.name}</div>
+                                  <p style={{ fontSize: 11, color: 'var(--fg3)', margin: '4px 0 0' }}>{inv.description}</p>
+                                  {inv.prerequisite && <p style={{ fontSize: 10, color: 'var(--accent)', marginTop: 4 }}><em>Requisito: {inv.prerequisite}</em></p>}
+                                </button>
+                              ))}
+                            </div>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                              <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(2)}>Voltar</button>
+                              <button
+                                className="btn bg-accent"
+                                style={{ flex: 2, justifyContent: 'center' }}
+                                disabled={selectedInvocations.length < 2}
+                                onClick={() => {
+                                  const invs = selectedInvocations.map(id => INVOCATIONS_2014.find(i => i.id === id)).filter(Boolean);
+                                  const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {});
+                                  const updatedTraits = {
+                                    ...currentTraits,
+                                    invocations: [...(currentTraits.invocations || []), ...invs.map(i => ({ name: i!.name, description: i!.description }))]
+                                  };
+                                  const updated = { ...character, traits: updatedTraits };
+                                  const needsFeat = [4, 8, 12, 16, 19].includes(character.level);
+                                  if (needsFeat) {
+                                    setLevelUpStep(4);
+                                    setCharacter(updated);
+                                  } else {
+                                    handleLevelUpPersistence(updated as Character, ['👁️ Novas Invocações Místicas!']);
+                                  }
+                                }}
+                              >
+                                Finalizar
+                              </button>
+                            </div>
+                          </>
+                        );
+                      } else if (character.level === 3) {
+                        const pactOptions = CLASS_LEVEL1_DATA_2014['Bruxo'].choices.find(c => c.id === 'warlock-pact-boon-2014')?.options || [];
+                        return (
+                          <>
+                            <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Dádiva do Pacto</h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+                              {pactOptions.map(opt => (
+                                <button
+                                  key={opt.id}
+                                  onClick={() => setSelectedPactBoon(opt.name)}
+                                  style={{
+                                    padding: 16, borderRadius: 12, border: '2px solid',
+                                    borderColor: selectedPactBoon === opt.name ? 'var(--accent)' : 'var(--border)',
+                                    background: selectedPactBoon === opt.name ? 'var(--accentGlow)' : 'transparent',
+                                    textAlign: 'left', transition: 'all 0.2s'
+                                  }}
+                                >
+                                  <div style={{ fontWeight: 800, color: selectedPactBoon === opt.name ? 'var(--accentL)' : 'var(--fg1)' }}>{opt.name}</div>
+                                  <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>{opt.description}</p>
+                                </button>
+                              ))}
+                            </div>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                              <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(2)}>Voltar</button>
+                              <button
+                                className="btn bg-accent"
+                                style={{ flex: 2, justifyContent: 'center' }}
+                                disabled={!selectedPactBoon}
+                                onClick={() => {
+                                  const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {});
+                                  const updatedTraits = {
+                                    ...currentTraits,
+                                    pactBoon: selectedPactBoon
+                                  };
+                                  const updated = { ...character, traits: updatedTraits };
+                                  handleLevelUpPersistence(updated as Character, [`📜 Pacto Selado: ${selectedPactBoon}!`]);
+                                }}
+                              >
+                                Finalizar
+                              </button>
+                            </div>
+                          </>
+                        );
+                      }
+                    }
+
+                    if (['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 2) {
+                      const styleOptions = character.class === 'Paladino'
+                        ? [
+                          { id: 'def', name: 'Defesa', description: 'Enquanto estiver usando armadura, você ganha +1 de bônus em sua CA.' },
+                          { id: 'due', name: 'Duelismo', description: 'Ao empunhar uma arma corpo-a-corpo em uma mão e nenhuma outra arma, você ganha +2 no dano.' },
+                          { id: 'gwf', name: 'Combate com Armas Grandes', description: 'Ao rolar 1 ou 2 no dano de arma de duas mãos, você pode rolar de novo.' },
+                          { id: 'pro', name: 'Proteção', description: 'Use sua reação para impor desvantagem em um ataque contra um aliado a até 1,5m (requer escudo).' }
+                        ]
+                        : [
+                          { id: 'arc', name: 'Arquearia', description: 'Bônus de +2 nas jogadas de ataque com armas à distância.' },
+                          { id: 'def', name: 'Defesa', description: 'Enquanto estiver usando armadura, você ganha +1 de bônus em sua CA.' },
+                          { id: 'due', name: 'Duelismo', description: 'Ao empunhar uma arma corpo-a-corpo em uma mão e nenhuma outra arma, você ganha +2 no dano.' },
+                          { id: 'twf', name: 'Combate com Duas Armas', description: 'Adiciona seu modificador de habilidade no dano do segundo ataque.' }
+                        ];
+
+                      return (
+                        <>
+                          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Estilo de Luta</h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+                            {styleOptions.map(opt => (
+                              <button
+                                key={opt.id}
+                                onClick={() => setSelectedFightingStyle(opt.name)}
+                                style={{
+                                  padding: 16, borderRadius: 12, border: '2px solid',
+                                  borderColor: selectedFightingStyle === opt.name ? 'var(--accent)' : 'var(--border)',
+                                  background: selectedFightingStyle === opt.name ? 'var(--accentGlow)' : 'transparent',
+                                  textAlign: 'left', transition: 'all 0.2s'
+                                }}
+                              >
+                                <div style={{ fontWeight: 800, color: selectedFightingStyle === opt.name ? 'var(--accentL)' : 'var(--fg1)' }}>{opt.name}</div>
+                                <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>{opt.description}</p>
+                              </button>
+                            ))}
+                          </div>
+                          <div style={{ display: 'flex', gap: 12 }}>
+                            <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setLevelUpStep(2)}>Voltar</button>
+                            <button
+                              className="btn bg-accent"
+                              style={{ flex: 2, justifyContent: 'center' }}
+                              disabled={!selectedFightingStyle}
+                              onClick={() => {
+                                const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {});
+                                const styleData = styleOptions.find(o => o.name === selectedFightingStyle);
+                                const updatedTraits = {
+                                  ...currentTraits,
+                                  fightingStyle: selectedFightingStyle,
+                                  feats: [...(currentTraits.feats || []), { name: `Estilo de Luta: ${selectedFightingStyle}`, description: styleData?.description }]
+                                };
+                                const updated = { ...character, traits: updatedTraits };
+                                handleLevelUpPersistence(updated as Character, [`⚔️ Estilo de Luta: ${selectedFightingStyle}!`]);
+                              }}
+                            >
+                              Finalizar
+                            </button>
+                          </div>
+                        </>
+                      );
+                    }
+
+                    return null;
+                  })()}
                 </div>
               )}
             </div>

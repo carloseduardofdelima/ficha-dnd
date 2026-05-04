@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     height: 65,
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     position: 'absolute',
     top: 5,
-    color: '#312e81',
+    color: '#000',
   },
   attributeMod: {
     fontSize: 20,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     height: 16,
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 8,
     position: 'absolute',
     bottom: -6,
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 15,
     padding: 4,
     backgroundColor: '#fff',
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   blueSection: {
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     padding: 6,
   },
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textAlign: 'center',
     marginTop: 2,
-    color: '#312e81',
+    color: '#000',
   },
   skillRow: {
     flexDirection: 'row',
@@ -366,17 +366,17 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderWidth: 0.5,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 3,
     marginRight: 4,
   },
   skillCircleFilled: {
-    backgroundColor: '#312e81',
+    backgroundColor: '#000',
   },
   skillMod: {
     width: 14,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#94a3b8',
+    borderBottomColor: '#000',
     textAlign: 'center',
     marginRight: 4,
     fontSize: 7,
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   // Attacks & Spellcasting
   attacksBox: {
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     padding: 8,
     backgroundColor: '#fff',
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 18,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#cbd5e1',
+    borderBottomColor: '#000',
     alignItems: 'center',
   },
   attackCell: {
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
   // Right Column: Traits
   traitBox: {
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     padding: 8,
     backgroundColor: '#fff',
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 2,
     right: 5,
-    color: '#312e81',
+    color: '#000',
   },
   traitContent: {
     fontSize: 7,
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
 
   featuresBox: {
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     padding: 10,
     backgroundColor: '#fff',
@@ -517,16 +517,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Times-Bold',
     textTransform: 'uppercase',
     borderBottomWidth: 1.5,
-    borderBottomColor: '#312e81',
+    borderBottomColor: '#000',
     marginBottom: 6,
     textAlign: 'center',
-    color: '#312e81',
+    color: '#000',
   },
 
   // Equipment with Money
   equipmentBox: {
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     backgroundColor: '#fff',
     flex: 1,
@@ -535,13 +535,13 @@ const styles = StyleSheet.create({
   moneyColumn: {
     width: 30,
     borderRightWidth: 1,
-    borderRightColor: '#cbd5e1',
+    borderRightColor: '#000',
     padding: 4,
     gap: 5,
   },
   moneyBox: {
     borderWidth: 0.5,
-    borderColor: '#94a3b8',
+    borderColor: '#000',
     height: 18,
     borderRadius: 3,
     alignItems: 'center',
@@ -561,7 +561,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 5,
     height: 25,
     backgroundColor: '#fff',
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     borderWidth: 1,
-    borderColor: '#312e81',
+    borderColor: '#000',
     borderRadius: 9,
     alignItems: 'center',
     justifyContent: 'center',
@@ -914,7 +914,7 @@ const CharacterPDF = ({ character }: Props) => {
             </View>
 
             <View style={styles.attacksBox}>
-               <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#312e81', paddingBottom: 2, marginBottom: 4 }}>
+               <View style={{ flexDirection: 'row', borderBottomWidth: 1.2, borderBottomColor: '#000', paddingBottom: 2, marginBottom: 4 }}>
                   <Text style={[styles.headerLabel, { width: '40%' }]}>NOME</Text>
                   <Text style={[styles.headerLabel, { width: '20%', textAlign: 'center' }]}>BÔNUS</Text>
                   <Text style={[styles.headerLabel, { width: '40%' }]}>DANO / TIPO</Text>
@@ -1062,7 +1062,7 @@ const CharacterPDF = ({ character }: Props) => {
           <View style={[styles.featuresBox, { flex: 1, padding: 15 }]}>
             <View style={{ gap: 6 }}>
               {remainingFeatures.map((feat, idx) => (
-                <View key={idx} style={{ marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: '#eee', paddingBottom: 4 }}>
+                <View key={idx} style={{ marginBottom: 5, borderBottomWidth: 0.5, borderBottomColor: '#000', paddingBottom: 4 }}>
                   <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>• {feat.name}</Text>
                   <Text style={{ fontSize: 7, color: '#333', marginLeft: 8, marginTop: 1 }}>{feat.description}</Text>
                 </View>
@@ -1128,17 +1128,17 @@ const CharacterPDF = ({ character }: Props) => {
               <View style={{ flex: 1, gap: 10 }}>
                 {[0, 1, 2].map(lvl => (
                   <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
-                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
-                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#000', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#000' }}>{lvl}</Text>
                       </View>
-                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', color: '#fff' }}>
                         {lvl === 0 ? 'Truques' : `Nível ${lvl}`}
                       </Text>
                       {lvl > 0 && (
                         <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
-                          <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
-                          <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                          <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
+                          <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
                         </View>
                       )}
                     </View>
@@ -1147,8 +1147,8 @@ const CharacterPDF = ({ character }: Props) => {
                       {Array.from({ length: lvl === 0 ? 15 : 13 }).map((_, lineIdx) => {
                         const spell = spellsByLevel[lvl]?.[lineIdx];
                         return (
-                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
-                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
                             <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
                           </View>
                         );
@@ -1162,14 +1162,14 @@ const CharacterPDF = ({ character }: Props) => {
               <View style={{ flex: 1, gap: 10 }}>
                 {[3, 4, 5].map(lvl => (
                   <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
-                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
-                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#000', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#000' }}>{lvl}</Text>
                       </View>
-                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>Nível {lvl}</Text>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', color: '#fff' }}>Nível {lvl}</Text>
                       <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
-                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
-                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
                       </View>
                     </View>
                     {/* Spell Lines */}
@@ -1177,8 +1177,8 @@ const CharacterPDF = ({ character }: Props) => {
                       {Array.from({ length: 13 }).map((_, lineIdx) => {
                         const spell = spellsByLevel[lvl]?.[lineIdx];
                         return (
-                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
-                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
                             <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
                           </View>
                         );
@@ -1192,14 +1192,14 @@ const CharacterPDF = ({ character }: Props) => {
               <View style={{ flex: 1, gap: 10 }}>
                 {[6, 7, 8, 9].map(lvl => (
                   <View key={lvl} style={{ border: 1, borderColor: '#000', padding: 5 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', padding: 3, marginBottom: 5 }}>
-                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#000', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
-                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold' }}>{lvl}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#000', padding: 3, marginBottom: 5 }}>
+                      <View style={{ width: 15, height: 15, border: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', marginRight: 5 }}>
+                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#000' }}>{lvl}</Text>
                       </View>
-                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase' }}>Nível {lvl}</Text>
+                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', color: '#fff' }}>Nível {lvl}</Text>
                       <View style={{ marginLeft: 'auto', flexDirection: 'row', gap: 5 }}>
-                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
-                        <View style={{ border: 1, borderColor: '#000', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
+                        <View style={{ border: 1, borderColor: '#fff', width: 25, height: 12, backgroundColor: '#fff' }} />
                       </View>
                     </View>
                     {/* Spell Lines */}
@@ -1207,8 +1207,8 @@ const CharacterPDF = ({ character }: Props) => {
                       {Array.from({ length: 9 }).map((_, lineIdx) => {
                         const spell = spellsByLevel[lvl]?.[lineIdx];
                         return (
-                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 0.5, borderBottomColor: '#ccc', marginBottom: 1 }}>
-                            <View style={{ width: 8, height: 8, border: 0.5, borderColor: '#666', marginRight: 4, borderRadius: 1 }} />
+                          <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
+                            <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
                             <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
                           </View>
                         );
