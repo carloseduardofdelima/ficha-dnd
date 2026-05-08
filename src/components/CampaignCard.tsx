@@ -26,14 +26,20 @@ export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const statusColors: Record<string, string> = {
+    ativo: '#10b981',
     active: '#10b981',
+    'em pausa': '#f59e0b',
     paused: '#f59e0b',
+    finalizado: '#3b82f6',
     finished: '#3b82f6'
   }
 
   const statusLabels: Record<string, string> = {
+    ativo: 'ATIVO',
     active: 'ATIVO',
-    paused: 'PAUSADO',
+    'em pausa': 'EM PAUSA',
+    paused: 'EM PAUSA',
+    finalizado: 'FINALIZADO',
     finished: 'FINALIZADO'
   }
 

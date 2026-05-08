@@ -130,6 +130,17 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  await prisma.character.delete({ where: { id } })
+  // Archiving before deleting
+  await prisma.$transaction([
+    prisma.deletedCharacter.create({
+      data: {
+        userId: existing.userId,
+        name: existing.name,
+        characterData: existing as any, // Full snapshot
+      }
+    }),
+    prisma.character.delete({ where: { id } })
+  ])
+
   return new NextResponse(null, { status: 204 })
 }

@@ -39,6 +39,7 @@ export async function GET(
 
     // If it's a player (and not owner), filter the data
     if (!isOwner) {
+      campaign.notes = null // Hide master notes from players
       // Filter notes
       campaign.notes_list = campaign.notes_list.filter(n => n.isPublic)
       

@@ -20,6 +20,7 @@ model User {
   accounts        Account[]
   characters      Character[]
   savedCharacters SavedCharacter[]
+  deletedCharacters DeletedCharacter[]
   sessions        Session[]
   campaigns       Campaign[]
   threats         Threat[]
@@ -130,6 +131,7 @@ model Campaign {
   type        String   @default("campaign") // "one-shot" or "campaign"
   status      String   @default("active")   // "active", "paused", "finished"
   progress    Int      @default(0)
+  targetSessions Int   @default(0)
   coverUrl    String?
   system      String?
   averageLevel Int?
@@ -375,4 +377,14 @@ model NpcCombat {
   notes        String?
 
   npc          Npc      @relation(fields: [npcId], references: [id], onDelete: Cascade)
+}
+
+model DeletedCharacter {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  characterData Json
+  deletedAt     DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

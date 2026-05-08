@@ -106,6 +106,18 @@ export default function CampaignDetailsPage() {
     }
   }
 
+  const handleDeleteSession = async (sessionId: string) => {
+    if (!confirm('Deseja realmente excluir esta sessão?')) return
+    try {
+      const res = await fetch(`/api/campanhas/${id}/sessoes/${sessionId}`, { method: 'DELETE' })
+      if (res.ok) {
+        fetchCampaign()
+      }
+    } catch (error) {
+      console.error('Error deleting session:', error)
+    }
+  }
+
   if (loading) {
     return (
       <div className="loading-overlay">
@@ -138,6 +150,7 @@ export default function CampaignDetailsPage() {
 
   const tabs = allTabs.filter(tab => {
     if (tab.id === 'sessoes' && campaign.type !== 'campaign') return false
+    if (tab.id === 'ameacas' && !campaign.isOwner) return false
     return true
   })
 
@@ -184,17 +197,28 @@ export default function CampaignDetailsPage() {
               </Link>
             )}
 
-            {campaign.type === 'campaign' && (
-              <div className="progress-widget">
-                <div className="progress-info">
-                  <span>Progresso</span>
-                  <span>{campaign.progress}%</span>
+              {campaign.type === 'campaign' && (
+                <div className="progress-widget">
+                  <div className="progress-info">
+                    <span>Progresso</span>
+                    <span>
+                      {campaign.targetSessions > 0 
+                        ? Math.min(Math.round(((campaign.sessions?.length || 0) / campaign.targetSessions) * 100), 100)
+                        : 0}%
+                    </span>
+                  </div>
+                  <div className="progress-bar-bg">
+                    <div 
+                      className="progress-bar-fill" 
+                      style={{ 
+                        width: `${campaign.targetSessions > 0 
+                          ? Math.min(Math.round(((campaign.sessions?.length || 0) / campaign.targetSessions) * 100), 100)
+                          : 0}%` 
+                      }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="progress-bar-bg">
-                  <div className="progress-bar-fill" style={{ width: `${campaign.progress}%` }}></div>
-                </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
@@ -220,12 +244,36 @@ export default function CampaignDetailsPage() {
             <div className="resumo-main">
               <section className="resumo-section">
                 <h3>Sobre a Campanha</h3>
-                <p>{campaign.description || 'Nenhuma descrição fornecida.'}</p>
+                {campaign.isOwner ? (
+                  <textarea
+                    className="editable-textarea"
+                    placeholder="Clique para adicionar uma descrição..."
+                    value={campaign.description || ''}
+                    onChange={(e) => setCampaign({ ...campaign, description: e.target.value })}
+                    onBlur={() => fetch(`/api/campanhas/${id}`, {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ description: campaign.description })
+                    })}
+                  />
+                ) : (
+                  <p>{campaign.description || 'Nenhuma descrição fornecida.'}</p>
+                )}
               </section>
               {campaign.isOwner && (
                 <section className="resumo-section">
                   <h3>Notas Internas do Mestre</h3>
-                  <p>{campaign.notes || 'Sem notas internas ainda.'}</p>
+                  <textarea
+                    className="editable-textarea master-notes"
+                    placeholder="Notas que só você pode ver..."
+                    value={campaign.notes || ''}
+                    onChange={(e) => setCampaign({ ...campaign, notes: e.target.value })}
+                    onBlur={() => fetch(`/api/campanhas/${id}`, {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ notes: campaign.notes })
+                    })}
+                  />
                 </section>
               )}
             </div>
@@ -233,16 +281,76 @@ export default function CampaignDetailsPage() {
               <div className="sidebar-card">
                 <h4>Informações</h4>
                 <div className="info-item">
+                  <label>Status</label>
+                  {campaign.isOwner ? (
+                    <select 
+                      className="sidebar-editable-input status-select"
+                      value={campaign.status || 'ativo'}
+                      onChange={async (e) => {
+                        const val = e.target.value
+                        setCampaign({ ...campaign, status: val })
+                        await fetch(`/api/campanhas/${id}`, {
+                          method: 'PATCH',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ status: val })
+                        })
+                      }}
+                    >
+                      <option value="ativo">Ativo</option>
+                      <option value="em pausa">Em Pausa</option>
+                      <option value="finalizado">Finalizado</option>
+                    </select>
+                  ) : (
+                    <span className={`status-badge status-${(campaign.status || 'ativo').replace(' ', '-')}`}>
+                      {campaign.status === 'em pausa' ? 'Em Pausa' : 
+                       campaign.status === 'finalizado' ? 'Finalizado' : 'Ativo'}
+                    </span>
+                  )}
+                </div>
+                <div className="info-item">
                   <label>Nível Médio</label>
-                  <span>{campaign.averageLevel || 'N/A'}</span>
+                  <span className="font-bold text-rose-400">
+                    {campaign.characters?.length > 0 
+                      ? (campaign.characters.reduce((acc: number, link: any) => acc + (link.character?.level || 0), 0) / campaign.characters.length).toFixed(1)
+                      : 'N/A'}
+                  </span>
                 </div>
                 <div className="info-item">
                   <label>Início</label>
-                  <span>{campaign.startDate ? new Date(campaign.startDate).toLocaleDateString('pt-BR') : 'Não definido'}</span>
+                  {campaign.isOwner ? (
+                    <input 
+                      type="date"
+                      className="sidebar-editable-input"
+                      value={campaign.startDate ? new Date(campaign.startDate).toISOString().split('T')[0] : ''}
+                      onChange={(e) => setCampaign({ ...campaign, startDate: e.target.value })}
+                      onBlur={() => fetch(`/api/campanhas/${id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ startDate: campaign.startDate })
+                      })}
+                    />
+                  ) : (
+                    <span>{campaign.startDate ? new Date(campaign.startDate).toLocaleDateString('pt-BR') : 'Não definido'}</span>
+                  )}
                 </div>
                 <div className="info-item">
                   <label>Tags</label>
-                  <span>{campaign.tags || 'Nenhuma'}</span>
+                  {campaign.isOwner ? (
+                    <input 
+                      type="text"
+                      className="sidebar-editable-input"
+                      placeholder="Ex: Fantasia, Sombrio..."
+                      value={campaign.tags || ''}
+                      onChange={(e) => setCampaign({ ...campaign, tags: e.target.value })}
+                      onBlur={() => fetch(`/api/campanhas/${id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ tags: campaign.tags })
+                      })}
+                    />
+                  ) : (
+                    <span>{campaign.tags || 'Nenhuma'}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -252,10 +360,43 @@ export default function CampaignDetailsPage() {
         {activeTab === 'sessoes' && (
           <div className="sessions-list">
             <div className="list-header">
-              <h3>Diário de Sessões</h3>
+              <div className="header-title-meta">
+                <h3>Diário de Sessões</h3>
+                {campaign.isOwner && (
+                  <div className="target-sessions-badge">
+                    <Target size={14} className="text-rose-500" />
+                    <div className="flex items-center gap-2">
+                      <span className="badge-label">Sessões planejadas</span>
+                      <input 
+                        type="number" 
+                        min="0"
+                        className="target-input"
+                        value={campaign.targetSessions ?? 0}
+                        onChange={(e) => {
+                          const val = e.target.value === '' ? '' : parseInt(e.target.value)
+                          setCampaign({ ...campaign, targetSessions: val })
+                        }}
+                        onBlur={async () => {
+                          const val = typeof campaign.targetSessions === 'number' ? campaign.targetSessions : 0
+                          await fetch(`/api/campanhas/${id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ targetSessions: val })
+                          })
+                        }}
+                        onKeyDown={async (e) => {
+                          if (e.key === 'Enter') {
+                            (e.target as HTMLInputElement).blur()
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
               {campaign.isOwner && (
                 <button
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm btn-new-session"
                   onClick={() => {
                     setNewSession({ ...newSession, number: (campaign.sessions?.length || 0) + 1 })
                     setShowSessionModal(true)
@@ -271,7 +412,28 @@ export default function CampaignDetailsPage() {
                 <div key={s.id} className="session-card">
                   <div className="session-num">#{s.number}</div>
                   <div className="session-info">
-                    <h4>{s.title}</h4>
+                    <div className="flex justify-between items-start">
+                      <h4>{s.title}</h4>
+                      {campaign.isOwner && (
+                        <div className="flex gap-2">
+                          <button 
+                            className="btn-icon-sm"
+                            onClick={() => {
+                              setNewSession({ ...s, date: s.date ? new Date(s.date).toISOString().split('T')[0] : '' })
+                              setShowSessionModal(true)
+                            }}
+                          >
+                            <Edit size={14} />
+                          </button>
+                          <button 
+                            className="btn-icon-sm danger"
+                            onClick={() => handleDeleteSession(s.id)}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     <p>{s.summary}</p>
                     <div className="session-date">
                       {s.date ? new Date(s.date).toLocaleDateString('pt-BR') : 'Sem data'}
@@ -504,13 +666,18 @@ export default function CampaignDetailsPage() {
         <div className="modal-overlay" onClick={() => setShowSessionModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Nova Sessão</h3>
+              <h3>{(newSession as any).id ? 'Editar Sessão' : 'Nova Sessão'}</h3>
               <button className="close-btn" onClick={() => setShowSessionModal(false)}><X size={20} /></button>
             </div>
             <form className="modal-form" onSubmit={async (e) => {
               e.preventDefault()
-              const res = await fetch(`/api/campanhas/${id}/sessoes`, {
-                method: 'POST',
+              const isEditing = !!(newSession as any).id
+              const url = isEditing 
+                ? `/api/campanhas/${id}/sessoes/${(newSession as any).id}`
+                : `/api/campanhas/${id}/sessoes`
+              
+              const res = await fetch(url, {
+                method: isEditing ? 'PATCH' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newSession)
               })
@@ -534,6 +701,14 @@ export default function CampaignDetailsPage() {
                   type="number"
                   value={newSession.number}
                   onChange={e => setNewSession({ ...newSession, number: parseInt(e.target.value) })}
+                />
+              </div>
+              <div className="form-group">
+                <label>Data</label>
+                <input
+                  type="date"
+                  value={(newSession as any).date ? new Date((newSession as any).date).toISOString().split('T')[0] : ''}
+                  onChange={e => setNewSession({ ...newSession, date: e.target.value } as any)}
                 />
               </div>
               <div className="form-group">
@@ -1369,6 +1544,32 @@ export default function CampaignDetailsPage() {
           }
         }
 
+        .btn-icon-sm {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          color: var(--fg3);
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-icon-sm:hover {
+          background: rgba(255,255,255,0.1);
+          color: var(--fg);
+          border-color: var(--fg3);
+        }
+
+        .btn-icon-sm.danger:hover {
+          background: #ef4444;
+          color: white;
+          border-color: #ef4444;
+        }
+
         .combat-redirect-card {
           background: var(--bg2);
           border: 1px solid var(--border);
@@ -1428,6 +1629,183 @@ export default function CampaignDetailsPage() {
             height: 100%;
             max-height: 100vh;
             border-radius: 0;
+          }
+        }
+
+        .sidebar-editable-input {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          color: var(--fg);
+          font-size: 13px;
+          padding: 4px 8px;
+          border-radius: 6px;
+          outline: none;
+          width: 100%;
+          transition: all 0.2s;
+        }
+
+        .sidebar-editable-input:focus {
+          border-color: var(--accentL);
+          background: rgba(0,0,0,0.2);
+        }
+
+        .status-select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 8px center;
+          padding-right: 28px;
+        }
+
+        .status-badge {
+          font-size: 10px;
+          font-weight: 900;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 6px;
+          letter-spacing: 0.05em;
+        }
+
+        .status-badge.status-ativo {
+          background: rgba(16, 185, 129, 0.1);
+          color: #10b981;
+          border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-badge.status-em-pausa {
+          background: rgba(245, 158, 11, 0.1);
+          color: #f59e0b;
+          border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .status-badge.status-finalizado {
+          background: rgba(59, 130, 246, 0.1);
+          color: #3b82f6;
+          border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .editable-textarea {
+          width: 100%;
+          min-height: 120px;
+          background: transparent;
+          border: 1px solid transparent;
+          color: var(--fg2);
+          font-family: inherit;
+          font-size: 14px;
+          line-height: 1.6;
+          padding: 8px;
+          border-radius: 8px;
+          resize: vertical;
+          outline: none;
+          transition: all 0.2s;
+        }
+
+        .editable-textarea:hover {
+          background: rgba(255,255,255,0.02);
+          border-color: var(--border);
+        }
+
+        .editable-textarea:focus {
+          background: rgba(0,0,0,0.2);
+          border-color: var(--accentL);
+          color: var(--fg);
+          box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        .master-notes:focus {
+          border-color: #f43f5e;
+          box-shadow: 0 0 15px rgba(244, 63, 94, 0.1);
+        }
+
+        .list-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+          gap: 16px;
+        }
+
+        .header-title-meta {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .header-title-meta h3 {
+          margin: 0;
+          font-family: 'Cinzel', serif;
+        }
+
+        .target-sessions-badge {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(244, 63, 94, 0.1);
+          padding: 6px 14px;
+          border-radius: 10px;
+          border: 1px solid rgba(244, 63, 94, 0.2);
+          transition: all 0.3s;
+        }
+
+        .target-sessions-badge:hover {
+          background: rgba(244, 63, 94, 0.15);
+          border-color: rgba(244, 63, 94, 0.4);
+        }
+
+        .badge-label {
+          font-size: 10px;
+          text-transform: uppercase;
+          font-weight: 900;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.05em;
+        }
+
+        .target-input {
+          background: transparent;
+          border: none;
+          color: #ffe4e6;
+          font-weight: 800;
+          width: 32px;
+          padding: 0;
+          font-size: 14px;
+          outline: none;
+          text-align: center;
+          -moz-appearance: textfield;
+        }
+
+        .target-input::-webkit-outer-spin-button,
+        .target-input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        @media (max-width: 640px) {
+          .list-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+          }
+
+          .header-title-meta {
+            width: 100%;
+            justify-content: space-between;
+            gap: 12px;
+          }
+
+          .header-title-meta h3 {
+            font-size: 18px;
+          }
+
+          .target-sessions-badge {
+            padding: 4px 10px;
+          }
+
+          .btn-new-session {
+            width: 100%;
+            padding: 16px;
+            font-size: 14px;
+            justify-content: center;
           }
         }
 

@@ -20,7 +20,7 @@ export default function CampanhasPage() {
     name: '',
     description: '',
     type: 'campaign',
-    status: 'active',
+    status: 'ativo',
     system: 'D&D 5e',
   })
 
@@ -61,7 +61,7 @@ export default function CampanhasPage() {
         const newCampaign = await res.json()
         setCampaigns([newCampaign, ...campaigns])
         setShowCreateModal(false)
-        setFormData({ name: '', description: '', type: 'campaign', status: 'active', system: 'D&D 5e' })
+        setFormData({ name: '', description: '', type: 'campaign', status: 'ativo', system: 'D&D 5e' })
       }
     } catch (error) {
       console.error('Error creating campaign:', error)
