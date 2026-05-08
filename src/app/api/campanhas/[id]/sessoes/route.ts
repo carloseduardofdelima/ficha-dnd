@@ -12,9 +12,12 @@ export async function POST(
   }
 
   const { id } = await params
-  const data = await req.json()
+  const body = await req.json()
 
   try {
+    const data = { ...body }
+    if (data.date) data.date = new Date(data.date)
+
     const campaignSession = await prisma.campaignSession.create({
       data: {
         ...data,

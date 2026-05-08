@@ -69,12 +69,28 @@ export async function PATCH(
         combat: body.combat ? {
           update: body.combat
         } : undefined,
-        // For actions and skills, a simple update might be complex, 
-        // usually we delete and recreate or use separate endpoints
+        actions: body.actions ? {
+          deleteMany: {},
+          create: body.actions.map((a: any) => ({
+            name: a.name,
+            description: a.description,
+            actionType: a.actionType || 'action'
+          }))
+        } : undefined,
+        skills: body.skills ? {
+          deleteMany: {},
+          create: body.skills.map((s: any) => ({
+            name: s.name,
+            description: s.description,
+            cooldown: s.cooldown
+          }))
+        } : undefined,
       },
       include: {
         attributes: true,
-        combat: true
+        combat: true,
+        actions: true,
+        skills: true
       }
     })
 

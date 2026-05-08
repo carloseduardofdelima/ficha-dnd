@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Shield, Search, Loader2, ArrowRight, Skull, Plus, X } from 'lucide-react'
+import { Shield, Search, Loader2, ArrowRight, Skull, Plus, X, Trash2 } from 'lucide-react'
 import { MonsterSummary, MonsterListResponse } from '@/types/monster'
 
 export default function AmeacasPage() {
@@ -192,7 +192,7 @@ export default function AmeacasPage() {
               const res = await fetch('/api/ameacas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(threatForm)
+                body: JSON.stringify({ ...threatForm, isTemplate: true })
               })
               if (res.ok) {
                 fetchThreats()
@@ -318,6 +318,118 @@ export default function AmeacasPage() {
                     />
                   </div>
                 </div>
+                <div className="form-group">
+                  <label>Resistências (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.resistances}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, resistances: e.target.value } })}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Imunidades (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.immunities}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, immunities: e.target.value } })}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Vulnerabilidades (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.vulnerabilities}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, vulnerabilities: e.target.value } })}
+                  />
+                </div>
+              </div>
+
+              <div className="form-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <h4 style={{ margin: 0 }}>Ações</h4>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setThreatForm({
+                    ...threatForm,
+                    actions: [...threatForm.actions, { name: '', description: '', actionType: 'action' }]
+                  })}>
+                    <Plus size={14} /> Adicionar Ação
+                  </button>
+                </div>
+                {threatForm.actions.map((action: any, idx: number) => (
+                  <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                      <input
+                        placeholder="Nome da Ação"
+                        value={action.name}
+                        onChange={e => {
+                          const newActions = [...threatForm.actions]
+                          newActions[idx].name = e.target.value
+                          setThreatForm({ ...threatForm, actions: newActions })
+                        }}
+                        style={{ flex: 1 }}
+                      />
+                      <button type="button" className="btn-icon danger" onClick={() => {
+                        const newActions = threatForm.actions.filter((_: any, i: number) => i !== idx)
+                        setThreatForm({ ...threatForm, actions: newActions })
+                      }}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    <textarea
+                      placeholder="Descrição da Ação"
+                      value={action.description}
+                      onChange={e => {
+                        const newActions = [...threatForm.actions]
+                        newActions[idx].description = e.target.value
+                        setThreatForm({ ...threatForm, actions: newActions })
+                      }}
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="form-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <h4 style={{ margin: 0 }}>Habilidades Especiais</h4>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setThreatForm({
+                    ...threatForm,
+                    skills: [...threatForm.skills, { name: '', description: '' }]
+                  })}>
+                    <Plus size={14} /> Adicionar Habilidade
+                  </button>
+                </div>
+                {threatForm.skills.map((skill: any, idx: number) => (
+                  <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                      <input
+                        placeholder="Nome da Habilidade"
+                        value={skill.name}
+                        onChange={e => {
+                          const newSkills = [...threatForm.skills]
+                          newSkills[idx].name = e.target.value
+                          setThreatForm({ ...threatForm, skills: newSkills })
+                        }}
+                        style={{ flex: 1 }}
+                      />
+                      <button type="button" className="btn-icon danger" onClick={() => {
+                        const newSkills = threatForm.skills.filter((_: any, i: number) => i !== idx)
+                        setThreatForm({ ...threatForm, skills: newSkills })
+                      }}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    <textarea
+                      placeholder="Descrição da Habilidade"
+                      value={skill.description}
+                      onChange={e => {
+                        const newSkills = [...threatForm.skills]
+                        newSkills[idx].description = e.target.value
+                        setThreatForm({ ...threatForm, skills: newSkills })
+                      }}
+                      rows={2}
+                    />
+                  </div>
+                ))}
               </div>
 
               <div className="modal-footer">

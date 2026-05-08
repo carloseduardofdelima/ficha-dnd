@@ -1,7 +1,9 @@
 'use client'
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2 } from 'lucide-react'
+import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2, Trash2, Edit, X, Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface PageProps {
   params: Promise<{ index: string }>
@@ -77,8 +79,24 @@ const getMod = (val: number) => {
 
 export default function MonsterDetailsPage({ params }: PageProps) {
   const { index } = use(params)
+  const router = useRouter()
+  const { data: sessionData } = useSession()
   const [monster, setMonster] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [threatForm, setThreatForm] = useState<any>({
+    name: '',
+    description: '',
+    threatType: 'monster',
+    level: 1,
+    challengeRating: 0.25,
+    attributes: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10, hp: 10, ac: 10, speed: '30ft', initiativeBonus: 0 },
+    combat: { attackBonus: 0, damage: '1d6', damageType: 'concussão', multiattack: '', abilities: '', resistances: '', immunities: '', vulnerabilities: '' },
+    actions: [],
+    skills: []
+  })
 
   useEffect(() => {
     setLoading(true)
@@ -94,6 +112,78 @@ export default function MonsterDetailsPage({ params }: PageProps) {
         setLoading(false)
       })
   }, [index])
+
+  const handleDelete = async () => {
+    if (!confirm('Deseja realmente excluir esta criatura permanentemente?')) return
+    
+    setDeleting(true)
+    try {
+      const res = await fetch(`/api/ameacas/${index}`, { method: 'DELETE' })
+      if (res.ok) {
+        router.push('/ameacas')
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  const handleEdit = () => {
+    setThreatForm({
+      name: monster.name,
+      description: monster.description || '',
+      threatType: monster.threatType || 'monster',
+      level: monster.level || 1,
+      challengeRating: monster.challengeRating || 0.25,
+      attributes: {
+        strength: monster.attributes?.strength ?? 10,
+        dexterity: monster.attributes?.dexterity ?? 10,
+        constitution: monster.attributes?.constitution ?? 10,
+        intelligence: monster.attributes?.intelligence ?? 10,
+        wisdom: monster.attributes?.wisdom ?? 10,
+        charisma: monster.attributes?.charisma ?? 10,
+        hp: monster.attributes?.hp ?? 10,
+        ac: monster.attributes?.ac ?? 10,
+        speed: monster.attributes?.speed ?? '30ft',
+        initiativeBonus: monster.attributes?.initiativeBonus ?? 0,
+      },
+      combat: {
+        attackBonus: monster.combat?.attackBonus ?? 0,
+        damage: monster.combat?.damage ?? '1d6',
+        damageType: monster.combat?.damageType ?? 'concussão',
+        multiattack: monster.combat?.multiattack || '',
+        abilities: monster.combat?.abilities || '',
+        resistances: monster.combat?.resistances || '',
+        immunities: monster.combat?.immunities || '',
+        vulnerabilities: monster.combat?.vulnerabilities || '',
+      },
+      actions: monster.actions || [],
+      skills: monster.skills || []
+    })
+    setShowEditModal(true)
+  }
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/ameacas/${index}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(threatForm)
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        setMonster(updated)
+        setShowEditModal(false)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setSaving(false)
+    }
+  }
 
   if (loading) return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: 16 }}>
@@ -117,11 +207,36 @@ export default function MonsterDetailsPage({ params }: PageProps) {
 
   return (
     <div className="container">
-      <Link href="/ameacas">
-        <button className="btn btn-ghost" style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <ArrowLeft size={16} /> Voltar
-        </button>
-      </Link>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <Link href="/ameacas">
+          <button className="btn btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <ArrowLeft size={16} /> Voltar
+          </button>
+        </Link>
+        
+        <div style={{ display: 'flex', gap: 12 }}>
+          {monster && sessionData?.user?.id === monster.userId && (
+            <button 
+              className="btn btn-ghost" 
+              onClick={handleEdit}
+              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+            >
+              <Edit size={16} /> Editar
+            </button>
+          )}
+          {monster && sessionData?.user?.id === monster.userId && (
+            <button 
+              className="btn btn-danger" 
+              onClick={handleDelete}
+              disabled={deleting}
+              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+            >
+              {deleting ? <Loader2 className="animate-spin" size={16} /> : <Trash2 size={16} />}
+              Excluir Criatura
+            </button>
+          )}
+        </div>
+      </div>
 
       <div style={{
         background: 'var(--card)',
@@ -223,7 +338,410 @@ export default function MonsterDetailsPage({ params }: PageProps) {
         </div>
       </div>
 
+      {showEditModal && (
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal-content wide" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Editar Ameaça</h3>
+              <button className="close-btn" onClick={() => setShowEditModal(false)}><X size={20} /></button>
+            </div>
+            <form className="modal-form scrollable" onSubmit={handleUpdate}>
+              <div className="form-section">
+                <h4>Informações Básicas</h4>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Nome</label>
+                    <input
+                      type="text"
+                      value={threatForm.name}
+                      onChange={e => setThreatForm({ ...threatForm, name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Tipo</label>
+                    <select
+                      value={threatForm.threatType}
+                      onChange={e => setThreatForm({ ...threatForm, threatType: e.target.value })}
+                    >
+                      <option value="monster">Monstro</option>
+                      <option value="npc">NPC Hostil</option>
+                      <option value="boss">Boss</option>
+                      <option value="entity">Entidade</option>
+                      <option value="custom">Custom</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>CR (Challenge Rating)</label>
+                    <input
+                      type="number" step="0.25"
+                      value={threatForm.challengeRating}
+                      onChange={e => setThreatForm({ ...threatForm, challengeRating: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Nível</label>
+                    <input
+                      type="number"
+                      value={threatForm.level}
+                      onChange={e => setThreatForm({ ...threatForm, level: parseInt(e.target.value) })}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Descrição</label>
+                  <textarea
+                    rows={2}
+                    value={threatForm.description}
+                    onChange={e => setThreatForm({ ...threatForm, description: e.target.value })}
+                  ></textarea>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h4>Atributos e Defesa</h4>
+                <div className="attributes-input-grid">
+                  {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(attr => (
+                    <div key={attr} className="attr-input">
+                      <label>{attr.substring(0, 3).toUpperCase()}</label>
+                      <input
+                        type="number"
+                        value={(threatForm.attributes as any)[attr]}
+                        onChange={e => setThreatForm({
+                          ...threatForm,
+                          attributes: { ...threatForm.attributes, [attr]: parseInt(e.target.value) }
+                        })}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="form-row" style={{ marginTop: 16 }}>
+                  <div className="form-group">
+                    <label>HP Máximo</label>
+                    <input
+                      type="number"
+                      value={threatForm.attributes.hp}
+                      onChange={e => setThreatForm({ ...threatForm, attributes: { ...threatForm.attributes, hp: parseInt(e.target.value) } })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Classe de Armadura (AC)</label>
+                    <input
+                      type="number"
+                      value={threatForm.attributes.ac}
+                      onChange={e => setThreatForm({ ...threatForm, attributes: { ...threatForm.attributes, ac: parseInt(e.target.value) } })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Velocidade</label>
+                    <input
+                      type="text"
+                      value={threatForm.attributes.speed}
+                      onChange={e => setThreatForm({ ...threatForm, attributes: { ...threatForm.attributes, speed: e.target.value } })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h4>Combate e Resistências</h4>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Bônus de Ataque</label>
+                    <input
+                      type="number"
+                      value={threatForm.combat.attackBonus}
+                      onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, attackBonus: parseInt(e.target.value) } })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Dano (ex: 1d6+2)</label>
+                    <input
+                      type="text"
+                      value={threatForm.combat.damage}
+                      onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, damage: e.target.value } })}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Resistências (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.resistances}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, resistances: e.target.value } })}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Imunidades (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.immunities}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, immunities: e.target.value } })}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Vulnerabilidades (separadas por vírgula)</label>
+                  <input
+                    type="text"
+                    value={threatForm.combat.vulnerabilities}
+                    onChange={e => setThreatForm({ ...threatForm, combat: { ...threatForm.combat, vulnerabilities: e.target.value } })}
+                  />
+                </div>
+              </div>
+
+              <div className="form-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <h4 style={{ margin: 0 }}>Ações</h4>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setThreatForm({
+                    ...threatForm,
+                    actions: [...threatForm.actions, { name: '', description: '', actionType: 'action' }]
+                  })}>
+                    <Plus size={14} /> Adicionar Ação
+                  </button>
+                </div>
+                {threatForm.actions.map((action: any, idx: number) => (
+                  <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                      <input 
+                        placeholder="Nome da Ação" 
+                        value={action.name} 
+                        onChange={e => {
+                          const newActions = [...threatForm.actions]
+                          newActions[idx].name = e.target.value
+                          setThreatForm({ ...threatForm, actions: newActions })
+                        }}
+                        style={{ flex: 1 }}
+                      />
+                      <button type="button" className="btn-icon danger" onClick={() => {
+                        const newActions = threatForm.actions.filter((_: any, i: number) => i !== idx)
+                        setThreatForm({ ...threatForm, actions: newActions })
+                      }}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    <textarea 
+                      placeholder="Descrição da Ação" 
+                      value={action.description}
+                      onChange={e => {
+                        const newActions = [...threatForm.actions]
+                        newActions[idx].description = e.target.value
+                        setThreatForm({ ...threatForm, actions: newActions })
+                      }}
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="form-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <h4 style={{ margin: 0 }}>Habilidades Especiais</h4>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setThreatForm({
+                    ...threatForm,
+                    skills: [...threatForm.skills, { name: '', description: '' }]
+                  })}>
+                    <Plus size={14} /> Adicionar Habilidade
+                  </button>
+                </div>
+                {threatForm.skills.map((skill: any, idx: number) => (
+                  <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                      <input 
+                        placeholder="Nome da Habilidade" 
+                        value={skill.name} 
+                        onChange={e => {
+                          const newSkills = [...threatForm.skills]
+                          newSkills[idx].name = e.target.value
+                          setThreatForm({ ...threatForm, skills: newSkills })
+                        }}
+                        style={{ flex: 1 }}
+                      />
+                      <button type="button" className="btn-icon danger" onClick={() => {
+                        const newSkills = threatForm.skills.filter((_: any, i: number) => i !== idx)
+                        setThreatForm({ ...threatForm, skills: newSkills })
+                      }}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    <textarea 
+                      placeholder="Descrição da Habilidade" 
+                      value={skill.description}
+                      onChange={e => {
+                        const newSkills = [...threatForm.skills]
+                        newSkills[idx].description = e.target.value
+                        setThreatForm({ ...threatForm, skills: newSkills })
+                      }}
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="modal-footer">
+                <button type="button" className="btn btn-ghost" onClick={() => setShowEditModal(false)}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>
+                  {saving ? <Loader2 className="animate-spin" size={18} /> : 'Salvar Alterações'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       <style jsx global>{`
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.85);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 20px;
+        }
+
+        .modal-content {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          width: 100%;
+          max-width: 500px;
+          overflow: hidden;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-content.wide {
+          max-width: 800px;
+        }
+
+        .modal-header {
+          padding: 20px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .modal-header h3 {
+          margin: 0;
+          font-family: 'Cinzel', serif;
+          color: var(--accentL);
+        }
+
+        .close-btn {
+          background: none;
+          border: none;
+          color: var(--fg3);
+          cursor: pointer;
+        }
+
+        .modal-form {
+          padding: 20px;
+        }
+
+        .modal-form.scrollable {
+          max-height: 80vh;
+          overflow-y: auto;
+          padding-right: 12px;
+        }
+
+        .form-section {
+          background: rgba(255,255,255,0.02);
+          padding: 16px;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+          margin-bottom: 24px;
+        }
+
+        .form-section h4 {
+          font-family: 'Cinzel', serif;
+          font-size: 14px;
+          color: var(--accentL);
+          margin: 0 0 16px 0;
+          text-transform: uppercase;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 16px;
+        }
+
+        .form-group label {
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--fg3);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          padding: 10px;
+          border-radius: 8px;
+          color: var(--fg);
+          outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+          border-color: var(--accentL);
+        }
+
+        .attributes-input-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 12px;
+        }
+
+        .attr-input {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          text-align: center;
+        }
+
+        .attr-input label {
+          font-size: 10px;
+          font-weight: 800;
+          color: var(--fg3);
+        }
+
+        .attr-input input {
+          width: 100%;
+          text-align: center;
+          padding: 8px !important;
+        }
+
+        .modal-footer {
+          padding: 20px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          justify-content: flex-end;
+          gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+          .attributes-input-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+        }
+
         @media (max-width: 1024px) {
           .container > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
         }
