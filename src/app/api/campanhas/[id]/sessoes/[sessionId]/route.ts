@@ -12,7 +12,7 @@ export async function PATCH(
   }
 
   const { id, sessionId } = await params
-  const data = await req.json()
+  const body = await req.json()
 
   try {
     // Check if user owns the campaign
@@ -23,6 +23,10 @@ export async function PATCH(
     if (!campaign) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
+
+    // Clean data for Prisma
+    const { id: _id, campaignId: _cid, createdAt: _ca, updatedAt: _ua, ...data } = body
+    if (data.date) data.date = new Date(data.date)
 
     const campaignSession = await prisma.campaignSession.update({
       where: { id: sessionId },

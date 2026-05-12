@@ -6,7 +6,7 @@ import {
   Users, BookOpen, Shield, Zap, Info, ChevronLeft,
   Settings, Save, Plus, Target, MessageSquare,
   Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search, Contact,
-  Play
+  Play, Loader2
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import NpcTab from './NpcTab'
@@ -28,6 +28,7 @@ export default function CampaignDetailsPage() {
   const [showSelectThreatModal, setShowSelectThreatModal] = useState(false)
   const [allGlobalThreats, setAllGlobalThreats] = useState<any[]>([])
   const [linkingThreat, setLinkingThreat] = useState(false)
+  const [savingSession, setSavingSession] = useState(false)
 
   const fetchGlobalThreats = async () => {
     try {
@@ -116,6 +117,22 @@ export default function CampaignDetailsPage() {
     } catch (error) {
       console.error('Error deleting session:', error)
     }
+  }
+
+  const handleDeleteThreat = async (threatId: string) => {
+    if (!confirm('Deseja realmente remover esta ameaça da campanha?')) return
+    try {
+      const res = await fetch(`/api/ameacas/${threatId}`, { method: 'DELETE' })
+      if (res.ok) {
+        fetchCampaign()
+      }
+    } catch (error) {
+      console.error('Error deleting threat:', error)
+    }
+  }
+
+  const handleEditThreat = (threatId: string) => {
+    router.push(`/ameacas/${threatId}`)
   }
 
   if (loading) {
@@ -568,8 +585,12 @@ export default function CampaignDetailsPage() {
                   </div>
                   {campaign.isOwner && (
                     <div className="threat-actions-btns">
-                      <button className="btn-icon"><Edit size={14} /></button>
-                      <button className="btn-icon danger"><Trash2 size={14} /></button>
+                      <button className="btn-icon" onClick={() => handleEditThreat(threat.id)}>
+                        <Edit size={14} />
+                      </button>
+                      <button className="btn-icon danger" onClick={() => handleDeleteThreat(threat.id)}>
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   )}
                 </div>
@@ -671,19 +692,26 @@ export default function CampaignDetailsPage() {
             </div>
             <form className="modal-form" onSubmit={async (e) => {
               e.preventDefault()
+              setSavingSession(true)
               const isEditing = !!(newSession as any).id
               const url = isEditing 
                 ? `/api/campanhas/${id}/sessoes/${(newSession as any).id}`
                 : `/api/campanhas/${id}/sessoes`
               
-              const res = await fetch(url, {
-                method: isEditing ? 'PATCH' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newSession)
-              })
-              if (res.ok) {
-                fetchCampaign()
-                setShowSessionModal(false)
+              try {
+                const res = await fetch(url, {
+                  method: isEditing ? 'PATCH' : 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(newSession)
+                })
+                if (res.ok) {
+                  await fetchCampaign()
+                  setShowSessionModal(false)
+                }
+              } catch (e) {
+                console.error(e)
+              } finally {
+                setSavingSession(false)
               }
             }}>
               <div className="form-group">
@@ -720,8 +748,10 @@ export default function CampaignDetailsPage() {
                 ></textarea>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-ghost" onClick={() => setShowSessionModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary">Salvar Sessão</button>
+                <button type="button" className="btn btn-ghost" onClick={() => setShowSessionModal(false)} disabled={savingSession}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" disabled={savingSession}>
+                  {savingSession ? <Loader2 className="animate-spin" size={18} /> : 'Salvar Sessão'}
+                </button>
               </div>
             </form>
           </div>

@@ -142,6 +142,21 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
       console.error(e)
     }
   }
+
+  const handleDeleteCombat = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation()
+    if (!confirm('Tem certeza que deseja apagar este combate? Todos os dados de iniciativa e turnos serão perdidos.')) return
+    
+    try {
+      const res = await fetch(`/api/combates/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        if (activeCombat?.id === id) setActiveCombat(null)
+        fetchCombats()
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
   const handleMove = async (index: number, direction: 'up' | 'down') => {
     const newIndex = direction === 'up' ? index - 1 : index + 1
     if (newIndex < 0 || newIndex >= activeCombat.participants.length) return
@@ -193,6 +208,21 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ initiative: value })
+      })
+      fetchCombatDetails(activeCombat.id)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handleUpdateParticipantStats = async (p: any, updates: any) => {
+    try {
+      await fetch(`/api/combates/participantes/${p.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          stats: { ...p.stats, ...updates }
+        })
       })
       fetchCombatDetails(activeCombat.id)
     } catch (e) {
@@ -268,9 +298,21 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
               className={`combat-item ${activeCombat?.id === c.id ? 'active' : ''} ${c.status}`}
               onClick={() => fetchCombatDetails(c.id)}
             >
-              <Sword size={16} />
-              <span>{c.name}</span>
-              <span className={`status-dot ${c.status}`}></span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
+                <Sword size={16} />
+                <span className="combat-name">{c.name}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span className={`status-dot ${c.status}`} style={{ position: 'static' }}></span>
+                {isMaster && (
+                  <button 
+                    className="btn-delete-combat-item" 
+                    onClick={(e) => handleDeleteCombat(e, c.id)}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                )}
+              </div>
             </div>
           ))}
           {combats.length === 0 && <p className="empty-text">Nenhum combate registrado.</p>}
@@ -360,8 +402,36 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                     <div className="hp-section">
                       <div className="hp-header">
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Heart size={14} /> {hp} / {maxHp}</span>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Shield size={14} /> CA: {ac}</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <Heart size={14} /> 
+                            {hp} / 
+                            {p.entityType === 'player' || !isMaster ? (
+                              maxHp
+                            ) : (
+                              <input 
+                                type="number" 
+                                className="inline-stat-input"
+                                defaultValue={maxHp}
+                                onBlur={(e) => handleUpdateParticipantStats(p, { maxHp: parseInt(e.target.value) })}
+                              />
+                            )}
+                          </span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <Shield size={14} /> 
+                            {p.entityType === 'player' || !isMaster ? (
+                              `CA: ${ac}`
+                            ) : (
+                              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                                CA: 
+                                <input 
+                                  type="number" 
+                                  className="inline-stat-input"
+                                  defaultValue={ac}
+                                  onBlur={(e) => handleUpdateParticipantStats(p, { ac: parseInt(e.target.value) })}
+                                />
+                              </span>
+                            )}
+                          </span>
                         </div>
                       </div>
                       <div className="hp-bar-bg">
@@ -551,6 +621,39 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         }
         .status-dot.finalizado { background: var(--fg3); }
 
+        .btn-delete-combat-item {
+          background: transparent;
+          border: none;
+          color: rgba(255,255,255,0.3);
+          padding: 4px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .combat-item:hover .btn-delete-combat-item {
+          color: rgba(255,255,255,0.6);
+        }
+
+        .btn-delete-combat-item:hover {
+          background: rgba(239, 68, 68, 0.2);
+          color: #ef4444 !important;
+        }
+
+        .combat-item.active .btn-delete-combat-item {
+          color: rgba(255,255,255,0.7);
+        }
+        
+        .combat-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 140px;
+        }
+
         @keyframes pulse-dot {
           0% {
             transform: scale(0.9);
@@ -738,6 +841,31 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         .hp-btn.minus:hover { background: #ef4444; color: white; }
         .hp-btn.plus { background: rgba(16,185,129,0.1); color: #10b981; }
         .hp-btn.plus:hover { background: #10b981; color: white; }
+
+        .inline-stat-input {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid var(--border);
+          color: var(--fg);
+          font-size: 11px;
+          font-weight: 700;
+          width: 36px;
+          border-radius: 4px;
+          padding: 2px 4px;
+          outline: none;
+          transition: all 0.2s;
+        }
+
+        .inline-stat-input:focus {
+          border-color: var(--accent);
+          background: rgba(255,255,255,0.1);
+        }
+
+        /* Remove arrows from number input */
+        .inline-stat-input::-webkit-inner-spin-button,
+        .inline-stat-input::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
 
         .card-footer {
           display: flex;
