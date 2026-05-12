@@ -301,39 +301,41 @@ export default function CharacterDetailPage() {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
-          // Sync with LocalStorage
+          // Advanced Sync: Compare timestamps to guarantee the most recent data
           try {
-            const localData = localStorage.getItem(`char_stats_${id}`);
-            if (localData) {
-              const parsed = JSON.parse(localData);
-              data.currentHp = parsed.currentHp ?? data.currentHp;
-              data.maxHp = parsed.maxHp ?? data.maxHp;
-              data.spellSlots = parsed.spellSlots ?? data.spellSlots;
-              data.resources = parsed.resources ?? data.resources;
-              if (parsed.inventory) {
-                data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
-                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
-                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
-                  return {
-                    ...dbItem,
-                    item: { ...catalogItem, ...dbItem.item },
-                    isEquipped: !!parsed.inventory[idx]?.isEquipped
-                  };
-                });
+            const localDataRaw = localStorage.getItem(`char_stats_${id}`);
+            if (localDataRaw) {
+              const local = JSON.parse(localDataRaw);
+              const dbUpdatedAt = new Date(data.updatedAt).getTime();
+              const localUpdatedAt = local.lastModified || 0;
+
+              // Only merge if local data is newer than what's on the server
+              if (localUpdatedAt > dbUpdatedAt) {
+                console.log("Sincronizando: Usando dados locais mais recentes.");
+                data.currentHp = local.currentHp ?? data.currentHp;
+                data.maxHp = local.maxHp ?? data.maxHp;
+                data.level = local.level ?? data.level;
+                data.exp = local.exp ?? data.exp;
+                data.spellSlots = local.spellSlots ?? data.spellSlots;
+                data.resources = local.resources ?? data.resources;
+                
+                if (local.inventory) {
+                  data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
+                    const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                    const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
+                    return {
+                      ...dbItem,
+                      item: { ...catalogItem, ...dbItem.item },
+                      isEquipped: !!local.inventory[idx]?.isEquipped
+                    };
+                  });
+                }
               } else {
-                // Even without local stats, enrich with catalog
-                data.inventory = (data.inventory as any[]).map((dbItem: any) => {
-                  const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
-                  const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
-                  return {
-                    ...dbItem,
-                    item: { ...catalogItem, ...dbItem.item }
-                  };
-                });
+                console.log("Sincronizando: Dados do servidor estão atualizados.");
               }
             }
           } catch (e) {
-            console.error('Error loading local stats', e);
+            console.error('Erro na sincronização de segurança:', e);
           }
           setCharacter(data);
         }
@@ -370,7 +372,8 @@ export default function CharacterDetailPage() {
       const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
       localStorage.setItem(`char_stats_${id}`, JSON.stringify({
         ...localData,
-        inventory: newInventory
+        inventory: newInventory,
+        lastModified: Date.now()
       }));
     } catch (e) {
       console.error('Error saving to local storage', e);
@@ -392,7 +395,8 @@ export default function CharacterDetailPage() {
       const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
       localStorage.setItem(`char_stats_${id}`, JSON.stringify({
         ...localData,
-        inventory: newInventory
+        inventory: newInventory,
+        lastModified: Date.now()
       }));
     } catch (e) {
       console.error('Error saving to local storage', e);
@@ -544,7 +548,8 @@ export default function CharacterDetailPage() {
       const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
       localStorage.setItem(`char_stats_${id}`, JSON.stringify({
         ...localData,
-        inventory: newInventory
+        inventory: newInventory,
+        lastModified: Date.now()
       }));
     } catch (e) {
       console.error(e);
@@ -594,6 +599,18 @@ export default function CharacterDetailPage() {
     }
     const updatedChar = { ...character, [field]: newVal };
     setCharacter(updatedChar);
+
+    // Immediate local cache update with timestamp for data safety
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        [field]: newVal,
+        lastModified: Date.now()
+      }));
+    } catch (e) {
+      console.error('Error updating local cache', e);
+    }
   };
 
   const toggleInspiration = async () => {
@@ -720,6 +737,7 @@ export default function CharacterDetailPage() {
       const dataToSave = {
         ...localData,
         level: updatedChar.level,
+        exp: updatedChar.exp,
         maxHp: updatedChar.maxHp,
         currentHp: updatedChar.currentHp,
         proficiencyBonus: updatedChar.proficiencyBonus,
@@ -729,7 +747,10 @@ export default function CharacterDetailPage() {
         intelligence: updatedChar.intelligence,
         wisdom: updatedChar.wisdom,
         charisma: updatedChar.charisma,
-        traits: updatedChar.traits
+        traits: updatedChar.traits,
+        spellSlots: updatedChar.spellSlots,
+        resources: updatedChar.resources,
+        lastModified: Date.now()
       };
       localStorage.setItem(`char_stats_${id}`, JSON.stringify(dataToSave));
 
