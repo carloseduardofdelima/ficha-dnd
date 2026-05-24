@@ -1442,6 +1442,22 @@ export default function CharacterDetailPage() {
                               if (character.level >= 7) {
                                 initial['Brilho de Gênio'] = { max: maxTinkering, current: maxTinkering, color: '#06b6d4' };
                               }
+                              if (character.level >= 2) {
+                                let maxInfused = 2;
+                                if (character.level >= 18) maxInfused = 6;
+                                else if (character.level >= 14) maxInfused = 5;
+                                else if (character.level >= 10) maxInfused = 4;
+                                else if (character.level >= 6) maxInfused = 3;
+
+                                if (character.subclass === 'Armeiro') {
+                                  if (is2014 && character.level >= 9) {
+                                    maxInfused += 2;
+                                  } else if (!is2014 && character.level >= 10) {
+                                    maxInfused += 2;
+                                  }
+                                }
+                                initial['Itens Infundidos Ativos'] = { max: maxInfused, current: maxInfused, color: '#06b6d4' };
+                              }
                             }
 
                             if (character.class === 'Paladino') {
@@ -3159,6 +3175,58 @@ export default function CharacterDetailPage() {
                           else if (newLevel >= 3) newResources['Fúrias'] = 3;
                           else newResources['Fúrias'] = 2;
                         }
+                        if (character.class === 'Artífice') {
+                          const modInt = Math.max(1, Math.floor((character.intelligence - 10) / 2));
+                          const rulesetToUse = character.ruleset || '2024';
+                          const is2014 = rulesetToUse === '2014';
+                          
+                          newResources['Engenharia Mágica'] = modInt;
+                          
+                          if (newLevel >= 7) {
+                            newResources['Brilho de Gênio'] = modInt;
+                          } else {
+                            delete newResources['Brilho de Gênio'];
+                          }
+
+                          if (newLevel >= 2) {
+                            let maxInfused = 2;
+                            if (newLevel >= 18) maxInfused = 6;
+                            else if (newLevel >= 14) maxInfused = 5;
+                            else if (newLevel >= 10) maxInfused = 4;
+                            else if (newLevel >= 6) maxInfused = 3;
+
+                            if (character.subclass === 'Armeiro') {
+                              if (is2014 && newLevel >= 9) {
+                                maxInfused += 2;
+                              } else if (!is2014 && newLevel >= 10) {
+                                maxInfused += 2;
+                              }
+                            }
+                            newResources['Itens Infundidos Ativos'] = maxInfused;
+                          } else {
+                            delete newResources['Itens Infundidos Ativos'];
+                          }
+
+                          if (character.subclass) {
+                            if (character.subclass === 'Alquimista') {
+                              if (newLevel >= 3) newResources['Elixires Experimentais'] = 1;
+                              if (newLevel >= 10) newResources['Restauração Menor Grátis'] = modInt;
+                              if (newLevel >= 14) {
+                                newResources['Curar (Heal)'] = 1;
+                                newResources['Restauração Maior Grátis'] = 1;
+                              }
+                            } else if (character.subclass === 'Artilheiro') {
+                              if (newLevel >= 3) newResources['Canhão Élfico'] = 1;
+                            } else if (character.subclass === 'Armeiro') {
+                              if (newLevel >= 3) {
+                                newResources['Campo Defensivo'] = newProf;
+                                newResources['Estatura Gigante'] = modInt;
+                              }
+                            } else if (character.subclass === 'Serralheiro de Batalha') {
+                              if (newLevel >= 10) newResources['Choque Arcano'] = modInt;
+                            }
+                          }
+                        }
 
                         const updated = {
                           ...character,
@@ -3269,9 +3337,53 @@ export default function CharacterDetailPage() {
                           });
                         }
 
+                        const newResources: Record<string, number> = updated.resources ? JSON.parse(updated.resources as string) : {};
+                        if (updated.class === 'Artífice') {
+                          const modInt = Math.max(1, Math.floor((updated.intelligence - 10) / 2));
+                          const rulesetToUse = updated.ruleset || '2024';
+                          const is2014 = rulesetToUse === '2014';
+                          const pb = updated.proficiencyBonus;
+
+                          if (updated.level >= 2) {
+                            let maxInfused = 2;
+                            if (updated.level >= 18) maxInfused = 6;
+                            else if (updated.level >= 14) maxInfused = 5;
+                            else if (updated.level >= 10) maxInfused = 4;
+                            else if (updated.level >= 6) maxInfused = 3;
+
+                            if (updated.subclass === 'Armeiro') {
+                              if (is2014 && updated.level >= 9) {
+                                maxInfused += 2;
+                              } else if (!is2014 && updated.level >= 10) {
+                                maxInfused += 2;
+                              }
+                            }
+                            newResources['Itens Infundidos Ativos'] = maxInfused;
+                          }
+
+                          if (updated.subclass === 'Alquimista') {
+                            if (updated.level >= 3) newResources['Elixires Experimentais'] = 1;
+                            if (updated.level >= 10) newResources['Restauração Menor Grátis'] = modInt;
+                            if (updated.level >= 14) {
+                              newResources['Curar (Heal)'] = 1;
+                              newResources['Restauração Maior Grátis'] = 1;
+                            }
+                          } else if (updated.subclass === 'Artilheiro') {
+                            if (updated.level >= 3) newResources['Canhão Élfico'] = 1;
+                          } else if (updated.subclass === 'Armeiro') {
+                            if (updated.level >= 3) {
+                              newResources['Campo Defensivo'] = pb;
+                              newResources['Estatura Gigante'] = modInt;
+                            }
+                          } else if (updated.subclass === 'Serralheiro de Batalha') {
+                            if (updated.level >= 10) newResources['Choque Arcano'] = modInt;
+                          }
+                        }
+
                         const finalUpdated = {
                           ...updated,
-                          spellSlots: JSON.stringify(newSpellSlots)
+                          spellSlots: JSON.stringify(newSpellSlots),
+                          resources: JSON.stringify(newResources)
                         };
 
                         const needsFeat = [4, 8, 12, 16, 19].includes(updated.level);
