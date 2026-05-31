@@ -7,6 +7,7 @@ export type SubclassData = Record<number, SubclassFeature[]>;
 
 export interface ClassSubclasses {
   [subclassName: string]: {
+    description?: string;
     features: SubclassData;
     spells?: string[]; // For domains, circles, etc.
   };
@@ -15,14 +16,16 @@ export interface ClassSubclasses {
 export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   'Bárbaro': {
     "Caminho do Furioso": {
+      description: "Focados na brutalidade implacável do combate corpo-a-corpo, bárbaros deste caminho canalizam uma fúria frenética capaz de superar a própria dor, desferindo golpes devastadores ao custo do esgotamento físico.",
       features: {
-        3: [{ name: "Frenesi", description: "Pode entrar em frenesi ao enfurecer; permite um ataque de arma corpo-a-corpo como ação bônus em cada turno. Sofre exaustão ao fim da fúria." }],
+        3: [{ name: "Frenesi", description: "Pode entrar em frenesi ao enfurecer; permite um ataque de arma corpo-a-corpo como ação bônus in cada turno. Sofre exaustão ao fim da fúria." }],
         6: [{ name: "Fúria Inconsciente", description: "Não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Efeitos atuais são suspensos." }],
         10: [{ name: "Presença Intimidante", description: "Usa ação para amedrontar criatura a até 9m (CD 8+Prof+Car). Pode estender com ações em turnos seguintes." }],
         14: [{ name: "Retaliação", description: "Quando sofrer dano de criatura a até 1,5m, pode usar reação para atacar quem te atingiu." }]
       }
     },
     "Caminho do Guerreiro Totêmico": {
+      description: "Guiados por espíritos da natureza, estes bárbaros fundem sua força física com a energia mística de animais totêmicos como o Urso, a Águia ou o Lobo para obter resistência e velocidade sobrenaturais.",
       features: {
         3: [
           { name: "Conselheiro Espiritual", description: "Pode conjurar Sentido Bestial e Falar com Animais como rituais." },
@@ -36,6 +39,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Bardo': {
     "Colégio do Conhecimento": {
+      description: "Mestres de perícias e segredos arcanos, bardos deste colégio usam suas palavras afiadas para confundir inimigos e extraem magias de outras classes para expandir seu grimório.",
       features: {
         3: [
           { name: "Proficiência Adicional", description: "Ganha proficiência em três perícias à sua escolha." },
@@ -46,18 +50,20 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Colégio da Bravura": {
+      description: "Cantores de guerra que inspiram bravura nos corações dos aliados, estes bardos combinam o uso de armas marciais e armaduras com sua magia para liderar no front de batalha.",
       features: {
         3: [
           { name: "Proficiência Adicional", description: "Ganha proficiência com armaduras médias, escudos e armas marciais." },
           { name: "Inspiração em Combate", description: "Criaturas podem usar o dado de inspiração para aumentar o dano ou a CA contra um ataque." }
         ],
-        6: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes quando usa a ação de Ataque." }],
+        6: [{ name: "Ataque Extra", description: "Você pode atacar vezes quando usa a ação de Ataque." }],
         14: [{ name: "Magia de Batalha", description: "Quando usa ação para conjurar uma magia, pode realizar um ataque com arma como ação bônus." }]
       }
     }
   },
   'Clérigo': {
     "Domínio do Conhecimento": {
+      description: "Devotos de deuses da sabedoria, clérigos deste domínio buscam a verdade em mistérios antigos, usando poderes divinos para ler pensamentos, dominar perícias instantaneamente e acessar segredos ocultos.",
       spells: ["Comando", "Identificação", "Augúrio", "Sugestão", "Dificultar Detecção", "Falar com os Mortos", "Olho Arcano", "Confusão", "Conhecimento Lendário", "Vidência"],
       features: {
         1: [
@@ -70,6 +76,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Enganação": {
+      description: "Seguidores de divindades trapaceiras e caóticas, estes clérigos manipulam a realidade através de ilusões perfeitas, duplicatas e furtividade divina para enganar seus oponentes.",
       spells: ["Enfeitiçar Pessoa", "Disfarçar-se", "Reflexos", "Passos sem Pegadas", "Piscar", "Dissipar Magia", "Porta Dimensional", "Metamorfose", "Dominar Pessoa", "Modificar Memória"],
       features: {
         1: [{ name: "Bênção do Trapaceiro", description: "Dá vantagem em testes de Furtividade para um aliado tocado por 1 hora." }],
@@ -80,6 +87,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Guerra": {
+      description: "Guerreiros sagrados que canalizam o poder de divindades do combate, eles lideram exércitos infundindo suas armas com força divina, aumentando sua precisão e atacando com velocidade implacável.",
       spells: ["Auxílio Divino", "Escudo da Fé", "Arma Mágica", "Arma Espiritual", "Manto do Cruzado", "Espíritos Guardiões", "Movimentação Livre", "Pele de Pedra", "Coluna de Chamas", "Imobilizar Monstro"],
       features: {
         1: [
@@ -93,6 +101,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Luz": {
+      description: "Portadores do fogo purificador e da radiação solar, estes clérigos dispersam as trevas com magias de fogo devastadoras e protegem seus aliados cegando temporariamente seus inimigos.",
       spells: ["Mãos Flamejantes", "Fogo das Fadas", "Esfera Flamejante", "Raio Ardente", "Luz do Dia", "Bola de Fogo", "Guardião da Fé", "Muralha de Fogo", "Coluna de Chamas", "Vidência"],
       features: {
         1: [
@@ -106,6 +115,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Natureza": {
+      description: "Protetores das florestas e da vida selvagem, estes clérigos comandam as forças elementais da natureza, controlando animais e plantas em nome de suas divindades.",
       spells: ["Amizade Animal", "Falar com Animais", "Pele de Árvore", "Crescer Espinhos", "Ampliar Plantas", "Muralha de Vento", "Dominar Besta", "Vinha Esmagadora", "Praga de Insetos", "Caminhar em Árvores"],
       features: {
         1: [
@@ -119,6 +129,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Tempestade": {
+      description: "Canais vivos do trovão e do relâmpago, estes clérigos manifestam a fúria da tormenta para repelir agressores e desferir golpes elétricos com poder destrutivo máximo.",
       spells: ["Névoa Obscurecente", "Onda Trovejante", "Lufada de Vento", "Despedaçar", "Convocar Relâmpagos", "Nevasca", "Controlar a Água", "Tempestade de Gelo", "Onda Destrutiva", "Praga de Insetos"],
       features: {
         1: [
@@ -132,6 +143,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Vida": {
+      description: "Os curadores mais renomados de D&D, clérigos deste domínio canalizam ondas de energia positiva pura para restaurar a vitalidade dos aliados e trazer os caídos de volta ao combate.",
       spells: ["Bênção", "Curar Ferimentos", "Restauração Menor", "Arma Espiritual", "Sinal de Esperança", "Revivificar", "Proteção Contra a Morte", "Guardião da Fé", "Curar Ferimentos em Massa", "Reviver os Mortos"],
       features: {
         1: [
@@ -147,6 +159,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Guerreiro': {
     "Campeão": {
+      description: "Focados na perfeição atlética pura e na maestria no combate físico, guerreiros campeões desferem golpes críticos com frequência assustadora e possuem uma resistência física inigualável.",
       features: {
         3: [{ name: "Crítico Aprimorado", description: "Suas jogadas de ataque com arma acertam crítico com 19 ou 20." }],
         7: [{ name: "Atleta Extraordinário", description: "Soma metade da proficiência em testes físicos sem proficiência; aumenta distância de salto." }],
@@ -156,6 +169,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Cavaleiro Arcano": {
+      description: "Guerreiros táticos que complementam suas proezas físicas com a conjuração de magias de abjuração e evocação, fundindo aço e feitiçaria no campo de batalha.",
       features: {
         3: [
           { name: "Conjuração", description: "Você aprende truques e magias de mago (abjuração/evocação) usando Inteligência." },
@@ -168,6 +182,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Mestre de Batalha": {
+      description: "Estudiosos da arte da guerra, estes guerreiros utilizam manobras táticas e dados de superioridade para controlar o posicionamento dos inimigos e ditar o ritmo do combate.",
       features: {
         3: [
           { name: "Superioridade em Combate", description: "Ganha 4 dados de superioridade (d8) para usar manobras como Aparar, Derrubar, etc." },
@@ -182,6 +197,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Ladino': {
     "Assassino": {
+      description: "Especialistas em mortes rápidas e furtivas, ladinos assassinos eliminam alvos prioritários antes mesmo do início das hostilidades usando disfarces, venenos e ataques surpresa letais.",
       features: {
         3: [
           { name: "Proficiências Adicionais", description: "Ganha proficiência com kit de disfarce e kit de venenos." },
@@ -193,6 +209,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Ladrão": {
+      description: "Focados na agilidade extrema, ladinos ladrões utilizam de forma rápida fechaduras e dispositivos mágicos, escalando superfícies sem esforço para se infiltrar em qualquer lugar.",
       features: {
         3: [
           { name: "Mãos Rápidas", description: "Ação bônus para usar ferramentas de ladrão, bater carteiras ou usar um objeto." },
@@ -204,6 +221,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Trapaceiro Arcano": {
+      description: "Ladinos astutos que usam a magia de ilusão e encantamento para confundir guardas, roubar à distância usando Mãos Mágicas invisíveis e realizar furtos impossíveis.",
       features: {
         3: [
           { name: "Conjuração", description: "Você aprende truques e magias de mago (encantamento/ilusão) usando Inteligência." },
@@ -217,6 +235,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Feiticeiro': {
     "Linhagem Dracônica": {
+      description: "Carregando o sangue ou as escamas de dragões em suas veias, feiticeiros dracônicos manifestam asas, uma pele blindada e um poder elemental destrutivo herdado de seus ancestrais.",
       features: {
         1: [
           { name: "Ancestral Dracônico", description: "Você escolhe um tipo de dragão como seu ancestral. Você pode falar, ler e escrever em Dracônico e seu bônus de proficiência é dobrado em testes de Carisma com dragões." },
@@ -228,6 +247,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Magia Selvagem": {
+      description: "Canais do caos puro e do acaso, feiticeiros de magia selvagem manipulam as probabilidades da realidade em troca de surtos de magia instáveis e imprevisíveis.",
       features: {
         1: [
           { name: "Surto de Magia Selvagem", description: "Após conjurar magia de 1º nível+, o Mestre pode pedir um d20. Se rolar 1, ocorre um efeito aleatório da tabela de Surto de Magia Selvagem." },
@@ -241,6 +261,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Bruxo': {
     "A Arquifada": {
+      description: "Ligados a um patrono misterioso das fadas, bruxos deste pacto dominam magias de controle mental, ilusões e teleportes sutis que confundem e desviam ataques.",
       spells: ["Fogo das Fadas", "Sono", "Acalmar Emoções", "Força Fantasmagórica", "Piscar", "Ampliar Plantas", "Dominar Besta", "Invisibilidade Maior", "Dominar Pessoa", "Similaridade"],
       features: {
         1: [{ name: "Presença Feérica", description: "Usa sua ação para amedrontar ou enfeitiçar criaturas em um cubo de 3m (CD de magia)." }],
@@ -250,6 +271,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "O Corruptor": {
+      description: "Servindo a demônios ou diabos, estes bruxos ceifam a energia vital dos mortos para ganhar vida temporária e convocam as chamas e o azar dos planos inferiores.",
       spells: ["Mãos Flamejantes", "Comando", "Cegueira/Surdez", "Raio Ardente", "Bola de Fogo", "Névoa Fétida", "Escudo de Fogo", "Muralha de Fogo", "Coluna de Chamas", "Consagrar"],
       features: {
         1: [{ name: "Bênção do Obscuro", description: "Ganha PV temporários (Mod. Car + nível) ao reduzir inimigo hostil a 0 PV." }],
@@ -259,6 +281,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "O Grande Antigo": {
+      description: "Conectados a entidades cósmicas insondáveis além da realidade, estes bruxos dominam a telepatia e afetam a sanidade mental de seus inimigos através do puro terror psíquico.",
       spells: ["Sussurros Dissonantes", "Riso Histérico de Tasha", "Detectar Pensamentos", "Força Fantasmagórica", "Clarividência", "Enviar Mensagem", "Dominar Besta", "Tentáculos Negros de Evard", "Dominar Pessoa", "Telecinésia"],
       features: {
         1: [{ name: "Despertar a Mente", description: "Pode se comunicar telepaticamente com qualquer criatura a até 18 metros." }],
@@ -270,6 +293,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Patrulheiro': {
     "Conclave da Besta": {
+      description: "Rastreadores que partilham um elo espiritual eterno com uma criatura selvagem, lutando em perfeita sincronia com seu companheiro animal no campo de batalha.",
       features: {
         3: [
           { name: "Companheiro Animal", description: "Invoca um animal leal (lobo, pantera, urso negro, etc.). Ele ganha seu bônus de proficiência na CA e dano, e dados de vida extras conforme você sobe de nível." },
@@ -282,6 +306,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Conclave do Caçador": {
+      description: "Sentinelas da civilização contra as ameaças selvagens, patrulheiros caçadores especializam-se em derrubar monstros colossais, escapar de hordas e resistir a táticas de ataque inimigas.",
       features: {
         3: [{ name: "Presa do Caçador", description: "Escolha uma opção: Assassino de Colossos (+1d8 dano em alvos feridos), Matador de Gigantes (contra-ataque como reação) ou Destruidor de Hordas (ataque extra em alvo adjacente)." }],
         5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes ao realizar a ação de Ataque." }],
@@ -291,6 +316,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Conclave do Rastreador Subterrâneo": {
+      description: "Mestres da escuridão e do combate subterrâneo, estes patrulheiros emboscam inimigos a partir das sombras, sendo invisíveis até mesmo para criaturas com visão no escuro.",
       features: {
         3: [
           { name: "Batedor do Subterrâneo", description: "No primeiro turno, ganha +3m de deslocamento e ataque adicional. Você é invisível para criaturas que usam visão no escuro na escuridão." },
@@ -305,6 +331,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Druida': {
     "Círculo da Terra": {
+      description: "Místicos guardiões de biomas específicos, druidas deste círculo mantêm uma forte ligação com a própria terra, restaurando seus recursos arcanos rapidamente durante descansos.",
       features: {
         2: [
           { name: "Truque Adicional", description: "Você aprende um truque de druida adicional." },
@@ -316,6 +343,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Círculo da Lua": {
+      description: "Guerreiros metamorfos focados no combate selvagem, estes druidas assumem formas animais de ND elevado como ação bônus e podem canalizar magia para curar suas feridas na forma de fera.",
       features: {
         2: [
           { name: "Forma Selvagem de Combate", description: "Pode usar Forma Selvagem como ação bônus e gastar slots de magia para curar 1d8 PV." },
@@ -329,6 +357,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Mago': {
     "Escola de Abjuração": {
+      description: "Especialistas em defesas arcanas e barreiras mágicas, magos abjuradores projetam escudos que absorvem danos físicos e dissipam magias inimigas com precisão milimétrica.",
       features: {
         2: [
           { name: "Abjuração Instruída", description: "O custo em ouro e tempo para copiar magias de abjuração é reduzido à metade." },
@@ -340,6 +369,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Adivinhação": {
+      description: "Videntes do destino que leem as correntes do tempo, magos adivinhos prevêem resultados de dados com antecedência e recuperam energia arcana ao desvendar segredos.",
       features: {
         2: [
           { name: "Adivinhação Instruída", description: "O custo para copiar magias de adivinhação é reduzido à metade." },
@@ -351,6 +381,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Conjuração": {
+      description: "Magos capazes de materializar objetos inanimados do nada, teleportar-se trocando de lugar com aliados e invocar criaturas extremamente resistentes que lutam a seu comando.",
       features: {
         2: [
           { name: "Conjuração Instruída", description: "O custo para copiar magias de conjuração é reduzido à metade." },
@@ -362,6 +393,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Encantamento": {
+      description: "Mestres do controle social e mental, estes magos paralisam oponentes com olhares hipnóticos e alteram as memórias de quem enfeitiçam sem deixar vestígios.",
       features: {
         2: [
           { name: "Encantamento Instruído", description: "O custo para copiar magias de encantamento é reduzido à metade." },
@@ -373,6 +405,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Evocação": {
+      description: "Conjuradores de destruição elemental em larga escala, evocadores manipulam suas magias de área para não atingir aliados e potencializam seus truques básicos com sua inteligência.",
       features: {
         2: [
           { name: "Evocação Instruída", description: "O custo em ouro e tempo para copiar magias de evocação é reduzido à metade." },
@@ -384,6 +417,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Ilusão": {
+      description: "Artistas do engano visual e auditivo, estes magos tornam suas ilusões palpáveis e reais temporariamente, enganando os sentidos de qualquer criatura.",
       features: {
         2: [
           { name: "Ilusão Instruída", description: "O custo para copiar magias de ilusão é reduzido à metade." },
@@ -395,12 +429,11 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Necromancia": {
+      description: "Estudiosos da linha tênue entre a vida e a morte, necromantes absorvem a energia vital dos inimigos que derrotam e comandam hordas de mortos-vivos com bônus de poder.",
       features: {
         2: [
           { name: "Necromancia Instruída", description: "O custo para copiar magias de necromancia é reduzido à metade." },
-          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." }
-        ],
-        6: [
+          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." },
           { name: "Escravos Mortos-Vivos", description: "Aprende Animar Mortos; cria um morto-vivo extra; eles ganham PV e dano adicionais." }
         ],
         10: [{ name: "Acostumado à Morte-Vida", description: "Resistência a dano necrótico e seu máximo de PV não pode ser reduzido." }],
@@ -408,6 +441,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Escola de Transmutação": {
+      description: "Cientistas da alquimia e da alteração da matéria, magos transmutadores criam pedras mágicas com benefícios físicos e alteram as formas dos objetos à sua volta.",
       features: {
         2: [
           { name: "Transmutação Instruída", description: "O custo para copiar magias de transmutação é reduzido à metade." },
@@ -421,6 +455,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Artífice': {
     "Alquimista": {
+      description: "Magos da ciência química e infusões, alquimistas criam elixires experimentais com efeitos variados e aumentam a potência de suas magias curativas e ácidas.",
       spells: ["Palavra Curativa", "Raio Nauseante", "Esfera Flamejante", "Flecha Ácida de Melf", "Forma Gasosa", "Palavra Curativa em Massa", "Malogro", "Proteção Contra a Morte", "Névoa Mortal", "Reviver os Mortos"],
       features: {
         3: [
@@ -433,6 +468,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Armeiro": {
+      description: "Cientistas que utilizam armaduras arcanas personalizadas como condutores mágicos de ataque e defesa, alternando entre modos de infiltração furtiva ou tanques de combate.",
       spells: ["Mísseis Mágicos", "Onda Trovejante", "Reflexos", "Despedaçar", "Padrão Hipnótico", "Relâmpago", "Escudo Ardente", "Invisibilidade Maior", "Criar Passagem", "Muralha de Energia"],
       features: {
         3: [
@@ -446,6 +482,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Atirador": {
+      description: "Engenheiros que criam canhões mágicos móveis no campo de batalha para disparar chamas, projéteis de energia ou fornecer escudos temporários para os aliados.",
       spells: ["Escudo", "Onda Trovejante", "Raio Ardente", "Despedaçar", "Bola de Fogo", "Muralha de Vento", "Tempestade Glacial", "Muro de Fogo", "Cone de Frio", "Muralha de Energia"],
       features: {
         3: [
@@ -458,6 +495,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Ferreiro de Batalha": {
+      description: "Engenheiros táticos de combate que lutam ao lado de um defensor mecânico, usando inteligência para golpear com armas mágicas e canalizando pulso de energia curativa.",
       spells: ["Escudo", "Heroísmo", "Marca da Punição", "Vínculo de Proteção", "Aura de Vitalidade", "Invocar Barragem", "Aura de Pureza", "Escudo de Fogo", "Banimento Destruidor", "Curar Ferimentos em Massa"],
       features: {
         3: [
@@ -473,6 +511,8 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Paladino': {
     "Juramento de Devoção": {
+      description: "A personificação do cavaleiro de armadura brilhante, paladinos da devoção comprometem-se com a justiça, a honra e o dever, canalizando luz divina para purificar suas armas e proteger aliados de encantos.",
+      spells: ["Proteção contra o Bem e Mal", "Santuário", "Restauração Menor", "Zona da Verdade", "Farol de Esperança", "Dissipar Magia", "Movimentação Livre", "Guardião da Fé", "Comunhão", "Coluna de Chamas"],
       features: {
         3: [
           { name: "Canalizar Divindade: Arma Sagrada", description: "Soma Mod. Carisma nas jogadas de ataque; arma emite luz e conta como mágica." },
@@ -484,6 +524,8 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Juramento dos Anciãos": {
+      description: "Guerreiros verdes que juraram proteger a beleza, a luz e a alegria do mundo contra a corrupção do tempo, ganhando resistências mágicas incríveis sob a bênção da natureza antiga.",
+      spells: ["Golpe Enredante", "Falar com Animais", "Passo Nebuloso", "Raio Lunar", "Crescimento de Plantas", "Proteção contra Energia", "Tempestade de Gelo", "Pele de Pedra", "Comungar com a Natureza", "Caminhar em Árvores"],
       features: {
         3: [
           { name: "Canalizar Divindade: Fúria da Natureza", description: "Invoca vinhas para prender uma criatura a até 3 metros (save de For/Des)." },
@@ -495,6 +537,8 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Juramento de Vingança": {
+      description: "Cavaleiros implacáveis focados na retribuição e na caça de alvos específicos, paladinos da vingança não poupam esforços para punir o mal, garantindo vantagem constante em combate.",
+      spells: ["Perdição", "Marca do Caçador", "Imobilizar Pessoa", "Passo Nebuloso", "Velocidade", "Proteção contra Energia", "Banimento", "Porta Dimensional", "Imobilizar Monstro", "Vidência"],
       features: {
         3: [
           { name: "Canalizar Divindade: Abjurar Inimigo", description: "Amedronta uma criatura a até 18m; corruptores e mortos-vivos têm desvantagem." },
@@ -508,14 +552,16 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
   },
   'Monge': {
     "Caminho da Mão Aberta": {
+      description: "Mestres supremos do combate desarmado, monges deste caminho manipulam a energia do corpo para derrubar inimigos, curar a si mesmos e desferir a lendária Palma Vibrante.",
       features: {
         3: [{ name: "Técnica da Mão Aberta", description: "Sua Rajada de Golpes pode derrubar, empurrar ou impedir reações do alvo." }],
         6: [{ name: "Integridade Corporal", description: "Pode recuperar PV igual a 3x seu nível de monge (1x/descanso longo)." }],
         11: [{ name: "Tranquilidade", description: "Ganha o efeito da magia santuário ao terminar um descanso longo, durando até você atacar ou conjurar." }],
-        17: [{ name: "Palma Vibrante", description: "Gasta 3 pontos de chi para criar vibrações letais; alvo deve passar em save de Con ou cair a 0 PV (ou sofrer 10d10)." }]
+        17: [{ name: "Palma Vibrante", description: "Gasta 3 pontos de chi para criar vibrações letais; alvo deve passar in save de Con ou cair a 0 PV (ou sofrer 10d10)." }]
       }
     },
     "Caminho da Sombra": {
+      description: "Monges assassinos que transitam silenciosamente pelas sombras, conjurando magias de silêncio e escuridão e teleportando-se entre locais escuros para atacar de surpresa.",
       features: {
         3: [{ name: "Artes Sombrias", description: "Pode gastar 2 pontos de chi para conjurar: Escuridão, Visão no Escuro, Passos sem Pegadas ou Silêncio." }],
         6: [{ name: "Passo das Sombras", description: "Pode se teletransportar de uma sombra para outra (18m) como ação bônus, ganhando vantagem no próximo ataque." }],
@@ -524,6 +570,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Caminho dos Quatro Elementos": {
+      description: "Artistas marciais que sintonizam seu ki com as forças elementais da terra, ar, fogo e água, conjurando magias e ataques elementais devastadores através de seu corpo físico.",
       features: {
         3: [{ name: "Discípulo dos Elementos", description: "Aprende disciplinas mágicas que manipulam os elementos gastando pontos de chi." }],
         6: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }],

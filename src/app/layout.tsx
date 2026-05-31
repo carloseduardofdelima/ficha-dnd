@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await auth()
   return (
     <html lang="pt-BR">
-      <body style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }}>
+      <body style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }} suppressHydrationWarning>
         <Providers session={session}>
           <Sidebar />
           <main className="main-content" style={{ minHeight: '100vh' }}>
