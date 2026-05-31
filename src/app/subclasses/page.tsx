@@ -13,6 +13,40 @@ const CLASS_COLORS: Record<string, string> = {
   'Feiticeiro': '#8b5cf6', 'Bruxo': '#c084fc', 'Mago': '#3b82f6', 'Artífice': '#d97706'
 }
 
+// Mapeamento das imagens de subclasses disponíveis nos assets
+const SUBCLASS_IMAGES: Record<string, string> = {
+  'Campeão': '/assets/subclasses/campeao.webp',
+  'Cavaleiro Arcano': '/assets/subclasses/cavaleiro-arcano.webp',
+  'Mestre de Batalha': '/assets/subclasses/mestre-de-batalha.png',
+  'Linhagem Dracônica': '/assets/subclasses/linhagem-draconica.png',
+  'Magia Selvagem': '/assets/subclasses/magia-selvagem.png',
+  'Conclave da Besta': '/assets/subclasses/conclave-da-besta.png',
+  'Conclave do Caçador': '/assets/subclasses/conclave-do-cacador.png',
+  'Conclave do Rastreador Subterrâneo': '/assets/subclasses/conclave-do-rastreador-subterraneo.png',
+  'Alquimista': '/assets/subclasses/alquimista.png',
+  'Armeiro': '/assets/subclasses/armeiro.png',
+  'Atirador': '/assets/subclasses/artilheiro.png',
+  'Ferreiro de Batalha': '/assets/subclasses/ferreiro-de-batalha.png'
+}
+
+// Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
+const CLASS_IMAGE_FALLBACKS: Record<string, string> = {
+  'Bárbaro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Barbarian.webp',
+  'Bardo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Bard.webp',
+  'Clérigo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Cleric.webp',
+  'Druida': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Druid.webp',
+  'Guerreiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Fighter.webp',
+  'Monge': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Monk.webp',
+  'Paladino': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Paladin.webp',
+  'Patrulheiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Ranger.webp',
+  'Ladino': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Rogue.webp',
+  'Feiticeiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Sorcerer.webp',
+  'Bruxo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Warlock.webp',
+  'Mago': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Wizard.webp',
+  'Artífice': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/TCE/Artificer.webp',
+}
+
+
 export default function SubclassesPage() {
   const router = useRouter()
   const [search, setSearch] = useState('')
@@ -52,7 +86,7 @@ export default function SubclassesPage() {
       <style jsx>{`
         .subclass-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
           gap: 20px;
           margin-top: 24px;
         }
@@ -60,11 +94,16 @@ export default function SubclassesPage() {
           background: var(--bg2);
           border: 1px solid var(--border);
           border-radius: 12px;
-          padding: 24px;
+          padding: 16px 24px;
           cursor: pointer;
           transition: all 0.2s ease;
           position: relative;
           overflow: hidden;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          min-height: 160px;
         }
         .subclass-card::before {
           content: '';
@@ -74,11 +113,42 @@ export default function SubclassesPage() {
           bottom: 0;
           width: 4px;
           background: var(--class-color);
+          z-index: 2;
         }
         .subclass-card:hover {
           transform: translateY(-4px);
           box-shadow: 0 8px 24px rgba(0,0,0,0.3);
           border-color: var(--class-color);
+        }
+        .card-image-container {
+          position: absolute;
+          right: 12px;
+          bottom: 0;
+          top: 0;
+          width: 140px;
+          pointer-events: none;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          z-index: 0;
+        }
+        .card-image {
+          height: 100%;
+          width: auto;
+          max-width: 100%;
+          object-fit: contain;
+          transition: transform 0.3s ease;
+        }
+        .subclass-card:hover .card-image {
+          transform: scale(1.08) translateY(-4px);
+        }
+        @media (max-width: 400px) {
+          .card-image-container {
+            width: 100px;
+          }
+          .subclass-card {
+            min-height: 140px;
+          }
         }
       `}</style>
 
@@ -117,24 +187,35 @@ export default function SubclassesPage() {
 
         {/* Grid de Subclasses */}
         <div className="subclass-grid">
-          {subclassesList.map((sub, idx) => (
-            <div 
-              key={sub.name} 
-              className="subclass-card fade-up" 
-              style={{ '--class-color': sub.color, animationDelay: `${idx * 0.03}s` } as any}
-              onClick={() => handleCardClick(sub.name)}
-            >
-              <span style={{ fontSize: 11, fontWeight: 700, color: sub.color, textTransform: 'uppercase', letterSpacing: 1 }}>{sub.className}</span>
-              <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, margin: '8px 0 4px 0', color: 'var(--fg)' }}>{sub.name}</h3>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12 }}>
-                {Object.keys(sub.features).map(level => (
-                  <span key={level} style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', padding: '2px 6px', borderRadius: 4, color: 'var(--fg2)' }}>
-                    Nível {level}
-                  </span>
-                ))}
+          {subclassesList.map((sub, idx) => {
+            const imageUrl = SUBCLASS_IMAGES[sub.name] || CLASS_IMAGE_FALLBACKS[sub.className];
+            return (
+              <div 
+                key={sub.name} 
+                className="subclass-card fade-up" 
+                style={{ '--class-color': sub.color, animationDelay: `${idx * 0.03}s` } as any}
+                onClick={() => handleCardClick(sub.name)}
+              >
+                <div style={{ flex: 1, paddingRight: imageUrl ? '110px' : '0', zIndex: 1 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: sub.color, textTransform: 'uppercase', letterSpacing: 1 }}>{sub.className}</span>
+                  <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 19, margin: '8px 0 4px 0', color: 'var(--fg)' }}>{sub.name}</h3>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
+                    {Object.keys(sub.features).map(level => (
+                      <span key={level} style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', padding: '2px 6px', borderRadius: 4, color: 'var(--fg2)' }}>
+                        Nív. {level}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {imageUrl && (
+                  <div className="card-image-container">
+                    <img src={imageUrl} alt={sub.name} className="card-image" />
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            )
+          })}
 
           {subclassesList.length === 0 && (
             <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '48px 0', color: 'var(--fg3)' }}>

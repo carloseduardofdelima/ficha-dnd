@@ -12,6 +12,40 @@ const CLASS_COLORS: Record<string, string> = {
   'Feiticeiro': '#8b5cf6', 'Bruxo': '#c084fc', 'Mago': '#3b82f6', 'Artífice': '#d97706'
 }
 
+// Mapeamento das imagens de subclasses disponíveis nos assets
+const SUBCLASS_IMAGES: Record<string, string> = {
+  'Campeão': '/assets/subclasses/campeao.webp',
+  'Cavaleiro Arcano': '/assets/subclasses/cavaleiro-arcano.webp',
+  'Mestre de Batalha': '/assets/subclasses/mestre-de-batalha.png',
+  'Linhagem Dracônica': '/assets/subclasses/linhagem-draconica.png',
+  'Magia Selvagem': '/assets/subclasses/magia-selvagem.png',
+  'Conclave da Besta': '/assets/subclasses/conclave-da-besta.png',
+  'Conclave do Caçador': '/assets/subclasses/conclave-do-cacador.png',
+  'Conclave do Rastreador Subterrâneo': '/assets/subclasses/conclave-do-rastreador-subterraneo.png',
+  'Alquimista': '/assets/subclasses/alquimista.png',
+  'Armeiro': '/assets/subclasses/armeiro.png',
+  'Atirador': '/assets/subclasses/artilheiro.png',
+  'Ferreiro de Batalha': '/assets/subclasses/ferreiro-de-batalha.png'
+}
+
+// Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
+const CLASS_IMAGE_FALLBACKS: Record<string, string> = {
+  'Bárbaro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Barbarian.webp',
+  'Bardo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Bard.webp',
+  'Clérigo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Cleric.webp',
+  'Druida': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Druid.webp',
+  'Guerreiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Fighter.webp',
+  'Monge': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Monk.webp',
+  'Paladino': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Paladin.webp',
+  'Patrulheiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Ranger.webp',
+  'Ladino': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Rogue.webp',
+  'Feiticeiro': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Sorcerer.webp',
+  'Bruxo': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Warlock.webp',
+  'Mago': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/PHB/Wizard.webp',
+  'Artífice': 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/master/classes/TCE/Artificer.webp',
+}
+
+
 interface PageProps {
   params: Promise<{ id: string }>
 }
@@ -69,6 +103,8 @@ export default function SubclassDetailsPage({ params }: PageProps) {
       </Link>
     </div>
   )
+
+  const imageUrl = SUBCLASS_IMAGES[subclass.name] || CLASS_IMAGE_FALLBACKS[subclass.className]
 
   return (
     <div className="fade-in">
@@ -140,6 +176,48 @@ export default function SubclassDetailsPage({ params }: PageProps) {
           border-color: var(--class-color);
           background: rgba(255, 255, 255, 0.05);
         }
+        .header-content {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          gap: 24px;
+        }
+        .header-image-container {
+          width: 280px;
+          height: 280px;
+          overflow: hidden;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        @media (max-width: 1024px) {
+          .header-image-container {
+            width: 220px;
+            height: 220px;
+          }
+        }
+        @media (max-width: 768px) {
+          .header-image-container {
+            width: 180px;
+            height: 180px;
+          }
+        }
+        @media (max-width: 600px) {
+          .header-image-container {
+            width: 140px;
+            height: 140px;
+          }
+          .header-content {
+            gap: 16px;
+          }
+        }
+        .header-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       `}</style>
 
       <Link href="/subclasses">
@@ -153,7 +231,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
         background: `linear-gradient(135deg, ${subclass.color}15, var(--bg2))`,
         borderRadius: 16,
         border: '1px solid var(--border)',
-        padding: 32,
+        padding: '16px 32px',
         marginBottom: 24,
         position: 'relative',
         overflow: 'hidden'
@@ -162,39 +240,49 @@ export default function SubclassDetailsPage({ params }: PageProps) {
           position: 'absolute',
           right: -20,
           bottom: -20,
-          opacity: 0.05,
+          opacity: 0.03,
           color: subclass.color,
           pointerEvents: 'none'
         }}>
-          <BookOpen size={200} />
+          <BookOpen size={240} />
         </div>
 
-        <span style={{
-          background: subclass.color,
-          color: 'white',
-          padding: '4px 12px',
-          borderRadius: 20,
-          fontSize: 12,
-          fontWeight: 800,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase'
-        }}>
-          {subclass.className}
-        </span>
-        
-        <h1 style={{
-          fontFamily: 'Cinzel, serif',
-          fontSize: '2.5rem',
-          color: 'var(--fg)',
-          marginTop: 12,
-          marginBottom: 8,
-          textShadow: '0 2px 10px rgba(0,0,0,0.5)'
-        }}>
-          {subclass.name}
-        </h1>
-        <p style={{ color: 'var(--fg2)', fontSize: 16, margin: 0 }}>
-          Arquétipo de classe nas regras clássicas de 2014.
-        </p>
+        <div className="header-content">
+          <div style={{ zIndex: 1, flex: 1 }}>
+            <span style={{
+              background: subclass.color,
+              color: 'white',
+              padding: '4px 12px',
+              borderRadius: 20,
+              fontSize: 12,
+              fontWeight: 800,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
+            }}>
+              {subclass.className}
+            </span>
+            
+            <h1 style={{
+              fontFamily: 'Cinzel, serif',
+              fontSize: '2.5rem',
+              color: 'var(--fg)',
+              marginTop: 12,
+              marginBottom: 8,
+              textShadow: '0 2px 10px rgba(0,0,0,0.5)'
+            }}>
+              {subclass.name}
+            </h1>
+            <p style={{ color: 'var(--fg2)', fontSize: 16, margin: 0 }}>
+              Arquétipo de classe nas regras clássicas de 2014.
+            </p>
+          </div>
+
+          {imageUrl && (
+            <div className="header-image-container" style={{ zIndex: 1 }}>
+              <img src={imageUrl} alt={subclass.name} className="header-image" />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="details-wrapper">
