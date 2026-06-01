@@ -28,6 +28,30 @@ import { SPELL_PROGRESSION } from '@/lib/spells'
 import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 
+const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
+  'Caminho Primitivo',
+  'Colégio de Bardo',
+  'Domínio Divino',
+  'Círculo Druídico',
+  'Arquétipo Marcial',
+  'Tradição Monástica',
+  'Juramento Sagrado',
+  'Conclave de Patrulheiro',
+  'Arquétipo Ladino',
+  'Origem de Feitiçaria',
+  'Patrono Transcendental',
+  'Tradição Arcana',
+  'Especialização de Artífice',
+  'Característica de Arquétipo',
+  'Característica de Círculo',
+  'Característica de Origem',
+  'Característica de Patrono Transcendental',
+  'Característica de Juramento Sagrado',
+  'Característica de Conclave',
+  'Característica de Tradição Monástica',
+  'Característica de Especialização'
+]);
+
 export default function CharacterDetailPage() {
   const { id } = useParams()
   const router = useRouter()
@@ -38,7 +62,7 @@ export default function CharacterDetailPage() {
   const [isCompanionModalOpen, setIsCompanionModalOpen] = useState(false)
   const [newCompanion, setNewCompanion] = useState<Partial<Companion>>({})
   const [isCompTypeSelectOpen, setIsCompTypeSelectOpen] = useState(false)
-
+  
   // Level Up States
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
   const [isProgressionModalOpen, setIsProgressionModalOpen] = useState(false)
@@ -224,7 +248,7 @@ export default function CharacterDetailPage() {
       : CLASS_PROGRESSION_2024[character.class];
 
     const subclassData = is2014
-      ? SUBCLASSES_2014[character.class]?.[character.subclass || '']
+      ? null
       : SUBCLASSES_2024[character.class]?.[character.subclass || ''];
 
     const raceProgression = !is2014 ? SPECIES_PROGRESSION_2024[character.race] : null;
@@ -241,7 +265,13 @@ export default function CharacterDetailPage() {
 
       // Class Features
       if (is2014) {
-        (classData as any)?.features?.filter((f: any) => f.level === i).forEach((f: any) => levelFeatures.push(f.name));
+        (classData as any)?.features
+          ?.filter((f: any) => f.level === i)
+          .forEach((f: any) => {
+            if (!SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name)) {
+              levelFeatures.push(f.name);
+            }
+          });
       } else {
         (classData as any)?.features[i]?.forEach((f: string) => levelFeatures.push(f));
       }
@@ -915,8 +945,8 @@ export default function CharacterDetailPage() {
             <div style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 16 }} className="mobile-center-text">
               <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2 }}>
                 {character.class}
-                {character.subclass ? ` — ${character.subclass}` : ''}
-                {parsedTraits.draconicAncestry && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
+                {character.subclass && character.ruleset !== '2014' ? ` — ${character.subclass}` : ''}
+                {parsedTraits.draconicAncestry && character.ruleset !== '2014' && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
               </div>
               <div style={{ fontSize: 14, color: 'var(--fgM)' }}>
                 {character.race}{character.subrace ? ` (${character.subrace})` : ''} — {character.background}
@@ -1390,8 +1420,8 @@ export default function CharacterDetailPage() {
                                 initial['Surto de Ação'] = { max: 1, current: 1, color: '#94a3b8' };
                               }
                               
-                              // Subclasses 2014
-                              if (character.subclass === 'Mestre de Batalha') {
+                              // Subclasses 2014 (Disabled for 2014)
+                              if (!is2014 && character.subclass === 'Mestre de Batalha') {
                                 let dice = 4;
                                 if (character.level >= 15) dice = 6;
                                 else if (character.level >= 7) dice = 5;
@@ -1402,7 +1432,7 @@ export default function CharacterDetailPage() {
                             if (character.class === 'Monge' && character.level >= 2) {
                               initial['Pontos de Foco'] = { max: character.level, current: character.level, color: '#facc15' };
                               
-                              if (character.subclass === 'Caminho da Mão Aberta' && character.level >= 6) {
+                              if (!is2014 && character.subclass === 'Caminho da Mão Aberta' && character.level >= 6) {
                                 initial['Integridade Corporal'] = { max: 1, current: 1, color: '#10b981' };
                               }
                             }
@@ -1417,13 +1447,13 @@ export default function CharacterDetailPage() {
                               initial['Canalizar Divindade'] = { max: uses, current: uses, color: '#facc15' };
                               
                               // Subclasses
-                              if (character.subclass === 'Domínio da Guerra') {
+                              if (!is2014 && character.subclass === 'Domínio da Guerra') {
                                 initial['Sacerdote da Guerra'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#94a3b8' };
                               }
-                              if (character.subclass === 'Domínio da Luz') {
+                              if (!is2014 && character.subclass === 'Domínio da Luz') {
                                 initial['Labareda Protetora'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#fbbf24' };
                               }
-                              if (character.subclass === 'Domínio da Tempestade') {
+                              if (!is2014 && character.subclass === 'Domínio da Tempestade') {
                                 initial['Ira da Tormenta'] = { max: Math.max(1, modWisdom), current: Math.max(1, modWisdom), color: '#3b82f6' };
                               }
                             }
@@ -1431,7 +1461,7 @@ export default function CharacterDetailPage() {
                             if (character.class === 'Druida' && character.level >= 2) {
                               initial['Forma Selvagem'] = { max: 2, current: 2, color: '#22c55e' };
                               
-                              if (character.subclass === 'Círculo da Terra') {
+                              if (!is2014 && character.subclass === 'Círculo da Terra') {
                                 initial['Recuperação Natural'] = { max: 1, current: 1, color: '#22c55e' };
                               }
                             }
@@ -1449,10 +1479,8 @@ export default function CharacterDetailPage() {
                                 else if (character.level >= 10) maxInfused = 4;
                                 else if (character.level >= 6) maxInfused = 3;
 
-                                if (character.subclass === 'Armeiro') {
-                                  if (is2014 && character.level >= 9) {
-                                    maxInfused += 2;
-                                  } else if (!is2014 && character.level >= 10) {
+                                if (!is2014 && character.subclass === 'Armeiro') {
+                                  if (character.level >= 10) {
                                     maxInfused += 2;
                                   }
                                 }
@@ -1473,7 +1501,7 @@ export default function CharacterDetailPage() {
                                 initial['Pontos de Feitiçaria'] = { max: character.level, current: character.level, color: '#c084fc' };
                               }
                               
-                              if (character.subclass === 'Magia Selvagem') {
+                              if (!is2014 && character.subclass === 'Magia Selvagem') {
                                 initial['Marés de Caos'] = { max: 1, current: 1, color: '#f97316' };
                               }
                             }
@@ -1482,7 +1510,7 @@ export default function CharacterDetailPage() {
                               initial['Recuperação Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
                               initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' };
                               
-                              if (character.subclass === 'Escola de Adivinhação') {
+                              if (!is2014 && character.subclass === 'Escola de Adivinhação') {
                                 initial['Dados de Portento'] = { max: character.level >= 14 ? 3 : 2, current: character.level >= 14 ? 3 : 2, color: '#3b82f6' };
                               }
                             }
@@ -1496,10 +1524,10 @@ export default function CharacterDetailPage() {
                             }
 
                             if (character.class === 'Bruxo' && is2014) {
-                              if (character.subclass === 'O Corruptor' && character.level >= 6) {
+                              if (!is2014 && character.subclass === 'O Corruptor' && character.level >= 6) {
                                 initial["Sorte do Próprio Obscuro"] = { max: 1, current: 1, color: '#ef4444' };
                               }
-                              if (character.subclass === 'A Arquifada') {
+                              if (!is2014 && character.subclass === 'A Arquifada') {
                                 initial["Presença Feérica"] = { max: 1, current: 1, color: '#ec4899' };
                               }
                             }
@@ -2411,6 +2439,9 @@ export default function CharacterDetailPage() {
                               : (CLASS_PROGRESSION_2024[character.class]?.features[lvl] || []);
 
                             classFeats.forEach((f: string) => {
+                              if (is2014 && SUBCLASS_EXCLUDED_FEATURES_2014.has(f)) {
+                                return;
+                              }
                               // Avoid duplicates if already added in passiveFeatures or as a Choice (Choice names usually start with the feature name)
                               if (!features.some(ex => ex.name === f || ex.name.startsWith(`${f}:`))) {
                                 const baseFeat = characterClass?.features.find((feat: any) => feat.name === f);
@@ -2425,7 +2456,7 @@ export default function CharacterDetailPage() {
 
                             // Subclass Features
                             const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
-                            if (character.subclass && subclassSource[character.class]?.[character.subclass]) {
+                            if (!is2014 && character.subclass && subclassSource[character.class]?.[character.subclass]) {
                               const subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
                               subFeats.forEach((sf: any) => {
                                 features.push({ ...sf, source: character.subclass, level: lvl });
@@ -3178,7 +3209,6 @@ export default function CharacterDetailPage() {
                         if (character.class === 'Artífice') {
                           const modInt = Math.max(1, Math.floor((character.intelligence - 10) / 2));
                           const rulesetToUse = character.ruleset || '2024';
-                          const is2014 = rulesetToUse === '2014';
                           
                           newResources['Engenharia Mágica'] = modInt;
                           
@@ -3196,35 +3226,13 @@ export default function CharacterDetailPage() {
                             else if (newLevel >= 6) maxInfused = 3;
 
                             if (character.subclass === 'Armeiro') {
-                              if (is2014 && newLevel >= 9) {
-                                maxInfused += 2;
-                              } else if (!is2014 && newLevel >= 10) {
+                              if (newLevel >= 10) {
                                 maxInfused += 2;
                               }
                             }
                             newResources['Itens Infundidos Ativos'] = maxInfused;
                           } else {
                             delete newResources['Itens Infundidos Ativos'];
-                          }
-
-                          if (character.subclass) {
-                            if (character.subclass === 'Alquimista') {
-                              if (newLevel >= 3) newResources['Elixires Experimentais'] = 1;
-                              if (newLevel >= 10) newResources['Restauração Menor Grátis'] = modInt;
-                              if (newLevel >= 14) {
-                                newResources['Curar (Heal)'] = 1;
-                                newResources['Restauração Maior Grátis'] = 1;
-                              }
-                            } else if (character.subclass === 'Artilheiro') {
-                              if (newLevel >= 3) newResources['Canhão Élfico'] = 1;
-                            } else if (character.subclass === 'Armeiro') {
-                              if (newLevel >= 3) {
-                                newResources['Campo Defensivo'] = newProf;
-                                newResources['Estatura Gigante'] = modInt;
-                              }
-                            } else if (character.subclass === 'Serralheiro de Batalha') {
-                              if (newLevel >= 10) newResources['Choque Arcano'] = modInt;
-                            }
                           }
                         }
 
@@ -3241,12 +3249,7 @@ export default function CharacterDetailPage() {
 
                         // Determinar se precisa de Subclasse
                         const rulesetToUse = character.ruleset || selectedRuleset;
-                        const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass) ||
-                          (rulesetToUse === '2014' && !character.subclass && (
-                            (['Clérigo', 'Feiticeiro', 'Bruxo'].includes(character.class) && newLevel >= 1) ||
-                            (['Druida', 'Mago'].includes(character.class) && newLevel >= 2) ||
-                            (newLevel >= 3)
-                          ));
+                        const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass);
 
                         const needsFeat = [4, 8, 12, 16, 19].includes(newLevel);
                         const needsSpecialChoice = rulesetToUse === '2014' && (
