@@ -83,6 +83,8 @@ export default function CharacterDetailPage() {
   const [selectedInvocations, setSelectedInvocations] = useState<string[]>([])
   const [selectedFightingStyle, setSelectedFightingStyle] = useState<string | null>(null)
   const [selectedPactBoon, setSelectedPactBoon] = useState<string | null>(null)
+  const [selectedMetamagics, setSelectedMetamagics] = useState<string[]>([])
+  const [selectedInfusions, setSelectedInfusions] = useState<string[]>([])
 
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -202,7 +204,7 @@ export default function CharacterDetailPage() {
       intelligence: character.intelligence,
       wisdom: character.wisdom,
       charisma: character.charisma
-    }, inventory, parsedTraits);
+    }, inventory, { ...parsedTraits, selectedInfusions, level: character.level });
 
     if (calculatedAC !== character.armorClass) {
       setCharacter(prev => prev ? { ...prev, armorClass: calculatedAC } : null);
@@ -222,7 +224,7 @@ export default function CharacterDetailPage() {
     character?.level, character?.class, character?.spells,
     character?.traits, character?.backstory, character?.appearance,
     character?.personalityTraits, character?.ideals, character?.bonds, character?.flaws,
-    character?.inspiration
+    character?.inspiration, selectedInfusions
   ]);
 
   // Get spell progression for current level
@@ -307,16 +309,18 @@ export default function CharacterDetailPage() {
 
   const totalCantripsSelected = useMemo(() => {
     if (!parsedSpells) return 0
+    const list = character?.ruleset === '2014' ? SPELLS_2014 : SPELLS
     return parsedSpells
-      .filter(id => character?.ruleset === '2014' ? id.endsWith('-2014') : !id.endsWith('-2014'))
+      .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
       .filter(s => s?.level === 0).length
   }, [parsedSpells, character?.ruleset])
 
   const totalLeveledSpellsSelected = useMemo(() => {
     if (!parsedSpells) return 0
+    const list = character?.ruleset === '2014' ? SPELLS_2014 : SPELLS
     return parsedSpells
-      .filter(id => character?.ruleset === '2014' ? id.endsWith('-2014') : !id.endsWith('-2014'))
+      .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
       .filter(s => s && s.level > 0).length
   }, [parsedSpells, character?.ruleset])
@@ -324,6 +328,32 @@ export default function CharacterDetailPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [activeTab, levelUpStep])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`selected_metamagic_${id}`);
+      if (saved) {
+        try {
+          setSelectedMetamagics(JSON.parse(saved));
+        } catch (e) {
+          console.error('Error loading metamagics:', e);
+        }
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`selected_infusions_${id}`);
+      if (saved) {
+        try {
+          setSelectedInfusions(JSON.parse(saved));
+        } catch (e) {
+          console.error('Error loading infusions:', e);
+        }
+      }
+    }
+  }, [id]);
 
   useEffect(() => {
     setIsClient(true)
@@ -547,7 +577,7 @@ export default function CharacterDetailPage() {
     intelligence: character.intelligence,
     wisdom: character.wisdom,
     charisma: character.charisma
-  }, parsedInventory, parsedTraits) : 10
+  }, parsedInventory, { ...parsedTraits, selectedInfusions, level: character.level }) : 10
   const speed = character.speed
   const initiative = character.initiative >= 0 ? `+${character.initiative}` : character.initiative
   const profBonus = character.proficiencyBonus >= 0 ? `+${character.proficiencyBonus}` : character.proficiencyBonus
@@ -1653,6 +1683,13 @@ export default function CharacterDetailPage() {
                             else if (character.class === 'Monge') parts.push(`Sab: ${wisMod >= 0 ? '+' : ''}${wisMod}`);
                           }
                           if (shield) parts.push(`${shield.item.name}: +${shield.item.ac}`);
+                          if (selectedInfusions.includes('defesa_aprimorada')) {
+                            const bonus = character.level >= 10 ? 2 : 1;
+                            parts.push(`Defesa Aprimorada: +${bonus}`);
+                          }
+                          if (selectedInfusions.includes('escudo_repulsao')) {
+                            parts.push(`Escudo de Repulsão: +1`);
+                          }
                           const acInfo = parts.join(' + ');
 
                           return (
@@ -1901,13 +1938,23 @@ export default function CharacterDetailPage() {
                         )}
 
                         {currentProgression && (
-                          <div style={{ display: 'flex', gap: 12 }}>
+                          <div style={{ display: 'flex', gap: 16 }}>
                             <div style={{ textAlign: 'right' }}>
                               <div style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Truques</div>
                               <div style={{ fontSize: 14, fontWeight: 800, color: totalCantripsSelected > currentProgression.cantrips ? 'var(--error)' : 'var(--accentL)' }}>
                                 {totalCantripsSelected}<span style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 400 }}>/{currentProgression.cantrips}</span>
                               </div>
                             </div>
+                            {(currentProgression.prepared !== undefined || currentProgression.known !== undefined) && (
+                              <div style={{ textAlign: 'right' }}>
+                                <div style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>
+                                  {currentProgression.known ? 'Magias Conhecidas' : 'Magias Preparadas'}
+                                </div>
+                                <div style={{ fontSize: 14, fontWeight: 800, color: totalLeveledSpellsSelected > (currentProgression.prepared || currentProgression.known || 0) ? 'var(--error)' : 'var(--accentL)' }}>
+                                  {totalLeveledSpellsSelected}<span style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 400 }}>/{currentProgression.prepared || currentProgression.known || 0}</span>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -1915,16 +1962,19 @@ export default function CharacterDetailPage() {
 
                     {/* Spell Slots Display */}
                     {currentProgression && currentProgression.slots.some((s: number) => s > 0) && (
-                      <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
-                        gap: 8,
-                        marginBottom: 24,
-                        background: 'rgba(255,255,255,0.02)',
-                        padding: 12,
-                        borderRadius: 12,
-                        border: '1px solid rgba(255,255,255,0.05)'
-                      }}>
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginBottom: 8 }}>
+                          Espaços de Magia (Usos Disponíveis)
+                        </div>
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
+                          gap: 8,
+                          background: 'rgba(255,255,255,0.02)',
+                          padding: 12,
+                          borderRadius: 12,
+                          border: '1px solid rgba(255,255,255,0.05)'
+                        }}>
                         {currentProgression.slots.map((max: number, idx: number) => {
                           if (max === 0) return null
                           const lvl = idx + 1
@@ -1949,6 +1999,89 @@ export default function CharacterDetailPage() {
                             </div>
                           )
                         })}
+                      </div>
+                    </div>
+                    )}
+
+                    {/* Metamagic Selection for Sorcerers */}
+                    {character?.class === 'Feiticeiro' && (character.ruleset === '2014' ? character.level >= 3 : character.level >= 2) && (
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginBottom: 8 }}>
+                          Metamágica (Escolha 2 Opções)
+                        </div>
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                          gap: 12
+                        }}>
+                          {[
+                            {
+                              id: 'acelerada',
+                              name: 'Magia Acelerada',
+                              cost: '2 Pontos',
+                              desc: 'Muda o tempo de conjuração de uma magia de 1 ação para 1 ação bônus.'
+                            },
+                            {
+                              id: 'duplicada',
+                              name: 'Magia Duplicada',
+                              cost: '1 Ponto/Círculo',
+                              desc: 'Conjura uma magia de alvo único em dois alvos ao mesmo tempo.'
+                            },
+                            {
+                              id: 'sutil',
+                              name: 'Magia Sutil',
+                              cost: '1 Ponto',
+                              desc: 'Conjura a magia sem necessidade de componentes verbais (V) ou somáticos (S).'
+                            },
+                            {
+                              id: 'cuidadosa',
+                              name: 'Magia Cuidadosa',
+                              cost: '1 Ponto',
+                              desc: 'Permite proteger aliados garantindo que passem automaticamente no teste de resistência da magia.'
+                            }
+                          ].map(opt => {
+                            const isSelected = selectedMetamagics.includes(opt.id);
+                            return (
+                              <div
+                                key={opt.id}
+                                className="card"
+                                onClick={() => {
+                                  let newSel = [...selectedMetamagics];
+                                  if (isSelected) {
+                                    newSel = newSel.filter(id => id !== opt.id);
+                                  } else {
+                                    if (newSel.length >= 2) {
+                                      alert('Você já selecionou o limite máximo de 2 opções de Metamágica!');
+                                      return;
+                                    }
+                                    newSel.push(opt.id);
+                                  }
+                                  setSelectedMetamagics(newSel);
+                                  localStorage.setItem(`selected_metamagic_${id}`, JSON.stringify(newSel));
+                                }}
+                                style={{
+                                  padding: 14,
+                                  cursor: 'pointer',
+                                  background: isSelected ? 'var(--accentGlow)' : 'rgba(255,255,255,0.01)',
+                                  borderColor: isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+                                  borderLeft: isSelected ? '3px solid var(--accent)' : '1px solid rgba(255,255,255,0.05)',
+                                  transition: 'all 0.2s',
+                                  position: 'relative'
+                                }}
+                              >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                                  <span style={{ fontWeight: 700, fontSize: 13, color: isSelected ? 'var(--fg)' : 'var(--fg2)' }}>{opt.name}</span>
+                                  <span style={{ fontSize: 9, color: 'var(--accentL)', fontWeight: 700, textTransform: 'uppercase', background: 'rgba(225,29,72,0.1)', padding: '2px 6px', borderRadius: 4 }}>
+                                    {opt.cost}
+                                  </span>
+                                </div>
+                                <div style={{ fontSize: 11, color: isSelected ? 'var(--fg2)' : 'var(--fg3)', lineHeight: 1.4 }}>
+                                  {opt.desc}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
 
@@ -1976,8 +2109,8 @@ export default function CharacterDetailPage() {
 
                     {(() => {
                       const currentSpells = parsedSpells.filter(id => {
-                        if (character.ruleset === '2014') return id.endsWith('-2014');
-                        return !id.endsWith('-2014');
+                        const list = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
+                        return list.some(s => s.id === id);
                       });
                       // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
                       const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0;
@@ -2078,22 +2211,14 @@ export default function CharacterDetailPage() {
 
                             const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
 
-                            let maxInLvl = 0;
-                            let currentCount = selectedInLvl;
-                            let label = isPreparing ? 'SELECIONADAS' : 'PREPARADAS';
-
+                            let headerCounter = '';
                             if (lvl === 0) {
-                              maxInLvl = currentProgression?.cantrips || 0;
-                              label = 'CONHECIDOS';
+                              headerCounter = `${selectedInLvl} / ${currentProgression?.cantrips || 0} CONHECIDOS`;
                             } else if (isPoolBased) {
-                              maxInLvl = currentProgression?.prepared || currentProgression?.known || 0;
-                              currentCount = currentSpells.filter(id => {
-                                const s = ALL_SPELLS.find(sp => sp.id === id);
-                                return s && s.level > 0;
-                              }).length;
-                              label = currentProgression?.known ? 'CONHECIDAS' : (isPreparing ? 'TOTAL SELECIONADAS' : 'TOTAL PREPARADAS');
+                              headerCounter = `${selectedInLvl} ${isPreparing ? 'SELECIONADA(S)' : 'PREPARADA(S)'}`;
                             } else {
-                              maxInLvl = slots[lvl.toString()] || 0;
+                              const maxInLvl = slots[lvl.toString()] || 0;
+                              headerCounter = `${selectedInLvl} / ${maxInLvl} ${isPreparing ? 'SELECIONADAS' : 'PREPARADAS'}`;
                             }
 
                             return (
@@ -2103,8 +2228,8 @@ export default function CharacterDetailPage() {
                                     <div style={{ width: 4, height: 12, background: 'var(--accent)', borderRadius: 2 }} />
                                     {lvl === 0 ? 'Truques' : `${lvl}º Nível`}
                                   </h3>
-                                  <div style={{ fontSize: 11, fontWeight: 700, color: currentCount > maxInLvl ? 'var(--error)' : 'var(--fg3)' }}>
-                                    {currentCount} / {maxInLvl} <span style={{ fontSize: 9, opacity: 0.7 }}>{label}</span>
+                                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)' }}>
+                                    {headerCounter}
                                   </div>
                                 </div>
 
@@ -2168,7 +2293,7 @@ export default function CharacterDetailPage() {
                                           <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                               <div>
-                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg3)' }}>{spell.name}</div>
+                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg2)' }}>{spell.name}</div>
                                                 <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>{spell.school}</div>
                                               </div>
                                               {!isPreparing && (
@@ -2335,15 +2460,44 @@ export default function CharacterDetailPage() {
                           const raceTraits = raceData?.traits || [];
 
                           // If it's a subrace, add subrace traits too for 2014
-                          let allTraits = [...raceTraits];
-                          if (is2014 && character.subrace && raceData?.lineages) {
+                          let allTraits: any[] = [];
+                          if (character.race === 'Draconato' && character.subrace && raceData?.lineages) {
                             const lineage = raceData.lineages.find(l => l.name === character.subrace);
                             if (lineage) {
-                              allTraits = [...allTraits, ...lineage.traits];
+                              allTraits = [...lineage.traits];
+                            }
+                          } else {
+                            allTraits = [...raceTraits];
+                            if (is2014 && character.subrace && raceData?.lineages) {
+                              const lineage = raceData.lineages.find(l => l.name === character.subrace);
+                              if (lineage) {
+                                allTraits = [...allTraits, ...lineage.traits];
+                              }
                             }
                           }
 
-                          return allTraits.map((trait, i) => (
+                          // Filter out attribute increase traits and merge duplicate names (like Arma de Sopro)
+                          const traitMap = new Map<string, string>();
+                          allTraits.forEach(t => {
+                            if (t.name.includes('+')) return;
+                            let desc = t.description;
+                            if (character.race === 'Draconato' && t.name === 'Arma de Sopro') {
+                              desc = `Você usa sua ação para exalar energia destrutiva. O dano é de 2d6 (aumentando para 3d6 no nível 6, 4d6 no nível 11 e 5d6 no nível 16), sofrendo metade em caso de sucesso no teste de salvaguarda. Área/Resistência: ${t.description} Recarrega com um descanso curto ou longo.`;
+                            }
+                            const existing = traitMap.get(t.name);
+                            if (existing) {
+                              traitMap.set(t.name, `${existing} ${desc}`);
+                            } else {
+                              traitMap.set(t.name, desc);
+                            }
+                          });
+
+                          const filteredTraits = Array.from(traitMap.entries()).map(([name, description]) => ({
+                            name,
+                            description
+                          }));
+
+                          return filteredTraits.map((trait, i) => (
                             <div
                               key={i}
                               className="card clickable"
@@ -2500,6 +2654,97 @@ export default function CharacterDetailPage() {
                         })()}
                       </div>
                     </div>
+
+                    {/* Artificer Infusions Selection */}
+                    {character?.class === 'Artífice' && character.level >= 2 && (
+                      <div style={{ marginBottom: 24, marginTop: 24 }}>
+                        <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                          Infusões de Artífice (Escolha {(() => {
+                            const lvl = character.level;
+                            if (lvl < 6) return 4;
+                            if (lvl < 10) return 6;
+                            if (lvl < 14) return 8;
+                            if (lvl < 18) return 10;
+                            return 12;
+                          })()})
+                        </h3>
+                        <p style={{ fontSize: 11, color: 'var(--fg3)', marginBottom: 12 }}>
+                          Você pode infundir até {character.level < 6 ? 2 : character.level < 10 ? 3 : character.level < 14 ? 4 : character.level < 18 ? 5 : 6} itens ativos simultaneamente (escolhidos ao final de um descanso longo).
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                          {[
+                            { id: 'defesa_aprimorada', name: 'Defesa Aprimorada', item: 'Armadura/Escudo', req: 2, desc: 'Concede +1 de bônus na CA (+2 no nível 10).' },
+                            { id: 'arma_aprimorada', name: 'Arma Aprimorada', item: 'Arma', req: 2, desc: 'Concede +1 de bônus em rolagens de ataque e dano mágicos (+2 no nível 10).' },
+                            { id: 'tiro_repetitivo', name: 'Tiro Repetitivo', item: 'Arma de Ataque à Distância', req: 2, desc: '+1 em ataque/dano, gera munição mágica infinita e ignora propriedade de recarga.' },
+                            { id: 'foco_aprimorado', name: 'Foco Arcano Aprimorado', item: 'Foco Arcano', req: 2, desc: 'Concede +1 em ataques de magia e ignora meia cobertura.' },
+                            { id: 'arma_retornavel', name: 'Arma Retornável', item: 'Arma de Arremesso', req: 2, desc: '+1 em ataque/dano e retorna para sua mão imediatamente após ser arremessada.' },
+                            { id: 'mente_afiada', name: 'Mente Afiada (Mind Sharpener)', item: 'Armadura/Veste', req: 2, desc: 'Permite gastar 1 carga (máx 4) para passar automaticamente em testes de concentração para manter magia.' },
+                            { id: 'servo_homunculo', name: 'Servo Homúnculo', item: 'Item com Gema de 100po', req: 2, desc: 'Cria um homúnculo mecânico servo obediente sob seu comando.' },
+                            { id: 'item_replicado', name: 'Réplica de Item Mágico', item: 'Item Comum/Incomum', req: 2, desc: 'Cria uma réplica de um item mágico menor (ex: Bolsa de Carga, Botas de Saltar).' },
+                            { id: 'armadura_resistencia', name: 'Armadura de Resistência', item: 'Armadura', req: 6, desc: 'Escolha um tipo de dano (Ácido, Frio, Fogo, Relâmpago, Trovão, etc.) para ganhar resistência.' },
+                            { id: 'arma_radiante', name: 'Arma Radiante', item: 'Arma', req: 6, desc: '+1 de bônus mágico, emite luz e pode usar reação para cegar um oponente.' },
+                            { id: 'escudo_repulsao', name: 'Escudo de Repulsão', item: 'Escudo', req: 6, desc: '+1 na CA e permite empurrar um atacante a 4,5 metros de distância como reação.' },
+                            { id: 'elmo_alerta', name: 'Elmo de Alerta', item: 'Elmo', req: 10, desc: 'Vantagem em testes de iniciativa e impede que o usuário seja surpreendido.' }
+                          ].map(opt => {
+                            const isSelected = selectedInfusions.includes(opt.id);
+                            const isReqMet = character.level >= opt.req;
+                            const limit = (() => {
+                              const lvl = character.level;
+                              if (lvl < 6) return 4;
+                              if (lvl < 10) return 6;
+                              if (lvl < 14) return 8;
+                              if (lvl < 18) return 10;
+                              return 12;
+                            })();
+                            return (
+                              <div
+                                key={opt.id}
+                                className="card"
+                                onClick={() => {
+                                  if (!isReqMet) {
+                                    alert(`Esta infusão requer nível ${opt.req} de Artífice!`);
+                                    return;
+                                  }
+                                  let newSel = [...selectedInfusions];
+                                  if (isSelected) {
+                                    newSel = newSel.filter(id => id !== opt.id);
+                                  } else {
+                                    if (newSel.length >= limit) {
+                                      alert(`Você já selecionou o limite máximo de ${limit} infusões conhecidas!`);
+                                      return;
+                                    }
+                                    newSel.push(opt.id);
+                                  }
+                                  setSelectedInfusions(newSel);
+                                  localStorage.setItem(`selected_infusions_${id}`, JSON.stringify(newSel));
+                                }}
+                                style={{
+                                  padding: 14,
+                                  cursor: isReqMet ? 'pointer' : 'not-allowed',
+                                  opacity: isReqMet ? 1 : 0.4,
+                                  background: isSelected ? 'var(--accentGlow)' : 'rgba(255,255,255,0.01)',
+                                  borderColor: isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+                                  borderLeft: isSelected ? '3px solid var(--accent)' : '1px solid rgba(255,255,255,0.05)',
+                                  transition: 'all 0.2s',
+                                  position: 'relative'
+                                }}
+                              >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                                  <span style={{ fontWeight: 700, fontSize: 13, color: isSelected ? 'var(--fg)' : 'var(--fg2)' }}>{opt.name}</span>
+                                  <span style={{ fontSize: 9, color: isReqMet ? 'var(--fg3)' : 'var(--danger)', fontWeight: 700, textTransform: 'uppercase', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                    {isReqMet ? opt.item : `Nível ${opt.req}`}
+                                  </span>
+                                </div>
+                                <div style={{ fontSize: 11, color: isSelected ? 'var(--fg2)' : 'var(--fg3)', lineHeight: 1.4 }}>
+                                  {opt.desc}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Talentos (Feats) */}
                     {(() => {

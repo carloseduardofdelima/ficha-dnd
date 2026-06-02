@@ -27,15 +27,53 @@ const getCharacterFeatures = (character: Character) => {
   // Race traits
   const race = raceList.find(r => r.name === character.race);
   if (race) {
-    race.traits.forEach(t => features.push({ name: t.name, description: t.description }));
+    const raceTraitsMap = new Map<string, string>();
     
-    // Subrace traits
-    if (character.subrace && race.lineages) {
+    if (character.race === 'Draconato' && character.subrace && race.lineages) {
       const lineage = race.lineages.find(l => l.name === character.subrace);
       if (lineage) {
-        lineage.traits.forEach(t => features.push({ name: `${t.name} (${character.subrace})`, description: t.description }));
+        lineage.traits.forEach(t => {
+          if (!t.name.includes('+')) {
+            let desc = t.description;
+            if (t.name === 'Arma de Sopro') {
+              desc = `Você usa sua ação para exalar energia destrutiva. O dano é de 2d6 (aumentando para 3d6 no nível 6, 4d6 no nível 11 e 5d6 no nível 16), sofrendo metade em caso de sucesso no teste de salvaguarda. Área/Resistência: ${t.description} Recarrega com um descanso curto ou longo.`;
+            }
+            raceTraitsMap.set(t.name, desc);
+          }
+        });
+      }
+    } else {
+      race.traits.forEach(t => {
+        if (!t.name.includes('+')) {
+          raceTraitsMap.set(t.name, t.description);
+        }
+      });
+      
+      // Subrace traits
+      if (character.subrace && race.lineages) {
+        const lineage = race.lineages.find(l => l.name === character.subrace);
+        if (lineage) {
+          lineage.traits.forEach(t => {
+            if (!t.name.includes('+')) {
+              let desc = t.description;
+              if (character.race === 'Draconato' && t.name === 'Arma de Sopro') {
+                desc = `Você usa sua ação para exalar energia destrutiva. O dano é de 2d6 (aumentando para 3d6 no nível 6, 4d6 no nível 11 e 5d6 no nível 16), sofrendo metade em caso de sucesso no teste de salvaguarda. Área/Resistência: ${t.description} Recarrega com um descanso curto ou longo.`;
+              }
+              const existing = raceTraitsMap.get(t.name);
+              if (existing) {
+                raceTraitsMap.set(t.name, `${existing} ${desc}`);
+              } else {
+                raceTraitsMap.set(t.name, desc);
+              }
+            }
+          });
+        }
       }
     }
+
+    raceTraitsMap.forEach((desc, name) => {
+      features.push({ name, description: desc });
+    });
   }
 
   // Background Feature

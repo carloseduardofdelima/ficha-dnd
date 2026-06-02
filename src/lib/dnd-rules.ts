@@ -86,6 +86,18 @@ export function calculateAC(
     }
   }
 
+  // Artificer Infusions bonuses
+  let infusionACBonus = 0
+  if (traits?.selectedInfusions) {
+    if (traits.selectedInfusions.includes('defesa_aprimorada')) {
+      const level = traits.level || 2
+      infusionACBonus += level >= 10 ? 2 : 1
+    }
+    if (traits.selectedInfusions.includes('escudo_repulsao')) {
+      infusionACBonus += 1
+    }
+  }
+
   // 1. Base Unarmored
   let unarmoredBase = 10;
   
@@ -95,14 +107,14 @@ export function calculateAC(
     unarmoredBase = 13;
   }
 
-  let maxAC = unarmoredBase + dexMod + shieldBonus + itemACBonus
+  let maxAC = unarmoredBase + dexMod + shieldBonus + itemACBonus + infusionACBonus
 
   // 2. Unarmored Defense (Class specific)
   if (className === 'Bárbaro') {
-    maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus + itemACBonus)
+    maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus + itemACBonus + infusionACBonus)
   } else if (className === 'Monge') {
     if (armors.length === 0 && !shield) {
-      maxAC = Math.max(maxAC, 10 + dexMod + wisMod + itemACBonus)
+      maxAC = Math.max(maxAC, 10 + dexMod + wisMod + itemACBonus + infusionACBonus)
     }
   }
 
@@ -119,7 +131,7 @@ export function calculateAC(
     } else if (armor.armorType === 'heavy') {
       currentArmorAC = acBase
     }
-    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus + itemACBonus)
+    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus + itemACBonus + infusionACBonus)
   }
 
   return maxAC

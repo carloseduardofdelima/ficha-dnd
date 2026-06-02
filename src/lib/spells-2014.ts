@@ -13,7 +13,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Você arremessa uma bolha de ácido. Escolha uma criatura dentro do alcance, ou escolha duas criaturas dentro do alcance que estejam a até 1,5 metro uma da outra. Um alvo deve ser bem-sucedido num teste de resistência de Destreza ou sofrerá 1d6 de dano ácido.', 
     damageEffect: '1d6 Ácido (Destreza nega)', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'blade-ward-2014', 
@@ -90,7 +90,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Você arremessa um estilhaço de fogo em uma criatura ou objeto dentro do alcance. Faça um ataque à distância com feitiço. Se acertar, o alvo sofre 1d10 de dano de fogo. Um objeto inflamável atingido por esta magia incendeia se não estiver sendo usado ou carregado.', 
     damageEffect: '1d10 Fogo', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'friends-2014', 
@@ -117,7 +117,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Você toca uma criatura disposta. Uma vez, antes da magia terminar, o alvo pode rolar um d4 e adicionar o número rolado a um teste de habilidade de sua escolha.', 
     damageEffect: '+1d4 em teste', 
-    classes: ['Clérigo', 'Druida'], 
+    classes: ['Clérigo', 'Druida', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -142,7 +142,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros', 
     components: 'V, S', 
     description: 'Uma mão espectral e flutuante aparece num ponto à sua escolha dentro do alcance. A mão permanece pela duração ou até você dispensá-la como uma ação. Você pode usar sua ação para controlar a mão e realizar tarefas simples.', 
-    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'mending-2014', 
@@ -166,7 +166,7 @@ export const SPELLS_2014: Spell[] = [
     range: '36 metros', 
     components: 'V, S, M', 
     description: 'Você aponta o dedo para uma criatura dentro do alcance e sussurra uma mensagem. O alvo (e apenas ele) ouve a mensagem e pode responder com um sussurro que apenas você ouve.', 
-    classes: ['Bardo', 'Feiticeiro', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'minor-illusion-2014', 
@@ -191,7 +191,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Você estende sua mão em direção a uma criatura que você possa ver dentro do alcance e projeta um sopro de gás tóxico da sua palma. A criatura deve ser bem-sucedida num teste de resistência de Constituição ou sofrerá 1d12 de dano de veneno.', 
     damageEffect: '1d12 Veneno (Constituição nega)', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'prestidigitation-2014', 
@@ -203,7 +203,7 @@ export const SPELLS_2014: Spell[] = [
     range: '3 metros', 
     components: 'V, S', 
     description: 'Esta magia é um truque mágico simples que conjuradores aprendizes usam para praticar. Você cria um efeito mágico menor e inofensivo: limpar objetos, acender velas, mudar cores, etc.', 
-    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'ray-of-frost-2014', 
@@ -216,7 +216,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Um raio de luz azul-gelo vai em direção a uma criatura dentro do alcance. Faça um ataque à distância com feitiço contra o alvo. Se acertar, o alvo sofre 1d8 de dano de frio e seu deslocamento é reduzido em 3 metros até o início do seu próximo turno.', 
     damageEffect: '1d8 Frio + Redução de Movimento', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'resistance-2014', 
@@ -229,7 +229,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M', 
     description: 'Você toca uma criatura disposta. Uma vez, antes da magia terminar, o alvo pode rolar um d4 e adicionar o número rolado a um teste de resistência de sua escolha.', 
     damageEffect: '+1d4 em salvaguarda', 
-    classes: ['Clérigo', 'Druida'], 
+    classes: ['Clérigo', 'Druida', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -269,7 +269,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Relâmpagos saltam da sua mão para entregar um choque a uma criatura que você tentar tocar. Faça um ataque corpo a corpo com feitiço contra o alvo. Se acertar, o alvo sofre 1d8 de dano elétrico e não pode usar reações até o início do seu próximo turno.', 
     damageEffect: '1d8 Elétrico', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'spare-the-dying-2014', 
@@ -281,7 +281,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S', 
     description: 'Você toca uma criatura viva que tenha 0 pontos de vida. A criatura torna-se estável. Esta magia não tem efeito sobre mortos-vivos ou construtos.', 
-    classes: ['Clérigo'] 
+    classes: ['Clérigo', 'Artífice'] 
   },
   { 
     id: 'thaumaturgy-2014', 
@@ -320,7 +320,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, M', 
     description: 'Como parte da ação usada para conjurar esta magia, você deve fazer um ataque corpo a corpo com uma arma. Se acertar, o alvo sofre os efeitos normais do ataque e fica envolto em energia trovejante até o início do seu próximo turno. Se o alvo se mover voluntariamente antes disso, ele sofre 1d8 de dano de trovão.', 
     damageEffect: '1d8 Trovão (movimento)', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'vicious-mockery-2014', 
@@ -347,7 +347,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros', 
     components: 'V, S, M', 
     description: 'Você define um alarme para intrusos. Escolha uma porta, uma janela ou uma área dentro do alcance que não seja maior que um cubo de 6 metros. Até a magia terminar, o alarme alerta você sempre que uma criatura Miúda ou maior entrar na área protegida.', 
-    classes: ['Patrulheiro', 'Mago'] 
+    classes: ['Patrulheiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'animal-friendship-2014', 
@@ -577,7 +577,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal', 
     components: 'V, S', 
     description: 'Você faz a si mesmo – incluindo suas roupas, armaduras, armas e outros pertences em sua pessoa – parecer diferente até a magia terminar ou até você usar sua ação para encerrá-la. Você pode parecer 30 centímetros mais baixo ou mais alto e pode parecer magro, gordo ou entre ambos.', 
-    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'dissonant-whispers-2014', 
@@ -670,7 +670,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal', 
     components: 'V, S', 
     description: 'Esta magia permite que você se mova a uma velocidade incrível. Quando você conjura esta magia, e como uma ação bônus em cada um de seus turnos até a magia terminar, você pode realizar a ação de Disparar (Dash).', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'], 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -684,7 +684,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V', 
     description: 'Cada objeto num cubo de 6 metros, dentro do alcance, é contornado por luz azul, verde ou violeta. Qualquer criatura na área que falhar num teste de resistência de Destreza também é contornada. Ataques contra criaturas ou objetos contornados têm vantagem.', 
     damageEffect: 'Vantagem nos Atks', 
-    classes: ['Bardo', 'Druida'], 
+    classes: ['Bardo', 'Druida', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -698,7 +698,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M', 
     description: 'Fortalecendo-se com uma simulação necrótica de vida, você ganha 1d4 + 4 pontos de vida temporários pela duração.', 
     damageEffect: '1d4+4 PV temp', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'feather-fall-2014', 
@@ -710,7 +710,7 @@ export const SPELLS_2014: Spell[] = [
     range: '18 metros', 
     components: 'V, M', 
     description: 'Escolha até cinco criaturas em queda dentro do alcance. A velocidade de queda das criaturas afetadas cai para 18 metros por rodada até a magia terminar. Se a criatura aterrissar antes da magia terminar, ela não sofre dano de queda.', 
-    classes: ['Bardo', 'Feiticeiro', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'find-familiar-2014', 
@@ -760,7 +760,7 @@ export const SPELLS_2014: Spell[] = [
     range: '18 metros', 
     components: 'V, S, M', 
     description: 'Graxa escorregadia cobre o chão em um quadrado de 3 metros centrado num ponto dentro do alcance e o torna terreno difícil pela duração. Quando a graxa aparece, cada criatura de pé em sua área deve ser bem-sucedida num teste de resistência de Destreza ou cairá caída.', 
-    classes: ['Mago'] 
+    classes: ['Mago', 'Artífice'] 
   },
   { 
     id: 'guiding-bolt-2014', 
@@ -981,7 +981,7 @@ export const SPELLS_2014: Spell[] = [
     range: '3 metros', 
     components: 'V, S', 
     description: 'Toda comida e bebida não mágica dentro de uma esfera de 1,5 metro de raio centrada num ponto à sua escolha, dentro do alcance, é purificada e libertada de venenos e doenças.', 
-    classes: ['Clérigo', 'Druida', 'Paladino'] 
+    classes: ['Clérigo', 'Druida', 'Paladino', 'Artífice'] 
   },
   { 
     id: 'ray-of-sickness-2014', 
@@ -1006,7 +1006,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros', 
     components: 'V, S, M', 
     description: 'Você protege uma criatura dentro do alcance contra ataques. Até a magia terminar, qualquer criatura que tente atacar a criatura protegida com um ataque ou uma magia prejudicial deve primeiro ser bem-sucedida num teste de resistência de Sabedoria.', 
-    classes: ['Clérigo'] 
+    classes: ['Clérigo', 'Artífice'] 
   },
   { 
     id: 'searing-smite-2014', 
@@ -1165,7 +1165,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'S', 
     description: 'A magia captura parte da energia recebida, diminuindo seu efeito sobre você e armazenando-a para seu próximo ataque corpo a corpo. Você tem resistência ao tipo de dano desencadeante até o início do seu próximo turno. Além disso, a primeira vez que você acertar um ataque corpo a corpo no seu próximo turno, o alvo sofre 1d6 de dano extra do tipo desencadeante.', 
     damageEffect: 'Resistência + 1d6 extra', 
-    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago'] 
+    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'distort-value-2014', 
@@ -1189,7 +1189,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S, M', 
     description: 'Enquanto você conjura esta magia, você usa uma corda para criar um laço em uma superfície. Quando a magia termina, o laço torna-se invisível. Uma criatura que entrar na área deve ser bem-sucedida num teste de resistência de Destreza ou ficará pendurada de cabeça para baixo e impedida.', 
-    classes: ['Druida', 'Patrulheiro', 'Mago'] 
+    classes: ['Druida', 'Patrulheiro', 'Mago', 'Artífice'] 
   },
   {
     id: 'acalmar-emocoes',
