@@ -58,9 +58,6 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
           {character.class && <span className="badge">{character.class}</span>}
           {character.race && <span className="badge" style={{ background: 'var(--bg2)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
-          <span className="badge" style={{ background: character.isPublic ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.05)', color: character.isPublic ? '#10b981' : 'var(--fg3)', borderColor: character.isPublic ? 'rgba(16, 185, 129, 0.2)' : 'var(--border)' }}>
-            {character.isPublic ? '🌐 Público' : '🔒 Privado'}
-          </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
         </div>
 
@@ -84,6 +81,19 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
               {character.ruleset === '2024' ? '5.5e 2024' : '5e 2014'}
             </span>
           )}
+
+          <span style={{
+            background: character.isPublic ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+            color: character.isPublic ? '#10b981' : 'var(--fg3)',
+            border: `1px solid ${character.isPublic ? 'rgba(16, 185, 129, 0.2)' : 'var(--border)'}`,
+            padding: '4px',
+            borderRadius: '4px',
+            fontSize: '9px',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+          }}>
+            {character.isPublic ? '🌐 Público' : '🔒 Privado'}
+          </span>
         </div>
 
         <Link href={`/personagens/${character.id}`}>
