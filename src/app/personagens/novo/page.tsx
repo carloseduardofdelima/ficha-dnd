@@ -22,6 +22,7 @@ import type { InventoryEntry } from '@/lib/inventory'
 import { calculateAC } from '@/lib/dnd-rules'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
+import { generateRandomCharacter } from '@/lib/randomCharacter'
 
 const STEPS = ['Edição', 'Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
@@ -33,6 +34,185 @@ export default function NovoPersonagem() {
   const [detailClass, setDetailClass] = useState<DndClass | null>(null)
   const [detailBg, setDetailBg] = useState<Background | null>(null)
   const [subRaceModalOpen, setSubRaceModalOpen] = useState(false)
+
+  const [isRolling, setIsRolling] = useState(false)
+  const [rollingStepIdx, setRollingStepIdx] = useState(0) // 0: race, 1: class, 2: bg, 3: stats, 4: skills, 5: done
+  const [isAnimationRunning, setIsAnimationRunning] = useState(false)
+  const [generatedPayload, setGeneratedPayload] = useState<any>(null)
+  
+  const [rollingStats, setRollingStats] = useState<Attrs>({
+    strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, charisma: 0
+  })
+  const [rollingPreview, setRollingPreview] = useState({
+    name: '', race: '', class: '', bg: '', ruleset: ''
+  })
+
+  const startRolling = () => {
+    setIsRolling(true)
+    setRollingStepIdx(0)
+    setIsAnimationRunning(false)
+    setRollingPreview({ name: '', race: '', class: '', bg: '', ruleset: form.ruleset })
+    setRollingStats({ strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, charisma: 0 })
+    
+    const charData = generateRandomCharacter(form.ruleset)
+    setGeneratedPayload(charData)
+  }
+
+  const rollRace = () => {
+    if (!generatedPayload || isAnimationRunning) return
+    setIsAnimationRunning(true)
+    const chosenRuleset = generatedPayload.form.ruleset
+    const racesPool = chosenRuleset === '2014' ? RACES_2014 : RACES
+    
+    let ticks = 0
+    const maxTicks = 18
+    let currentDelay = 50
+    
+    const tick = () => {
+      ticks++
+      if (ticks < maxTicks) {
+        const randomRace = racesPool[Math.floor(Math.random() * racesPool.length)].name
+        setRollingPreview(prev => ({ ...prev, race: randomRace }))
+        currentDelay = Math.floor(currentDelay * 1.22)
+        setTimeout(tick, currentDelay)
+      } else {
+        const finalRace = generatedPayload.form.race + (generatedPayload.form.subRace ? ` (${generatedPayload.form.subRace})` : '')
+        setRollingPreview(prev => ({ ...prev, race: finalRace }))
+        setIsAnimationRunning(false)
+        setTimeout(() => {
+          setRollingStepIdx(1)
+        }, 1200)
+      }
+    }
+    setTimeout(tick, currentDelay)
+  }
+
+  const rollClass = () => {
+    if (!generatedPayload || isAnimationRunning) return
+    setIsAnimationRunning(true)
+    const chosenRuleset = generatedPayload.form.ruleset
+    const classesPool = chosenRuleset === '2014' ? CLASSES_2014 : CLASSES
+    
+    let ticks = 0
+    const maxTicks = 18
+    let currentDelay = 50
+    
+    const tick = () => {
+      ticks++
+      if (ticks < maxTicks) {
+        const randomCls = classesPool[Math.floor(Math.random() * classesPool.length)].name
+        setRollingPreview(prev => ({ ...prev, class: randomCls }))
+        currentDelay = Math.floor(currentDelay * 1.22)
+        setTimeout(tick, currentDelay)
+      } else {
+        setRollingPreview(prev => ({ ...prev, class: generatedPayload.form.class }))
+        setIsAnimationRunning(false)
+        setTimeout(() => {
+          setRollingStepIdx(2)
+        }, 1200)
+      }
+    }
+    setTimeout(tick, currentDelay)
+  }
+
+  const rollBackground = () => {
+    if (!generatedPayload || isAnimationRunning) return
+    setIsAnimationRunning(true)
+    const chosenRuleset = generatedPayload.form.ruleset
+    const bgsPool = chosenRuleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS
+    
+    let ticks = 0
+    const maxTicks = 18
+    let currentDelay = 50
+    
+    const tick = () => {
+      ticks++
+      if (ticks < maxTicks) {
+        const randomBg = bgsPool[Math.floor(Math.random() * bgsPool.length)].name
+        setRollingPreview(prev => ({ ...prev, bg: randomBg }))
+        currentDelay = Math.floor(currentDelay * 1.22)
+        setTimeout(tick, currentDelay)
+      } else {
+        setRollingPreview(prev => ({ ...prev, bg: generatedPayload.form.background }))
+        setIsAnimationRunning(false)
+        setTimeout(() => {
+          setRollingStepIdx(3)
+        }, 1200)
+      }
+    }
+    setTimeout(tick, currentDelay)
+  }
+
+  const rollStatsStep = () => {
+    if (!generatedPayload || isAnimationRunning) return
+    setIsAnimationRunning(true)
+    
+    const statKeys: (keyof Attrs)[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma']
+    let statIdx = 0
+    
+    const rollSingleStat = () => {
+      if (statIdx < statKeys.length) {
+        const key = statKeys[statIdx]
+        let ticks = 0
+        const maxTicks = 14
+        let currentDelay = 40
+        
+        const tick = () => {
+          ticks++
+          if (ticks < maxTicks) {
+            setRollingStats(prev => ({
+              ...prev,
+              [key]: Math.max(4, Math.floor(Math.random() * 20) + 1)
+            }))
+            currentDelay = Math.floor(currentDelay * 1.2)
+            setTimeout(tick, currentDelay)
+          } else {
+            setRollingStats(prev => ({
+              ...prev,
+              [key]: generatedPayload.attrs[key]
+            }))
+            statIdx++
+            setTimeout(rollSingleStat, 600)
+          }
+        }
+        setTimeout(tick, currentDelay)
+      } else {
+        setIsAnimationRunning(false)
+        setTimeout(() => {
+          setRollingStepIdx(4)
+        }, 1200)
+      }
+    }
+    rollSingleStat()
+  }
+
+  const rollSkillsSpellsStep = () => {
+    if (!generatedPayload || isAnimationRunning) return
+    setIsAnimationRunning(true)
+    
+    setTimeout(() => {
+      setIsAnimationRunning(false)
+      setTimeout(() => {
+        setRollingStepIdx(5)
+      }, 1000)
+    }, 2500)
+  }
+
+
+  const finalizeRoll = () => {
+    if (!generatedPayload) return
+    setForm(generatedPayload.form)
+    setAttrs(generatedPayload.attrs)
+    setAsi(generatedPayload.asi)
+    setSkills(generatedPayload.skills)
+    setExpertises(generatedPayload.expertises)
+    setInventory(generatedPayload.inventory)
+    setSelectedSpells(generatedPayload.selectedSpells)
+    setFeatureChoices(generatedPayload.featureChoices)
+    
+    setIsRolling(false)
+    setCurrentStep(7)
+  }
 
   const [attrs, setAttrs] = useState<Attrs>({
     strength: 8, dexterity: 8, constitution: 8,
@@ -111,6 +291,11 @@ export default function NovoPersonagem() {
         }
       }
     }
+
+    // Limit all final attributes to a maximum of 20
+    (Object.keys(finalAttrs) as Array<keyof Attrs>).forEach(key => {
+      finalAttrs[key] = Math.min(20, finalAttrs[key]);
+    });
 
     // Derived stats calculation (simple level 1 logic)
     const dexMod = Math.floor((finalAttrs.dexterity - 10) / 2)
@@ -410,6 +595,32 @@ export default function NovoPersonagem() {
               </p>
             </div>
           </div>
+
+          <div 
+            className="card random-card"
+            onClick={startRolling}
+            style={{
+              padding: '24px 32px',
+              cursor: 'pointer',
+              border: '2px dashed var(--accent)',
+              background: 'linear-gradient(135deg, rgba(191,155,48,0.1), rgba(0,0,0,0.6))',
+              textAlign: 'center',
+              marginTop: 30,
+              borderRadius: 16,
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 12,
+              boxShadow: '0 4px 25px rgba(191,155,48,0.1)'
+            }}
+          >
+            <div className="d20-icon-wrapper" style={{ fontSize: 48, animation: 'pulse 2s infinite' }}>🎲</div>
+            <h3 style={{ fontFamily: 'Cinzel, serif', margin: 0, color: 'var(--accent)', fontSize: 22 }}>Forjar Ficha Aleatória</h3>
+            <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.6, margin: 0, maxWidth: 600 }}>
+              Quer deixar tudo nas mãos do destino? Rolaremos dados virtuais d20 para escolher sua raça, classe, antecedentes, magias, perícias e atributos instantaneamente!
+            </p>
+          </div>
         </div>
       )}
 
@@ -571,6 +782,305 @@ export default function NovoPersonagem() {
           )}
         </div>
       </div>
+
+      {/* Rolling Overlay Animation */}
+      {isRolling && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.94)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          zIndex: 9999, backdropFilter: 'blur(12px)', padding: 20
+        }}>
+          <div style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            maxWidth: 600, width: '100%', textAlign: 'center', gap: 24
+          }}>
+            <div style={{
+              width: 100, height: 100, borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 45px rgba(191,155,48,0.5)',
+              fontSize: 50,
+              animation: isAnimationRunning ? 'spin 1.5s linear infinite' : 'pulse 2s infinite'
+            }}>
+              🎲
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 32, margin: 0, color: 'var(--accent)' }}>
+                Forja do Destino
+              </h2>
+              <p style={{ color: 'var(--fg3)', fontSize: 13, margin: 0 }}>Role cada passo para forjar o seu personagem</p>
+            </div>
+
+            <div style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 16,
+              padding: 24,
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 20,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              textAlign: 'left'
+            }}>
+             {/* Step indicators */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 12 }}>
+                {['Raça', 'Classe', 'Antecedente', 'Atributos', 'Perícias/Magias'].map((step, idx) => (
+                  <span key={step} style={{
+                    fontSize: 11,
+                    fontWeight: 'bold',
+                    color: rollingStepIdx === idx ? 'var(--accent)' : rollingStepIdx > idx ? 'var(--ok)' : 'var(--fg3)',
+                    textDecoration: rollingStepIdx > idx ? 'line-through' : 'none'
+                  }}>
+                    {step}
+                  </span>
+                ))}
+              </div>
+
+              {/* Progress Summary Cards */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: 12,
+                marginTop: 4,
+                padding: 14,
+                borderRadius: 10,
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)'
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Regras</span>
+                  <span style={{ fontSize: 13, fontWeight: 'bold', color: 'var(--ok)' }}>D&D {rollingPreview.ruleset}</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Raça</span>
+                  <span style={{
+                    fontSize: 13,
+                    fontWeight: 'bold',
+                    color: rollingPreview.race ? 'var(--accentL)' : 'var(--fg3)',
+                    textShadow: rollingPreview.race ? '0 0 10px rgba(191,155,48,0.3)' : 'none'
+                  }}>
+                    {rollingPreview.race || 'Pendente...'}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Classe</span>
+                  <span style={{
+                    fontSize: 13,
+                    fontWeight: 'bold',
+                    color: rollingPreview.class ? 'var(--accentL)' : 'var(--fg3)',
+                    textShadow: rollingPreview.class ? '0 0 10px rgba(191,155,48,0.3)' : 'none'
+                  }}>
+                    {rollingPreview.class || (rollingStepIdx > 1 ? 'Pendente...' : '-')}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Antecedente</span>
+                  <span style={{
+                    fontSize: 13,
+                    fontWeight: 'bold',
+                    color: rollingPreview.bg ? 'var(--accentL)' : 'var(--fg3)',
+                    textShadow: rollingPreview.bg ? '0 0 10px rgba(191,155,48,0.3)' : 'none'
+                  }}>
+                    {rollingPreview.bg || (rollingStepIdx > 2 ? 'Pendente...' : '-')}
+                  </span>
+                </div>
+              </div>
+
+              {/* Step 0: Race Content */}
+              {rollingStepIdx === 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '10px 0' }}>
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    1. Role a raça do personagem de acordo com a edição selecionada.
+                  </p>
+                  {rollingPreview.race && (
+                    <div className="card fade-in" style={{
+                      padding: '24px 16px',
+                      backgroundColor: 'rgba(191,155,48,0.06)',
+                      border: '2px solid var(--accent)',
+                      boxShadow: '0 0 25px rgba(191,155,48,0.35)',
+                      textAlign: 'center',
+                      borderRadius: 12
+                    }}>
+                      <span style={{ fontSize: 24, fontWeight: 'bold', color: 'var(--accentL)', fontFamily: 'Cinzel, serif', letterSpacing: '0.05em' }}>
+                        {rollingPreview.race}
+                      </span>
+                    </div>
+                  )}
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={rollRace}
+                    disabled={isAnimationRunning}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold' }}
+                  >
+                    {isAnimationRunning ? 'Rolando Raça...' : '🎲 Rolar Raça'}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 1: Class Content */}
+              {rollingStepIdx === 1 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '10px 0' }}>
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    2. Role a classe de combate do personagem.
+                  </p>
+                  {rollingPreview.class && (
+                    <div className="card fade-in" style={{
+                      padding: '24px 16px',
+                      backgroundColor: 'rgba(191,155,48,0.06)',
+                      border: '2px solid var(--accent)',
+                      boxShadow: '0 0 25px rgba(191,155,48,0.35)',
+                      textAlign: 'center',
+                      borderRadius: 12
+                    }}>
+                      <span style={{ fontSize: 24, fontWeight: 'bold', color: 'var(--accentL)', fontFamily: 'Cinzel, serif', letterSpacing: '0.05em' }}>
+                        {rollingPreview.class}
+                      </span>
+                    </div>
+                  )}
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={rollClass}
+                    disabled={isAnimationRunning}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold' }}
+                  >
+                    {isAnimationRunning ? 'Rolando Classe...' : '🎲 Rolar Classe'}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 2: Background Content */}
+              {rollingStepIdx === 2 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '10px 0' }}>
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    3. Role o antecedente (Background) que define a história inicial.
+                  </p>
+                  {rollingPreview.bg && (
+                    <div className="card fade-in" style={{
+                      padding: '24px 16px',
+                      backgroundColor: 'rgba(191,155,48,0.06)',
+                      border: '2px solid var(--accent)',
+                      boxShadow: '0 0 25px rgba(191,155,48,0.35)',
+                      textAlign: 'center',
+                      borderRadius: 12
+                    }}>
+                      <span style={{ fontSize: 24, fontWeight: 'bold', color: 'var(--accentL)', fontFamily: 'Cinzel, serif', letterSpacing: '0.05em' }}>
+                        {rollingPreview.bg}
+                      </span>
+                    </div>
+                  )}
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={rollBackground}
+                    disabled={isAnimationRunning}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold' }}
+                  >
+                    {isAnimationRunning ? 'Rolando Antecedente...' : '🎲 Rolar Antecedente'}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 3: Attributes Content */}
+              {rollingStepIdx === 3 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '10px 0' }}>
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    4. Role d20 individualmente para determinar cada atributo básico.
+                  </p>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10, marginTop: 4 }}>
+                    {[
+                      { key: 'strength', label: 'FOR' },
+                      { key: 'dexterity', label: 'DES' },
+                      { key: 'constitution', label: 'CON' },
+                      { key: 'intelligence', label: 'INT' },
+                      { key: 'wisdom', label: 'SAB' },
+                      { key: 'charisma', label: 'CAR' }
+                    ].map(stat => (
+                      <div key={stat.key} style={{
+                        backgroundColor: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        borderRadius: 8,
+                        padding: '12px 8px',
+                        textAlign: 'center'
+                      }}>
+                        <div style={{ fontSize: 9, color: 'var(--fg3)', marginBottom: 4 }}>{stat.label}</div>
+                        <div style={{ fontSize: 22, fontWeight: 'black', color: rollingStats[stat.key as keyof Attrs] > 0 ? 'var(--accentL)' : 'var(--fg3)' }}>
+                          {rollingStats[stat.key as keyof Attrs] || '-'}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={rollStatsStep}
+                    disabled={isAnimationRunning}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold' }}
+                  >
+                    {isAnimationRunning ? 'Rolando d20...' : '🎲 Lançar Dados (1d20)'}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 4: Skills Content */}
+              {rollingStepIdx === 4 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '10px 0' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: 8 }}>
+                    <span style={{ color: 'var(--fg3)' }}>Atributos Sorteados:</span>
+                    <span style={{ fontWeight: 'bold', color: 'var(--accentL)' }}>
+                      {Object.values(rollingStats).join(', ')}
+                    </span>
+                  </div>
+
+
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    5. Escolha e role as perícias apropriadas, magias e inventário correspondente à sua classe.
+                  </p>
+
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={rollSkillsSpellsStep}
+                    disabled={isAnimationRunning}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold' }}
+                  >
+                    {isAnimationRunning ? 'Configurando habilidades...' : '🎲 Infundir Perícias e Magias'}
+                  </button>
+                </div>
+              )}
+
+              {/* Step 5: Done Content */}
+              {rollingStepIdx === 5 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'center' }}>
+                  <div style={{ fontSize: 50, color: 'var(--ok)' }}>✓</div>
+                  <h3 style={{ margin: 0, color: 'var(--ok)', fontFamily: 'Cinzel, serif' }}>Ficha Pronta!</h3>
+                  <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0 }}>
+                    Sua ficha aleatória foi estruturada com sucesso. Vá para a etapa final para dar um nome ao seu herói e salvá-lo.
+                  </p>
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={finalizeRoll}
+                    style={{ width: '100%', padding: '12px 0', fontWeight: 'bold', marginTop: 10 }}
+                  >
+                    Concluir e Nomear Herói
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Cancel Button */}
+            <button 
+              className="btn btn-ghost" 
+              onClick={() => setIsRolling(false)}
+              disabled={isAnimationRunning}
+              style={{ color: 'var(--fg3)' }}
+            >
+              Cancelar Rolagem
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Race Details Modal */}
       {detailRace && (
