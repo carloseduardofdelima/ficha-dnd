@@ -24,7 +24,7 @@ export default function CampaignDetailsPage() {
   const [myCharacters, setMyCharacters] = useState<any[]>([])
   const [newSession, setNewSession] = useState({ title: '', summary: '', number: 1 })
   const [showNoteModal, setShowNoteModal] = useState(false)
-  const [newNote, setNewNote] = useState({ title: '', content: '', isPublic: false, isFixed: false })
+  const [newNote, setNewNote] = useState<any>({ title: '', content: '', isPublic: false, isFixed: false })
   const [showSelectThreatModal, setShowSelectThreatModal] = useState(false)
   const [allGlobalThreats, setAllGlobalThreats] = useState<any[]>([])
   const [linkingThreat, setLinkingThreat] = useState(false)
@@ -116,6 +116,19 @@ export default function CampaignDetailsPage() {
       }
     } catch (error) {
       console.error('Error deleting session:', error)
+    }
+  }
+
+  const handleDeleteNote = async (e: React.MouseEvent, noteId: string) => {
+    e.stopPropagation()
+    if (!confirm('Deseja realmente excluir esta nota?')) return
+    try {
+      const res = await fetch(`/api/campanhas/${id}/notas/${noteId}`, { method: 'DELETE' })
+      if (res.ok) {
+        fetchCampaign()
+      }
+    } catch (error) {
+      console.error('Error deleting note:', error)
     }
   }
 
@@ -526,10 +539,41 @@ export default function CampaignDetailsPage() {
 
             <div className="notes-grid-layout">
               {campaign.notes_list?.map((note: any) => (
-                <div key={note.id} className={`note-card ${note.isFixed ? 'fixed' : ''}`}>
+                <div 
+                  key={note.id} 
+                  className={`note-card ${note.isFixed ? 'fixed' : ''} ${campaign.isOwner ? 'editable' : ''}`}
+                  onClick={() => {
+                    if (campaign.isOwner) {
+                      setNewNote(note)
+                      setShowNoteModal(true)
+                    }
+                  }}
+                >
                   <div className="note-header">
                     <h4>{note.title}</h4>
-                    {note.isPublic && <span className="public-tag">Pública</span>}
+                    <div className="flex items-center gap-2">
+                      {note.isPublic && <span className="public-tag">Pública</span>}
+                      {campaign.isOwner && (
+                        <div className="flex gap-2">
+                          <button 
+                            className="btn-icon-sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setNewNote(note)
+                              setShowNoteModal(true)
+                            }}
+                          >
+                            <Edit size={14} />
+                          </button>
+                          <button 
+                            className="btn-icon-sm danger"
+                            onClick={(e) => handleDeleteNote(e, note.id)}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <p className="note-content">{note.content}</p>
                   <div className="note-footer">
@@ -795,13 +839,17 @@ export default function CampaignDetailsPage() {
         <div className="modal-overlay" onClick={() => setShowNoteModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Nova Nota</h3>
+              <h3>{newNote.id ? 'Editar Nota' : 'Nova Nota'}</h3>
               <button className="close-btn" onClick={() => setShowNoteModal(false)}><X size={20} /></button>
             </div>
             <form className="modal-form" onSubmit={async (e) => {
               e.preventDefault()
-              const res = await fetch(`/api/campanhas/${id}/notas`, {
-                method: 'POST',
+              const isEditing = !!newNote.id
+              const url = isEditing 
+                ? `/api/campanhas/${id}/notas/${newNote.id}`
+                : `/api/campanhas/${id}/notas`
+              const res = await fetch(url, {
+                method: isEditing ? 'PATCH' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newNote)
               })
@@ -828,18 +876,20 @@ export default function CampaignDetailsPage() {
                   required
                 ></textarea>
               </div>
-              <div style={{ display: 'flex', gap: 16 }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer' }}>
+              <div style={{ display: 'flex', gap: 24, margin: '8px 0 20px 0' }}>
+                <label className="checkbox-container">
                   <input
                     type="checkbox"
+                    className="checkbox-input"
                     checked={newNote.isPublic}
                     onChange={e => setNewNote({ ...newNote, isPublic: e.target.checked })}
                   />
                   Pública para jogadores
                 </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, cursor: 'pointer' }}>
+                <label className="checkbox-container">
                   <input
                     type="checkbox"
+                    className="checkbox-input"
                     checked={newNote.isFixed}
                     onChange={e => setNewNote({ ...newNote, isFixed: e.target.checked })}
                   />
@@ -848,7 +898,9 @@ export default function CampaignDetailsPage() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-ghost" onClick={() => setShowNoteModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary">Criar Nota</button>
+                <button type="submit" className="btn btn-primary">
+                  {newNote.id ? 'Salvar Nota' : 'Criar Nota'}
+                </button>
               </div>
             </form>
           </div>
@@ -857,6 +909,64 @@ export default function CampaignDetailsPage() {
 
 
       <style jsx>{`
+        /* Custom Checkbox Styling */
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          user-select: none;
+          font-size: 14px;
+          color: var(--fg2);
+          transition: color 0.2s;
+        }
+
+        .checkbox-container:hover {
+          color: var(--fg);
+        }
+
+        .checkbox-input {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 20px;
+          height: 20px;
+          border: 2px solid var(--border);
+          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.02);
+          cursor: pointer;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          outline: none;
+        }
+
+        .checkbox-input:hover {
+          border-color: var(--accentL);
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox-input:checked {
+          background: var(--accent);
+          border-color: var(--accent);
+          box-shadow: 0 0 10px var(--accentGlow);
+        }
+
+        .checkbox-input:checked::after {
+          content: '';
+          width: 6px;
+          height: 11px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+          margin-bottom: 2px;
+        }
+
+        .checkbox-input:focus-visible {
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
         .campaign-detail-container {
           display: flex;
           flex-direction: column;
@@ -1265,6 +1375,16 @@ export default function CampaignDetailsPage() {
           flex-direction: column;
           gap: 12px;
           position: relative;
+        }
+
+        .note-card.editable {
+          cursor: pointer;
+          transition: all 0.2s ease-in-out;
+        }
+
+        .note-card.editable:hover {
+          border-color: var(--accentL);
+          background: rgba(255,255,255,0.02);
         }
 
         .note-card.fixed {
