@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
-import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package, Globe, Lock } from 'lucide-react'
+import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package, Globe, Lock, Edit } from 'lucide-react'
 import Image from 'next/image'
 import { useState, useEffect, useMemo } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
@@ -52,6 +52,16 @@ const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
   'Característica de Especialização'
 ]);
 
+function getSubclassUnlockLevel(className: string, ruleset: string): number {
+  if (ruleset === '2014') {
+    const nameLower = className?.toLowerCase() || '';
+    if (['clérigo', 'cleric', 'feiticeiro', 'sorcerer', 'bruxo', 'warlock'].includes(nameLower)) return 1;
+    if (['druida', 'druid', 'mago', 'wizard'].includes(nameLower)) return 2;
+    return 3;
+  }
+  return 3; // 2024 ruleset is level 3 for all
+}
+
 export default function CharacterDetailPage() {
   const { id } = useParams()
   const router = useRouter()
@@ -75,6 +85,8 @@ export default function CharacterDetailPage() {
   const [isPreparing, setIsPreparing] = useState(false)
   const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
+  const [isSubclassModalOpen, setIsSubclassModalOpen] = useState(false)
+  const [tempSubclass, setTempSubclass] = useState<string | null>(null)
   const [selectedFeatId, setSelectedFeatId] = useState<string | null>(null)
   const [featAttr1, setFeatAttr1] = useState<string | null>(null)
   const [featAttr2, setFeatAttr2] = useState<string | null>(null)
@@ -649,6 +661,77 @@ export default function CharacterDetailPage() {
       setSaveStatus('error');
     }
   };
+
+  const handleSelectSubclassDirectly = async (subclassName: string) => {
+    if (!character) return;
+    
+    const rulesetToUse = character.ruleset || '2024';
+    const is2014 = rulesetToUse === '2014';
+    
+    const newResources: Record<string, number> = character.resources ? JSON.parse(character.resources as string) : {};
+    if (character.class === 'Artífice') {
+      const modInt = Math.max(1, Math.floor((character.intelligence - 10) / 2));
+      const pb = character.proficiencyBonus;
+
+      if (character.level >= 2) {
+        let maxInfused = 2;
+        if (character.level >= 18) maxInfused = 6;
+        else if (character.level >= 14) maxInfused = 5;
+        else if (character.level >= 10) maxInfused = 4;
+        else if (character.level >= 6) maxInfused = 3;
+
+        if (subclassName === 'Armeiro') {
+          if (is2014 && character.level >= 9) {
+            maxInfused += 2;
+          } else if (!is2014 && character.level >= 10) {
+            maxInfused += 2;
+          }
+        }
+        newResources['Itens Infundidos Ativos'] = maxInfused;
+      }
+
+      if (subclassName === 'Alquimista') {
+        if (character.level >= 3) newResources['Elixires Experimentais'] = 1;
+        if (character.level >= 10) newResources['Restauração Menor Grátis'] = modInt;
+        if (character.level >= 14) {
+          newResources['Curar (Heal)'] = 1;
+          newResources['Restauração Maior Grátis'] = 1;
+        }
+      } else if (subclassName === 'Artilheiro') {
+        if (character.level >= 3) newResources['Canhão Élfico'] = 1;
+      } else if (subclassName === 'Armeiro') {
+        if (character.level >= 3) {
+          newResources['Campo Defensivo'] = pb;
+          newResources['Estatura Gigante'] = modInt;
+        }
+      } else if (subclassName === 'Serralheiro de Batalha') {
+        if (character.level >= 10) newResources['Choque Arcano'] = modInt;
+      }
+    }
+    
+    const updated = {
+      ...character,
+      subclass: subclassName,
+      resources: JSON.stringify(newResources)
+    };
+    
+    setCharacter(updated);
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        subclass: subclassName,
+        resources: JSON.stringify(newResources),
+        lastModified: Date.now()
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+    
+    await saveCharacterToDB(updated);
+    setIsSubclassModalOpen(false);
+  };
+
   const updateValue = (field: string, deltaOrVal: any, autoSave = true) => {
     if (!character) return;
     let newVal;
@@ -973,10 +1056,44 @@ export default function CharacterDetailPage() {
               </div>
             </div>
             <div style={{ color: 'var(--fg2)', fontSize: 14, marginBottom: 16 }} className="mobile-center-text">
-              <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2 }}>
-                {character.class}
-                {character.subclass && character.ruleset !== '2014' ? ` — ${character.subclass}` : ''}
+              <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }} className="mobile-justify-center">
+                <span>{character.class}</span>
+                {character.subclass && <span> — {character.subclass}</span>}
                 {parsedTraits.draconicAncestry && character.ruleset !== '2014' && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
+                {(() => {
+                  const unlockLevel = getSubclassUnlockLevel(character.class, character.ruleset || '2024');
+                  const canChoose = character.level >= unlockLevel;
+                  if (!canChoose || !isOwner) return null;
+                  
+                  if (!character.subclass) {
+                    return (
+                      <button 
+                        className="btn btn-outline" 
+                        onClick={() => {
+                          setTempSubclass(null);
+                          setIsSubclassModalOpen(true);
+                        }}
+                        style={{ padding: '2px 8px', fontSize: 11, height: 'auto', minHeight: 'unset', borderColor: 'var(--accent)', color: 'var(--accentL)', display: 'flex', alignItems: 'center', gap: 4 }}
+                      >
+                        <Plus size={12} /> Escolher Subclasse
+                      </button>
+                    );
+                  }
+                  
+                  return (
+                    <button
+                      onClick={() => {
+                        setTempSubclass(character.subclass || null);
+                        setIsSubclassModalOpen(true);
+                      }}
+                      style={{ background: 'transparent', border: 'none', padding: 0, color: 'var(--fg3)', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
+                      className="hover-accent"
+                      title="Alterar Subclasse"
+                    >
+                      <Edit size={12} />
+                    </button>
+                  );
+                })()}
               </div>
               <div style={{ fontSize: 14, color: 'var(--fgM)' }}>
                 {character.race}{character.subrace ? ` (${character.subrace})` : ''} — {character.background}
@@ -2546,14 +2663,14 @@ export default function CharacterDetailPage() {
                       );
                     })()}
 
+                    {/* Classe Base Section */}
                     <div style={{ marginBottom: 24 }}>
                       <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                         <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
-                        Classe: {character.class} {character.subclass ? ` - ${character.subclass}` : ''}
+                        Classe: {character.class}
                       </h3>
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        {/* Habilidades de Classe Unificadas */}
                         {(() => {
                           const is2014 = character.ruleset === '2014';
                           const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
@@ -2607,15 +2724,6 @@ export default function CharacterDetailPage() {
                                 });
                               }
                             });
-
-                            // Subclass Features
-                            const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
-                            if (!is2014 && character.subclass && subclassSource[character.class]?.[character.subclass]) {
-                              const subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
-                              subFeats.forEach((sf: any) => {
-                                features.push({ ...sf, source: character.subclass, level: lvl });
-                              });
-                            }
                           }
 
                           return features
@@ -2654,6 +2762,70 @@ export default function CharacterDetailPage() {
                         })()}
                       </div>
                     </div>
+
+                    {/* Subclass Section */}
+                    {character.subclass && (
+                      <div style={{ marginBottom: 24 }}>
+                        <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                          Subclasse: {character.subclass}
+                        </h3>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                          {(() => {
+                            const is2014 = character.ruleset === '2014';
+                            const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
+                            const subfeatures: any[] = [];
+
+                            if (subclassSource[character.class]?.[character.subclass]) {
+                              for (let lvl = 1; lvl <= character.level; lvl++) {
+                                const subFeats = subclassSource[character.class][character.subclass].features[lvl] || [];
+                                subFeats.forEach((sf: any) => {
+                                  subfeatures.push({ ...sf, source: character.subclass, level: lvl });
+                                });
+                              }
+                            }
+
+                            if (subfeatures.length === 0) {
+                              return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic', padding: 8 }}>Nenhuma habilidade de subclasse desbloqueada no nível {character.level} ainda.</div>;
+                            }
+
+                            return subfeatures
+                              .map((feat, i) => (
+                                <div
+                                  key={`${feat.name}-${i}`}
+                                  className="card clickable"
+                                  style={{
+                                    padding: 16,
+                                    background: 'var(--bg2)',
+                                    borderLeft: `3px solid var(--border)`,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                  }}
+                                  onClick={() => setDetailFeature(feat)}
+                                >
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                    <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>
+                                      {feat.name}
+                                    </div>
+                                    <div style={{ fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                      Nível {feat.level}
+                                    </div>
+                                  </div>
+                                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                    {feat.description}
+                                  </p>
+                                  <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
+                                    <span style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase' }}>
+                                      {feat.source}
+                                    </span>
+                                  </div>
+                                </div>
+                              ));
+                          })()}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Artificer Infusions Selection */}
                     {character?.class === 'Artífice' && character.level >= 2 && (
@@ -4166,6 +4338,80 @@ export default function CharacterDetailPage() {
               >
                 Entendido
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Subclass Selection Modal */}
+      {isSubclassModalOpen && character && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 2500, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }} onClick={() => setIsSubclassModalOpen(false)} />
+
+          <div className="card fade-up" style={{ position: 'relative', width: '100%', maxWidth: 460, padding: 0, overflow: 'hidden', border: '1px solid var(--accent)' }}>
+            <div style={{ background: 'var(--accent)', padding: '20px 24px', textAlign: 'center', position: 'relative' }}>
+              <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, fontWeight: 700, color: '#fff', margin: 0 }}>
+                {character.subclass ? 'Alterar Subclasse' : 'Escolher Subclasse'}
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, margin: '4px 0 0' }}>
+                {character.class} (Nível {character.level})
+              </p>
+              <button 
+                onClick={() => setIsSubclassModalOpen(false)}
+                style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24 }}>
+              <div style={{ maxHeight: 300, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+                {(() => {
+                  const rulesetToUse = character.ruleset || '2024';
+                  const subclassData = rulesetToUse === '2024' ? SUBCLASSES_2024 : SUBCLASSES_2014;
+                  const options = Object.keys(subclassData[character.class] || {});
+
+                  if (options.length === 0) {
+                    return <div style={{ textAlign: 'center', padding: 20, color: 'var(--fg3)' }}>Nenhuma subclasse cadastrada para {character.class} no ruleset D&D {rulesetToUse}.</div>;
+                  }
+
+                  return options.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => setTempSubclass(opt)}
+                      style={{
+                        padding: 12, borderRadius: 10, border: '1px solid',
+                        borderColor: tempSubclass === opt ? 'var(--accent)' : 'var(--border)',
+                        background: tempSubclass === opt ? 'var(--accentGlow)' : 'var(--bg2)',
+                        textAlign: 'left', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 12, width: '100%', cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{
+                        width: 8, height: 8, borderRadius: '50%',
+                        background: tempSubclass === opt ? 'var(--accent)' : 'transparent',
+                        border: '1px solid var(--accent)'
+                      }} />
+                      <span style={{ fontWeight: 600, color: tempSubclass === opt ? 'var(--fg1)' : 'var(--fg2)', fontSize: 14 }}>{opt}</span>
+                    </button>
+                  ));
+                })()}
+              </div>
+
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setIsSubclassModalOpen(false)}>Cancelar</button>
+                <button
+                  className="btn bg-accent"
+                  style={{ flex: 2, justifyContent: 'center' }}
+                  disabled={!tempSubclass}
+                  onClick={() => {
+                    if (tempSubclass) {
+                      handleSelectSubclassDirectly(tempSubclass);
+                    }
+                  }}
+                >
+                  Confirmar
+                </button>
+              </div>
             </div>
           </div>
         </div>
