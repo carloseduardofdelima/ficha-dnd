@@ -62,6 +62,60 @@ function getSubclassUnlockLevel(className: string, ruleset: string): number {
   return 3; // 2024 ruleset is level 3 for all
 }
 
+function getUnlockedSubclassSpells(className: string, subclassName: string, level: number, ruleset: '2014' | '2024'): any[] {
+  const subclassSource = ruleset === '2014' ? SUBCLASSES_2014 : SUBCLASSES_2024;
+  const subclassData = subclassSource[className]?.[subclassName];
+  if (!subclassData || !subclassData.spells) return [];
+
+  let unlockedCount = 0;
+  const isHalfCaster = className === 'Artífice' || className === 'Paladino' || className === 'Patrulheiro';
+
+  if (isHalfCaster) {
+    if (level >= 3) unlockedCount = 2;
+    if (level >= 5) unlockedCount = 4;
+    if (level >= 9) unlockedCount = 6;
+    if (level >= 13) unlockedCount = 8;
+    if (level >= 17) unlockedCount = 10;
+  } else if (className === 'Clérigo') {
+    if (level >= 1) unlockedCount = 2;
+    if (level >= 3) unlockedCount = 4;
+    if (level >= 5) unlockedCount = 6;
+    if (level >= 7) unlockedCount = 8;
+    if (level >= 9) unlockedCount = 10;
+  } else {
+    if (level >= 3) unlockedCount = subclassData.spells.length;
+  }
+
+  const spellNames = subclassData.spells.slice(0, unlockedCount);
+  const availableSpellsList = ruleset === '2014' ? SPELLS_2014 : SPELLS;
+
+  return spellNames.map(name => {
+    let normName = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+    
+    // Naming mapping to resolve translation discrepancies between subclass lists and the spells database
+    const mappings: Record<string, string> = {
+      "ondatrovejante": "ondadetrovao",
+      "raioescaldante": "raioardente",
+      "fragmentar": "despedacar",
+      "tempestadeglacial": "tempestadedegelo",
+      "murodefogo": "muralhadefogo",
+      "murodevento": "muralhadevento",
+      "murodeforca": "muralhadeenergia",
+      "muralhadeforca": "muralhadeenergia",
+    };
+    
+    if (mappings[normName]) {
+      normName = mappings[normName];
+    }
+
+    return availableSpellsList.find(s => {
+      const dbNorm = s.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+      return dbNorm === normName || dbNorm.includes(normName) || normName.includes(dbNorm);
+    });
+  }).filter(Boolean);
+}
+
+
 export default function CharacterDetailPage() {
   const { id } = useParams()
   const router = useRouter()
@@ -2233,11 +2287,16 @@ export default function CharacterDetailPage() {
                       const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0;
                       const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1;
 
+                      const subclassSpells = character.subclass 
+                        ? getUnlockedSubclassSpells(character.class, character.subclass, character.level, character.ruleset || '2024')
+                        : [];
+
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
                       const availableSpellsList = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
                       const baseList = isPreparing
-                        ? availableSpellsList.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel)
+                        ? availableSpellsList.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel && !subclassSpells.some(ss => ss.id === s.id))
                         : currentSpells.map(id => ALL_SPELLS.find(s => s.id === id)).filter(Boolean);
+
 
                       const toggleSpell = (id: string) => {
                         if (!isOwner) return;
@@ -2294,7 +2353,7 @@ export default function CharacterDetailPage() {
                         updateValue('spells', newSpells, true);
                       };
 
-                      if (baseList.length === 0 && !isPreparing) {
+                      if (baseList.length === 0 && subclassSpells.length === 0 && !isPreparing) {
                         const hasFutureSlots = character.ruleset === '2014' && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1;
                         return (
                           <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.05)' }}>
@@ -2316,7 +2375,99 @@ export default function CharacterDetailPage() {
 
                       return (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                          {subclassSpells.length > 0 && (
+                            <div style={{ marginBottom: 12 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, borderBottom: '1px solid var(--accentL)', paddingBottom: 8 }}>
+                                <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                                  Magias de {character.subclass} (Preparadas)
+                                </h3>
+                                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', background: 'rgba(225,29,72,0.1)', padding: '2px 6px', borderRadius: 4 }}>
+                                  Sempre Preparadas
+                                </div>
+                              </div>
+
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {subclassSpells.map((spell: any) => {
+                                  return (
+                                    <div
+                                      key={spell.id}
+                                      className="card"
+                                      style={{
+                                        padding: 16,
+                                        background: 'var(--bg2)',
+                                        borderLeft: '3px solid var(--accentL)',
+                                        cursor: 'default',
+                                        transition: 'all 0.2s',
+                                        position: 'relative',
+                                        overflow: 'hidden'
+                                      }}
+                                    >
+                                      <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                                        {(() => {
+                                          const icon = spell.icon || (
+                                            spell.school === 'Abjuração' ? 'protection-field.png' :
+                                              spell.school === 'Adivinhação' ? 'all-seeing-eye.png' :
+                                                spell.school === 'Conjuração' ? 'magic-sparks.png' :
+                                                  spell.school === 'Encantamento' ? 'heart-heal.png' :
+                                                    spell.school === 'Evocação' ? 'fire-blast.png' :
+                                                      spell.school === 'Ilusão' ? 'mirror-image.png' :
+                                                        spell.school === 'Necromancia' ? 'undead-skull.png' :
+                                                          spell.school === 'Transmutação' ? 'elemental-spiral.png' :
+                                                            'magic-scroll.png'
+                                          );
+                                          return (
+                                            <div style={{
+                                              flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
+                                              border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
+                                            }}>
+                                              <Image
+                                                src={`/assets/spells-icons/${icon}`}
+                                                alt={spell.name}
+                                                width={40} height={40}
+                                                style={{ objectFit: 'cover', opacity: 1 }}
+                                              />
+                                            </div>
+                                          );
+                                        })()}
+
+                                        <div style={{ flex: 1 }}>
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                            <div>
+                                              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{spell.name}</div>
+                                              <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>
+                                                {spell.school} • {spell.level}º Círculo
+                                              </div>
+                                            </div>
+                                            <div style={{
+                                              fontSize: 11,
+                                              fontWeight: 700,
+                                              color: 'var(--accentL)',
+                                              background: 'rgba(225, 29, 72, 0.15)',
+                                              border: '1px solid var(--accent)',
+                                              padding: '4px 8px',
+                                              borderRadius: 6
+                                            }}>
+                                              {spell.range}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 10 }}>
+                                        <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
+                                        <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
+                                        {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONC.</div>}
+                                      </div>
+                                      <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
                           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(lvl => {
+
                             const lvlSpells = (baseList as any[]).filter(s => s.level === lvl);
 
                             if (lvlSpells.length === 0) return null;
@@ -2414,7 +2565,15 @@ export default function CharacterDetailPage() {
                                                 <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>{spell.school}</div>
                                               </div>
                                               {!isPreparing && (
-                                                <div style={{ fontSize: 9, color: 'var(--fg3)', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                                <div style={{
+                                                  fontSize: 11,
+                                                  fontWeight: 700,
+                                                  color: isSelected ? 'var(--accentL)' : 'var(--fg2)',
+                                                  background: isSelected ? 'rgba(225, 29, 72, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+                                                  border: isSelected ? '1px solid var(--accent)' : '1px solid rgba(255, 255, 255, 0.15)',
+                                                  padding: '4px 8px',
+                                                  borderRadius: 6
+                                                }}>
                                                   {spell.range}
                                                 </div>
                                               )}
