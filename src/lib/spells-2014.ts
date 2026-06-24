@@ -1225,7 +1225,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal',
     components: 'V, S',
     duration: 'Concentração, até 1 hora',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: "Você altera sua forma física. Quando você conjura essa magia, escolha uma das seguintes opções, cujos efeitos duram pela duração da magia. Enquanto a magia durar, você pode terminar uma opção com uma ação para ganhar os benefícios de uma diferente.\nAdaptação Aquática. Você adapta seu corpo para o ambiente aquático, brotando guelras e nadadeiras entre seus dedos. Você pode respirar embaixo d'água e ganha deslocamento de natação igual ao seu deslocamento terrestre.\nMudar Aparência. Você transforma sua aparência. Você decide com o que você se parece, incluindo altura, peso, traços faciais, som da sua voz, comprimento do cabelo, coloração e características distintas, se tiverem. Você pode parecer com um membro de outra raça, apesar de nenhuma das suas estatísticas mudar. Você não pode parecer com uma criatura de um tamanho diferente do seu e sua forma básica permanece a mesma; se você for bípede, você não pode usar essa magia para se tornar quadrupede, por exemplo. Em qualquer momento da duração da magia, você pode usar sua ação para mudar sua aparência dessa forma novamente.\nArmas Naturais. Você faz garras, presas, espinhos, chifres ou armas naturais diferentes brotarem do seu corpo. Seus ataques desarmados causam 1d6 de dano de concussão, perfurante ou cortante, como apropriado para a arma natural que você escolheu, e você é proficiente com seus ataques desarmados. Finalmente, a arma natural é mágica e você tem +1 de bônus nas jogadas de ataque e dano que você fizer com ela.",
     concentration: true
   },
@@ -1263,7 +1263,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S',
     duration: 'Concentração, até 1 hora',
-    classes: ['Paladino', 'Mago'],
+    classes: ['Paladino', 'Mago', 'Artífice'],
     description: 'Você toca uma arma não-mágica. Até a magia acabar, a arma se torna uma arma mágica com +1 de bônus nas jogadas de ataque e dano.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 4° nível ou superior, o bônus aumenta para +2. Quando você usar um espaço de magia de 6° nível ou superior, o bônus aumenta para +3.',
     concentration: true
   },
@@ -1301,7 +1301,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (um pouco de pó de ferro)',
     duration: 'Concentração, até 1 minuto',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: "Você faz com que uma criatura ou um objeto que você possa ver dentro do alcance fique maior ou menor, pela duração. Escolha entre uma criatura ou um objeto que não esteja sendo carregado nem vestido. Se o alvo for involuntário, ele deve realizar um teste de resistência de Constituição. Se passar, a magia não faz efeito.\nSe o alvo for uma criatura, tudo o que ela estiver vestindo ou carregando muda de tamanho com ela. Qualquer item largado por uma criatura afetada retorna ao seu tamanho normal imediatamente.\nAumentar. O tamanho do alvo dobra em todas as dimensões e seu peso é multiplicado por oito. Esse aumento eleva seu tamanho em uma categoria – de Médio para Grande, por exemplo. Até o fim da magia, o alvo tem vantagem em testes de Força e testes de resistência de Força. O tamanho aumentado das armas do alvo faz com que seus ataques causem 1d4 de dano extra.\nReduzir. O tamanho do alvo é reduzido à metade em todas as dimensões e seu peso é reduzido a um oitavo do normal. Essa redução diminui o tamanho do alvo em uma categoria – de Médio para Pequeno, por exemplo. Até o fim da magia, o alvo tem desvantagem em testes de Força e testes de resistência de Força. O tamanho reduzido das armas do alvo faz com que seus ataques causem 1d4 de dano a menos (sem reduzir o dano a menos de 1).",
     concentration: true
   },
@@ -1326,7 +1326,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (um pedaço de favo de mel e um pouco de pó de jade valendo, no mínimo, 10 po, consumidos pela magia)',
     duration: 'Até ser dissipada',
-    classes: ['Bardo', 'Mago'],
+    classes: ['Bardo', 'Mago', 'Artífice'],
     description: "Você implanta uma mensagem em um objeto dentro do alcance, uma mensagem que é proferida quando um gatilho é satisfeito. Escolha um objeto que você possa ver e que não esteja sendo carregado nem vestido por outra criatura. Então, fale a mensagem, que deve conter 25 palavras ou menos, apesar de ela poder ser proferida durante um período de até 10 minutos. Finalmente, determine a circunstância que ativará a magia para proferir sua mensagem.\nQuando essa circunstância ocorrer, uma boca mágica aparece no objeto e recita a mensagem com sua voz e no mesmo volume que você falou. Se o objeto escolhido tiver uma boca ou algo que se assemelhe a uma boca (como a face de uma estátua), a boca mágica aparece ali, de modo que as palavras pareçam vir dos lábios do objeto. Quando você conjura essa magia, você pode fazer com que a magia termine depois de proferir a mensagem ou ela pode persistir e repetir a mensagem sempre que o gatilho ocorrer.\nO gatilho pode ser tão genérico ou tão detalhado quanto você desejar, apesar de ele precisar ser baseado em condições visuais ou audíveis que ocorram a até 9 metros do objeto. Por exemplo, você pode instruir a boca para falar quando qualquer criatura se aproximar a menos de 9 metros do objeto ou quando um sino de prata tocar três vezes a 9 metros dela.",
     ritual: true
   },
@@ -1363,7 +1363,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (pó de rubi valendo 50 po, consumido pela magia)',
     duration: 'Até ser dissipada',
-    classes: ['Clérigo', 'Mago'],
+    classes: ['Clérigo', 'Mago', 'Artífice'],
     description: 'Uma chama, que produz iluminação equivalente a uma tocha, brota de um objeto que você tocar. O efeito se parece com uma chama comum, mas não produz calor e não consome oxigênio. Uma chama contínua pode ser coberta ou escondida, mas não pode ser apagada ou sufocada.'
   },
   {
@@ -1451,7 +1451,7 @@ export const SPELLS_2014: Spell[] = [
     range: '18 metros',
     components: 'V, S, M (um pedaço de ferro e uma chama)',
     duration: 'Concentração, até 1 minuto',
-    classes: ['Bardo', 'Druida'],
+    classes: ['Bardo', 'Druida', 'Artífice'],
     description: 'Escolha uma objeto manufaturado de metal, como uma arma de metal ou uma armadura pesada ou média de metal, que você possa ver dentro do alcance. Você faz com que o objeto brilhe vermelho-incandescente. Qualquer criatura em contato físico com o objeto sofrerá 2d8 de dano de fogo quando você conjurar a magia. Até a magia acabar, você pode usar uma ação bônus, em cada um dos seus turnos subsequentes, para causar esse dano novamente.\nSe uma criatura estiver segurando ou vestindo o objeto e sofrer o dano dele, a criatura deve ser bem sucedida num teste de resistência de Constituição ou largará o objeto se ela puder. Se ela não largar o objeto, ela terá desvantagem em jogadas de ataque e testes de habilidade até o início do seu próximo turno.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 3° nível ou superior, o dano aumenta em 1d8 para cada nível do espaço acima do 2°.',
     concentration: true
   },
@@ -1502,7 +1502,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (uma pestana envolta em goma arábica)',
     duration: 'Concentração, até 1 hora',
-    classes: ['Bardo', 'Bruxo', 'Feiticeiro', 'Mago'],
+    classes: ['Bardo', 'Bruxo', 'Feiticeiro', 'Mago', 'Artífice'],
     description: 'Uma criatura que você tocar, se torna invisível até a magia acabar. Qualquer coisa que o alvo esteja vestindo ou carregando fica invisível enquanto estiver de posse do alvo. A magia termina para o alvo caso ele ataque ou conjure uma magia.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 3° nível ou superior, você pode afetar um alvo adicional para cada nível do espaço acima do 2°.',
     concentration: true
   },
@@ -1528,7 +1528,7 @@ export const SPELLS_2014: Spell[] = [
     range: '18 metros',
     components: 'V, S, M (uma pequena presilha de couro ou um pedaço de fio dourado dobrado em forma de copo)',
     duration: 'Concentração, até 10 minutos',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: 'Uma criatura ou objeto, à sua escolha, que você possa ver, dentro do alcance, ergue-se verticalmente, até 6 metros e permanece suspenso lá pela duração. A magia pode levitar um alvo pesando até 250 quilos. Uma criatura involuntária que for bem sucedida num teste de resistência de Constituição não é afetada. O alvo pode se mover apenas ao puxar ou empurrar um objeto fixo ou superfície ao seu alcance. Você pode mudar a altitude do alvo em até 6 metros em ambas as direções no seu turno. Quando a magia acaba, o alvo flutua suavemente até o chão, se ele ainda estiver no ar.',
     concentration: true
   },
@@ -1695,7 +1695,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S',
     duration: '1 hora',
-    classes: ['Clérigo', 'Druida', 'Paladino', 'Patrulheiro'],
+    classes: ['Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Artífice'],
     description: 'Você toca uma criatura. Se ela estiver envenenada, você neutraliza o veneno. Se mais de um veneno estiver afligindo o alvo, você neutraliza um veneno, que você saiba estar presente, ou neutraliza um aleatório.\nPela duração, o alvo terá vantagem em testes de resistência para não envenenado e terá resistência a dano de veneno.'
   },
   {
@@ -1770,7 +1770,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S',
     duration: 'Instantânea',
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro'],
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Artífice'],
     description: 'Você toca uma criatura e pode, ou acabar com uma doença ou uma condição que a esteja afligindo. A condição pode ser cega, surda, paralisada ou envenenada.'
   },
   {
@@ -1823,7 +1823,7 @@ export const SPELLS_2014: Spell[] = [
     range: '18 metros',
     components: 'V, S, M (um pedaço de teia de aranha)',
     duration: 'Concentração, até 1 hora',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: 'Você conjura uma massa de teias espessas e pegajosas num ponto, à sua escolha, dentro do alcance. As teias preenchem um cubo de 6 metros naquele ponto, pela duração. As teias são terreno difícil e causam escuridão leve na área delas. Se as teias não estiverem sendo suportadas por duas massas sólidas ou em camadas sobre um chão, parede ou teto, a teia conjurada desaba sobre si mesma e a magia termina no início do seu próximo turno.\nCada criatura que começar seu turno nas teias ou entrar nelas durante seu turno, deve realizar um teste de resistência de Destreza. Se falhar na resistência, a criatura estará impedida enquanto permanecer nas teias ou até se libertar.\nUma criatura impedida pelas teias pode usar sua ação para realizar um teste de Força contra a CD da magia. Se obtiver sucesso, ela não estará mais impedida.\nAs teias são inflamáveis. Qualquer cubo de 1,5 metro de teia exposto ao fogo, é consumida por ele em 1 rodada, causando 2d4 de dano de fogo a qualquer criatura que começar seu turno nas chamas.',
     concentration: true
   },
@@ -1836,7 +1836,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (pó de ouro valendo, no mínimo, 25 po)',
     duration: 'Até ser dissipada',
-    classes: ['Mago'],
+    classes: ['Mago', 'Artífice'],
     description: 'Você toca uma porta, janela, portão, baú ou outra entrada fechada e ela ficará trancada pela duração. Você e as criaturas que você designar, quando você conjurar essa magia, podem abrir o objeto normalmente. Você também pode definir uma senha que, quando falada a 1,5 metro do objeto, suprime a magia por 1 minuto. De outra forma, ele é intransponível até ser quebrado ou a magia seja dissipada ou suprimida. Conjurar arrombar no objeto suprime a tranca arcana por 10 minutos.\nEnquanto estiver sob efeito dessa magia, o objeto é mais difícil de quebrar ou de forçar para abrir; a CD para quebra-lo ou de arromba-lo aumenta em 10.'
   },
   {
@@ -1860,7 +1860,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal',
     components: 'V, S, M (um pouco de talco e um pó de prata polvilhado)',
     duration: '1 hora',
-    classes: ['Bardo', 'Feiticeiro', 'Mago'],
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'],
     description: 'Pela duração, você vê criaturas e objetos invisíveis como se eles fossem visíveis e você pode ver no Plano Etéreo. Criaturas e objetos etéreos parecem espectrais e translúcidos.'
   },
   {
@@ -1884,7 +1884,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (ou um pedaço de cenoura seca ou uma ágata)',
     duration: '8 horas',
-    classes: ['Druida', 'Feiticeiro', 'Mago', 'Patrulheiro'],
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Patrulheiro', 'Artífice'],
     description: 'Você toca uma criatura voluntária para conceder a ela a habilidade de ver nas trevas. Pela duração, a criatura terá visão no escuro com alcance de 18 metros.'
   },
   {
@@ -1945,7 +1945,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S',
     duration: 'Concentração, até 1 hora',
-    classes: ['Paladino'],
+    classes: ['Paladino', 'Artífice'],
     description: 'Uma arma não-mágica que você tocar se torna uma arma mágica. Escolha um dos tipos de dano a seguir: ácido, elétrico, frio, fogo ou trovejante. Pela duração, a arma tem +1 de bônus nas jogadas de ataque e causa 1d4 de dano extra, do tipo de elemento escolhido, ao atingir.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 5° ou 6° nível, o bônus nas jogadas de ataque aumenta pra +2 e o dano extra aumenta para 2d4. Quando você usar um espaço de magia de 7° nível ou superior, o bônus aumenta para +3 e o dano extra aumenta para 3d4.',
     concentration: true
   },
@@ -1972,7 +1972,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (uma peça hemisférica de cristal transparente e uma peça de goma arábica)', 
     duration: 'Concentração, até 1 minuto', 
     description: 'Uma esfera de energia brilhante engloba uma criatura ou objeto de tamanho Grande ou menor. Uma criatura involuntária deve realizar um teste de resistência de Destreza ou estará enclausurada. Nada pode passar através da barreira.', 
-    classes: ['Mago'], 
+    classes: ['Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -2074,7 +2074,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (uma fita de couro)', 
     duration: '1 hora', 
     description: 'O movimento do alvo não é afetado por terreno difícil e magias não podem reduzir seu deslocamento ou paralisá-lo. Pode gastar 1,5m para escapar de impedimentos não-mágicos e não sofre penalidades submerso.', 
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Patrulheiro'] 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Patrulheiro', 'Artífice'] 
   },
   { 
     id: 'wall-of-fire-2014', 
@@ -2223,7 +2223,7 @@ export const SPELLS_2014: Spell[] = [
     range: '36 metros',
     components: 'V, S',
     duration: 'Instantânea',
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Bruxo', 'Mago'],
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Bruxo', 'Mago', 'Artífice'],
     description: 'Escolha uma criatura, objeto ou efeito mágico dentro do alcance. Qualquer magia de 3° nível ou inferior no alvo, termina. Para cada magia de 4° nível ou superior no alvo, realize um teste de habilidade usando sua habilidade de conjuração (CD 10 + nível da magia). Se obtiver sucesso, a magia termina.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 4° nível ou superior, você dissipa automaticamente os efeitos de magias no alvo se o nível da magia for igual ou inferior ao nível do espaço de magia que você usar.'
   },
   {
@@ -2437,7 +2437,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Pessoal',
     components: 'V, S',
     duration: '1 minuto',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: 'Role um d20 no final de cada um dos seus turnos pela duração da magia. Num resultado 11 ou superior, você desaparece do seu plano atual e reaparece no Plano Etéreo. No início do seu próximo turno, e quando a magia acabar se você estiver no Plano Etéreo, você retorna para um espaço desocupado de sua escolha que você possa ver a até 3 metros do espaço de onde você desapareceu.'
   },
   {
@@ -2449,7 +2449,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S',
     duration: 'Concentração, até 1 hora',
-    classes: ['Clérigo', 'Druida', 'Feiticeiro', 'Patrulheiro', 'Mago'],
+    classes: ['Clérigo', 'Druida', 'Feiticeiro', 'Patrulheiro', 'Mago', 'Artífice'],
     description: 'Pela duração, a criatura voluntária que você tocar tem resistência a um tipo de dano à sua escolha: ácido, frio, fogo, elétrico ou trovejante.',
     concentration: true
   },
@@ -2486,7 +2486,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (um pequeno canudo ou uma peça de junco)',
     duration: '24 horas',
-    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago'],
+    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice'],
     description: 'Essa magia concede a até dez criaturas voluntárias que você possa ver, dentro do alcance, a habilidade de respirar debaixo d\'água até a magia acabar. Os alvos mantêm sua habilidade normal de respirar ar.',
     ritual: true
   },
@@ -2499,7 +2499,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (um diamante no valor de 300 po, consumido pela magia)',
     duration: 'Instantânea',
-    classes: ['Clérigo', 'Paladino'],
+    classes: ['Clérigo', 'Paladino', 'Artífice'],
     description: 'Você toca uma criatura que tenha morrido dentro do último minuto. Essa criatura volta a vida com 1 ponto de vida. Essa magia não pode trazer de volta a vida criaturas que tenham morrido de velhice nem pode restaurar quaisquer partes do corpo perdidas.'
   },
   { 
@@ -2511,7 +2511,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque', 
     components: 'V, S, M (uma pena de uma asa de pássaro)', 
     duration: 'Concentração, até 10 minutos', 
-    classes: ['Bruxo', 'Feiticeiro', 'Mago'], 
+    classes: ['Bruxo', 'Feiticeiro', 'Mago', 'Artífice'], 
     description: 'Você toca uma criatura voluntária. O alvo ganha deslocamento de voo de 18 metros pela duração. Quando a magia acaba, o alvo cai se ainda estiver no ar, a menos que ele possa impedir a queda.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 4° nível ou superior, você pode atingir uma criatura adicional para cada nível do espaço acima do 3°.', 
     concentration: true 
   },
@@ -2602,7 +2602,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (uma pena de uma asa de pássaro)',
     duration: 'Concentração, até 10 minutos',
-    classes: ['Bruxo', 'Feiticeiro', 'Mago'],
+    classes: ['Bruxo', 'Feiticeiro', 'Mago', 'Artífice'],
     description: 'Você toca uma criatura voluntária. O alvo ganha deslocamento de voo de 18 metros pela duração. Quando a magia acaba, o alvo cai se ainda estiver no ar, a menos que ele possa impedir a queda.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 4° nível ou superior, você pode atingir uma criatura adicional para cada nível do espaço acima do 3°.',
     concentration: true
   },
@@ -2616,7 +2616,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (um punhado de pelo de morcego)', 
     duration: 'Concentração, até 1 hora', 
     description: 'Você cria um olho mágico invisível que flutua no ar. Você recebe informações visuais do olho, que possui visão normal e no escuro (9m). Com uma ação, você pode mover o olho até 9 metros em qualquer direção.', 
-    classes: ['Mago'], 
+    classes: ['Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -2679,7 +2679,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (uma folha de chumbo, vidro opaco, algodão e pó de crisólita)', 
     duration: '24 horas', 
     description: 'Protege um cubo de até 30m. Propriedades: sons não atravessam, barreira escura impede visão, sensores de adivinhação não entram, impede teletransporte e viagem planar.', 
-    classes: ['Mago'] 
+    classes: ['Mago', 'Artífice'] 
   },
   { 
     id: 'ice-storm-2014', 
@@ -2795,7 +2795,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     duration: 'Concentração, até 1 minuto', 
     description: 'Objetos ganham vida ao seu comando. Escolha até dez objetos não-mágicos. Eles tornam-se criaturas sob seu controle. Com uma ação bônus, você pode comandar qualquer ou todas elas. Elas têm estatísticas baseadas no tamanho.', 
-    classes: ['Bardo', 'Feiticeiro', 'Mago'], 
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -3051,7 +3051,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (uma casca de ovo e uma luva de couro de cobra)', 
     duration: 'Concentração, até 1 minuto', 
     description: 'Cria uma mão Grande de energia que imita seus movimentos. Pode ser usada para: Soco Intermitente (4d8 de força), Mão Energética (empurra alvo), Mão Interceptadora (bloqueia movimento) ou Mão Esmagadora (agarra e causa 2d6+mod).', 
-    classes: ['Mago'], 
+    classes: ['Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -3089,7 +3089,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (um pequeno bloco de granito)', 
     duration: 'Concentração, até 10 minutos', 
     description: 'Cria uma muralha de rocha sólida composta por dez painéis de 3m x 3m. A muralha pode ser moldada e se torna permanente se a concentração durar os 10 minutos completos.', 
-    classes: ['Druida', 'Feiticeiro', 'Mago'], 
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -3204,7 +3204,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (pedacinho do material)', 
     duration: 'Especial', 
     description: 'Cria objetos inanimados de matéria vegetal, mineral ou metais preciosos usando sombras da Umbra. A duração depende do material (1 min para ouro, 24h para corda/madeira).', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'seeming-2014', 
