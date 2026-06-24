@@ -63,6 +63,7 @@ export async function PATCH(
         challengeRating: body.challengeRating,
         isTemplate: body.isTemplate,
         isPublic: body.isPublic,
+        imageUrl: body.imageUrl,
         attributes: body.attributes ? {
           update: body.attributes
         } : undefined,

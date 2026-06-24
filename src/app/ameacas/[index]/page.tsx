@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2, Trash2, Edit, X, Plus } from 'lucide-react'
+import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2, Trash2, Edit, X, Plus, Skull } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
@@ -92,6 +92,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
     threatType: 'monster',
     level: 1,
     challengeRating: 0.25,
+    imageUrl: '',
     attributes: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10, hp: 10, ac: 10, speed: '30ft', initiativeBonus: 0 },
     combat: { attackBonus: 0, damage: '1d6', damageType: 'concussão', multiattack: '', abilities: '', resistances: '', immunities: '', vulnerabilities: '' },
     actions: [],
@@ -136,6 +137,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
       threatType: monster.threatType || 'monster',
       level: monster.level || 1,
       challengeRating: monster.challengeRating || 0.25,
+      imageUrl: monster.imageUrl || '',
       attributes: {
         strength: monster.attributes?.strength ?? 10,
         dexterity: monster.attributes?.dexterity ?? 10,
@@ -207,6 +209,22 @@ export default function MonsterDetailsPage({ params }: PageProps) {
 
   return (
     <div className="container">
+      <style>{`
+        .threat-title {
+          font-size: 40px;
+        }
+        @media (max-width: 768px) {
+          .desktop-only-image-container {
+            display: none !important;
+          }
+          .mobile-image-thumbnail {
+            display: block !important;
+          }
+          .threat-title {
+            font-size: 26px !important;
+          }
+        }
+      `}</style>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <Link href="/ameacas">
           <button className="btn btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -238,102 +256,296 @@ export default function MonsterDetailsPage({ params }: PageProps) {
         </div>
       </div>
 
-      <div style={{
-        background: 'var(--card)',
-        borderRadius: 16,
-        border: '1px solid var(--border)',
-        overflow: 'hidden',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+      <div className="threat-layout" style={{
+        display: 'grid',
+        gridTemplateColumns: '7fr 5fr',
+        gap: 32,
+        alignItems: 'start'
       }}>
-        {/* Header */}
-        <div style={{
-          background: 'linear-gradient(135deg, var(--bg2), var(--card))',
-          padding: '16px',
-          borderBottom: '1px solid var(--border)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12
-        }} className="monster-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }} className="header-flex">
-            <div style={{ flex: 1, minWidth: 300 }} className="monster-title-container">
-              <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 40, color: 'var(--accentL)', marginBottom: 4 }}>{monster.name}</h1>
-              <p style={{ color: 'var(--fg2)', fontSize: 16, textTransform: 'capitalize', fontStyle: 'italic' }}>
-                {m.threatType?.toUpperCase()} • {m.level ? `Lvl ${m.level}` : ''}
-              </p>
+        {/* Left Column - Stats & Details */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Header Tag / Name */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+            <div>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                <span style={{
+                  background: 'var(--danger)',
+                  color: '#fff',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: '4px 12px',
+                  borderRadius: 20,
+                  textTransform: 'uppercase'
+                }}>
+                  {TRANSLATIONS[m.threatType] || m.threatType || 'Criatura'}
+                </span>
+                <span style={{
+                  background: 'var(--bg2)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--fg2)',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: '4px 12px',
+                  borderRadius: 20
+                }}>
+                  Nível {m.level || 1} • ND {m.challengeRating || '1/4'}
+                </span>
+              </div>
+              <h1 
+                className="threat-title"
+                style={{
+                  fontFamily: 'Cinzel, serif',
+                  color: 'var(--fg)',
+                  textTransform: 'uppercase',
+                  margin: 0,
+                  fontWeight: 800,
+                  letterSpacing: '0.05em'
+                }}
+              >
+                {monster.name}
+              </h1>
             </div>
-            <div style={{ textAlign: 'right', marginLeft: 'auto' }} className="challenge-rating-container">
-              <div style={{ fontSize: 14, color: 'var(--fg3)', fontWeight: 600 }}>NÍVEL DE DESAFIO</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--accentL)' }}>{m.challengeRating || 'N/A'}</div>
-            </div>
+            {monster.imageUrl && (
+              <div 
+                className="mobile-image-thumbnail"
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 8,
+                  overflow: 'hidden',
+                  flexShrink: 0,
+                  display: 'none' // Hidden by default (desktop)
+                }}
+              >
+                <img
+                  src={monster.imageUrl}
+                  alt={monster.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Essential Stats */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 1,
-          background: 'var(--border)'
-        }} className="essential-stats-grid">
-          <StatBox icon={<Shield size={20} color="var(--accentL)" />} label="CA" value={m.attributes?.ac || 10} />
-          <StatBox icon={<Heart size={20} color="var(--danger)" />} label="PV" value={m.attributes?.hp || 10} />
-          <StatBox icon={<Zap size={20} color="var(--accent2)" />} label="DESLOC." value={m.attributes?.speed || '30ft'} />
-          <StatBox icon={<Sword size={20} color="var(--accentL)" />} label="BÔNUS ATK" value={`+${m.combat?.attackBonus || 0}`} />
-        </div>
-
-        <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 40 }}>
-          {/* Attributes */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 4 }}>
+          {/* Attributes modifier row */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8 }}>
             {stats.map(s => (
               <div key={s.key} style={{
                 background: 'var(--bg2)',
-                padding: '10px',
-                borderRadius: 12,
+                padding: '12px 6px',
+                borderRadius: 8,
                 textAlign: 'center',
                 border: '1px solid var(--border)'
               }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg3)', marginBottom: 4 }}>{s.label}</div>
-                <div style={{ fontSize: 20, fontWeight: 800 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: 'var(--accentL)', fontWeight: 700, marginTop: 2 }}>({getMod(s.value)})</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', marginBottom: 2 }}>{s.label}</div>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>{s.value}</div>
+                <div style={{ fontSize: 12, color: 'var(--accentL)', fontWeight: 700 }}>({getMod(s.value)})</div>
               </div>
             ))}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            <InfoSection title="Descrição & Detalhes">
-              <p style={{ color: 'var(--fg2)', lineHeight: 1.6 }}>{monster.description || 'Nenhuma descrição detalhada.'}</p>
-            </InfoSection>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <ResistanceSection title="Resistências" items={m.combat?.resistances?.split(',') || []} color="var(--accent2)" />
-              <ResistanceSection title="Imunidades" items={m.combat?.immunities?.split(',') || []} color="var(--accentL)" />
-              <ResistanceSection title="Vulnerabilidades" items={m.combat?.vulnerabilities?.split(',') || []} color="var(--danger)" />
+          {/* Core Grid stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
+                <Shield size={14} color="var(--accentL)" /> Defesa
+              </div>
+              <div style={{ fontSize: 24, fontWeight: 800 }}>{m.attributes?.ac || 10}</div>
+            </div>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
+                <Heart size={14} color="var(--danger)" /> Pontos de Vida
+              </div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--danger)' }}>{m.attributes?.hp || 10}</div>
+            </div>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
+                <Zap size={14} color="var(--accent2)" /> Deslocamento
+              </div>
+              <div style={{ fontSize: 24, fontWeight: 800 }}>{m.attributes?.speed || '30ft'}</div>
+            </div>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' }}>
+                <Sword size={14} color="var(--accentL)" /> Bônus de Ataque
+              </div>
+              <div style={{ fontSize: 24, fontWeight: 800 }}>+{m.combat?.attackBonus || 0}</div>
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-            {m.actions && m.actions.length > 0 && (
-              <Section title="Ações">
-                {m.actions.map((action: any, idx: number) => (
-                  <AbilityItem key={idx} name={action.name} desc={action.description} />
-                ))}
-              </Section>
-            )}
-
-            {m.skills && m.skills.length > 0 && (
-              <Section title="Habilidades Especiais">
-                {m.skills.map((skill: any, idx: number) => (
-                  <AbilityItem key={idx} name={skill.name} desc={skill.description} />
-                ))}
-              </Section>
-            )}
-            
-            <Section title="Ataque Padrão">
-              <div style={{ background: 'var(--bg2)', padding: '20px', borderRadius: 12, border: '1px solid var(--border)' }}>
-                <div style={{ fontWeight: 800, color: 'var(--accentL)', marginBottom: 8 }}>{m.combat?.damage || 'Sem dano definido'}</div>
-                <p style={{ color: 'var(--fg3)', fontSize: 14 }}>Tipo: {m.combat?.damageType || 'Desconhecido'}</p>
+          {/* Senses, Languages, Resistances */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px' }}>
+              <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', marginBottom: 12 }}>Sentidos & Idiomas</h3>
+              <div style={{ fontSize: 14, color: 'var(--fg2)', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {m.languages && <div><strong>Idiomas:</strong> {m.languages}</div>}
+                {m.attributes?.initiativeBonus !== undefined && <div><strong>Iniciativa:</strong> +{m.attributes.initiativeBonus}</div>}
               </div>
-            </Section>
+            </div>
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px' }}>
+              <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', marginBottom: 12 }}>Testes de Resistência</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <ResistanceSection title="Resistências" items={m.combat?.resistances?.split(',') || []} color="var(--accent2)" />
+                <ResistanceSection title="Imunidades" items={m.combat?.immunities?.split(',') || []} color="var(--accentL)" />
+                <ResistanceSection title="Vulnerabilidades" items={m.combat?.vulnerabilities?.split(',') || []} color="var(--danger)" />
+              </div>
+            </div>
+          </div>
+
+          {/* Actions & Special Abilities */}
+          <div>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', borderBottom: '1px solid var(--border)', paddingBottom: 6, marginBottom: 16 }}>Ações & Habilidades</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {m.actions && m.actions.map((action: any, idx: number) => (
+                <div key={idx} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <span style={{ fontWeight: 800, color: 'var(--fg)' }}>{action.name}</span>
+                    <span style={{ fontSize: 12, color: 'var(--accentL)', fontWeight: 700 }}>AÇÃO</span>
+                  </div>
+                  <p style={{ color: 'var(--fg2)', fontSize: 14, margin: 0 }}>{action.description}</p>
+                </div>
+              ))}
+              {m.skills && m.skills.map((skill: any, idx: number) => (
+                <div key={idx} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <span style={{ fontWeight: 800, color: 'var(--fg)' }}>{skill.name}</span>
+                    <span style={{ fontSize: 12, color: 'var(--accent2)', fontWeight: 700 }}>HABILIDADE</span>
+                  </div>
+                  <p style={{ color: 'var(--fg2)', fontSize: 14, margin: 0 }}>{skill.description}</p>
+                </div>
+              ))}
+              <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <span style={{ fontWeight: 800, color: 'var(--fg)' }}>Ataque Padrão</span>
+                  <span style={{ fontSize: 12, color: 'var(--accentL)', fontWeight: 700 }}>DANO</span>
+                </div>
+                <p style={{ color: 'var(--fg2)', fontSize: 14, margin: 0 }}>
+                  <strong>Dano:</strong> {m.combat?.damage || 'Sem dano definido'} ({m.combat?.damageType || 'Desconhecido'})
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column - Image & Relato & Detalhes */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Creature Image */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12
+          }}>
+            <div className="desktop-only-image-container" style={{
+              width: '100%',
+              aspectRatio: '3/4',
+              maxHeight: 500,
+              borderRadius: 12,
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative'
+            }}>
+              {monster.imageUrl ? (
+                <img
+                  src={monster.imageUrl}
+                  alt={monster.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              ) : (
+                <div style={{ textAlign: 'center', padding: 20 }}>
+                  <Skull size={48} color="var(--border)" style={{ marginBottom: 12, display: 'inline-block' }} />
+                  <p style={{ color: 'var(--fg3)', fontSize: 14, margin: 0 }}>Nenhuma imagem vinculada.</p>
+                </div>
+              )}
+            </div>
+            
+            {/* Quick image upload if owner */}
+            {monster && sessionData?.user?.id === monster.userId && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase' }}>Imagem da Ameaça</label>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                  <label style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '8px 14px',
+                    background: 'var(--bg)',
+                    border: '1px dashed var(--border)',
+                    borderRadius: 6,
+                    cursor: 'pointer',
+                    fontSize: 13,
+                    color: 'var(--fg)',
+                    width: '100%',
+                    textAlign: 'center',
+                    transition: 'all 0.2s',
+                    flex: 1
+                  }}>
+                    <span>Escolher arquivo...</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={e => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          const reader = new FileReader()
+                          reader.onloadend = async () => {
+                            if (typeof reader.result === 'string') {
+                              const base64 = reader.result
+                              setMonster({ ...monster, imageUrl: base64 })
+                              try {
+                                await fetch(`/api/ameacas/${index}`, {
+                                  method: 'PATCH',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ imageUrl: base64 })
+                                })
+                              } catch (err) {
+                                console.error(err)
+                              }
+                            }
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                    />
+                  </label>
+                  {monster.imageUrl && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        setMonster({ ...monster, imageUrl: null })
+                        try {
+                          await fetch(`/api/ameacas/${index}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageUrl: null })
+                          })
+                        } catch (err) {
+                          console.error(err)
+                        }
+                      }}
+                      style={{
+                        padding: '8px 12px',
+                        background: 'rgba(225, 29, 72, 0.1)',
+                        border: '1px solid rgba(225, 29, 72, 0.2)',
+                        borderRadius: 6,
+                        color: 'var(--danger)',
+                        cursor: 'pointer',
+                        fontSize: 13,
+                        fontWeight: 500
+                      }}
+                    >
+                      Remover
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Relato & Detalhes */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 16, padding: '24px' }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', borderBottom: '1px solid var(--border)', paddingBottom: 6, marginBottom: 16 }}>Relato & Detalhes</h3>
+            <p style={{ color: 'var(--fg2)', fontSize: 15, lineHeight: 1.7, whiteSpace: 'pre-wrap', margin: 0 }}>{monster.description || 'Sem relatos ou detalhes adicionais.'}</p>
           </div>
         </div>
       </div>
@@ -397,6 +609,75 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                     value={threatForm.description}
                     onChange={e => setThreatForm({ ...threatForm, description: e.target.value })}
                   ></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Imagem da Ameaça</label>
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8 }}>
+                    {threatForm.imageUrl && (
+                      <div style={{ position: 'relative', width: 64, height: 64, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)', flexShrink: 0 }}>
+                        <img src={threatForm.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <button
+                          type="button"
+                          onClick={() => setThreatForm({ ...threatForm, imageUrl: '' })}
+                          style={{
+                            position: 'absolute',
+                            top: 2,
+                            right: 2,
+                            background: 'rgba(0,0,0,0.6)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: 18,
+                            height: 18,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#fff',
+                            cursor: 'pointer',
+                            padding: 0
+                          }}
+                        >
+                          <X size={10} />
+                        </button>
+                      </div>
+                    )}
+                    <label style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '12px 20px',
+                      background: 'var(--bg3)',
+                      border: '1px dashed var(--border)',
+                      borderRadius: 8,
+                      cursor: 'pointer',
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: 'var(--fg)',
+                      transition: 'all 0.2s',
+                      flex: 1,
+                      textAlign: 'center'
+                    }}>
+                      <span>Selecionar Imagem...</span>
+                      <span style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 2 }}>PNG, JPG ou GIF</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={e => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const reader = new FileReader()
+                            reader.onloadend = () => {
+                              if (typeof reader.result === 'string') {
+                                setThreatForm({ ...threatForm, imageUrl: reader.result })
+                              }
+                            }
+                            reader.readAsDataURL(file)
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -743,7 +1024,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
         }
 
         @media (max-width: 1024px) {
-          .container > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
+          .threat-layout { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 768px) {
           .header-flex {

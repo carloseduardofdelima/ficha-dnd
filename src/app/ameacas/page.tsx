@@ -16,6 +16,7 @@ export default function AmeacasPage() {
     threatType: 'monster',
     level: 1,
     challengeRating: 0.25,
+    imageUrl: '',
     attributes: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10, hp: 10, ac: 10, speed: '30ft', initiativeBonus: 0 },
     combat: { attackBonus: 0, damage: '1d6', damageType: 'concussão', multiattack: '', abilities: '', resistances: '', immunities: '', vulnerabilities: '' },
     actions: [] as any[],
@@ -123,61 +124,160 @@ export default function AmeacasPage() {
           <p style={{ color: 'var(--fg2)', fontFamily: 'Cinzel, serif' }}>Invocando criaturas...</p>
         </div>
       ) : (
-        <div className="grid-monsters">
-          {filteredMonsters.map((monster: any) => (
-            <Link
-              key={monster.id}
-              href={`/ameacas/${monster.id}`}
-              style={{ textDecoration: 'none' }}
-            >
-              <div style={{
-                background: 'var(--card)',
-                border: '1px solid var(--border)',
-                borderRadius: 12,
-                padding: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'all 0.2s',
-                cursor: 'pointer'
-              }} className="monster-card-hover">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                  <div style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 8,
-                    background: 'rgba(225, 29, 72, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <Shield size={20} color="var(--accentL)" />
+        (() => {
+          const myMonsters = filteredMonsters.filter((m: any) => !m.isPublic)
+          const classicMonsters = filteredMonsters.filter((m: any) => m.isPublic)
+
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+              {/* Meus Monstros */}
+              <div>
+                <h2 style={{
+                  fontFamily: 'Cinzel, serif',
+                  fontSize: 22,
+                  marginBottom: 16,
+                  color: 'var(--fg)',
+                  borderBottom: '1px solid var(--border)',
+                  paddingBottom: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10
+                }}>
+                  <Skull size={18} color="var(--accent)" /> Meus Monstros
+                </h2>
+                {myMonsters.length > 0 ? (
+                  <div className="grid-monsters">
+                    {myMonsters.map((monster: any) => (
+                      <Link
+                        key={monster.id}
+                        href={`/ameacas/${monster.id}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <div style={{
+                          background: 'var(--card)',
+                          border: '1px solid var(--border)',
+                          borderRadius: 12,
+                          padding: '20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          transition: 'all 0.2s',
+                          cursor: 'pointer'
+                        }} className="monster-card-hover">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <div style={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: 8,
+                              background: 'rgba(225, 29, 72, 0.1)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}>
+                              <Shield size={20} color="var(--accentL)" />
+                            </div>
+                            <span style={{
+                              fontWeight: 600,
+                              fontSize: 16,
+                              color: 'var(--fg)'
+                            }}>
+                              {monster.name}
+                            </span>
+                          </div>
+                          <ArrowRight size={18} color="var(--fg3)" />
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                  <span style={{
-                    fontWeight: 600,
-                    fontSize: 16,
-                    color: 'var(--fg)'
+                ) : (
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '40px 0',
+                    border: '1px dashed var(--border)',
+                    borderRadius: 12,
+                    color: 'var(--fg3)',
+                    fontSize: 14
                   }}>
-                    {monster.name}
-                  </span>
-                </div>
-                <ArrowRight size={18} color="var(--fg3)" />
+                    {search ? `Nenhum monstro personalizado encontrado para "${search}".` : 'Nenhum monstro personalizado cadastrado.'}
+                  </div>
+                )}
               </div>
-            </Link>
-          ))}
-          {filteredMonsters.length === 0 && (
-            <div style={{
-              gridColumn: '1/-1',
-              textAlign: 'center',
-              padding: '60px 0',
-              border: '1px dashed var(--border)',
-              borderRadius: 12,
-              color: 'var(--fg3)'
-            }}>
-              Nenhuma criatura encontrada para "{search}".
+
+              {/* Monstros Clássicos */}
+              <div>
+                <h2 style={{
+                  fontFamily: 'Cinzel, serif',
+                  fontSize: 22,
+                  marginBottom: 16,
+                  color: 'var(--fg)',
+                  borderBottom: '1px solid var(--border)',
+                  paddingBottom: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10
+                }}>
+                  <Shield size={18} color="var(--accentL)" /> Monstros Clássicos
+                </h2>
+                {classicMonsters.length > 0 ? (
+                  <div className="grid-monsters">
+                    {classicMonsters.map((monster: any) => (
+                      <Link
+                        key={monster.id}
+                        href={`/ameacas/${monster.id}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <div style={{
+                          background: 'var(--card)',
+                          border: '1px solid var(--border)',
+                          borderRadius: 12,
+                          padding: '20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          transition: 'all 0.2s',
+                          cursor: 'pointer'
+                        }} className="monster-card-hover">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                            <div style={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: 8,
+                              background: 'rgba(225, 29, 72, 0.1)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}>
+                              <Shield size={20} color="var(--accentL)" />
+                            </div>
+                            <span style={{
+                              fontWeight: 600,
+                              fontSize: 16,
+                              color: 'var(--fg)'
+                            }}>
+                              {monster.name}
+                            </span>
+                          </div>
+                          <ArrowRight size={18} color="var(--fg3)" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '40px 0',
+                    border: '1px dashed var(--border)',
+                    borderRadius: 12,
+                    color: 'var(--fg3)',
+                    fontSize: 14
+                  }}>
+                    {search ? `Nenhum monstro clássico encontrado para "${search}".` : 'Nenhum monstro clássico cadastrado.'}
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>
+          )
+        })()
       )}
 
       {showThreatModal && (
@@ -250,6 +350,75 @@ export default function AmeacasPage() {
                     value={threatForm.description}
                     onChange={e => setThreatForm({ ...threatForm, description: e.target.value })}
                   ></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Imagem da Ameaça</label>
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8 }}>
+                    {threatForm.imageUrl && (
+                      <div style={{ position: 'relative', width: 64, height: 64, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)', flexShrink: 0 }}>
+                        <img src={threatForm.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <button
+                          type="button"
+                          onClick={() => setThreatForm({ ...threatForm, imageUrl: '' })}
+                          style={{
+                            position: 'absolute',
+                            top: 2,
+                            right: 2,
+                            background: 'rgba(0,0,0,0.6)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: 18,
+                            height: 18,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#fff',
+                            cursor: 'pointer',
+                            padding: 0
+                          }}
+                        >
+                          <X size={10} />
+                        </button>
+                      </div>
+                    )}
+                    <label style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '12px 20px',
+                      background: 'var(--bg3)',
+                      border: '1px dashed var(--border)',
+                      borderRadius: 8,
+                      cursor: 'pointer',
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: 'var(--fg)',
+                      transition: 'all 0.2s',
+                      flex: 1,
+                      textAlign: 'center'
+                    }}>
+                      <span>Selecionar Imagem...</span>
+                      <span style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 2 }}>PNG, JPG ou GIF</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={e => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const reader = new FileReader()
+                            reader.onloadend = () => {
+                              if (typeof reader.result === 'string') {
+                                setThreatForm({ ...threatForm, imageUrl: reader.result })
+                              }
+                            }
+                            reader.readAsDataURL(file)
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
 

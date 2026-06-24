@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
         challengeRating: body.challengeRating,
         isTemplate: body.isTemplate || false,
         isPublic: body.isPublic || false,
+        imageUrl: body.imageUrl || null,
         attributes: {
           create: body.attributes || {}
         },
