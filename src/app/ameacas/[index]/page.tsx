@@ -86,6 +86,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
   const [deleting, setDeleting] = useState(false)
   const [saving, setSaving] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showZoomModal, setShowZoomModal] = useState(false)
   const [threatForm, setThreatForm] = useState<any>({
     name: '',
     description: '',
@@ -116,7 +117,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
 
   const handleDelete = async () => {
     if (!confirm('Deseja realmente excluir esta criatura permanentemente?')) return
-    
+
     setDeleting(true)
     try {
       const res = await fetch(`/api/ameacas/${index}`, { method: 'DELETE' })
@@ -204,7 +205,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
     { label: 'SAB', value: monster.attributes?.wisdom || 10, key: 'wisdom' },
     { label: 'CAR', value: monster.attributes?.charisma || 10, key: 'charisma' },
   ]
-  
+
   const m = monster as any
 
   return (
@@ -231,11 +232,11 @@ export default function MonsterDetailsPage({ params }: PageProps) {
             <ArrowLeft size={16} /> Voltar
           </button>
         </Link>
-        
+
         <div style={{ display: 'flex', gap: 12 }}>
           {monster && sessionData?.user?.id === monster.userId && (
-            <button 
-              className="btn btn-ghost" 
+            <button
+              className="btn btn-ghost"
               onClick={handleEdit}
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
@@ -243,8 +244,8 @@ export default function MonsterDetailsPage({ params }: PageProps) {
             </button>
           )}
           {monster && sessionData?.user?.id === monster.userId && (
-            <button 
-              className="btn btn-danger" 
+            <button
+              className="btn btn-danger"
               onClick={handleDelete}
               disabled={deleting}
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
@@ -291,7 +292,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                   Nível {m.level || 1} • ND {m.challengeRating || '1/4'}
                 </span>
               </div>
-              <h1 
+              <h1
                 className="threat-title"
                 style={{
                   fontFamily: 'Cinzel, serif',
@@ -306,21 +307,23 @@ export default function MonsterDetailsPage({ params }: PageProps) {
               </h1>
             </div>
             {monster.imageUrl && (
-              <div 
+              <div
                 className="mobile-image-thumbnail"
                 style={{
-                  width: 80,
-                  height: 80,
+                  width: 140,
+                  height: 140,
                   borderRadius: 8,
                   overflow: 'hidden',
                   flexShrink: 0,
-                  display: 'none' // Hidden by default (desktop)
+                  display: 'none', // Hidden by default (desktop)
+                  cursor: 'pointer'
                 }}
+                onClick={() => setShowZoomModal(true)}
               >
                 <img
                   src={monster.imageUrl}
                   alt={monster.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
             )}
@@ -448,7 +451,8 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                 <img
                   src={monster.imageUrl}
                   alt={monster.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', cursor: 'pointer' }}
+                  onClick={() => setShowZoomModal(true)}
                 />
               ) : (
                 <div style={{ textAlign: 'center', padding: 20 }}>
@@ -457,7 +461,7 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                 </div>
               )}
             </div>
-            
+
             {/* Quick image upload if owner */}
             {monster && sessionData?.user?.id === monster.userId && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
@@ -785,9 +789,9 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                 {threatForm.actions.map((action: any, idx: number) => (
                   <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
-                      <input 
-                        placeholder="Nome da Ação" 
-                        value={action.name} 
+                      <input
+                        placeholder="Nome da Ação"
+                        value={action.name}
                         onChange={e => {
                           const newActions = [...threatForm.actions]
                           newActions[idx].name = e.target.value
@@ -802,8 +806,8 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                         <Trash2 size={14} />
                       </button>
                     </div>
-                    <textarea 
-                      placeholder="Descrição da Ação" 
+                    <textarea
+                      placeholder="Descrição da Ação"
                       value={action.description}
                       onChange={e => {
                         const newActions = [...threatForm.actions]
@@ -829,9 +833,9 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                 {threatForm.skills.map((skill: any, idx: number) => (
                   <div key={idx} style={{ marginBottom: 16, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8 }}>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
-                      <input 
-                        placeholder="Nome da Habilidade" 
-                        value={skill.name} 
+                      <input
+                        placeholder="Nome da Habilidade"
+                        value={skill.name}
                         onChange={e => {
                           const newSkills = [...threatForm.skills]
                           newSkills[idx].name = e.target.value
@@ -846,8 +850,8 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                         <Trash2 size={14} />
                       </button>
                     </div>
-                    <textarea 
-                      placeholder="Descrição da Habilidade" 
+                    <textarea
+                      placeholder="Descrição da Habilidade"
                       value={skill.description}
                       onChange={e => {
                         const newSkills = [...threatForm.skills]
@@ -867,6 +871,51 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showZoomModal && monster.imageUrl && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowZoomModal(false)}
+          style={{
+            background: 'rgba(0, 0, 0, 0.9)',
+            zIndex: 2000,
+            cursor: 'zoom-out'
+          }}
+        >
+          <div style={{ position: 'absolute', top: 20, right: 20 }}>
+            <button
+              className="btn btn-ghost"
+              onClick={() => setShowZoomModal(false)}
+              style={{ color: '#fff', padding: 8, background: 'rgba(255, 255, 255, 0.1)', borderRadius: '50%' }}
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <div
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '95vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={monster.imageUrl}
+              alt={monster.name}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '95vh',
+                objectFit: 'contain',
+                borderRadius: 8,
+                boxShadow: '0 10px 40px rgba(0,0,0,0.8)',
+                cursor: 'default'
+              }}
+            />
           </div>
         </div>
       )}

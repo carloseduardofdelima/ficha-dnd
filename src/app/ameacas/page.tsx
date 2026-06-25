@@ -176,13 +176,18 @@ export default function AmeacasPage() {
                             }}>
                               <Shield size={20} color="var(--accentL)" />
                             </div>
-                            <span style={{
-                              fontWeight: 600,
-                              fontSize: 16,
-                              color: 'var(--fg)'
-                            }}>
-                              {monster.name}
-                            </span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                              <span style={{
+                                fontWeight: 600,
+                                fontSize: 16,
+                                color: 'var(--fg)'
+                              }}>
+                                {monster.name}
+                              </span>
+                              <span style={{ fontSize: 12, color: 'var(--fg3)', fontWeight: 500 }}>
+                                CR {monster.challengeRating ?? '1/4'}
+                              </span>
+                            </div>
                           </div>
                           <ArrowRight size={18} color="var(--fg3)" />
                         </div>
@@ -249,13 +254,18 @@ export default function AmeacasPage() {
                             }}>
                               <Shield size={20} color="var(--accentL)" />
                             </div>
-                            <span style={{
-                              fontWeight: 600,
-                              fontSize: 16,
-                              color: 'var(--fg)'
-                            }}>
-                              {monster.name}
-                            </span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                              <span style={{
+                                fontWeight: 600,
+                                fontSize: 16,
+                                color: 'var(--fg)'
+                              }}>
+                                {monster.name}
+                              </span>
+                              <span style={{ fontSize: 12, color: 'var(--fg3)', fontWeight: 500 }}>
+                                CR {monster.challengeRating ?? '1/4'}
+                              </span>
+                            </div>
                           </div>
                           <ArrowRight size={18} color="var(--fg3)" />
                         </div>
