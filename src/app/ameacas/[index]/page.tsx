@@ -208,6 +208,46 @@ export default function MonsterDetailsPage({ params }: PageProps) {
 
   const m = monster as any
 
+  let parsedAbilities: [string, string][] = []
+  let parsedSenses = ''
+  let parsedSkills = ''
+  let parsedLanguages = ''
+  let parsedSavingThrows = ''
+
+  if (m.combat?.abilities) {
+    try {
+      const parsed = JSON.parse(m.combat.abilities)
+      if (typeof parsed === 'object' && parsed !== null) {
+        const ignoredKeys = [
+          'perícias', 'perícias', 'sentidos', 'idiomas', 'testes de resistência',
+          'resistências', 'pericia', 'pericias', 'sentido', 'idioma', 'resistencia',
+          'resistencias', 'resistência', 'resistências'
+        ]
+        parsedAbilities = Object.entries(parsed)
+          .filter(([key]) => !ignoredKeys.includes(key.toLowerCase().trim()))
+          .map(([key, val]) => [key, String(val)])
+
+        const sensesKey = Object.keys(parsed).find(k => ['sentidos', 'sentido'].includes(k.toLowerCase().trim()))
+        if (sensesKey) parsedSenses = String(parsed[sensesKey])
+
+        const skillsKey = Object.keys(parsed).find(k => ['perícias', 'pericias', 'pericia'].includes(k.toLowerCase().trim()))
+        if (skillsKey) parsedSkills = String(parsed[skillsKey])
+
+        const langsKey = Object.keys(parsed).find(k => ['idiomas', 'idioma'].includes(k.toLowerCase().trim()))
+        if (langsKey) parsedLanguages = String(parsed[langsKey])
+
+        const savesKey = Object.keys(parsed).find(k => ['testes de resistência', 'resistência', 'resistências', 'resistencia', 'resistencias'].includes(k.toLowerCase().trim()))
+        if (savesKey) parsedSavingThrows = String(parsed[savesKey])
+      } else if (typeof parsed === 'string' && parsed.trim() !== '') {
+        parsedAbilities = [['Habilidade Especial', parsed]]
+      }
+    } catch (e) {
+      if (typeof m.combat.abilities === 'string' && m.combat.abilities.trim() !== '') {
+        parsedAbilities = [['Habilidade Especial', m.combat.abilities]]
+      }
+    }
+  }
+
   return (
     <div className="container">
       <style>{`
@@ -379,13 +419,16 @@ export default function MonsterDetailsPage({ params }: PageProps) {
             <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px' }}>
               <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', marginBottom: 12 }}>Sentidos & Idiomas</h3>
               <div style={{ fontSize: 14, color: 'var(--fg2)', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {m.languages && <div><strong>Idiomas:</strong> {m.languages}</div>}
+                {(m.languages || parsedLanguages) && <div><strong>Idiomas:</strong> {m.languages || parsedLanguages}</div>}
+                {parsedSenses && <div><strong>Sentidos:</strong> {parsedSenses}</div>}
+                {parsedSkills && <div><strong>Perícias:</strong> {parsedSkills}</div>}
                 {m.attributes?.initiativeBonus !== undefined && <div><strong>Iniciativa:</strong> +{m.attributes.initiativeBonus}</div>}
               </div>
             </div>
             <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px' }}>
               <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', marginBottom: 12 }}>Testes de Resistência</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {parsedSavingThrows && <div style={{ fontSize: 14, color: 'var(--fg2)', marginBottom: 4 }}><strong>Testes:</strong> {parsedSavingThrows}</div>}
                 <ResistanceSection title="Resistências" items={m.combat?.resistances?.split(',') || []} color="var(--accent2)" />
                 <ResistanceSection title="Imunidades" items={m.combat?.immunities?.split(',') || []} color="var(--accentL)" />
                 <ResistanceSection title="Vulnerabilidades" items={m.combat?.vulnerabilities?.split(',') || []} color="var(--danger)" />
@@ -397,6 +440,15 @@ export default function MonsterDetailsPage({ params }: PageProps) {
           <div>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', borderBottom: '1px solid var(--border)', paddingBottom: 6, marginBottom: 16 }}>Ações & Habilidades</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {parsedAbilities.map(([name, desc], idx) => (
+                <div key={`ability-${idx}`} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <span style={{ fontWeight: 800, color: 'var(--fg)' }}>{name}</span>
+                    <span style={{ fontSize: 12, color: 'var(--accent2)', fontWeight: 700 }}>HABILIDADE INATA</span>
+                  </div>
+                  <p style={{ color: 'var(--fg2)', fontSize: 14, margin: 0, whiteSpace: 'pre-wrap' }}>{desc}</p>
+                </div>
+              ))}
               {m.actions && m.actions.map((action: any, idx: number) => (
                 <div key={idx} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
