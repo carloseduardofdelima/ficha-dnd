@@ -422,7 +422,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           />
                         ) : (
-                          p.entityType === 'player' ? <User size={18} /> : <Skull size={18} />
+                          p.entityType === 'player' ? <User size={22} /> : <Skull size={22} />
                         )}
                       </div>
                       <div className="participant-info">
@@ -802,17 +802,18 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         }
 
         .init-badge {
-          width: 36px;
-          height: 36px;
+          width: 48px;
+          height: 48px;
           background: var(--bg2);
           border: 1px solid var(--border);
-          border-radius: 10px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 800;
           color: var(--accentL);
           overflow: hidden;
+          flex-shrink: 0;
         }
 
         .participant-info {
@@ -1110,7 +1111,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
             margin-bottom: 8px; 
             gap: 8px;
           }
-          .init-badge { width: 24px; height: 24px; font-size: 11px; border-radius: 6px; }
+           .init-badge { width: 32px; height: 32px; border-radius: 8px; }
           .participant-info { display: flex; align-items: baseline; gap: 6px; }
           .participant-info h4 { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
           .type-badge { font-size: 8px; opacity: 0.7; }
