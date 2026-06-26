@@ -153,7 +153,20 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
       case 'boss': return '#8b5cf6'
       case 'comerciante': return '#f59e0b'
       case 'quest_giver': return '#3b82f6'
+      case 'neutro': return '#9ca3af'
       default: return '#9ca3af'
+    }
+  }
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'aliado': return 'Aliado'
+      case 'inimigo': return 'Inimigo'
+      case 'boss': return 'Chefe'
+      case 'comerciante': return 'Comerciante'
+      case 'quest_giver': return 'Missão'
+      case 'neutro': return 'Neutro'
+      default: return 'NPC'
     }
   }
 
@@ -189,8 +202,7 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
 
       <div className="npcs-grid">
         {filteredNpcs.map((npc: any) => (
-          <div key={npc.id} className="npc-card" onClick={() => setViewingNpc(npc)}>
-            <div className="npc-type-indicator" style={{ backgroundColor: getTypeColor(npc.type) }}></div>
+          <div key={npc.id} className="npc-card" style={{ borderLeftColor: getTypeColor(npc.type) }} onClick={() => setViewingNpc(npc)}>
             <div className="npc-card-header">
               <div className="npc-avatar-mini">
                 {npc.avatarUrl ? <img src={npc.avatarUrl} alt={npc.name} /> : <User size={20} />}
@@ -199,8 +211,13 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
                 <h4>{npc.name}</h4>
                 {npc.title && <span className="npc-title">{npc.title}</span>}
               </div>
-              <div className="npc-status-tag" data-status={npc.status}>
-                {npc.status}
+              <div className="npc-badges-container">
+                <span className="npc-type-badge" style={{ color: getTypeColor(npc.type), borderColor: getTypeColor(npc.type) + '33', backgroundColor: getTypeColor(npc.type) + '11' }}>
+                  {getTypeLabel(npc.type)}
+                </span>
+                <span className="npc-status-tag" data-status={npc.status}>
+                  {npc.status}
+                </span>
               </div>
             </div>
             <p className="npc-card-desc">{npc.description || 'Sem descrição.'}</p>
@@ -376,7 +393,7 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
       {viewingNpc && (
         <div className="modal-overlay" onClick={() => setViewingNpc(null)}>
           <div className="modal-content view-modal" onClick={e => e.stopPropagation()}>
-            <div className="view-header" style={{ borderLeft: `8px solid ${getTypeColor(viewingNpc.type)}` }}>
+            <div className="view-header">
               {viewingNpc.avatarUrl && (
                 <div className="view-avatar">
                   <img src={viewingNpc.avatarUrl} alt={viewingNpc.name} />
@@ -503,77 +520,114 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
         }
 
         .npc-card {
-          background: var(--bg2);
+          background: var(--card);
           border: 1px solid var(--border);
-          border-radius: 16px;
-          padding: 20px;
+          border-left: 4px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 20px;
           position: relative;
           overflow: hidden;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
         }
 
         .npc-card:hover {
-          border-color: var(--accent);
-          transform: translateY(-4px);
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .npc-type-indicator {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 4px;
-          height: 100%;
+          background: var(--card2);
+          border-color: var(--fg3);
+          transform: translateY(-2px);
         }
 
         .npc-card-header {
           display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
+          align-items: center;
+          gap: 14px;
           margin-bottom: 12px;
+        }
+
+        .npc-main-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
         }
 
         .npc-main-info h4 {
           margin: 0;
-          font-size: 18px;
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--fg);
+          line-height: 1.3;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          transition: color 0.2s;
+        }
+
+        .npc-card:hover .npc-main-info h4 {
           color: var(--accentL);
         }
 
         .npc-title {
-          font-size: 12px;
-          color: var(--fg3);
+          font-size: 10px;
+          color: var(--fgM);
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .npc-badges-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 4px;
+          margin-left: auto;
+          align-self: center;
+          flex-shrink: 0;
+        }
+
+        .npc-type-badge {
+          font-size: 8px;
+          font-weight: 700;
+          text-transform: uppercase;
+          padding: 2px 6px;
+          border-radius: 4px;
+          border: 1px solid;
+          letter-spacing: 0.5px;
         }
 
         .npc-status-tag {
-          font-size: 10px;
-          font-weight: 800;
+          font-size: 8px;
+          font-weight: 700;
           text-transform: uppercase;
-          padding: 4px 8px;
-          border-radius: 6px;
-          background: rgba(255,255,255,0.05);
+          padding: 2px 6px;
+          border-radius: 4px;
+          letter-spacing: 0.5px;
         }
 
-        .npc-status-tag[data-status="vivo"] { color: #10b981; background: rgba(16,185,129,0.1); }
-        .npc-status-tag[data-status="morto"] { color: #ef4444; background: rgba(239,68,68,0.1); }
+        .npc-status-tag[data-status="vivo"] { color: #10b981; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); }
+        .npc-status-tag[data-status="morto"] { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); }
+        .npc-status-tag[data-status="desaparecido"] { color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); }
 
         .npc-card-desc {
-          font-size: 14px;
+          font-size: 13px;
           color: var(--fg2);
           line-height: 1.5;
-          margin-bottom: 20px;
+          margin-bottom: 14px;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          height: 38px;
         }
 
         .npc-card-footer {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          height: 28px;
         }
 
         .npc-tags {
@@ -583,22 +637,29 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
         }
 
         .tag {
-          font-size: 10px;
-          background: rgba(255,255,255,0.05);
-          padding: 2px 8px;
+          font-size: 9px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid var(--border);
+          padding: 2px 6px;
           border-radius: 4px;
-          color: var(--fg3);
+          color: var(--fg2);
         }
 
         .npc-actions {
           display: flex;
-          gap: 8px;
+          gap: 6px;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+
+        .npc-card:hover .npc-actions {
+          opacity: 1;
         }
 
         .action-btn {
           background: transparent;
           border: 1px solid var(--border);
-          color: var(--fg3);
+          color: var(--fgM);
           width: 28px;
           height: 28px;
           border-radius: 6px;
@@ -847,17 +908,22 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
         }
 
         .npc-avatar-mini {
-          width: 48px;
-          height: 48px;
-          border-radius: 12px;
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
           overflow: hidden;
           background: var(--bg);
-          border: 1px solid var(--border);
+          border: 2px solid var(--border);
           display: flex;
           align-items: center;
           justify-content: center;
           color: var(--fg3);
           flex-shrink: 0;
+          transition: border-color 0.2s;
+        }
+
+        .npc-card:hover .npc-avatar-mini {
+          border-color: var(--fgM);
         }
 
         .npc-avatar-mini img {
