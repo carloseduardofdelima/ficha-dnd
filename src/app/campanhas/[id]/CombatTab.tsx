@@ -1,7 +1,7 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
-import { 
-  Sword, Shield, Heart, Skull, Play, Square, 
+import { useState, useEffect, useCallback, useRef } from 'react'
+import {
+  Sword, Shield, Heart, Skull, Play, Square,
   ChevronRight, Plus, Trash2, Edit2, Zap,
   Loader2, User, Info, Save, X, ChevronUp, ChevronDown
 } from 'lucide-react'
@@ -20,8 +20,9 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   const [creating, setCreating] = useState(false)
   const [showAddParticipant, setShowAddParticipant] = useState(false)
   const [localTurnIndex, setLocalTurnIndex] = useState(0)
-  
+
   const isMaster = isOwner ?? (campaign?.isOwner || false)
+
 
   const fetchCombats = useCallback(async () => {
     try {
@@ -54,12 +55,11 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
     fetchCombats()
   }, [fetchCombats])
 
-  // Real-time synchronization (polling for now, as requested "realtime" but implementation context varies)
   useEffect(() => {
     if (activeCombat && activeCombat.status === 'ativo') {
       const interval = setInterval(() => {
         fetchCombatDetails(activeCombat.id)
-      }, 10000) // Poll every 10 seconds for HP updates
+      }, 30000) // Poll every 30 seconds for HP updates
       return () => clearInterval(interval)
     }
   }, [activeCombat?.id, activeCombat?.status])
@@ -105,7 +105,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
 
   const handleAddParticipant = async (entity: any, type: 'player' | 'threat' | 'npc') => {
     if (!activeCombat) return
-    
+
     let participantData: any = {
       entityType: type,
       entityId: entity.id,
@@ -146,7 +146,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   const handleDeleteCombat = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation()
     if (!confirm('Tem certeza que deseja apagar este combate? Todos os dados de iniciativa e turnos serão perdidos.')) return
-    
+
     try {
       const res = await fetch(`/api/combates/${id}`, { method: 'DELETE' })
       if (res.ok) {
@@ -170,7 +170,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
 
     // Update DB
     try {
-      await Promise.all(newParticipants.map((p, idx) => 
+      await Promise.all(newParticipants.map((p, idx) =>
         fetch(`/api/combates/participantes/${p.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -185,46 +185,81 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
 
   const handleUpdateParticipantHp = async (p: any, change: number) => {
     if (p.entityType === 'player') return // Players control their own HP
-    
+
     const newHp = Math.max(0, (p.stats?.currentHp || 0) + change)
+    
+    // Update locally for instant feedback
+    const updatedParticipants = activeCombat.participants.map((part: any) => {
+      if (part.id === p.id) {
+        return {
+          ...part,
+          isAlive: newHp > 0,
+          stats: { ...part.stats, currentHp: newHp }
+        }
+      }
+      return part
+    })
+    setActiveCombat({ ...activeCombat, participants: updatedParticipants })
+
     try {
       await fetch(`/api/combates/participantes/${p.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           stats: { ...p.stats, currentHp: newHp },
           isAlive: newHp > 0
         })
       })
-      fetchCombatDetails(activeCombat.id)
     } catch (e) {
       console.error(e)
     }
   }
 
   const handleUpdateInitiative = async (p: any, value: number) => {
+    // Update locally for instant feedback
+    const updatedParticipants = activeCombat.participants.map((part: any) => {
+      if (part.id === p.id) {
+        return {
+          ...part,
+          initiative: value
+        }
+      }
+      return part
+    })
+    setActiveCombat({ ...activeCombat, participants: updatedParticipants })
+
     try {
       await fetch(`/api/combates/participantes/${p.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ initiative: value })
       })
-      fetchCombatDetails(activeCombat.id)
     } catch (e) {
       console.error(e)
     }
   }
 
   const handleUpdateParticipantStats = async (p: any, updates: any) => {
+    // Update locally for instant feedback
+    const updatedParticipants = activeCombat.participants.map((part: any) => {
+      if (part.id === p.id) {
+        return {
+          ...part,
+          stats: { ...part.stats, ...updates }
+        }
+      }
+      return part
+    })
+    setActiveCombat({ ...activeCombat, participants: updatedParticipants })
+
     try {
       await fetch(`/api/combates/participantes/${p.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           stats: { ...p.stats, ...updates }
         })
       })
-      fetchCombatDetails(activeCombat.id)
     } catch (e) {
       console.error(e)
     }
@@ -255,7 +290,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
 
     // Update in DB
     try {
-      await Promise.all(newParticipants.map((p, idx) => 
+      await Promise.all(newParticipants.map((p, idx) =>
         fetch(`/api/combates/participantes/${p.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -293,8 +328,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         </div>
         <div className="combat-list">
           {combats.map(c => (
-            <div 
-              key={c.id} 
+            <div
+              key={c.id}
               className={`combat-item ${activeCombat?.id === c.id ? 'active' : ''} ${c.status}`}
               onClick={() => fetchCombatDetails(c.id)}
             >
@@ -305,8 +340,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span className={`status-dot ${c.status}`} style={{ position: 'static' }}></span>
                 {isMaster && (
-                  <button 
-                    className="btn-delete-combat-item" 
+                  <button
+                    className="btn-delete-combat-item"
                     onClick={(e) => handleDeleteCombat(e, c.id)}
                   >
                     <Trash2 size={12} />
@@ -325,18 +360,20 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
             <div className="main-header">
               <div className="header-info">
                 <h2>{activeCombat.name}</h2>
-                <div className={`status-badge ${activeCombat.status}`}>
-                  {activeCombat.status === 'ativo' ? 'EM CURSO' : 'FINALIZADO'}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginTop: 8 }}>
+                  <div className={`status-badge ${activeCombat.status}`}>
+                    {activeCombat.status === 'ativo' ? 'EM CURSO' : 'FINALIZADO'}
+                  </div>
+                  {activeCombat.status === 'ativo' && activeCombat.participants.length > 0 && (
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => handleUpdateTurn((localTurnIndex + 1) % activeCombat.participants.length)}
+                      style={{ padding: '4px 14px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                    >
+                      Próximo <ChevronRight size={14} />
+                    </button>
+                  )}
                 </div>
-                {activeCombat.status === 'ativo' && activeCombat.participants.length > 0 && (
-                  <button 
-                    className="btn btn-primary btn-sm" 
-                    onClick={() => handleUpdateTurn((localTurnIndex + 1) % activeCombat.participants.length)}
-                    style={{ marginTop: 12, marginBottom: 10 }}  
-                  >
-                    Próximo <ChevronRight size={14} />
-                  </button>
-                )}
               </div>
               <div className="header-actions">
                 {activeCombat.status === 'ativo' ? (
@@ -365,8 +402,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                 const hpPercent = (hp / maxHp) * 100
 
                 return (
-                  <div 
-                    key={p.id} 
+                  <div
+                    key={p.id}
                     className={`participant-card ${isCurrentTurn ? 'current' : ''} ${!p.isAlive ? 'dead' : ''}`}
                     draggable
                     onDragStart={(e) => handleDragStart(e, idx)}
@@ -377,7 +414,17 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                   >
                     {isCurrentTurn && <div className="turn-indicator">TURNO ATUAL</div>}
                     <div className="card-header">
-                      <div className="init-badge">{p.initiative}</div>
+                      <div className="init-badge" style={{ color: p.entityType === 'player' ? 'var(--ok)' : 'var(--danger)' }}>
+                        {p.avatarUrl ? (
+                          <img
+                            src={p.avatarUrl}
+                            alt={p.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          p.entityType === 'player' ? <User size={18} /> : <Skull size={18} />
+                        )}
+                      </div>
                       <div className="participant-info">
                         <h4>{p.name}</h4>
                         <div className="type-badge" data-type={p.entityType}>
@@ -403,13 +450,13 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                       <div className="hp-header">
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <Heart size={14} /> 
-                            {hp} / 
+                            <Heart size={14} />
+                            {hp} /
                             {p.entityType === 'player' || !isMaster ? (
                               maxHp
                             ) : (
-                              <input 
-                                type="number" 
+                              <input
+                                type="number"
                                 className="inline-stat-input"
                                 defaultValue={maxHp}
                                 onBlur={(e) => handleUpdateParticipantStats(p, { maxHp: parseInt(e.target.value) })}
@@ -417,14 +464,14 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                             )}
                           </span>
                           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <Shield size={14} /> 
+                            <Shield size={14} />
                             {p.entityType === 'player' || !isMaster ? (
                               `CA: ${ac}`
                             ) : (
                               <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                                CA: 
-                                <input 
-                                  type="number" 
+                                CA:
+                                <input
+                                  type="number"
                                   className="inline-stat-input"
                                   defaultValue={ac}
                                   onBlur={(e) => handleUpdateParticipantStats(p, { ac: parseInt(e.target.value) })}
@@ -435,8 +482,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                         </div>
                       </div>
                       <div className="hp-bar-bg">
-                        <div 
-                          className="hp-bar-fill" 
+                        <div
+                          className="hp-bar-fill"
                           style={{ width: `${hpPercent}%`, background: hpPercent < 25 ? '#ef4444' : hpPercent < 50 ? '#f59e0b' : '#10b981' }}
                         ></div>
                       </div>
@@ -765,6 +812,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
           justify-content: center;
           font-weight: 800;
           color: var(--accentL);
+          overflow: hidden;
         }
 
         .participant-info {
