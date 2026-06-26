@@ -28,8 +28,9 @@ export default function AmeacasPage() {
     try {
       const res = await fetch('/api/ameacas')
       const data = await res.json()
-      setMonsters(data)
-      setFilteredMonsters(data)
+      const sorted = (data || []).sort((a: any, b: any) => a.name.localeCompare(b.name, 'pt-BR'))
+      setMonsters(sorted)
+      setFilteredMonsters(sorted)
     } catch (e) {
       console.error(e)
     } finally {
