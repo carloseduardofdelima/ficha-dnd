@@ -24,9 +24,28 @@ export async function GET() {
           }
         ]
       },
+      include: {
+        sessions: {
+          select: { id: true }
+        }
+      },
       orderBy: { updatedAt: 'desc' }
     })
-    return NextResponse.json(campaigns)
+
+    const campaignsWithProgress = campaigns.map(campaign => {
+      const sessionsCount = campaign.sessions.length
+      const progress = campaign.targetSessions > 0
+        ? Math.min(Math.round((sessionsCount / campaign.targetSessions) * 100), 100)
+        : campaign.progress // fallback to DB value if targetSessions is 0
+      
+      return {
+        ...campaign,
+        progress,
+        sessions: undefined // remove the relation list to save payload size
+      }
+    })
+
+    return NextResponse.json(campaignsWithProgress)
   } catch (error) {
     console.error('Error fetching campaigns:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
