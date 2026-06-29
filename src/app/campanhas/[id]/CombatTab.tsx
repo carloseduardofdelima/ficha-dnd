@@ -20,8 +20,71 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   const [creating, setCreating] = useState(false)
   const [showAddParticipant, setShowAddParticipant] = useState(false)
   const [localTurnIndex, setLocalTurnIndex] = useState(0)
+  const [bestiary, setBestiary] = useState<any[]>([])
+  const [bestiarySearch, setBestiarySearch] = useState('')
+  const [loadingBestiary, setLoadingBestiary] = useState(false)
+  const [selectedThreatDetails, setSelectedThreatDetails] = useState<any | null>(null)
+  const [loadingThreatDetails, setLoadingThreatDetails] = useState(false)
+  const [participantConditions, setParticipantConditions] = useState<Record<string, string[]>>({})
+  const [openConditionDropdown, setOpenConditionDropdown] = useState<string | null>(null)
+
+  const CONDITIONS_LIST = [
+    'Cego', 'Amedrontado', 'Envenenado', 'Caído', 
+    'Paralisado', 'Petrificado', 'Atordoado', 
+    'Inconsciente', 'Enfeitiçado', 'Surdo', 
+    'Agarrado', 'Impedido', 'Incapacitado'
+  ]
+
+  const handleAddCondition = (participantId: string, condition: string) => {
+    setParticipantConditions(prev => {
+      const active = prev[participantId] || []
+      if (active.includes(condition)) return prev
+      return {
+        ...prev,
+        [participantId]: [...active, condition]
+      }
+    })
+  }
+
+  const handleRemoveCondition = (participantId: string, condition: string) => {
+    setParticipantConditions(prev => {
+      const active = prev[participantId] || []
+      return {
+        ...prev,
+        [participantId]: active.filter(c => c !== condition)
+      }
+    })
+  }
 
   const isMaster = isOwner ?? (campaign?.isOwner || false)
+
+  const handleOpenThreatDetails = async (entityId: string) => {
+    setLoadingThreatDetails(true)
+    try {
+      const res = await fetch(`/api/ameacas/${entityId}`)
+      if (res.ok) {
+        const data = await res.json()
+        setSelectedThreatDetails(data)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoadingThreatDetails(false)
+    }
+  }
+
+  useEffect(() => {
+    if (showAddParticipant && bestiary.length === 0) {
+      setLoadingBestiary(true)
+      fetch('/api/ameacas?summary=true')
+        .then(res => res.json())
+        .then(data => {
+          setBestiary(data || [])
+        })
+        .catch(err => console.error(err))
+        .finally(() => setLoadingBestiary(false))
+    }
+  }, [showAddParticipant, bestiary.length])
 
 
   const fetchCombats = useCallback(async () => {
@@ -115,8 +178,19 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
     }
 
     if (type === 'threat') {
-      participantData.maxHp = entity.attributes?.hp || 10
-      participantData.ac = entity.attributes?.ac || 10
+      let fullEntity = entity
+      if (!entity.attributes) {
+        try {
+          const res = await fetch(`/api/ameacas/${entity.id}`)
+          if (res.ok) {
+            fullEntity = await res.json()
+          }
+        } catch (e) {
+          console.error('Error fetching full threat details:', e)
+        }
+      }
+      participantData.maxHp = fullEntity.attributes?.hp || 10
+      participantData.ac = fullEntity.attributes?.ac || 10
     } else if (type === 'npc') {
       participantData.maxHp = entity.combat?.hp || 10
       participantData.ac = entity.combat?.ac || 10
@@ -410,11 +484,28 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, idx)}
                     onDragEnd={handleDragEnd}
-                    style={{ cursor: 'grab' }}
+                    style={{ 
+                      cursor: 'grab',
+                      position: 'relative',
+                      zIndex: openConditionDropdown === p.id ? 100 : 1
+                    }}
                   >
                     {isCurrentTurn && <div className="turn-indicator">TURNO ATUAL</div>}
                     <div className="card-header">
-                      <div className="init-badge" style={{ color: p.entityType === 'player' ? 'var(--ok)' : 'var(--danger)' }}>
+                      <div
+                        className="init-badge"
+                        style={{
+                          color: p.entityType === 'player' ? 'var(--ok)' : 'var(--danger)',
+                          cursor: p.entityType === 'threat' ? 'pointer' : 'default'
+                        }}
+                        onClick={(e) => {
+                          if (p.entityType === 'threat') {
+                            e.stopPropagation()
+                            handleOpenThreatDetails(p.entityId)
+                          }
+                        }}
+                        title={p.entityType === 'threat' ? "Ver ficha da Ameaça" : undefined}
+                      >
                         {p.avatarUrl ? (
                           <img
                             src={p.avatarUrl}
@@ -425,10 +516,127 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                           p.entityType === 'player' ? <User size={22} /> : <Skull size={22} />
                         )}
                       </div>
-                      <div className="participant-info">
-                        <h4>{p.name}</h4>
-                        <div className="type-badge" data-type={p.entityType}>
-                          {p.entityType === 'player' ? 'JOGADOR' : p.entityType === 'threat' ? 'AMEAÇA' : 'NPC'}
+                      <div className="participant-info" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <h4 style={{ margin: 0 }}>{p.name}</h4>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          <div className="type-badge" data-type={p.entityType} style={{ margin: 0 }}>
+                            {p.entityType === 'player' ? 'JOGADOR' : p.entityType === 'threat' ? 'AMEAÇA' : 'NPC'}
+                          </div>
+                          
+                          {/* Active Conditions */}
+                          {(participantConditions[p.id] || []).map(cond => (
+                            <span 
+                              key={cond} 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveCondition(p.id, cond);
+                              }}
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 800,
+                                background: 'rgba(239, 68, 68, 0.15)',
+                                color: '#ef4444',
+                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                padding: '0 6px',
+                                borderRadius: 4,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 2,
+                                height: 18,
+                                boxSizing: 'border-box'
+                              }}
+                              title="Clique para remover"
+                            >
+                              {cond} <X size={8} />
+                            </span>
+                          ))}
+                          
+                          {/* Add Condition Dropdown Toggle */}
+                          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenConditionDropdown(openConditionDropdown === p.id ? null : p.id);
+                              }}
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 700,
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid var(--border)',
+                                color: 'var(--fg2)',
+                                padding: '0 6px',
+                                borderRadius: 4,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 2,
+                                height: 18,
+                                boxSizing: 'border-box'
+                              }}
+                            >
+                              + Condição
+                            </button>
+                            
+                            {openConditionDropdown === p.id && (
+                              <>
+                                <div 
+                                  style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999 }} 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenConditionDropdown(null);
+                                  }} 
+                                />
+                                <div style={{
+                                  position: 'absolute',
+                                  top: '100%',
+                                  left: 0,
+                                  marginTop: 4,
+                                  background: 'var(--bg2)',
+                                  border: '1px solid var(--border)',
+                                  borderRadius: 8,
+                                  padding: 4,
+                                  zIndex: 1000,
+                                  display: 'grid',
+                                  gridTemplateColumns: 'repeat(2, 120px)',
+                                  gap: 2,
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                                }}>
+                                  {CONDITIONS_LIST.map(cond => {
+                                    const isActive = (participantConditions[p.id] || []).includes(cond);
+                                    return (
+                                      <button
+                                        key={cond}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          if (isActive) {
+                                            handleRemoveCondition(p.id, cond);
+                                          } else {
+                                            handleAddCondition(p.id, cond);
+                                          }
+                                          setOpenConditionDropdown(null);
+                                        }}
+                                        style={{
+                                          fontSize: 10,
+                                          textAlign: 'left',
+                                          padding: '4px 8px',
+                                          background: isActive ? 'var(--accent)' : 'transparent',
+                                          color: isActive ? 'white' : 'var(--fg)',
+                                          border: 'none',
+                                          borderRadius: 4,
+                                          cursor: 'pointer',
+                                          width: '100%',
+                                          fontWeight: isActive ? 700 : 500
+                                        }}
+                                      >
+                                        {cond}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="header-actions">
@@ -545,17 +753,44 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
                 </div>
               </section>
               <section className="add-section">
-                <h4>Ameaças da Campanha</h4>
-                <div className="add-grid">
-                  {campaign.threats?.map((t: any) => (
-                    <div key={t.id} className="add-item">
-                      <span>{t.name}</span>
-                      <button className="btn-add-mini" onClick={() => handleAddParticipant(t, 'threat')}>
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                  ))}
+                <h4>Ameaças (Bestiário Completo)</h4>
+                <div style={{ marginBottom: 12 }}>
+                  <input
+                    type="text"
+                    placeholder="Buscar monstro no bestiário..."
+                    value={bestiarySearch}
+                    onChange={e => setBestiarySearch(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      background: 'var(--bg)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 8,
+                      color: 'var(--fg)',
+                      fontSize: 13,
+                      outline: 'none'
+                    }}
+                  />
                 </div>
+                {loadingBestiary ? (
+                  <div style={{ fontSize: 12, color: 'var(--fg3)', padding: '8px 0' }}>Carregando monstros...</div>
+                ) : (
+                  <div className="add-grid" style={{ maxHeight: 180, overflowY: 'auto' }}>
+                    {bestiary
+                      .filter(t => t.name.toLowerCase().includes(bestiarySearch.toLowerCase()))
+                      .map((t: any) => (
+                        <div key={t.id} className="add-item">
+                          <span>{t.name} <small style={{ color: 'var(--fg3)', fontSize: 10 }}>(CR {t.challengeRating})</small></span>
+                          <button className="btn-add-mini" onClick={() => handleAddParticipant(t, 'threat')}>
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    {bestiary.filter(t => t.name.toLowerCase().includes(bestiarySearch.toLowerCase())).length === 0 && (
+                      <div style={{ fontSize: 12, color: 'var(--fg3)', padding: '8px 0', textAlign: 'center' }}>Nenhum monstro encontrado.</div>
+                    )}
+                  </div>
+                )}
               </section>
               <section className="add-section">
                 <h4>NPCs</h4>
@@ -580,6 +815,130 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         </div>
       )}
 
+      {/* Threat Details Modal */}
+      {selectedThreatDetails && (
+        <div className="modal-overlay" onClick={() => setSelectedThreatDetails(null)} style={{ zIndex: 1200 }}>
+          <div className="modal-content" style={{ maxWidth: 900, width: '95%' }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header" style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 8,
+                  background: 'rgba(225, 29, 72, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Skull size={22} color="var(--accentL)" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 18, color: 'var(--fg)' }}>{selectedThreatDetails.name}</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    Ameaça • ND {selectedThreatDetails.challengeRating}
+                  </span>
+                </div>
+              </div>
+              <button onClick={() => setSelectedThreatDetails(null)} style={{ background: 'none', border: 'none', color: 'var(--fg3)', cursor: 'pointer', display: 'flex' }}><X size={20} /></button>
+            </div>
+            <div className="modal-body" style={{ maxHeight: '70vh', overflowY: 'auto', padding: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 24 }}>
+                
+                {/* Coluna Esquerda: Atributos, HP/CA e Descrição */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {/* HP, CA, Speed Summary Cards */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+                    <div style={{ textAlign: 'center', background: 'var(--bg)', padding: '10px 4px', borderRadius: 8, border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 700, marginBottom: 4 }}>HP MÁXIMO</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--danger)' }}>{selectedThreatDetails.attributes?.hp || 10}</div>
+                    </div>
+                    <div style={{ textAlign: 'center', background: 'var(--bg)', padding: '10px 4px', borderRadius: 8, border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 700, marginBottom: 4 }}>CLASSE DE ARMADURA</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ok)' }}>{selectedThreatDetails.attributes?.ac || 10}</div>
+                    </div>
+                    <div style={{ textAlign: 'center', background: 'var(--bg)', padding: '10px 4px', borderRadius: 8, border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 10, color: 'var(--fg3)', fontWeight: 700, marginBottom: 4 }}>DESLOCAMENTO</div>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--fg)' }}>{selectedThreatDetails.attributes?.speed || '30ft'}</div>
+                    </div>
+                  </div>
+
+                  {/* Core Stats Attributes Modifier Grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6 }}>
+                    {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map((attr) => {
+                      const val = selectedThreatDetails.attributes?.[attr] ?? 10
+                      const mod = Math.floor((val - 10) / 2)
+                      const labels: any = { strength: 'FOR', dexterity: 'DES', constitution: 'CON', intelligence: 'INT', wisdom: 'SAB', charisma: 'CAR' }
+                      return (
+                        <div key={attr} style={{ textAlign: 'center', background: 'var(--bg)', padding: '8px 2px', borderRadius: 6, border: '1px solid var(--border)' }}>
+                          <div style={{ fontSize: 9, color: 'var(--fg3)', fontWeight: 800 }}>{labels[attr]}</div>
+                          <div style={{ fontSize: 14, fontWeight: 700, margin: '2px 0', color: 'var(--fg)' }}>{val}</div>
+                          <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600 }}>{mod >= 0 ? `+${mod}` : mod}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Description */}
+                  {selectedThreatDetails.description && (
+                    <div>
+                      <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 6 }}>Descrição</span>
+                      <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, background: 'var(--bg)', padding: 12, borderRadius: 8, border: '1px solid var(--border)', margin: 0 }}>{selectedThreatDetails.description}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Coluna Direita: Combate e Ações */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {/* Combat abilities */}
+                  {selectedThreatDetails.combat && (
+                    <div>
+                      <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 6 }}>Combate</span>
+                      <div style={{ fontSize: 13, color: 'var(--fg2)', background: 'var(--bg)', padding: 12, borderRadius: 8, border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <div><strong>Ataque:</strong> +{selectedThreatDetails.combat.attackBonus || 0} para acertar</div>
+                        <div><strong>Dano:</strong> {selectedThreatDetails.combat.damage || '1d6'} ({selectedThreatDetails.combat.damageType || 'concussão'})</div>
+                        {selectedThreatDetails.combat.multiattack && <div><strong>Multiataque:</strong> {selectedThreatDetails.combat.multiattack}</div>}
+                        {selectedThreatDetails.combat.abilities && <div><strong>Habilidades Especiais:</strong> {selectedThreatDetails.combat.abilities}</div>}
+                        {(selectedThreatDetails.combat.resistances || selectedThreatDetails.combat.immunities || selectedThreatDetails.combat.vulnerabilities) && (
+                          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 6, marginTop: 4, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                            {selectedThreatDetails.combat.resistances && <div><strong>Resistências:</strong> {selectedThreatDetails.combat.resistances}</div>}
+                            {selectedThreatDetails.combat.immunities && <div><strong>Imunidades:</strong> {selectedThreatDetails.combat.immunities}</div>}
+                            {selectedThreatDetails.combat.vulnerabilities && <div><strong>Vulnerabilidades:</strong> {selectedThreatDetails.combat.vulnerabilities}</div>}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Actions List */}
+                  {selectedThreatDetails.actions?.length > 0 && (
+                    <div>
+                      <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700, display: 'block', marginBottom: 6 }}>Ações</span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {selectedThreatDetails.actions.map((act: any) => (
+                          <div key={act.id} style={{ fontSize: 13, color: 'var(--fg2)', background: 'var(--bg)', padding: 10, borderRadius: 8, border: '1px solid var(--border)' }}>
+                            <strong>{act.name}</strong>: {act.description}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {loadingThreatDetails && (
+        <div className="modal-overlay" style={{ zIndex: 1300 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+            <Loader2 className="animate-spin" size={40} color="var(--accent)" />
+            <span style={{ color: 'var(--fg2)', fontSize: 14 }}>Carregando dados da ameaça...</span>
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
         .combat-container {
           display: grid;
@@ -587,7 +946,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
           background: var(--bg2);
           border-radius: 20px;
           border: 1px solid var(--border);
-          min-height: 700px;
+          height: 750px;
           overflow: hidden;
         }
 
@@ -595,6 +954,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
           background: rgba(0,0,0,0.2);
           border-right: 1px solid var(--border);
           padding: 24px;
+          height: 100%;
+          overflow-y: auto;
         }
 
         .sidebar-header {
@@ -723,7 +1084,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
           flex-direction: column;
           gap: 32px;
           overflow-y: auto;
-          max-height: 800px;
+          height: 100%;
         }
 
         .main-header {
@@ -755,58 +1116,65 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         }
 
         .participants-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
         }
 
         .participant-card {
           background: var(--bg);
           border: 1px solid var(--border);
-          border-radius: 16px;
-          padding: 20px;
-          transition: all 0.3s;
+          border-radius: 12px;
+          padding: 12px 24px;
+          transition: all 0.2s;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 16px;
         }
 
         .participant-card.current {
           border-color: var(--accent);
-          box-shadow: 0 0 20px rgba(225, 29, 72, 0.1);
-          transform: translateY(-4px);
+          box-shadow: 0 0 16px var(--accentGlow);
+          transform: scale(1.005);
         }
 
         .participant-card.dead {
-          opacity: 0.6;
+          opacity: 0.5;
           filter: grayscale(0.8);
         }
 
         .turn-indicator {
           position: absolute;
-          top: -12px;
-          left: 50%;
-          transform: translateX(-50%);
+          top: -9px;
+          left: 16px;
           background: var(--accent);
           color: white;
-          font-size: 10px;
+          font-size: 8px;
           font-weight: 800;
-          padding: 4px 12px;
-          border-radius: 20px;
+          padding: 4px 6px;
+          border-radius: 4px;
           z-index: 10;
+          letter-spacing: 0.5px;
         }
 
         .card-header {
           display: flex;
           align-items: center;
           gap: 12px;
-          margin-bottom: 20px;
+          margin-bottom: 0;
+          flex: 1;
+          min-width: 200px;
         }
 
         .init-badge {
-          width: 48px;
-          height: 48px;
+          width: 42px;
+          height: 42px;
           background: var(--bg2);
           border: 1px solid var(--border);
-          border-radius: 12px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -821,8 +1189,8 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         }
 
         .participant-info h4 {
-          margin: 0 0 4px 0;
-          font-size: 16px;
+          margin: 0 0 2px 0;
+          font-size: 15px;
         }
 
         .type-badge {
@@ -833,7 +1201,9 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
         }
 
         .hp-section {
-          margin-bottom: 20px;
+          margin-bottom: 0;
+          flex: 1.5;
+          min-width: 250px;
         }
 
         .hp-header {

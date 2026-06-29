@@ -12,9 +12,10 @@ export async function GET(req: NextRequest) {
   const campaignId = searchParams.get('campaignId')
   const type = searchParams.get('type')
   const search = searchParams.get('search')
+  const summary = searchParams.get('summary') === 'true'
 
   try {
-    const threats = await prisma.threat.findMany({
+    const query: any = {
       where: {
         OR: [
           { userId: session.user.id },
@@ -26,14 +27,31 @@ export async function GET(req: NextRequest) {
           search ? { name: { contains: search, mode: 'insensitive' } } : {}
         ]
       },
-      include: {
+      orderBy: { updatedAt: 'desc' }
+    }
+
+    if (summary) {
+      query.select = {
+        id: true,
+        name: true,
+        challengeRating: true,
+        isPublic: true,
+        threatType: true,
+        imageUrl: true,
+        userId: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    } else {
+      query.include = {
         attributes: true,
         combat: true,
         actions: true,
         skills: true
-      },
-      orderBy: { updatedAt: 'desc' }
-    })
+      }
+    }
+
+    const threats = await prisma.threat.findMany(query)
 
     return NextResponse.json(threats)
   } catch (error) {

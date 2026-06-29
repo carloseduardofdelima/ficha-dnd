@@ -32,7 +32,7 @@ export default function CampaignDetailsPage() {
 
   const fetchGlobalThreats = async () => {
     try {
-      const res = await fetch('/api/ameacas')
+      const res = await fetch('/api/ameacas?summary=true')
       const data = await res.json()
       // Filter out threats already in the campaign
       const campaignThreatIds = campaign.threats?.map((t: any) => t.id) || []
@@ -45,8 +45,10 @@ export default function CampaignDetailsPage() {
   const handleLinkThreat = async (threatId: string) => {
     setLinkingThreat(true)
     try {
-      const sourceThreat = allGlobalThreats.find(t => t.id === threatId)
-      if (!sourceThreat) return
+      // Fetch full details of the threat before cloning
+      const detailRes = await fetch(`/api/ameacas/${threatId}`)
+      if (!detailRes.ok) return
+      const sourceThreat = await detailRes.json()
 
       const res = await fetch('/api/ameacas', {
         method: 'POST',

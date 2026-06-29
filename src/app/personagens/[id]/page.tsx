@@ -137,6 +137,7 @@ export default function CharacterDetailPage() {
   const [showCelebration, setShowCelebration] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
   const [isPreparing, setIsPreparing] = useState(false)
+  const [ekSchoolFilter, setEkSchoolFilter] = useState(true)
   const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
   const [isSubclassModalOpen, setIsSubclassModalOpen] = useState(false)
@@ -304,8 +305,8 @@ export default function CharacterDetailPage() {
       wisdom: calcModifier(character.wisdom),
       charisma: calcModifier(character.charisma)
     }
-    return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers)
-  }, [character?.class, character?.level, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
+    return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers, character.subclass || undefined)
+  }, [character?.class, character?.level, character?.subclass, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
 
   const progressionData = useMemo(() => {
     if (!character) return [];
@@ -1622,7 +1623,7 @@ export default function CharacterDetailPage() {
                               }
                               
                               // Subclasses 2014 (Disabled for 2014)
-                              if (!is2014 && character.subclass === 'Mestre de Batalha') {
+                              if (character.subclass === 'Mestre de Batalha') {
                                 let dice = 4;
                                 if (character.level >= 15) dice = 6;
                                 else if (character.level >= 7) dice = 5;
@@ -1752,7 +1753,9 @@ export default function CharacterDetailPage() {
 
 
                           const classResources = getInitialResources();
-                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artífice'].includes(character.class);
+                          const isSpellcaster = ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro', 'Bruxo', 'Artífice'].includes(character.class) ||
+                            (character.class === 'Guerreiro' && character.subclass === 'Cavaleiro Arcano') ||
+                            (character.class === 'Ladino' && character.subclass === 'Trapaceiro Arcano');
 
                           return (
                             <div className="card compact-card resources-card">
@@ -2291,10 +2294,25 @@ export default function CharacterDetailPage() {
                         ? getUnlockedSubclassSpells(character.class, character.subclass, character.level, character.ruleset || '2024')
                         : [];
 
+                      const spellcastingClass = (character.class === 'Guerreiro' && character.subclass === 'Cavaleiro Arcano') || (character.class === 'Ladino' && character.subclass === 'Trapaceiro Arcano')
+                        ? 'Mago'
+                        : character.class;
+
+                      const restrictedSchools = 
+                        character.class === 'Guerreiro' && character.subclass === 'Cavaleiro Arcano' ? ['Abjuração', 'Evocação'] :
+                        character.class === 'Ladino' && character.subclass === 'Trapaceiro Arcano' ? ['Ilusão', 'Encantamento'] :
+                        null;
+
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
                       const availableSpellsList = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
                       const baseList = isPreparing
-                        ? availableSpellsList.filter(s => s.classes.includes(character.class) && s.level <= finalMaxLevel && !subclassSpells.some(ss => ss.id === s.id))
+                        ? availableSpellsList.filter(s => {
+                            const matchClass = s.classes.includes(spellcastingClass);
+                            const matchLevel = s.level <= finalMaxLevel;
+                            const isExcluded = subclassSpells.some(ss => ss.id === s.id);
+                            const matchSchool = !ekSchoolFilter || s.level === 0 || !restrictedSchools || restrictedSchools.includes(s.school);
+                            return matchClass && matchLevel && !isExcluded && matchSchool;
+                          })
                         : currentSpells.map(id => ALL_SPELLS.find(s => s.id === id)).filter(Boolean);
 
 
@@ -2466,6 +2484,35 @@ export default function CharacterDetailPage() {
                               </div>
                             </div>
                           )}
+                          {isPreparing && restrictedSchools && (
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 10,
+                              background: 'rgba(255, 255, 255, 0.02)',
+                              padding: '12px 16px',
+                              borderRadius: 10,
+                              border: '1px solid var(--border)',
+                              marginBottom: 20
+                            }}>
+                              <input
+                                type="checkbox"
+                                id="ek-school-filter-checkbox"
+                                checked={ekSchoolFilter}
+                                onChange={(e) => setEkSchoolFilter(e.target.checked)}
+                                style={{
+                                  width: 16,
+                                  height: 16,
+                                  cursor: 'pointer',
+                                  accentColor: 'var(--accent)'
+                                }}
+                              />
+                              <label htmlFor="ek-school-filter-checkbox" style={{ fontSize: 13, color: 'var(--fg)', cursor: 'pointer', fontWeight: 600 }}>
+                                Filtrar por {restrictedSchools.join(' e ')} (Restrição de Subclasse)
+                              </label>
+                            </div>
+                          )}
+
                           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(lvl => {
 
                             const lvlSpells = (baseList as any[]).filter(s => s.level === lvl);

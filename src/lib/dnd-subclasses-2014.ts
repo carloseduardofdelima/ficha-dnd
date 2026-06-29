@@ -172,20 +172,20 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Guerreiros táticos que complementam suas proezas físicas com a conjuração de magias de abjuração e evocação, fundindo aço e feitiçaria no campo de batalha.",
       features: {
         3: [
-          { name: "Conjuração", description: "Você aprende truques e magias de mago (abjuração/evocação) usando Inteligência." },
-          { name: "Vínculo com Arma", description: "Cria um elo com até 2 armas; pode invocá-las para sua mão com ação bônus." }
+          { name: "Conjuração", description: "Você aprende truques e magias da lista de Mago (focando em Abjuração e Evocação). Sua habilidade de conjuração é Inteligência. Seus testes de resistência contra magias usam CD = 8 + Bônus Profa. + Mod. Int." },
+          { name: "Vínculo com Arma", description: "Realiza ritual de 1 hora para se vincular a até 2 armas. Você não pode ser desarmado delas (a menos que esteja incapacitado) e pode invocá-las para sua mão com uma Ação Bônus." }
         ],
-        7: [{ name: "Magia de Guerra", description: "Quando usa ação para conjurar um truque, pode fazer um ataque como ação bônus." }],
-        10: [{ name: "Golpe Místico", description: "Ataque com arma impõe desvantagem no próximo save contra sua magia." }],
-        15: [{ name: "Investida Arcana", description: "Ao usar Surto de Ação, pode se teletransportar até 9 metros." }],
-        18: [{ name: "Magia de Guerra Aprimorada", description: "Quando usa ação para conjurar uma magia, pode fazer um ataque como ação bônus." }]
+        7: [{ name: "Magia de Guerra", description: "Quando você usa sua ação para conjurar um Truque (cantrip), você pode realizar um ataque com arma como uma Ação Bônus." }],
+        10: [{ name: "Golpe Místico", description: "Quando você atinge uma criatura com um ataque de arma, ela tem desvantagem na próxima salvaguarda (Saving Throw) contra uma magia que você conjurar antes do final do seu próximo turno." }],
+        15: [{ name: "Investida Arcana", description: "Ao usar seu Surto de Ação (Action Surge), você pode se teletransportar até 9 metros (30 feet) para um espaço não ocupado visível (antes ou depois da ação adicional)." }],
+        18: [{ name: "Magia de Guerra Aprimorada", description: "Quando você usa sua ação para conjurar uma magia de 1º nível ou superior, você pode realizar um ataque com arma como uma Ação Bônus." }]
       }
     },
     "Mestre de Batalha": {
       description: "Estudiosos da arte da guerra, estes guerreiros utilizam manobras táticas e dados de superioridade para controlar o posicionamento dos inimigos e ditar o ritmo do combate.",
       features: {
         3: [
-          { name: "Superioridade em Combate", description: "Ganha 4 dados de superioridade (d8) para usar manobras como Aparar, Derrubar, etc." },
+          { name: "Superioridade em Combate", description: "Ganha 4 dados de superioridade (d8) para alimentar suas manobras.\n\nManobras (PHB 2014):\n• Aparar: Usa Reação para reduzir dano sofrido\n• Ameaçador: Causa medo no inimigo\n• Derrubar: Derruba o inimigo no chão\n• Precisão: Soma o d8 ao teste de ataque\n• Contra-Ataque: Usa Reação para atacar se o inimigo errar\n• Empurrão: Empurra o alvo até 4,5 metros\n• Distrativo: Dá vantagem para o ataque de um aliado\n• Provocativo: Força o inimigo a te focar\n• Desarmante: Faz o inimigo derrubar o que segura\n• Varredura: Causa dano a um segundo alvo a 1,5m\n• Evasivo: Soma o d8 à sua CA ao se mover\n• Comandante: Aliado ataca usando a Reação dele\n• Incentivar: Concede PV temporários a um aliado\n• Manobra: Move um aliado sem provocar Oportunidade\n• Prolongado: Aumenta alcance do ataque em 1,5m" },
           { name: "Estudioso da Guerra", description: "Ganha proficiência com um tipo de ferramenta de artesão." }
         ],
         7: [{ name: "Conheça Seu Inimigo", description: "Observar criatura por 1 min revela se ela é superior/igual/inferior em certos atributos." }],

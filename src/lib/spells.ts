@@ -255,9 +255,13 @@ export const SPELLCASTING_CLASSES = [
   'Paladino', 'Patrulheiro', 'Artífice'
 ]
 
-export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024', modifiers?: any) {
+export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024', modifiers?: any, subclass?: string) {
   const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
-  let classData = table[className]
+  let lookupKey = className
+  if (subclass === 'Cavaleiro Arcano' || subclass === 'Trapaceiro Arcano') {
+    lookupKey = subclass
+  }
+  let classData = table[lookupKey]
   
   // Robust fallback for accented names if direct lookup fails
   if (!classData) {
@@ -511,4 +515,48 @@ export const SPELL_PROGRESSION: Record<string, ClassProgression> = {
     19: { cantrips: 4, prepared: 15, slots: [4, 3, 3, 3, 2] },
     20: { cantrips: 4, prepared: 15, slots: [4, 3, 3, 3, 2] },
   },
+  'Cavaleiro Arcano': {
+    1: { cantrips: 0, known: 0, slots: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    2: { cantrips: 0, known: 0, slots: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    3: { cantrips: 2, known: 3, slots: [2, 0, 0, 0, 0, 0, 0, 0, 0] },
+    4: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    5: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    6: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    7: { cantrips: 2, known: 5, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    8: { cantrips: 2, known: 6, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    9: { cantrips: 2, known: 6, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    10: { cantrips: 3, known: 7, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    11: { cantrips: 3, known: 8, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    12: { cantrips: 3, known: 8, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    13: { cantrips: 3, known: 9, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    14: { cantrips: 3, known: 10, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    15: { cantrips: 3, known: 10, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    16: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    17: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    18: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    19: { cantrips: 3, known: 12, slots: [4, 3, 3, 1, 0, 0, 0, 0, 0] },
+    20: { cantrips: 3, known: 13, slots: [4, 3, 3, 2, 0, 0, 0, 0, 0] },
+  },
+  'Trapaceiro Arcano': {
+    1: { cantrips: 0, known: 0, slots: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    2: { cantrips: 0, known: 0, slots: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    3: { cantrips: 2, known: 3, slots: [2, 0, 0, 0, 0, 0, 0, 0, 0] },
+    4: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    5: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    6: { cantrips: 2, known: 4, slots: [3, 0, 0, 0, 0, 0, 0, 0, 0] },
+    7: { cantrips: 2, known: 5, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    8: { cantrips: 2, known: 6, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    9: { cantrips: 2, known: 6, slots: [4, 2, 0, 0, 0, 0, 0, 0, 0] },
+    10: { cantrips: 3, known: 7, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    11: { cantrips: 3, known: 8, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    12: { cantrips: 3, known: 8, slots: [4, 3, 0, 0, 0, 0, 0, 0, 0] },
+    13: { cantrips: 3, known: 9, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    14: { cantrips: 3, known: 10, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    15: { cantrips: 3, known: 10, slots: [4, 3, 2, 0, 0, 0, 0, 0, 0] },
+    16: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    17: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    18: { cantrips: 3, known: 11, slots: [4, 3, 3, 0, 0, 0, 0, 0, 0] },
+    19: { cantrips: 3, known: 12, slots: [4, 3, 3, 1, 0, 0, 0, 0, 0] },
+    20: { cantrips: 3, known: 13, slots: [4, 3, 3, 2, 0, 0, 0, 0, 0] },
+  }
 };

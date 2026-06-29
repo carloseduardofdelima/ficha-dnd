@@ -3,8 +3,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon, Sparkles, Zap } from 'lucide-react'
+import { Sword, Users, BookOpen, Shield, LogIn, LogOut, ChevronDown, Menu, X as CloseIcon, Sparkles, Zap, Palette } from 'lucide-react'
 import { useState } from 'react'
+import { useTheme, Theme } from '@/components/ThemeProvider'
+
+const THEMES: { id: Theme; label: string; color: string }[] = [
+  { id: 'default', label: 'Carmesim', color: '#e11d48' },
+  { id: 'escuro', label: 'Escuro', color: '#6366f1' },
+  { id: 'claro', label: 'Claro', color: '#2563eb' },
+  { id: 'azul', label: 'Azul', color: '#00a8cc' },
+  { id: 'verde', label: 'Verde', color: '#10b981' },
+  { id: 'roxo', label: 'Roxo', color: '#a855f7' },
+]
 
 const NAV = [
   { href: '/personagens', label: 'Personagens', icon: Users },
@@ -20,6 +30,8 @@ export function Sidebar() {
   const { data: session, status } = useSession()
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
 
   const NavLinks = ({ vertical = false }: { vertical?: boolean }) => (
     <>
@@ -62,7 +74,7 @@ export function Sidebar() {
         left: 0,
         right: 0,
         height: 64,
-        background: 'rgba(13,13,15,0.95)',
+        background: 'var(--nav-bg)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--border)',
         zIndex: 100,
@@ -74,7 +86,7 @@ export function Sidebar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
             {/* Logo */}
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'var(--logo-filter)', transition: 'filter 0.25s ease' }}>
                 <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={40} height={40} style={{ objectFit: 'contain' }} />
               </div>
               <span style={{ fontFamily: 'Cinzel,serif', fontSize: 18, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
@@ -89,6 +101,75 @@ export function Sidebar() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* Theme Selector Desktop */}
+            <div style={{ position: 'relative' }} className="hide-mobile">
+              <button 
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)} 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  background: 'transparent', 
+                  border: '1px solid var(--border)', 
+                  borderRadius: 10, 
+                  width: 38,
+                  height: 38,
+                  cursor: 'pointer', 
+                  color: 'var(--fg2)',
+                  transition: 'all 0.2s'
+                }}
+                title="Mudar Tema"
+              >
+                <Palette size={18} />
+              </button>
+              {themeMenuOpen && (
+                <div style={{ 
+                  position: 'absolute', 
+                  right: 0, 
+                  top: 'calc(100% + 8px)', 
+                  background: 'var(--bg2)', 
+                  border: '1px solid var(--border)', 
+                  borderRadius: 10, 
+                  padding: 8, 
+                  minWidth: 150, 
+                  zIndex: 100, 
+                  boxShadow: '0 8px 24px rgba(0,0,0,.4)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4
+                }} className="fade-up">
+                  {THEMES.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        setTheme(t.id)
+                        setThemeMenuOpen(false)
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        width: '100%',
+                        padding: '8px 12px',
+                        borderRadius: 6,
+                        background: theme === t.id ? 'var(--accentGlow)' : 'transparent',
+                        border: 'none',
+                        color: theme === t.id ? 'var(--accentL)' : 'var(--fg)',
+                        fontSize: 13,
+                        cursor: 'pointer',
+                        fontWeight: theme === t.id ? 600 : 400,
+                        textAlign: 'left',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <span style={{ width: 12, height: 12, borderRadius: '50%', background: t.color, display: 'inline-block', flexShrink: 0 }} />
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* User Section */}
             <div style={{ position: 'relative' }} className="hide-mobile">
               {status === 'loading' ? (
@@ -158,10 +239,10 @@ export function Sidebar() {
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48 }}>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-              <div style={{ width: 32, height: 32, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'var(--logo-filter)', transition: 'filter 0.25s ease' }}>
                 <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={32} height={32} style={{ objectFit: 'contain' }} />
               </div>
-              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, color: 'rgb(190, 18, 60)' }}>
+              <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 A Forja
               </span>
             </Link>
@@ -173,6 +254,36 @@ export function Sidebar() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Navegação</span>
             <NavLinks vertical />
+          </div>
+
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 20, marginBottom: 20 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>Temas</span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTheme(t.id)}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '8px 4px',
+                    borderRadius: 8,
+                    background: theme === t.id ? 'var(--accentGlow)' : 'var(--bg2)',
+                    border: `1px solid ${theme === t.id ? 'var(--accent)' : 'var(--border)'}`,
+                    color: theme === t.id ? 'var(--accentL)' : 'var(--fg2)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <span style={{ width: 14, height: 14, borderRadius: '50%', background: t.color }} />
+                  {t.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24 }}>

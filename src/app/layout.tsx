@@ -19,7 +19,27 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var savedTheme = localStorage.getItem('theme');
+                  if (savedTheme && savedTheme !== 'default') {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                    // Also try to set on body, but it might not be parsed yet, so check if body exists
+                    if (document.body) {
+                      document.body.setAttribute('data-theme', savedTheme);
+                    }
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }} suppressHydrationWarning>
         <Providers session={session}>
           <Sidebar />

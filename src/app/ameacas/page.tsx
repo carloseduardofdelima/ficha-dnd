@@ -26,7 +26,7 @@ export default function AmeacasPage() {
   const fetchThreats = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/ameacas')
+      const res = await fetch('/api/ameacas?summary=true')
       const data = await res.json()
       const sorted = (data || []).sort((a: any, b: any) => a.name.localeCompare(b.name, 'pt-BR'))
       setMonsters(sorted)
