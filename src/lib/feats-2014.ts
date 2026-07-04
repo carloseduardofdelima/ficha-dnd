@@ -91,6 +91,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'atleta',
     name: 'Atleta',
     benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
       'Levantar-se quando caído custa apenas 1,5 metro de movimento.',
       'Escalar não custa movimento adicional.',
       'Pode saltar correndo movendo-se apenas 1,5 metro antes.'
@@ -101,6 +102,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'ator',
     name: 'Ator',
     benefits: [
+      'Aumente seu valor de Carisma em 1, até o máximo de 20.',
       'Vantagem em testes de Atuação e Enganação para se passar por outra pessoa.',
       'Você pode imitar a voz de uma pessoa ou sons de criaturas ouvidos por pelo menos 1 minuto.'
     ],
@@ -164,6 +166,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'especialista-em-briga',
     name: 'Especialista em Briga',
     benefits: [
+      'Aumente seu valor de Força ou Constituição em 1, até o máximo de 20.',
       'Seus ataques desarmados causam 1d4 de dano.',
       'Pode usar ação bônus para agarrar após atingir com ataque desarmado ou arma improvisada.'
     ],
@@ -235,6 +238,7 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Maestria em Armadura Pesada',
     requirement: 'Proficiência em armadura pesada',
     benefits: [
+      'Aumente seu valor de Força em 1, até o máximo de 20.',
       'Reduz em 3 o dano físico (concussão, cortante, perfurante) não-mágico enquanto veste armadura pesada.'
     ],
     attributeBonus: { strength: 1 }
@@ -252,6 +256,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'mente-afiada',
     name: 'Mente Afiada',
     benefits: [
+      'Aumente seu valor de Inteligência em 1, até o máximo de 20.',
       'Sempre sabe o norte e horas para o pôr/nascer do sol.',
       'Relembra com precisão qualquer coisa vista/ouvida no último mês.'
     ],
@@ -261,6 +266,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'mestre-de-armas',
     name: 'Mestre de Armas',
     benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
       'Ganha proficiência com quatro armas simples ou marciais à sua escolha.'
     ],
     attributeBonus: { choice: ['strength', 'dexterity'] }
@@ -295,6 +301,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'observador',
     name: 'Observador',
     benefits: [
+      'Aumente seu valor de Inteligência ou Sabedoria em 1, até o máximo de 20.',
       'Pode ler lábios de idiomas que compreende.',
       'Bônus de +5 em Percepção Passiva e Investigação Passiva.'
     ],
@@ -311,6 +318,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'poliglota',
     name: 'Poliglota',
     benefits: [
+      'Aumente seu valor de Inteligência em 1, até o máximo de 20.',
       'Aprende três idiomas adicionais.',
       'Pode criar criptogramas que outros só decifram com teste de Inteligência.'
     ],
@@ -320,24 +328,27 @@ export const FEATS_2014: Feat2014[] = [
     id: 'protecao-leve',
     name: 'Proteção Leve',
     benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
       'Ganha proficiência com armaduras leves.'
     ],
-    attributeBonus: { strength: 1 }
+    attributeBonus: { choice: ['strength', 'dexterity'] }
   },
   {
     id: 'protecao-moderada',
     name: 'Proteção Moderada',
     requirement: 'Proficiência em armadura leve',
     benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
       'Ganha proficiência com armaduras médias e escudos.'
     ],
-    attributeBonus: { strength: 1 }
+    attributeBonus: { choice: ['strength', 'dexterity'] }
   },
   {
     id: 'protecao-pesada',
     name: 'Proteção Pesada',
     requirement: 'Proficiência em armadura média',
     benefits: [
+      'Aumente seu valor de Força em 1, até o máximo de 20.',
       'Ganha proficiência com armaduras pesadas.'
     ],
     attributeBonus: { strength: 1 }
@@ -346,7 +357,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'resiliente',
     name: 'Resiliente',
     benefits: [
-      'Aumente um valor de habilidade em 1.',
+      'Aumente um valor de habilidade à sua escolha em 1, até o máximo de 20.',
       'Ganha proficiência em testes de resistência da habilidade escolhida.'
     ],
     attributeBonus: { choice: ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'] }
@@ -355,6 +366,7 @@ export const FEATS_2014: Feat2014[] = [
     id: 'resistente',
     name: 'Resistente',
     benefits: [
+      'Aumente seu valor de Constituição em 1, até o máximo de 20.',
       'Ao rolar Dado de Vida para curar, o mínimo recuperado é 2x seu modificador de Constituição (mínimo 2).'
     ],
     attributeBonus: { constitution: 1 }

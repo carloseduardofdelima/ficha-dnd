@@ -26,6 +26,7 @@ import { pdf } from '@react-pdf/renderer'
 import CharacterPDF from '@/components/CharacterPDF'
 import { SPELL_PROGRESSION } from '@/lib/spells'
 import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
+import { FEATS_2014 } from '@/lib/feats-2014'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 
 const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
@@ -169,6 +170,8 @@ export default function CharacterDetailPage() {
   const [isCustomItemModalOpen, setIsCustomItemModalOpen] = useState(false)
   const [customItem, setCustomItem] = useState({ name: '', description: '', weight: 0, category: 'misc' as any, icon: '📦' })
   const [inventorySearchTerm, setInventorySearchTerm] = useState('')
+  const [isFeatModalOpen, setIsFeatModalOpen] = useState(false)
+  const [featSearchTerm, setFeatSearchTerm] = useState('')
   const [isClient, setIsClient] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
 
@@ -785,6 +788,74 @@ export default function CharacterDetailPage() {
     
     await saveCharacterToDB(updated);
     setIsSubclassModalOpen(false);
+  };
+
+  const handleAddFeat = async (feat: { name: string, description: string }) => {
+    if (!character) return;
+
+    const currentFeats = parsedTraits?.feats || [];
+    if (currentFeats.some((f: any) => f.name === feat.name)) {
+      setIsFeatModalOpen(false);
+      return;
+    }
+
+    const updatedFeats = [...currentFeats, { name: feat.name, description: feat.description }];
+    const updatedTraits = {
+      ...parsedTraits,
+      feats: updatedFeats
+    };
+
+    const updated = {
+      ...character,
+      traits: JSON.stringify(updatedTraits)
+    };
+
+    setCharacter(updated as any);
+    
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        traits: JSON.stringify(updatedTraits),
+        lastModified: Date.now()
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+
+    await saveCharacterToDB(updated as any);
+    setIsFeatModalOpen(false);
+  };
+
+  const handleRemoveFeat = async (featName: string) => {
+    if (!character) return;
+
+    const currentFeats = parsedTraits?.feats || [];
+    const updatedFeats = currentFeats.filter((f: any) => f.name !== featName);
+    const updatedTraits = {
+      ...parsedTraits,
+      feats: updatedFeats
+    };
+
+    const updated = {
+      ...character,
+      traits: JSON.stringify(updatedTraits)
+    };
+
+    setCharacter(updated as any);
+    
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}');
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        traits: JSON.stringify(updatedTraits),
+        lastModified: Date.now()
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+
+    await saveCharacterToDB(updated as any);
   };
 
   const updateValue = (field: string, deltaOrVal: any, autoSave = true) => {
@@ -2753,7 +2824,19 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'features' && (
                   <div className="fade-up">
-                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, marginBottom: 20 }}>Habilidades & Características</h2>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Habilidades & Características</h2>
+                      {isOwner && (
+                        <button
+                          className="btn btn-primary"
+                          style={{ height: 40, fontSize: 13, gap: 6 }}
+                          onClick={() => setIsFeatModalOpen(true)}
+                        >
+                          <Plus size={16} />
+                          Adicionar Talento
+                        </button>
+                      )}
+                    </div>
 
                     <div style={{ marginBottom: 24 }}>
                       <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -3125,34 +3208,58 @@ export default function CharacterDetailPage() {
                     )}
 
                     {/* Talentos (Feats) */}
-                    {(() => {
-                      const feats = parsedTraits?.feats || [];
-                      if (feats.length === 0) return null;
+                    <div style={{ marginBottom: 24, marginTop: 24 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                        <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                          Talentos
+                        </h3>
+                      </div>
 
-                      return (
-                        <div style={{ marginBottom: 24, marginTop: 24 }}>
-                          <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
-                            Talentos Selecionados
-                          </h3>
+                      {(() => {
+                        const feats = parsedTraits?.feats || [];
+                        if (feats.length === 0) {
+                          return (
+                            <div className="card" style={{ padding: 16, background: 'var(--bg2)', border: '1px dashed var(--border)', textAlign: 'center', color: 'var(--fg3)', fontSize: 13, fontStyle: 'italic' }}>
+                              Nenhum talento selecionado.
+                            </div>
+                          );
+                        }
+
+                        return (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             {feats.map((feat: any, i: number) => (
                               <div
                                 key={i}
                                 className="card clickable"
-                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '2px solid var(--ok)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--ok)', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}
                                 onClick={() => setDetailFeature({ ...feat, source: 'Talento', level: '-' })}
                               >
-                                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{feat.name}</div>
-                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                  <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{feat.name}</div>
+                                  {isOwner && (
+                                    <button
+                                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (confirm(`Deseja remover o talento ${feat.name}?`)) {
+                                          handleRemoveFeat(feat.name);
+                                        }
+                                      }}
+                                    >
+                                      <Trash2 size={14} color="var(--danger)" />
+                                    </button>
+                                  )}
+                                </div>
+                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                                   {feat.description}
                                 </p>
                               </div>
                             ))}
                           </div>
-                        </div>
-                      );
-                    })()}
+                        );
+                      })()}
+                    </div>
                   </div>
                 )}
 
@@ -4806,6 +4913,141 @@ export default function CharacterDetailPage() {
               >
                 Criar e Adicionar
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feats Modal */}
+      {isFeatModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => { setIsFeatModalOpen(false); setFeatSearchTerm(''); }}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 550,
+            maxHeight: '85vh', borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Brain size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Talentos</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>
+                    {character?.ruleset === '2014' ? 'D&D 5e (2014)' : 'D&D 2024'}
+                  </span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => { setIsFeatModalOpen(false); setFeatSearchTerm(''); }} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              <input
+                type="text"
+                className="card"
+                style={{ width: '100%', padding: '12px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 14 }}
+                placeholder="Buscar talento pelo nome ou descrição..."
+                value={featSearchTerm}
+                onChange={e => setFeatSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <div style={{ padding: 24, overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {(() => {
+                const is2014 = character?.ruleset === '2014';
+                const catalog = is2014 ? FEATS_2014 : FEATS_2024;
+                const selectedNames = new Set((parsedTraits?.feats || []).map((f: any) => f.name));
+
+                const filtered = catalog.filter(f => {
+                  const term = featSearchTerm.toLowerCase();
+                  const nameMatch = f.name.toLowerCase().includes(term);
+                  
+                  const descText = is2014 
+                    ? ((f as any).benefits || []).join(' ') 
+                    : ((f as any).description || '');
+                  const descMatch = descText.toLowerCase().includes(term);
+                  
+                  return nameMatch || descMatch;
+                });
+
+                if (filtered.length === 0) {
+                  return (
+                    <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--fg3)', fontSize: 14 }}>
+                      Nenhum talento encontrado para "{featSearchTerm}".
+                    </div>
+                  );
+                }
+
+                return filtered.map((feat: any) => {
+                  const isAlreadyAdded = selectedNames.has(feat.name);
+                  
+                  const descText = is2014 
+                    ? (feat.benefits || []).join(' ') 
+                    : (feat.description || '');
+
+                  return (
+                    <div 
+                      key={feat.id} 
+                      className="card" 
+                      style={{ 
+                        padding: 16, 
+                        background: 'var(--bg)', 
+                        border: '1px solid var(--border)', 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: 12,
+                        opacity: isAlreadyAdded ? 0.6 : 1 
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--fg)' }}>{feat.name}</div>
+                          {feat.requirement && (
+                            <div style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 600, marginTop: 2 }}>
+                              Pré-requisito: {feat.requirement}
+                            </div>
+                          )}
+                          {feat.category && (
+                            <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4, marginTop: 4 }}>
+                              {feat.category}
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          className={`btn ${isAlreadyAdded ? 'btn-ghost' : 'btn-primary'}`}
+                          style={{ height: 32, padding: '0 12px', fontSize: 12, flexShrink: 0 }}
+                          disabled={isAlreadyAdded}
+                          onClick={() => {
+                            handleAddFeat({ name: feat.name, description: descText });
+                          }}
+                        >
+                          {isAlreadyAdded ? 'Adicionado' : 'Adicionar'}
+                        </button>
+                      </div>
+
+                      <div style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5 }}>
+                        {is2014 ? (
+                          <ul style={{ margin: 0, paddingLeft: 20 }}>
+                            {(feat.benefits || []).map((benefit: string, idx: number) => (
+                              <li key={idx} style={{ marginBottom: 4 }}>{benefit}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          feat.description
+                        )}
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
             </div>
           </div>
         </div>
