@@ -26,7 +26,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Você estende sua mão e traça um símbolo de proteção no ar. Até o final do seu próximo turno, você tem resistência contra danos de concussão, cortante e perfurante desferidos por ataques com armas.', 
     damageEffect: 'Resistência Física', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
   },
   { 
     id: 'chill-touch-2014', 
@@ -51,7 +51,7 @@ export const SPELLS_2014: Spell[] = [
     range: '36 metros', 
     components: 'V, S, M', 
     description: 'Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as parecer tochas, lanternas ou esferas brilhantes que flutuam no ar. Você também pode combinar as quatro luzes em uma forma luminescente vagamente humanoide de tamanho Médio.', 
-    classes: ['Bardo', 'Feiticeiro', 'Mago'], 
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -342,12 +342,13 @@ export const SPELLS_2014: Spell[] = [
     name: 'Alarme', 
     level: 1, 
     school: 'Abjuração', 
-    castingTime: '1 minuto', 
+    castingTime: '1 minuto (ritual)', 
     duration: '8 horas', 
     range: '9 metros', 
     components: 'V, S, M', 
     description: 'Você define um alarme para intrusos. Escolha uma porta, uma janela ou uma área dentro do alcance que não seja maior que um cubo de 6 metros. Até a magia terminar, o alarme alerta você sempre que uma criatura Miúda ou maior entrar na área protegida.', 
-    classes: ['Patrulheiro', 'Mago', 'Artífice'] 
+    classes: ['Patrulheiro', 'Mago', 'Artífice'],
+    ritual: true
   },
   { 
     id: 'animal-friendship-2014', 
@@ -496,12 +497,13 @@ export const SPELLS_2014: Spell[] = [
     name: 'Compreender Idiomas', 
     level: 1, 
     school: 'Adivinhação', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: '1 hora', 
     range: 'Pessoal', 
     components: 'V, S, M', 
     description: 'Pela duração da magia, você compreende o significado literal de qualquer idioma falado que você ouvir. Você também compreende qualquer idioma escrito que você vir, mas você deve tocar a superfície em que as palavras estão escritas.', 
-    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'],
+    ritual: true
   },
   { 
     id: 'create-or-destroy-water-2014', 
@@ -546,26 +548,28 @@ export const SPELLS_2014: Spell[] = [
     name: 'Detectar Magia', 
     level: 1, 
     school: 'Adivinhação', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: 'Concentração, até 10 min', 
     range: 'Pessoal', 
     components: 'V, S', 
     description: 'Pela duração, você sente a presença de magia a até 9 metros de você. Se você sentir magia desta forma, você pode usar sua ação para ver uma aura tênue ao redor de qualquer criatura ou objeto visível na área que carregue magia.', 
     classes: ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice'], 
-    concentration: true 
+    concentration: true,
+    ritual: true
   },
   { 
     id: 'detect-poison-and-disease-2014', 
     name: 'Detectar Venenos e Doenças', 
     level: 1, 
     school: 'Adivinhação', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: 'Concentração, até 10 minutos', 
     range: 'Pessoal', 
     components: 'V, S, M', 
     description: 'Pela duração, você pode sentir a presença e localização de venenos, criaturas venenosas e doenças a até 9 metros de você. Você também identifica o tipo de veneno, criatura venenosa ou doença em cada caso.', 
     classes: ['Clérigo', 'Druida', 'Paladino', 'Patrulheiro'], 
-    concentration: true 
+    concentration: true,
+    ritual: true
   },
   { 
     id: 'disguise-self-2014', 
@@ -630,7 +634,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V', 
     duration: 'Concentração, até 10 minutos', 
     description: 'Energia purificante irradia de você. Criaturas não-hostis na aura não podem ficar doentes, têm resistência a dano de veneno e vantagem em testes contra: amedrontado, atordoado, cego, enfeitiçado, envenenado, paralisado e surdo.', 
-    classes: ['Paladino'], 
+    classes: ['Paladino', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -717,12 +721,13 @@ export const SPELLS_2014: Spell[] = [
     name: 'Encontrar Familiar', 
     level: 1, 
     school: 'Conjuração', 
-    castingTime: '1 hora', 
+    castingTime: '1 hora (ritual)', 
     duration: 'Instantânea', 
     range: '3 metros', 
     components: 'V, S, M', 
     description: 'Você adquire os serviços de um familiar, um espírito que assume uma forma animal à sua escolha: aranha, doninha, coruja, corvo, gato, falcão, morcego, peixe (polvo), rato, sapo ou serpente venenosa.', 
-    classes: ['Mago'] 
+    classes: ['Mago'],
+    ritual: true
   },
   { 
     id: 'fog-cloud-2014', 
@@ -875,24 +880,26 @@ export const SPELLS_2014: Spell[] = [
     name: 'Identificar', 
     level: 1, 
     school: 'Adivinhação', 
-    castingTime: '1 minuto', 
+    castingTime: '1 minuto (ritual)', 
     duration: 'Instantânea', 
     range: 'Toque', 
     components: 'V, S, M', 
     description: 'Você escolhe um objeto que deve tocar durante toda a conjuração da magia. Se for um item mágico ou algum outro objeto imbuído de magia, você aprende suas propriedades e como usá-las.', 
-    classes: ['Bardo', 'Mago', 'Artífice'] 
+    classes: ['Bardo', 'Mago', 'Artífice'],
+    ritual: true
   },
   { 
     id: 'illusory-script-2014', 
     name: 'Escrita Ilusória', 
     level: 1, 
     school: 'Ilusão', 
-    castingTime: '1 minuto', 
+    castingTime: '1 minuto (ritual)', 
     duration: '10 dias', 
     range: 'Toque', 
     components: 'S, M', 
     description: 'Você escreve em um pergaminho, papel ou qualquer outro material adequado e o imbui com uma ilusão potente que dura pela duração. Para você e quaisquer criaturas que você designar quando conjurar a magia, a escrita parece normal.', 
-    classes: ['Bardo', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Bruxo', 'Mago'],
+    ritual: true
   },
   { 
     id: 'inflict-wounds-2014', 
@@ -976,12 +983,26 @@ export const SPELLS_2014: Spell[] = [
     name: 'Purificar Alimentos', 
     level: 1, 
     school: 'Transmutação', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: 'Instantânea', 
     range: '3 metros', 
     components: 'V, S', 
     description: 'Toda comida e bebida não mágica dentro de uma esfera de 1,5 metro de raio centrada num ponto à sua escolha, dentro do alcance, é purificada e libertada de venenos e doenças.', 
-    classes: ['Clérigo', 'Druida', 'Paladino', 'Artífice'] 
+    classes: ['Clérigo', 'Druida', 'Paladino', 'Artífice'],
+    ritual: true
+  },
+  {
+    id: 'catapult-2014',
+    name: 'Catapulta',
+    level: 1,
+    school: 'Transmutação',
+    castingTime: '1 ação',
+    duration: 'Instantânea',
+    range: '18 metros',
+    components: 'S',
+    description: 'Você escolhe um objeto pesando entre 0,5 e 2,5 kg dentro do alcance que não esteja sendo usado ou carregado. O objeto voa em linha reta até 27 metros em uma direção à sua escolha antes de cair no chão, parando prematuramente se colidir contra uma criatura. Se colidir, a criatura deve realizar um teste de resistência de Destreza. Se falhar, ela sofre 3d8 de dano de concussão.',
+    damageEffect: '3d8 Concussão',
+    classes: ['Mago', 'Feiticeiro', 'Artífice']
   },
   { 
     id: 'ray-of-sickness-2014', 
@@ -1033,7 +1054,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Uma barreira invisível de força mágica aparece e protege você. Até o início do seu próximo turno, você recebe um bônus de +5 na sua CA, incluindo contra o ataque desencadeador, e você não sofre dano de mísseis mágicos.', 
     damageEffect: '+5 CA', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'shield-of-faith-2014', 
@@ -1080,12 +1101,13 @@ export const SPELLS_2014: Spell[] = [
     name: 'Falar com Animais', 
     level: 1, 
     school: 'Adivinhação', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: '10 minutos', 
     range: 'Pessoal', 
     components: 'V, S', 
     description: 'Pela duração, você adquire a habilidade de compreender e se comunicar verbalmente com bestas. O conhecimento e a consciência de muitas bestas são limitados pela inteligência delas.', 
-    classes: ['Bardo', 'Druida', 'Patrulheiro'] 
+    classes: ['Bardo', 'Druida', 'Patrulheiro'],
+    ritual: true
   },
   { 
     id: 'thunderous-smite-2014', 
@@ -1112,19 +1134,20 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     description: 'Uma onda de força trovejante irradia de você. Cada criatura num cubo de 4,5 metros originado em você deve fazer um teste de resistência de Constituição. Se falhar, uma criatura sofrerá 2d8 de dano de trovão e será empurrada 3 metros.', 
     damageEffect: '2d8 Trovão', 
-    classes: ['Bardo', 'Druida', 'Feiticeiro', 'Mago'] 
+    classes: ['Bardo', 'Druida', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'unseen-servant-2014', 
     name: 'Servo Invisível', 
     level: 1, 
     school: 'Conjuração', 
-    castingTime: '1 ação', 
+    castingTime: '1 ação (ritual)', 
     duration: '1 hora', 
     range: '18 metros', 
     components: 'V, S, M', 
     description: 'Esta magia cria uma força invisível, sem mente e sem forma, que realiza tarefas simples ao seu comando até a magia terminar. O servo surge num espaço vazio no chão, dentro do alcance.', 
-    classes: ['Bardo', 'Bruxo', 'Mago'] 
+    classes: ['Bardo', 'Bruxo', 'Mago'],
+    ritual: true
   },
   { 
     id: 'wrathful-smite-2014', 
@@ -1151,7 +1174,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M', 
     description: 'Um feixe de energia azul crepitante lança-se em direção a uma criatura dentro do alcance, formando um arco de relâmpago entre você e o alvo. Faça um ataque à distância com feitiço contra a criatura. Se acertar, o alvo sofrerá 1d12 de dano elétrico.', 
     damageEffect: '1d12 Elétrico contínuo', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago'], 
+    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -1213,7 +1236,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (uma pequena tira de tecido branco)',
     duration: '8 horas',
-    classes: ['Clérigo', 'Paladino'],
+    classes: ['Clérigo', 'Paladino', 'Artífice'],
     description: 'Sua magia inspira seus aliados com persistência e determinação. Escolha até três criaturas dentro do alcance. O máximo de pontos de vida e os pontos de vida atuais de cada alvo aumentam em 5 pela duração.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 3° nível ou superior, os pontos de vida do alvo aumentam em 5 adicionais para cada nível do espaço acima do 2°.'
   },
   {
@@ -1238,7 +1261,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (pelo ou penas de uma besta)',
     duration: 'Concentração, até 1 hora',
-    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro'],
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Feiticeiro', 'Artífice'],
     description: 'Você imbui uma criatura que você tocar com uma melhoria mágica. Escolha uma das seguintes opções; o alvo ganha o benefício até a magia acabar.\nAgilidade do Gato. O alvo tem vantagem em testes de Destreza. Ele também não sofre dano ao cair de 6 metros ou menos, se ele não estiver incapacitado.\nAstúcia da Raposa. O alvo tem vantagem em testes de Inteligência.\nEsplendor da Águia. O alvo tem vantagem em testes de Carisma.\nForça do Touro. O alvo tem vantagem em testes de Força e sua capacidade de carga dobra.\nSabedoria da Coruja. O alvo tem vantagem em testes de Sabedoria.\nVigor do Urso. O alvo tem vantagem em testes de Constituição. Ele também ganha 2d6 pontos de vida temporários, que são perdidos quando a magia termina.\nEm Níveis Superiores. Quando você conjurar essa magia usando um espaço de magia de 3° nível ou superior, você pode escolher uma criatura adicional para cada nível do espaço acima do 2°.',
     concentration: true
   },
@@ -1669,7 +1692,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (uma gota de betume e uma aranha)',
     duration: 'Concentração, até 1 hora',
-    classes: ['Bruxo', 'Druida', 'Feiticeiro', 'Mago'],
+    classes: ['Bruxo', 'Druida', 'Feiticeiro', 'Mago', 'Artífice'],
     description: 'Até a magia acabar, uma criatura voluntária que você tocar, recebe a habilidade de se mover para cima, para baixo e através de superfícies verticais e de cabeça para baixo pelos tetos, enquanto deixa suas mãos livres. O alvo também ganha deslocamento de escalada igual a seu deslocamento de caminhada.',
     concentration: true
   },
@@ -1848,7 +1871,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (pó de extrato de milho e um laço de pergaminho trançado)',
     duration: '1 hora',
-    classes: ['Mago'],
+    classes: ['Mago', 'Artífice'],
     description: 'Você toca um pedaço de corda que tenha até 18 metros de comprimento. Uma ponta da corda então, se ergue no ar até toda a corda estar erguida e perpendicular ao solo. Na ponta de cima da corda, uma entrada invisível se abre para um espaço extradimensional que permanece até a magia acabar.\nO espaço extradimensional pode ser alcançado escalando a corda até o topo. O espaço pode abrigar até oito criaturas Médias ou menores. A corda pode ser puxada para dentro do buraco, fazendo-a desaparecer para os observadores do lado de fora do espaço. Ataques e magias não podem ultrapassar a entrada, entrando ou saindo do espaço extradimensional, mas quem está dentro pode ver o lado de fora, como se estivesse olhando por uma janela de 0,9 metro por 1,5 metro, centrada na corda. Tudo que estiver dentro do espaço extradimensional cai quando a magia acabar.'
   },
   {
@@ -1920,7 +1943,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (uma rolha)',
     duration: '1 hora',
-    classes: ['Clérigo', 'Druida', 'Patrulheiro'],
+    classes: ['Clérigo', 'Druida', 'Patrulheiro', 'Artífice'],
     description: 'Essa magia concede a habilidade de se mover através de qualquer superfície líquida – como água, ácido, lama, neve, arreia movediça ou lava – como se ela fosse chão sólido inofensivo. Até dez criaturas voluntárias que você possa ver, dentro do alcance, ganham essa habilidade pela duração.\nSe você afetar uma criatura submersa em um líquido, a magia ergue o alvo para a superfície do líquido a uma taxa de 18 metros por rodada.',
     ritual: true
   },
@@ -1986,7 +2009,7 @@ export const SPELLS_2014: Spell[] = [
     duration: '10 minutos', 
     description: 'Chamas rodeiam seu corpo. Escolha escudo quente (resistência a frio) ou frio (resistência a fogo). Atacantes a 1,5m que te atingirem sofrem 2d8 de dano (fogo para quente, frio para frio).', 
     damageEffect: '2d8 Fogo/Frio', 
-    classes: ['Mago'] 
+    classes: ['Mago', 'Artífice'] 
   },
   { 
     id: 'fabricate-2014', 
@@ -2023,7 +2046,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     duration: 'Concentração, até 1 minuto', 
     description: 'Você ou uma criatura que você possa tocar se torna invisível até a magia acabar. Diferente da invisibilidade normal, o alvo não se torna visível se atacar ou conjurar magias.', 
-    classes: ['Bardo', 'Feiticeiro', 'Mago'], 
+    classes: ['Bardo', 'Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -2087,7 +2110,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Concentração, até 1 minuto', 
     description: 'Cria uma muralha de fogo de 18m de comprimento ou 6m de diâmetro. Causa 5d8 de dano ao aparecer (teste de Destreza para metade). Um lado escolhido causa 5d8 de dano a quem terminar o turno a 3m.', 
     damageEffect: '5d8 Fogo', 
-    classes: ['Druida', 'Feiticeiro', 'Mago'], 
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   {
@@ -2199,7 +2222,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S',
     duration: 'Instantânea',
-    classes: ['Clérigo', 'Paladino'],
+    classes: ['Clérigo', 'Paladino', 'Artífice'],
     description: 'Você cria 25 quilos de comida e 100 litros de água no solo ou em um recipiente dentro do alcance, suficiente para sustentar até quinze humanoide ou cinco montarias por 24 horas. A comida é insossa, porém, nutritiva e estraga se não for consumida após 24 horas. A água é limpa e não fica ruim.'
   },
   {
@@ -2310,7 +2333,7 @@ export const SPELLS_2014: Spell[] = [
     range: 'Toque',
     components: 'V, S, M (incenso e pó de diamante no valor de 200 po, consumidos pela magia)',
     duration: 'Até ser dissipado ou ativado',
-    classes: ['Bardo', 'Clérigo', 'Mago'],
+    classes: ['Bardo', 'Clérigo', 'Mago', 'Artífice'],
     description: 'Você inscreve um glifo que fere outras criaturas em uma superfície ou dentro de um objeto que possa ser fechado. Se você inscrever um glifo em uma superfície, ele pode cobrir uma área de até 3 metros de diâmetro. Você estabelece uma condição para a ativação do glifo. Quando ativado, o glifo pode ou liberar uma magia armazenada ou um efeito de runa explosiva (causando 5d8 de dano).\nEm Níveis Superiores. Se você conjurar essa magia usando um espaço de magia de 4° nível ou superior, o dano de uma runa explosiva aumenta em 1d8 para cada nível do espaço acima do 3°.'
   },
   {
@@ -2589,7 +2612,7 @@ export const SPELLS_2014: Spell[] = [
     range: '9 metros',
     components: 'V, S, M (uma lasca de alcaçuz)',
     duration: 'Concentração, até 1 minuto',
-    classes: ['Feiticeiro', 'Mago'],
+    classes: ['Feiticeiro', 'Mago', 'Artífice'],
     description: 'Você escolhe uma criatura voluntária que possa ver, dentro do alcance. Até a magia acabar, o deslocamento do alvo é dobrado, ele ganha +2 de bônus na CA, tem vantagem em testes de resistência de Destreza e ganha uma ação adicional em cada um dos turnos dele. Essa ação pode ser usada apenas para as ações Atacar (um único ataque com arma), Disparar, Desengajar, Esconder ou Usar Objeto. Quando a magia acaba, o alvo não pode se mover ou realizar ações até depois do seu próximo turno.',
     concentration: true
   },
@@ -2655,7 +2678,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Instantânea', 
     description: 'Energia necromântica inunda uma criatura, drenando sua vitalidade. O alvo deve realizar um teste de Constituição, sofrendo 8d8 de dano necrótico (metade se passar). Plantas têm desvantagem e sofrem dano máximo.', 
     damageEffect: '8d8 Necrótico', 
-    classes: ['Bruxo', 'Druida', 'Feiticeiro', 'Mago'] 
+    classes: ['Bruxo', 'Druida', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'death-ward-2014', 
@@ -2667,7 +2690,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S', 
     duration: '8 horas', 
     description: 'A primeira vez que o alvo cair a 0 PV, ele cai a 1 PV em vez disso e a magia termina. Também protege contra efeitos de morte instantânea sem dano.', 
-    classes: ['Clérigo', 'Paladino'] 
+    classes: ['Clérigo', 'Paladino', 'Artífice'] 
   },
   { 
     id: 'mordenkainens-private-sanctum-2014', 
@@ -2692,7 +2715,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Instantânea', 
     description: 'Granizo cai em um cilindro de 6m de raio. Cada criatura deve fazer um teste de Destreza, sofrendo 2d8 de concussão e 4d6 de frio (metade se passar). A área torna-se terreno difícil até o fim do seu próximo turno.', 
     damageEffect: '2d8 Conc. + 4d6 Frio', 
-    classes: ['Druida', 'Feiticeiro', 'Mago'] 
+    classes: ['Druida', 'Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'evards-black-tentacles-2014', 
@@ -2899,7 +2922,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Instantânea', 
     description: 'Ar gelado irrompe das suas mãos. Cada criatura no cone deve realizar um teste de Constituição, sofrendo 8d8 de dano de frio (metade se passar). Criaturas mortas tornam-se estátuas congeladas.', 
     damageEffect: '8d8 Frio', 
-    classes: ['Feiticeiro', 'Mago'] 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'] 
   },
   { 
     id: 'legend-lore-2014', 
@@ -2950,7 +2973,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Instantânea', 
     description: 'Uma onda de energia curativa emerge. Escolha até seis criaturas numa esfera de 9m de raio. Cada alvo recupera 3d8 + seu modificador de habilidade de conjuração. Não afeta mortos-vivos ou constructos.', 
     damageEffect: '3d8 + Mod Cura', 
-    classes: ['Bardo', 'Clérigo', 'Druida'] 
+    classes: ['Bardo', 'Clérigo', 'Druida', 'Artífice'] 
   },
   { 
     id: 'awaken-2014', 
@@ -3103,7 +3126,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Concentração, até 10 minutos', 
     description: 'Cria uma esfera de nevoeiro venenoso de 6m de raio. Criaturas na área sofrem 5d8 de dano de veneno (teste de Constituição para metade). O nevoeiro se afasta 3m de você a cada turno.', 
     damageEffect: '5d8 Veneno', 
-    classes: ['Feiticeiro', 'Mago'], 
+    classes: ['Feiticeiro', 'Mago', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -3167,7 +3190,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (um diamante valendo 500 po, consumido pela magia)', 
     duration: 'Instantânea', 
     description: 'Traz um humanoide morto há no máximo 10 dias de volta à vida com 1 PV. Neutraliza venenos e doenças não-mágicas, mas não remove maldições.', 
-    classes: ['Bardo', 'Clérigo', 'Paladino'] 
+    classes: ['Bardo', 'Clérigo', 'Paladino', 'Artífice'] 
   },
   { 
     id: 'dream-2014', 
@@ -3229,7 +3252,7 @@ export const SPELLS_2014: Spell[] = [
     duration: 'Concentração, até 1 minuto', 
     description: 'A próxima vez que atingir com ataque com arma, causa 5d10 de dano de energia extra. Se o alvo tiver 50 PV ou menos, ele é banido para seu plano natal ou um semiplano.', 
     damageEffect: '5d10 Energia', 
-    classes: ['Paladino'], 
+    classes: ['Paladino', 'Artífice'], 
     concentration: true 
   },
   { 
@@ -3281,7 +3304,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (sementes de gergelim)', 
     duration: '1 hora', 
     description: 'Cria uma passagem em superfície de madeira, gesso ou rocha de até 1,5m de largura, 2,1m de altura e 6m de profundidade.', 
-    classes: ['Mago'] 
+    classes: ['Mago', 'Artífice'] 
   },
   { 
     id: 'wall-of-force-2014', 
@@ -3293,7 +3316,7 @@ export const SPELLS_2014: Spell[] = [
     components: 'V, S, M (pó de gema transparente)', 
     duration: 'Concentração, até 10 minutos', 
     description: 'Cria uma muralha invisível e indestrutível de energia. Nada pode atravessá-la fisicamente e ela impede a passagem de magias. Pode ser moldada em painéis, cúpula ou esfera.', 
-    classes: ['Mago'], 
+    classes: ['Mago', 'Artífice'], 
     concentration: true 
   },
   { 

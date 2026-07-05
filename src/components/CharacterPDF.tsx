@@ -1187,7 +1187,7 @@ const CharacterPDF = ({ character }: Props) => {
                         return (
                           <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
                             <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
-                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                            <Text style={{ fontSize: 7 }}>{spell ? `${spell.name}${spell.ritual ? ' (Ritual)' : ''}` : ''}</Text>
                           </View>
                         );
                       })}
@@ -1217,7 +1217,7 @@ const CharacterPDF = ({ character }: Props) => {
                         return (
                           <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
                             <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
-                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                            <Text style={{ fontSize: 7 }}>{spell ? `${spell.name}${spell.ritual ? ' (Ritual)' : ''}` : ''}</Text>
                           </View>
                         );
                       })}
@@ -1247,7 +1247,7 @@ const CharacterPDF = ({ character }: Props) => {
                         return (
                           <View key={lineIdx} style={{ flexDirection: 'row', alignItems: 'center', height: 12, borderBottomWidth: 1.0, borderBottomColor: '#000', marginBottom: 1 }}>
                             <View style={{ width: 8, height: 8, border: 1, borderColor: '#000', marginRight: 4, borderRadius: 1 }} />
-                            <Text style={{ fontSize: 7 }}>{spell ? spell.name : ''}</Text>
+                            <Text style={{ fontSize: 7 }}>{spell ? `${spell.name}${spell.ritual ? ' (Ritual)' : ''}` : ''}</Text>
                           </View>
                         );
                       })}

@@ -2523,7 +2523,22 @@ export default function CharacterDetailPage() {
                                         <div style={{ flex: 1 }}>
                                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                             <div>
-                                              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{spell.name}</div>
+                                              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                {spell.name}
+                                                {spell.ritual && (
+                                                  <span style={{
+                                                    fontSize: 9,
+                                                    fontWeight: 800,
+                                                    color: '#fbbf24',
+                                                    background: 'rgba(251, 191, 36, 0.15)',
+                                                    padding: '2px 6px',
+                                                    borderRadius: 4,
+                                                    border: '1px solid rgba(251, 191, 36, 0.3)'
+                                                  }}>
+                                                    RITUAL
+                                                  </span>
+                                                )}
+                                              </div>
                                               <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>
                                                 {spell.school} • {spell.level}º Círculo
                                               </div>
@@ -2547,6 +2562,7 @@ export default function CharacterDetailPage() {
                                         <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
                                         <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
                                         {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONC.</div>}
+                                        {spell.ritual && <div style={{ fontSize: 9, background: '#a78bfa', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>RITUAL</div>}
                                       </div>
                                       <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
                                     </div>
@@ -2679,7 +2695,22 @@ export default function CharacterDetailPage() {
                                           <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                               <div>
-                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg2)' }}>{spell.name}</div>
+                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg2)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                  {spell.name}
+                                                  {spell.ritual && (
+                                                    <span style={{
+                                                      fontSize: 9,
+                                                      fontWeight: 800,
+                                                      color: '#fbbf24',
+                                                      background: 'rgba(251, 191, 36, 0.15)',
+                                                      padding: '2px 6px',
+                                                      borderRadius: 4,
+                                                      border: '1px solid rgba(251, 191, 36, 0.3)'
+                                                    }}>
+                                                      RITUAL
+                                                    </span>
+                                                  )}
+                                                </div>
                                                 <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>{spell.school}</div>
                                               </div>
                                               {!isPreparing && (
@@ -2705,6 +2736,7 @@ export default function CharacterDetailPage() {
                                               <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
                                               <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
                                               {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONC.</div>}
+                                              {spell.ritual && <div style={{ fontSize: 9, background: '#a78bfa', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>RITUAL</div>}
                                             </div>
                                             <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
                                           </>

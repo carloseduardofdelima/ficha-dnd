@@ -169,8 +169,23 @@ export default function MagiasPage() {
                 onClick={() => setSelectedSpell(spell)}
               >
                 <div className="spell-card-header">
-                  <div className="school-tag hide-mobile" style={{ color: SCHOOL_COLORS[spell.school] }}>
-                    {spell.school}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div className="school-tag hide-mobile" style={{ color: SCHOOL_COLORS[spell.school] }}>
+                      {spell.school}
+                    </div>
+                    {spell.ritual && (
+                      <span style={{
+                        fontSize: 9,
+                        fontWeight: 800,
+                        color: '#fbbf24',
+                        background: 'rgba(251, 191, 36, 0.1)',
+                        padding: '2px 6px',
+                        borderRadius: 4,
+                        border: '1px solid rgba(251, 191, 36, 0.2)'
+                      }}>
+                        RITUAL
+                      </span>
+                    )}
                   </div>
                   <div className="level-badge">
                     {spell.level === 0 ? 'T' : `${spell.level}`}

@@ -238,8 +238,8 @@ export default function SpellsStep({
                             {spell.level === 0 ? 'TRUQUE' : `${spell.level}º`}
                           </span>
                           {spell.name}
-                          {spell.ritual && <span style={{ fontSize: 8, padding: '1px 4px', borderRadius: 3, backgroundColor: 'rgba(167,139,250,0.2)', color: '#a78bfa', fontWeight: 800 }}>R</span>}
-                          {spell.concentration && <span style={{ fontSize: 8, padding: '1px 4px', borderRadius: 3, backgroundColor: 'rgba(251,191,36,0.2)', color: '#fbbf24', fontWeight: 800 }}>C</span>}
+                          {spell.ritual && <span style={{ fontSize: 8, padding: '1px 5px', borderRadius: 3, backgroundColor: 'rgba(251,191,36,0.15)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.3)', fontWeight: 800 }}>RITUAL</span>}
+                          {spell.concentration && <span style={{ fontSize: 8, padding: '1px 5px', borderRadius: 3, backgroundColor: 'rgba(167,139,250,0.2)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)', fontWeight: 800 }}>CONCENTRAÇÃO</span>}
                         </div>
                         <div style={{ fontSize: 10, color: schoolColor, fontWeight: 600 }}>{spell.school}</div>
                       </div>
