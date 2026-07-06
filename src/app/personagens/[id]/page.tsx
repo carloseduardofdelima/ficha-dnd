@@ -2695,7 +2695,7 @@ export default function CharacterDetailPage() {
                                   </div>
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: isPreparing ? 'repeat(2, minmax(0, 1fr))' : '1fr', gap: 12 }}>
                                   {lvlSpells.map((spell: any) => {
                                     const isSelected = currentSpells.includes(spell.id);
                                     return (
@@ -2704,7 +2704,7 @@ export default function CharacterDetailPage() {
                                         className="card"
                                         onClick={() => isPreparing && toggleSpell(spell.id)}
                                         style={{
-                                          padding: 16,
+                                          padding: isPreparing ? '10px 12px' : 16,
                                           background: isSelected ? 'var(--bg2)' : 'rgba(255,255,255,0.02)',
                                           borderLeft: isSelected ? '3px solid var(--accent)' : '1px solid var(--border)',
                                           cursor: isPreparing ? 'pointer' : 'default',
@@ -2713,15 +2713,15 @@ export default function CharacterDetailPage() {
                                           overflow: 'hidden'
                                         }}
                                       >
-                                        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                                        <div style={{ display: 'flex', gap: isPreparing ? 6 : 14, alignItems: 'center' }}>
                                           {isPreparing && (
                                             <div style={{
-                                              width: 20, height: 20, borderRadius: 6, border: '2px solid var(--accent)',
+                                              width: 18, height: 18, borderRadius: 6, border: '2px solid var(--accent)',
                                               background: isSelected ? 'var(--accent)' : 'transparent',
                                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                                               flexShrink: 0
                                             }}>
-                                              {isSelected && <Zap size={12} color="#fff" fill="#fff" />}
+                                              {isSelected && <Zap size={10} color="#fff" fill="#fff" />}
                                             </div>
                                           )}
 
@@ -2739,13 +2739,19 @@ export default function CharacterDetailPage() {
                                             );
                                             return (
                                               <div style={{
-                                                flexShrink: 0, width: 40, height: 40, borderRadius: 8, overflow: 'hidden',
-                                                border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
+                                                flexShrink: 0,
+                                                width: isPreparing ? 32 : 40,
+                                                height: isPreparing ? 32 : 40,
+                                                borderRadius: 6,
+                                                overflow: 'hidden',
+                                                border: '1px solid rgba(255,255,255,0.08)',
+                                                background: 'rgba(0,0,0,0.3)'
                                               }}>
                                                 <Image
                                                   src={`/assets/spells-icons/${icon}`}
                                                   alt={spell.name}
-                                                  width={40} height={40}
+                                                  width={isPreparing ? 32 : 40}
+                                                  height={isPreparing ? 32 : 40}
                                                   style={{ objectFit: 'cover', opacity: isSelected ? 1 : 0.4 }}
                                                 />
                                               </div>
@@ -2755,23 +2761,31 @@ export default function CharacterDetailPage() {
                                           <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                               <div>
-                                                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? 'var(--fg)' : 'var(--fg2)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                <div style={{
+                                                  fontWeight: 700,
+                                                  fontSize: isPreparing ? 12 : 15,
+                                                  color: isSelected ? 'var(--fg)' : 'var(--fg2)',
+                                                  display: 'flex',
+                                                  alignItems: 'center',
+                                                  gap: isPreparing ? 4 : 8,
+                                                  lineHeight: 1.2
+                                                }}>
                                                   {spell.name}
                                                   {spell.ritual && (
                                                     <span style={{
-                                                      fontSize: 9,
+                                                      fontSize: isPreparing ? 7 : 9,
                                                       fontWeight: 800,
                                                       color: '#fbbf24',
                                                       background: 'rgba(251, 191, 36, 0.15)',
-                                                      padding: '2px 6px',
-                                                      borderRadius: 4,
+                                                      padding: '1px 4px',
+                                                      borderRadius: 3,
                                                       border: '1px solid rgba(251, 191, 36, 0.3)'
                                                     }}>
                                                       RITUAL
                                                     </span>
                                                   )}
                                                 </div>
-                                                <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase' }}>{spell.school}</div>
+                                                <div style={{ fontSize: isPreparing ? 8 : 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase', marginTop: isPreparing ? 2 : 0 }}>{spell.school}</div>
                                               </div>
                                               {!isPreparing && (
                                                 <div style={{
