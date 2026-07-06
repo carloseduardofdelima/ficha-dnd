@@ -850,7 +850,7 @@ export default function CharacterDetailPage() {
     setIsSubclassModalOpen(false);
   };
 
-  const handleAddFeat = async (feat: { name: string, description: string }) => {
+  const handleAddFeat = async (feat: { name: string, description: string, source?: string }) => {
     if (!character) return;
 
     const currentFeats = parsedTraits?.feats || [];
@@ -859,7 +859,7 @@ export default function CharacterDetailPage() {
       return;
     }
 
-    const updatedFeats = [...currentFeats, { name: feat.name, description: feat.description }];
+    const updatedFeats = [...currentFeats, { name: feat.name, description: feat.description, source: feat.source }];
     const updatedTraits = {
       ...parsedTraits,
       feats: updatedFeats
@@ -3320,34 +3320,42 @@ export default function CharacterDetailPage() {
 
                         return (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                            {feats.map((feat: any, i: number) => (
-                              <div
-                                key={i}
-                                className="card clickable"
-                                style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--ok)', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}
-                                onClick={() => setDetailFeature({ ...feat, source: 'Talento', level: '-' })}
-                              >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                                  <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{feat.name}</div>
-                                  {isOwner && (
-                                    <button
-                                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (confirm(`Deseja remover o talento ${feat.name}?`)) {
-                                          handleRemoveFeat(feat.name);
-                                        }
-                                      }}
-                                    >
-                                      <Trash2 size={14} color="var(--danger)" />
-                                    </button>
-                                  )}
+                            {feats.map((feat: any, i: number) => {
+                              const featSource = feat.source || (character?.ruleset === '2014' ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)');
+                              return (
+                                <div
+                                  key={i}
+                                  className="card clickable"
+                                  style={{ padding: 16, background: 'var(--bg2)', borderLeft: '3px solid var(--ok)', cursor: 'pointer', transition: 'transform 0.2s', position: 'relative' }}
+                                  onClick={() => setDetailFeature({ ...feat, source: featSource, level: undefined })}
+                                >
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                    <div>
+                                      <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{feat.name}</div>
+                                      <span style={{ display: 'inline-block', fontSize: 8, color: 'var(--accentL)', fontWeight: 800, textTransform: 'uppercase', background: 'var(--accentGlow)', padding: '1px 4px', borderRadius: 3, marginTop: 2 }}>
+                                        {featSource}
+                                      </span>
+                                    </div>
+                                    {isOwner && (
+                                      <button
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          if (confirm(`Deseja remover o talento ${feat.name}?`)) {
+                                            handleRemoveFeat(feat.name);
+                                          }
+                                        }}
+                                      >
+                                        <Trash2 size={14} color="var(--danger)" />
+                                      </button>
+                                    )}
+                                  </div>
+                                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                                    {feat.description}
+                                  </p>
                                 </div>
-                                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                                  {feat.description}
-                                </p>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         );
                       })()}
@@ -5106,11 +5114,16 @@ export default function CharacterDetailPage() {
                               Pré-requisito: {feat.requirement}
                             </div>
                           )}
-                          {feat.category && (
-                            <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4, marginTop: 4 }}>
-                              {feat.category}
+                          <div style={{ marginTop: 4 }}>
+                            {feat.category && (
+                              <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
+                                {feat.category}
+                              </span>
+                            )}
+                            <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--accentL)', fontWeight: 800, textTransform: 'uppercase', background: 'var(--accentGlow)', padding: '2px 6px', borderRadius: 4, marginLeft: feat.category ? 6 : 0 }}>
+                              {feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)')}
                             </span>
-                          )}
+                          </div>
                         </div>
 
                         <button
@@ -5118,7 +5131,8 @@ export default function CharacterDetailPage() {
                           style={{ height: 32, padding: '0 12px', fontSize: 12, flexShrink: 0 }}
                           disabled={isAlreadyAdded}
                           onClick={() => {
-                            handleAddFeat({ name: feat.name, description: descText });
+                            const featSource = feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)');
+                            handleAddFeat({ name: feat.name, description: descText, source: featSource });
                           }}
                         >
                           {isAlreadyAdded ? 'Adicionado' : 'Adicionar'}

@@ -13,6 +13,7 @@ export interface Feat2014 {
     charisma?: number;
     choice?: string[]; // When user chooses which attribute to increase
   };
+  source?: string;
 }
 
 export const FEATS_2014: Feat2014[] = [
@@ -405,5 +406,175 @@ export const FEATS_2014: Feat2014[] = [
       'Você tem 3 pontos de sorte por descanso longo.',
       'Pode gastar ponto para rolar d20 adicional em ataques, testes ou resistências (ou contra ataques sofridos).'
     ]
+  },
+  {
+    id: 'agachamento-agil',
+    name: 'Agachamento Ágil',
+    requirement: 'Anão ou Raças Pequenas',
+    benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
+      'Aumente seu deslocamento de caminhada em 1,5 metros.',
+      'Você ganha proficiência em Acrobacia ou Atletismo (a sua escolha).',
+      'Você tem vantagem em qualquer teste de Força (Atletismo) ou Destreza (Acrobacias) que faça para escapar de ser agarrado.'
+    ],
+    attributeBonus: { choice: ['strength', 'dexterity'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'alta-magia-drow',
+    name: 'Alta Magia Drow',
+    requirement: 'Elfo (Drow)',
+    benefits: [
+      'Você aprende a magia detectar magia e pode conjurá-la à vontade, sem gastar um espaço de magia.',
+      'Você aprende as magias levitação e dissipar magia, podendo conjurar cada uma delas uma vez sem gastar espaços de magias (recupera em descanso longo).',
+      'O Carisma é a sua habilidade de conjuração para as três magias.'
+    ],
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'boa-sorte',
+    name: 'Boa Sorte',
+    requirement: 'Halfling',
+    benefits: [
+      'Quando um aliado visível a até 9 metros rola um 1 no d20 para ataque, teste ou resistência, pode usar sua reação para permitir que ele refaça o teste (deve usar o novo resultado).',
+      'Quando usa essa característica, não pode usar seu traço racial Sorte antes do final do seu próximo turno.'
+    ],
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'chamas-de-phlegethos',
+    name: 'Chamas de Phlegethos',
+    requirement: 'Tiefling',
+    benefits: [
+      'Aumente seu valor de Inteligência ou Carisma em 1, até o máximo de 20.',
+      'Quando rolar dano de fogo por alguma magia que tenha conjurado, pode rolar novamente qualquer 1 no dado de dano por fogo (deve usar a nova rolagem).',
+      'Ao conjurar magia que cause dano de fogo, ganha chamas ao redor até o fim do turno (luz brilhante 9m, fraca +9m; inimigo que te atingir corpo-a-corpo a até 1,5m recebe 1d4 de dano de fogo).'
+    ],
+    attributeBonus: { choice: ['intelligence', 'charisma'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'constituicao-infernal',
+    name: 'Constituição Infernal',
+    requirement: 'Tiefling',
+    benefits: [
+      'Aumente seu valor de Constituição em 1, até o máximo de 20.',
+      'Recebe resistência a dano por frio e por veneno.',
+      'Você tem vantagem em testes de resistência contra ser envenenado.'
+    ],
+    attributeBonus: { constitution: 1 },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'couro-de-dragao',
+    name: 'Couro de Dragão',
+    requirement: 'Draconato',
+    benefits: [
+      'Aumente seu valor de Força, Constituição, ou Carisma em 1, até o máximo de 20.',
+      'Enquanto não estiver vestindo armadura, pode calcular sua CA como 13 + seu modificador de Destreza (pode usar escudo).',
+      'Garras retráteis naturais: ataques desarmados causam dano cortante de 1d4 + modificador de Força.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'charisma'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'desvanecer',
+    name: 'Desvanecer',
+    requirement: 'Gnomo',
+    benefits: [
+      'Aumente seu valor de Destreza ou Inteligência em 1, até o máximo de 20.',
+      'Após receber dano, usa reação para se tornar invisível até o fim do seu próximo turno (ou até atacar, dar dano ou forçar salvaguarda). 1x por descanso curto/longo.'
+    ],
+    attributeBonus: { choice: ['dexterity', 'intelligence'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'fortitude-ana',
+    name: 'Fortitude Anã',
+    requirement: 'Anão',
+    benefits: [
+      'Aumente seu valor de Constituição em 1, até o máximo de 20.',
+      'Sempre que você realiza a ação Esquivar em combate, pode gastar um Dado de Vida para se curar (role o dado + mod de Constituição).'
+    ],
+    attributeBonus: { constitution: 1 },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'furia-orc',
+    name: 'Fúria Orc',
+    requirement: 'Meio-Orc',
+    benefits: [
+      'Aumente seu valor de Força ou Constituição em 1, até o máximo de 20.',
+      'Ao atingir com arma simples/marcial, pode rolar um dos dados de dano uma vez adicionalmente (1x por descanso curto/longo).',
+      'Imediatamente após usar seu traço Resistência Implacável, pode usar sua reação para realizar um ataque com arma.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'magia-do-elfo-da-floresta',
+    name: 'Magia do Elfo da Floresta',
+    requirement: 'Elfo (floresta)',
+    benefits: [
+      'Você aprende um truque de druida a sua escolha.',
+      'Aprende passos longos e passos sem pegadas (pode conjurar cada uma 1x sem espaço de magia por descanso longo).',
+      'A Sabedoria é a sua habilidade de conjuração para as três magias.'
+    ],
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'precisao-elfica',
+    name: 'Precisão Élfica',
+    requirement: 'Elfo ou Meio-Elfo',
+    benefits: [
+      'Aumente seu valor de Destreza, Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Sempre que tiver vantagem em ataque com Destreza, Inteligência, Sabedoria ou Carisma, você pode rolar novamente um dos dados do ataque uma vez.'
+    ],
+    attributeBonus: { choice: ['dexterity', 'intelligence', 'wisdom', 'charisma'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'prodigio',
+    name: 'Prodígio',
+    requirement: 'Meio-Elfo, Meio-Orc, Humano',
+    benefits: [
+      'Ganha proficiência em uma perícia, uma ferramenta e fluência em um idioma à sua escolha.',
+      'Escolha uma perícia proficiente para ganhar Especialização (dobra o bônus de proficiência).'
+    ],
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'segunda-chance',
+    name: 'Segunda Chance',
+    requirement: 'Halfling',
+    benefits: [
+      'Aumente seu valor de Constituição ou Carisma em 1, até o máximo de 20.',
+      'Ao ser atingido por ataque, usa reação para forçar o atacante a rolar novamente (1x por combate ou descanso curto/longo).'
+    ],
+    attributeBonus: { choice: ['constitution', 'charisma'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'teleporte-das-fadas',
+    name: 'Teleporte das Fadas',
+    requirement: 'Elfo (alto)',
+    benefits: [
+      'Aumente seu valor de Inteligência ou Carisma em 1, até o máximo de 20.',
+      'Você aprende a falar, ler e escrever Silvestre (Sylvan).',
+      'Aprende passo nebuloso e pode conjurar 1x sem gastar espaço de magia por descanso curto/longo (Inteligência é o atributo de conjuração).'
+    ],
+    attributeBonus: { choice: ['intelligence', 'charisma'] },
+    source: 'Guia do Xanathar'
+  },
+  {
+    id: 'temor-draconico',
+    name: 'Temor Dracônico',
+    requirement: 'Draconato',
+    benefits: [
+      'Aumente seu valor de Força, Constituição, ou Carisma em 1, até o máximo de 20.',
+      'Pode gastar um uso do Sopro para rugir: inimigos a até 9m fazem teste de Sabedoria (CD 8 + prof + Car) ou ficam amedrontados por 1 min.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'charisma'] },
+    source: 'Guia do Xanathar'
   }
 ];
