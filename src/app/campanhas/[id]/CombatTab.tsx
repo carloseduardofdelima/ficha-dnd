@@ -23,6 +23,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   const [bestiary, setBestiary] = useState<any[]>([])
   const [bestiarySearch, setBestiarySearch] = useState('')
   const [loadingBestiary, setLoadingBestiary] = useState(false)
+  const [bestiaryLoaded, setBestiaryLoaded] = useState(false)
   const [selectedThreatDetails, setSelectedThreatDetails] = useState<any | null>(null)
   const [loadingThreatDetails, setLoadingThreatDetails] = useState(false)
   const [participantConditions, setParticipantConditions] = useState<Record<string, string[]>>({})
@@ -74,25 +75,31 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   }
 
   useEffect(() => {
-    if (showAddParticipant && bestiary.length === 0) {
+    if (showAddParticipant && !bestiaryLoaded && !loadingBestiary) {
       setLoadingBestiary(true)
       fetch('/api/ameacas?summary=true')
         .then(res => res.json())
         .then(data => {
           setBestiary(data || [])
+          setBestiaryLoaded(true)
         })
         .catch(err => console.error(err))
         .finally(() => setLoadingBestiary(false))
     }
-  }, [showAddParticipant, bestiary.length])
+  }, [showAddParticipant, bestiaryLoaded, loadingBestiary])
 
+
+  const activeCombatRef = useRef(activeCombat)
+  useEffect(() => {
+    activeCombatRef.current = activeCombat
+  }, [activeCombat])
 
   const fetchCombats = useCallback(async () => {
     try {
       const res = await fetch(`/api/campanhas/${campaignId}/combates`)
       const data = await res.json()
       setCombats(data)
-      if (data.length > 0 && !activeCombat) {
+      if (data.length > 0 && !activeCombatRef.current) {
         // If there's an active combat, pick it
         const active = data.find((c: any) => c.status === 'ativo')
         if (active) fetchCombatDetails(active.id)
@@ -102,7 +109,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
     } finally {
       setLoading(false)
     }
-  }, [campaignId, activeCombat])
+  }, [campaignId])
 
   const fetchCombatDetails = async (id: string) => {
     try {

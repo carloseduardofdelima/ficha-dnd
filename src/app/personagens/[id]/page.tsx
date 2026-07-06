@@ -2,7 +2,7 @@
 import { useParams, useRouter } from 'next/navigation'
 import { Sword, Shield, Heart, Zap, Star, Info, Settings, Plus, TrendingUp, ArrowRight, RotateCcw, Target, Footprints, Eye, Brain, Waves, User, Menu, X, Trash2, Upload, Loader2, Cloud, CloudOff, CloudDownload, FileDown, ChevronDown, CheckCircle2, Package, Globe, Lock, Edit } from 'lucide-react'
 import Image from 'next/image'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { formatModifier, calcModifier, type Character, type Defense, type Companion } from '@/types/character'
 import { RACES } from '@/lib/races'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
@@ -121,6 +121,58 @@ export default function CharacterDetailPage() {
   const { id } = useParams()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('combat')
+
+  const lastSavedPayloadRef = useRef<string>("")
+
+  const getCharacterPayloadString = (char: Character) => {
+    try {
+      const payload = {
+        name: char.name,
+        race: char.race,
+        subrace: char.subrace,
+        class: char.class,
+        subclass: char.subclass,
+        level: char.level,
+        background: char.background,
+        avatarUrl: char.avatarUrl,
+        playerName: char.playerName,
+        strength: char.strength,
+        dexterity: char.dexterity,
+        constitution: char.constitution,
+        intelligence: char.intelligence,
+        wisdom: char.wisdom,
+        charisma: char.charisma,
+        maxHp: char.maxHp,
+        currentHp: char.currentHp,
+        armorClass: char.armorClass,
+        speed: char.speed,
+        initiative: char.initiative,
+        proficiencyBonus: char.proficiencyBonus,
+        ruleset: char.ruleset,
+        isPublic: char.isPublic,
+        notes: char.notes,
+        spellSlots: typeof char.spellSlots === 'object' ? JSON.stringify(char.spellSlots) : char.spellSlots,
+        resources: typeof char.resources === 'object' ? JSON.stringify(char.resources) : char.resources,
+        exp: char.exp,
+        skills: typeof char.skills === 'object' ? JSON.stringify(char.skills) : char.skills,
+        inventory: typeof char.inventory === 'object' ? JSON.stringify(char.inventory) : char.inventory,
+        spells: typeof char.spells === 'object' ? JSON.stringify(char.spells) : char.spells,
+        traits: typeof char.traits === 'object' ? JSON.stringify(char.traits) : char.traits,
+        appearance: char.appearance,
+        backstory: char.backstory,
+        personalityTraits: char.personalityTraits,
+        ideals: char.ideals,
+        bonds: char.bonds,
+        flaws: char.flaws,
+        defenses: typeof (char as any).defenses === 'object' ? JSON.stringify((char as any).defenses) : (char as any).defenses,
+        companions: typeof char.companions === 'object' ? JSON.stringify(char.companions) : char.companions,
+        inspiration: char.inspiration
+      };
+      return JSON.stringify(payload);
+    } catch (e) {
+      return "";
+    }
+  }
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [character, setCharacter] = useState<Character | null>(null)
   const [loading, setLoading] = useState(true)
@@ -468,6 +520,7 @@ export default function CharacterDetailPage() {
             console.error('Erro na sincronização de segurança:', e);
           }
           setCharacter(data);
+          lastSavedPayloadRef.current = getCharacterPayloadString(data);
         }
         setLoading(false)
       })
@@ -687,6 +740,12 @@ export default function CharacterDetailPage() {
   };
 
   const saveCharacterToDB = async (char: Character) => {
+    const currentPayloadStr = getCharacterPayloadString(char);
+    if (currentPayloadStr === lastSavedPayloadRef.current) {
+      console.log("Salvar cancelado: Nenhuma alteração detectada em relação ao último salvamento.");
+      setSaveStatus('saved');
+      return;
+    }
     setSaveStatus('saving');
     try {
       const payload = {
@@ -711,6 +770,7 @@ export default function CharacterDetailPage() {
 
       if (res.ok) {
         setSaveStatus('saved');
+        lastSavedPayloadRef.current = currentPayloadStr;
       } else {
         setSaveStatus('error');
       }
