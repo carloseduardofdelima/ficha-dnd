@@ -2916,7 +2916,7 @@ export default function CharacterDetailPage() {
 
                 {activeTab === 'features' && (
                   <div className="fade-up">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                    <div className="features-header">
                       <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Habilidades & Características</h2>
                       {isOwner && (
                         <button
@@ -5511,6 +5511,13 @@ export default function CharacterDetailPage() {
       )}
 
       <style jsx>{`
+        .features-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+
         .inventory-item-card:hover {
           background: rgba(255,255,255,0.06) !important;
           border-color: var(--accent) !important;
@@ -5613,6 +5620,12 @@ export default function CharacterDetailPage() {
         }
 
         @media (max-width: 768px) {
+          .features-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+          }
+
           .attack-row {
             grid-template-columns: 1fr 1fr;
             padding: 20px;
