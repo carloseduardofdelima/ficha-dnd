@@ -99,7 +99,29 @@ export const ITEM_CATALOG_2014: InventoryItem[] = [
   { id: 'bolsa-15po-2014', name: 'Bolsa (15 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 15 moedas de ouro.', weight: 0.45, cost: '15 po' },
   { id: 'bolsa-10po-2014', name: 'Bolsa (10 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 10 moedas de ouro.', weight: 0.45, cost: '10 po' },
   { id: 'pé-de-cabra-2014', name: 'Pé de Cabra', category: 'misc', icon: '🔨', description: 'Concede vantagem em testes de Força para abrir algo.', weight: 2.25, cost: '2 po' },
+  { id: 'balas-funda-2014', name: 'Balas de Funda (20)', category: 'ammo', icon: '🪨', description: 'Munição para funda. Balas de chumbo pesadas.', weight: 0.67, cost: '4 pc', quantity: 20 },
+  { id: 'agulhas-zarabatana-2014', name: 'Agulhas de Zarabatana (50)', category: 'ammo', icon: '🌬️', description: 'Munição para zarabatana. Pequenas agulhas metálicas.', weight: 0.45, cost: '1 po', quantity: 50 },
+  { id: 'pocao-cura-2014', name: 'Poção de Cura', category: 'misc', icon: '🧪', description: 'Consumível. Recupera 2d4 + 2 pontos de vida ao ser bebida.', weight: 0.2, cost: '50 po' },
+  { id: 'fogo-alquimico-2014', name: 'Fogo Alquímico (frasco)', category: 'misc', icon: '🔥', description: 'Consumível. Arremessável. Causa 1d4 de dano de fogo no início de cada turno do alvo até ser apagado com teste de Destreza CD 10.', weight: 0.45, cost: '50 po' },
+  { id: 'acido-frasco-2014', name: 'Ácido (frasco)', category: 'misc', icon: '🧪', description: 'Consumível. Arremessável. Causa 2d6 de dano de ácido ao atingir uma criatura.', weight: 0.45, cost: '25 po' },
+  { id: 'veneno-basico-2014', name: 'Veneno Básico (frasco)', category: 'misc', icon: '🧪', description: 'Consumível. Passado em arma ou munição (dura 1 minuto). Causa 1d4 de dano de veneno se o alvo falhar em salvaguarda de Constituição CD 10.', weight: 0, cost: '100 po' },
+  { id: 'antidoto-2014', name: 'Antídoto (frasco)', category: 'misc', icon: '🧪', description: 'Consumível. Uma criatura que beber este líquido ganha vantagem em salvaguardas contra veneno por 1 hora.', weight: 0.2, cost: '50 po' },
+  { id: 'mochila-2014', name: 'Mochila', category: 'misc', icon: '🎒', description: 'Recipiente de couro ou tecido. Capacidade de 30 litros ou 15 kg.', weight: 2.25, cost: '2 po' },
+  { id: 'lanterna-capuz-2014', name: 'Lanterna de Capuz', category: 'misc', icon: '🏮', description: 'Fornece luz brilhante em cone de 9m e luz plena em 9m adicionais. Consome um frasco de óleo a cada 6 horas.', weight: 0.9, cost: '5 po' },
+  { id: 'lanterna-furtiva-2014', name: 'Lanterna Furtiva', category: 'misc', icon: '🔦', description: 'Fornece luz brilhante em cone de 18m e luz plena em 18m adicionais. Pode ser tapada para ocultar a luz. Consome um frasco de óleo a cada 6 horas.', weight: 0.9, cost: '10 po' },
+  { id: 'oleo-frasco-2014', name: 'Óleo (frasco)', category: 'misc', icon: '🛢️', description: 'Combustível para lanternas. Pode ser arremessado no chão para criar uma poça inflamável.', weight: 0.45, cost: '1 pp' },
+  { id: 'pa-2014', name: 'Pá', category: 'misc', icon: '🥄', description: 'Ferramenta utilitária de ferro para escavar.', weight: 2.25, cost: '2 po' },
+  { id: 'picareta-mineracao-2014', name: 'Picareta de Mineração', category: 'misc', icon: '⛏️', description: 'Ferramenta pesada para quebrar rochas.', weight: 4.5, cost: '2 po' },
+  { id: 'espelho-metal-2014', name: 'Espelho de Metal', category: 'misc', icon: '🪞', description: 'Espelho pequeno de aço polido para observar cantos ou refletir luz.', weight: 0.2, cost: '5 po' },
+  { id: 'giz-2014', name: 'Giz (1 pedaço)', category: 'misc', icon: '✏️', description: 'Pedaço de giz para marcar superfícies e caminhos.', weight: 0, cost: '1 pc' },
+  { id: 'kit-curandeiro-2014', name: 'Kit de Curandeiro', category: 'tool', icon: '🩹', description: 'Possui 10 usos. Permite estabilizar uma criatura com 0 PV sem necessidade de teste de Medicina.', weight: 1.35, cost: '5 po' },
+  { id: 'kit-herbalismo-2014', name: 'Kit de Herbalismo', category: 'tool', icon: '🌿', description: 'Ferramenta necessária para criar antídotos e poções de cura.', weight: 1.35, cost: '5 po' },
+  { id: 'alaude-2014', name: 'Alaúde', category: 'tool', icon: '🪕', description: 'Instrumento musical de cordas.', weight: 0.9, cost: '35 po' },
+  { id: 'flauta-2014', name: 'Flauta', category: 'tool', icon: '🎵', description: 'Instrumento musical de sopro.', weight: 0.45, cost: '2 po' },
+  { id: 'lira-2014', name: 'Lira', category: 'tool', icon: '🎼', description: 'Instrumento musical de cordas dedilhadas.', weight: 0.9, cost: '30 po' },
+  { id: 'tambor-2014', name: 'Tambor', category: 'tool', icon: '🥁', description: 'Instrumento musical de percussão.', weight: 1.35, cost: '6 po' }
 ]
+
 
 export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
   'Bárbaro': [
