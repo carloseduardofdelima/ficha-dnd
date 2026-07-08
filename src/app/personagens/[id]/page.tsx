@@ -4131,7 +4131,14 @@ export default function CharacterDetailPage() {
                     {(() => {
                       const rulesetToUse = character.ruleset || selectedRuleset;
                       const subclassData = rulesetToUse === '2024' ? SUBCLASSES_2024 : SUBCLASSES_2014;
-                      const options = Object.keys(subclassData[character.class] || {});
+                      let options = Object.keys(subclassData[character.class] || {});
+
+                      if (rulesetToUse === '2014') {
+                        options = options.filter(opt => {
+                          const sub = subclassData[character.class]?.[opt] as any;
+                          return !sub?.source || sub.source === "Player's Handbook 2014";
+                        });
+                      }
 
                       if (options.length === 0) return <div style={{ textAlign: 'center', padding: 20, color: 'var(--fg3)' }}>Nenhuma subclasse cadastrada para {character.class} {rulesetToUse}.</div>;
 

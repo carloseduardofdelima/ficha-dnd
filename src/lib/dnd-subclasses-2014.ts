@@ -290,6 +290,35 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         15: [{ name: "Implacável", description: "Se rolar iniciativa sem dados de superioridade, você recupera um." }],
         18: [{ name: "Superioridade em Combate Aprimorada (d12)", description: "Seus dados de superioridade se tornam d12s." }]
       }
+    },
+    "Guerreiro Psiônico": {
+      description: "Desperto para o poder mental dentro de si, um Guerreiro Psiônico é um guerreiro que aumenta seu poder físico com golpes de arma infundidos por energia psíquica, chicotadas telecinéticas e barreiras de força mental.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [{ name: "Poder Psíquico", description: "Possui dados de Energia Psíquica (d6, quantidade = 2× bônus de proficiência). Poderes: Campo Protetor (reação: reduz dano = dado + mod. Int), Golpe Psiônico (1×/turno ao acertar: dano de energia extra = dado + mod. Int), Movimento Telecinético (ação: move objeto Grande ou menor ou criatura voluntária 9m; 1×/descanso curto ou gasta dado). O dado sobe para d8 (5º), d10 (11º), d12 (17º). Ação bônus recupera 1 dado (1×/descanso curto)." }],
+        7: [
+          { name: "Adepto Telecinético — Salto", description: "Ação bônus: voo = 2× deslocamento até fim do turno. 1×/descanso curto ou gasta dado de Energia Psíquica." },
+          { name: "Adepto Telecinético — Empurrão", description: "Ao causar dano com Golpe Psiônico, force save de Força (CD 8+Prof+Int): falha = alvo é derrubado ou movido até 3m horizontalmente." }
+        ],
+        10: [{ name: "Mente Protegida", description: "Resistência a dano psíquico. No início do turno, se estiver amedrontado ou enfeitiçado, pode gastar um dado de Energia Psíquica para encerrar esses efeitos." }],
+        15: [{ name: "Baluarte Telecinético", description: "Ação bônus: escolha até mod. Int criaturas (mín. 1) a até 9m. Cada uma ganha meia cobertura por 1 min. 1×/descanso curto ou gasta dado." }],
+        18: [{ name: "Mestre Telecinético", description: "Conjura Telecinese sem componentes (Int como atributo). Enquanto concentrado, pode atacar com arma como ação bônus. 1×/descanso longo ou gasta dado de Energia Psíquica." }]
+      }
+    },
+    "Cavaleiro Rúnico": {
+      description: "Cavaleiros Rúnicos aprimoram sua proeza marcial utilizando o poder sobrenatural das runas, uma prática ancestral que se originou com os gigantes. Entalhadores de runas podem ser encontrados entre todas as famílias de gigantes.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Proficiências Bônus", description: "Ganha proficiência com ferramentas de artesão. Aprende a falar, ler e escrever Gigante." },
+          { name: "Entalhador de Runas", description: "Aprende 2 runas (3 no 7º, 4 no 10º, 5 no 15º). Grava runas em armas/armaduras/escudos após descanso longo. CD = 8+Prof+Con. Runas disponíveis: Nuvem (vantagem em Prestidigitação/Enganação + redirecionar ataque), Fogo (dobra Prof. em ferramentas + grilhões 2d6 fogo), Gelo (vantagem em Animais/Intimidação + +2 em testes de For/Con), Pedra (vantagem em Intuição + visão no escuro 36m + enfeitiçar), Colina (7º+: resistência a veneno + resistência a dano físico), Tempestade (7º+: vantagem em Arcanismo + não pode ser surpreendido + dar vantagem/desvantagem em rolagens)." },
+          { name: "Poderio Gigante", description: "Ação bônus: torna-se Grande por 1 min, vantagem em testes/saves de Força, +1d6 de dano extra 1×/turno. Usos: bônus de proficiência/descanso longo." }
+        ],
+        7: [{ name: "Escudo Rúnico", description: "Quando criatura a até 18m que você possa ver for atingida por ataque, use reação para forçar o atacante a rolar novamente o d20 (fica com novo resultado). Usos: bônus de proficiência/descanso longo." }],
+        10: [{ name: "Grande Estatura", description: "Cresce permanentemente (3d4 × 2,5 cm). O dano extra do Poderio Gigante aumenta para 1d8." }],
+        15: [{ name: "Mestre das Runas", description: "Pode invocar cada runa duas vezes em vez de uma. Recupera usos com descanso curto ou longo." }],
+        18: [{ name: "Colosso Rúnico", description: "O dano extra do Poderio Gigante aumenta para 1d10. Ao usar Poderio Gigante, pode crescer para Enorme (alcance +1,5m)." }]
+      }
     }
   },
   'Ladino': {
@@ -328,6 +357,35 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         13: [{ name: "Trapaceiro Versátil", description: "Usa ação bônus para dar vantagem a si mesmo com as Mãos Mágicas." }],
         17: [{ name: "Ladrão de Magia", description: "Pode usar sua reação para roubar o conhecimento de uma magia conjurada contra você." }]
       }
+    },
+    "Fantasma": {
+      description: "Enquanto se aventurando na linha tênue entre a vida e a morte, alguns ladinos descobrem uma conexão mística com a própria morte. Esses ladinos tomam conhecimento da morte e tornam-se imersos em energia negativa, eventualmente transformando-se em algo próximo a fantasmas.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Sussurros da Morte", description: "Ao fim de um descanso curto ou longo, escolha uma proficiência com ferramenta ou perícia que não possua e adquira-a temporariamente (uma presença fantasma compartilha seu conhecimento). Perde ao escolher outra." },
+          { name: "Lamentos da Sepultura", description: "Após causar dano com Ataque Furtivo, pode focar uma segunda criatura a até 9m da primeira. Role metade dos dados de Ataque Furtivo (arredondado para cima): a segunda criatura sofre dano necrótico igual ao total. Usos: bônus de proficiência/descanso longo." }
+        ],
+        9: [{ name: "Símbolos dos Mortos", description: "Reação quando criatura a até 9m morre: cria um berloque da alma (máximo = bônus de proficiência). Com berloque: vantagem em saves de Constituição e testes de morte. Pode destruir um berloque para: usar Lamentos da Sepultura sem gastar uso, ou fazer uma pergunta ao espírito associado (ação)." }],
+        13: [{ name: "Passo Fantasma", description: "Ação bônus: assume forma espectral por 10 min. Ganha voo de 3m, pode planar, ataques contra você têm desvantagem. Pode mover-se através de criaturas/objetos (1d10 de dano de energia se terminar dentro). 1×/descanso longo ou destrua um berloque da alma." }],
+        17: [{ name: "Amigo da Morte", description: "Ao usar Lamentos da Sepultura, pode causar dano necrótico tanto na primeira quanto na segunda criatura. Ao fim de um descanso longo, um berloque da alma aparece em sua mão se não tiver nenhum." }]
+      }
+    },
+    "Alma Laminada": {
+      description: "Uma Alma Laminada golpeia e se infiltra com a mente, cortando através de barreiras tanto físicas quanto psíquicas. Esses ladinos descobriram o poder psiônico dentro de si mesmos e canalizam isso em seu serviço ladinesco, manifestando lâminas de energia psíquica.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Poder Psíquico", description: "Possui dados de Energia Psíquica (d6, quantidade = 2× bônus de proficiência). Poderes: Auxílio Psiônico (ao falhar teste com proficiência, adiciona dado ao resultado; gasta só se acertar), Sussurros Psíquicos (ação: telepatia com até Prof. criaturas por horas = dado; 1,5km de alcance; 1×/descanso longo grátis). O dado sobe para d8 (5º), d10 (11º), d12 (17º)." },
+          { name: "Lâminas Psíquicas", description: "Ao atacar, manifesta lâmina psíquica na mão livre (arma simples corpo a corpo, acuidade, arremesso 18m). Causa 1d6 + mod. de dano psíquico. Desaparece após o ataque. Pode atacar com segunda lâmina como ação bônus (1d4 de dano)." }
+        ],
+        9: [
+          { name: "Lâminas da Alma — Golpe Teleguiado", description: "Se errar ataque com Lâmina Psíquica, role dado de Energia Psíquica e adicione ao resultado. Gasta dado apenas se acertar." },
+          { name: "Lâminas da Alma — Teletransporte Psíquico", description: "Ação bônus: gaste e role dado de Energia Psíquica. Teleporte-se para espaço desocupado visível a até 3× resultado em metros." }
+        ],
+        13: [{ name: "Véu Psíquico", description: "Ação bônus: torna-se invisível junto com o que veste/carrega por 1 hora ou até causar dano/forçar save. 1×/descanso longo ou gaste dado de Energia Psíquica." }],
+        17: [{ name: "Lâmina Dilacerante", description: "Ao acertar com Lâmina Psíquica em Ataque Furtivo, force save de Sabedoria (CD 8+Prof+Des): falha = atordoado por 1 min (repete save no fim de cada turno). 1×/descanso longo ou gaste 3 dados de Energia Psíquica." }]
+      }
     }
   },
   'Feiticeiro': {
@@ -354,6 +412,37 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         14: [{ name: "Caos Controlado", description: "Ao rolar na tabela de Surto de Magia Selvagem, você pode rolar duas vezes e escolher o resultado." }],
         18: [{ name: "Bombardeio de Feitiços", description: "Quando rolar o dano máximo em um dado de magia, role um dado adicional e some ao total." }]
       }
+    },
+    "Mente Aberrante": {
+      description: "Uma influência alienígena envolveu seus tentáculos em sua mente, lhe dando poderes psiônicos. Agora você pode tocar outras mentes com esse poder e alterar o mundo ao seu redor ao utilizar isso para controlar a energia mágica do multiverso.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        1: [
+          { name: "Magias Psiônicas", description: "Magias adicionais (contam como magias de feiticeiro, sem ocupar suas conhecidas): 1º (Braços de Hadar, Farpa Mental, Sussurros Dissonantes), 3º (Acalmar Emoções, Detectar Pensamentos), 5º (Fome de Hadar, Remeter), 7º (Invocar Aberração, Tentáculos Negros de Evard), 9º (Ligação Telepática de Rary, Telecinese). Pode trocar por adivinhação/encantamento de bruxo, feiticeiro ou mago." },
+          { name: "Discurso Telepático", description: "Ação bônus: escolha criatura a até 9m. Vocês falam telepaticamente a até 1,5 km × mod. Carisma (mín. 1,5 km) por minutos iguais ao seu nível de feiticeiro. Devem compartilhar um idioma." }
+        ],
+        6: [
+          { name: "Feitiçaria Psiônica", description: "Magias de 1º+ da lista de Magias Psiônicas podem ser conjuradas gastando pontos de feitiçaria (= círculo da magia) em vez de slots. Nesse caso, não requer componentes verbais, somáticos ou materiais (salvo consumidos)." },
+          { name: "Defesas Psíquicas", description: "Resistência a dano psíquico. Vantagem em salvaguardas contra ser amedrontado ou enfeitiçado." }
+        ],
+        14: [{ name: "Revelação na Carne", description: "Ação bônus: gaste 1+ pontos de feitiçaria para se transformar por 10 min. Para cada ponto gasto, escolha: ver invisíveis a 18m, voo igual ao deslocamento, natação 2× deslocamento + respirar na água, ou corpo viscoso (passar por espaços de 2,5cm e escapar de agarrões não-mágicos)." }],
+        18: [{ name: "Implosão Anômala", description: "Ação: teleporte a até 36m. Criaturas a 9m do espaço que você deixou fazem save de Força: falha = 3d10 de dano de energia e são puxadas para seu espaço anterior; sucesso = metade do dano, sem puxão. 1×/descanso longo ou 5 pontos de feitiçaria." }]
+      },
+      spells: ["Braços de Hadar", "Farpa Mental", "Sussurros Dissonantes", "Acalmar Emoções", "Detectar Pensamentos", "Fome de Hadar", "Remeter", "Invocar Aberração", "Tentáculos Negros de Evard", "Ligação Telepática de Rary", "Telecinese"]
+    },
+    "Alma Cronométrica": {
+      description: "A força cósmica da ordem inundou você com magia. Esse poder vem de Mecânos ou um lugar como esse — um plano de existência moldado completamente com uma eficiência cronométrica. Você, ou alguém de sua linhagem, pode ter sido envolvido nas maquinações dos modrons, os seres da ordem.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        1: [
+          { name: "Magia Cronométrica", description: "Magias adicionais sempre conhecidas: 1º (Alarme, Proteção Contra o Bem e o Mal), 3º (Auxílio, Restauração Menor), 5º (Dissipar Magia, Proteção Contra Energia), 7º (Invocar Construto, Movimentação Livre), 9º (Muralha de Energia, Restauração Maior). Pode trocar por abjuração/transmutação de bruxo, feiticeiro ou mago." },
+          { name: "Restaurar o Equilíbrio", description: "Quando uma criatura a até 18m que você possa ver estiver prestes a rolar d20 com vantagem ou desvantagem, use sua reação para cancelar a vantagem/desvantagem. Usos: bônus de proficiência/descanso longo." }
+        ],
+        6: [{ name: "Bastião da Ordem", description: "Ação: gaste 1-5 pontos de feitiçaria para criar uma proteção em você ou criatura a até 9m. A proteção concede d8s iguais aos pontos gastos. Quando protegido sofre dano, gasta dados para reduzir o dano. Dura até descanso longo ou reusar." }],
+        14: [{ name: "Arrebatamento da Ordem", description: "Ação bônus: entre em transe por 1 minuto. Ataques contra você não podem ter vantagem. Rolagens de ataque, testes e saves com resultado abaixo de 10 no d20 são tratados como 10. 1×/descanso longo ou 5 pontos de feitiçaria." }],
+        18: [{ name: "Marcha Cronometrada", description: "Ação: invoque espíritos da ordem em um cubo de 9m. Restauram até 100 PV (divididos à escolha), reparam objetos danificados no cubo, e encerram magias de 6º círculo ou menor em criaturas/objetos à sua escolha. 1×/descanso longo ou 7 pontos de feitiçaria." }]
+      },
+      spells: ["Alarme", "Proteção Contra o Bem e o Mal", "Auxílio", "Restauração Menor", "Dissipar Magia", "Proteção Contra Energia", "Invocar Construto", "Movimentação Livre", "Muralha de Energia", "Restauração Maior"]
     }
   },
   'Bruxo': {
@@ -466,6 +555,35 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         11: [{ name: "Rajada do Rastreador", description: "Se errar um ataque, você pode realizar outro ataque no mesmo turno." }],
         15: [{ name: "Esquiva do Rastreador", description: "Usa reação para impor desvantagem em um ataque inimigo." }]
       }
+    },
+    "Andarilho Feérico": {
+      description: "Um misticismo feérico o cerca, graças às dádivas de uma arquifada, de uma fruta brilhante ou de algum outro evento auspicioso. Você é um guardião que representa tanto o reino mortal quanto o reino das fadas, cuja risada contagiante alegra os oprimidos e cujo poder marcial provoca terror nos oponentes.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Golpes Aterrorizantes", description: "Quando você acerta uma criatura com uma arma, pode causar 1d4 de dano psíquico extra ao alvo (1× por turno). O dano aumenta para 1d6 no 11º nível." },
+          { name: "Magia do Andarilho Feérico", description: "Magias adicionais sempre preparadas (contam como magias de patrulheiro): 3º (Enfeitiçar Pessoa), 5º (Passo Nebuloso), 9º (Dissipar Magia), 13º (Porta Dimensional), 17º (Despistar)." },
+          { name: "Glamour Sobrenatural", description: "Adicione seu mod. Sabedoria (mín. +1) a testes de Carisma. Ganha proficiência em Atuação, Enganação ou Persuasão." }
+        ],
+        7: [{ name: "Distorcer Engodo", description: "Vantagem em saves contra ser amedrontado ou enfeitiçado. Quando você ou criatura a até 36m for bem-sucedida em save contra medo/encantamento, use reação para forçar outra criatura a fazer save de Sabedoria (CD de magia) ou ficar amedrontada/enfeitiçada por 1 min." }],
+        11: [{ name: "Reforço Feérico", description: "Conhece Invocar Fada (sem componente material, não conta no limite). Pode conjurá-la 1×/descanso longo sem slot. Pode modificá-la para não exigir concentração (duração = 1 min)." }],
+        15: [{ name: "Andarilho da Névoa", description: "Conjure Passo Nebuloso sem slot (usos: mod. Sabedoria/descanso longo, mín. 1). Ao conjurar, pode levar uma criatura a até 1,5m junto de você para um espaço a até 1,5m do destino." }]
+      },
+      spells: ["Enfeitiçar Pessoa", "Passo Nebuloso", "Dissipar Magia", "Porta Dimensional", "Despistar"]
+    },
+    "Portador do Enxame": {
+      description: "Sentindo uma conexão profunda com o ambiente, você vinculou-se a um enxame de espíritos da natureza intangíveis. Esse enxame torna-se uma força poderosa em batalha e um companheiro útil ao patrulheiro, auxiliando em combate e conferindo mobilidade sobrenatural.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Enxame Reunido", description: "Um enxame de espíritos intangíveis permanece em seu espaço. 1× por turno ao acertar um ataque, escolha: o alvo sofre 1d6 de dano perfurante extra; OU o alvo faz save de Força ou é movido 4,5m horizontalmente; OU você é movido 1,5m horizontalmente." },
+          { name: "Magia do Portador do Enxame", description: "Aprende Mãos Mágicas (forma de enxame). Magias adicionais: 3º (Fogo das Fadas), 5º (Teia), 9º (Forma Gasosa), 13º (Olho Arcano), 17º (Praga de Insetos)." }
+        ],
+        7: [{ name: "Maré Ondulante", description: "Ação bônus: ganha deslocamento de voo de 3m e pode levitar por 1 minuto. Usos: bônus de proficiência/descanso longo." }],
+        11: [{ name: "Enxame Poderoso", description: "O dano do Enxame Reunido aumenta para 1d8. Se a criatura falhar no save de Força, pode ser derrubada. Quando você for movido pelo enxame, ganha meia cobertura até o próximo turno." }],
+        15: [{ name: "Dispersão do Enxame", description: "Ao receber dano, use reação para ganhar resistência a esse dano, desaparecer e se teleportar para espaço desocupado a até 9m. Usos: bônus de proficiência/descanso longo." }]
+      },
+      spells: ["Mãos Mágicas", "Fogo das Fadas", "Teia", "Forma Gasosa", "Olho Arcano", "Praga de Insetos"]
     }
   },
   'Druida': {
@@ -492,6 +610,49 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         10: [{ name: "Forma Selvagem de Elemental", description: "Gasta dois usos de Forma Selvagem para se tornar um Elemental (Ar, Terra, Fogo ou Água)." }],
         14: [{ name: "Mil Formas", description: "Pode conjurar Alterar-se à vontade." }]
       }
+    },
+    "Círculo dos Esporos": {
+      description: "Druidas do Círculo dos Esporos encontram a beleza na decadência. Eles veem dentro dos bolores e outros fungos a habilidade de transformar matéria morta em abundante, ainda que de alguma forma estranha, vida. Estes druidas acreditam que vida e morte são parte de um grande ciclo, com um levando ao outro, sempre retornando.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        2: [
+          { name: "Magias de Círculo", description: "Você aprende o truque Toque Necrótico. Magias adicionais: 3º (Cegueira/Surdez, Repouso Tranquilo), 5º (Animar Mortos, Forma Gasosa), 7º (Malogro, Confusão), 9º (Névoa Mortal, Praga)." },
+          { name: "Aura de Esporos", description: "Quando uma criatura que você possa ver se move para um espaço a 3m ou menos de você ou começa seu turno nessa distância, você pode usar sua reação para causar 1d4 de dano necrótico (CD de magia, save de Constituição). O dano aumenta para 1d6 (6º), 1d8 (10º) e 1d10 (14º)." },
+          { name: "Entidade Simbiótica", description: "Como uma ação, gaste um uso de Forma Selvagem para despertar seus esporos. Ganha 4 PV temporários por nível de druida. Enquanto ativo: dano da Aura de Esporos dobra, ataques corpo a corpo causam 1d6 de dano necrótico extra. Dura 10 minutos ou até perder os PV temporários." }
+        ],
+        6: [{ name: "Infestação Fúngica", description: "Se uma fera ou humanoide Pequeno/Médio a até 3m de você morrer, use sua reação para animá-lo com 1 PV (bloco de zumbi). Dura 1 hora, obedece comandos mentais (apenas ação de Ataque). Usos: mod. Sabedoria/descanso longo." }],
+        10: [{ name: "Expansão de Esporos", description: "Ação bônus enquanto Entidade Simbiótica estiver ativa: espalhe esporos a até 9m em um cubo de 3m por 1 minuto. Criaturas que entrarem ou começarem turno no cubo recebem dano da Aura de Esporos (save de Constituição). Máximo 1 vez por turno. Enquanto ativo, não pode usar reação da Aura de Esporos." }],
+        14: [{ name: "Corpo Fúngico", description: "Você não pode mais ser cegado, ensurdecido, amedrontado ou envenenado. Qualquer acerto crítico contra você será considerado um acerto normal, exceto se você estiver incapacitado." }]
+      },
+      spells: ["Toque Necrótico", "Cegueira/Surdez", "Repouso Tranquilo", "Animar Mortos", "Forma Gasosa", "Malogro", "Confusão", "Névoa Mortal", "Praga"]
+    },
+    "Círculo das Estrelas": {
+      description: "O Círculo das Estrelas permite que os druidas retirem seus poderes da luz estelar. Estes druidas têm rastreado padrões celestiais desde tempos imemoriais, descobrindo segredos escondidos entre as constelações. Ao revelar e entender esses segredos, o Círculo das Estrelas procura controlar o poder do Cosmo.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        2: [
+          { name: "Mapa Estelar", description: "Você criou uma carta estelar (objeto minúsculo, foco de conjuração). Com ele: conhece o truque Orientação; tem Raio Guia sempre preparado (não conta no limite); pode conjurar Raio Guia sem gastar espaço (usos: mod. proficiência/descanso longo)." },
+          { name: "Forma Estelar", description: "Ação bônus: gaste um uso de Forma Selvagem para assumir uma forma estelar (luminosa, 3m de luz). Dura 10 min. Escolha uma constelação: Arqueiro (ataque bônus, 1d8+Sab radiante a 18m), Cálice (ao curar com magia, cura extra 1d8+Sab para você ou aliado a 9m), Dragão (trate 9 ou menos como 10 em testes de Int/Sab ou save de Concentração)." }
+        ],
+        6: [{ name: "Presságio Cósmico", description: "Ao fim de um descanso longo, role um dado. Par = Prosperidade (reação: +1d6 em ataque/save/teste de aliado a 9m). Ímpar = Infortúnio (reação: -1d6 em ataque/save/teste de inimigo a 9m). Usos: bônus de proficiência/descanso longo." }],
+        10: [{ name: "Constelações Cintilantes", description: "O 1d8 do Arqueiro e do Cálice se tornam 2d8. Com Dragão ativo, ganha voo de 6m e pode flutuar. No começo de cada turno em Forma Estelar, pode trocar a constelação." }],
+        14: [{ name: "Totalmente Estrelado", description: "Enquanto em Forma Estelar, você se torna parcialmente incorpóreo, ganhando resistência a dano contundente, cortante e perfurante." }]
+      },
+      spells: ["Orientação", "Raio Guia"]
+    },
+    "Círculo do Fogo Selvagem": {
+      description: "Druidas dentro do Círculo do Fogo Selvagem compreendem que a destruição às vezes é precursora da criação, tal como quando um fogo florestal promove o crescimento posterior. Esses druidas se ligam a um espírito primitivo que carrega tanto a destruição quanto o poder criativo.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        2: [
+          { name: "Magias de Círculo", description: "Magias adicionais sempre preparadas: 2º (Mãos Flamejantes, Curar Ferimentos), 3º (Esfera Flamejante, Raio Ardente), 5º (Crescimento de Plantas, Revivificar), 7º (Aura de Devoção, Escudo Ardente), 9º (Coluna de Chamas, Curar Ferimentos em Massa)." },
+          { name: "Invocar Espírito do Fogo Selvagem", description: "Como uma ação, gaste um uso de Forma Selvagem para invocar o espírito a até 9m. Criaturas a 3m dele (exceto você) fazem save de Destreza ou sofrem 2d6 de dano ígneo. Em combate, age após seu turno (Esquiva padrão; ação bônus para comandar outra ação). Dura 1 hora." }
+        ],
+        6: [{ name: "Vínculo Aprimorado", description: "Ao conjurar magia que causa dano de fogo ou restaura PV com o espírito invocado, role 1d8 e adicione o resultado a uma jogada de dano ou cura. Magias com alcance não-pessoal podem se originar do espírito." }],
+        10: [{ name: "Cauterizar Chamas", description: "Quando uma criatura Pequena ou maior morre a até 9m de você ou do espírito, uma chama espectral brota. Quando outra criatura entrar no espaço, use sua reação para curar ou causar dano de fogo: 2d10 + mod. Sabedoria. Usos: bônus de proficiência/descanso longo." }],
+        14: [{ name: "Renovação Ardente", description: "Se o espírito estiver a até 36m quando você cair a 0 PV, pode fazer o espírito cair a 0 PV em seu lugar. Você recupera metade dos seus PV máximos e se levanta imediatamente. 1x/descanso longo." }]
+      },
+      spells: ["Mãos Flamejantes", "Curar Ferimentos", "Esfera Flamejante", "Raio Ardente", "Crescimento de Plantas", "Revivificar", "Aura de Devoção", "Escudo Ardente", "Coluna de Chamas", "Curar Ferimentos em Massa"]
     }
   },
   'Mago': {
@@ -715,6 +876,30 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         6: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }],
         11: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }],
         17: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }]
+      }
+    },
+    "Caminho da Misericórdia": {
+      description: "Monges do Caminho da Misericórdia aprendem a manipular a força vital dos outros para auxiliar aqueles em necessidade. Eles são médicos ambulantes para os pobres e feridos. Contudo, para aqueles além de sua ajuda, eles trazem um fim rápido, como um ato de misericórdia.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Implementos da Misericórdia", description: "Adquire proficiência nas perícias de Intuição e Medicina, proficiência com o kit de herbalismo e recebe uma máscara especial." },
+          { name: "Mãos Curativas", description: "Use uma ação e gaste 1 ponto de ki para tocar uma criatura e restaurar PV igual a uma rolagem do dado de Artes Marciais + mod. Sabedoria. Ao usar Torrente de Golpes, pode substituir um ataque desarmado por essa cura sem gastar ki extra." },
+          { name: "Mãos da Injúria", description: "Quando acerta um ataque desarmado, pode gastar 1 ponto de ki para causar dano necrótico extra igual a uma rolagem do seu dado de Artes Marciais + mod. Sabedoria (1×/turno)." }
+        ],
+        6: [{ name: "Toque do Curandeiro", description: "Ao usar Mãos Curativas, também remove a condição envenenado, paralisado, atordoado, cego ou ensurdecido (ou uma doença). Ao usar Mãos da Injúria, pode deixar o alvo envenenado até o fim do seu próximo turno." }],
+        11: [{ name: "Torrente de Cura e Dor", description: "Ao usar Torrente de Golpes, pode substituir ambos os ataques desarmados por Mãos Curativas sem gastar ki. Também pode aplicar Mãos da Injúria sem gastar ki adicional (ainda limitado a 1×/turno)." }],
+        17: [{ name: "Mão da Misericórdia Final", description: "Use uma ação para tocar o corpo de uma criatura que morreu nas últimas 24 horas e gastar 5 pontos de ki. A criatura retorna à vida com 4d10 + mod. Sabedoria PV e remove cegueira, surdez, paralisia, envenenamento ou atordoamento. 1×/descanso longo." }]
+      }
+    },
+    "Caminho da Forma Astral": {
+      description: "Um monge que segue o Caminho da Forma Astral acredita que seu corpo é uma ilusão. Eles enxergam seu ki como a representação de sua forma verdadeira, sua forma astral.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [{ name: "Braços da Forma Astral", description: "Ação bônus: gaste 1 ponto de ki para invocar os braços astrais por 10 min. Ao invocar, inimigos a até 3m fazem save de Destreza ou sofrem 2 dados de Artes Marciais de dano de energia. Enquanto ativos, pode usar Sabedoria em testes/saves de Força, tem +1,5m de alcance desarmado, e faz ataques desarmados com Sabedoria causando dano de energia." }],
+        6: [{ name: "Semblante da Forma Astral", description: "Ação bônus (ou parte da ativação dos braços): gaste 1 ponto de ki para invocar o semblante por 10 min. Benefícios: enxerga na escuridão mágica e não-mágica a até 36m, vantagem em testes de Intuição e Intimidação, e pode falar telepaticamente com uma criatura a até 18m ou ampliar a voz para até 180m." }],
+        11: [{ name: "Corpo Astral", description: "Quando braços e semblante estão ativos, o corpo astral aparece (sem ação). Benefícios: Reação para reduzir dano de ácido, frio, fogo, relâmpago, trovão ou energia por 1d10 + mod. Sabedoria (mín. 1); e causa dano extra igual a 1 dado de Artes Marciais 1×/turno ao acertar com os braços." }],
+        17: [{ name: "Forma Astral Desperta", description: "Ação bônus: gaste 5 pontos de ki para invocar braços, semblante e corpo ativando o despertar por 10 min. Ganha +2 de CA e pode realizar um terceiro ataque com a ação de ataque extra se todos forem realizados com os braços astrais." }]
       }
     }
   },
