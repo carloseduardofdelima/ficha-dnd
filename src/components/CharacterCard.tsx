@@ -21,12 +21,17 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
 
   return (
     <div className="card fade-up" style={{ display: 'flex', gap: 16, padding: 16, position: 'relative' }}>
-      {/* Avatar */}
-      <div style={{ width: 90, height: 90, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: 'var(--bg2)', border: '2px solid var(--border)' }}>
-        {character.avatarUrl
-          ? <Image src={character.avatarUrl} alt={character.name} width={90} height={90} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#1a1030,#0d0820)' }}><Shield size={32} color="var(--fgM)" /></div>
-        }
+      {/* Avatar & Level */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+        <div style={{ width: 90, height: 90, borderRadius: 10, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
+          {character.avatarUrl
+            ? <Image src={character.avatarUrl} alt={character.name} width={90} height={90} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#1a1030,#0d0820)' }}><Shield size={32} color="var(--fgM)" /></div>
+          }
+        </div>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}>
+          <Star size={11} fill="currentColor" />Nível {character.level}
+        </span>
       </div>
 
       {/* Info */}
@@ -58,7 +63,6 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
           {character.class && <span className="badge">{character.class}</span>}
           {character.race && <span className="badge" style={{ background: 'var(--bg2)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
-          <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}><Star size={11} fill="currentColor" />Nível {character.level}</span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>

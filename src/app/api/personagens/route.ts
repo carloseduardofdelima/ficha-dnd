@@ -12,18 +12,12 @@ export async function GET() {
     id: true,
     name: true,
     race: true,
-    subrace: true,
     class: true,
     level: true,
     avatarUrl: true,
     slug: true,
     createdAt: true,
-    updatedAt: true,
-    userId: true,
     isPublic: true,
-    playerName: true,
-    exp: true,
-    proficiencyBonus: true,
     ruleset: true,
   }
 

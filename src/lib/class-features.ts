@@ -2,6 +2,7 @@ export interface FeatureOption {
   id: string
   name: string
   description: string
+  ruleset?: string
 }
 
 export interface ClassFeatureChoice {

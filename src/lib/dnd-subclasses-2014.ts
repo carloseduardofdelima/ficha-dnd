@@ -10,6 +10,7 @@ export interface ClassSubclasses {
     description?: string;
     features: SubclassData;
     spells?: string[]; // For domains, circles, etc.
+    source?: string;
   };
 }
 
@@ -35,6 +36,29 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         10: [{ name: "Andarilho Espiritual", description: "Pode conjurar Comunhão com a Natureza como ritual." }],
         14: [{ name: "Sintonia Totêmica", description: "Escolha: Urso (Inimigos tem desvantagem ao atacar aliados), Águia (Voo temporário), Lobo (Derrubar com ação bônus)." }]
       }
+    },
+    "Trilha da Besta": {
+      description: "Bárbaros que caminham por esta trilha extraem sua fúria de uma centelha bestial que queima em suas almas, transformando seu corpo fisicamente para manifestar mandíbulas, garras ou cauda em combate.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [{ name: "Forma da Besta", description: "Ao entrar em fúria, manifesta uma arma natural: Mordida (1d8 perfurante + cura igual à proficiência se estiver abaixo de meio HP), Garras (1d6 cortante + ataque extra com garra) ou Cauda (1d8 perfurante com alcance + reação para somar d8 à CA)." }],
+        6: [{ name: "Alma Bestial", description: "Suas armas naturais contam como mágicas. Escolha após descanso curto/longo: respirar embaixo d'água e nado, escalar superfícies difíceis/tetos, ou adicionar 1/3 do teste de Atletismo na distância de salto." }],
+        10: [{ name: "Fúria Contagiosa", description: "Ao acertar alvo com arma natural em fúria, force salvaguarda de Sabedoria (CD 8+Prof+Con) ou o alvo ataca outro criatura com reação dele ou sofre 2d12 de dano psíquico (usos igual a Prof/descanso longo)." }],
+        14: [{ name: "Chamado de Caça", description: "Ao entrar em fúria, conceda benefícios a aliados voluntários (até seu Mod. Con). Ganha 5 PV temporários por aliado. Aliados podem somar 1d6 ao dano de seus ataques uma vez por turno." }]
+      }
+    },
+    "Trilha da Magia Selvagem": {
+      description: "Inundados pela magia de Faéria ou dos Planos Superiores, estes bárbaros liberam explosões imprevisíveis de energia mágica caótica quando entram em fúria, auxiliando seus companheiros ou punindo seus agressores.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Surto Selvagem", description: "Ao entrar em fúria, role 1d8 para gerar um efeito caótico (CD 8+Prof+Con se aplicável): 1. Dano necrótico e PV temporários; 2. Teleporte como ação bônus; 3. Invocar pixel explosiva; 4. Arma infundida com energia leve/arremesso; 5. Retaliação de dano de energia ao sofrer ataque; 6. Luz protetora (+1 CA para você e aliados próximos); 7. Terreno difícil ao seu redor; 8. Raio de luz cegante." },
+          { name: "Percepção Mágica", description: "Com uma ação, detecta magia e itens mágicos a até 18m e suas escolas (usos igual a Prof/descanso longo)." }
+        ],
+        6: [{ name: "Fortalecimento Mágico", description: "Com uma ação, toca criatura para conceder +1d3 em testes/ataques por 10 min, ou rola 1d3 para recuperar espaço de magia gasto do mesmo círculo (usos igual a Prof/descanso longo)." }],
+        10: [{ name: "Retaliação Instável", description: "Ao sofrer dano ou falhar em salvaguarda na fúria, pode usar reação para rolar novamente na tabela de Magia Selvagem, substituindo o efeito atual." }],
+        14: [{ name: "Surto Controlado", description: "Sempre que rolar na tabela de Magia Selvagem, você pode jogar duas vezes e escolher qual dos dois efeitos liberar. Se der dados iguais, pode escolher qualquer efeito da tabela." }]
+      }
     }
   },
   'Bardo': {
@@ -58,6 +82,33 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         ],
         6: [{ name: "Ataque Extra", description: "Você pode atacar vezes quando usa a ação de Ataque." }],
         14: [{ name: "Magia de Batalha", description: "Quando usa ação para conjurar uma magia, pode realizar um ataque com arma como ação bônus." }]
+      }
+    },
+    "Colégio da Criação": {
+      description: "Bardos deste colégio canalizam a Canção da Criação primordial, infundindo potencial em seus aliados através de notas mágicas flutuantes, criando objetos do nada e animando itens inanimados para dançar e lutar.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Partícula de Potencial", description: "Ao dar Inspiração Bárdica, cria uma partícula flutuante. Quando gasta, concede benefício extra: Teste (rola d20 extra e escolhe), Ataque (causa dano trovejante em área igual ao número rolado se falharem no save de Con), ou Salvaguarda (concede PV temporários igual ao número rolado + mod. Car)." },
+          { name: "Execução da Criação", description: "Com uma ação, cria um item não-mágico Médio ou menor a até 3m (valor máximo = 20x nível de bardo). Dura horas igual à proficiência. Pode ter apenas 1 por vez. Recupera com descanso longo ou slot de 2º+." }
+        ],
+        6: [{ name: "Espetáculo Animado", description: "Com uma ação, anima um item não-mágico Grande ou menor a até 9m (Item Dançante). Ele dura 1 hora, age após seu turno com ação bônus, e pode alterar o deslocamento de criaturas próximas em 3m." }],
+        14: [{ name: "Crescendo Criativo", description: "Sua Execução da Criação pode criar múltiplos itens por vez (igual ao mod. Carisma, mínimo 2). Apenas um pode ser do tamanho máximo. Remove o limite de valor em ouro dos itens." }]
+      }
+    },
+    "Colégio da Eloquência": {
+      description: "Mestres da oratória e persuasão lógica, estes bardos dominam jogos de palavras teatrais para converter céticos, desestabilizar a autoconfiança de oponentes e inspirar seus aliados a nunca desistirem diante de uma falha.",
+      source: "Tasha's Cauldron of Everything",
+      features: {
+        3: [
+          { name: "Língua Prateada", description: "Ao realizar teste de Carisma (Persuasão ou Enganação), trata um resultado de 9 ou menos no d20 como 10." },
+          { name: "Palavras Desconcertantes", description: "Como ação bônus, gasta 1 Inspiração Bárdica para fazer criatura a até 18m subtrair o dado rolado na próxima salvaguarda antes do seu próximo turno." }
+        ],
+        6: [
+          { name: "Inspiração Infalível", description: "Se um aliado rolar seu dado de Inspiração Bárdica em teste, ataque ou salvaguarda e falhar, o dado não é perdido e retorna para o aliado." },
+          { name: "Língua Universal", description: "Como ação, permite que até Car modificadores de criaturas a até 18m entendam perfeitamente sua fala por 1 hora, independente do idioma (1x/descanso longo ou com espaço de magia)." }
+        ],
+        14: [{ name: "Inspiração Contagiante", description: "Quando um aliado usa Inspiração Bárdica com sucesso, use sua reação para inspirar outra criatura a até 18m sem gastar seus usos normais (Carisma vezes/descanso longo)." }]
       }
     }
   },
@@ -154,6 +205,52 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         6: [{ name: "Curandeiro Abençoado", description: "Quando curar outra criatura, você também se cura em 2 + nível da magia." }],
         8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano radiante com ataques de arma." }],
         17: [{ name: "Cura Suprema", description: "Ao curar com magia, usa o valor máximo de cada dado em vez de rolar." }]
+      }
+    },
+    "Domínio da Ordem": {
+      description: "Representando a disciplina e a obediência às leis legítimas que protegem a sociedade do caos, estes clérigos ordenam seus aliados no campo de batalha e compelem a obediência de seus oponentes.",
+      source: "Tasha's Cauldron of Everything",
+      spells: ["Comando", "Heroísmo", "Imobilizar Pessoa", "Zona da Verdade", "Palavra Curativa em Massa", "Lentidão", "Localizar Criatura", "Compulsão", "Comunhão", "Dominar Pessoa"],
+      features: {
+        1: [
+          { name: "Proficiência Bônus", description: "Proficiência com armaduras pesadas e na perícia de Intimidação ou Persuasão." },
+          { name: "Voz de Autoridade", description: "Se conjurar magia de 1º círculo+ tendo um aliado como alvo, esse aliado pode usar a reação para realizar um ataque com arma contra criatura em seu campo de visão." }
+        ],
+        2: [{ name: "Canalizar Divindade: Demanda da Ordem", description: "Como ação, exibe símbolo sagrado. Criaturas a até 9m devem passar em TR de Sabedoria ou ficam enfeitiçadas até o fim do seu próximo turno (ou sofrer dano). Pode faz-las soltarem o que seguram." }],
+        6: [{ name: "Personificação da Lei", description: "Se conjurar magia de encantamento de 1º círculo+ com tempo de 1 ação, pode mudar o tempo para ação bônus (Sabedoria vezes/descanso longo)." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 (2d8 no nível 14) de dano psíquico extra com ataques armados." }],
+        17: [{ name: "Ira da Ordem", description: "Ao causar dano de Golpe Divino, amaldiçoa criatura até seu próximo turno. O próximo ataque de aliado nela causará 2d8 de dano psíquico extra e encerra a maldição." }]
+      }
+    },
+    "Domínio da Paz": {
+      description: "Buscando mediar disputas e criar pontes de paz, estes clérigos vinculam misticamente a vida e a dor de seus aliados, permitindo que absorvam golpes uns pelos outros e ajam em perfeita harmonia.",
+      source: "Tasha's Cauldron of Everything",
+      spells: ["Heroísmo", "Santuário", "Auxílio", "Vínculo de Proteção", "Remeter", "Sinal de Esperança", "Aura de Pureza", "Esfera Resiliente de Otiluke", "Restauração Maior", "Ligação Telepática de Rary"],
+      features: {
+        1: [
+          { name: "Implemento da Paz", description: "Ganha proficiência em Atuação, Intuição ou Persuasão." },
+          { name: "Vínculo Encorajador", description: "Como ação, vincula número de criaturas voluntárias a até 9m igual ao seu bônus de proficiência por 10 min. A até 9m uma da outra, somam 1d4 a uma jogada de ataque, teste ou TR por turno." }
+        ],
+        2: [{ name: "Canalizar Divindade: Bálsamo da Paz", description: "Como ação, move seu deslocamento sem provocar AdO. Ao passar a 1,5m de criaturas, cura 2d6 + mod. Sabedoria (1x por criatura)." }],
+        6: [{ name: "Vínculo de Proteção", description: "Quando criatura vinculada por Vínculo Encorajador toma dano, outra a até 9m pode usar reação para se teleportar a até 1,5m dela e sofrer todo o dano em seu lugar." }],
+        8: [{ name: "Conjuração Poderosa", description: "Adiciona modificador de Sabedoria ao dano de seus truques de clérigo." }],
+        17: [{ name: "Vínculo Expandido", description: "O alcance dos seus vínculos aumenta para 18m. A criatura que usa a reação para receber o dano de outra passa a ter resistência a esse dano." }]
+      }
+    },
+    "Domínio do Crepúsculo": {
+      description: "Guardiões da transição suave do dia para a noite, estes clérigos defendem os necessitados dos horrores da escuridão profunda, preenchendo-os com vitalidade e cobrindo-os com o Santuário Crepuscular.",
+      source: "Tasha's Cauldron of Everything",
+      spells: ["Fogo das Fadas", "Sono", "Raio Lunar", "Ver o Invisível", "Aura de Vitalidade", "Pequena Cabana de Leomund", "Aura de Devoção", "Invisibilidade Maior", "Círculo de Poder", "Despistar"],
+      features: {
+        1: [
+          { name: "Proficiência Bônus", description: "Ganha proficiência com armas marciais e armaduras pesadas." },
+          { name: "Olhos da Noite", description: "Visão no escuro de 90 metros. Pode compartilhar essa visão com criaturas a até 3m (até mod. Sabedoria, mínimo 1) por 1 hora (1x/descanso longo ou com espaço de magia)." },
+          { name: "Bênção da Vigilância", description: "Como ação, toca criatura para dar vantagem no próximo teste de iniciativa." }
+        ],
+        2: [{ name: "Canalizar Divindade: Santuário Crepuscular", description: "Cria esfera de penumbra de 9m centrada em você por 1 min. Criaturas que terminam o turno nela ganham 1d6 + nível de clérigo de PV temporários ou encerram um efeito de amedrontado/enfeitiçado." }],
+        6: [{ name: "Passos da Noite", description: "Em penumbra ou escuridão, ganha voo igual ao deslocamento terrestre por 1 minuto como ação bônus (usos igual a Prof/descanso longo)." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 (2d8 no nível 14) de dano radiante extra com ataques armados." }],
+        17: [{ name: "Mortalha Crepuscular", description: "Sua esfera de Santuário Crepuscular agora concede cobertura média (+2 na CA e TR de Destreza) para seus aliados dentro dela." }]
       }
     }
   },
@@ -288,6 +385,48 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         6: [{ name: "Proteção Entrópica", description: "Usa reação para impor desvantagem em ataque; se errar, ganha vantagem no próximo ataque contra ele." }],
         10: [{ name: "Escudo de Pensamentos", description: "Pensamentos não podem ser lidos. Resistência a dano psíquico; reflete dano psíquico recebido." }],
         14: [{ name: "Criar Lacaio", description: "Toca humanoide incapacitado para deixá-lo enfeitiçado permanentemente (até remover maldição)." }]
+      }
+    },
+    "O Hexblade": {
+      description: "Servos de uma entidade misteriosa da Umbra (Shadowfell) que se manifesta em armas sencientes, estes bruxos misturam magia sombria com maestria em combate marcial, canalizando maldições terríveis contra seus oponentes.",
+      source: "Xanathar's Guide to Everything",
+      spells: ["Escudo", "Golpe Irado", "Desfoque", "Golpe Marcador", "Piscar", "Arma Elemental", "Assassino Fantasmagórico", "Golpe Estonteante", "Golpe Banidor", "Cone de Frio"],
+      features: {
+        1: [
+          { name: "Maldição do Hexblade", description: "Coloca uma maldição em criatura a até 9m (Ação Bônus). Causa dano extra igual ao seu Bônus de Proficiência, acerta crítico com 19-20 e recupera vida (Nível + Car) se o alvo morrer." },
+          { name: "Guerreiro Hex", description: "Proficiência com armaduras médias, escudos e armas marciais. Permite usar seu modificador de Carisma em jogadas de ataque e dano com uma arma de uma mão." }
+        ],
+        6: [{ name: "Espectro Amaldiçoado", description: "Ao matar um humanoide, vincula sua alma como um espectro aliado sob seu comando até seu próximo descanso longo (ganha PV temporários e bônus nos ataques)." }],
+        10: [{ name: "Armadura de Pragas", description: "Se o alvo amaldiçoado acertar um ataque contra você, use sua reação para rolar 1d6. Com 4 ou mais, o ataque erra automaticamente." }],
+        14: [{ name: "Mestre de Pragas", description: "Quando o alvo amaldiçoado morrer, você pode transferir a maldição para outra criatura a até 9 metros como uma reação." }]
+      }
+    },
+    "O Insondável": {
+      description: "Ligados às profundezas de oceanos misteriosos ou do Plano Elemental da Água, estes bruxos comandam tentáculos espectrais congelantes e adaptam-se perfeitamente aos ambientes aquáticos profundos.",
+      source: "Tasha's Cauldron of Everything",
+      spells: ["Criar ou Destruir Água", "Onda Trovejante", "Lufada de Vento", "Silêncio", "Nevasca", "Relâmpago", "Controlar Água", "Invocar Elemental", "Cone de Frio", "Mão de Bigby"],
+      features: {
+        1: [
+          { name: "Tentáculo das Profundezas", description: "Cria um tentáculo espectral de 3m a até 18m (Ação Bônus). Pode atacar com ataque mágico corpo-a-corpo: causa 1d8 (2d8 no nível 10) de dano gélido e reduz deslocamento do alvo em 3m. (Usos = Prof/descanso longo)." },
+          { name: "Dom do Mar", description: "Ganha deslocamento de natação de 12m e habilidade de respirar debaixo d'água." }
+        ],
+        6: [
+          { name: "Alma Oceânica", description: "Ganha resistência a dano gélido. Sob a água, consegue conversar telepaticamente com qualquer outra criatura submersa." },
+          { name: "Espiral Guardiã", description: "Seu tentáculo protege aliados a até 3m dele. Use sua reação para reduzir o dano sofrido por um aliado em 1d8 (2d8 no nível 10)." }
+        ],
+        10: [{ name: "Tentáculos Enredantes", description: "Aprende Tentáculos Negros de Evard (não conta no limite e pode conjurar 1x sem espaço/descanso longo). Ao conjurar, ganha PV temporários igual ao seu nível e não pode ter concentração quebrada por dano." }],
+        14: [{ name: "Mergulho no Insondável", description: "Como ação, teletransporta a si mesmo e mais 5 aliados a até 1,5km para um corpo de água avistado (1x/descanso curto ou longo)." }]
+      }
+    },
+    "O Gênio": {
+      description: "Barganhando com um gênio nobre (Dao, Djinni, Ifriti ou Marid), estes bruxos canalizam poderes elementais destrutivos e carregam um receptáculo mágico capaz de abrigá-los e conceder desejos limitados.",
+      source: "Tasha's Cauldron of Everything",
+      spells: ["Detectar o Bem e Mal", "Santuário", "Força Espectral", "Crescer Espinhos", "Criar Comida e Água", "Assassino Fantasmagórico", "Moldar Rochas", "Criação", "Muralha de Pedra", "Desejo"],
+      features: {
+        1: [{ name: "Receptáculo do Gênio", description: "Ganha um objeto mágico Minúsculo. Permite: Descanso Engarrafado (entra no receptáculo extradimensional por até 2xProf horas, 1x/descanso longo) e Ira do Gênio (causa dano extra igual à proficiência 1x/turno: contundente, trovejante, ígneo ou gélido)." }],
+        6: [{ name: "Dom Elemental", description: "Ganha resistência a dano baseada no tipo do seu gênio. Com ação bônus, ganha deslocamento de voo de 9m por 10 minutos (usos igual a Prof/descanso longo)." }],
+        10: [{ name: "Receptáculo Protetor", description: "Pode levar até 5 aliados voluntários ao receptáculo. Permanecer lá dentro por 10 min concede benefícios de descanso curto e adiciona bônus de proficiência na cura de Dados de Vida." }],
+        14: [{ name: "Desejo Restrito", description: "Como ação, roga ao receptáculo para realizar o efeito de qualquer magia de 6º círculo ou menor com tempo de conjuração de 1 ação, ignorando custos (1x/1d4 descansos longos)." }]
       }
     }
   },

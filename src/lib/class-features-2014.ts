@@ -32,7 +32,10 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
           { id: 'dom-luz', name: 'Domínio da Luz', description: 'Focado em verdade e radiação. Pode impor desvantagem em ataques e causar dano radiante.' },
           { id: 'dom-natureza', name: 'Domínio da Natureza', description: 'Focado no mundo selvagem. Ganha proficiência com armaduras pesadas e pode enfeitiçar animais/plantas.' },
           { id: 'dom-tempestade', name: 'Domínio da Tempestade', description: 'Poder dos mares e trovões. Ganha proficiência com armas marciais e armaduras pesadas, e pode causar dano máximo elétrico.' },
-          { id: 'dom-vida', name: 'Domínio da Vida', description: 'Focado em cura e preservação. Ganha proficiência com armaduras pesadas e bônus em magias de cura.' }
+          { id: 'dom-vida', name: 'Domínio da Vida', description: 'Focado em cura e preservação. Ganha proficiência com armaduras pesadas e bônus em magias de cura.' },
+          { id: 'dom-ordem', name: 'Domínio da Ordem', description: 'Focado na disciplina, leis e justiça. Ganha proficiência com armadura pesada, Intimidação ou Persuasão e Voz de Autoridade.', ruleset: '5e-custom' },
+          { id: 'dom-paz', name: 'Domínio da Paz', description: 'Focado na diplomacia e cooperação. Ganha Vínculo Encorajador e cura com Canalizar Divindade.', ruleset: '5e-custom' },
+          { id: 'dom-crepusculo', name: 'Domínio do Crepúsculo', description: 'Focado na proteção contra os terrores da noite. Ganha visão no escuro superior, armaduras pesadas e Santuário Crepuscular.', ruleset: '5e-custom' }
         ]
       }
     ]
@@ -157,7 +160,10 @@ export const CLASS_LEVEL1_DATA_2014: Record<string, ClassLevel1Data> = {
         options: [
           { id: 'pat-archfey', name: 'A Arquifada', description: 'Seu patrono é um senhor ou senhora das fadas. Concede Presença Feérica.' },
           { id: 'pat-fiend', name: 'O Corruptor', description: 'Seu patrono é um corruptor dos planos inferiores. Concede Bênção do Obscuro.' },
-          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade misteriosa de fora da realidade. Concede Despertar a Mente.' }
+          { id: 'pat-great-old-one', name: 'O Grande Antigo', description: 'Seu patrono é uma entidade misteriosa de fora da realidade. Concede Despertar a Mente.' },
+          { id: 'pat-hexblade', name: 'O Hexblade', description: 'Seu patrono é uma entidade da Umbra (Shadowfell) que se manifesta em armas sencientes. Concede Maldição do Hexblade.', ruleset: '5e-custom' },
+          { id: 'pat-fathomless', name: 'O Insondável', description: 'Seu patrono é uma entidade das profundezas dos oceanos ou do Plano Elemental da Água. Concede Tentáculo das Profundezas.', ruleset: '5e-custom' },
+          { id: 'pat-genie', name: 'O Gênio', description: 'Seu patrono é um nobre elemental (Dao, Djinni, Ifriti ou Marid). Concede Receptáculo do Gênio.', ruleset: '5e-custom' }
         ]
       },
       {

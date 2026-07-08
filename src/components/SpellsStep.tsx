@@ -355,8 +355,10 @@ export default function SpellsStep({
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
-                  {choice.options.map(opt => {
-                    const isChosen = choice.type === 'radio'
+                  {choice.options
+                    .filter(opt => !opt.ruleset || opt.ruleset === ruleset)
+                    .map(opt => {
+                      const isChosen = choice.type === 'radio'
                       ? current === opt.id
                       : ((current as string[] | undefined) ?? []).includes(opt.id)
                     const maxed = choice.type === 'multi' && !isChosen &&
