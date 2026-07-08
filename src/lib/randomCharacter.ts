@@ -73,10 +73,10 @@ const CLASS_SKILL_DATA: Record<string, { count: number; options?: string[] }> = 
   'Patrulheiro': { count: 3, options: ['animalHandling', 'athletics', 'stealth', 'investigation', 'nature', 'perception', 'survival'] },
 }
 
-export function generateRandomCharacter(ruleset: '2014' | '2024') {
-  const availableRaces = ruleset === '2014' ? RACES_2014 : RACES
-  const availableClasses = ruleset === '2014' ? CLASSES_2014 : CLASSES
-  const availableBackgrounds = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS
+export function generateRandomCharacter(ruleset: '2014' | '2024' | '5e-custom') {
+  const availableRaces = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES
+  const availableClasses = (ruleset === '2014' || ruleset === '5e-custom') ? CLASSES_2014 : CLASSES
+  const availableBackgrounds = (ruleset === '2014' || ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS
 
   // 1. Pick ruleset, race, class, background
   const name = ''
@@ -113,7 +113,7 @@ export function generateRandomCharacter(ruleset: '2014' | '2024') {
     
     const possibleSecondaries = (Object.keys(attrs) as Array<keyof Attrs>).filter(k => k !== prim)
     asi.secondary = possibleSecondaries[Math.floor(Math.random() * possibleSecondaries.length)]
-  } else if (ruleset === '2014' && raceObj.name === 'Meio-Elfo') {
+  } else if ((ruleset === '2014' || ruleset === '5e-custom') && raceObj.name === 'Meio-Elfo') {
     // Meio-Elfo gets +2 Charisma (fixed) and two other attributes get +1.
     // In our model, we can assign secondary as one +1 and primary as another +1 (since charisma is fixed in calculations)
     const possiblePluses = (Object.keys(attrs) as Array<keyof Attrs>).filter(k => k !== 'charisma')
@@ -136,18 +136,18 @@ export function generateRandomCharacter(ruleset: '2014' | '2024') {
   })
 
   // Locked skills from Race (2014 fixedSkills or 2024 skillProf)
-  const fixedRaceSkills = ruleset === '2014' ? raceObj.fixedSkills : raceObj.skillProf
+  const fixedRaceSkills = (ruleset === '2014' || ruleset === '5e-custom') ? raceObj.fixedSkills : raceObj.skillProf
   fixedRaceSkills?.forEach(s => {
     const k = SKILL_PT_TO_KEY[s]
     if (k) skills[k] = true
   })
 
   // Collisions / Class Skills
-  const classSkillInfo = ruleset === '2014'
+  const classSkillInfo = (ruleset === '2014' || ruleset === '5e-custom')
     ? { count: classObj.skillCount || 0, options: classObj.skillOptions?.map(s => SKILL_PT_TO_KEY[s] || s) }
     : CLASS_SKILL_DATA[classObj.name]
 
-  const raceSkillChoice = ruleset === '2014'
+  const raceSkillChoice = (ruleset === '2014' || ruleset === '5e-custom')
     ? (raceObj.bonusSkillCount ? { count: raceObj.bonusSkillCount } : undefined)
     : raceObj.skillChoice
 
@@ -195,7 +195,7 @@ export function generateRandomCharacter(ruleset: '2014' | '2024') {
 
   // 6. Feature Choices (Subclass, fighting styles, weapon masteries)
   const featureChoices: Record<string, string | string[]> = {}
-  const classData = ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[classObj.name] : CLASS_LEVEL1_DATA[classObj.name]
+  const classData = (ruleset === '2014' || ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[classObj.name] : CLASS_LEVEL1_DATA[classObj.name]
   
   if (classData && classData.choices) {
     classData.choices.forEach(choice => {

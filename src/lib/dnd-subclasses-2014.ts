@@ -578,5 +578,60 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
         17: [{ name: "Disciplina Adicional", description: "Você aprende uma nova disciplina elemental." }]
       }
     }
+  },
+  'Caçador de Sangue': {
+    "Ordem do Caçador de Espectros": {
+      description: "A mais antiga das ordens, refinada para o combate contra o flagelo dos mortos-vivos e sintonizada com os mistérios da transição da morte.",
+      features: {
+        3: [{ name: "Ritual da Alvorada", description: "Seu dano de ritual se torna radiante e causa dano radiante adicional igual ao seu mod. de Sabedoria contra mortos-vivos (a qualquer criatura a partir do 11º nível)." }],
+        7: [{ name: "Veias Sagradas", description: "Suas maldições de sangue afetam qualquer criatura mesmo sem sangue. Mortos-vivos devem passar em salvaguarda de Sabedoria ou não poderão atacar você." }],
+        11: [{ name: "Elevação Impulsiva", description: "Permite fazer um ataque com arma como ação bônus e entrar temporariamente no plano espiritual (movimento através de objetos)." }],
+        15: [{ name: "Visão da Sepultura", description: "Permite ver na escuridão mágica a até 9 metros, além de enxergar criaturas e objetos invisíveis." }],
+        18: [{ name: "Espírito Vingativo", description: "Ao cair a 0 PV, sua alma pode emergir e continuar lutando sob seu controle enquanto seu corpo faz testes contra a morte." }]
+      }
+    },
+    "Ordem do Licantropo": {
+      description: "Caçadores que aceitaram a maldição da licantropia, controlando a fera interna através de magia de sangue para liberar uma forma híbrida devastadora.",
+      features: {
+        3: [
+          { name: "Sentidos Aguçados", description: "Vantagem em testes de Percepção baseados em audição e olfato." },
+          { name: "Transformação Híbrida", description: "Transforma-se em forma Híbrida por 10 minutos (2x/descanso). Concede bônus de dano corpo-a-corpo, resistência a danos físicos não-mágicos/prata, bônus na CA e ataques desarmados aprimorados." }
+        ],
+        7: [{ name: "Proeza do Perseguidor", description: "Deslocamento +3m, distância de saltos aumentada e ataques desarmados contam como mágicos." }],
+        11: [{ name: "Transformação Avançada", description: "Transformação como ação bônus por até 30 minutos. Ganha Regeneração Licantrópica e Precisão Bestial (bônus no ataque)." }],
+        15: [{ name: "Vontade de Ferro", description: "Vantagem nas salvaguardas para manter controle da forma híbrida e ganha Táticas de Matilha (vantagem no ataque com aliado próximo)." }],
+        18: [{ name: "Maestria da Transformação Híbrida", description: "Transformação híbrida 3x/descanso. Ganha a Maldição de Sangue do Rugido (assustar e atordoar com medo)." }]
+      }
+    },
+    "Ordem do Mutante": {
+      description: "Mestres de fórmulas alquímicas proibidas, estes caçadores criam e consomem elixires tóxicos para alterar temporariamente sua fisiologia corporal.",
+      features: {
+        3: [
+          { name: "Fórmulas", description: "Aprende três fórmulas mutagênicas para preparar elixires." },
+          { name: "Criação de Mutagênicos", description: "Cria mutagênicos em descansos curtos. Consumir um mutagênico fornece bônus potentes mas também efeitos colaterais negativos." }
+        ],
+        7: [{ name: "Criação de Mutagênico Avançada", description: "Pode criar e consumir dois mutagênicos simultaneamente durante um descanso curto." }],
+        11: [{ name: "Metabolismo Estranho", description: "Ignora os efeitos colaterais de um mutagênico ativo em você por 1 minuto (1x/descanso)." }],
+        15: [{ name: "Fisiologia Robusta", description: "Imunidade a dano de veneno e à condição envenenado. Pode criar até três mutagênicos simultaneamente." }],
+        18: [{ name: "Mutação Exaltada", description: "Escolha uma fórmula conhecida. Seus benefícios e efeitos colaterais tornam-se permanentes no seu corpo." }]
+      }
+    },
+    "Ordem da Alma Profana": {
+      description: "Caçadores que firmaram pactos com entidades do Outro Mundo para canalizar feitiços arcanos contra os males maiores.",
+      features: {
+        3: [
+          { name: "Patrono do Outro Mundo", description: "Barganha com um Arquifada, Corruptor, Grande Antigo, Imortal, Celestial ou Hexblade." },
+          { name: "Conjuração de Pacto", description: "Conjura magias de bruxo usando sua Sabedoria como atributo de conjuração." },
+          { name: "Foco Ritual", description: "Sua arma ativa serve como foco e seu patrono aprimora os efeitos do seu Ritual Vermelho." }
+        ],
+        7: [
+          { name: "Frenesi Místico", description: "Ao usar sua ação para conjurar um truque, pode realizar um ataque com arma como ação bônus." },
+          { name: "Arcana Mística", description: "Conjura uma magia especial uma vez por descanso longo com base no seu patrono escolhido." }
+        ],
+        11: [{ name: "Canalização Diabólica", description: "Imbui temporariamente sua arma com uma magia de bruxo ativa para descarregar o efeito no acerto do ataque." }],
+        15: [{ name: "Arcana Revelada", description: "Ganha uma magia de círculo superior específica com base no seu patrono (1x/descanso longo)." }],
+        18: [{ name: "Sifão de Armas", description: "Ao reduzir uma criatura de ND 15+ a 0 PV com ataque, recupera um espaço de magia gasto." }]
+      }
+    }
   }
-};
+}

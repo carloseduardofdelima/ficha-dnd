@@ -144,7 +144,7 @@ interface AttributesStepProps {
   skills: Record<string, boolean>
   expertises: Record<string, boolean>
   asi: ASI
-  ruleset?: '2014' | '2024'
+  ruleset?: '2014' | '2024' | '5e-custom'
   onAttrsChange: (a: Attrs) => void
   onSkillsChange: (s: Record<string, boolean>) => void
   onExpertisesChange: (e: Record<string, boolean>) => void
@@ -167,7 +167,7 @@ export default function AttributesStep({
 
   // Racial Attribute Bonuses for 2014
   const racialBonuses = useMemo<Record<string, number>>(() => {
-    if (ruleset !== '2014') return {}
+    if (ruleset !== '2014' && ruleset !== '5e-custom') return {}
     const race = RACES_2014.find(r => r.name === raceName)
     if (!race) return {}
     
@@ -185,8 +185,8 @@ export default function AttributesStep({
 
   // Background and Race auto-selected skills (locked)
   const lockedSkillKeys = useMemo<Set<string>>(() => {
-    const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS
-    const raceList = ruleset === '2014' ? RACES_2014 : RACES
+    const bgList = (ruleset === '2014' || ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS
+    const raceList = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES
     
     const bg = bgList.find(b => b.name === backgroundName)
     const race = raceList.find(r => r.name === raceName)
@@ -199,7 +199,7 @@ export default function AttributesStep({
     })
     
     // Fixed Race Skills
-    const fixedRaceSkills = ruleset === '2014' ? race?.fixedSkills : race?.skillProf
+    const fixedRaceSkills = (ruleset === '2014' || ruleset === '5e-custom') ? race?.fixedSkills : race?.skillProf
     fixedRaceSkills?.forEach(s => {
       const k = SKILL_PT_TO_KEY[s]
       if (k) keys.add(k)
@@ -210,16 +210,16 @@ export default function AttributesStep({
 
   // Racial skill choice info
   const raceSkillChoice = useMemo(() => {
-    const raceList = ruleset === '2014' ? RACES_2014 : RACES
+    const raceList = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES
     const race = raceList.find(r => r.name === raceName)
-    if (ruleset === '2014') {
+    if (ruleset === '2014' || ruleset === '5e-custom') {
       return race?.bonusSkillCount ? { count: race.bonusSkillCount } : undefined
     }
     return race?.skillChoice
   }, [raceName, ruleset])
 
   const classSkillInfo = useMemo(() => {
-    if (ruleset === '2014') {
+    if (ruleset === '2014' || ruleset === '5e-custom') {
       const cls = CLASSES_2014.find(c => c.name === className)
       if (!cls) return undefined
       return {
@@ -262,7 +262,7 @@ export default function AttributesStep({
 
   // Saving throws for selected class
   const classSavingThrows = useMemo<string[]>(() => {
-    const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES
+    const classList = (ruleset === '2014' || ruleset === '5e-custom') ? CLASSES_2014 : CLASSES
     const cls = classList.find(c => c.name === className)
     return cls?.savingThrows ?? []
   }, [className, ruleset])
@@ -516,7 +516,7 @@ export default function AttributesStep({
           </div>
 
           {/* ── ASI Selection ── */}
-          {(ruleset === '2024' || (ruleset === '2014' && raceName === 'Meio-Elfo')) && (
+          {(ruleset === '2024' || ((ruleset === '2014' || ruleset === '5e-custom') && raceName === 'Meio-Elfo')) && (
             <div style={{
               backgroundColor: 'rgba(255,255,255,0.02)',
               borderRadius: 16,
@@ -539,7 +539,7 @@ export default function AttributesStep({
                     <button
                       key={`p-${key}`}
                       onClick={() => handleAsiSelect('primary', key)}
-                      disabled={ruleset === '2014' && key === 'charisma'} // Fixed +2 in 2014
+                      disabled={(ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma'} // Fixed +2 in 2014
                       style={{
                         padding: '6px 10px',
                         borderRadius: 6,
@@ -549,8 +549,8 @@ export default function AttributesStep({
                         border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
                         backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
                         color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
-                        cursor: (ruleset === '2014' && key === 'charisma') ? 'not-allowed' : 'pointer',
-                        opacity: (ruleset === '2014' && key === 'charisma') ? 0.3 : 1
+                        cursor: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 'not-allowed' : 'pointer',
+                        opacity: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 0.3 : 1
                       }}
                     >
                       {abbr}
@@ -571,7 +571,7 @@ export default function AttributesStep({
                     <button
                       key={`s-${key}`}
                       onClick={() => handleAsiSelect('secondary', key)}
-                      disabled={ruleset === '2014' && key === 'charisma'} // Fixed +2 in 2014
+                      disabled={(ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma'} // Fixed +2 in 2014
                       style={{
                         padding: '6px 10px',
                         borderRadius: 6,
@@ -581,8 +581,8 @@ export default function AttributesStep({
                         border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
                         backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
                         color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
-                        cursor: (ruleset === '2014' && key === 'charisma') ? 'not-allowed' : 'pointer',
-                        opacity: (ruleset === '2014' && key === 'charisma') ? 0.3 : 1
+                        cursor: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 'not-allowed' : 'pointer',
+                        opacity: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 0.3 : 1
                       }}
                     >
                       {abbr}

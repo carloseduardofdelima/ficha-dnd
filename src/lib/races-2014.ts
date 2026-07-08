@@ -291,5 +291,166 @@ export const RACES_2014: Race[] = [
       { name: 'Resistência Infernal', description: 'Resistência a dano de Fogo.' },
       { name: 'Legado Infernal', description: 'Taumaturgia (nível 1), Repreensão Infernal (nível 3), Escuridão (nível 5).' }
     ]
+  },
+  {
+    id: 'aasimar_2014',
+    name: 'Aasimar',
+    description: 'Os Aasimar são mortais com uma centelha divina em suas almas, descendentes de celestiais.',
+    image: '/assets/aasimar.png',
+    source: "Volo's Guide to Monsters",
+    speed: 30,
+    size: 'Médio',
+    attributeBonuses: { charisma: 2 },
+    subRaceTitle: 'Sub-raça do Aasimar',
+    subRaceMandatory: true,
+    lineages: [
+      {
+        name: 'Aasimar Protetor',
+        description: 'Aasimares protetores são encarregados por guias celestiais para vigiar e proteger os outros.',
+        attributeBonuses: { wisdom: 1 },
+        traits: [
+          { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
+          { name: 'Alma Radiante (Nível 3)', description: 'Como ação bônus, você ganha asas de luz e voo de 9m por 1 minuto. Uma vez por descanso longo.' }
+        ]
+      },
+      {
+        name: 'Aasimar Flagelo',
+        description: 'Aasimares flagelos são preenchidos por uma energia divina intensa que queima para ser liberada.',
+        attributeBonuses: { constitution: 1 },
+        traits: [
+          { name: 'Constituição +1', description: 'Seu valor de Constituição aumenta em 1.' },
+          { name: 'Consumação Radiante (Nível 3)', description: 'Como ação bônus, você derrama luz divina por 1 minuto, causando dano radiante a si mesmo e a quem estiver perto. Uma vez por descanso longo.' }
+        ]
+      },
+      {
+        name: 'Aasimar Caído',
+        description: 'Aasimares caídos são aqueles que foram tocados por forças sombrias ou cuja luz interior foi corrompida.',
+        attributeBonuses: { strength: 1 },
+        traits: [
+          { name: 'Força +1', description: 'Seu valor de Força aumenta em 1.' },
+          { name: 'Mortalha Necrótica (Nível 3)', description: 'Como ação bônus, você libera uma energia aterrorizante por 1 minuto, assustando inimigos próximos. Uma vez por descanso longo.' }
+        ]
+      }
+    ],
+    traits: [
+      { name: 'Carisma +2', description: 'Seu valor de Carisma aumenta em 2.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena.' },
+      { name: 'Resistência Celestial', description: 'Você tem resistência a dano necrótico e radiante.' },
+      { name: 'Mãos Curadoras', description: 'Como ação, você pode tocar uma criatura e curar PV igual ao seu nível. 1x por descanso longo.' }
+    ]
+  },
+  {
+    id: 'goliath_2014',
+    name: 'Goliá',
+    description: 'Goliás são descendentes de gigantes que habitam os picos mais altos do mundo.',
+    image: '/assets/goliath.png',
+    source: "Elemental Evil Player's Companion",
+    speed: 30,
+    size: 'Médio',
+    attributeBonuses: { strength: 2, constitution: 1 },
+    fixedSkills: ['Atletismo'],
+    traits: [
+      { name: 'Força +2, Constituição +1', description: 'Seus atributos aumentam.' },
+      { name: 'Natural da Montanha', description: 'Você é aclimatado a altitudes elevadas e clima frio.' },
+      { name: 'Constituição de Pedra', description: 'Quando você sofre dano, pode usar sua reação para reduzir o dano sofrido em 1d12 + Mod. Constituição. 1x por descanso curto/longo.' },
+      { name: 'Compleição Poderosa', description: 'Você conta como um tamanho maior para determinar sua capacidade de carga e peso que pode empurrar/arrastar.' }
+    ]
+  },
+  {
+    id: 'dhampir_2014',
+    name: 'Dhampir',
+    description: 'Equilibrados entre os mundos dos vivos e dos mortos, os dhampirs mantêm seu apego à vida, mas são constantemente testados por fomes terríveis.',
+    image: '/assets/dhampir.jpg',
+    source: "Van Richten's Guide to Ravenloft",
+    speed: 35,
+    size: 'Médio',
+    attributeBonuses: { constitution: 2, dexterity: 1 },
+    bonusSkillCount: 2,
+    traits: [
+      { name: 'Constituição +2, Destreza +1', description: 'Seus valores de atributo aumentam.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena.' },
+      { name: 'Natureza Imortal', description: 'Você não precisa respirar.' },
+      { name: 'Escalada Aracnídea', description: 'Você possui deslocamento de escalada igual ao seu deslocamento de caminhada. A partir do 3º nível, pode se mover por superfícies verticais e tetos com as mãos livres.' },
+      { name: 'Mordida Vampírica', description: 'Sua mordida é uma arma natural (arma simples corpo-a-corpo) que causa 1d4 de dano perfurante e usa seu modificador de Constituição. Pode se curar ou ganhar bônus em testes/ataques igual ao dano causado (usos igual ao Bônus de Proficiência).' }
+    ]
+  },
+  {
+    id: 'reborn_2014',
+    name: 'Renascido',
+    description: 'A morte nem sempre é o fim. Os renascidos exemplificam isso, sendo indivíduos que morreram mas, de alguma forma, ainda vivem.',
+    image: '/assets/reborn.jpg',
+    source: "Van Richten's Guide to Ravenloft",
+    speed: 30,
+    size: 'Médio',
+    attributeBonuses: { constitution: 2, intelligence: 1 },
+    bonusSkillCount: 2,
+    traits: [
+      { name: 'Constituição +2, Inteligência +1', description: 'Seus valores de atributo aumentam.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena.' },
+      { name: 'Natureza Imortal', description: 'Você possui vantagem em salvaguardas contra doenças e veneno, resistência a dano de veneno e vantagem em salvaguardas contra a morte. Você não precisa comer, beber, dormir ou respirar.' },
+      { name: 'Conhecimento de uma Vida Passada', description: 'Você temporariamente lembra vislumbres do passado. Ao fazer um teste de perícia, você pode rolar um d6 adicional e somá-lo ao resultado (usos iguais ao Bônus de Proficiência).' }
+    ]
+  },
+  {
+    id: 'genasi_2014',
+    name: 'Genasi',
+    description: 'Os genasi são humanoides que carregam o poder dos planos elementais em seu sangue, herdando traços de seus pais elementais e gênios.',
+    image: '/assets/genasi.jpeg',
+    source: "Elemental Evil Player's Companion",
+    speed: 30,
+    size: 'Médio',
+    attributeBonuses: { constitution: 2 },
+    subRaceTitle: 'Elemento do Genasi',
+    subRaceMandatory: true,
+    lineages: [
+      {
+        name: 'Genasi da Água',
+        description: 'Genasi da água são calmos e adaptáveis, mas escondem a fúria das tempestades e das profundezas.',
+        attributeBonuses: { wisdom: 1 },
+        traits: [
+          { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
+          { name: 'Resistência a Ácido', description: 'Você possui resistência a dano ácido.' },
+          { name: 'Anfíbio', description: 'Você pode respirar ar e água.' },
+          { name: 'Natação', description: 'Você possui deslocamento de natação de 9 metros (30 pés).' },
+          { name: 'Chamado das Marés', description: 'Você conhece o truque Espirro Ácido. A partir do 3º nível, pode conjurar Criar ou Destruir Água. A partir do 5º nível, pode conjurar Andar na Água. 1x por descanso longo ou com espaços de magia.' }
+        ]
+      },
+      {
+        name: 'Genasi do Ar',
+        description: 'Genasi do ar são ágeis e mutáveis como o vento, carregando a essência da brisa e do relâmpago.',
+        attributeBonuses: { dexterity: 1 },
+        traits: [
+          { name: 'Destreza +1', description: 'Seu valor de Destreza aumenta em 1.' },
+          { name: 'Resistência Elétrica', description: 'Você possui resistência a dano elétrico.' },
+          { name: 'Fôlego Interminável', description: 'Você pode prender a respiração indefinidamente enquanto não estiver incapacitado.' },
+          { name: 'Misturar-se aos Ventos', description: 'Você conhece o truque Toque Chocante. A partir do 3º nível, pode conjurar Queda Suave. A partir do 5º nível, pode conjurar Levitação. 1x por descanso longo ou com espaços de magia.' }
+        ]
+      },
+      {
+        name: 'Genasi do Fogo',
+        description: 'Genasi do fogo são passionais e intensos, brilhando com o calor e as chamas do Plano Elemental do Fogo.',
+        attributeBonuses: { intelligence: 1 },
+        traits: [
+          { name: 'Inteligência +1', description: 'Seu valor de Inteligência aumenta em 1.' },
+          { name: 'Resistência a Fogo', description: 'Você possui resistência a dano de fogo.' },
+          { name: 'Alcançar as Chamas', description: 'Você conhece o truque Criar Chamas. A partir do 3º nível, pode conjurar Mãos Flamejantes. A partir do 5º nível, pode conjurar Lâmina Flamejante. 1x por descanso longo ou com espaços de magia.' }
+        ]
+      },
+      {
+        name: 'Genasi da Terra',
+        description: 'Genasi da terra são firmes e pacientes como as rochas, imunes às intempéries do solo.',
+        attributeBonuses: { strength: 1 },
+        traits: [
+          { name: 'Força +1', description: 'Seu valor de Força aumenta em 1.' },
+          { name: 'Caminhada Terrestre', description: 'Você ignora terreno difícil baseado em terra ou rocha.' },
+          { name: 'Um com a Terra', description: 'Você conhece o truque Proteção contra Lâminas. Pode conjurá-lo como ação bônus um número de vezes igual ao seu bônus de proficiência por descanso longo. A partir do 5º nível, pode conjurar Passos Sem Pegadas. 1x por descanso longo ou com espaços de magia.' }
+        ]
+      }
+    ],
+    traits: [
+      { name: 'Constituição +2', description: 'Seu valor de Constituição aumenta em 2.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena, em tons de seu elemento.' },
+      { name: 'Idiomas', description: 'Você sabe falar, ler e escrever Comum e Primordial.' }
+    ]
   }
 ];

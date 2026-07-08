@@ -62,7 +62,7 @@ export default function NovoPersonagem() {
     if (!generatedPayload || isAnimationRunning) return
     setIsAnimationRunning(true)
     const chosenRuleset = generatedPayload.form.ruleset
-    const racesPool = chosenRuleset === '2014' ? RACES_2014 : RACES
+    const racesPool = (chosenRuleset === '2014' || chosenRuleset === '5e-custom') ? RACES_2014 : RACES
     
     let ticks = 0
     const maxTicks = 18
@@ -91,7 +91,7 @@ export default function NovoPersonagem() {
     if (!generatedPayload || isAnimationRunning) return
     setIsAnimationRunning(true)
     const chosenRuleset = generatedPayload.form.ruleset
-    const classesPool = chosenRuleset === '2014' ? CLASSES_2014 : CLASSES
+    const classesPool = (chosenRuleset === '2014' || chosenRuleset === '5e-custom') ? CLASSES_2014 : CLASSES
     
     let ticks = 0
     const maxTicks = 18
@@ -119,7 +119,7 @@ export default function NovoPersonagem() {
     if (!generatedPayload || isAnimationRunning) return
     setIsAnimationRunning(true)
     const chosenRuleset = generatedPayload.form.ruleset
-    const bgsPool = chosenRuleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS
+    const bgsPool = (chosenRuleset === '2014' || chosenRuleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS
     
     let ticks = 0
     const maxTicks = 18
@@ -229,19 +229,31 @@ export default function NovoPersonagem() {
   const [selectedSpells, setSelectedSpells] = useState<string[]>([])
   const [form, setForm] = useState({
     name: '', class: '', race: '', subRace: '', background: '', level: 1, avatarUrl: '', isPublic: false,
-    playerName: '', appearance: '', backstory: '', personalityTraits: '', ideals: '', bonds: '', flaws: '', ruleset: '2024' as '2014' | '2024'
+    playerName: '', appearance: '', backstory: '', personalityTraits: '', ideals: '', bonds: '', flaws: '', ruleset: '2024' as '2014' | '2024' | '5e-custom'
   })
 
   const availableRaces = useMemo(() => {
-    return form.ruleset === '2014' ? RACES_2014 : RACES;
+    if (form.ruleset === '2014') {
+      return RACES_2014.filter(r => r.source === "Player's Handbook 2014");
+    }
+    if (form.ruleset === '5e-custom') {
+      return RACES_2014;
+    }
+    return RACES;
   }, [form.ruleset]);
 
   const availableClasses = useMemo(() => {
-    return form.ruleset === '2014' ? CLASSES_2014 : CLASSES;
+    if (form.ruleset === '2014') {
+      return CLASSES_2014.filter(c => c.source === "Player's Handbook 2014");
+    }
+    if (form.ruleset === '5e-custom') {
+      return CLASSES_2014;
+    }
+    return CLASSES;
   }, [form.ruleset]);
 
   const availableBackgrounds = useMemo(() => {
-    return form.ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+    return (form.ruleset === '2014' || form.ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS;
   }, [form.ruleset]);
 
   const [featureChoices, setFeatureChoices] = useState<Record<string, string | string[]>>({})
@@ -311,7 +323,7 @@ export default function NovoPersonagem() {
 
     // HP Bonuses
     let hpBonus = 0;
-    if (form.ruleset === '2014') {
+    if (form.ruleset === '2014' || form.ruleset === '5e-custom') {
       if (form.race === 'Anão' && form.subRace === 'Anão da Colina') hpBonus += form.level;
       if (form.class === 'Feiticeiro' && featureChoices['sorcerous-origin-2014'] === 'orig-draconic') hpBonus += form.level;
     }
@@ -331,7 +343,7 @@ export default function NovoPersonagem() {
       initiative: dexMod,
       proficiencyBonus: pb,
       subclass: (() => {
-        const classData = form.ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class];
+        const classData = (form.ruleset === '2014' || form.ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class];
         if (!classData) return '';
         
         const subclassChoiceIds = [
@@ -374,7 +386,7 @@ export default function NovoPersonagem() {
       })(),
       resources: (() => {
         const res: Record<string, number> = {};
-        const is2014 = form.ruleset === '2014';
+        const is2014 = form.ruleset === '2014' || form.ruleset === '5e-custom';
 
         if (form.class === 'Bárbaro') res['Fúria'] = 2;
         
@@ -490,12 +502,12 @@ export default function NovoPersonagem() {
     if (currentStep === 3) return !!form.background
     if (currentStep === 4) {
       const pointsValid = spentPoints === BUDGET;
-      if (form.ruleset === '2014') return pointsValid;
+      if (form.ruleset === '2014' || form.ruleset === '5e-custom') return pointsValid;
       return pointsValid && !!asi.primary && !!asi.secondary;
     }
     if (currentStep === 6) {
       const isCaster = SPELLCASTING_CLASSES.includes(form.class)
-      const classData = form.ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
+      const classData = (form.ruleset === '2014' || form.ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
       
       // Validate mandatory feature choices
       if (classData && classData.choices) {
@@ -572,15 +584,26 @@ export default function NovoPersonagem() {
           <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 8, textAlign: 'center' }}>Escolha a Edição</h2>
           <p style={{ color: 'var(--fg3)', textAlign: 'center', marginBottom: 32 }}>Selecione qual conjunto de regras você deseja usar para este personagem.</p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 20 }}>
             <div 
               className={`card ${form.ruleset === '2014' ? 'active' : ''}`}
               onClick={() => setForm({ ...form, ruleset: '2014', race: '', class: '', background: '' })}
               style={{ padding: 24, cursor: 'pointer', border: form.ruleset === '2014' ? '2px solid var(--accent)' : '1px solid var(--border)' }}
             >
-              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 5e (2014)</h3>
+              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 5E (2014)</h3>
               <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5 }}>
                 As regras clássicas da 5ª Edição. Atributos são fixos por raça e o Patrulheiro usa as regras originais de Inimigo Favorito.
+              </p>
+            </div>
+
+            <div 
+              className={`card ${form.ruleset === '5e-custom' ? 'active' : ''}`}
+              onClick={() => setForm({ ...form, ruleset: '5e-custom', race: '', class: '', background: '' })}
+              style={{ padding: 24, cursor: 'pointer', border: form.ruleset === '5e-custom' ? '2px solid var(--accent)' : '1px solid var(--border)' }}
+            >
+              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 5E + Complementos</h3>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5 }}>
+                Regras de 2014 enriquecidas com classes e raças adicionais (como Artífice, Aasimar e Goliá).
               </p>
             </div>
             
@@ -589,7 +612,7 @@ export default function NovoPersonagem() {
               onClick={() => setForm({ ...form, ruleset: '2024', race: '', class: '', background: '' })}
               style={{ padding: 24, cursor: 'pointer', border: form.ruleset === '2024' ? '2px solid var(--accent)' : '1px solid var(--border)' }}
             >
-              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 2024 (5.5e)</h3>
+              <h3 style={{ fontFamily: 'Cinzel, serif', marginBottom: 12 }}>D&D 2024 (5.5E)</h3>
               <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5 }}>
                 A nova atualização das regras. Atributos são escolhidos via Antecedente e as raças possuem novas habilidades balanceadas.
               </p>
@@ -1107,7 +1130,7 @@ export default function NovoPersonagem() {
 
             <div style={{ padding: 32, overflowY: 'auto' }}>
               <div style={{ marginBottom: 32 }}>
-                <p style={{ fontSize: 16, lineHeight: 1.6, color: 'var(--fg2)', fontStyle: 'italic' }}>
+                <p style={{ fontSize: 16, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)', fontStyle: 'italic' }}>
                   &quot;{detailRace.description}&quot;
                 </p>
                 <div style={{ display: 'flex', gap: 20, marginTop: 16 }}>
@@ -1128,7 +1151,7 @@ export default function NovoPersonagem() {
                   {detailRace.traits.map(trait => (
                     <div key={trait.name}>
                       <div style={{ fontWeight: 'bold', fontSize: 15, color: 'var(--fg)', marginBottom: 4 }}>{trait.name}</div>
-                      <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0, lineHeight: 1.5 }}>{trait.description}</p>
+                      <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.95)', margin: 0, lineHeight: 1.5 }}>{trait.description}</p>
                     </div>
                   ))}
                 </div>
@@ -1139,7 +1162,7 @@ export default function NovoPersonagem() {
               <button
                 className="btn btn-primary"
                 onClick={() => { handleRaceSelect(detailRace.id); setDetailRace(null); }}
-                style={{ padding: '0 32px' }}
+                style={{ padding: '12px 32px' }}
               >
                 Selecionar {detailRace.name}
               </button>
@@ -1173,7 +1196,7 @@ export default function NovoPersonagem() {
 
             <div style={{ padding: 32, overflowY: 'auto' }}>
               <div style={{ marginBottom: 32 }}>
-                <p style={{ fontSize: 16, lineHeight: 1.6, color: 'var(--fg2)', fontStyle: 'italic' }}>
+                <p style={{ fontSize: 16, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)', fontStyle: 'italic' }}>
                   &quot;{detailClass.description}&quot;
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginTop: 16 }}>
@@ -1193,11 +1216,11 @@ export default function NovoPersonagem() {
                 <div style={{ marginTop: 16 }}>
                   <div style={{ marginBottom: 8 }}>
                     <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Armaduras</span>
-                    <div style={{ fontSize: 13, color: 'var(--fg2)', marginTop: 2 }}>{detailClass.armorProf}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 2 }}>{detailClass.armorProf}</div>
                   </div>
                   <div>
                     <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase' }}>Armas</span>
-                    <div style={{ fontSize: 13, color: 'var(--fg2)', marginTop: 2 }}>{detailClass.weaponProf}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 2 }}>{detailClass.weaponProf}</div>
                   </div>
                 </div>
               </div>
@@ -1208,7 +1231,7 @@ export default function NovoPersonagem() {
                   {detailClass.features.map(feature => (
                     <div key={feature.name}>
                       <div style={{ fontWeight: 'bold', fontSize: 15, color: 'var(--fg)', marginBottom: 4 }}>{feature.name}</div>
-                      <p style={{ fontSize: 14, color: 'var(--fg2)', margin: 0, lineHeight: 1.5 }}>{feature.description}</p>
+                      <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.95)', margin: 0, lineHeight: 1.5 }}>{feature.description}</p>
                     </div>
                   ))}
                 </div>
@@ -1219,7 +1242,7 @@ export default function NovoPersonagem() {
               <button
                 className="btn btn-primary"
                 onClick={() => { handleClassSelect(detailClass.id); setDetailClass(null); }}
-                style={{ padding: '0 32px' }}
+                style={{ padding: '12px 32px' }}
               >
                 Selecionar {detailClass.name}
               </button>
@@ -1253,7 +1276,7 @@ export default function NovoPersonagem() {
             </div>
 
             <div style={{ padding: 32, overflowY: 'auto' }}>
-              <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--fg2)', fontStyle: 'italic', marginBottom: 24 }}>
+              <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(255,255,255,0.85)', fontStyle: 'italic', marginBottom: 24 }}>
                 &quot;{detailBg.description}&quot;
               </p>
 
@@ -1278,12 +1301,12 @@ export default function NovoPersonagem() {
 
               <div style={{ marginBottom: 24 }}>
                 <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, marginBottom: 12, borderBottom: '1px solid var(--accent)', display: 'inline-block', paddingBottom: 4 }}>Habilidade Especial: {detailBg.feature.name}</h3>
-                <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.6, margin: 0 }}>{detailBg.feature.description}</p>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>{detailBg.feature.description}</p>
               </div>
 
               <div>
                 <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 18, marginBottom: 12, borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'inline-block', paddingBottom: 4 }}>Equipamento Inícial</h3>
-                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.6, margin: 0 }}>{detailBg.equipment}</p>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>{detailBg.equipment}</p>
               </div>
             </div>
 
@@ -1291,7 +1314,7 @@ export default function NovoPersonagem() {
               <button
                 className="btn btn-primary"
                 onClick={() => { handleBgSelect(detailBg.id); setDetailBg(null); }}
-                style={{ padding: '0 32px' }}
+                style={{ padding: '12px 32px' }}
               >
                 Selecionar {detailBg.name}
               </button>
@@ -1318,7 +1341,7 @@ export default function NovoPersonagem() {
                 <h2 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 24 }}>
                   {availableRaces.find(r => r.name === form.race)?.subRaceTitle || 'Escolha sua Linhagem'}
                 </h2>
-                <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--fg3)' }}>Você selecionou {form.race}. Agora escolha a característica da sua linhagem.</p>
+                <p style={{ margin: '4px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>Você selecionou {form.race}. Agora escolha a característica da sua linhagem.</p>
               </div>
               <button className="btn btn-ghost" onClick={() => setSubRaceModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
                 <X size={20} />
@@ -1352,15 +1375,15 @@ export default function NovoPersonagem() {
                     {lineage.name}
                   </h4>
                   {lineage.description && (
-                    <p style={{ fontSize: 12, color: 'var(--fg3)', marginBottom: 12, fontStyle: 'italic', lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', marginBottom: 12, fontStyle: 'italic', lineHeight: 1.4 }}>
                       {lineage.description}
                     </p>
                   )}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {lineage.traits.map(trait => (
                       <div key={trait.name}>
-                        <div style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--fg2)' }}>{trait.name}</div>
-                        <div style={{ fontSize: 11, color: 'var(--fg3)', lineHeight: 1.3 }}>{trait.description}</div>
+                        <div style={{ fontSize: 11, fontWeight: 'bold', color: '#fff' }}>{trait.name}</div>
+                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', lineHeight: 1.3 }}>{trait.description}</div>
                       </div>
                     ))}
                   </div>
@@ -1377,7 +1400,7 @@ export default function NovoPersonagem() {
                   setSubRaceModalOpen(false)
                   nextStep()
                 }}
-                style={{ padding: '0 32px' }}
+                style={{ padding: '12px 32px' }}
               >
                 Confirmar e Seguir
               </button>

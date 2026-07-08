@@ -12,7 +12,7 @@ interface SpellsStepProps {
   onSpellsChange: (ids: string[]) => void
   featureChoices: Record<string, string | string[]>
   onFeatureChoicesChange: (c: Record<string, string | string[]>) => void
-  ruleset: '2014' | '2024'
+  ruleset: '2014' | '2024' | '5e-custom'
   level: number
 }
 
@@ -33,7 +33,7 @@ export default function SpellsStep({
 
   const isCaster = SPELLCASTING_CLASSES.includes(className)
   const slots = useMemo(() => getSpellSlots(className, level, ruleset), [className, level, ruleset])
-  const classData = ruleset === '2014' ? CLASS_LEVEL1_DATA_2014[className] : CLASS_LEVEL1_DATA[className]
+  const classData = (ruleset === '2014' || ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[className] : CLASS_LEVEL1_DATA[className]
 
   // Spells available to this class, filtered by character level
   const availableSpells = useMemo(() => {

@@ -54,7 +54,7 @@ const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
 ]);
 
 function getSubclassUnlockLevel(className: string, ruleset: string): number {
-  if (ruleset === '2014') {
+  if ((ruleset === '2014' || ruleset === '5e-custom')) {
     const nameLower = className?.toLowerCase() || '';
     if (['clérigo', 'cleric', 'feiticeiro', 'sorcerer', 'bruxo', 'warlock'].includes(nameLower)) return 1;
     if (['druida', 'druid', 'mago', 'wizard'].includes(nameLower)) return 2;
@@ -63,8 +63,8 @@ function getSubclassUnlockLevel(className: string, ruleset: string): number {
   return 3; // 2024 ruleset is level 3 for all
 }
 
-function getUnlockedSubclassSpells(className: string, subclassName: string, level: number, ruleset: '2014' | '2024'): any[] {
-  const subclassSource = ruleset === '2014' ? SUBCLASSES_2014 : SUBCLASSES_2024;
+function getUnlockedSubclassSpells(className: string, subclassName: string, level: number, ruleset: '2014' | '2024' | '5e-custom'): any[] {
+  const subclassSource = (ruleset === '2014' || ruleset === '5e-custom') ? SUBCLASSES_2014 : SUBCLASSES_2024;
   const subclassData = subclassSource[className]?.[subclassName];
   if (!subclassData || !subclassData.spells) return [];
 
@@ -88,7 +88,7 @@ function getUnlockedSubclassSpells(className: string, subclassName: string, leve
   }
 
   const spellNames = subclassData.spells.slice(0, unlockedCount);
-  const availableSpellsList = ruleset === '2014' ? SPELLS_2014 : SPELLS;
+  const availableSpellsList = (ruleset === '2014' || ruleset === '5e-custom') ? SPELLS_2014 : SPELLS;
 
   return spellNames.map(name => {
     let normName = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
@@ -191,7 +191,7 @@ export default function CharacterDetailPage() {
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
   const [isPreparing, setIsPreparing] = useState(false)
   const [ekSchoolFilter, setEkSchoolFilter] = useState(true)
-  const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | null>(null)
+  const [selectedRuleset, setSelectedRuleset] = useState<'2014' | '2024' | '5e-custom' | null>(null)
   const [selectedSubclass, setSelectedSubclass] = useState<string | null>(null)
   const [isSubclassModalOpen, setIsSubclassModalOpen] = useState(false)
   const [tempSubclass, setTempSubclass] = useState<string | null>(null)
@@ -365,7 +365,7 @@ export default function CharacterDetailPage() {
 
   const progressionData = useMemo(() => {
     if (!character) return [];
-    const is2014 = character.ruleset === '2014';
+    const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
 
     const classData = is2014
       ? CLASSES_2014.find(c => c.name === character.class)
@@ -431,7 +431,7 @@ export default function CharacterDetailPage() {
 
   const totalCantripsSelected = useMemo(() => {
     if (!parsedSpells) return 0
-    const list = character?.ruleset === '2014' ? SPELLS_2014 : SPELLS
+    const list = (character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
     return parsedSpells
       .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
@@ -440,7 +440,7 @@ export default function CharacterDetailPage() {
 
   const totalLeveledSpellsSelected = useMemo(() => {
     if (!parsedSpells) return 0
-    const list = character?.ruleset === '2014' ? SPELLS_2014 : SPELLS
+    const list = (character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
     return parsedSpells
       .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
@@ -503,7 +503,7 @@ export default function CharacterDetailPage() {
                 
                 if (local.inventory) {
                   data.inventory = (data.inventory as any[]).map((dbItem: any, idx: number) => {
-                    const currentCatalog = data.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                    const currentCatalog = (data.ruleset === '2014' || data.ruleset === '5e-custom') ? ITEM_CATALOG_2014 : ITEM_CATALOG;
                     const catalogItem = currentCatalog.find(i => i.id === dbItem.item.id || i.name === dbItem.item.name);
                     return {
                       ...dbItem,
@@ -603,7 +603,7 @@ export default function CharacterDetailPage() {
     </div>
   )
 
-  const characterClass = character.ruleset === '2014'
+  const characterClass = (character.ruleset === '2014' || character.ruleset === '5e-custom')
     ? CLASSES_2014.find(c => c.name === character.class)
     : CLASSES.find(c => c.name === character.class)
   const proficientSaves = characterClass?.savingThrows || []
@@ -784,7 +784,7 @@ export default function CharacterDetailPage() {
     if (!character) return;
     
     const rulesetToUse = character.ruleset || '2024';
-    const is2014 = rulesetToUse === '2014';
+    const is2014 = (rulesetToUse === '2014' || rulesetToUse === '5e-custom');
     
     const newResources: Record<string, number> = character.resources ? JSON.parse(character.resources as string) : {};
     if (character.class === 'Artífice') {
@@ -1245,7 +1245,7 @@ export default function CharacterDetailPage() {
               <div style={{ fontWeight: 700, color: 'var(--fg)', fontSize: 15, marginBottom: 2, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }} className="mobile-justify-center">
                 <span>{character.class}</span>
                 {character.subclass && <span> — {character.subclass}</span>}
-                {parsedTraits.draconicAncestry && character.ruleset !== '2014' && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
+                {parsedTraits.draconicAncestry && (character.ruleset !== '2014' && character.ruleset !== '5e-custom') && ` (${parsedTraits.draconicAncestry.split(' ')[0]})`}
                 {(() => {
                   const unlockLevel = getSubclassUnlockLevel(character.class, character.ruleset || '2024');
                   const canChoose = character.level >= unlockLevel;
@@ -1721,7 +1721,7 @@ export default function CharacterDetailPage() {
 
                           const getInitialResources = () => {
                             const initial: any = {};
-                            const is2014 = character.ruleset === '2014';
+                            const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                             const modCharisma = Math.floor((character.charisma - 10) / 2);
                             const modIntelligence = Math.floor((character.intelligence - 10) / 2);
                             const modWisdom = Math.floor((character.wisdom - 10) / 2);
@@ -2309,7 +2309,7 @@ export default function CharacterDetailPage() {
                     )}
 
                     {/* Metamagic Selection for Sorcerers */}
-                    {character?.class === 'Feiticeiro' && (character.ruleset === '2014' ? character.level >= 3 : character.level >= 2) && (
+                    {character?.class === 'Feiticeiro' && ((character.ruleset === '2014' || character.ruleset === '5e-custom') ? character.level >= 3 : character.level >= 2) && (
                       <div style={{ marginBottom: 24 }}>
                         <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginBottom: 8 }}>
                           Metamágica (Escolha 2 Opções)
@@ -2414,7 +2414,7 @@ export default function CharacterDetailPage() {
 
                     {(() => {
                       const currentSpells = parsedSpells.filter(id => {
-                        const list = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
+                        const list = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS;
                         return list.some(s => s.id === id);
                       });
                       // Nível máximo que o personagem pode conjurar (Seguro para TypeScript)
@@ -2435,7 +2435,7 @@ export default function CharacterDetailPage() {
                         null;
 
                       // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
-                      const availableSpellsList = character.ruleset === '2014' ? SPELLS_2014 : SPELLS;
+                      const availableSpellsList = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS;
                       const baseList = isPreparing
                         ? availableSpellsList.filter(s => {
                             const matchClass = s.classes.includes(spellcastingClass);
@@ -2470,7 +2470,7 @@ export default function CharacterDetailPage() {
                               return;
                             }
                           } else {
-                            const is2014Prepared = character.ruleset === '2014' && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artífice'].includes(character.class);
+                            const is2014Prepared = (character.ruleset === '2014' || character.ruleset === '5e-custom') && ['Clérigo', 'Druida', 'Mago', 'Paladino', 'Artífice'].includes(character.class);
 
                             const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined);
 
@@ -2503,7 +2503,7 @@ export default function CharacterDetailPage() {
                       };
 
                       if (baseList.length === 0 && subclassSpells.length === 0 && !isPreparing) {
-                        const hasFutureSlots = character.ruleset === '2014' && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1;
+                        const hasFutureSlots = (character.ruleset === '2014' || character.ruleset === '5e-custom') && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1;
                         return (
                           <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.05)' }}>
                             <p style={{ color: 'var(--fg3)', margin: 0 }}>
@@ -2964,7 +2964,7 @@ export default function CharacterDetailPage() {
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {(() => {
-                          const is2014 = character.ruleset === '2014';
+                          const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                           const raceData = is2014
                             ? RACES_2014.find(r => r.name === character.race)
                             : RACES.find(r => r.name === character.race);
@@ -3028,7 +3028,7 @@ export default function CharacterDetailPage() {
 
                     {/* Background Feature */}
                     {(() => {
-                      const is2014 = character.ruleset === '2014';
+                      const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                       const backgroundName = character.background;
                       if (!backgroundName) return null;
 
@@ -3067,7 +3067,7 @@ export default function CharacterDetailPage() {
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {(() => {
-                          const is2014 = character.ruleset === '2014';
+                          const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                           const level1Data = is2014 ? CLASS_LEVEL1_DATA_2014 : CLASS_LEVEL1_DATA;
                           const features: any[] = [];
 
@@ -3168,7 +3168,7 @@ export default function CharacterDetailPage() {
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                           {(() => {
-                            const is2014 = character.ruleset === '2014';
+                            const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                             const subclassSource = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024;
                             const subfeatures: any[] = [];
 
@@ -3335,7 +3335,7 @@ export default function CharacterDetailPage() {
                         return (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             {feats.map((feat: any, i: number) => {
-                              const featSource = feat.source || (character?.ruleset === '2014' ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)');
+                              const featSource = feat.source || ((character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)');
                               return (
                                 <div
                                   key={i}
@@ -3428,7 +3428,7 @@ export default function CharacterDetailPage() {
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                           {(() => {
-                            const is2014 = character.ruleset === '2014';
+                            const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                             const raceData = is2014
                               ? RACES_2014.find(r => r.name === character.race)
                               : RACES.find(r => r.name === character.race);
@@ -3530,7 +3530,7 @@ export default function CharacterDetailPage() {
                         </div>
 
                         {(() => {
-                          const is2014 = character.ruleset === '2014';
+                          const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom');
                           const raceData = is2014 ? RACES_2014.find(r => r.name === character.race) : RACES.find(r => r.name === character.race);
                           let racialTraits = raceData?.traits || [];
                           if (is2014 && character.subrace && raceData?.lineages) {
@@ -4096,7 +4096,7 @@ export default function CharacterDetailPage() {
                         const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass);
 
                         const needsFeat = [4, 8, 12, 16, 19].includes(newLevel);
-                        const needsSpecialChoice = rulesetToUse === '2014' && (
+                        const needsSpecialChoice = (rulesetToUse === '2014' || rulesetToUse === '5e-custom') && (
                           (['Paladino', 'Patrulheiro'].includes(character.class) && newLevel === 2) ||
                           (character.class === 'Bruxo' && (newLevel === 2 || newLevel === 3))
                         );
@@ -4188,7 +4188,7 @@ export default function CharacterDetailPage() {
                         if (updated.class === 'Artífice') {
                           const modInt = Math.max(1, Math.floor((updated.intelligence - 10) / 2));
                           const rulesetToUse = updated.ruleset || '2024';
-                          const is2014 = rulesetToUse === '2014';
+                          const is2014 = (rulesetToUse === '2014' || rulesetToUse === '5e-custom');
                           const pb = updated.proficiencyBonus;
 
                           if (updated.level >= 2) {
@@ -4234,7 +4234,7 @@ export default function CharacterDetailPage() {
                         };
 
                         const needsFeat = [4, 8, 12, 16, 19].includes(updated.level);
-                        const needsSpecialChoice = updated.ruleset === '2014' && (
+                        const needsSpecialChoice = (updated.ruleset === '2014' || updated.ruleset === '5e-custom') && (
                           (['Paladino', 'Patrulheiro'].includes(updated.class) && updated.level === 2) ||
                           (updated.class === 'Bruxo' && (updated.level === 2 || updated.level === 3))
                         );
@@ -4892,7 +4892,7 @@ export default function CharacterDetailPage() {
             <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {(() => {
-                  const currentCatalog = character.ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                  const currentCatalog = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? ITEM_CATALOG_2014 : ITEM_CATALOG;
                   const filtered = currentCatalog.filter(i =>
                     i.name.toLowerCase().includes(inventorySearchTerm.toLowerCase()) ||
                     i.category.toLowerCase().includes(inventorySearchTerm.toLowerCase())
@@ -5053,7 +5053,7 @@ export default function CharacterDetailPage() {
                 <div>
                   <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Talentos</h3>
                   <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>
-                    {character?.ruleset === '2014' ? 'D&D 5e (2014)' : 'D&D 2024'}
+                    {(character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? 'D&D 5e (2014)' : 'D&D 2024'}
                   </span>
                 </div>
               </div>
@@ -5075,7 +5075,7 @@ export default function CharacterDetailPage() {
 
             <div style={{ padding: 24, overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
               {(() => {
-                const is2014 = character?.ruleset === '2014';
+                const is2014 = (character?.ruleset === '2014' || character?.ruleset === '5e-custom');
                 const catalog = is2014 ? FEATS_2014 : FEATS_2024;
                 const selectedNames = new Set((parsedTraits?.feats || []).map((f: any) => f.name));
 

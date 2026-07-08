@@ -470,6 +470,45 @@ export const CLASSES_2014: DndClass[] = [
       { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
       { name: 'Alma do Artífice', level: 20, description: 'Você ganha bônus em salvaguardas por item sintonizado e pode evitar a morte encerrando uma infusão.' }
     ]
+  },
+  {
+    id: 'blood_hunter_2014',
+    name: 'Caçador de Sangue',
+    description: 'Um guerreiro sombrio que usa magia de sangue proibida e rituais alquímicos para rastrear e caçar monstros e abominações.',
+    image: '/assets/blood-hunter.jpg',
+    source: "Critical Role Supplement",
+    hitDie: 'd10',
+    primaryAttr: 'Sabedoria',
+    savingThrows: ['Força', 'Sabedoria'],
+    armorProf: 'Armaduras Leves, Médias e Escudos',
+    weaponProf: 'Armas Simples e Marciais',
+    toolProf: 'Suprimentos de Alquimista',
+    skillCount: 2,
+    skillOptions: ['Atletismo', 'Acrobacia', 'Arcanismo', 'Intuição', 'Investigação', 'Sobrevivência'],
+    features: [
+      { name: 'Perdição do Caçador', level: 1, description: 'Vantagem para rastrear fadas, demônios e morto-vivos, e em testes de Inteligência sobre eles. A partir do 11º nível, vantagem em Intuição e Intimidação.' },
+      { name: 'Ritual Vermelho', level: 1, description: 'Sacrifique seus PV máximos (igual ao seu nível) para imbuir sua arma com energia elemental (+1d4 de dano mágico elemental).' },
+      { name: 'Estilo de Luta', level: 2, description: 'Escolha uma especialidade de combate: Arquearia, Duelismo, Combate com Armas Grandes ou Combate com Duas Armas.' },
+      { name: 'Sangue Maldito', level: 2, description: 'Canalize sua essência vital para amaldiçoar e manipular inimigos (1 maldição de sangue conhecida, recupera em descansos).' },
+      { name: 'Ordem do Caçador de Sangue', level: 3, description: 'Escolha uma ordem: Caçador de Espectros, Licantropo, Mutante ou Alma Profana.' },
+      { name: 'Incremento no Valor de Habilidade', level: 4, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Ataque Extra', level: 5, description: 'Você pode atacar duas vezes sempre que realizar a ação de Ataque.' },
+      { name: 'Sangue Maldito (2 usos)', level: 6, description: 'Você pode invocar seu sangue maldito duas vezes entre descansos.' },
+      { name: 'Característica da Ordem', level: 7, description: 'Você recebe uma característica da ordem de caçador de sangue escolhida.' },
+      { name: 'Incremento no Valor de Habilidade', level: 8, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Psicometria Sinistra', level: 9, description: 'Medite por 10 minutos sobre um objeto para discernir detalhes sobre qualquer mal persistente ou passado perverso.' },
+      { name: 'Velocidade Sombria', level: 10, description: 'Sua velocidade aumenta em 3 metros e ataques de oportunidade contra você têm desvantagem.' },
+      { name: 'Característica da Ordem', level: 11, description: 'Você recebe uma característica da ordem de caçador de sangue escolhida.' },
+      { name: 'Sangue Maldito (3 usos)', level: 11, description: 'Você pode invocar seu sangue maldito três vezes entre descansos.' },
+      { name: 'Incremento no Valor de Habilidade', level: 12, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Alma Endurecida', level: 14, description: 'Você não pode mais ficar assustado e tem vantagem contra charme mágico.' },
+      { name: 'Característica da Ordem', level: 15, description: 'Você recebe uma característica da ordem de caçador de sangue escolhida.' },
+      { name: 'Incremento no Valor de Habilidade', level: 16, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Sangue Maldito (4 usos)', level: 17, description: 'Você pode invocar seu sangue maldito quatro vezes entre descansos.' },
+      { name: 'Característica da Ordem', level: 18, description: 'Você recebe a característica final da sua ordem.' },
+      { name: 'Incremento no Valor de Habilidade', level: 19, description: 'Aumente um valor de habilidade em 2 ou dois valores em 1.' },
+      { name: 'Maestria Sanguinária', level: 20, description: 'Seu ritual vermelho não reduz mais seus pontos de vida máximos e, se estiver crítico, maximiza o dado.' }
+    ]
   }
 ];
 

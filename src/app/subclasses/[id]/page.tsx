@@ -300,7 +300,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
               <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--fg3)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Sparkles size={16} color="var(--accentL)" /> Magias de Expansão
               </h3>
-              <p style={{ color: 'var(--fg3)', fontSize: 13, lineHeight: 1.5, marginBottom: 16 }}>
+              <p style={{ color: 'var(--fg2)', fontSize: 13, lineHeight: 1.5, marginBottom: 16 }}>
                 Você adiciona as seguintes magias à sua lista de magias conhecidas/preparadas de classe:
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -313,8 +313,8 @@ export default function SubclassDetailsPage({ params }: PageProps) {
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: 16, borderRadius: 10, border: '1px solid var(--border)' }}>
-              <Shield size={20} color="var(--fg3)" />
-              <div style={{ fontSize: 13, color: 'var(--fg3)', lineHeight: 1.4 }}>
+              <Shield size={20} color="var(--fg2)" />
+              <div style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.4 }}>
                 Esta subclasse foca em habilidades marciais ou características passivas no lugar de listas de magias expandidas.
               </div>
             </div>
@@ -335,7 +335,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
                     <h4 style={{ margin: 0, fontSize: 16, color: 'var(--fg)', fontWeight: 700 }}>
                       {f.name}
                     </h4>
-                    <p style={{ margin: '8px 0 0 0', fontSize: 14, color: 'var(--fg3)', lineHeight: 1.6 }}>
+                    <p style={{ margin: '8px 0 0 0', fontSize: 14, color: 'var(--fg2)', lineHeight: 1.6 }}>
                       {f.description}
                     </p>
                   </div>

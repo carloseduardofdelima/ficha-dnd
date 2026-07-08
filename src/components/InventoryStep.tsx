@@ -35,7 +35,7 @@ interface InventoryStepProps {
   backgroundName: string
   inventory: InventoryEntry[]
   onInventoryChange: (inv: InventoryEntry[]) => void
-  ruleset?: '2014' | '2024'
+  ruleset?: '2014' | '2024' | '5e-custom'
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ export default function InventoryStep({
   // Auto-populate inventory on first render
   useEffect(() => {
     if (!initialized && inventory.length === 0 && (className || backgroundName)) {
-      const initial = ruleset === '2014' 
+      const initial = (ruleset === '2014' || ruleset === '5e-custom') 
         ? getStartingInventory2014(className, backgroundName)
         : getStartingInventory(className, backgroundName)
       onInventoryChange(initial)
@@ -60,7 +60,7 @@ export default function InventoryStep({
   }, [className, backgroundName])
 
   // ── Catalog helpers ─────────────────────────────────────────────────────────
-  const catalog = ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG
+  const catalog = (ruleset === '2014' || ruleset === '5e-custom') ? ITEM_CATALOG_2014 : ITEM_CATALOG
 
   const filtered = catalog.filter(item => {
     const matchCat = tab === 'all' || item.category === tab

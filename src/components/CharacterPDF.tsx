@@ -20,9 +20,9 @@ const getCharacterFeatures = (character: Character) => {
   const ruleset = character.ruleset || '2024';
   
   // Resolve Lists
-  const raceList = ruleset === '2014' ? RACES_2014 : RACES;
-  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
-  const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+  const raceList = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES;
+  const classList = (ruleset === '2014' || ruleset === '5e-custom') ? CLASSES_2014 : CLASSES;
+  const bgList = (ruleset === '2014' || ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS;
 
   // Race traits
   const race = raceList.find(r => r.name === character.race);
@@ -94,7 +94,7 @@ const getCharacterFeatures = (character: Character) => {
       if (featLevel > character.level) return;
 
       // Avoid duplicates if this will be added as a choice (is2014 specific)
-      const isChoiceFeature = ruleset === '2014' && CLASS_LEVEL1_DATA[character.class]?.choices.some((c: any) => c.label === f.name);
+      const isChoiceFeature = (ruleset === '2014' || ruleset === '5e-custom') && CLASS_LEVEL1_DATA[character.class]?.choices.some((c: any) => c.label === f.name);
       if (isChoiceFeature) return;
       
       features.push({ name: f.name, description: f.description });
@@ -132,9 +132,9 @@ const getCharacterFeatures = (character: Character) => {
 
   // Subclass Features (for both 2014 and 2024)
   if (character.subclass) {
-    const subCatalog = (character.ruleset === '2014') ? SUBCLASSES_2014 : SUBCLASSES_2024;
+    const subCatalog = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SUBCLASSES_2014 : SUBCLASSES_2024;
     const classId = character.class?.toLowerCase().includes('patrulheiro') || character.class?.toLowerCase().includes('ranger') 
-      ? (character.ruleset === '2014' ? 'ranger_2014' : 'ranger') 
+      ? ((character.ruleset === '2014' || character.ruleset === '5e-custom') ? 'ranger_2014' : 'ranger') 
       : character.class;
       
     if (subCatalog[classId]?.[character.subclass]) {
@@ -164,7 +164,7 @@ const getCharacterFeatures = (character: Character) => {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === v);
               if (opt) {
-                const name = ruleset === '2014' ? `${c.label}: ${opt.name}` : opt.name;
+                const name = (ruleset === '2014' || ruleset === '5e-custom') ? `${c.label}: ${opt.name}` : opt.name;
                 if (!features.some(feat => feat.name === name)) {
                   features.push({ name, description: opt.description });
                 }
@@ -177,7 +177,7 @@ const getCharacterFeatures = (character: Character) => {
             lvl1.choices.forEach(c => {
               const opt = c.options.find(o => o.id === val);
               if (opt) {
-                const name = ruleset === '2014' ? `${c.label}: ${opt.name}` : opt.name;
+                 const name = (ruleset === '2014' || ruleset === '5e-custom') ? `${c.label}: ${opt.name}` : opt.name;
                 if (!features.some(feat => feat.name === name)) {
                   features.push({ name, description: opt.description });
                 }
@@ -676,9 +676,9 @@ const CharacterPDF = ({ character }: Props) => {
   const resolvedSpells = spellsArr.map(id => SPELLS.find(s => s.id === id)).filter(Boolean);
   
   const ruleset = character.ruleset || '2024';
-  const raceList = ruleset === '2014' ? RACES_2014 : RACES;
-  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
-  const bgList = ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS;
+  const raceList = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES;
+  const classList = (ruleset === '2014' || ruleset === '5e-custom') ? CLASSES_2014 : CLASSES;
+  const bgList = (ruleset === '2014' || ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS;
 
   const race = raceList.find(r => r.name === character.race);
   const dndClass = classList.find(c => c.name === character.class);
@@ -804,11 +804,11 @@ const CharacterPDF = ({ character }: Props) => {
                 {/* Combined Proficiencies Logic */}
                 {(() => {
                   const ruleset = character.ruleset || '2024';
-                  const classList = ruleset === '2014' ? CLASSES_2014 : CLASSES;
+                  const classList = (ruleset === '2014' || ruleset === '5e-custom') ? CLASSES_2014 : CLASSES;
                   const charClass = classList.find(c => c.name === character.class);
                   
                   // Scan Racial Traits for proficiencies
-                  const raceData = (ruleset === '2014' ? RACES_2014 : RACES).find(r => r.name === character.race);
+                  const raceData = ((ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES).find(r => r.name === character.race);
                   const racialTraits = raceData ? [...(raceData.traits || [])] : [];
                   if (character.subrace && raceData?.lineages) {
                     const lineage = raceData.lineages.find(l => l.name === character.subrace);
@@ -839,7 +839,7 @@ const CharacterPDF = ({ character }: Props) => {
                     t.name.toLowerCase().includes('jogo')
                   );
 
-                  const bgData = (ruleset === '2014' ? BACKGROUNDS_2014 : BACKGROUNDS).find(b => 
+                  const bgData = ((ruleset === '2014' || ruleset === '5e-custom') ? BACKGROUNDS_2014 : BACKGROUNDS).find(b => 
                     b.name.toLowerCase().trim() === character.background?.toLowerCase().trim() ||
                     b.id.toLowerCase() === character.background?.toLowerCase().trim()
                   );
@@ -961,7 +961,7 @@ const CharacterPDF = ({ character }: Props) => {
                <View style={{ gap: 2 }}>
                   {weapons.map((w: any, idx: number) => {
                     const ruleset = character.ruleset || '2024';
-                    const currentCatalog = ruleset === '2014' ? ITEM_CATALOG_2014 : ITEM_CATALOG;
+                    const currentCatalog = (ruleset === '2014' || ruleset === '5e-custom') ? ITEM_CATALOG_2014 : ITEM_CATALOG;
                     const catalogItem = currentCatalog.find(i => i.id === w.item.id || i.name === w.item.name) || w.item;
                     
                     const isFinesse = catalogItem?.properties?.toLowerCase().includes('acuidade');
@@ -1115,7 +1115,7 @@ const CharacterPDF = ({ character }: Props) => {
       )}
       {/* Page 3: Spells (For Spellcasters) */}
       {(() => {
-        const is2014 = character.ruleset === '2014';
+        const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom';
         const spellcastingClasses = ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Feiticeiro', 'Bruxo', 'Mago'];
         const isSpellcaster = spellcastingClasses.includes(character.class);
         

@@ -20,7 +20,7 @@ export interface Spell {
   ritual?: boolean
   concentration?: boolean
   icon?: string
-  ruleset?: '2014' | '2024'
+  ruleset?: '2014' | '2024' | '5e-custom'
 }
 
 const SPELLS: Spell[] = [
@@ -240,9 +240,9 @@ export const ALL_SPELLS = [...SPELLS, ...SPELLS_2014]
 export { SPELLS, SPELLS_2014 }
 export default SPELLS
 
-export function getSpellsForClass(className: string, ruleset: '2014' | '2024' = '2024'): Spell[] {
-  // 1. Prioritize 2014 list if ruleset is 2014
-  if (ruleset === '2014') {
+export function getSpellsForClass(className: string, ruleset: '2014' | '2024' | '5e-custom' = '2024'): Spell[] {
+  // 1. Prioritize 2014 list if ruleset is 2014 or 5e-custom
+  if (ruleset === '2014' || ruleset === '5e-custom') {
     return SPELLS_2014.filter(s => s.classes.includes(className))
   }
   
@@ -255,8 +255,8 @@ export const SPELLCASTING_CLASSES = [
   'Paladino', 'Patrulheiro', 'Artífice'
 ]
 
-export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024', modifiers?: any, subclass?: string) {
-  const table = ruleset === '2014' ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
+export function getSpellSlots(className: string, level: number, ruleset: '2014' | '2024' | '5e-custom', modifiers?: any, subclass?: string) {
+  const table = (ruleset === '2014' || ruleset === '5e-custom') ? SPELL_SLOTS_2014 : SPELL_PROGRESSION
   let lookupKey = className
   if (subclass === 'Cavaleiro Arcano' || subclass === 'Trapaceiro Arcano') {
     lookupKey = subclass
