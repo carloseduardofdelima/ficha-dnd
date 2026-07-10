@@ -101,19 +101,29 @@ export default function SpellsStep({
     }
   }
 
+  const hasSpellChoices = useMemo(() => {
+    return !!(isCaster && slots && (
+      (slots.cantrips && slots.cantrips > 0) || 
+      ((slots as any).lvl1 && (slots as any).lvl1 > 0) || 
+      (slots.slots && slots.slots.some((s: number) => s > 0))
+    ))
+  }, [isCaster, slots])
+
   return (
     <div className="fade-in">
       <div style={{ marginBottom: 20 }}>
         <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 28, marginBottom: 6 }}>Magias & Habilidades</h2>
         <p style={{ color: 'var(--fg2)', fontSize: 14 }}>
-          {isCaster
+          {hasSpellChoices
             ? `Selecione suas magias iniciais. ${className} começa com ${slots?.cantrips ?? 0} truques e ${slots?.lvl1 ?? 0} espaços de magia de 1º nível.`
-            : `${className} não usa magia conjurada. Confira as habilidades de classe abaixo.`}
+            : isCaster
+              ? `${className} não possui escolhas de magia neste nível. Configure as habilidades de classe abaixo.`
+              : `${className} não usa magia conjurada. Confira as habilidades de classe abaixo.`}
         </p>
       </div>
 
       {/* ── Spell list (only for casters) ──────────────────────────────────── */}
-      {isCaster && (
+      {hasSpellChoices && (
         <div style={{ marginBottom: 32 }}>
           {/* Quota bars */}
           {slots && (

@@ -98,6 +98,15 @@ export const ITEM_CATALOG_2014: InventoryItem[] = [
   { id: 'roupas-comuns-2014', name: 'Roupas Comuns', category: 'misc', icon: '👕', description: 'Roupas simples para uso diário.', weight: 1.35, cost: '5 pp' },
   { id: 'bolsa-15po-2014', name: 'Bolsa (15 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 15 moedas de ouro.', weight: 0.45, cost: '15 po' },
   { id: 'bolsa-10po-2014', name: 'Bolsa (10 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 10 moedas de ouro.', weight: 0.45, cost: '10 po' },
+  { id: 'bolsa-25po-2014', name: 'Bolsa (25 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 25 moedas de ouro.', weight: 0.45, cost: '25 po' },
+  { id: 'bolsa-5po-2014', name: 'Bolsa (5 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 5 moedas de ouro.', weight: 0.45, cost: '5 po' },
+  { id: 'bolsa-1po-2014', name: 'Bolsa (1 po)', category: 'misc', icon: '💰', description: 'Uma bolsa contendo 1 moeda de ouro.', weight: 0.45, cost: '1 po' },
+  { id: 'roupas-viajante-2014', name: 'Roupas de Viajante', category: 'misc', icon: '🧣', description: 'Roupas práticas e resistentes para viagem.', weight: 1.8, cost: '2 po' },
+  { id: 'dados-jogo-2014', name: 'Conjunto de Dados', category: 'tool', icon: '🎲', description: 'Dados para jogos de azar.', weight: 0.1, cost: '1 po' },
+  { id: 'kit-navegacao-2014', name: 'Ferramentas de Navegador', category: 'tool', icon: '🧭', description: 'Instrumentos usados para navegar no mar.', weight: 0.9, cost: '25 po' },
+  { id: 'armadilha-caca-2014', name: 'Armadilha de Caça', category: 'misc', icon: '⚙️', description: 'Uma armadilha de ferro com dentes de metal.', weight: 6.75, cost: '5 po' },
+  { id: 'cobertor-inverno-2014', name: 'Cobertor de Inverno', category: 'misc', icon: '🛌', description: 'Um cobertor quente de lã.', weight: 1.35, cost: '5 pp' },
+  { id: 'livro-oracoes-2014', name: 'Livro de Orações', category: 'misc', icon: '📖', description: 'Um livro pequeno contendo preces e rituais.', weight: 1.35, cost: '25 po' },
   { id: 'pé-de-cabra-2014', name: 'Pé de Cabra', category: 'misc', icon: '🔨', description: 'Concede vantagem em testes de Força para abrir algo.', weight: 2.25, cost: '2 po' },
   { id: 'balas-funda-2014', name: 'Balas de Funda (20)', category: 'ammo', icon: '🪨', description: 'Munição para funda. Balas de chumbo pesadas.', weight: 0.67, cost: '4 pc', quantity: 20 },
   { id: 'agulhas-zarabatana-2014', name: 'Agulhas de Zarabatana (50)', category: 'ammo', icon: '🌬️', description: 'Munição para zarabatana. Pequenas agulhas metálicas.', weight: 0.45, cost: '1 po', quantity: 50 },
@@ -119,7 +128,14 @@ export const ITEM_CATALOG_2014: InventoryItem[] = [
   { id: 'alaude-2014', name: 'Alaúde', category: 'tool', icon: '🪕', description: 'Instrumento musical de cordas.', weight: 0.9, cost: '35 po' },
   { id: 'flauta-2014', name: 'Flauta', category: 'tool', icon: '🎵', description: 'Instrumento musical de sopro.', weight: 0.45, cost: '2 po' },
   { id: 'lira-2014', name: 'Lira', category: 'tool', icon: '🎼', description: 'Instrumento musical de cordas dedilhadas.', weight: 0.9, cost: '30 po' },
-  { id: 'tambor-2014', name: 'Tambor', category: 'tool', icon: '🥁', description: 'Instrumento musical de percussão.', weight: 1.35, cost: '6 po' }
+  { id: 'tambor-2014', name: 'Tambor', category: 'tool', icon: '🥁', description: 'Instrumento musical de percussão.', weight: 1.35, cost: '6 po' },
+  { id: 'lupa-2014', name: 'Lupa', category: 'misc', icon: '🔍', description: 'Uma lente de vidro numa moldura de metal que amplia objetos pequenos.', weight: 0.1, cost: '100 po' },
+  { id: 'evidencia-caso-2014', name: 'Evidência de Caso Antigo', category: 'misc', icon: '📜', description: 'Um objeto intrigante ou documento ligado a um crime não resolvido.', weight: 0.1, cost: '—' },
+  { id: 'agua-benta-2014', name: 'Água Benta (frasco)', category: 'misc', icon: '🧪', description: 'Frasco com água abençoada por um clérigo. Causa dano a mortos-vivos e corruptores.', weight: 0.45, cost: '25 po' },
+  { id: 'estacas-madeira-2014', name: 'Estacas de Madeira (3)', category: 'misc', icon: '🪵', description: 'Estacas de madeira afiadas, geralmente usadas contra vampiros.', weight: 0.45, cost: '1 pc' },
+  { id: 'bau-2014', name: 'Baú', category: 'misc', icon: '📦', description: 'Um baú de madeira resistente para guardar equipamentos.', weight: 11, cost: '5 po' },
+  { id: 'martelo-ferramenta-2014', name: 'Martelo', category: 'misc', icon: '🔨', description: 'Martelo de ferro simples para trabalhos manuais ou pregar estacas.', weight: 0.9, cost: '1 po' },
+  { id: 'bugiganga-horror-2014', name: 'Objeto de Significado Especial (Bugiganga de Terror)', category: 'misc', icon: '💀', description: 'Um item macabro ou misterioso carregado de significado pessoal.', weight: 0.1, cost: '—' }
 ]
 
 
@@ -199,24 +215,54 @@ export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
   ],
 }
 
+export const BACKGROUND_STARTING_ITEMS_2014: Record<string, string[]> = {
+  'Acólito': ['simbolo-sagrado-2014', 'livro-oracoes-2014', 'roupas-comuns-2014', 'bolsa-15po-2014'],
+  'Charlatão': ['roupas-finas-2014', 'kit-disfarce-2014', 'kit-falsificacao-2014', 'bolsa-15po-2014'],
+  'Criminoso': ['pé-de-cabra-2014', 'roupas-comuns-2014', 'ferramentas-ladrao-2014', 'bolsa-15po-2014'],
+  'Artista': ['roupas-finas-2014', 'kit-disfarce-2014', 'bolsa-15po-2014'],
+  'Herói do Povo': ['pa-2014', 'roupas-comuns-2014', 'bolsa-10po-2014'],
+  'Artesão de Guilda': ['roupas-finas-2014', 'bolsa-15po-2014'],
+  'Eremita': ['roupas-comuns-2014', 'kit-herbalismo-2014', 'cobertor-inverno-2014', 'bolsa-5po-2014'],
+  'Nobre': ['roupas-finas-2014', 'bolsa-25po-2014'],
+  'Forasteiro': ['armadilha-caca-2014', 'roupas-viajante-2014', 'bolsa-10po-2014'],
+  'Sábio': ['pack-estudioso-2014', 'roupas-comuns-2014', 'bolsa-10po-2014'],
+  'Marinheiro': ['corda-canhamo-2014', 'roupas-comuns-2014', 'bolsa-10po-2014'],
+  'Soldado': ['adaga-2014', 'roupas-comuns-2014', 'dados-jogo-2014', 'bolsa-10po-2014'],
+  'Órfão': ['adaga-2014', 'roupas-comuns-2014', 'bolsa-10po-2014'],
+  'Assombrado (Haunted One)': [
+    'bau-2014', 'pé-de-cabra-2014', 'martelo-ferramenta-2014', 
+    'estacas-madeira-2014', 'simbolo-sagrado-2014', 'agua-benta-2014', 
+    'algemas-2014', 'espelho-metal-2014', 'oleo-frasco-2014', 
+    'caixa-fogo-2014', 'tocha-2014', 'bugiganga-horror-2014', 'roupas-comuns-2014'
+  ],
+  'Investigador (Investigator)': [
+    'lupa-2014', 'evidencia-caso-2014', 'roupas-comuns-2014', 
+    'kit-disfarce-2014', 'ferramentas-ladrao-2014'
+  ]
+}
+
 export function getStartingInventory2014(className: string, backgroundName: string): InventoryEntry[] {
   const classItems = CLASS_STARTING_ITEMS_2014[className] ?? []
+  const bgItemIds = BACKGROUND_STARTING_ITEMS_2014[backgroundName] ?? []
   const bgItems: InventoryEntry[] = []
 
-  // Mapping basic background items for 2014
-  if (backgroundName === 'Acólito') {
-    const symbol = ITEM_CATALOG_2014.find(i => i.id === 'simbolo-sagrado-2014');
-    if (symbol) bgItems.push({ item: symbol, qty: 1 });
-  } else if (backgroundName === 'Criminoso') {
-    const crowbar = ITEM_CATALOG_2014.find(i => i.id === 'pé-de-cabra-2014') || ITEM_CATALOG_2014.find(i => i.name.toLowerCase().includes('cabra'));
-    if (crowbar) bgItems.push({ item: crowbar, qty: 1 });
-  } else if (backgroundName === 'Soldado') {
-    const trophy = ITEM_CATALOG_2014.find(i => i.id === 'adaga-2014');
-    if (trophy) bgItems.push({ item: trophy, qty: 1 });
-  } else if (backgroundName === 'Órfão') {
-    const knife = ITEM_CATALOG_2014.find(i => i.id === 'adaga-2014');
-    if (knife) bgItems.push({ item: knife, qty: 1 });
+  bgItemIds.forEach(id => {
+    const item = ITEM_CATALOG_2014.find(i => i.id === id);
+    if (item) {
+      bgItems.push({ item, qty: id === 'tocha-2014' ? 3 : 1 });
+    }
+  });
+
+  // Merge duplicates to prevent key collision (e.g. key="algemas-2014" or duplicate common clothes)
+  const merged: InventoryEntry[] = [...classItems.map(e => ({ ...e }))]
+  for (const bgEntry of bgItems) {
+    const existing = merged.find(e => e.item.id === bgEntry.item.id)
+    if (existing) {
+      existing.qty += bgEntry.qty
+    } else {
+      merged.push({ ...bgEntry })
+    }
   }
 
-  return [...classItems.map(e => ({ ...e })), ...bgItems.map(e => ({ ...e }))]
+  return merged
 }

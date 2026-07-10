@@ -186,5 +186,33 @@ export const BACKGROUNDS_2014: Background[] = [
       description: 'Você conhece os caminhos ocultos e passagens secretas das cidades. Fora de combate, você e seus companheiros podem viajar entre dois locais em uma cidade duas vezes mais rápido do que o normal, utilizando becos, telhados e esgotos que outros ignorariam.'
     },
     source: "Player's Handbook 2014"
+  },
+  {
+    id: 'haunted_one_2014',
+    name: 'Assombrado (Haunted One)',
+    description: 'Você é assombrado por algo tão terrível que não ousa falar sobre isso. Seja uma sombra na parede, um pesadelo terrível ou sussurros demoníacos, esse fardo cobra seu preço e o isola dos outros.',
+    image: '/assets/spells-icons/warlock.png',
+    skills: ['Investigação', 'Sobrevivência'],
+    languages: 'Dois idiomas (um deles deve ser exótico como Abissal, Celestial, Dialeto Profundo, Dracônico, Infernal, Primordial, Silvestre ou Subcomum)',
+    equipment: 'Um pacote de caçador de monstros (baú, pé de cabra, martelo, 3 estacas de madeira, símbolo sagrado, água benta, algemas, espelho de aço, óleo, pederneira e 3 tochas), um item de significado especial, roupas comuns e 1 po.',
+    feature: {
+      name: 'Coração da Escuridão',
+      description: 'Aqueles que olham em seus olhos veem que você enfrentou horrores inimagináveis. Pessoas comuns tendem a ser gentis e ajudá-lo, podendo até pegar em armas para lutar ao seu lado se você estiver sozinho contra um inimigo (a menos que você se mostre uma ameaça para elas).'
+    },
+    source: "Van Richten's Guide to Ravenloft"
+  },
+  {
+    id: 'investigator_2014',
+    name: 'Investigador (Investigator)',
+    description: 'Você busca incansavelmente a verdade. Seja motivado por um senso de justiça ou por uma necessidade pessoal, você é movido a caçar pistas esquivas e revelar o que outros mantêm nas sombras.',
+    image: '/assets/spells-icons/rogue.png',
+    skills: ['Intuição', 'Investigação'],
+    toolProf: 'Kit de disfarce, ferramentas de ladrão',
+    equipment: 'Uma lupa, evidência de um caso passado, roupas comuns e 10 po.',
+    feature: {
+      name: 'Inquérito Oficial',
+      description: 'Você tem facilidade para obter acesso a pessoas e locais para conseguir informações. Através de lábia, determinação ou documentos com aparência oficial, você consegue acesso a locais ou pessoas ligadas a um crime sob sua investigação. As autoridades locais podem vê-lo como um incômodo ou como um colega.'
+    },
+    source: "Van Richten's Guide to Ravenloft"
   }
 ];

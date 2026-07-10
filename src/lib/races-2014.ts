@@ -392,6 +392,25 @@ export const RACES_2014: Race[] = [
     ]
   },
   {
+    id: 'hexblood_2014',
+    name: 'Sangue de Bruxa',
+    description: 'Criados por rituais ou pactos com bruxas, os Sangue de Bruxa manifestam características feéricas e estranhas conexões mágicas.',
+    image: '/assets/hexblood.jpg',
+    source: "Van Richten's Guide to Ravenloft",
+    speed: 30,
+    size: 'Pequeno ou Médio',
+    attributeBonuses: { charisma: 2, constitution: 1 },
+    bonusSkillCount: 2,
+    traits: [
+      { name: 'Carisma +2, Constituição +1', description: 'Seus valores de atributo aumentam.' },
+      { name: 'Tipo de Criatura', description: 'Você é do tipo Feérico.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros (60 pés) como se fosse luz plena e na escuridão como se fosse penumbra.' },
+      { name: 'Legado Ancestral', description: 'Se você substituir uma raça com esta linhagem, você pode manter as proficiências em perícias e quaisquer deslocamentos de escalada, voo ou natação daquela raça. Caso contrário, você ganha proficiência em duas perícias de sua escolha.' },
+      { name: 'Token Sinistro (Eerie Token)', description: 'Com uma ação bônus, você pode remover uma mecha de cabelo, unha ou dente. O token é imbuído com magia até seu próximo descanso longo. Enquanto estiver ativo, você pode enviar Mensagens Telepáticas (até 25 palavras) ou usar Visão Remota (entrar em transe por 1 minuto para ver e ouvir através do token) a até 10 milhas (16 km). Uma vez criado, não pode fazê-lo novamente até um descanso longo.' },
+      { name: 'Magia de Pacto (Hex Magic)', description: 'Você pode conjurar as magias Bruxaria (Hex) e Disfarçar-se usando este traço. Uma vez que conjurar qualquer uma delas, não poderá fazê-lo novamente até um descanso longo. Você também pode conjurá-las usando quaisquer espaços de magia que possuir. Inteligência, Sabedoria ou Carisma é a sua habilidade de conjuração para essas magias (escolhida ao obter a linhagem).' }
+    ]
+  },
+  {
     id: 'genasi_2014',
     name: 'Genasi',
     description: 'Os genasi são humanoides que carregam o poder dos planos elementais em seu sangue, herdando traços de seus pais elementais e gênios.',

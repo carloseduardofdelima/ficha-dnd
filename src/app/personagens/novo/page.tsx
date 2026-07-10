@@ -232,6 +232,16 @@ export default function NovoPersonagem() {
     playerName: '', appearance: '', backstory: '', personalityTraits: '', ideals: '', bonds: '', flaws: '', ruleset: '2024' as '2014' | '2024' | '5e-custom'
   })
 
+  const hasSpells = useMemo(() => {
+    const isCaster = SPELLCASTING_CLASSES.includes(form.class)
+    const slots = getSpellSlots(form.class, form.level, form.ruleset as any)
+    return !!(isCaster && slots && (
+      (slots.cantrips && slots.cantrips > 0) || 
+      ((slots as any).lvl1 && (slots as any).lvl1 > 0) || 
+      (slots.slots && slots.slots.some((s: number) => s > 0))
+    ))
+  }, [form.class, form.level, form.ruleset])
+
   const availableRaces = useMemo(() => {
     if (form.ruleset === '2014') {
       return RACES_2014.filter(r => r.source === "Player's Handbook 2014");
