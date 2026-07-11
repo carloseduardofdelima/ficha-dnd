@@ -1,7 +1,25 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import itemsData from '@/lib/items-data.json'
+import weapons from '@/lib/items/weapons.json'
+import armor from '@/lib/items/armor.json'
+import tools from '@/lib/items/tools.json'
+import wondrousItems from '@/lib/items/wondrous-items.json'
+import poisons from '@/lib/items/poisons.json'
+import adventuringGear from '@/lib/items/adventuring-gear.json'
+import potionsOils from '@/lib/items/potions-oils.json'
+import other from '@/lib/items/other.json'
+
+const itemsData = [
+  ...weapons,
+  ...armor,
+  ...tools,
+  ...wondrousItems,
+  ...poisons,
+  ...adventuringGear,
+  ...potionsOils,
+  ...other
+]
 import { 
   Search, 
   Sword, 

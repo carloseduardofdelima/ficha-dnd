@@ -1,0 +1,156 @@
+[
+  {
+    "name": "Sangue de Assassino",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve fazer um teste CD 10\nTeste de resistência da Constituição. Em caso de falha no salvamento, são necessários 6\n(1d12) dano de veneno e fica envenenado por 24 horas. Ligado\num teste bem-sucedido, a criatura sofre metade do dano e\nnão está envenenado.",
+    "cost": "150 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "ingested",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Vapores de Othur Queimados",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nTeste de resistência de Constituição CD 13 ou tome 10 (3d6) veneno\ndano e deve repetir o teste de resistência no início do\ncada um dos seus turnos. Em cada salvamento falhado sucessivo, o\npersonagem sofre 3 (1d6) de dano venenoso. Depois de três\nsalvamentos bem-sucedidos, o veneno termina.",
+    "cost": "500 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "inhaled",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Muco de Rastejador",
+    "category": "Poisons",
+    "description": "Este veneno deve ser colhido de um morto ou\nrastreador incapacitado. Uma criatura submetida a este veneno\ndeve ter sucesso em um teste de resistência de Constituição CD 13 ou\nser envenenado por 1 minuto. A criatura envenenada é\nparalisado. A criatura pode repetir o teste de resistência em\nfinal de cada um de seus turnos, encerrando o efeito sobre si mesmo\num sucesso.",
+    "cost": "200 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "contact",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Veneno Drow",
+    "category": "Poisons",
+    "description": "Este veneno normalmente é produzido apenas pelos drows, e apenas\nem um local longe da luz solar. Uma criatura\nsujeito a este veneno deve ter sucesso em um CD 13\nteste de resistência de Constituição ou será envenenado por 1 hora. Se\no teste de resistência falhar por 5 ou mais, a criatura também será\ninconsciente enquanto envenenado desta forma. A criatura\nacorda se sofrer dano ou se outra criatura sofrer\numa ação para acordá-lo.",
+    "cost": "200 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "injury",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Essência de Éter",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nteste de resistência de Constituição CD 15 ou ficar envenenado\npor 8 horas. A criatura envenenada está inconsciente. O\ncriatura acorda se sofrer dano ou se outra\na criatura realiza uma ação para acordá-la.",
+    "cost": "300 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "inhaled",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Malícia",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nteste de resistência de Constituição CD 15 ou ficar envenenado\npor 1 hora. A criatura envenenada está cega.",
+    "cost": "250 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "inhaled",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Lágrimas da Meia-Noite",
+    "category": "Poisons",
+    "description": "Uma criatura que ingere este veneno não sofre nenhum efeito até\na badalada da meia-noite. Se o veneno não tiver sido\nneutralizada antes disso, a criatura deve ter sucesso em uma\nTeste de resistência de Constituição CD 17, tomando 31 (9d6) veneno\ndano em caso de falha na resistência, ou metade do dano em caso de falha.\nbem sucedido.",
+    "cost": "1500 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "ingested",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Óleo de Taggit",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nteste de resistência de Constituição CD 13 ou ficar envenenado\npor 24 horas. A criatura envenenada está inconsciente. O\ncriatura acorda se sofrer dano.",
+    "cost": "400 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "contact",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Tintura Pálida",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nTeste de resistência de Constituição CD 16 ou tome 3 (1d6) veneno\ndanificar e ficar envenenado. A criatura envenenada\ndeve repetir o teste de resistência a cada 24 horas, levando 3\n(1d6) dano de veneno em caso de falha na resistência. Até este veneno\ntermina, o dano causado pelo veneno não pode ser curado por nenhum\nsignifica. Após sete testes de resistência bem-sucedidos, o efeito\ntermina e a criatura pode se curar normalmente.",
+    "cost": "250 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "ingested",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Veneno de Verme Púrpura",
+    "category": "Poisons",
+    "description": "Este veneno deve ser colhido de um morto ou\nverme roxo incapacitado. Uma criatura submetida a isso\nveneno deve fazer um teste de resistência de Constituição CD 19,\nsofrendo 42 (12d6) de dano de veneno se falhar na resistência, ou metade\ntanto dano em um sucesso.",
+    "cost": "2000 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "injury",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Peçonha de Serpente",
+    "category": "Poisons",
+    "description": "Este veneno deve ser colhido de um morto ou\ncobra venenosa gigante incapacitada. Uma criatura\nsujeito a este veneno deve ter sucesso em um CD 11\nTeste de resistência de Constituição, tomando 10 (3d6) veneno\ndano em caso de falha na resistência, ou metade do dano em caso de falha.\nbem sucedido.",
+    "cost": "200 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "injury",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Torpor",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nteste de resistência de Constituição CD 15 ou ficar envenenado\npor 4d6 horas. A criatura envenenada está incapacitada.",
+    "cost": "600 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "ingested",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Soro da Verdade",
+    "category": "Poisons",
+    "description": "Uma criatura sujeita a este veneno deve ter sucesso em um teste\nteste de resistência de Constituição CD 11 ou ficar envenenado\npor 1 hora. A criatura envenenada não pode falar conscientemente\numa mentira, como se estivesse sob o efeito de um feitiço de zona de verdade.",
+    "cost": "150 PO",
+    "ac": "",
+    "classification": "",
+    "properties": "ingested",
+    "damage": "",
+    "attunement": false
+  },
+  {
+    "name": "Veneno de Wyvern",
+    "category": "Poisons",
+    "description": "Este veneno deve ser colhido de um morto ou\nwyvern incapacitado. Uma criatura submetida a este veneno\ndeve fazer um teste de resistência de Constituição CD 15, levando 24\n(7d6) dano de veneno em caso de falha na resistência, ou metade desse valor\ndano em um sucesso.",
+    "cost": "",
+    "ac": "",
+    "classification": "",
+    "properties": "injury",
+    "damage": "",
+    "attunement": false
+  }
+]
