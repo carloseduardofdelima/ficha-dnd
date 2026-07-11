@@ -21,6 +21,7 @@ const NAV = [
   { href: '/campanhas', label: 'Campanhas', icon: BookOpen },
   { href: '/ameacas', label: 'Ameaças', icon: Shield },
   { href: '/magias', label: 'Magias', icon: Sparkles },
+  { href: '/itens', label: 'Itens', icon: Sword },
   { href: '/deuses', label: 'Deuses', icon: Zap },
   { href: '/subclasses', label: 'Subclasses', icon: BookOpen },
 ]

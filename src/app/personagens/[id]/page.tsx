@@ -2845,6 +2845,148 @@ export default function CharacterDetailPage() {
                         </span>
                       </div>
                     </div>
+                    
+                    {/* Seção de Moedas */}
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gap: 12,
+                      marginBottom: 24,
+                      background: 'var(--bg2)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      padding: 16
+                    }}>
+                      {/* Ouro */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#facc15', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          🪙 Ouro (po)
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_ouro'] = Math.max(0, (res['moeda_ouro'] || 0) - 1);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >-</button>
+                          <input 
+                            type="number"
+                            value={(() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              return res['moeda_ouro'] || 0;
+                            })()}
+                            onChange={(e) => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_ouro'] = Math.max(0, parseInt(e.target.value) || 0);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            disabled={!isOwner}
+                          />
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_ouro'] = (res['moeda_ouro'] || 0) + 1;
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >+</button>
+                        </div>
+                      </div>
+
+                      {/* Prata */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          🪙 Prata (pp)
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_prata'] = Math.max(0, (res['moeda_prata'] || 0) - 1);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >-</button>
+                          <input 
+                            type="number"
+                            value={(() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              return res['moeda_prata'] || 0;
+                            })()}
+                            onChange={(e) => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_prata'] = Math.max(0, parseInt(e.target.value) || 0);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            disabled={!isOwner}
+                          />
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_prata'] = (res['moeda_prata'] || 0) + 1;
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >+</button>
+                        </div>
+                      </div>
+
+                      {/* Bronze */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#d97706', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          🪙 Bronze (pc)
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_bronze'] = Math.max(0, (res['moeda_bronze'] || 0) - 1);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >-</button>
+                          <input 
+                            type="number"
+                            value={(() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              return res['moeda_bronze'] || 0;
+                            })()}
+                            onChange={(e) => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_bronze'] = Math.max(0, parseInt(e.target.value) || 0);
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            disabled={!isOwner}
+                          />
+                          <button 
+                            onClick={() => {
+                              const res = character.resources ? JSON.parse(character.resources as string) : {};
+                              res['moeda_bronze'] = (res['moeda_bronze'] || 0) + 1;
+                              updateValue('resources', JSON.stringify(res));
+                            }}
+                            className="btn btn-ghost" 
+                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            disabled={!isOwner}
+                          >+</button>
+                        </div>
+                      </div>
+                    </div>
+
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                       {character.inventory && Array.isArray(character.inventory) && character.inventory.length > 0 ? (
                         (character.inventory as any[]).map((entry: any, i: number) => (

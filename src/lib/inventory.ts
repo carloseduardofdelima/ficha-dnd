@@ -103,9 +103,6 @@ export const ITEM_CATALOG: InventoryItem[] = [
   { id: 'roupas-comuns', name: 'Roupas Comuns', category: 'misc', icon: '👕', description: 'Roupas simples do cotidiano.', weight: 1.5, cost: '5 pc' },
   { id: 'roupas-finas', name: 'Roupas Finas', category: 'misc', icon: '👔', description: 'Roupas elegantes para ocasiões especiais.', weight: 3, cost: '15 po' },
   { id: 'roupas-viajante', name: 'Roupas de Viajante', category: 'misc', icon: '🧣', description: 'Roupas práticas e resistentes para viagem.', weight: 2, cost: '2 po' },
-  { id: 'bolsa-15po', name: 'Bolsa (15 po)', category: 'misc', icon: '💰', description: 'Bolsa com 15 peças de ouro.', weight: 0.2, cost: '15 po' },
-  { id: 'bolsa-10po', name: 'Bolsa (10 po)', category: 'misc', icon: '💰', description: 'Bolsa com 10 peças de ouro.', weight: 0.15, cost: '10 po' },
-  { id: 'bolsa-5po', name: 'Bolsa (5 po)', category: 'misc', icon: '💰', description: 'Bolsa com 5 peças de ouro.', weight: 0.1, cost: '5 po' },
   { id: 'bugiganga', name: 'Bugiganga', category: 'misc', icon: '🔮', description: 'Um item aleatório sem valor mecânico, mas rico em história.', weight: 0.1, cost: '—' },
   { id: 'tocha', name: 'Tocha', category: 'misc', icon: '🔥', description: 'Ilumina em 6 metros por 1 hora.', weight: 0.5, cost: '1 pc' },
   
@@ -133,7 +130,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('javelinas-5', 1, true),
     entry('gibao-peles', 1, true),
     entry('pack-explorador', 1, true),
-    entry('bolsa-10po', 1, true),
   ],
   'Bardo': [
     entry('rapieira', 1, true),
@@ -141,7 +137,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('couro', 1, true),
     entry('instrumento-musical', 1, true),
     entry('pack-diplomatico', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Clérigo': [
     entry('maca', 1, true),
@@ -149,7 +144,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('cota-escamas', 1, true),
     entry('simbolo-sagrado', 1, true),
     entry('pack-sacerdotal', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Druida': [
     entry('cajado', 1, true),
@@ -157,7 +151,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('gibao-peles', 1, true),
     entry('foco-druidico', 1, true),
     entry('pack-explorador', 1, true),
-    entry('bolsa-10po', 1, true),
   ],
   'Guerreiro': [
     entry('spada-longa', 1, true),
@@ -165,14 +158,12 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('cota-malha', 1, true),
     entry('adaga', 2, true),
     entry('pack-dungeonologista', 1, true),
-    entry('bolsa-10po', 1, true),
   ],
   'Monge': [
     entry('espada-curta', 1, true),
     entry('dardos', 1, true),
     entry('roupas-comuns', 1, true),
     entry('pack-dungeonologista', 1, true),
-    entry('bolsa-5po', 1, true),
   ],
   'Paladino': [
     entry('spada-longa', 1, true),
@@ -181,7 +172,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('simbolo-sagrado', 1, true),
     entry('javelinas-5', 1, true),
     entry('pack-sacerdotal', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Patrulheiro': [
     entry('espada-curta', 2, true),
@@ -189,7 +179,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('arco-longo', 1, true),
     entry('flechas-20', 1, true),
     entry('pack-dungeonologista', 1, true),
-    entry('bolsa-10po', 1, true),
   ],
   'Ladino': [
     entry('rapieira', 1, true),
@@ -199,7 +188,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('adaga', 2, true),
     entry('ferramentas-ladrao', 1, true),
     entry('pack-ladino', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Feiticeiro': [
     entry('besta-leve', 1, true),
@@ -207,7 +195,6 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('adaga', 2, true),
     entry('bolsa-componentes', 1, true),
     entry('pack-dungeonologista', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Bruxo': [
     entry('besta-leve', 1, true),
@@ -216,14 +203,12 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('couro', 1, true),
     entry('foco-arcano', 1, true),
     entry('pack-estudioso', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Mago': [
     entry('cajado', 1, true),
     entry('grimorio', 1, true),
     entry('bolsa-componentes', 1, true),
     entry('pack-estudioso', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
   'Artífice': [
     entry('adaga', 2, true),
@@ -232,26 +217,25 @@ export const CLASS_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
     entry('couro', 1, true),
     entry('ferramentas-ladrao', 1, true),
     entry('pack-explorador', 1, true),
-    entry('bolsa-15po', 1, true),
   ],
 }
 
 // ── Starting equipment by background ─────────────────────────────────────────
 
 export const BACKGROUND_STARTING_ITEMS: Record<string, InventoryEntry[]> = {
-  'Acólito':           [entry('roupas-comuns'), entry('simbolo-sagrado'), entry('bolsa-15po')],
-  'Charlatão':         [entry('kit-disfarce'), entry('kit-falsificacao'), entry('roupas-finas'), entry('bolsa-15po')],
-  'Criminoso':         [entry('roupas-comuns'), entry('dados-jogo'), entry('ferramentas-ladrao'), entry('bolsa-15po')],
-  'Artista':           [entry('instrumento-musical'), entry('kit-disfarce'), entry('roupas-finas'), entry('bolsa-15po')],
-  'Herói do Povo':     [entry('ferramentas-artesao'), entry('roupas-comuns'), entry('bolsa-10po')],
-  'Artesão da Guilda': [entry('ferramentas-artesao'), entry('roupas-viajante'), entry('bolsa-15po')],
-  'Eremita':           [entry('kit-herbalismo'), entry('roupas-comuns'), entry('bolsa-5po')],
-  'Nobre':             [entry('roupas-finas'), entry('dados-jogo'), entry('bolsa-15po'), entry('bugiganga')],
-  'Forasteiro':        [entry('roupas-viajante'), entry('tocha', 3), entry('bolsa-10po')],
-  'Sábio':             [entry('pack-estudioso'), entry('roupas-comuns'), entry('bolsa-10po')],
-  'Marinheiro':        [entry('kit-navegacao'), entry('roupas-viajante'), entry('bolsa-10po')],
-  'Soldado':           [entry('dados-jogo'), entry('roupas-comuns'), entry('bolsa-10po'), entry('bugiganga')],
-  'Plebeu':            [entry('adaga'), entry('kit-disfarce'), entry('roupas-comuns'), entry('bugiganga'), entry('bolsa-10po')],
+  'Acólito':           [entry('roupas-comuns'), entry('simbolo-sagrado')],
+  'Charlatão':         [entry('kit-disfarce'), entry('kit-falsificacao'), entry('roupas-finas')],
+  'Criminoso':         [entry('roupas-comuns'), entry('dados-jogo'), entry('ferramentas-ladrao')],
+  'Artista':           [entry('instrumento-musical'), entry('kit-disfarce'), entry('roupas-finas')],
+  'Herói do Povo':     [entry('ferramentas-artesao'), entry('roupas-comuns')],
+  'Artesão da Guilda': [entry('ferramentas-artesao'), entry('roupas-viajante')],
+  'Eremita':           [entry('kit-herbalismo'), entry('roupas-comuns')],
+  'Nobre':             [entry('roupas-finas'), entry('dados-jogo'), entry('bugiganga')],
+  'Forasteiro':        [entry('roupas-viajante'), entry('tocha', 3)],
+  'Sábio':             [entry('pack-estudioso'), entry('roupas-comuns')],
+  'Marinheiro':        [entry('kit-navegacao'), entry('roupas-viajante')],
+  'Soldado':           [entry('dados-jogo'), entry('roupas-comuns'), entry('bugiganga')],
+  'Plebeu':            [entry('adaga'), entry('kit-disfarce'), entry('roupas-comuns'), entry('bugiganga')],
 }
 
 export function getStartingInventory(className: string, backgroundName: string): InventoryEntry[] {
@@ -269,4 +253,36 @@ export function getStartingInventory(className: string, backgroundName: string):
     }
   }
   return merged
+}
+
+export const CLASS_STARTING_GOLD: Record<string, number> = {
+  'Bárbaro': 10,
+  'Bardo': 15,
+  'Clérigo': 15,
+  'Druida': 10,
+  'Guerreiro': 10,
+  'Monge': 5,
+  'Paladino': 15,
+  'Patrulheiro': 10,
+  'Ladino': 15,
+  'Feiticeiro': 15,
+  'Bruxo': 15,
+  'Mago': 15,
+  'Artífice': 15,
+}
+
+export const BACKGROUND_STARTING_GOLD: Record<string, number> = {
+  'Acólito': 15,
+  'Charlatão': 15,
+  'Criminoso': 15,
+  'Artista': 15,
+  'Herói do Povo': 10,
+  'Artesão da Guilda': 15,
+  'Eremita': 5,
+  'Nobre': 15,
+  'Forasteiro': 10,
+  'Sábio': 10,
+  'Marinheiro': 10,
+  'Soldado': 10,
+  'Plebeu': 10,
 }

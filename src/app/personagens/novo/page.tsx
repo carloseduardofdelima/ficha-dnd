@@ -18,7 +18,7 @@ import InventoryStep from '@/components/InventoryStep'
 import SpellsStep from '@/components/SpellsStep'
 import { getSpellSlots, SPELLCASTING_CLASSES, getSpellsForClass } from '@/lib/spells'
 import FinalStep from '@/components/FinalStep'
-import type { InventoryEntry } from '@/lib/inventory'
+import { InventoryEntry, CLASS_STARTING_GOLD, BACKGROUND_STARTING_GOLD } from '@/lib/inventory'
 import { calculateAC } from '@/lib/dnd-rules'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
@@ -397,6 +397,10 @@ export default function NovoPersonagem() {
       resources: (() => {
         const res: Record<string, number> = {};
         const is2014 = form.ruleset === '2014' || form.ruleset === '5e-custom';
+
+        const classGold = CLASS_STARTING_GOLD[form.class] || 0;
+        const bgGold = BACKGROUND_STARTING_GOLD[form.background || ''] || 0;
+        res['moeda_ouro'] = classGold + bgGold;
 
         if (form.class === 'Bárbaro') res['Fúria'] = 2;
         
