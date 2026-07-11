@@ -1245,7 +1245,7 @@
   {
     "name": "Anel de Salto",
     "category": "Wondrous Item",
-    "description": "Enquanto estiver usando este anel, você pode lançar o magia de salto\ndele como uma ação bônus à vontade, mas só pode mirar\nvocê mesmo quando fizer isso.",
+    "description": "Enquanto estiver usando este anel, você pode conjurar a magia *salto* em si mesmo como uma ação bônus, à vontade.",
     "cost": "2500 PO",
     "ac": "",
     "classification": "",
@@ -1256,7 +1256,7 @@
   {
     "name": "Anel de Escudo Mental",
     "category": "Wondrous Item",
-    "description": "Enquanto estiver usando este anel, você estará imune à magia que\npermite que outras criaturas leiam seus pensamentos, determinem\nse você está mentindo, conhece seu alinhamento ou sabe\nseu tipo de criatura. As criaturas podem telepaticamente\ncomunicar com você somente se você permitir.\nVocê pode usar uma ação para fazer com que o anel se torne\ninvisível até que você use outra ação para torná-lo visível,\naté você remover o anel ou até morrer. Se você morrer\nenquanto usa o anel, sua alma entra nele, a menos que\njá abriga uma alma. Você pode permanecer no ringue ou\npartir para a vida após a morte. Enquanto sua alma estiver no\nanel, você pode se comunicar telepaticamente com qualquer\ncriatura usando-o. Um usuário não pode evitar esse efeito telepático\ncomunicação.",
+    "description": "Enquanto usar este anel, você é imune a magias que permitam ler seus pensamentos, detectar mentiras, conhecer sua tendência ou tipo de criatura. Se você morrer usando o anel, sua alma é armazenada nele, a menos que ele já abrigue outra alma. Você pode se comunicar telepaticamente do interior do anel com quem o estiver usando.",
     "cost": "16000 PO",
     "ac": "",
     "classification": "",
@@ -1267,7 +1267,7 @@
   {
     "name": "Anel de Proteção",
     "category": "Wondrous Item",
-    "description": "Você ganha um bônus de +1 na CA e nos testes de resistência enquanto\nusando este anel.",
+    "description": "Você ganha um bônus de +1 na Classe de Armadura (CA) e nos testes de resistência enquanto estiver usando este anel.",
     "cost": "3500 PO",
     "ac": "",
     "classification": "",

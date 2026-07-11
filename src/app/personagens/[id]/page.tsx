@@ -2847,22 +2847,24 @@ export default function CharacterDetailPage() {
                     </div>
                     
                     {/* Seção de Moedas */}
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(3, 1fr)',
-                      gap: 12,
-                      marginBottom: 24,
-                      background: 'var(--bg2)',
-                      border: '1px solid var(--border)',
-                      borderRadius: 12,
-                      padding: 16
-                    }}>
+                    <div 
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: 6,
+                        marginBottom: 24,
+                        background: 'var(--bg2)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 12,
+                        padding: 10
+                      }}
+                    >
                       {/* Ouro */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#facc15', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#facc15', display: 'flex', alignItems: 'center', gap: 2 }}>
                           🪙 Ouro (po)
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                           <button 
                             onClick={() => {
                               const res = character.resources ? JSON.parse(character.resources as string) : {};
@@ -2870,7 +2872,7 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >-</button>
                           <input 
@@ -2884,7 +2886,7 @@ export default function CharacterDetailPage() {
                               res['moeda_ouro'] = Math.max(0, parseInt(e.target.value) || 0);
                               updateValue('resources', JSON.stringify(res));
                             }}
-                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            style={{ width: 38, height: 22, fontSize: 11, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
                             disabled={!isOwner}
                           />
                           <button 
@@ -2894,18 +2896,18 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >+</button>
                         </div>
                       </div>
 
                       {/* Prata */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: 2 }}>
                           🪙 Prata (pp)
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                           <button 
                             onClick={() => {
                               const res = character.resources ? JSON.parse(character.resources as string) : {};
@@ -2913,7 +2915,7 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >-</button>
                           <input 
@@ -2927,7 +2929,7 @@ export default function CharacterDetailPage() {
                               res['moeda_prata'] = Math.max(0, parseInt(e.target.value) || 0);
                               updateValue('resources', JSON.stringify(res));
                             }}
-                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            style={{ width: 38, height: 22, fontSize: 11, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
                             disabled={!isOwner}
                           />
                           <button 
@@ -2937,18 +2939,18 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >+</button>
                         </div>
                       </div>
 
                       {/* Bronze */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#d97706', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#d97706', display: 'flex', alignItems: 'center', gap: 2 }}>
                           🪙 Bronze (pc)
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                           <button 
                             onClick={() => {
                               const res = character.resources ? JSON.parse(character.resources as string) : {};
@@ -2956,7 +2958,7 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >-</button>
                           <input 
@@ -2970,7 +2972,7 @@ export default function CharacterDetailPage() {
                               res['moeda_bronze'] = Math.max(0, parseInt(e.target.value) || 0);
                               updateValue('resources', JSON.stringify(res));
                             }}
-                            style={{ width: 50, height: 28, fontSize: 13, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
+                            style={{ width: 38, height: 22, fontSize: 11, textAlign: 'center', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, color: 'var(--fg)', padding: 0 }}
                             disabled={!isOwner}
                           />
                           <button 
@@ -2980,7 +2982,7 @@ export default function CharacterDetailPage() {
                               updateValue('resources', JSON.stringify(res));
                             }}
                             className="btn btn-ghost" 
-                            style={{ padding: '2px 8px', fontSize: 12, height: 28, minWidth: 24 }}
+                            style={{ padding: '0 4px', fontSize: 10, height: 22, minWidth: 20 }}
                             disabled={!isOwner}
                           >+</button>
                         </div>
