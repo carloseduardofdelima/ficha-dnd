@@ -1,0 +1,952 @@
+[
+  {
+    "d100": 1,
+    "name": "Arco Longo da Lareira Curativa",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Longbow of the Healing Hearth",
+    "description": "Requer sintonia. Este arco +3 mágico não necessita de munição (gera flechas de energia). Permite que você atire em aliados para curá-los ou conjurar magias de suporte e cura gastando Hit Dice."
+  },
+  {
+    "d100": 2,
+    "name": "Martelo dos Relâmpagos",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Hammer of Thunderbolts",
+    "description": "Este martelo gigante concede +1 em jogadas de ataque e dano (ou +5 se você usar Cinto de Força do Gigante e Manoplas de Força do Ogro). Permite desferir relâmpagos e matar gigantes instantaneamente em críticos."
+  },
+  {
+    "d100": 3,
+    "name": "Cinto de Força do Gigante da Tempestade",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Belt of Storm Giant Strength",
+    "description": "Requer sintonia. Seu valor de Força se torna 29 enquanto usar este cinto de couro runado."
+  },
+  {
+    "d100": 4,
+    "name": "Armadura de Placas +2",
+    "type": "Armor",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +2 Plate",
+    "description": "Esta armadura de placas completa concede um bônus de +2 na CA, oferecendo uma Classe de Armadura total de 20."
+  },
+  {
+    "d100": 5,
+    "name": "Couro do Guardião Feral",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Hide of the Feral Guardian",
+    "description": "Requer sintonia. Um Manto ou Armadura de Couro que evolui com seu usuário. Permite assumir formas de feras aprimoradas, concede resistência a dano físico e bônus na CA."
+  },
+  {
+    "d100": 6,
+    "name": "Orbe de Skoraeus",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Orb of Skoraeus",
+    "description": "Requer sintonia por conjurador. Este orbe de pedra rúnica concede vantagem em salvamentos de Constituição, visão no escuro e permite conjurar magias de terra e pedra poderosas."
+  },
+  {
+    "d100": 7,
+    "name": "Cajado dos Magos",
+    "type": "Staff",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Staff of the Magi",
+    "description": "Requer sintonia por Bruxo, Mago ou Feiticeiro. Este cajado +2 concede vantagem contra magias. Tem 50 cargas para conjurar diversas magias lendárias ou pode ser quebrado para causar uma explosão retributiva devastadora."
+  },
+  {
+    "d100": 8,
+    "name": "Instrumento dos Bardos (Harpa Ollamh)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Instrument of the Bards (Ollamh Harp)",
+    "description": "Requer sintonia por Bardo. Permite conjurar magias lendárias (como Confusão, Globo de Invulnerabilidade, etc.) e impõe desvantagem em salvamentos contra seus encantos bárdicos."
+  },
+  {
+    "d100": 9,
+    "name": "Gema do Tecido de Rubi",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Ruby Weave Gem",
+    "description": "Requer sintonia por conjurador. Esta gema flutuante permite a você aprender e conjurar qualquer magia de qualquer classe de até 5º nível temporariamente."
+  },
+  {
+    "d100": 11,
+    "name": "Estatueta de Poder Maravilhoso (Canário de Ouro)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "FToD",
+    "englishName": "Gold Canary Figurine of Wondrous Power",
+    "description": "Esta estatueta se transforma em um Canário Gigante ou em um Dragão de Ouro Jovem aliado por até 1 hora. Recarrega em 7 dias."
+  },
+  {
+    "d100": 12,
+    "name": "Pintura Animada",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Animated Painting",
+    "description": "Uma tela mágica que abriga uma criatura bidimensional que pode ser invocada para o mundo real para cumprir ordens ou criar ilusões."
+  },
+  {
+    "d100": 13,
+    "name": "Anel de Invocação de Djinni",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Djinni Summoning",
+    "description": "Requer sintonia. Permite invocar um Djinni amigável do Plano Elemental do Ar para servir você por até 1 hora por dia."
+  },
+  {
+    "d100": 14,
+    "name": "Bastão do Poder Senhorial",
+    "type": "Rod",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Rod of Lordly Might",
+    "description": "Requer sintonia. Este bastão de metal possui botões que o transformam em espada flamejante, lança +3, machado +3, arpéu retrátil, ou arrombador de portas. Possui cargas para paralisar ou assustar inimigos."
+  },
+  {
+    "d100": 15,
+    "name": "Armadura de Cota de Malha +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Chain Mail",
+    "description": "Esta cota de malha pesada concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 19."
+  },
+  {
+    "d100": 16,
+    "name": "Cota de Malha do Efreeti",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Efreeti Chain",
+    "description": "Requer sintonia. Esta cota de malha +3 concede imunidade a dano de fogo e permite andar sobre lava sem sofrer dano."
+  },
+  {
+    "d100": 17,
+    "name": "Meia-Armadura +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Half Plate",
+    "description": "Esta meia-armadura média concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 18 + Destreza (máx +2)."
+  },
+  {
+    "d100": 18,
+    "name": "Frasco de Ferro",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Iron Flask",
+    "description": "Este frasco pode aprisionar qualquer criatura que não seja nativa do plano onde você está (CD 17 de Carisma). Ao ser solta, ela deve obedecer a seus comandos por 1 hora."
+  },
+  {
+    "d100": 19,
+    "name": "Poço de Muitos Mundos",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Well of Many Worlds",
+    "description": "Este tecido circular preto de 2,4m de diâmetro abre um portal de duas vias ligando seu local a outro plano de existência aleatório quando desdobrado."
+  },
+  {
+    "d100": 20,
+    "name": "Chave do Infiltrador",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Infiltrator's Key",
+    "description": "Requer sintonia. Esta chave mágica permite atravessar paredes sólidas (como se fossem ar) e destrancar qualquer fechadura não-mágica à vontade."
+  },
+  {
+    "d100": 21,
+    "name": "Manto da Invisibilidade",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Cloak of Invisibility",
+    "description": "Requer sintonia. Com uma ação, você pode puxar o capuz deste manto para ficar invisível por até 2 horas diárias (que podem ser divididas)."
+  },
+  {
+    "d100": 22,
+    "name": "Lâmina da Sorte",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Luck Blade",
+    "description": "Requer sintonia. Esta espada +1 concede +1 de bônus em salvamentos. Permite re-rolar uma jogada por dia e contém 1d3 desejos mágicos (magia Desejo)."
+  },
+  {
+    "d100": 23,
+    "name": "Bastão de Ressurreição",
+    "type": "Rod",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Rod of Resurrection",
+    "description": "Requer sintonia por Clérigo, Druida ou Paladino. Este bastão possui 5 cargas e permite conjurar Ressurreição ou Curar Ferimentos de alto nível."
+  },
+  {
+    "d100": 24,
+    "name": "Grimório Infinitus",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Grimoire Infinitus",
+    "description": "Requer sintonia por Mago. Este grimório lendário amplia seus slots de magia e concede bônus permanentes na CD de salvamento de suas magias de mago."
+  },
+  {
+    "d100": 25,
+    "name": "Meia-Armadura +2",
+    "type": "Armor",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +2 Half Plate",
+    "description": "Esta meia-armadura média concede um bônus de +2 na CA, oferecendo Classe de Armadura total de 17 + Destreza (máx +2)."
+  },
+  {
+    "d100": 26,
+    "name": "Couraça +2",
+    "type": "Armor",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +2 Breastplate",
+    "description": "Esta couraça média concede um bônus de +2 na CA, oferecendo Classe de Armadura total de 16 + Destreza (máx +2)."
+  },
+  {
+    "d100": 27,
+    "name": "Lâmina do Mago Vermelho",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "HAT",
+    "englishName": "Red Wizard Blade",
+    "description": "Esta adaga lendária causa +3d12 de dano necrótico em acertos. Inimigos reduzidos a 0 HP morrem instantaneamente e não podem ser ressuscitados, exceto por intervenção divina."
+  },
+  {
+    "d100": 28,
+    "name": "Meia-Armadura +1",
+    "type": "Armor",
+    "rarity": "Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +1 Half Plate",
+    "description": "Esta meia-armadura média concede um bônus de +1 na CA, oferecendo Classe de Armadura total de 16 + Destreza (máx +2)."
+  },
+  {
+    "d100": 29,
+    "name": "Cota de Escamas +1",
+    "type": "Armor",
+    "rarity": "Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +1 Scale Mail",
+    "description": "Esta cota de escamas média concede um bônus de +1 na CA, oferecendo Classe de Armadura total de 15 + Destreza (máx +2)."
+  },
+  {
+    "d100": 31,
+    "name": "Grinalda do Prisma",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Wreath of the Prism",
+    "description": "Requer sintonia. Esta grinalda de espinhos de ouro permite a você conjurar Dominar Monstro contra feras, dragões ou monstros (CD e limite de CR aumentam com a evolução do item)."
+  },
+  {
+    "d100": 32,
+    "name": "Sudário de Pragas",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Verminshroud",
+    "description": "Requer sintonia. Este manto concede imunidade a doenças, vantagem em Percepção olfativa e permite se transformar em ratos ou vespas gigantes, além de convocar nuvens de insetos."
+  },
+  {
+    "d100": 33,
+    "name": "Armadura de Placas Recortadas +2",
+    "type": "Armor",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +2 Splint",
+    "description": "Esta armadura pesada concede um bônus de +2 na CA, oferecendo uma Classe de Armadura total de 19."
+  },
+  {
+    "d100": 34,
+    "name": "Pedra de Ioun (Regeneração)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ioun Stone (Regeneration)",
+    "description": "Requer sintonia. Esta pedra orbita sua cabeça e restaura 15 pontos de vida a cada hora, desde que você tenha pelo menos 1 HP."
+  },
+  {
+    "d100": 35,
+    "name": "Couro Batido +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Studded Leather",
+    "description": "Esta armadura leve concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 15 + seu modificador de Destreza."
+  },
+  {
+    "d100": 36,
+    "name": "Anel de Invisibilidade",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Invisibility",
+    "description": "Requer sintonia. Enquanto estiver usando este anel, você pode usar uma ação para se tornar invisível. A invisibilidade dura até você atacar, conjurar magia ou retirá-lo."
+  },
+  {
+    "d100": 37,
+    "name": "Escudo do Dreadnought Flamejante",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Shield of the Blazing Dreadnought",
+    "description": "Requer sintonia. Este escudo de metal irradia calor. Permite ganhar imunidade a dano de fogo e remover doenças de aliados ao ativá-lo, além de desferir poderosos ataques de escudo."
+  },
+  {
+    "d100": 38,
+    "name": "Baralho das Muitas Coisas",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Deck of Many Things",
+    "description": "Este baralho de cartas de pergaminho possui poderes imensos. Declarar o número de cartas que você vai comprar e retirá-las gera efeitos massivos (como ganhar um palácio, perder sua alma, ou ganhar desejos)."
+  },
+  {
+    "d100": 39,
+    "name": "Estatueta Pré-Histórica de Poder Maravilhoso (T-Rex de Jaspe)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "GotG",
+    "englishName": "Prehistoric Figurine of Wondrous Power (Jasper Tyrannosaurus Rex)",
+    "description": "Lançar esta estatueta invoca um Tiranossauro Rex aliado leal por até 1 hora. Pode ser usada uma vez a cada 15 dias."
+  },
+  {
+    "d100": 40,
+    "name": "Portal Cúbico",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Cubic Gate",
+    "description": "Este cubo mágico possui faces sintonizadas com 6 planos diferentes. Pressionar uma face abre um portal de duas vias ligando seu plano ao plano sintonizado."
+  },
+  {
+    "d100": 41,
+    "name": "Lança do Dragão",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragonlance",
+    "description": "Esta lança lendária +3 causa +3d6 de dano de força extra. Ao atingir um dragão, o dragão sofre dano extra igual à metade do seu HP máximo (com CD de salvamento)."
+  },
+  {
+    "d100": 42,
+    "name": "Escaravelho de Proteção",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Scarab of Protection",
+    "description": "Requer sintonia. Concede vantagem em salvamentos contra magias. Possui 12 cargas e permite absorver efeitos de morte instantânea ou dano necrótico gastando cargas."
+  },
+  {
+    "d100": 43,
+    "name": "Meia-Armadura de Resistência",
+    "type": "Armor",
+    "rarity": "Rare",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Armor of Resistance (Half Plate)",
+    "description": "Requer sintonia. Esta meia-armadura +1 concede a você resistência a um tipo específico de dano elemental."
+  },
+  {
+    "d100": 44,
+    "name": "Ornamento Escamoso (Ascendente)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Scaled Ornament (Ascendant)",
+    "description": "Requer sintonia. Concede +2 na CA, imunidade a ser enfeitiçado ou amedrontado, imunidade elemental, velocidade de voo e causa dano elemental extra."
+  },
+  {
+    "d100": 45,
+    "name": "Elmo de Disjunção",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "HAT",
+    "englishName": "Helm of Disjunction",
+    "description": "Requer sintonia. Este elmo mágico permite conjurar uma onda que dissipa e anula qualquer magia ou efeito mágico activo num raio de 9 metros."
+  },
+  {
+    "d100": 46,
+    "name": "Anel de Comando do Elemental da Terra",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Earth Elemental Command",
+    "description": "Requer sintonia. Concede bônus contra elementais da terra. Ao ajudar a matar um elemental da terra, o anel desperta concedendo imunidade a petrificação e magias de terra."
+  },
+  {
+    "d100": 47,
+    "name": "Arma da Ira do Dragão (Ascendente)",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon's Wrath Weapon (Ascendant)",
+    "description": "Requer sintonia. Esta arma +3 causa +3d6 de dano elemental e libera rajadas de sopro de dragão de 8d6 de dano em área em críticos."
+  },
+  {
+    "d100": 48,
+    "name": "Aniquilador de Topázio",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Topaz Annihilator",
+    "description": "Requer sintonia. Esta arma de fogo mágica causa +2d6 de dano de força extra e desintegra instantaneamente qualquer criatura reduzida a 0 HP por ela."
+  },
+  {
+    "d100": 49,
+    "name": "Aparelho de Kwalish",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Apparatus of Kwalish",
+    "description": "Este barril de ferro de 2 metros se assemelha a uma lagosta de metal gigante. Pode ser operado por até duas criaturas para andar em terra, nadar debaixo d'água e atacar com garras."
+  },
+  {
+    "d100": 51,
+    "name": "Armadura de Placas +1",
+    "type": "Armor",
+    "rarity": "Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +1 Plate",
+    "description": "Esta armadura de placas completa concede um bônus de +1 na CA, oferecendo Classe de Armadura total de 19."
+  },
+  {
+    "d100": 52,
+    "name": "Cinto de Força do Gigante das Nuvens",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Belt of Cloud Giant Strength",
+    "description": "Requer sintonia. Seu valor de Força se torna 27 enquanto você estiver usando este cinto de couro runado."
+  },
+  {
+    "d100": 53,
+    "name": "Anel de Refletir Magias",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Spell Turning",
+    "description": "Requer sintonia. Concede vantagem em salvamentos contra magias direcionadas apenas a você. Se obtiver um 20 natural no salvamento de uma magia de 8º nível ou menor, a magia é refletida de volta."
+  },
+  {
+    "d100": 54,
+    "name": "Harpa da Abundância Dourada",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Harp of Gilded Plenty",
+    "description": "Requer sintonia. Esta harpa senciente impede que você role menos de 10 em testes de Carisma e permite conjurar Banquete de Heróis uma vez ao dia."
+  },
+  {
+    "d100": 55,
+    "name": "Anel de Comando do Elemental do Fogo",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Fire Elemental Command",
+    "description": "Requer sintonia. Concede resistência a dano de fogo e permite falar Ignan. Ao ajudar a matar um elemental do fogo, concede imunidade a fogo e magias de chamas."
+  },
+  {
+    "d100": 56,
+    "name": "Vaso do Dragão (Ascendente)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon Vessel (Ascendant)",
+    "description": "Requer sintonia. Permite criar Poções de Cura Suprema ou outras poções lendárias uma vez ao dia, e concede imunidade a um tipo de dano."
+  },
+  {
+    "d100": 57,
+    "name": "Bola de Cristal de Visão Verdadeira",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Crystal Ball of True Seeing",
+    "description": "Requer sintonia. Funciona como uma Bola de Cristal comum, mas concede a você Visão Verdadeira a até 36 metros enquanto a estiver utilizando."
+  },
+  {
+    "d100": 58,
+    "name": "Talisman do Mal Supremo",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Talisman of Ultimate Evil",
+    "description": "Requer sintonia por um personagem Mau. Este amuleto de ferro possui 6 cargas e permite abrir uma fenda sob um personagem Bom a até 36 metros, tragando-o diretamente para o submundo."
+  },
+  {
+    "d100": 59,
+    "name": "Vingadora Sagrada",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Holy Avenger",
+    "description": "Requer sintonia por Paladino. Esta espada +3 causa +2d10 de dano radiante extra contra demônios e mortos-vivos, e emite uma aura de vantagem em salvamentos contra magias."
+  },
+  {
+    "d100": 60,
+    "name": "Armadura de Placas de Eterização",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Plate Armor of Etherealness",
+    "description": "Requer sintonia. Esta armadura +1 de placas permite a você usar uma ação para entrar no Plano Etereal por até 10 minutos diários."
+  },
+  {
+    "d100": 61,
+    "name": "Bola de Cristal de Telepatia",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Crystal Ball of Telepathy",
+    "description": "Requer sintonia. Funciona como uma Bola de Cristal comum, mas permite que você converse telepaticamente e tente ler a mente da criatura observada."
+  },
+  {
+    "d100": 62,
+    "name": "Armadura de Placas +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Plate",
+    "description": "Esta armadura de placas completa concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 21."
+  },
+  {
+    "d100": 63,
+    "name": "Couro Batido +2",
+    "type": "Armor",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +2 Studded Leather",
+    "description": "Esta armadura leve concede um bônus de +2 na CA, oferecendo Classe de Armadura total de 14 + seu modificador de Destreza."
+  },
+  {
+    "d100": 64,
+    "name": "Couraça +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Breastplate",
+    "description": "Esta couraça média concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 17 + Destreza (máx +2)."
+  },
+  {
+    "d100": 65,
+    "name": "Espada da Resposta",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Sword of Answering",
+    "description": "Requer sintonia. Esta espada +3 lendária permite que você use sua reação para desferir um contra-ataque contra qualquer inimigo que te cause dano, com vantagem garantida."
+  },
+  {
+    "d100": 66,
+    "name": "Cachecol de Platina",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Platinum Scarf",
+    "description": "Requer sintonia. Este cachecol de fios de platina possui 7 remendos que podem ser destacados para criar escudos protetores +1, poções de cura ou invocar dragões de platina."
+  },
+  {
+    "d100": 67,
+    "name": "Cajado do Cronomante",
+    "type": "Staff",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Chronomancer's Staff",
+    "description": "Requer sintonia por conjurador. Este cajado concede bônus em testes de iniciativa e permite a você re-rolar salvamentos ou alterar a ordem de turnos no combate."
+  },
+  {
+    "d100": 68,
+    "name": "Couraça do Quebra-Pedras",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Stonebreaker's Breastplate",
+    "description": "Requer sintonia. Esta couraça de granito e metal concede resistência a dano de concussão, perfuração e corte de armas mágicas e não-mágicas."
+  },
+  {
+    "d100": 69,
+    "name": "Mangual de Tiamat",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Flail of Tiamat",
+    "description": "Requer sintonia. Este mangual +3 causa +5d4 de dano elemental (um d4 para cada elemento de Tiamat) em cada acerto e pode liberar sopros de dragão em área."
+  },
+  {
+    "d100": 71,
+    "name": "Cinturão da Tempestade",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Stormgirdle",
+    "description": "Requer sintonia. Aumenta sua Força (até 25). Concede resistência a eletricidade e trovão, e permite assumir a forma de Avatar da Tempestade flutuante com voo e relâmpagos."
+  },
+  {
+    "d100": 72,
+    "name": "Talisman do Bem Puro",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Talisman of Pure Good",
+    "description": "Requer sintonia por um personagem Bom. Possui 7 cargas e permite abrir uma fenda sob um personagem Mau a até 36 metros, destruindo-o se falhar num salvamento de Destreza CD 20."
+  },
+  {
+    "d100": 73,
+    "name": "Anel dos Três Desejos",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Ring of Three Wishes",
+    "description": "Este anel de ouro possui 3 gemas brilhantes. Cada gema permite a você conjurar a magia Desejo. O anel perde seus poderes quando todas as gemas forem gastas."
+  },
+  {
+    "d100": 74,
+    "name": "Talisman da Esfera",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Talisman of the Sphere",
+    "description": "Requer sintonia. Este amuleto dobra o seu bônus de Inteligência (Arcana) feito para controlar uma Esfera de Aniquilação e reduz as chances de perder o controle sobre ela."
+  },
+  {
+    "d100": 75,
+    "name": "Farol de Luxon",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "EGtW",
+    "englishName": "Luxon Beacon",
+    "description": "Esta grande runa geométrica de metal e cristal brilha intensamente e permite a criaturas próximas acumular fragmentos de destino (d20 adicionais para usar em testes)."
+  },
+  {
+    "d100": 76,
+    "name": "Pedra de Ioun (Domínio)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ioun Stone (Mastery)",
+    "description": "Requer sintonia. Esta gema orbita sua cabeça e aumenta o seu Bônus de Proficiência em +1 permanentemente enquanto estiver ativa."
+  },
+  {
+    "d100": 77,
+    "name": "Corneta da Morte Chamada",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "HAT",
+    "englishName": "Horn of Beckoning Death",
+    "description": "Ao soprar esta corneta, você pode invocar espectros ou zumbis sob seu comando a partir de cadáveres próximos."
+  },
+  {
+    "d100": 78,
+    "name": "Defensora",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Defender",
+    "description": "Requer sintonia. Ao atacar com esta espada +3, você pode decidir transferir parte do bônus mágico de ataque (+1, +2 ou +3) para somar na sua Classe de Armadura até o seu próximo turno."
+  },
+  {
+    "d100": 79,
+    "name": "Pedra de Ioun (Absorção Maior)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ioun Stone (Greater Absorption)",
+    "description": "Requer sintonia. Esta pedra orbita sua cabeça e pode absorver magias direcionadas a você de até 8º nível, anulando-as, até um limite de 50 níveis acumulados."
+  },
+  {
+    "d100": 80,
+    "name": "Anel de Comando do Elemental da Água",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Water Elemental Command",
+    "description": "Requer sintonia. Concede velocidade de nado e habilidade de respirar na água. Ao ajudar a matar um elemental da água, concede imunidade a gelo e magias de água."
+  },
+  {
+    "d100": 81,
+    "name": "Anel de Comando do Elemental do Ar",
+    "type": "Ring",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Air Elemental Command",
+    "description": "Requer sintonia. Concede imunidade a dano de queda e velocidade de voo temporária. Ao ajudar a matar um elemental do ar, concede imunidade a eletricidade e rajadas de vento."
+  },
+  {
+    "d100": 82,
+    "name": "Livro da Língua Calada",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Tome of the Stilled Tongue",
+    "description": "Requer sintonia por um Mago. Este grimório permite que você conjure uma magia escrita nele como uma ação bônus uma vez por dia, ignorando os componentes verbais e somáticos."
+  },
+  {
+    "d100": 83,
+    "name": "Camisão de Cota de Malha +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Chain Shirt",
+    "description": "Esta cota de malha leve concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 16 + seu modificador de Destreza (máx +2)."
+  },
+  {
+    "d100": 84,
+    "name": "Armadura da Invulnerabilidade",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Armor of Invulnerability",
+    "description": "Requer sintonia. Concede a você resistência a dano físico não-mágico. Permite também usar uma ação para se tornar completamente imune a todo dano não-mágico por 10 minutos."
+  },
+  {
+    "d100": 85,
+    "name": "Grito do Ceifador",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "GotG",
+    "englishName": "Reaper's Scream",
+    "description": "Requer sintonia. Este mangual +2 com a runa da morte causa dano necrótico em vez de físico e desintegra inimigos abatidos por ele."
+  },
+  {
+    "d100": 86,
+    "name": "Visor de Danoth",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Danoth's Visor",
+    "description": "Requer sintonia. Estes óculos concedem visão no escuro, capacidade de ver através de paredes (raio-X), detectar ilusões e conjurar Campo Antimagia uma vez por dia."
+  },
+  {
+    "d100": 87,
+    "name": "Tatuagem da Fúria de Sangue",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Blood Fury Tattoo",
+    "description": "Requer sintonia. Esta tatuagem possui 10 cargas. Permite que você cause +4d6 de dano necrótico em ataques e se cure com o dano, ou realize um contra-ataque corpo a corpo como reação."
+  },
+  {
+    "d100": 88,
+    "name": "Foco Tocado pelo Dragão (Ascendente)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon-Touched Focus (Ascendant)",
+    "description": "Requer sintonia por conjurador. Concede +3 de bônus nas jogadas de ataque de magia e CD de salvamento, além de causar +1d8 de dano elemental extra."
+  },
+  {
+    "d100": 89,
+    "name": "Espada Vorpal",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Vorpal Sword",
+    "description": "Requer sintonia. Esta arma +3 ignora resistência a corte. Ao rolar um 20 natural na jogada de ataque, você decepa instantaneamente a cabeça do alvo, matando-o na hora se ele precisar dela."
+  },
+  {
+    "d100": 91,
+    "name": "Corneta de Valhalla (Ferro)",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Horn of Valhalla (Iron)",
+    "description": "Você pode soprar esta corneta para invocar espíritos guerreiros de Ysgard que lutam por você por 1 hora. Esta corneta de ferro invoca guerreiros implacáveis."
+  },
+  {
+    "d100": 92,
+    "name": "Pérola do Anoitecer",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Nightfall Pearl",
+    "description": "Esta pérola escura permite conjurar a magia Escuridão ou criar uma névoa que cega inimigos e oculta aliados."
+  },
+  {
+    "d100": 93,
+    "name": "Bola de Cristal de Leitura de Mentes",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Crystal Ball of Mind Reading",
+    "description": "Requer sintonia. Funciona como uma Bola de Cristal comum, mas permite conjurar Detectar Pensamentos na criatura observada para ler seus pensamentos mais profundos."
+  },
+  {
+    "d100": 94,
+    "name": "Garrafa de Feitiços",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Spell Bottle",
+    "description": "Requer sintonia. Esta garrafa de vidro pode ser usada para interceptar e aprisionar uma magia de até 5º nível conjurada contra você, permitindo que você a libere posteriormente."
+  },
+  {
+    "d100": 95,
+    "name": "Cajado de Hither-Thither",
+    "type": "Staff",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "HAT",
+    "englishName": "Hither-Thither Staff",
+    "description": "Requer sintonia. Este cajado permite que você use uma ação para abrir portais de teletransporte instantâneos ligando duas localizações visíveis a até 36 metros de você."
+  },
+  {
+    "d100": 96,
+    "name": "Armadura de Couro +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Leather",
+    "description": "Esta armadura de couro leve concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 14 + seu modificador de Destreza."
+  },
+  {
+    "d100": 97,
+    "name": "Manto do Arquimago",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Robe of the Archmagi",
+    "description": "Requer sintonia por Bruxo, Mago ou Feiticeiro. Este manto concede CA de 15 + Destreza, vantagem em salvamentos contra magias e aumenta a CD de suas magias e jogadas de ataque de magia em +2."
+  },
+  {
+    "d100": 98,
+    "name": "Armadura de Placas Recortadas +3",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Armor, +3 Splint",
+    "description": "Esta armadura pesada concede um bônus de +3 na CA, oferecendo Classe de Armadura total de 20."
+  },
+  {
+    "d100": 99,
+    "name": "Esfera de Aniquilação",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Sphere of Annihilation",
+    "description": "Um buraco negro flutuante de 60 cm de diâmetro. Qualquer matéria que entre em contato com a esfera é destruída e desintegrada instantaneamente. Pode ser controlada mentalmente."
+  },
+  {
+    "d100": 100,
+    "name": "Armadura de Placas de Resistência",
+    "type": "Armor",
+    "rarity": "Rare",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Armor of Resistance (Plate)",
+    "description": "Requer sintonia. Esta armadura +1 de placas completa concede a você resistência a um tipo específico de dano elemental."
+  }
+]

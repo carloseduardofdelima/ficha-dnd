@@ -1,0 +1,162 @@
+[
+  {
+    "d100": 5,
+    "name": "Spell Scroll (7th Level)",
+    "type": "Scroll",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 11,
+    "name": "Dispelling Stone",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "EGtW"
+  },
+  {
+    "d100": 16,
+    "name": "Potion of Healing (Supreme)",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 21,
+    "name": "Potion of Longevity",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 26,
+    "name": "Reincarnation Dust",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "EGtW"
+  },
+  {
+    "d100": 32,
+    "name": "Potion of Speed",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 37,
+    "name": "Spell Scroll (8th Level)",
+    "type": "Scroll",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 42,
+    "name": "Oil of Sharpness",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 47,
+    "name": "Portable Hole",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 53,
+    "name": "Potion of Cloud Giant Strength",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 58,
+    "name": "Nolzur's Marvelous Pigments",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 63,
+    "name": "Ammunition, +3",
+    "type": "Weapon",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 68,
+    "name": "Potion of Flying",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 74,
+    "name": "Horseshoes of a Zephyr",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 79,
+    "name": "Potion of Vitality",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG"
+  },
+  {
+    "d100": 84,
+    "name": "Poção de Invisibilidade",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Invisibility",
+    "description": "Ao beber esta poção, você fica invisível por 1 hora. A invisibilidade acaba se você atacar ou conjurar magias."
+  },
+  {
+    "d100": 89,
+    "name": "Poção da Possibilidade",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "EGtW",
+    "englishName": "Potion of Possibility",
+    "description": "Beber esta poção concede 2 Fragmentos de Possibilidade que duram 8 horas. Você pode gastar um fragmento para rolar um d20 extra em um teste, ataque ou salvamento."
+  },
+  {
+    "d100": 95,
+    "name": "Bolsa de Devorar",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Bag of Devouring",
+    "description": "Esta bolsa mágica funciona como uma Bolsa de Carga, mas abriga uma criatura extradimensional devoradora. Qualquer objeto ou criatura colocada dentro dela tem chance de ser devorado e digerido permanentemente."
+  },
+  {
+    "d100": 100,
+    "name": "Pergaminho de 6º Nível",
+    "type": "Scroll",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Spell Scroll (6th Level)",
+    "description": "Este pergaminho contém uma magia de 6º nível escrita. Ler o pergaminho conjura a magia."
+  }
+]

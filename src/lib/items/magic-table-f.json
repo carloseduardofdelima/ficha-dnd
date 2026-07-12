@@ -1,0 +1,812 @@
+[
+  {
+    "d100": 1,
+    "name": "Bastão do Guardião do Pacto +1",
+    "type": "Rod",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Rod of the Pact Keeper, +1",
+    "description": "Requer sintonia por Bruxo. Enquanto empunha este bastão, você ganha +1 de bônus nas jogadas de ataque de magia e na CD de salvamento de suas magias de bruxo. Além disso, você pode recuperar um espaço de magia de bruxo com uma ação uma vez por dia."
+  },
+  {
+    "d100": 2,
+    "name": "Ornamento Escamoso (Dormente)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Scaled Ornament (Slumbering)",
+    "description": "Requer sintonia. Este ornamento de escamas de dragão concede a você vantagem em salvamentos contra ser enfeitiçado ou amedrontado."
+  },
+  {
+    "d100": 4,
+    "name": "Botas de Passos Largos e Saltos",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Boots of Striding and Springing",
+    "description": "Requer sintonia. Enquanto usa estas botas, sua velocidade de caminhada se torna 9 metros, caso já não seja maior, e seu deslocamento não é reduzido se você estiver sobrecarregado ou vestindo armadura pesada. Além disso, você pode saltar o triplo da distância normal."
+  },
+  {
+    "d100": 5,
+    "name": "Varinha do Mago de Guerra +1",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Wand of the War Mage, +1",
+    "description": "Requer sintonia por um conjurador. Enquanto empunha esta varinha, você ganha +1 de bônus nas jogadas de ataque de magia. Além disso, você ignora cobertura meio-obstáculo ao fazer ataques de magia."
+  },
+  {
+    "d100": 6,
+    "name": "Armadura de Adamantina (Camisão de Cota de Malha)",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Adamantine Armor (Chain Shirt)",
+    "description": "Esta armadura de cota de malha é reforçada com adamantina, um dos materiais mais duros existentes. Enquanto usá-la, qualquer acerto crítico sofrido por você se torna um acerto normal."
+  },
+  {
+    "d100": 7,
+    "name": "Arma Ruinosa",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Baneful Weapon",
+    "description": "Requer sintonia. Uma vez por turno, ao atingir uma criatura com esta arma, ela deve fazer um salvamento de Carisma CD 13 ou subtrairá 1d4 de suas jogadas de ataque e salvamentos até o fim do seu próximo turno."
+  },
+  {
+    "d100": 9,
+    "name": "Luvas da Ladinagem",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Gloves of Thievery",
+    "description": "Estas luvas são invisíveis enquanto usadas. Elas concedem um bônus de +5 em testes de Destreza (Prestidigitação) e testes de Destreza para arrombar fechaduras ou desarmar armadilhas."
+  },
+  {
+    "d100": 10,
+    "name": "Elmo de Telepatia",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Helm of Telepathy",
+    "description": "Requer sintonia. Enquanto usar este elmo, você pode conjurar a magia Detectar Pensamentos CD 13 à vontade. Você também pode enviar uma mensagem telepática ou tentar sugerir algo a uma criatura cuja mente você esteja lendo (magia Sugestão CD 13)."
+  },
+  {
+    "d100": 11,
+    "name": "Varinha de Teia",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Wand of Web",
+    "description": "Requer sintonia por um conjurador. Esta varinha tem 7 cargas. Com uma ação, você pode gastar 1 carga para conjurar a magia Teia CD 15. Recupera 1d6 + 1 cargas ao amanhecer."
+  },
+  {
+    "d100": 12,
+    "name": "Botas Élficas",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Boots of Elvenkind",
+    "description": "Enquanto usar estas botas de sola macia, seus passos não emitem som, e você tem vantagem em testes de Destreza (Furtividade) relacionados a se mover silenciosamente."
+  },
+  {
+    "d100": 14,
+    "name": "Medalhão dos Pensamentos",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Medallion of Thoughts",
+    "description": "Requer sintonia. Este medalhão possui 3 cargas. Enquanto o usar, você pode gastar 1 carga para conjurar a magia Detectar Pensamentos CD 13. Recupera 1d3 cargas ao amanhecer."
+  },
+  {
+    "d100": 15,
+    "name": "Cajado da Víbora",
+    "type": "Staff",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Staff of the Adder",
+    "description": "Requer sintonia por Clérigo, Druida ou Bruxo. Com uma ação bônus, você faz a ponta deste cajado se transformar em uma cabeça de víbora viva por 1 minuto. Ao acertar um ataque corpo a corpo com ele, causa 1d6 de dano físico e o alvo deve passar num salvamento de Constituição CD 15 ou sofrerá 2d6 de dano de veneno."
+  },
+  {
+    "d100": 16,
+    "name": "Baralho das Ilusões",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Deck of Illusions",
+    "description": "Este baralho de pergaminho contém cartas pintadas com figuras detalhadas. Retirar uma carta aleatoriamente e jogá-la no chão cria uma ilusão tridimensional e realista da criatura desenhada nela."
+  },
+  {
+    "d100": 17,
+    "name": "Arma da Ira do Dragão (Dormente)",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon's Wrath Weapon (Slumbering)",
+    "description": "Requer sintonia. Ao obter um acerto crítico com esta arma mágica, o alvo sofre 1d6 de dano elemental adicional correspondente ao sopro do dragão associado à arma."
+  },
+  {
+    "d100": 19,
+    "name": "Bainha de Afiação",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Scabbard of Sharpening",
+    "description": "Se uma arma de lâmina não-mágica for mantida nesta bainha por 1 hora ou mais, ela se torna uma arma mágica +1 por 1 hora após ser sacada."
+  },
+  {
+    "d100": 20,
+    "name": "Armadura de Adamantina (Cota de Escamas)",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Adamantine Armor (Scale Mail)",
+    "description": "Esta cota de escamas é forjada com adamantina. Qualquer acerto crítico desferido contra você enquanto estiver usando esta armadura torna-se um acerto normal."
+  },
+  {
+    "d100": 21,
+    "name": "Aljava de Ehlonna",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Quiver of Ehlonna",
+    "description": "Esta aljava possui três compartimentos mágicos. O primeiro comporta até 60 flechas ou virotes. O segundo comporta até 18 armas arremessáveis (como dardos ou azagaias). O terceiro comporta até 6 armas longas (como arcos, cajados ou lanças)."
+  },
+  {
+    "d100": 22,
+    "name": "Pedra da Boa Sorte",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Stone of Good Luck (Luckstone)",
+    "description": "Requer sintonia. Enquanto carregar esta pedra de ágata polida, você ganha um bônus de +1 em testes de atributos e salvamentos."
+  },
+  {
+    "d100": 23,
+    "name": "Sacola de Truques (Canela)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Bag of Tricks (Tan)",
+    "description": "Esta sacola de pele parece vazia. Você pode usar uma ação para puxar uma bola de pelo dela e jogá-la a até 6 metros, transformando-a em uma fera leal (como chacal, macaco, cavalo, urso marrom) que obedece seus comandos."
+  },
+  {
+    "d100": 25,
+    "name": "Azagaia do Relâmpago",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Javelin of Lightning",
+    "description": "Esta azagaia pode ser arremessada para se transformar em um relâmpago de 1,5 metros de largura e 36 metros de comprimento. Cada criatura no caminho deve passar num salvamento de Destreza CD 13 ou sofrerá 4d6 de dano elétrico. A azagaia causa dano normal ao alvo atingido + 4d6 elétrico. Pode ser ativada uma vez por dia."
+  },
+  {
+    "d100": 26,
+    "name": "Luvas de Apanhar Projéteis",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Gloves of Missile Snaring",
+    "description": "Requer sintonia. Quando você for atingido por um ataque de arma à distância, pode usar sua reação para reduzir o dano sofrido em 1d10 + seu modificador de Destreza. Se reduzir o dano a 0, você pode pegar o projétil se tiver uma mão livre."
+  },
+  {
+    "d100": 27,
+    "name": "Espada da Vingança",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Sword of Vengeance",
+    "description": "Requer sintonia. Uma espada amaldiçoada +1. Quando você recebe dano em combate, deve passar num salvamento de Sabedoria CD 15 ou ficará furioso, atacando apenas a criatura que te causou dano até que ela caia a 0 HP ou fuja."
+  },
+  {
+    "d100": 28,
+    "name": "Chapéu do Disfarce",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Hat of Disguise",
+    "description": "Requer sintonia. Enquanto estiver usando este chapéu, você pode conjurar a magia Disfarçar-se à vontade."
+  },
+  {
+    "d100": 30,
+    "name": "Bastão de Retribuição",
+    "type": "Rod",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Rod of Retribution",
+    "description": "Requer sintonia. Este bastão de adamantina possui 3 cargas. Quando uma criatura que você possa ver a até 18 metros lhe causa dano, você pode gastar 1 carga como reação para forçá-la a fazer um salvamento CD 13 de Destreza, sofrendo 2d10 de dano elétrico em uma falha."
+  },
+  {
+    "d100": 31,
+    "name": "Manto Élfico",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Cloak of Elvenkind",
+    "description": "Requer sintonia. Enquanto estiver usando este manto com o capuz erguido, testes de Sabedoria (Percepção) para ver você têm desvantagem, e você tem vantagem em testes de Destreza (Furtividade) para se esconder."
+  },
+  {
+    "d100": 32,
+    "name": "Anel de Proteção Mental",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Mind Shielding",
+    "description": "Requer sintonia. Enquanto usar este anel, você é imune a telepatia e magias que leiam seus pensamentos ou determinem se você mente. Se você morrer usando o anel, sua alma pode escolher habitar o anel."
+  },
+  {
+    "d100": 33,
+    "name": "Olhos de Encantamento",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Eyes of Charming",
+    "description": "Requer sintonia. Estas lentes de cristal possuem 3 cargas. Como uma ação, você pode fitar uma criatura a até 9 metros e gastar 1 carga para conjurar Enfeitiçar Pessoa (CD 13)."
+  },
+  {
+    "d100": 35,
+    "name": "Varinha de Mísseis Mágicos",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Wand of Magic Missiles",
+    "description": "Esta varinha possui 7 cargas. Com uma ação, você pode gastar 1 ou mais cargas para conjurar a magia Mísseis Mágicos (1 míssil por carga gasta). Recupera 1d6 + 1 cargas ao amanhecer."
+  },
+  {
+    "d100": 36,
+    "name": "Periapto de Fechamento de Feridas",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Periapt of Wound Closure",
+    "description": "Requer sintonia. Enquanto usar este periapto, você estabiliza instantaneamente no início do seu turno caso esteja morrendo. Além disso, ao rolar dados de vida para recuperar HP durante um descanso curto, você recupera o dobro do valor."
+  },
+  {
+    "d100": 37,
+    "name": "Frasco do Poço de Sangue +1",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Bloodwell Vial, +1",
+    "description": "Requer sintonia por Feiticeiro. Concede +1 em jogadas de ataque de magia e na CD de salvamento de suas magias de feiticeiro. Além disso, quando você rola dados de vida para recuperar HP, você pode recuperar 5 pontos de feitiçaria."
+  },
+  {
+    "d100": 38,
+    "name": "Anel de Andar na Água",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Ring of Water Walking",
+    "description": "Enquanto estiver usando este anel, você pode caminhar sobre qualquer superfície líquida (água, lama, lava ou ácido) como se fosse terreno firme."
+  },
+  {
+    "d100": 40,
+    "name": "Gema da Luminosidade",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Gem of Brightness",
+    "description": "Esta gema possui 50 cargas. Permite emitir flashes de luz para cegar criaturas a até 9 metros (CD 15 de Constituição) gastando cargas ou emitir luz brilhante num cone de 9 metros."
+  },
+  {
+    "d100": 41,
+    "name": "Ferramenta Multiuso +1",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "All-Purpose Tool, +1",
+    "description": "Requer sintonia por um Artífice. Concede +1 em jogadas de ataque de magia e CD de salvamento de artífice. Permite transformar a ferramenta em qualquer ferramenta de artesão e aprender um truque de qualquer classe por 8 horas."
+  },
+  {
+    "d100": 42,
+    "name": "Leque de Vento",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Wind Fan",
+    "description": "Enquanto segura este leque, você pode usar uma ação para conjurar a magia Rajada de Vento (CD 13). Pode ser usado uma vez por dia gratuitamente e tem chance de quebrar em usos subsequentes no mesmo dia."
+  },
+  {
+    "d100": 43,
+    "name": "Manoplas de Força de Ogro",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Gauntlets of Ogre Power",
+    "description": "Requer sintonia. Seu valor de Força se torna 19 enquanto você usar estas manoplas de metal ornamentadas."
+  },
+  {
+    "d100": 44,
+    "name": "Vaso do Dragão (Dormente)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon Vessel (Slumbering)",
+    "description": "Requer sintonia. Uma vez por dia, você pode abrir este vaso de chifre ou garrafa de dragão para criar uma Poção de Cura comum ou outra bebida benéfica."
+  },
+  {
+    "d100": 46,
+    "name": "Tatuagem de Barreira (CA 12)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Barrier Tattoo (AC 12)",
+    "description": "Requer sintonia. Esta tatuagem mágica de agulhas e tinta preta concede a você uma CA de 12 + seu modificador de Destreza caso você não esteja usando armadura."
+  },
+  {
+    "d100": 47,
+    "name": "Manto de Proteção",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Cloak of Protection",
+    "description": "Requer sintonia. Enquanto estiver usando este manto de tecido resistente, você ganha +1 de bônus na sua Classe de Armadura (CA) e em todas as jogadas de salvamento."
+  },
+  {
+    "d100": 48,
+    "name": "Arma +1",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Weapon, +1",
+    "description": "Esta arma mágica concede um bônus de +1 nas jogadas de ataque e dano feitas com ela."
+  },
+  {
+    "d100": 49,
+    "name": "Arma de Alerta",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Weapon of Warning",
+    "description": "Requer sintonia. Esta arma alerta você e seus companheiros num raio de 9 metros sobre perigos iminentes. Você tem vantagem em testes de Iniciativa e você e seus aliados próximos não podem ser surpreendidos (a menos que estejam incapacitados por motivos não-mágicos)."
+  },
+  {
+    "d100": 51,
+    "name": "Anel de Salto",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Jumping",
+    "description": "Requer sintonia. Enquanto estiver usando este anel, você pode conjurar a magia Salto em si mesmo como uma ação bônus à vontade."
+  },
+  {
+    "d100": 52,
+    "name": "Foco Tocado pelo Dragão (Dormente)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragon-Touched Focus (Slumbering)",
+    "description": "Requer sintonia por um conjurador. Este foco rúnico concede +1 de bônus nas jogadas de ataque de magia e rola um dado de dano 1d6 extra quando você conjura magias de dano elemental compatíveis."
+  },
+  {
+    "d100": 53,
+    "name": "Armadura de Adamantina (Cota de Malha)",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Adamantine Armor (Chain Mail)",
+    "description": "Esta cota de malha pesada é feita com adamantina. Qualquer acerto crítico desferido contra você torna-se um acerto normal."
+  },
+  {
+    "d100": 54,
+    "name": "Amuleto de Proteção contra Detecção e Localização",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Amulet of Proof against Detection and Location",
+    "description": "Requer sintonia. Enquanto estiver usando este amuleto de cobre, você fica ocultado de qualquer magia de adivinhação ou sensores criados por magias de vidência."
+  },
+  {
+    "d100": 56,
+    "name": "Cinto de Couro de Dragão",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "FToD",
+    "englishName": "Dragonhide Belt",
+    "description": "Requer sintonia por Monge. Concede um bônus de +1 na CD de salvamento de suas técnicas de Ki e permite a você recuperar pontos de Ki iguais a uma rolagem do seu Dado de Arte Marcial uma vez ao dia."
+  },
+  {
+    "d100": 57,
+    "name": "Flauta dos Esgotos",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Pipes of the Sewers",
+    "description": "Requer sintonia. Enquanto toca esta flauta mágica, você pode usar uma ação para invocar 1d3 enxames de ratos sob seu controle mental se houver ratos num raio de 1,5 km."
+  },
+  {
+    "d100": 58,
+    "name": "Tatuagem de Garra Mística",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Eldritch Claw Tattoo",
+    "description": "Requer sintonia. Esta tatuagem mágica concede +1 de bônus em jogadas de ataque e dano com seus ataques desarmados. Permite usar uma ação bônus para estender seus golpes a até 4,5 metros por 1 minuto, causando 1d6 de dano de força extra."
+  },
+  {
+    "d100": 59,
+    "name": "Faixa da Intelectualidade",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Headband of Intellect",
+    "description": "Requer sintonia. Seu valor de Inteligência se torna 19 enquanto você usar esta faixa de metal ornamentada na testa."
+  },
+  {
+    "d100": 60,
+    "name": "Braceletes de Arquearia",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Bracers of Archery",
+    "description": "Requer sintonia. Enquanto usar estes braceletes de couro, você ganha proficiência com arco curto e arco longo, e causa +2 de dano adicional em jogadas de ataque com essas armas."
+  },
+  {
+    "d100": 62,
+    "name": "Diadema de Explosão",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Circlet of Blasting",
+    "description": "Enquanto estiver usando este diadema, você pode usar uma ação para conjurar a magia Raio Ardente (+5 de bônus de ataque). O diadema não pode ser usado novamente até o próximo amanhecer."
+  },
+  {
+    "d100": 63,
+    "name": "Instrumento dos Bardos (Alaúde Doss)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Instrument of the Bards (Doss Lute)",
+    "description": "Requer sintonia por Bardo. Permite conjurar magias específicas de bardo (como Voar, Invisibilidade, Proteção contra Energia, etc.) através dele. Concede vantagem para resistir a magias de encanto tocadas por você."
+  },
+  {
+    "d100": 64,
+    "name": "Botas Aladas",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Winged Boots",
+    "description": "Requer sintonia. Estas botas concedem a você velocidade de voo igual à sua velocidade de caminhada por até 4 horas diárias. As asas se desdobram ao comando."
+  },
+  {
+    "d100": 65,
+    "name": "Tambor do Criador de Ritmo +1",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Rhythm-Maker's Drum, +1",
+    "description": "Requer sintonia por Bardo. Concede +1 em jogadas de ataque de magia e na CD de suas magias de bardo. Permite usar uma ação para recuperar um uso de sua Inspiração Bárdica uma vez por dia."
+  },
+  {
+    "d100": 67,
+    "name": "Malho da Serpente",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Serpent's Maul",
+    "description": "Requer sintonia. Este malho de guerra mágico tem 3 cargas. Ao acertar um ataque, você gasta 1 carga para forçar o alvo a passar num salvamento de Sabedoria CD 15 ou se transformará em uma serpente constritora por 1 rodada."
+  },
+  {
+    "d100": 68,
+    "name": "Flauta Assustadora",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Pipes of Haunting",
+    "description": "Esta flauta de cana possui 3 cargas. Ao tocá-lo, criaturas num raio de 9 metros devem passar num salvamento de Sabedoria CD 15 ou ficarão amedrontadas por 1 minuto. Recupera 1d3 cargas ao amanhecer."
+  },
+  {
+    "d100": 69,
+    "name": "Instrumento dos Bardos (Bandurra Fochlucan)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Instrument of the Bards (Fochlucan Bandore)",
+    "description": "Requer sintonia por Bardo. Permite conjurar magias útil (como Fogo Fátuo, Enredar, Queda Suave, etc.) através do instrumento. Criaturas têm desvantagem contra seus encantos bárdicos."
+  },
+  {
+    "d100": 70,
+    "name": "Colar de Adaptação",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Necklace of Adaptation",
+    "description": "Requer sintonia. Enquanto estiver usando este colar com uma gema brilhante, você pode respirar normalmente em qualquer ambiente, incluindo vácuo, debaixo d'água ou em nuvens de gases nocivos ou venenosos."
+  },
+  {
+    "d100": 72,
+    "name": "Estatueta Pré-Histórica de Poder Maravilhoso (Plesiossauro de Pirita)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "GotG",
+    "englishName": "Prehistoric Figurines of Wondrous Power (Pyrite Plesiosaurus)",
+    "description": "Como uma ação, você lança esta estatueta de pirita para invocar um Plesiossauro aliado leal por 12 horas. Enquanto montado nele, você pode conjurar Respirar na Água à vontade. A estatueta tem recarga de 4 dias."
+  },
+  {
+    "d100": 73,
+    "name": "Cajado da Píton",
+    "type": "Staff",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Staff of the Python",
+    "description": "Requer sintonia por Clérigo, Druida ou Bruxo. Com uma ação, você lança este cajado de madeira no chão para transformá-lo em uma cobra píton gigante sob seu comando. Se a cobra cair a 0 HP, ela morre e o cajado é destruído."
+  },
+  {
+    "d100": 74,
+    "name": "Armadura do Trancacorpo",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Heartlock Armor",
+    "description": "Requer sintonia. Esta armadura de couro batido impede efeitos mágicos que alterem seu corpo contra sua vontade. Possui 3 cargas e permite gastar 1 carga para conjurar Aumentar/Reduzir (em si mesmo) ou Arrombar."
+  },
+  {
+    "d100": 75,
+    "name": "Tridente de Comandar Peixes",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Trident of Fish Command",
+    "description": "Requer sintonia. Este tridente mágico possui 3 cargas e permite conjurar a magia Dominar Fera (CD 15) contra feras com velocidade de nado nativa."
+  },
+  {
+    "d100": 77,
+    "name": "Escudo +1",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Shield, +1",
+    "description": "Enquanto empunha este escudo mágico, você ganha +1 de bônus na CA além do bônus normal do escudo (+3 CA no total)."
+  },
+  {
+    "d100": 78,
+    "name": "Arco de Espinhos",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Thornbow",
+    "description": "Requer sintonia. Este arco mágico de galhos espinhosos tem 3 cargas. Ao acertar um ataque, gaste 1 carga para causar +2d8 de dano perfurante extra (e você sofre 1d8 de dano). Obter um 20 natural no ataque dispara uma chuva de espinhos de 2d10 de dano CD 15 nos inimigos adjacentes."
+  },
+  {
+    "d100": 79,
+    "name": "Grimório Arcano +1",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Arcane Grimoire, +1",
+    "description": "Requer sintonia por um Mago. Concede +1 em jogadas de ataque de magia e CD de salvamento de magias de mago. Aumenta a quantidade de espaços de magia que você recupera com a Recuperação Arcana."
+  },
+  {
+    "d100": 80,
+    "name": "Botas das Terras Invernais",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Boots of the Winterlands",
+    "description": "Requer sintonia. Concede a você resistência a dano de frio, permite caminhar sobre neve e gelo sem sofrer terreno difícil, e protege contra temperaturas de frio extremo."
+  },
+  {
+    "d100": 81,
+    "name": "Sacola de Truques (Ferrugem)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Bag of Tricks (Rust)",
+    "description": "Esta sacola de pele permite arremessar pequenas bolas de pelo para invocar feras aliadas leais de cor ferrugem (como rato gigante, coruja, cabra gigante, javali, lobo) que obedecem seus comandos."
+  },
+  {
+    "d100": 83,
+    "name": "Olhos da Águia",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Eyes of the Eagle",
+    "description": "Requer sintonia. Estas lentes de cristal se ajustam aos seus olhos e concedem vantagem em testes de Sabedoria (Percepção) baseados na visão."
+  },
+  {
+    "d100": 84,
+    "name": "Sacola de Truques (Cinza)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Bag of Tricks (Gray)",
+    "description": "Esta sacola de pele permite invocar feras cinzentas aliadas (como doninha, rato gigante, texugo, javali, lobo gigante) ao arremessar suas bolas de pelo."
+  },
+  {
+    "d100": 85,
+    "name": "Vassoura voadora",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Broom of Flying",
+    "description": "Esta vassoura de madeira comum pode voar sob comando verbal, carregando até 180 kg a uma velocidade de voo de 15 metros, ou 9 metros se carregar até 270 kg."
+  },
+  {
+    "d100": 86,
+    "name": "Garrafa de Fumaça Constante",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Eversmoking Bottle",
+    "description": "Ao remover a rolha desta garrafa de metal, uma fumaça densa e escura escapa constantemente, criando uma área de escuridão total (obscurecimento pesado) num raio de 18 metros que se expande gradualmente."
+  },
+  {
+    "d100": 88,
+    "name": "Anel do Calor",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Ring of Warmth",
+    "description": "Requer sintonia. Concede resistência a dano de frio e mantém você aquecido e confortável mesmo em temperaturas extremamente congelantes."
+  },
+  {
+    "d100": 89,
+    "name": "Sapatilhas de Patas de Aranha",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Slippers of Spider Climbing",
+    "description": "Requer sintonia. Enquanto usar estas sapatilhas leves, você pode andar em superfícies verticais e de cabeça para baixo em tetos, deixando suas mãos livres."
+  },
+  {
+    "d100": 90,
+    "name": "Estatueta de Poder Maravilhoso (Corvo de Prata)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Figurine of Wondrous Power (Silver Raven)",
+    "description": "Esta estatueta de prata em formato de corvo se transforma em um corvo vivo aliado por até 12 horas. Ela pode ser usada para enviar mensagens como a magia Mensageiro Animal."
+  },
+  {
+    "d100": 91,
+    "name": "Orbe de Armazenar Magia Maior",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Orb of Greater Spell Storing",
+    "description": "Este orbe mágico funciona de forma similar ao Orbe de Armazenar Magia comum, mas é capaz de armazenar magias de até 3º nível conjuradas nele."
+  },
+  {
+    "d100": 93,
+    "name": "Luvas de Natação e Escalada",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Gloves of Swimming and Climbing",
+    "description": "Requer sintonia. Concedem a você velocidade de nado e escalada iguais à sua velocidade de caminhada, além de vantagem em testes de Atletismo para escalar ou nadar."
+  },
+  {
+    "d100": 94,
+    "name": "Instrumento dos Bardos (Cistre Mac-Fuirmidh)",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Instrument of the Bards (Mac-Fuirmidh Cittern)",
+    "description": "Requer sintonia por Bardo. Permite conjurar magias úteis como Barkskin, Cure Wounds, Fog Cloud. Concede bônus contra encantos e resistência."
+  },
+  {
+    "d100": 95,
+    "name": "Foice Lunar +1",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Moon Sickle, +1",
+    "description": "Requer sintonia por Druida ou Patrulheiro. Concede +1 em jogadas de ataque e dano com esta foice, +1 em magias de ataque e CD de salvamento. Quando conjurar magias de cura, adiciona +1d4 na cura."
+  },
+  {
+    "d100": 96,
+    "name": "Amuleto do Devoto +1",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Amulet of the Devout, +1",
+    "description": "Requer sintonia por Clérigo ou Paladino. Concede +1 em jogadas de ataque de magia e CD de salvamento de suas magias. Permite usar sua Canalização de Divindade mais uma vez ao dia sem gastar usos normais."
+  },
+  {
+    "d100": 98,
+    "name": "Escudo Sentinela",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Sentinel Shield",
+    "description": "Enquanto empunha este escudo ornamentado com um desenho de olho, você tem vantagem em testes de Sabedoria (Percepção) e jogadas de Iniciativa."
+  },
+  {
+    "d100": 99,
+    "name": "Pérola do Poder",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Pearl of Power",
+    "description": "Requer sintonia por um conjurador. Com uma ação, você pode usar a pérola para recuperar um espaço de magia de até 3º nível já gasto. Pode ser usada uma vez ao dia."
+  },
+  {
+    "d100": 100,
+    "name": "Broche de Escudo",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "DMG",
+    "englishName": "Brooch of Shielding",
+    "description": "Requer sintonia. Enquanto estiver usando este broche, você tem resistência a dano de força e é completamente imune aos projéteis da magia Mísseis Mágicos."
+  }
+]

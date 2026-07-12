@@ -1,0 +1,800 @@
+[
+  {
+    "d100": 1,
+    "name": "Tatuagem da Devastação",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Devastation",
+    "description": "Requer sintonia. Antes de fazer uma jogada de ataque, você pode optar por realizá-la com vantagem. Ao fazer isso, se o ataque acertar, ele se torna um acerto crítico garantido e a tatuagem desaparece."
+  },
+  {
+    "d100": 3,
+    "name": "Arma Mutiladora",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Maiming Weapon",
+    "description": "Quando você obtém um 20 natural em sua jogada de ataque com esta arma mágica, a velocidade do alvo é reduzida pela metade e ele tem desvantagem em testes de resistência e atributos de Força e Destreza até terminar um descanso curto ou receber cura mágica."
+  },
+  {
+    "d100": 4,
+    "name": "Ruína da Beleza",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Beauty's Bane",
+    "description": "Este espelho de mão mágico permite que você gaste uma ação para mostrá-lo a uma criatura inteligente a até 1,5 metros. O alvo deve passar num teste de resistência de Sabedoria ou ficará atordoado e fascinado pelo próprio reflexo."
+  },
+  {
+    "d100": 5,
+    "name": "Poção de Veneno",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Poison",
+    "description": "Esta poção parece e tem o gosto de uma Poção de Cura. Identificá-la revela falsamente que ela é uma Poção de Cura. Beber a poção causa 3d6 de dano de veneno e exige um teste de resistência de Constituição CD 12 contra envenenamento."
+  },
+  {
+    "d100": 6,
+    "name": "Unguento de Keoghtom",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Keoghtom’s Ointment",
+    "description": "Este frasco de vidro contém 1d4 + 1 doses de uma pomada mágica. Usar uma dose restaura 2d8 + 2 pontos de vida, cura any doença e remove as condições envenenado ou cego."
+  },
+  {
+    "d100": 8,
+    "name": "Pandeiro do Charmoso",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Charmer's Tambourine",
+    "description": "Requer sintonia. Concede vantagem em testes de Performance e permite conjurar o truque Ilusão Menor à vontade. Possui 3 cargas para conjurar Enfeitiçar Pessoa (1 carga) ou Cativar (2 cargas)."
+  },
+  {
+    "d100": 9,
+    "name": "Jarra de Alquimia",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Alchemy Jug",
+    "description": "Esta jarra pode produzir diversos líquidos diariamente, como água ácida, cerveja, mel, vinho, óleo, vinagre ou até 2 galões de maionese."
+  },
+  {
+    "d100": 10,
+    "name": "Lanterna da Revelação",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Lantern of Revealing",
+    "description": "Enquanto estiver acesa, esta lanterna revela criaturas e objetos invisíveis num raio de 9 metros de luz brilhante."
+  },
+  {
+    "d100": 11,
+    "name": "Corda de Escalada",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Rope of Climbing",
+    "description": "Esta corda de 18 metros obedece a seus comandos de voz. Ela pode se mover, se amarrar e sustentar até 1.500 libras."
+  },
+  {
+    "d100": 13,
+    "name": "Poção de Cura (Maior)",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Healing (Greater)",
+    "description": "Você recupera 4d4 + 4 pontos de vida ao beber esta poção."
+  },
+  {
+    "d100": 14,
+    "name": "Gema Elemental",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Elemental Gem",
+    "description": "Esta gema mágica contém a energia de um elemental (Terra, Fogo, Água ou Ar). Quebrar a gema conjura a magia Conjurar Elemental correspondente."
+  },
+  {
+    "d100": 15,
+    "name": "Tatuagem da Liberdade",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Freedom",
+    "description": "Requer sintonia. Negará e dissipará instantaneamente qualquer efeito mágico que paralise, restrinja ou reduza sua velocidade a 0. Também permite escapar de amarras não-mágicas ou agarrões usando uma ação bônus."
+  },
+  {
+    "d100": 16,
+    "name": "Tatuagem de Absorção Maior",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Greater Absorption",
+    "description": "Requer sintonia. Funciona como a tatuagem de absorção comum, mas pode ser ativada até duas vezes ao dia para absorver metade do dano de um elemento específico recebido."
+  },
+  {
+    "d100": 18,
+    "name": "Óculos do Serralheiro",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Tinker's Glasses",
+    "description": "Estes óculos têm 3 cargas. Você pode gastar 1 carga para ganhar vantagem em testes de Percepção ou Investigação que dependam da visão, ou para enxergar auras mágicas a até 9 metros por 10 minutos."
+  },
+  {
+    "d100": 19,
+    "name": "Pergaminho de 2º Nível",
+    "type": "Scroll",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Spell Scroll (2nd Level)",
+    "description": "Este pergaminho contém uma magia de 2º nível escrita. Ler o pergaminho conjura a magia."
+  },
+  {
+    "d100": 20,
+    "name": "Poção de Respirar na Água",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Water Breathing",
+    "description": "Esta poção concede a habilidade de respirar debaixo d'água por 1 hora após ser consumida."
+  },
+  {
+    "d100": 21,
+    "name": "Tatuagem da Velocidade Maior",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Greater Speed",
+    "description": "Requer sintonia. Aumenta sua velocidade de caminhada em 6 metros."
+  },
+  {
+    "d100": 23,
+    "name": "Tatuagem do Heroísmo",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Heroism",
+    "description": "Requer sintonia. Quando você fica assustado, ou como uma ação bônus, você se torna imune à condição amedrontado por 1 minuto, ganha pontos de vida temporários iguais ao seu nível e a tatuagem some."
+  },
+  {
+    "d100": 24,
+    "name": "Sacola Compartilhada",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Bag of Shared Holding",
+    "description": "Esta sacola está conectada a outra idêntica. Itens colocados em uma podem ser retirados da outra instantaneamente."
+  },
+  {
+    "d100": 25,
+    "name": "Pena de Esmeralda",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "FToD",
+    "englishName": "Emerald Pen",
+    "description": "Esta pena mágica permite escrever no ar com tinta verde brilhante e flutuante ou em pergaminhos de forma que a escrita fique invisível para todos, exceto destinatários escolhidos."
+  },
+  {
+    "d100": 26,
+    "name": "Incenso da Restauração",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Incense of Restoration",
+    "description": "Este incenso queima por 1 hora. Qualquer criatura que inalar a fumaça durante um descanso curto é curada de cegueira/surdez temporária, doenças, redução de HP máximo e reduz 1 nível de exaustão."
+  },
+  {
+    "d100": 28,
+    "name": "Sangue de Mago",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Mage's Blood",
+    "description": "Este óleo pode ser aplicado em uma arma ou 10 munições. O próximo acerto exige um teste de resistência de Constituição CD 15 ou o alvo fica envenenado por 1 minuto, tendo desvantagem contra magias."
+  },
+  {
+    "d100": 29,
+    "name": "Rope of Reaching",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM"
+  },
+  {
+    "d100": 30,
+    "name": "Armadura de Mitral",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Mithral Armor",
+    "description": "Esta armadura leve e extremamente resistente de mitral não impõe desvantagem em testes de Destreza (Furtividade) e não exige Força mínima."
+  },
+  {
+    "d100": 31,
+    "name": "Tatuagem Mágica de 2º Nível",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "TCoE",
+    "englishName": "Spellwrought Tattoo  (2nd Level)",
+    "description": "Esta tatuagem mágica contém uma magia de 2º nível gravada na pele. Você pode conjurar a magia através dela uma vez, e depois a tatuagem desaparece."
+  },
+  {
+    "d100": 33,
+    "name": "Óleo da Escorregabilidade",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Oil of Slipperiness",
+    "description": "Este óleo age como o feitiço Movimentação Livre por 8 horas. Demora 10 minutos para cobrir uma criatura."
+  },
+  {
+    "d100": 34,
+    "name": "Bolsa de Carga",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Bag of Holding",
+    "description": "Esta bolsa tem um espaço interno de 1,2m de profundidade capaz de carregar até 250 kg de peso sem alterar o peso próprio da bolsa de 7 kg."
+  },
+  {
+    "d100": 35,
+    "name": "Arma Nêmesis",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Nemesis Weapon",
+    "description": "Requer sintonia. Uma vez por turno ao acertar um ataque, amaldiçoa você e o alvo até seu próximo turno: ambos não podem recuperar vida, ou subtraem 1d4 de testes de resistência, ou causam +1d8 de dano necrótico um ao outro."
+  },
+  {
+    "d100": 36,
+    "name": "Luneta do Observador",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Observer's Spyglass",
+    "description": "Luneta mágica com 3 cargas. Permite gastar 1 carga para ganhar vantagem em Percepção visual, enxergar in escuridão e ver através de névoas/chuvas a até 600 metros de distância por 1 minuto."
+  },
+  {
+    "d100": 38,
+    "name": "Pergaminho de 3º Nível",
+    "type": "Scroll",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Spell Scroll (3rd Level)",
+    "description": "Este pergaminho contém uma magia de 3º nível escrita. Ler o pergaminho conjura a magia."
+  },
+  {
+    "d100": 39,
+    "name": "Incenso da Erudição",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Incense of Erudition",
+    "description": "Incenso mágico que queima por 1 hora. Criaturas que inalarem a fumaça durante um descanso curto ganham vantagem em testes de Sabedoria, Inteligência e Carisma por 8 horas."
+  },
+  {
+    "d100": 40,
+    "name": "Filtro do Amor",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Philter of Love",
+    "description": "Ao beber esta poção, você se torna encantado pela próxima criatura que você ver pelos próximos 10 minutos."
+  },
+  {
+    "d100": 41,
+    "name": "Varinha de Detecção de Magia",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Wand of Magic Detection",
+    "description": "Esta varinha tem 3 cargas e permite a você conjurar a magia Detectar Magia sem gastar espaços de magia."
+  },
+  {
+    "d100": 43,
+    "name": "Armadura do Marinheiro",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Mariner’s Armor",
+    "description": "Esta armadura concede a você velocidade de natação igual à sua velocidade de caminhada. Se você cair em água e tiver menos de 0 HP, a armadura te flutua até a superfície a 18 metros por rodada."
+  },
+  {
+    "d100": 44,
+    "name": "Elmo de Compreender Idiomas",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Helm of Comprehending Languages",
+    "description": "Enquanto usar este elmo, você pode conjurar a magia Compreender Idiomas à vontade."
+  },
+  {
+    "d100": 45,
+    "name": "Fragmento da Agrestia Fada",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Feywild Shard",
+    "description": "Requer sintonia por um Feiticeiro. Pode ser usado como foco e permite rolar na tabela de Magia Selvagem sempre que você utilizar Metamagia."
+  },
+  {
+    "d100": 46,
+    "name": "Jarra do Vento Infinito",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Jug of Endless Wind",
+    "description": "Stoppered metal jug. Permite liberar ventos para empurrar objetos e criaturas (CD 13 de Força), criar uma parede de vento protetora contra projéteis, ou saltar voando até 9 metros."
+  },
+  {
+    "d100": 48,
+    "name": "Poção de Empoderamento Maior",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Potion of Greater Empowerment",
+    "description": "Ao beber esta poção, você ganha vantagem em todos os testes de atributo que fizer pelas próximas 8 horas."
+  },
+  {
+    "d100": 49,
+    "name": "Poção de Crescimento",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Growth",
+    "description": "Beber esta poção concede a você os efeitos de tamanho aumentado da magia Aumentar/Reduzir por 1d4 horas."
+  },
+  {
+    "d100": 50,
+    "name": "Globo de Luz Flutuante",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Driftglobe",
+    "description": "Esta esfera de vidro pode flutuar a até 1,5 metros do chão e seguir você, emitindo luz brilhante ou a magia Luz do Dia."
+  },
+  {
+    "d100": 51,
+    "name": "Elmo do Trilheiro",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Trekker's Helmet",
+    "description": "Requer sintonia. Dobra seu bônus de proficiência na perícia Sobrevivência. Além disso, permite ganhar vantagem em um teste de Força ou Destreza por dia."
+  },
+  {
+    "d100": 53,
+    "name": "Óculos de Leitura de Objetos",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Goggles of Object Reading",
+    "description": "Requer sintonia. Concede vantagem em testes de Arcana para revelar segredos de objetos que você vê, além de permitir conjurar a magia Identificar uma vez por dia."
+  },
+  {
+    "d100": 54,
+    "name": "Anel de Natação",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Ring of Swimming",
+    "description": "Enquanto estiver usando este anel, você ganha velocidade de natação de 12 metros."
+  },
+  {
+    "d100": 55,
+    "name": "Óculos da Noite",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Goggles of Night",
+    "description": "Estes óculos concedem visão no escuro de 18 metros. Se você já tiver visão no escuro, o alcance dela aumenta em 18 metros."
+  },
+  {
+    "d100": 56,
+    "name": "Arma Metamórfica",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Morphing Weapon",
+    "description": "Como uma ação bônus, você pode transformar esta arma em qualquer outro tipo de arma simples ou marcial."
+  },
+  {
+    "d100": 58,
+    "name": "Tatuagem Mágica de 3º Nível",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "TCoE",
+    "englishName": "Spellwrought Tattoo (3rd Level)",
+    "description": "Tatuagem contendo uma magia de 3º nível. Permite conjurar a magia uma vez e depois desaparece."
+  },
+  {
+    "d100": 59,
+    "name": "Anel de Ocultação",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Ring of Obscuring",
+    "description": "Permite conjurar a magia Névoa uma vez por dia centralizada no anel."
+  },
+  {
+    "d100": 60,
+    "name": "Cela do Cavaleiro",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Saddle of the Cavalier",
+    "description": "Enquanto estiver nesta sela, você não pode ser desmontado contra sua vontade a menos que fique incapacitado. Ataques contra sua montaria têm desvantagem."
+  },
+  {
+    "d100": 61,
+    "name": "Poção de Renovação Maior",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Potion of Greater Renewal",
+    "description": "Beber esta poção remove qualquer exaustão, remove as condições petrificado ou amaldiçoado e restaura 4d10 pontos de vida."
+  },
+  {
+    "d100": 63,
+    "name": "Poção do Sopro de Fogo",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Fire Breath",
+    "description": "Esta poção permite que você use uma ação bônus para soprar fogo em uma criatura a até 9 metros, causando 4d6 de dano de fogo."
+  },
+  {
+    "d100": 64,
+    "name": "Manto da Natureza",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Nature's Mantle",
+    "description": "Requer sintonia por um Druida ou Patrulheiro. Permite que você faça a ação de Esconder-se mesmo quando estiver apenas levemente ocultado por folhagens ou fenômenos naturais."
+  },
+  {
+    "d100": 65,
+    "name": "Tatuagem do Aperto Espiral",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Coiling Grasp Tattoo",
+    "description": "Requer sintonia. Permite usar uma ação para projetar tentáculos de tinta a até 4,5 metros para agarrar e causar 3d6 de dano de força CD 13 a um inimigo."
+  },
+  {
+    "d100": 66,
+    "name": "Shuriken do Farol",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Beacon Shuriken",
+    "description": "Uma arma de arremesso que pode ser teleportada de volta para sua mão como uma ação bônus após ser lançada."
+  },
+  {
+    "d100": 68,
+    "name": "Poção de Força do Gigante da Colina",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Hill Giant Strength",
+    "description": "Seu valor de Força se torna 21 por 1 hora após beber esta poção."
+  },
+  {
+    "d100": 69,
+    "name": "Amuleto do Bêbado",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "EGtW",
+    "englishName": "Amulet of the Drunkard",
+    "description": "Este amuleto cura você de envenenamento alcoólico e recupera 4d4 + 4 pontos de vida sempre que você bebe uma cerveja ou caneca de bebida alcoólica."
+  },
+  {
+    "d100": 70,
+    "name": "Poção de Amizade Animal",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Animal Friendship",
+    "description": "Permite a você conjurar a magia Amizade Animal à vontade contra feras de Inteligência menor que 4 por 1 hora."
+  },
+  {
+    "d100": 71,
+    "name": "Elmo do Comandante",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Commander's Helmet",
+    "description": "Requer sintonia. Como uma ação bônus, você pode comandar um aliado que você veja a realizar um único ataque usando a reação dele."
+  },
+  {
+    "d100": 73,
+    "name": "Barrete da Mente Brilhante",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Brightmind Cap",
+    "description": "Requer sintonia. Concede a você vantagem em testes de Inteligência (História ou Investigação)."
+  },
+  {
+    "d100": 74,
+    "name": "Varinha de Segredos",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Wand of Secrets",
+    "description": "Esta varinha tem 3 cargas e permite que você detecte a armadilha ou passagem secreta mais próxima num raio de 9 metros."
+  },
+  {
+    "d100": 75,
+    "name": "Capa da Arraia",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Cloak of the Manta Ray",
+    "description": "Enquanto estiver sob a água com esta capa capuzada, você pode respirar debaixo d'água e tem velocidade de nado de 18 metros."
+  },
+  {
+    "d100": 76,
+    "name": "Manto de Itens Úteis",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Robe of Useful Items",
+    "description": "Este manto possui diversos remendos destacáveis que podem ser transformados em itens reais (como escadas, botes, poções, etc.) ao serem descolados."
+  },
+  {
+    "d100": 78,
+    "name": "Munição +1",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Ammunition, +1",
+    "description": "Esta munição concede um bônus de +1 nas jogadas de ataque e dano."
+  },
+  {
+    "d100": 79,
+    "name": "Compêndio Alquímico",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Alchemical Compendium",
+    "description": "Requer sintonia por um mago. Permite a você alterar a matéria física de um objeto não-mágico pequeno em outro material comum temporariamente."
+  },
+  {
+    "d100": 80,
+    "name": "Poeira da Secura",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Dust of Dryness",
+    "description": "Esta poeira pode absorver até 15 metros cúbicos de água líquida instantaneamente, transformando-se em uma gema esférica que pode ser arremessada para liberar a água de volta."
+  },
+  {
+    "d100": 81,
+    "name": "Bastão Imóvel",
+    "type": "Rod",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Immovable Rod",
+    "description": "Este bastão de metal possui um botão na ponta. Ao apertar o botão, o bastão se fixa magneticamente e magicamente no espaço onde está, suportando até 4 toneladas de peso sem se mover."
+  },
+  {
+    "d100": 83,
+    "name": "Poeira do Desaparecimento",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Dust of Disappearance",
+    "description": "Ao ser jogada ao ar, esta poeira torna você e criaturas próximas invisíveis por 2d4 minutos. A invisibilidade acaba se você atacar ou lançar magias."
+  },
+  {
+    "d100": 84,
+    "name": "Pena do Animador",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Animator's Quill",
+    "description": "Esta pena mágica permite desenhar objetos simples bi-dimensionais que ganham vida tridimensional após o desenho ser concluído."
+  },
+  {
+    "d100": 85,
+    "name": "Arma Corta-Sorrisos",
+    "type": "Weapon",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Grinsplitter Weapon",
+    "description": "Esta arma mágica causa 1d6 de dano cortante extra em criaturas que estejam rindo, sorrindo ou sob efeito de magias de charme."
+  },
+  {
+    "d100": 86,
+    "name": "Moeda do Mercador de Ossos",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Bone Merchant's Coin",
+    "description": "Uma moeda mágica que pode ser gasta para invocar temporariamente um esqueleto servo leal a você por 1 hora."
+  },
+  {
+    "d100": 88,
+    "name": "Poeira da Deliciosidade",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "EGtW",
+    "englishName": "Dust of Deliciousness",
+    "description": "Ao ser salpicada sobre comida ou bebida, melhora drasticamente o sabor e concede vantagem em testes de Carisma por 1 hora para quem consumir."
+  },
+  {
+    "d100": 89,
+    "name": "Concha de Segurança",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Safety Shell",
+    "description": "Esta concha mágica pode se expandir criando uma redoma protetora resistente a ataques físicos por 10 minutos."
+  },
+  {
+    "d100": 90,
+    "name": "Égide do Pavor",
+    "type": "Armor",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Aegis of Dread",
+    "description": "Este escudo mágico impõe desvantagem a ataques corpo a corpo direcionados a você caso o atacante falhe em um teste de resistência de Sabedoria CD 12."
+  },
+  {
+    "d100": 91,
+    "name": "Incenso de Fortitude",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Incense of Fortitude",
+    "description": "Este incenso mágico queima por 1 hora exalando aromas suaves. Qualquer criatura que inalar a fumaça durante um descanso curto ganha pontos de vida temporários iguais ao seu nível de personagem e tem vantagem em testes de resistência de Constituição por 8 horas."
+  },
+  {
+    "d100": 93,
+    "name": "Tatuagem do Poder",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Tattoo of Power",
+    "description": "Requer sintonia. Ao conjurar uma magia, você pode ativar esta tatuagem para amplificar a magia (como se estivesse usando um espaço de magia um nível superior) ou impor desvantagem no teste de resistência do alvo. Após o uso, ela desaparece."
+  },
+  {
+    "d100": 94,
+    "name": "Poção de Resistência",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Resistance",
+    "description": "Ao beber esta poção, você ganha resistência a um tipo de dano (como Fogo, Frio, Ácido, etc.) por 1 hora. O tipo de dano é determinado aleatoriamente ou escolhido pelo Mestre."
+  },
+  {
+    "d100": 95,
+    "name": "Broche da Essência Viva",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "EGtW",
+    "englishName": "Brooch of Living Essence",
+    "description": "Requer sintonia. Enquanto usa este broche, magias que detectem seu tipo de criatura percebem você como humanoide, e testes de alinhamento te consideram Neutro."
+  },
+  {
+    "d100": 96,
+    "name": "Capuz de Respirar na Água",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Cap of Water Breathing",
+    "description": "Permite a você respirar normalmente debaixo d'água enquanto estiver usando este capuz."
+  },
+  {
+    "d100": 98,
+    "name": "Anel de Alarme",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "WGMM",
+    "englishName": "Ring of Alarm",
+    "description": "Requer sintonia. Permite programar um alarme mental silencioso que avisa um aliado em qualquer lugar do mesmo plano caso condições específicas (como receber dano ou gritar) sejam cumpridas."
+  },
+  {
+    "d100": 99,
+    "name": "Emblema do Guardião",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": true,
+    "source": "TCoE",
+    "englishName": "Guardian Emblem",
+    "description": "Requer sintonia por Clérigo ou Paladino. Este emblema acoplado à armadura possui 3 cargas. Permite gastar 1 carga para transformar um acerto crítico sofrido por você ou aliado a até 9 metros em um acerto normal."
+  },
+  {
+    "d100": 100,
+    "name": "Poeira de Espirro e Sufocamento",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Dust of Sneezing and Choking",
+    "description": "Esta poeira parece com Poeira do Desaparecimento. Lançá-la faz com que criaturas num raio de 9 metros sejam tomadas por crises de espirro e asfixia se falharem num salvamento de Constituição CD 15."
+  }
+]

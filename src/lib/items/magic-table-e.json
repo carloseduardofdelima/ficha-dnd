@@ -1,0 +1,122 @@
+[
+  {
+    "d100": 8,
+    "name": "Poção da Fênix",
+    "type": "Potion",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Potion of the Phoenix",
+    "description": "Ao beber esta poção, você fica imbuído com energia de fênix por 1 ano e 1 dia. Se você morrer nesse período, você ressurge no seu próximo turno com metade do seu HP máximo e causa 5d8 de dano radiante a inimigos próximos."
+  },
+  {
+    "d100": 17,
+    "name": "Poção de Cura (Suprema)",
+    "type": "Potion",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Healing (Supreme)",
+    "description": "Você recupera 10d4 + 20 pontos de vida ao beber esta poção."
+  },
+  {
+    "d100": 25,
+    "name": "Cola Soberana",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Sovereign Glue",
+    "description": "Uma substância leitosa extremamente forte que une dois objetos permanentemente após 1 minuto. O vínculo só pode ser quebrado por Solvente Universal, Óleo de Eterização ou Desejo."
+  },
+  {
+    "d100": 33,
+    "name": "Flecha de Matar",
+    "type": "Weapon",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Arrow of Slaying",
+    "description": "Esta flecha mágica é feita para um tipo específico de criatura. Ao atingir o alvo, ele deve fazer um salvamento de Constituição CD 17 ou sofrerá 6d10 de dano perfurante extra. A flecha perde a magia após o acerto."
+  },
+  {
+    "d100": 42,
+    "name": "Placa do Despertar",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "HAT",
+    "englishName": "Tablet of Reawakening",
+    "description": "Esta placa de pedra mágica permite conjurar a magia Ressurreição Verdadeira sem gastar componentes materiais. Ela vira pó após o uso."
+  },
+  {
+    "d100": 50,
+    "name": "Poção de Força do Gigante da Tempestade",
+    "type": "Potion",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Potion of Storm Giant Strength",
+    "description": "Ao beber esta poção, seu valor de Força se torna 29 por 1 hora."
+  },
+  {
+    "d100": 58,
+    "name": "Pergaminho de Viagem no Tempo",
+    "type": "Scroll",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Scroll of Time Travel",
+    "description": "Ler este pergaminho transporta você e até 8 aliados voluntários para um ponto do passado pelo tempo que você determinar. Ao final do tempo, vocês retornam ao momento logo após a leitura."
+  },
+  {
+    "d100": 67,
+    "name": "Pergaminho de 9º Nível",
+    "type": "Scroll",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Spell Scroll (9th Level)",
+    "description": "Este pergaminho contém uma magia de 9º nível escrita. Ler o pergaminho conjura a magia."
+  },
+  {
+    "d100": 75,
+    "name": "Pergaminho de 8º Nível",
+    "type": "Scroll",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Spell Scroll (8th Level)",
+    "description": "Este pergaminho contém uma magia de 8º nível escrita. Ler o pergaminho conjura a magia."
+  },
+  {
+    "d100": 83,
+    "name": "Solvente Universal",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "DMG",
+    "englishName": "Universal Solvent",
+    "description": "Este líquido mágicos dissolve instantaneamente até 30 centímetros quadrados de qualquer adesivo, incluindo a Cola Soberana."
+  },
+  {
+    "d100": 92,
+    "name": "Frasco de Clonagem",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "attune": false,
+    "source": "WGMM",
+    "englishName": "Flask of Cloning",
+    "description": "Ao colocar um pedaço de carne de uma criatura viva dentro dele, o frasco cria um clone inerte. Se o original morrer, a alma é transferida e o clone cresce rapidamente até o tamanho original, quebrando o frasco."
+  },
+  {
+    "d100": 100,
+    "name": "Poção da Majestade do Dragão",
+    "type": "Potion",
+    "rarity": "Legendary",
+    "attune": false,
+    "source": "FToD",
+    "englishName": "Potion of Dragon's Majesty",
+    "description": "Ao beber esta poção contendo uma escama de dragão, você se transforma em um Dragão Adulto correspondente ao tipo da escama por 1 hora."
+  }
+]
