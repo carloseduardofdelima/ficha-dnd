@@ -548,5 +548,255 @@ export const FEATS_2024: Feat[] = [
     requirement: 'Nível 19',
     category: 'Epic Boon',
     minLevel: 19
+  },
+
+  // EXPANSÕES (FIZBAN / GLORY OF THE GIANTS)
+  {
+    id: 'gift-chromatic-dragon',
+    name: 'Gift of the Chromatic Dragon',
+    description: 'Infunde arma com 1d4 elemental (ácido/frio/fogo/elétrico/veneno) por 1 min, e dá reação para resistir a esses danos.',
+    requirement: 'Nível 4+',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'gift-gem-dragon',
+    name: 'Gift of the Gem Dragon',
+    description: '+1 Int/Wis/Cha, reação causa 2d8 força e empurra 10 pés inimigo a até 10 pés que te deu dano (Str save CD 8+prof+mod).',
+    requirement: 'Nível 4+',
+    benefit: { attributes: { choice: 1 } }, // dynamically handles choice in UI if configured
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'gift-metallic-dragon',
+    name: 'Gift of the Metallic Dragon',
+    description: 'Aprende Cure Wounds (conconjura 1x grátis), e reação soma proficiência na CA própria ou de aliado a até 5 pés.',
+    requirement: 'Nível 4+',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'strike-of-the-giants',
+    name: 'Strike of the Giants',
+    description: '1x/turno adiciona dano extra e efeito especial (save CD 8+prof+Str/Con) em ataque físico com base no tipo de gigante escolhido.',
+    requirement: 'Prof. Arma Marcial ou Giant Foundling',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'rune-shaper',
+    name: 'Rune Shaper',
+    description: 'Aprende Comprehend Languages (conjura 1x grátis), grava runas em itens para acessar magias de 1º nível adicionais.',
+    requirement: 'Conjuração ou Rune Carver',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'guile-cloud-giant',
+    name: 'Guile of the Cloud Giant',
+    description: '+1 Str/Con/Cha, reação para reduzir dano sofrido pela metade e teleportar-se até 30 pés.',
+    requirement: 'Nível 4, Strike of the Giants (Cloud)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'ember-fire-giant',
+    name: 'Ember of the Fire Giant',
+    description: '+1 Str/Con/Wis, resistência a fogo, substitui ataque por explosão de fogo 15 pés que causa 1d8+prof e cega inimigos.',
+    requirement: 'Nível 4, Strike of the Giants (Fire)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'fury-frost-giant',
+    name: 'Fury of the Frost Giant',
+    description: '+1 Str/Con/Wis, resistência a frio, reação causa 1d8+prof frio e reduz velocidade do atacante a 0 (Con save).',
+    requirement: 'Nível 4, Strike of the Giants (Frost)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'keenness-stone-giant',
+    name: 'Keenness of the Stone Giant',
+    description: '+1 Str/Con/Wis, +60 pés visão no escuro, ação bônus arremessa pedra mágica causando 1d10 força e derrubando (Str save).',
+    requirement: 'Nível 4, Strike of the Giants (Stone)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'soul-storm-giant',
+    name: 'Soul of the Storm Giant',
+    description: '+1 Str/Wis/Cha, ação bônus cria aura de 10 pés por 1 turno: resistência a elétrico/trovão, desvantagem em ataques contra você, inimigos têm velocidade reduzida.',
+    requirement: 'Nível 4, Strike of the Giants (Storm)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'vigor-hill-giant',
+    name: 'Vigor of the Hill Giant',
+    description: '+1 Str/Con/Wis, reação evita ser empurrado/derrubado, adiciona 1d8+Con em curas de Dados de Vida.',
+    requirement: 'Nível 4, Strike of the Giants (Hill)',
+    category: 'General',
+    minLevel: 4
+  },
+
+  // TASHA'S CAULDRON OF EVERYTHING
+  {
+    id: 'artificer-initiate',
+    name: 'Artificer Initiate',
+    description: 'Aprende 1 truque e 1 magia de 1º nível de Artífice (conjura 1x grátis), proficiência com ferramenta de artesão.',
+    requirement: 'Nível 1+',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'eldritch-adept',
+    name: 'Eldritch Adept',
+    description: 'Aprende uma Eldritch Invocation de Bruxo. Se a invocação exigir pré-requisitos, você só poderá escolhê-la se for um Bruxo e os cumprir.',
+    requirement: 'Conjuração ou Pact Magic',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'fighting-initiate',
+    name: 'Fighting Initiate',
+    description: 'Aprende um Estilo de Luta de Guerreiro.',
+    requirement: 'Proficiência com pelo menos uma Arma Marcial',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'gunner',
+    name: 'Gunner',
+    description: '+1 Des, proficiência com armas de fogo, ignora recarga e elimina desvantagem a curta distância.',
+    requirement: 'Nível 4+',
+    benefit: { attributes: { dexterity: 1 } },
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'metamagic-adept',
+    name: 'Metamagic Adept',
+    description: 'Aprende duas Metamagias de Feiticeiro e ganha 2 pontos de feitiçaria.',
+    requirement: 'Conjuração ou Pact Magic',
+    category: 'General',
+    minLevel: 1
+  },
+
+  // XANATHAR'S GUIDE TO EVERYTHING (RACIAIS)
+  {
+    id: 'bountiful-luck',
+    name: 'Bountiful Luck',
+    description: 'Permite que aliado a até 30 pés rerole um 1 no d20 usando sua reação.',
+    requirement: 'Raça Halfling',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'dragon-fear',
+    name: 'Dragon Fear',
+    description: '+1 For/Con/Car, substitui uso do sopro por rugido que amedronta inimigos a até 30 pés.',
+    requirement: 'Raça Draconato',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'dragon-hide',
+    name: 'Dragon Hide',
+    description: '+1 For/Con/Car, CA sem armadura vira 13 + Des, garras causam 1d4 cortante.',
+    requirement: 'Raça Draconato',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'drow-high-magic',
+    name: 'Drow High Magic',
+    description: 'Aprende Detect Magic à vontade, Levitate e Dispel Magic 1x grátis.',
+    requirement: 'Raça Elfo (Drow)',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'dwarf-fortitude',
+    name: 'Dwarf Fortitude',
+    description: '+1 Con, gastar Dado de Vida para se curar ao realizar a ação Esquivar.',
+    requirement: 'Raça Anão',
+    benefit: { attributes: { constitution: 1 } },
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'fade-away',
+    name: 'Fade Away',
+    description: '+1 Des/Int, reação ao sofrer dano para ficar invisível até fim do seu próximo turno.',
+    requirement: 'Raça Gnomo',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'fey-teleportation',
+    name: 'Fey Teleportation',
+    description: '+1 Int/Car, aprende Silvestre, conjura Misty Step 1x por descanso curto/longo.',
+    requirement: 'Raça Elfo (Alto)',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'flames-of-phlegethos',
+    name: 'Flames of Phlegethos',
+    description: '+1 Int/Car, rerola 1s em dano de fogo, conjurar magia de fogo cria aura protetora.',
+    requirement: 'Raça Tiefling',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'infernal-constitution',
+    name: 'Infernal Constitution',
+    description: '+1 Con, resistência a frio e veneno, vantagem contra ser envenenado.',
+    requirement: 'Raça Tiefling',
+    benefit: { attributes: { constitution: 1 } },
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'orcish-fury',
+    name: 'Orcish Fury',
+    description: '+1 For/Con, adiciona dado de dano extra em acerto (1x/descanso), reage com ataque ao ativar Resistência Implacável.',
+    requirement: 'Raça Meio-Orc',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'prodigy',
+    name: 'Prodigy',
+    description: 'Ganha 1 perícia, 1 ferramenta, 1 idioma e 1 Especialização (Expertise).',
+    requirement: 'Humano, Meio-Elfo ou Meio-Orc',
+    category: 'General',
+    minLevel: 1
+  },
+  {
+    id: 'second-chance',
+    name: 'Second Chance',
+    description: '+1 Con/Car/Des, reação força inimigo que te acertou a rerolar o ataque.',
+    requirement: 'Raça Halfling',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'squat-nimbleness',
+    name: 'Squat Nimbleness',
+    description: '+1 For/Des, +5 pés de movimento, ganha perícia Acrobatics/Athletics e vantagem para escapar de agarrões.',
+    requirement: 'Raça Anão ou Pequena',
+    category: 'General',
+    minLevel: 4
+  },
+  {
+    id: 'wood-elf-magic',
+    name: 'Wood Elf Magic',
+    description: 'Aprende 1 truque de Druida, Longstrider e Pass Without Trace (1x grátis cada).',
+    requirement: 'Raça Elfo (Floresta)',
+    category: 'General',
+    minLevel: 1
   }
 ];

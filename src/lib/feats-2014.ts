@@ -576,5 +576,291 @@ export const FEATS_2014: Feat2014[] = [
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'charisma'] },
     source: 'Guia do Xanathar'
+  },
+  {
+    id: 'dadiva-do-dragao-cromatico',
+    name: 'Dádiva do Dragão Cromático (Gift of the Chromatic Dragon)',
+    benefits: [
+      'Infusão Cromática: Com uma ação bônus, toque uma arma simples ou marcial para infundir nela energia cromática. Por 1 minuto, a arma causa 1d4 de dano extra do tipo escolhido: ácido, frio, fogo, elétrico ou veneno (1x por descanso longo).',
+      'Resistência Reativa: Ao sofrer dano de ácido, frio, fogo, elétrico ou veneno, use sua reação para ganhar resistência a esse tipo de dano contra esse ataque (número de vezes igual ao bônus de proficiência por descanso longo).'
+    ],
+    source: "Fizban's Treasury of Dragons"
+  },
+  {
+    id: 'dadiva-do-dragao-de-gema',
+    name: 'Dádiva do Dragão de Gema (Gift of the Gem Dragon)',
+    benefits: [
+      'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Retaliação Telecinética: Ao sofrer dano de uma criatura a até 3 metros, use sua reação para liberar energia mental. A criatura faz salvaguarda de Força (CD 8 + prof + modificador do atributo aumentado). Falhando, sofre 2d8 de dano de força e é empurrada 3 metros (número de vezes igual ao bônus de proficiência por descanso longo).'
+    ],
+    attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
+    source: "Fizban's Treasury of Dragons"
+  },
+  {
+    id: 'dadiva-do-dragao-metalico',
+    name: 'Dádiva do Dragão Metálico (Gift of the Metallic Dragon)',
+    benefits: [
+      'Você aprende a magia curar ferimentos e pode conjurá-la 1x sem espaço de magia por descanso longo (usando Int, Sab ou Car). Também pode conjurá-la usando seus próprios espaços.',
+      'Asas Protetoras: Ao ser atingido (ou ver criatura a até 1,5m ser atingida), use sua reação para somar seu bônus de proficiência na CA do alvo contra aquele ataque (número de vezes igual ao bônus de proficiência por descanso longo).'
+    ],
+    source: "Fizban's Treasury of Dragons"
+  },
+  {
+    id: 'ataque-dos-gigantes',
+    name: 'Ataque dos Gigantes (Strike of the Giants)',
+    requirement: 'Proficiência com Armas Marciais ou Antecedente Enjeitado dos Gigantes',
+    benefits: [
+      'Escolha um tipo de ataque ao obter este talento. 1x por turno, ao atingir com ataque corpo-a-corpo ou arma arremessada, causa efeito extra (usos = bônus de proficiência por descanso longo; CD = 8 + prof + For ou Con):',
+      'Nuvem: +1d4 de dano de trovão e alvo faz teste de Sabedoria ou você fica invisível para ele até o início do seu próximo turno.',
+      'Fogo: +1d10 de dano de fogo.',
+      'Gelo: +1d6 de dano de frio e alvo faz teste de Con ou seu deslocamento cai para 0.',
+      'Colina: +1d6 de dano da arma e alvo faz teste de Força ou cai no chão.',
+      'Pedra: +1d6 de dano de força e alvo faz teste de Força ou é empurrado 3 metros.',
+      'Tempestade: +1d6 de dano elétrico e alvo faz teste de Con ou tem desvantagem em ataques.'
+    ],
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'escultor-de-runas',
+    name: 'Escultor de Runas (Rune Shaper)',
+    requirement: 'Conjuração ou Antecedente Entalhador de Runas',
+    benefits: [
+      'Você aprende compreender idiomas e pode conjurá-la 1x sem gastar espaço de magia por descanso longo.',
+      'Gravação de Runas: Ao fim de um descanso longo, grave runas (metade de prof, mínimo 1) em itens para acessar magias adicionais de 1º nível. Conjure 1x cada sem espaço de magia (Int, Sab ou Car) ou use seus próprios espaços.'
+    ],
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'ardil-do-gigante-da-nuvem',
+    name: 'Ardil do Gigante da Nuvem (Guile of the Cloud Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Nuvem)',
+    benefits: [
+      'Aumente seu valor de Força, Constituição ou Carisma em 1, até o máximo de 20.',
+      'Ardil da Nuvem: Ao ser atingido por ataque, use reação para reduzir dano à metade e teleportar-se até 9 metros para local visível (usos = bônus de proficiência por descanso longo).'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'charisma'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'brasa-do-gigante-do-fogo',
+    name: 'Brasa do Gigante do Fogo (Ember of the Fire Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Fogo)',
+    benefits: [
+      'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
+      'Ganha resistência a dano de fogo.',
+      'Ignição Ardente: Substitui um ataque por explosão de fogo de 4,5m de raio centrada em você. Criaturas fazem salvaguarda de Destreza; falhas sofrem 1d8 + prof de dano de fogo e ficam cegas por 1 turno (metade do dano e sem cegueira em caso de sucesso). Usos = bônus de proficiência por descanso longo.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'furia-do-gigante-do-gelo',
+    name: 'Fúria do Gigante do Gelo (Fury of the Frost Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Gelo)',
+    benefits: [
+      'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
+      'Ganha resistência a dano de frio.',
+      'Retaliação Gelada: Ao ser atingido por criatura a até 9m, use reação para forçá-la a salvaguarda de Constituição. Falhas sofrem 1d8 + prof de dano de frio e deslocamento cai para 0 por 1 turno. Usos = bônus de proficiência por descanso longo.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'agudeza-do-gigante-da-pedra',
+    name: 'Agudeza do Gigante da Pedra (Keenness of the Stone Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Pedra)',
+    benefits: [
+      'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
+      'Ganha visão no escuro de 18m (ou adiciona 18m se já possuir).',
+      'Arremesso de Pedra: Com ação bônus, faz ataque mágico contra criatura a até 18m. Causas 1d10 de dano de força e faz teste de Força ou cai no chão. Usos = bônus de proficiência por descanso longo.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'alma-do-gigante-da-tempestade',
+    name: 'Alma do Gigante da Tempestade (Soul of the Storm Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Tempestade)',
+    benefits: [
+      'Aumente seu valor de Força, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Aura do Turbilhão: Com ação bônus, cria aura de 3m por 1 turno. Dá resistência a elétrico/trovão, ataques contra você têm desvantagem, e inimigos que iniciarem o turno nela fazem salvaguarda de Força ou têm velocidade reduzida pela metade. Usos = bônus de proficiência por descanso longo.'
+    ],
+    attributeBonus: { choice: ['strength', 'wisdom', 'charisma'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'vigor-do-gigante-da-colina',
+    name: 'Vigor do Gigante da Colina (Vigor of the Hill Giant)',
+    requirement: 'Nível 4, talento Ataque dos Gigantes (Colina)',
+    benefits: [
+      'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
+      'Robustez da Colina: Pode usar reação para evitar ser empurrado ou derrubado.',
+      'Ao recuperar PV usando Dados de Vida, cure adicionalmente 1d8 + modificador de Con.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
+    source: 'Glory of the Giants'
+  },
+  {
+    id: 'iniciado-em-artificio',
+    name: 'Iniciado em Artifício (Artificer Initiate)',
+    benefits: [
+      'Você aprende um truque e uma magia de 1º nível da lista do Artífice. O atributo de conjuração é Inteligência.',
+      'Conjura a magia de 1º nível 1x sem espaço de magia por descanso longo, ou usando seus próprios espaços.',
+      'Proficiência com uma ferramenta de artesão, que pode ser usada como foco para magias baseadas em Inteligência.'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'chef',
+    name: 'Chef',
+    benefits: [
+      'Aumente seu valor de Constituição ou Sabedoria em 1, até o máximo de 20.',
+      'Proficiência com utensílios de cozinheiro.',
+      'Ao fim de descanso curto, prepara refeição que concede +1d8 PV recuperados por Dado de Vida gasto.',
+      'Prepara guloseimas (igual a proficiência) que duram 8h. Ação bônus para comer e ganhar PV temporários igual a proficiência.'
+    ],
+    attributeBonus: { choice: ['constitution', 'wisdom'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'esmagador',
+    name: 'Esmagador (Crusher)',
+    benefits: [
+      'Aumente seu valor de Força ou Constituição em 1, até o máximo de 20.',
+      '1x por turno, ao causar dano de concussão (bludgeoning), empurra criatura de tamanho até Médio em 1,5m.',
+      'Crítico com dano de concussão concede vantagem em todos os ataques contra o alvo até o início do seu próximo turno.'
+    ],
+    attributeBonus: { choice: ['strength', 'constitution'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'adepto-mistico',
+    name: 'Adepto Místico (Eldritch Adept)',
+    requirement: 'Capacidade de conjurar magias',
+    benefits: [
+      'Você aprende uma Invocação Mística (Eldritch Invocation) de Bruxo. Se tiver requisitos, só pode escolher se for Bruxo e os cumprir.',
+      'Pode trocar a invocação sempre que ganhar um nível.'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'tocado-pelas-fadas',
+    name: 'Tocado pelas Fadas (Fey Touched)',
+    benefits: [
+      'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Aprende Passo Nebuloso (Misty Step) e uma magia de 1º nível de adivinhação ou encantamento.',
+      'Conjura cada magia 1x sem espaço de magia por descanso longo (usando o atributo aumentado) ou com seus próprios espaços.'
+    ],
+    attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'iniciado-em-combate',
+    name: 'Iniciado em Combate (Fighting Initiate)',
+    requirement: 'Proficiência com pelo menos uma Arma Marcial',
+    benefits: [
+      'Você aprende um Estilo de Luta (Fighting Style) de Guerreiro.',
+      'Pode trocar esse estilo sempre que ganhar um nível que conceda ASI.'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'artilheiro',
+    name: 'Artilheiro (Gunner)',
+    benefits: [
+      'Aumente seu valor de Destreza em 1, até o máximo de 20.',
+      'Proficiência com armas de fogo.',
+      'Ignora propriedade de recarga (loading) de armas de fogo.',
+      'Estar a até 1,5m de criatura hostil não impõe desvantagem em ataques à distância.'
+    ],
+    attributeBonus: { dexterity: 1 },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'adepto-de-metamagia',
+    name: 'Adepto de Metamagia (Metamagic Adept)',
+    requirement: 'Capacidade de conjurar magias',
+    benefits: [
+      'Você aprende duas opções de Metamagia de Feiticeiro.',
+      'Ganha 2 pontos de feitiçaria (recuperados após descanso longo).',
+      'Pode trocar uma opção de Metamagia sempre que ganhar um nível que conceda ASI.'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'perfurador',
+    name: 'Perfurador (Piercer)',
+    benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
+      '1x por turno, ao causar dano de perfuração (piercing), rerola um dado de dano da arma e usa o novo.',
+      'Crítico de perfuração adiciona um dado de dano extra da arma.'
+    ],
+    attributeBonus: { choice: ['strength', 'dexterity'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'envenenador',
+    name: 'Envenenador (Poisoner)',
+    benefits: [
+      'Proficiência com kit de envenenador.',
+      'Ataques ignoram resistência a dano de veneno.',
+      'Aplica veneno em arma/munição com ação bônus (dura 1 min ou até atingir).',
+      'Prepara veneno potente em descanso longo (50 po, igual a prof). Causa 2d8 de dano e envenena por 1 turno (Con save CD 14).'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'tocado-pelas-sombras',
+    name: 'Tocado pelas Sombras (Shadow Touched)',
+    benefits: [
+      'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Aprende Invisibilidade e uma magia de 1º nível de ilusão ou necromancia.',
+      'Conjura cada magia 1x sem espaço de magia por descanso longo (usando o atributo aumentado) ou com seus próprios espaços.'
+    ],
+    attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'especialista-em-pericia',
+    name: 'Especialista em Perícia (Skill Expert)',
+    benefits: [
+      'Aumente um valor de habilidade à sua escolha em 1, até o máximo de 20.',
+      'Ganha proficiência em uma perícia à sua escolha.',
+      'Ganha Especialização (Expertise) em uma perícia proficiente, dobrando o bônus de proficiência.'
+    ],
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'cortador',
+    name: 'Cortador (Slasher)',
+    benefits: [
+      'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
+      '1x por turno, ao causar dano cortante (slashing), reduz deslocamento do alvo em 3m por 1 turno.',
+      'Crítico de dano cortante impõe desvantagem em todas as jogadas de ataque do alvo por 1 turno.'
+    ],
+    attributeBonus: { choice: ['strength', 'dexterity'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'telecinetico',
+    name: 'Telecinético (Telekinetic)',
+    benefits: [
+      'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Aprende Mãos Mágicas (invisível, sem componentes).',
+      'Ação bônus para tentar empurrar criatura a até 9m por 1,5m (For save CD 8 + prof + mod do atributo aumentado).'
+    ],
+    attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
+    source: "Tasha's Cauldron of Everything"
+  },
+  {
+    id: 'telepata',
+    name: 'Telepata (Telepathic)',
+    benefits: [
+      'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
+      'Fala telepática com criatura visível a até 18 metros.',
+      'Aprende Detectar Pensamentos e pode conjurar 1x sem gastar espaço de magia por descanso longo (ou usando espaços).'
+    ],
+    attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
+    source: "Tasha's Cauldron of Everything"
   }
 ];
