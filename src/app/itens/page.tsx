@@ -9,6 +9,7 @@ import poisons from '@/lib/items/poisons.json'
 import adventuringGear from '@/lib/items/adventuring-gear.json'
 import potionsOils from '@/lib/items/potions-oils.json'
 import other from '@/lib/items/other.json'
+import { getItemIconUrl, cleanDescription } from '@/lib/items/icons'
 
 const itemsData = [
   ...weapons,
@@ -302,6 +303,37 @@ export default function ItemsPage() {
           color: var(--fg3);
         }
 
+        .item-icon-wrapper {
+          width: 46px;
+          height: 46px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          overflow: hidden;
+          padding: 4px;
+          transition: all 0.25s ease;
+        }
+
+        .item-icon-img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          transition: transform 0.25s ease;
+        }
+
+        .item-card:hover .item-icon-img {
+          transform: scale(1.12);
+        }
+
+        .item-card:hover .item-icon-wrapper {
+          border-color: rgba(225, 29, 72, 0.3);
+          background: rgba(255, 255, 255, 0.04);
+        }
+
         @media (max-width: 640px) {
           .filters-container {
             padding: 16px;
@@ -434,6 +466,7 @@ export default function ItemsPage() {
           <div className="items-grid">
             {filteredItems.map((item, idx) => {
               const catConf = CATEGORY_CONFIG[item.category] || { label: item.category, color: "var(--border)", icon: <BookOpen size={16} /> }
+              const iconUrl = getItemIconUrl(item.name, item.category)
               
               return (
                 <div 
@@ -456,6 +489,11 @@ export default function ItemsPage() {
                         {catConf.label}
                       </div>
                     </div>
+                    {iconUrl && (
+                      <div className="item-icon-wrapper" style={{ borderColor: `${catConf.color}40` }}>
+                        <img src={iconUrl} alt={item.name} className="item-icon-img" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Quick stats row */}
@@ -491,7 +529,7 @@ export default function ItemsPage() {
                   {/* Body */}
                   <div className="item-body">
                     <p className="item-description">
-                      {item.description}
+                      {cleanDescription(item.description)}
                     </p>
                     
                     {item.properties && !item.classification && (

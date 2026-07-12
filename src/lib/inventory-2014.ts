@@ -1,6 +1,16 @@
 import { InventoryEntry, InventoryItem, ItemCategory } from './inventory'
+import weapons from './items/weapons.json'
+import armor from './items/armor.json'
+import tools from './items/tools.json'
+import wondrousItems from './items/wondrous-items.json'
+import poisons from './items/poisons.json'
+import adventuringGear from './items/adventuring-gear.json'
+import potionsOils from './items/potions-oils.json'
+import other from './items/other.json'
 
-export const ITEM_CATALOG_2014: InventoryItem[] = [
+// ── Catalog Base 2014 ─────────────────────────────────────────────────────────────
+
+const ITEM_CATALOG_2014_BASE: InventoryItem[] = [
   // --- Armas Simples Corpo a Corpo ---
   { id: 'clava-2014', name: 'Clava', category: 'weapon', icon: '🪵', description: 'Arma simples corpo a corpo. Dano: 1d4 contundente.', weight: 0.9, cost: '1 pp', properties: 'Leve, 1d4 contundente' },
   { id: 'adaga-2014', name: 'Adaga', category: 'weapon', icon: '🔪', description: 'Arma simples corpo a corpo. Dano: 1d4 perfurante.', weight: 0.45, cost: '2 po', properties: 'Acuidade, Leve, Arremesso (6/18m), 1d4 perfurante' },
@@ -136,8 +146,77 @@ export const ITEM_CATALOG_2014: InventoryItem[] = [
   { id: 'bau-2014', name: 'Baú', category: 'misc', icon: '📦', description: 'Um baú de madeira resistente para guardar equipamentos.', weight: 11, cost: '5 po' },
   { id: 'martelo-ferramenta-2014', name: 'Martelo', category: 'misc', icon: '🔨', description: 'Martelo de ferro simples para trabalhos manuais ou pregar estacas.', weight: 0.9, cost: '1 po' },
   { id: 'bugiganga-horror-2014', name: 'Objeto de Significado Especial (Bugiganga de Terror)', category: 'misc', icon: '💀', description: 'Um item macabro ou misterioso carregado de significado pessoal.', weight: 0.1, cost: '—' }
-]
+];
 
+// Helper to normalize names for duplicate checking
+const getNormalizedName = (name: string) =>
+  name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "");
+
+const baseNames = new Set(ITEM_CATALOG_2014_BASE.map(i => getNormalizedName(i.name)));
+
+// Map JSON items to InventoryItem format
+const mappedJsonItems: InventoryItem[] = [
+  ...weapons,
+  ...armor,
+  ...tools,
+  ...wondrousItems,
+  ...poisons,
+  ...adventuringGear,
+  ...potionsOils,
+  ...other
+].map(item => {
+  const normName = getNormalizedName(item.name);
+  const id = normName.replace(/[^a-z0-9]+/g, "-") + "-2014"; // Append -2014 to avoid ID conflict
+  
+  let category: ItemCategory = 'misc';
+  if (item.category === 'Weapon') category = 'weapon';
+  else if (item.category === 'Armor') category = 'armor';
+  else if (item.category === 'Tools') category = 'tool';
+  else if (item.category === 'Ammunition') category = 'ammo';
+
+  let ac: number | undefined = undefined;
+  if (item.ac) {
+    ac = parseInt(item.ac.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(ac)) ac = undefined;
+  }
+
+  // Choose standard emoji icon based on category
+  let icon = '📦';
+  if (category === 'weapon') icon = '⚔️';
+  else if (category === 'armor') icon = '🛡️';
+  else if (category === 'tool') icon = '🛠️';
+  else if (category === 'ammo') icon = '🏹';
+  else if (item.category === 'Wondrous Item') icon = '💎';
+  else if (item.category === 'Potion') icon = '🧪';
+  else if (item.category === 'Poison') icon = '☣️';
+
+  return {
+    id,
+    name: item.name,
+    category,
+    icon,
+    description: item.description || '',
+    weight: 0.1, // default weight
+    cost: item.cost ? item.cost.toLowerCase() : '—',
+    properties: item.properties || undefined,
+    ac
+  };
+});
+
+// Filter out duplicate names
+const uniqueJsonItems = mappedJsonItems.filter(item => {
+  const norm = getNormalizedName(item.name);
+  if (baseNames.has(norm)) {
+    return false;
+  }
+  baseNames.add(norm); // Prevent duplicate items within JSONs as well
+  return true;
+});
+
+export const ITEM_CATALOG_2014: InventoryItem[] = [
+  ...ITEM_CATALOG_2014_BASE,
+  ...uniqueJsonItems
+];
 
 export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
   'Bárbaro': [

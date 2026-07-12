@@ -13,7 +13,7 @@ import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014';
 import CLASS_LEVEL1_DATA from '@/lib/class-features';
 import { CLASS_PROGRESSION_2024, SPECIES_PROGRESSION_2024 } from '@/lib/dnd-progression-2024';
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024';
-import { SUBCLASSES_2014 } from '@/lib/subclasses-2014';
+import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014';
 
 const getCharacterFeatures = (character: Character) => {
   const features: { name: string; description: string }[] = [];
@@ -133,9 +133,7 @@ const getCharacterFeatures = (character: Character) => {
   // Subclass Features (for both 2014 and 2024)
   if (character.subclass) {
     const subCatalog = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SUBCLASSES_2014 : SUBCLASSES_2024;
-    const classId = character.class?.toLowerCase().includes('patrulheiro') || character.class?.toLowerCase().includes('ranger') 
-      ? ((character.ruleset === '2014' || character.ruleset === '5e-custom') ? 'ranger_2014' : 'ranger') 
-      : character.class;
+    const classId = character.class;
       
     if (subCatalog[classId]?.[character.subclass]) {
       const subObj = subCatalog[classId][character.subclass];
@@ -921,7 +919,7 @@ const CharacterPDF = ({ character }: Props) => {
 
             <View style={styles.hpContainer}>
                <View style={styles.hpHeader}><Text style={styles.headerLabel}>PV Totais</Text><Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>{character.maxHp}</Text></View>
-               <View style={styles.hpMain}><Text style={{ fontSize: 24, fontFamily: 'Times-Bold' }}>{character.currentHp}</Text></View>
+               <View style={styles.hpMain}><Text style={{ fontSize: 24, fontFamily: 'Times-Bold' }}></Text></View>
                <View style={styles.hpFooter}><Text style={styles.hpFooterText}>Pontos de Vida Atuais</Text></View>
             </View>
 
@@ -1030,17 +1028,14 @@ const CharacterPDF = ({ character }: Props) => {
             <View style={styles.equipmentBox}>
                <View style={styles.moneyColumn}>
                   {(() => {
-                    const coins = { PC: 0, PP: 0, PE: 0, PO: 0, PL: 0 };
-                    inventoryArr.forEach((item: any) => {
-                      const name = item.item?.name || '';
-                      const qty = item.qty || 1;
-                      const match = name.match(/\((\d+)\s*(pc|pp|pe|po|pl)\)/i);
-                      if (match) {
-                        const val = parseInt(match[1]);
-                        const type = match[2].toUpperCase() as keyof typeof coins;
-                        coins[type] += val * qty;
-                      }
-                    });
+                    const res = typeof character.resources === 'string' && character.resources ? JSON.parse(character.resources) : (character.resources || {});
+                    const coins = {
+                      PC: res.moeda_bronze || 0,
+                      PP: res.moeda_prata || 0,
+                      PE: res.moeda_eletro || 0,
+                      PO: res.moeda_ouro || 0,
+                      PL: res.moeda_platina || 0
+                    };
                     return Object.entries(coins).map(([type, value]) => (
                       <View key={type} style={{ gap: 2 }}>
                         <View style={styles.moneyBox}>
@@ -1115,11 +1110,15 @@ const CharacterPDF = ({ character }: Props) => {
       )}
       {/* Page 3: Spells (For Spellcasters) */}
       {(() => {
-        const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom';
-        const spellcastingClasses = ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Feiticeiro', 'Bruxo', 'Mago'];
-        const isSpellcaster = spellcastingClasses.includes(character.class);
-        
-        if (!isSpellcaster) return null;
+         const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom';
+         const spellcastingClasses = ['Bardo', 'Clérigo', 'Druida', 'Paladino', 'Patrulheiro', 'Feiticeiro', 'Bruxo', 'Mago', 'Artífice'];
+         const spellcastingSubclasses = ['Cavaleiro Arcano', 'Arcano Trapaceiro', 'Eldritch Knight', 'Arcane Trickster'];
+         const hasSpells = Array.isArray(character.spells) && character.spells.length > 0;
+         const isSpellcaster = spellcastingClasses.includes(character.class) || 
+                               (character.subclass && spellcastingSubclasses.includes(character.subclass)) ||
+                               hasSpells;
+         
+         if (!isSpellcaster) return null;
 
         const allSpells = is2014 ? ALL_SPELLS : SPELLS; // Use legacy spells if 2014
         const charSpells = Array.isArray(character.spells) 

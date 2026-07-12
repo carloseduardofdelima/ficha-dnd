@@ -1,3 +1,12 @@
+import weapons from './items/weapons.json'
+import armor from './items/armor.json'
+import tools from './items/tools.json'
+import wondrousItems from './items/wondrous-items.json'
+import poisons from './items/poisons.json'
+import adventuringGear from './items/adventuring-gear.json'
+import potionsOils from './items/potions-oils.json'
+import other from './items/other.json'
+
 // ── Item catalog ─────────────────────────────────────────────────────────────
 
 export type ItemCategory =
@@ -38,9 +47,9 @@ export interface InventoryEntry {
   isEquipped?: boolean
 }
 
-// ── Catalog ───────────────────────────────────────────────────────────────────
+// ── Catalog Base ─────────────────────────────────────────────────────────────────
 
-export const ITEM_CATALOG: InventoryItem[] = [
+const ITEM_CATALOG_BASE: InventoryItem[] = [
   // Weapons
   { id: 'spada-longa', name: 'Espada Longa', category: 'weapon', icon: '⚔️', description: 'Arma marcial corpo a corpo. Dano: 1d8 cortante.', weight: 1.5, cost: '15 po', properties: '1d8 cortante, versátil (1d10)' },
   { id: 'espada-curta', name: 'Espada Curta', category: 'weapon', icon: '🗡️', description: 'Arma marcial corpo a corpo. Dano: 1d6 perfurante.', weight: 0.9, cost: '10 po', properties: '1d6 perfurante, acuidade, leve' },
@@ -110,7 +119,77 @@ export const ITEM_CATALOG: InventoryItem[] = [
   { id: 'cinto-forca-gigante', name: 'Cinto da Força do Gigante', category: 'misc', icon: '💎', description: 'Sua Força se torna 21 enquanto você usar este cinto.', weight: 0.5, cost: '500 po', effects: [{ type: 'stat_override', target: 'strength', value: 21 }] },
   { id: 'tiara-intelecto', name: 'Tiara do Intelecto', category: 'misc', icon: '👑', description: 'Sua Inteligência se torna 19 enquanto você usar esta tiara.', weight: 0.5, cost: '500 po', effects: [{ type: 'stat_override', target: 'intelligence', value: 19 }] },
   { id: 'anel-protecao', name: 'Anel de Proteção', category: 'misc', icon: '💍', description: '+1 na CA e em todos os testes de salvaguarda.', weight: 0.1, cost: '500 po', effects: [{ type: 'ac_bonus', target: 'ac', value: 1 }] },
-]
+];
+
+// Helper to normalize names for duplicate checking
+const getNormalizedName = (name: string) =>
+  name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "");
+
+const baseNames = new Set(ITEM_CATALOG_BASE.map(i => getNormalizedName(i.name)));
+
+// Map JSON items to InventoryItem format
+const mappedJsonItems: InventoryItem[] = [
+  ...weapons,
+  ...armor,
+  ...tools,
+  ...wondrousItems,
+  ...poisons,
+  ...adventuringGear,
+  ...potionsOils,
+  ...other
+].map(item => {
+  const normName = getNormalizedName(item.name);
+  const id = normName.replace(/[^a-z0-9]+/g, "-");
+  
+  let category: ItemCategory = 'misc';
+  if (item.category === 'Weapon') category = 'weapon';
+  else if (item.category === 'Armor') category = 'armor';
+  else if (item.category === 'Tools') category = 'tool';
+  else if (item.category === 'Ammunition') category = 'ammo';
+
+  let ac: number | undefined = undefined;
+  if (item.ac) {
+    ac = parseInt(item.ac.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(ac)) ac = undefined;
+  }
+
+  // Choose standard emoji icon based on category
+  let icon = '📦';
+  if (category === 'weapon') icon = '⚔️';
+  else if (category === 'armor') icon = '🛡️';
+  else if (category === 'tool') icon = '🛠️';
+  else if (category === 'ammo') icon = '🏹';
+  else if (item.category === 'Wondrous Item') icon = '💎';
+  else if (item.category === 'Potion') icon = '🧪';
+  else if (item.category === 'Poison') icon = '☣️';
+
+  return {
+    id,
+    name: item.name,
+    category,
+    icon,
+    description: item.description || '',
+    weight: 0.1, // default weight since JSON doesn't define weights
+    cost: item.cost ? item.cost.toLowerCase() : '—',
+    properties: item.properties || undefined,
+    ac
+  };
+});
+
+// Filter out duplicate names
+const uniqueJsonItems = mappedJsonItems.filter(item => {
+  const norm = getNormalizedName(item.name);
+  if (baseNames.has(norm)) {
+    return false;
+  }
+  baseNames.add(norm); // Prevent duplicate items within JSONs as well
+  return true;
+});
+
+export const ITEM_CATALOG: InventoryItem[] = [
+  ...ITEM_CATALOG_BASE,
+  ...uniqueJsonItems
+];
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 export function getItem(id: string): InventoryItem | undefined {

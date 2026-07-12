@@ -28,6 +28,7 @@ import { SPELL_PROGRESSION } from '@/lib/spells'
 import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
 import { FEATS_2014 } from '@/lib/feats-2014'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
+import { getItemIconUrl, cleanDescription } from '@/lib/items/icons'
 
 const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
   'Caminho Primitivo',
@@ -372,7 +373,7 @@ export default function CharacterDetailPage() {
       : CLASS_PROGRESSION_2024[character.class];
 
     const subclassData = is2014
-      ? null
+      ? SUBCLASSES_2014[character.class]?.[character.subclass || '']
       : SUBCLASSES_2024[character.class]?.[character.subclass || ''];
 
     const raceProgression = !is2014 ? SPECIES_PROGRESSION_2024[character.race] : null;
@@ -3007,7 +3008,17 @@ export default function CharacterDetailPage() {
                               border: '1px solid var(--border)'
                             }}
                           >
-                            <span style={{ fontSize: 24 }}>{entry.item.icon}</span>
+                            {(() => {
+                              const iconUrl = getItemIconUrl(entry.item.name, entry.item.category);
+                              if (iconUrl) {
+                                return (
+                                  <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                    <img src={iconUrl} alt={entry.item.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                  </div>
+                                );
+                              }
+                              return <span style={{ fontSize: 24 }}>{entry.item.icon}</span>;
+                            })()}
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ fontWeight: 700, fontSize: 14, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.item.name}</div>
                               <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{entry.item.category} • {entry.item.weight} kg</div>
@@ -4846,7 +4857,7 @@ export default function CharacterDetailPage() {
 
               <div style={{ marginBottom: 24 }}>
                 <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Descrição</span>
-                <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{detailItem.description}</p>
+                <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, whiteSpace: 'pre-line' }}>{cleanDescription(detailItem.description)}</p>
               </div>
 
               <button
@@ -5068,7 +5079,17 @@ export default function CharacterDetailPage() {
                         transition: 'all 0.2s'
                       }}
                     >
-                      <span style={{ fontSize: 24 }}>{item.icon}</span>
+                      {(() => {
+                        const iconUrl = getItemIconUrl(item.name, item.category);
+                        if (iconUrl) {
+                          return (
+                            <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              <img src={iconUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                            </div>
+                          );
+                        }
+                        return <span style={{ fontSize: 24 }}>{item.icon}</span>;
+                      })()}
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontWeight: 700, fontSize: 14 }}>{item.name}</div>
                         <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{item.category} • {item.weight} kg</div>

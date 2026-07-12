@@ -6,6 +6,7 @@ import {
   getStartingInventory
 } from '@/lib/inventory'
 import { ITEM_CATALOG_2014, getStartingInventory2014 } from '@/lib/inventory-2014'
+import { cleanDescription } from '@/lib/items/icons'
 
 // ── Category config ───────────────────────────────────────────────────────────
 const CATEGORIES: { key: ItemCategory | 'all'; label: string; Icon: React.ElementType }[] = [
@@ -268,7 +269,7 @@ export default function InventoryStep({
 
                   <div style={{ marginBottom: 24 }}>
                     <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Descrição</span>
-                    <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{detailItem.description}</p>
+                    <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, whiteSpace: 'pre-line' }}>{cleanDescription(detailItem.description)}</p>
                   </div>
 
                   {inventory.find(e => e.item.id === detailItem.id) ? (
