@@ -108,7 +108,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
                 de {spell.school}
               </span>
 
-              <div style={{ display: 'flex', gap: 12, marginLeft: 8 }}>
+              <div style={{ display: 'flex', gap: 12, marginLeft: 8, flexWrap: 'wrap' }}>
                 {spell.ritual && (
                   <span style={{ color: 'var(--accent2)', fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(212, 175, 55, 0.1)', padding: '2px 10px', borderRadius: 6, border: '1px solid rgba(212, 175, 55, 0.2)' }}>
                     <BookOpen size={14} /> RITUAL
@@ -119,6 +119,9 @@ export default function SpellDetailsPage({ params }: PageProps) {
                     <Layers size={14} /> CONCENTRAÇÃO
                   </span>
                 )}
+                <span style={{ color: 'var(--fg2)', fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(255, 255, 255, 0.05)', padding: '2px 10px', borderRadius: 6, border: '1px solid var(--border)' }}>
+                  <BookOpen size={14} /> {spell.sourceBook || 'Livro do Jogador (PHB)'}
+                </span>
               </div>
             </div>
           </div>
@@ -150,7 +153,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
         {/* Basic Info Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
           gap: 1,
           background: 'var(--border)'
         }}>
@@ -158,6 +161,7 @@ export default function SpellDetailsPage({ params }: PageProps) {
           <InfoBox icon={<Globe size={20} color="var(--accent2)" />} label="ALCANCE" value={spell.range} />
           <InfoBox icon={<Wind size={20} color="var(--fg2)" />} label="COMPONENTES" value={spell.components} />
           <InfoBox icon={<Shield size={20} color="var(--accentL)" />} label="DURAÇÃO" value={spell.duration} />
+          <InfoBox icon={<BookOpen size={20} color="var(--accent2)" />} label="LIVRO FONTE" value={spell.sourceBook || 'Livro do Jogador (PHB)'} />
         </div>
 
         {/* Body Content */}

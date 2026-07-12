@@ -197,6 +197,7 @@ export default function MagiasPage() {
                 <div className="spell-meta hide-mobile">
                   <div className="meta-item"><Zap size={12} /> {spell.castingTime}</div>
                   <div className="meta-item"><Shield size={12} /> {spell.duration}</div>
+                  <div className="meta-item"><BookOpen size={12} /> {spell.sourceBook || 'Livro do Jogador (PHB)'}</div>
                 </div>
 
                 <div className="spell-classes hide-mobile">
@@ -249,6 +250,19 @@ export default function MagiasPage() {
                   <span className="school-tag-modal" style={{ color: selectedSpell ? SCHOOL_COLORS[selectedSpell.school] : 'inherit' }}>de {selectedSpell?.school}</span>
                   {selectedSpell?.ritual && <span className="badge-ritual">RITUAL</span>}
                   {selectedSpell?.concentration && <span className="badge-concentration">CONCENTRAÇÃO</span>}
+                  <span style={{
+                    fontSize: 11,
+                    color: 'var(--fg2)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    background: 'var(--bg2)',
+                    padding: '2px 8px',
+                    borderRadius: 4,
+                    border: '1px solid var(--border)'
+                  }}>
+                    <BookOpen size={12} /> {selectedSpell?.sourceBook || 'Livro do Jogador (PHB)'}
+                  </span>
                 </div>
               </div>
               {selectedSpell && SCHOOL_ICONS[selectedSpell.school] && (
