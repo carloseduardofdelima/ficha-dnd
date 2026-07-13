@@ -31,6 +31,7 @@
 
 ### 📜 Compêndios & Utilitários
 - **Bestiário (Ameaças)**: Consulta a monstros do SRD com blocos de estatísticas completos, ações, habilidades e atributos detalhados.
+- **Compêndio de Itens Mágicos & Equipamentos**: Catálogo interativo de itens mágicos, armas, armaduras e equipamentos com filtros avançados por raridade, tipo, requerimento de sintonização (attunement) e busca textual.
 - **Enciclopédia de Subclasses**: Lista detalhada de subclasses das regras de 2014 e 2024 com ilustrações personalizadas e progressão de habilidades.
 - **Compêndio de Magias**: Filtros avançados de magias por classe, escola, nível, tempo de conjuração e componentes.
 - **Panteão Olímpico (Deuses)**: Consulta a divindades inspiradas na Odisseia Grega, contendo símbolos, tendências, domínios e descrições detalhadas.
@@ -50,13 +51,37 @@
 
 ## 🛠️ Stack Tecnológica
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router + React 19)
-- **Estilização**: Tailwind CSS 4 & Vanilla CSS
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & React 19)
+- **Estilização**: Tailwind CSS v4 & Vanilla CSS (Variaveis dinâmicas para temas)
 - **Banco de Dados**: PostgreSQL (via Supabase)
-- **ORM**: Prisma
-- **Autenticação**: NextAuth.js
-- **PDF**: React-PDF Renderer
-- **Upload de Imagens**: Compressão com canvas local + salvamento em banco
+- **ORM**: Prisma Client
+- **Autenticação**: NextAuth.js v5 (Suporte a credenciais locais e login via Google)
+- **Renderização de PDF**: `@react-pdf/renderer` para geração da ficha padrão de D&D 5e
+- **Processamento de Mídia**: Compressão com canvas local + salvamento em banco
+
+---
+
+## 📁 Estrutura do Projeto
+
+Abaixo está o mapeamento dos principais diretórios da aplicação:
+
+```
+├── prisma/                 # Schema do banco de dados (schema.prisma) e migrações
+├── public/                 # Assets estáticos (imagens, ícones e mockups)
+├── scripts/                # Scripts utilitários de seeding e auditoria de regras
+└── src/
+    ├── app/                # Rotas da aplicação (App Router do Next.js)
+    │   ├── ameacas/        # Compêndio do Bestiário de Monstros
+    │   ├── campanhas/      # Painel de Campanhas, NPCs e Tracker de Iniciativa
+    │   ├── deuses/         # Compêndio do Panteão Grego (Odisseia)
+    │   ├── itens/          # Compêndio de Itens Mágicos e Equipamentos
+    │   ├── magias/         # Grimório completo e filtros de magias
+    │   ├── personagens/    # Fichas de personagens, assistente e level-up
+    │   └── subclasses/     # Listagem e enciclopédia de subclasses
+    ├── components/         # Componentes React compartilhados e etapas do wizard
+    ├── lib/                # Bancos de dados de regras, itens (JSONs) e utilitários
+    └── types/              # Definições de tipos TypeScript do domínio do D&D
+```
 
 ---
 
@@ -72,22 +97,45 @@
    npm install
    ```
 
-3. **Configure o banco de dados**:
+3. **Configure o banco de dados e autenticação**:
    Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
    ```env
-   DATABASE_URL="sua_url_do_postgres"
+   # URLs de Conexão com Banco de Dados (Supabase/PostgreSQL)
+   DATABASE_URL="sua_url_pooler_do_postgres"
    DIRECT_URL="sua_url_direta_do_postgres"
-   NEXTAUTH_SECRET="seu_secret_aqui"
+
+   # Configurações do NextAuth.js
+   NEXTAUTH_SECRET="seu_secret_para_criptografia" # Pode ser gerado com: openssl rand -base64 32
+   NEXTAUTH_URL="http://localhost:3000"
+
+   # Provedores de Autenticação OAuth (Google Cloud Console)
    GOOGLE_CLIENT_ID="seu_id_do_google"
    GOOGLE_CLIENT_SECRET="seu_secret_do_google"
    ```
 
-4. **Sincronize o Banco**:
+4. **Sincronize o Banco de Dados**:
+   Gere o Prisma Client e empurre o schema para o banco:
    ```bash
    npx prisma db push
    ```
 
-5. **Inicie o servidor de desenvolvimento**:
+5. **Semeadura de Dados (Opcional)**:
+   Povoa o banco com massa de teste para personagens, monstros e campanhas:
+   ```bash
+   # Criar personagens prontos da edição 2014 para cada classe
+   npx tsx scripts/seed-complete-2014.ts
+
+   # Adicionar outros personagens de teste
+   npx tsx scripts/seed-characters.ts
+
+   # Criar campanhas, sessões e notas de teste
+   npx tsx scripts/seed-campaign.ts
+
+   # Povoar o Bestiário com monstros clássicos do SRD
+   npx tsx scripts/add-classic-monster.ts
+   ```
+
+6. **Inicie o servidor de desenvolvimento**:
    ```bash
    npm run dev
    ```
