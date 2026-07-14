@@ -3009,7 +3009,7 @@ export default function CharacterDetailPage() {
                             }}
                           >
                             {(() => {
-                              const iconUrl = getItemIconUrl(entry.item.name, entry.item.category);
+                              const iconUrl = getItemIconUrl(entry.item, entry.item.category);
                               if (iconUrl) {
                                 return (
                                   <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -5080,7 +5080,7 @@ export default function CharacterDetailPage() {
                       }}
                     >
                       {(() => {
-                        const iconUrl = getItemIconUrl(item.name, item.category);
+                        const iconUrl = getItemIconUrl(item, item.category);
                         if (iconUrl) {
                           return (
                             <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>

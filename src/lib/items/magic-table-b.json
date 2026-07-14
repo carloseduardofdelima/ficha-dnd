@@ -7,7 +7,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Devastation",
-    "description": "Requer sintonia. Antes de fazer uma jogada de ataque, você pode optar por realizá-la com vantagem. Ao fazer isso, se o ataque acertar, ele se torna um acerto crítico garantido e a tatuagem desaparece."
+    "description": "Requer sintonia. Antes de fazer uma jogada de ataque, você pode optar por realizá-la com vantagem. Ao fazer isso, se o ataque acertar, ele se torna um acerto crítico garantido e a tatuagem desaparece.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 3,
@@ -17,7 +18,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Maiming Weapon",
-    "description": "Quando você obtém um 20 natural em sua jogada de ataque com esta arma mágica, a velocidade do alvo é reduzida pela metade e ele tem desvantagem em testes de resistência e atributos de Força e Destreza até terminar um descanso curto ou receber cura mágica."
+    "description": "Quando você obtém um 20 natural em sua jogada de ataque com esta arma mágica, a velocidade do alvo é reduzida pela metade e ele tem desvantagem em testes de resistência e atributos de Força e Destreza até terminar um descanso curto ou receber cura mágica.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 4,
@@ -27,7 +29,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Beauty's Bane",
-    "description": "Este espelho de mão mágico permite que você gaste uma ação para mostrá-lo a uma criatura inteligente a até 1,5 metros. O alvo deve passar num teste de resistência de Sabedoria ou ficará atordoado e fascinado pelo próprio reflexo."
+    "description": "Este espelho de mão mágico permite que você gaste uma ação para mostrá-lo a uma criatura inteligente a até 1,5 metros. O alvo deve passar num teste de resistência de Sabedoria ou ficará atordoado e fascinado pelo próprio reflexo.",
+    "icon": "Library/Adventuring Gear/Mirror.svg"
   },
   {
     "d100": 5,
@@ -37,7 +40,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Poison",
-    "description": "Esta poção parece e tem o gosto de uma Poção de Cura. Identificá-la revela falsamente que ela é uma Poção de Cura. Beber a poção causa 3d6 de dano de veneno e exige um teste de resistência de Constituição CD 12 contra envenenamento."
+    "description": "Esta poção parece e tem o gosto de uma Poção de Cura. Identificá-la revela falsamente que ela é uma Poção de Cura. Beber a poção causa 3d6 de dano de veneno e exige um teste de resistência de Constituição CD 12 contra envenenamento.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Purple.svg"
   },
   {
     "d100": 6,
@@ -47,7 +51,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Keoghtom’s Ointment",
-    "description": "Este frasco de vidro contém 1d4 + 1 doses de uma pomada mágica. Usar uma dose restaura 2d8 + 2 pontos de vida, cura any doença e remove as condições envenenado ou cego."
+    "description": "Este frasco de vidro contém 1d4 + 1 doses de uma pomada mágica. Usar uma dose restaura 2d8 + 2 pontos de vida, cura any doença e remove as condições envenenado ou cego.",
+    "icon": "Library/Adventuring Gear/Jar.svg"
   },
   {
     "d100": 8,
@@ -57,7 +62,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Charmer's Tambourine",
-    "description": "Requer sintonia. Concede vantagem em testes de Performance e permite conjurar o truque Ilusão Menor à vontade. Possui 3 cargas para conjurar Enfeitiçar Pessoa (1 carga) ou Cativar (2 cargas)."
+    "description": "Requer sintonia. Concede vantagem em testes de Performance e permite conjurar o truque Ilusão Menor à vontade. Possui 3 cargas para conjurar Enfeitiçar Pessoa (1 carga) ou Cativar (2 cargas).",
+    "icon": "Library/Instruments/Drum.svg"
   },
   {
     "d100": 9,
@@ -67,7 +73,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Alchemy Jug",
-    "description": "Esta jarra pode produzir diversos líquidos diariamente, como água ácida, cerveja, mel, vinho, óleo, vinagre ou até 2 galões de maionese."
+    "description": "Esta jarra pode produzir diversos líquidos diariamente, como água ácida, cerveja, mel, vinho, óleo, vinagre ou até 2 galões de maionese.",
+    "icon": "Library/Adventuring Gear/Jug.svg"
   },
   {
     "d100": 10,
@@ -77,7 +84,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Lantern of Revealing",
-    "description": "Enquanto estiver acesa, esta lanterna revela criaturas e objetos invisíveis num raio de 9 metros de luz brilhante."
+    "description": "Enquanto estiver acesa, esta lanterna revela criaturas e objetos invisíveis num raio de 9 metros de luz brilhante.",
+    "icon": "Library/Adventuring Gear/Hooded Lantern.svg"
   },
   {
     "d100": 11,
@@ -87,7 +95,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Rope of Climbing",
-    "description": "Esta corda de 18 metros obedece a seus comandos de voz. Ela pode se mover, se amarrar e sustentar até 1.500 libras."
+    "description": "Esta corda de 18 metros obedece a seus comandos de voz. Ela pode se mover, se amarrar e sustentar até 1.500 libras.",
+    "icon": "Library/Adventuring Gear/Silk Rope.svg"
   },
   {
     "d100": 13,
@@ -97,7 +106,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Healing (Greater)",
-    "description": "Você recupera 4d4 + 4 pontos de vida ao beber esta poção."
+    "description": "Você recupera 4d4 + 4 pontos de vida ao beber esta poção.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Glass Bottle - Red.svg"
   },
   {
     "d100": 14,
@@ -107,7 +117,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Elemental Gem",
-    "description": "Esta gema mágica contém a energia de um elemental (Terra, Fogo, Água ou Ar). Quebrar a gema conjura a magia Conjurar Elemental correspondente."
+    "description": "Esta gema mágica contém a energia de um elemental (Terra, Fogo, Água ou Ar). Quebrar a gema conjura a magia Conjurar Elemental correspondente.",
+    "icon": "Library/Magical Items/Elemental Gem - Emerald.svg"
   },
   {
     "d100": 15,
@@ -117,7 +128,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Freedom",
-    "description": "Requer sintonia. Negará e dissipará instantaneamente qualquer efeito mágico que paralise, restrinja ou reduza sua velocidade a 0. Também permite escapar de amarras não-mágicas ou agarrões usando uma ação bônus."
+    "description": "Requer sintonia. Negará e dissipará instantaneamente qualquer efeito mágico que paralise, restrinja ou reduza sua velocidade a 0. Também permite escapar de amarras não-mágicas ou agarrões usando uma ação bônus.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 16,
@@ -127,7 +139,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Greater Absorption",
-    "description": "Requer sintonia. Funciona como a tatuagem de absorção comum, mas pode ser ativada até duas vezes ao dia para absorver metade do dano de um elemento específico recebido."
+    "description": "Requer sintonia. Funciona como a tatuagem de absorção comum, mas pode ser ativada até duas vezes ao dia para absorver metade do dano de um elemento específico recebido.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 18,
@@ -137,7 +150,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Tinker's Glasses",
-    "description": "Estes óculos têm 3 cargas. Você pode gastar 1 carga para ganhar vantagem em testes de Percepção ou Investigação que dependam da visão, ou para enxergar auras mágicas a até 9 metros por 10 minutos."
+    "description": "Estes óculos têm 3 cargas. Você pode gastar 1 carga para ganhar vantagem em testes de Percepção ou Investigação que dependam da visão, ou para enxergar auras mágicas a até 9 metros por 10 minutos.",
+    "icon": "Library/Armour/Goggles.svg"
   },
   {
     "d100": 19,
@@ -147,7 +161,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (2nd Level)",
-    "description": "Este pergaminho contém uma magia de 2º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 2º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 20,
@@ -157,7 +172,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Water Breathing",
-    "description": "Esta poção concede a habilidade de respirar debaixo d'água por 1 hora após ser consumida."
+    "description": "Esta poção concede a habilidade de respirar debaixo d'água por 1 hora após ser consumida.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 21,
@@ -167,7 +183,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Greater Speed",
-    "description": "Requer sintonia. Aumenta sua velocidade de caminhada em 6 metros."
+    "description": "Requer sintonia. Aumenta sua velocidade de caminhada em 6 metros.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 23,
@@ -177,7 +194,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Heroism",
-    "description": "Requer sintonia. Quando você fica assustado, ou como uma ação bônus, você se torna imune à condição amedrontado por 1 minuto, ganha pontos de vida temporários iguais ao seu nível e a tatuagem some."
+    "description": "Requer sintonia. Quando você fica assustado, ou como uma ação bônus, você se torna imune à condição amedrontado por 1 minuto, ganha pontos de vida temporários iguais ao seu nível e a tatuagem some.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 24,
@@ -187,7 +205,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Bag of Shared Holding",
-    "description": "Esta sacola está conectada a outra idêntica. Itens colocados em uma podem ser retirados da outra instantaneamente."
+    "description": "Esta sacola está conectada a outra idêntica. Itens colocados em uma podem ser retirados da outra instantaneamente.",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 25,
@@ -197,7 +216,8 @@
     "attune": false,
     "source": "FToD",
     "englishName": "Emerald Pen",
-    "description": "Esta pena mágica permite escrever no ar com tinta verde brilhante e flutuante ou em pergaminhos de forma que a escrita fique invisível para todos, exceto destinatários escolhidos."
+    "description": "Esta pena mágica permite escrever no ar com tinta verde brilhante e flutuante ou em pergaminhos de forma que a escrita fique invisível para todos, exceto destinatários escolhidos.",
+    "icon": "Library/Adventuring Gear/Ink Pen.svg"
   },
   {
     "d100": 26,
@@ -207,7 +227,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Incense of Restoration",
-    "description": "Este incenso queima por 1 hora. Qualquer criatura que inalar a fumaça durante um descanso curto é curada de cegueira/surdez temporária, doenças, redução de HP máximo e reduz 1 nível de exaustão."
+    "description": "Este incenso queima por 1 hora. Qualquer criatura que inalar a fumaça durante um descanso curto é curada de cegueira/surdez temporária, doenças, redução de HP máximo e reduz 1 nível de exaustão.",
+    "icon": "Library/Adventuring Gear/Candle.svg"
   },
   {
     "d100": 28,
@@ -217,7 +238,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Mage's Blood",
-    "description": "Este óleo pode ser aplicado em uma arma ou 10 munições. O próximo acerto exige um teste de resistência de Constituição CD 15 ou o alvo fica envenenado por 1 minuto, tendo desvantagem contra magias."
+    "description": "Este óleo pode ser aplicado em uma arma ou 10 munições. O próximo acerto exige um teste de resistência de Constituição CD 15 ou o alvo fica envenenado por 1 minuto, tendo desvantagem contra magias.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Blood.svg"
   },
   {
     "d100": 29,
@@ -225,7 +247,8 @@
     "type": "Wondrous Item",
     "rarity": "Uncommon",
     "attune": false,
-    "source": "WGMM"
+    "source": "WGMM",
+    "icon": "Library/Adventuring Gear/Silk Rope.svg"
   },
   {
     "d100": 30,
@@ -235,7 +258,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Mithral Armor",
-    "description": "Esta armadura leve e extremamente resistente de mitral não impõe desvantagem em testes de Destreza (Furtividade) e não exige Força mínima."
+    "description": "Esta armadura leve e extremamente resistente de mitral não impõe desvantagem em testes de Destreza (Furtividade) e não exige Força mínima.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 31,
@@ -245,7 +269,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo  (2nd Level)",
-    "description": "Esta tatuagem mágica contém uma magia de 2º nível gravada na pele. Você pode conjurar a magia através dela uma vez, e depois a tatuagem desaparece."
+    "description": "Esta tatuagem mágica contém uma magia de 2º nível gravada na pele. Você pode conjurar a magia através dela uma vez, e depois a tatuagem desaparece.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 33,
@@ -255,7 +280,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Oil of Slipperiness",
-    "description": "Este óleo age como o feitiço Movimentação Livre por 8 horas. Demora 10 minutos para cobrir uma criatura."
+    "description": "Este óleo age como o feitiço Movimentação Livre por 8 horas. Demora 10 minutos para cobrir uma criatura.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "d100": 34,
@@ -265,7 +291,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Bag of Holding",
-    "description": "Esta bolsa tem um espaço interno de 1,2m de profundidade capaz de carregar até 250 kg de peso sem alterar o peso próprio da bolsa de 7 kg."
+    "description": "Esta bolsa tem um espaço interno de 1,2m de profundidade capaz de carregar até 250 kg de peso sem alterar o peso próprio da bolsa de 7 kg.",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 35,
@@ -275,7 +302,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Nemesis Weapon",
-    "description": "Requer sintonia. Uma vez por turno ao acertar um ataque, amaldiçoa você e o alvo até seu próximo turno: ambos não podem recuperar vida, ou subtraem 1d4 de testes de resistência, ou causam +1d8 de dano necrótico um ao outro."
+    "description": "Requer sintonia. Uma vez por turno ao acertar um ataque, amaldiçoa você e o alvo até seu próximo turno: ambos não podem recuperar vida, ou subtraem 1d4 de testes de resistência, ou causam +1d8 de dano necrótico um ao outro.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 36,
@@ -285,7 +313,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Observer's Spyglass",
-    "description": "Luneta mágica com 3 cargas. Permite gastar 1 carga para ganhar vantagem em Percepção visual, enxergar in escuridão e ver através de névoas/chuvas a até 600 metros de distância por 1 minuto."
+    "description": "Luneta mágica com 3 cargas. Permite gastar 1 carga para ganhar vantagem em Percepção visual, enxergar in escuridão e ver através de névoas/chuvas a até 600 metros de distância por 1 minuto.",
+    "icon": "Library/Adventuring Gear/Spyglass.svg"
   },
   {
     "d100": 38,
@@ -295,7 +324,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (3rd Level)",
-    "description": "Este pergaminho contém uma magia de 3º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 3º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 39,
@@ -305,7 +335,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Incense of Erudition",
-    "description": "Incenso mágico que queima por 1 hora. Criaturas que inalarem a fumaça durante um descanso curto ganham vantagem em testes de Sabedoria, Inteligência e Carisma por 8 horas."
+    "description": "Incenso mágico que queima por 1 hora. Criaturas que inalarem a fumaça durante um descanso curto ganham vantagem em testes de Sabedoria, Inteligência e Carisma por 8 horas.",
+    "icon": "Library/Adventuring Gear/Candle.svg"
   },
   {
     "d100": 40,
@@ -315,7 +346,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Philter of Love",
-    "description": "Ao beber esta poção, você se torna encantado pela próxima criatura que você ver pelos próximos 10 minutos."
+    "description": "Ao beber esta poção, você se torna encantado pela próxima criatura que você ver pelos próximos 10 minutos.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 41,
@@ -325,7 +357,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Wand of Magic Detection",
-    "description": "Esta varinha tem 3 cargas e permite a você conjurar a magia Detectar Magia sem gastar espaços de magia."
+    "description": "Esta varinha tem 3 cargas e permite a você conjurar a magia Detectar Magia sem gastar espaços de magia.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 43,
@@ -335,7 +368,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Mariner’s Armor",
-    "description": "Esta armadura concede a você velocidade de natação igual à sua velocidade de caminhada. Se você cair em água e tiver menos de 0 HP, a armadura te flutua até a superfície a 18 metros por rodada."
+    "description": "Esta armadura concede a você velocidade de natação igual à sua velocidade de caminhada. Se você cair em água e tiver menos de 0 HP, a armadura te flutua até a superfície a 18 metros por rodada.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 44,
@@ -345,7 +379,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Helm of Comprehending Languages",
-    "description": "Enquanto usar este elmo, você pode conjurar a magia Compreender Idiomas à vontade."
+    "description": "Enquanto usar este elmo, você pode conjurar a magia Compreender Idiomas à vontade.",
+    "icon": "Library/Magical Items/Hat of Disguise.svg"
   },
   {
     "d100": 45,
@@ -355,7 +390,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Feywild Shard",
-    "description": "Requer sintonia por um Feiticeiro. Pode ser usado como foco e permite rolar na tabela de Magia Selvagem sempre que você utilizar Metamagia."
+    "description": "Requer sintonia por um Feiticeiro. Pode ser usado como foco e permite rolar na tabela de Magia Selvagem sempre que você utilizar Metamagia.",
+    "icon": "Library/Spell Components and Spellcasting foci/Crystal.svg"
   },
   {
     "d100": 46,
@@ -365,7 +401,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Jug of Endless Wind",
-    "description": "Stoppered metal jug. Permite liberar ventos para empurrar objetos e criaturas (CD 13 de Força), criar uma parede de vento protetora contra projéteis, ou saltar voando até 9 metros."
+    "description": "Stoppered metal jug. Permite liberar ventos para empurrar objetos e criaturas (CD 13 de Força), criar uma parede de vento protetora contra projéteis, ou saltar voando até 9 metros.",
+    "icon": "Library/Adventuring Gear/Jug.svg"
   },
   {
     "d100": 48,
@@ -375,7 +412,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Greater Empowerment",
-    "description": "Ao beber esta poção, você ganha vantagem em todos os testes de atributo que fizer pelas próximas 8 horas."
+    "description": "Ao beber esta poção, você ganha vantagem em todos os testes de atributo que fizer pelas próximas 8 horas.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 49,
@@ -385,7 +423,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Growth",
-    "description": "Beber esta poção concede a você os efeitos de tamanho aumentado da magia Aumentar/Reduzir por 1d4 horas."
+    "description": "Beber esta poção concede a você os efeitos de tamanho aumentado da magia Aumentar/Reduzir por 1d4 horas.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 50,
@@ -395,7 +434,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Driftglobe",
-    "description": "Esta esfera de vidro pode flutuar a até 1,5 metros do chão e seguir você, emitindo luz brilhante ou a magia Luz do Dia."
+    "description": "Esta esfera de vidro pode flutuar a até 1,5 metros do chão e seguir você, emitindo luz brilhante ou a magia Luz do Dia.",
+    "icon": "Library/Magical Items/Driftglobe.svg"
   },
   {
     "d100": 51,
@@ -405,7 +445,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Trekker's Helmet",
-    "description": "Requer sintonia. Dobra seu bônus de proficiência na perícia Sobrevivência. Além disso, permite ganhar vantagem em um teste de Força ou Destreza por dia."
+    "description": "Requer sintonia. Dobra seu bônus de proficiência na perícia Sobrevivência. Além disso, permite ganhar vantagem em um teste de Força ou Destreza por dia.",
+    "icon": "Library/Magical Items/Hat of Disguise.svg"
   },
   {
     "d100": 53,
@@ -415,7 +456,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Goggles of Object Reading",
-    "description": "Requer sintonia. Concede vantagem em testes de Arcana para revelar segredos de objetos que você vê, além de permitir conjurar a magia Identificar uma vez por dia."
+    "description": "Requer sintonia. Concede vantagem em testes de Arcana para revelar segredos de objetos que você vê, além de permitir conjurar a magia Identificar uma vez por dia.",
+    "icon": "Library/Armour/Goggles.svg"
   },
   {
     "d100": 54,
@@ -425,7 +467,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Ring of Swimming",
-    "description": "Enquanto estiver usando este anel, você ganha velocidade de natação de 12 metros."
+    "description": "Enquanto estiver usando este anel, você ganha velocidade de natação de 12 metros.",
+    "icon": "Library/Magical Items/Ring of Swimming.svg"
   },
   {
     "d100": 55,
@@ -435,7 +478,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Goggles of Night",
-    "description": "Estes óculos concedem visão no escuro de 18 metros. Se você já tiver visão no escuro, o alcance dela aumenta em 18 metros."
+    "description": "Estes óculos concedem visão no escuro de 18 metros. Se você já tiver visão no escuro, o alcance dela aumenta em 18 metros.",
+    "icon": "Library/Armour/Goggles.svg"
   },
   {
     "d100": 56,
@@ -445,7 +489,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Morphing Weapon",
-    "description": "Como uma ação bônus, você pode transformar esta arma em qualquer outro tipo de arma simples ou marcial."
+    "description": "Como uma ação bônus, você pode transformar esta arma em qualquer outro tipo de arma simples ou marcial.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 58,
@@ -455,7 +500,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo (3rd Level)",
-    "description": "Tatuagem contendo uma magia de 3º nível. Permite conjurar a magia uma vez e depois desaparece."
+    "description": "Tatuagem contendo uma magia de 3º nível. Permite conjurar a magia uma vez e depois desaparece.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 59,
@@ -465,7 +511,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Ring of Obscuring",
-    "description": "Permite conjurar a magia Névoa uma vez por dia centralizada no anel."
+    "description": "Permite conjurar a magia Névoa uma vez por dia centralizada no anel.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 60,
@@ -475,7 +522,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Saddle of the Cavalier",
-    "description": "Enquanto estiver nesta sela, você não pode ser desmontado contra sua vontade a menos que fique incapacitado. Ataques contra sua montaria têm desvantagem."
+    "description": "Enquanto estiver nesta sela, você não pode ser desmontado contra sua vontade a menos que fique incapacitado. Ataques contra sua montaria têm desvantagem.",
+    "icon": "Library/Mount and Tack/Exotic Saddle.svg"
   },
   {
     "d100": 61,
@@ -485,7 +533,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Greater Renewal",
-    "description": "Beber esta poção remove qualquer exaustão, remove as condições petrificado ou amaldiçoado e restaura 4d10 pontos de vida."
+    "description": "Beber esta poção remove qualquer exaustão, remove as condições petrificado ou amaldiçoado e restaura 4d10 pontos de vida.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 63,
@@ -495,7 +544,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Fire Breath",
-    "description": "Esta poção permite que você use uma ação bônus para soprar fogo em uma criatura a até 9 metros, causando 4d6 de dano de fogo."
+    "description": "Esta poção permite que você use uma ação bônus para soprar fogo em uma criatura a até 9 metros, causando 4d6 de dano de fogo.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Red.svg"
   },
   {
     "d100": 64,
@@ -505,7 +555,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Nature's Mantle",
-    "description": "Requer sintonia por um Druida ou Patrulheiro. Permite que você faça a ação de Esconder-se mesmo quando estiver apenas levemente ocultado por folhagens ou fenômenos naturais."
+    "description": "Requer sintonia por um Druida ou Patrulheiro. Permite que você faça a ação de Esconder-se mesmo quando estiver apenas levemente ocultado por folhagens ou fenômenos naturais.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 65,
@@ -515,7 +566,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Coiling Grasp Tattoo",
-    "description": "Requer sintonia. Permite usar uma ação para projetar tentáculos de tinta a até 4,5 metros para agarrar e causar 3d6 de dano de força CD 13 a um inimigo."
+    "description": "Requer sintonia. Permite usar uma ação para projetar tentáculos de tinta a até 4,5 metros para agarrar e causar 3d6 de dano de força CD 13 a um inimigo.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 66,
@@ -525,7 +577,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Beacon Shuriken",
-    "description": "Uma arma de arremesso que pode ser teleportada de volta para sua mão como uma ação bônus após ser lançada."
+    "description": "Uma arma de arremesso que pode ser teleportada de volta para sua mão como uma ação bônus após ser lançada.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 68,
@@ -535,7 +588,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Hill Giant Strength",
-    "description": "Seu valor de Força se torna 21 por 1 hora após beber esta poção."
+    "description": "Seu valor de Força se torna 21 por 1 hora após beber esta poção.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Brown.svg"
   },
   {
     "d100": 69,
@@ -545,7 +599,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Amulet of the Drunkard",
-    "description": "Este amuleto cura você de envenenamento alcoólico e recupera 4d4 + 4 pontos de vida sempre que você bebe uma cerveja ou caneca de bebida alcoólica."
+    "description": "Este amuleto cura você de envenenamento alcoólico e recupera 4d4 + 4 pontos de vida sempre que você bebe uma cerveja ou caneca de bebida alcoólica.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 70,
@@ -555,7 +610,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Animal Friendship",
-    "description": "Permite a você conjurar a magia Amizade Animal à vontade contra feras de Inteligência menor que 4 por 1 hora."
+    "description": "Permite a você conjurar a magia Amizade Animal à vontade contra feras de Inteligência menor que 4 por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Green.svg"
   },
   {
     "d100": 71,
@@ -565,7 +621,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Commander's Helmet",
-    "description": "Requer sintonia. Como uma ação bônus, você pode comandar um aliado que você veja a realizar um único ataque usando a reação dele."
+    "description": "Requer sintonia. Como uma ação bônus, você pode comandar um aliado que você veja a realizar um único ataque usando a reação dele.",
+    "icon": "Library/Magical Items/Hat of Disguise.svg"
   },
   {
     "d100": 73,
@@ -575,7 +632,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Brightmind Cap",
-    "description": "Requer sintonia. Concede a você vantagem em testes de Inteligência (História ou Investigação)."
+    "description": "Requer sintonia. Concede a você vantagem em testes de Inteligência (História ou Investigação).",
+    "icon": "Library/Magical Items/Cap of Water Breathing.svg"
   },
   {
     "d100": 74,
@@ -585,7 +643,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Wand of Secrets",
-    "description": "Esta varinha tem 3 cargas e permite que você detecte a armadilha ou passagem secreta mais próxima num raio de 9 metros."
+    "description": "Esta varinha tem 3 cargas e permite que você detecte a armadilha ou passagem secreta mais próxima num raio de 9 metros.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 75,
@@ -595,7 +654,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Cloak of the Manta Ray",
-    "description": "Enquanto estiver sob a água com esta capa capuzada, você pode respirar debaixo d'água e tem velocidade de nado de 18 metros."
+    "description": "Enquanto estiver sob a água com esta capa capuzada, você pode respirar debaixo d'água e tem velocidade de nado de 18 metros.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 76,
@@ -605,7 +665,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Robe of Useful Items",
-    "description": "Este manto possui diversos remendos destacáveis que podem ser transformados em itens reais (como escadas, botes, poções, etc.) ao serem descolados."
+    "description": "Este manto possui diversos remendos destacáveis que podem ser transformados em itens reais (como escadas, botes, poções, etc.) ao serem descolados.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 78,
@@ -615,7 +676,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Ammunition, +1",
-    "description": "Esta munição concede um bônus de +1 nas jogadas de ataque e dano."
+    "description": "Esta munição concede um bônus de +1 nas jogadas de ataque e dano.",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 79,
@@ -625,7 +687,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Alchemical Compendium",
-    "description": "Requer sintonia por um mago. Permite a você alterar a matéria física de um objeto não-mágico pequeno em outro material comum temporariamente."
+    "description": "Requer sintonia por um mago. Permite a você alterar a matéria física de um objeto não-mágico pequeno em outro material comum temporariamente.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 80,
@@ -635,7 +698,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Dust of Dryness",
-    "description": "Esta poeira pode absorver até 15 metros cúbicos de água líquida instantaneamente, transformando-se em uma gema esférica que pode ser arremessada para liberar a água de volta."
+    "description": "Esta poeira pode absorver até 15 metros cúbicos de água líquida instantaneamente, transformando-se em uma gema esférica que pode ser arremessada para liberar a água de volta.",
+    "icon": "Library/Magical Items/Dust of Dryness.svg"
   },
   {
     "d100": 81,
@@ -645,7 +709,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Immovable Rod",
-    "description": "Este bastão de metal possui um botão na ponta. Ao apertar o botão, o bastão se fixa magneticamente e magicamente no espaço onde está, suportando até 4 toneladas de peso sem se mover."
+    "description": "Este bastão de metal possui um botão na ponta. Ao apertar o botão, o bastão se fixa magneticamente e magicamente no espaço onde está, suportando até 4 toneladas de peso sem se mover.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 83,
@@ -655,7 +720,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Dust of Disappearance",
-    "description": "Ao ser jogada ao ar, esta poeira torna você e criaturas próximas invisíveis por 2d4 minutos. A invisibilidade acaba se você atacar ou lançar magias."
+    "description": "Ao ser jogada ao ar, esta poeira torna você e criaturas próximas invisíveis por 2d4 minutos. A invisibilidade acaba se você atacar ou lançar magias.",
+    "icon": "Library/Magical Items/Dust of Disappearance.svg"
   },
   {
     "d100": 84,
@@ -665,7 +731,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Animator's Quill",
-    "description": "Esta pena mágica permite desenhar objetos simples bi-dimensionais que ganham vida tridimensional após o desenho ser concluído."
+    "description": "Esta pena mágica permite desenhar objetos simples bi-dimensionais que ganham vida tridimensional após o desenho ser concluído.",
+    "icon": "Library/Adventuring Gear/Ink Pen.svg"
   },
   {
     "d100": 85,
@@ -675,7 +742,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Grinsplitter Weapon",
-    "description": "Esta arma mágica causa 1d6 de dano cortante extra em criaturas que estejam rindo, sorrindo ou sob efeito de magias de charme."
+    "description": "Esta arma mágica causa 1d6 de dano cortante extra em criaturas que estejam rindo, sorrindo ou sob efeito de magias de charme.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 86,
@@ -685,7 +753,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Bone Merchant's Coin",
-    "description": "Uma moeda mágica que pode ser gasta para invocar temporariamente um esqueleto servo leal a você por 1 hora."
+    "description": "Uma moeda mágica que pode ser gasta para invocar temporariamente um esqueleto servo leal a você por 1 hora.",
+    "icon": "Library/Adventuring Gear/Coin Pouch.svg"
   },
   {
     "d100": 88,
@@ -695,7 +764,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Dust of Deliciousness",
-    "description": "Ao ser salpicada sobre comida ou bebida, melhora drasticamente o sabor e concede vantagem em testes de Carisma por 1 hora para quem consumir."
+    "description": "Ao ser salpicada sobre comida ou bebida, melhora drasticamente o sabor e concede vantagem em testes de Carisma por 1 hora para quem consumir.",
+    "icon": "Library/Spell Components and Spellcasting foci/Gold Dust.svg"
   },
   {
     "d100": 89,
@@ -705,7 +775,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Safety Shell",
-    "description": "Esta concha mágica pode se expandir criando uma redoma protetora resistente a ataques físicos por 10 minutos."
+    "description": "Esta concha mágica pode se expandir criando uma redoma protetora resistente a ataques físicos por 10 minutos.",
+    "icon": "Library/Treasure/Conch Shell.svg"
   },
   {
     "d100": 90,
@@ -715,7 +786,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Aegis of Dread",
-    "description": "Este escudo mágico impõe desvantagem a ataques corpo a corpo direcionados a você caso o atacante falhe em um teste de resistência de Sabedoria CD 12."
+    "description": "Este escudo mágico impõe desvantagem a ataques corpo a corpo direcionados a você caso o atacante falhe em um teste de resistência de Sabedoria CD 12.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 91,
@@ -725,7 +797,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Incense of Fortitude",
-    "description": "Este incenso mágico queima por 1 hora exalando aromas suaves. Qualquer criatura que inalar a fumaça durante um descanso curto ganha pontos de vida temporários iguais ao seu nível de personagem e tem vantagem em testes de resistência de Constituição por 8 horas."
+    "description": "Este incenso mágico queima por 1 hora exalando aromas suaves. Qualquer criatura que inalar a fumaça durante um descanso curto ganha pontos de vida temporários iguais ao seu nível de personagem e tem vantagem em testes de resistência de Constituição por 8 horas.",
+    "icon": "Library/Adventuring Gear/Candle.svg"
   },
   {
     "d100": 93,
@@ -735,7 +808,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Power",
-    "description": "Requer sintonia. Ao conjurar uma magia, você pode ativar esta tatuagem para amplificar a magia (como se estivesse usando um espaço de magia um nível superior) ou impor desvantagem no teste de resistência do alvo. Após o uso, ela desaparece."
+    "description": "Requer sintonia. Ao conjurar uma magia, você pode ativar esta tatuagem para amplificar a magia (como se estivesse usando um espaço de magia um nível superior) ou impor desvantagem no teste de resistência do alvo. Após o uso, ela desaparece.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 94,
@@ -745,7 +819,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Resistance",
-    "description": "Ao beber esta poção, você ganha resistência a um tipo de dano (como Fogo, Frio, Ácido, etc.) por 1 hora. O tipo de dano é determinado aleatoriamente ou escolhido pelo Mestre."
+    "description": "Ao beber esta poção, você ganha resistência a um tipo de dano (como Fogo, Frio, Ácido, etc.) por 1 hora. O tipo de dano é determinado aleatoriamente ou escolhido pelo Mestre.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 95,
@@ -755,7 +830,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Brooch of Living Essence",
-    "description": "Requer sintonia. Enquanto usa este broche, magias que detectem seu tipo de criatura percebem você como humanoide, e testes de alinhamento te consideram Neutro."
+    "description": "Requer sintonia. Enquanto usa este broche, magias que detectem seu tipo de criatura percebem você como humanoide, e testes de alinhamento te consideram Neutro.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 96,
@@ -765,7 +841,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Cap of Water Breathing",
-    "description": "Permite a você respirar normalmente debaixo d'água enquanto estiver usando este capuz."
+    "description": "Permite a você respirar normalmente debaixo d'água enquanto estiver usando este capuz.",
+    "icon": "Library/Magical Items/Cap of Water Breathing.svg"
   },
   {
     "d100": 98,
@@ -775,7 +852,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Ring of Alarm",
-    "description": "Requer sintonia. Permite programar um alarme mental silencioso que avisa um aliado em qualquer lugar do mesmo plano caso condições específicas (como receber dano ou gritar) sejam cumpridas."
+    "description": "Requer sintonia. Permite programar um alarme mental silencioso que avisa um aliado em qualquer lugar do mesmo plano caso condições específicas (como receber dano ou gritar) sejam cumpridas.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 99,
@@ -785,7 +863,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Guardian Emblem",
-    "description": "Requer sintonia por Clérigo ou Paladino. Este emblema acoplado à armadura possui 3 cargas. Permite gastar 1 carga para transformar um acerto crítico sofrido por você ou aliado a até 9 metros em um acerto normal."
+    "description": "Requer sintonia por Clérigo ou Paladino. Este emblema acoplado à armadura possui 3 cargas. Permite gastar 1 carga para transformar um acerto crítico sofrido por você ou aliado a até 9 metros em um acerto normal.",
+    "icon": "Library/Spell Components and Spellcasting foci/Emblem.svg"
   },
   {
     "d100": 100,
@@ -795,6 +874,7 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Dust of Sneezing and Choking",
-    "description": "Esta poeira parece com Poeira do Desaparecimento. Lançá-la faz com que criaturas num raio de 9 metros sejam tomadas por crises de espirro e asfixia se falharem num salvamento de Constituição CD 15."
+    "description": "Esta poeira parece com Poeira do Desaparecimento. Lançá-la faz com que criaturas num raio de 9 metros sejam tomadas por crises de espirro e asfixia se falharem num salvamento de Constituição CD 15.",
+    "icon": "Library/Magical Items/Dust of Sneezing and Choking.svg"
   }
 ]

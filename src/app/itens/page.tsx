@@ -706,7 +706,7 @@ export default function ItemsPage() {
                 ) : (
                   <>
                     <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                      {getItemIconUrl(rolledItem.name, rolledItem.category || rolledItem.type) && (
+                      {getItemIconUrl(rolledItem, rolledItem.category || rolledItem.type) && (
                         <div style={{
                           width: '64px',
                           height: '64px',
@@ -720,7 +720,7 @@ export default function ItemsPage() {
                           flexShrink: 0
                         }}>
                           <img 
-                            src={getItemIconUrl(rolledItem.name, rolledItem.category || rolledItem.type)!} 
+                            src={getItemIconUrl(rolledItem, rolledItem.category || rolledItem.type)!} 
                             alt={rolledItem.name} 
                             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                           />
@@ -979,7 +979,7 @@ export default function ItemsPage() {
           <div className="items-grid">
             {filteredItems.map((item, idx) => {
               const catConf = CATEGORY_CONFIG[item.category] || { label: item.category, color: "var(--border)", icon: <BookOpen size={16} /> }
-              const iconUrl = getItemIconUrl(item.name, item.category)
+              const iconUrl = getItemIconUrl(item, item.category)
               
               return (
                 <div 

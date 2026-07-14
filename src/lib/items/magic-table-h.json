@@ -7,7 +7,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Cauldron of Rebirth",
-    "description": "Requer sintonia. Este caldeirão de metal pesado permite a você criar uma Poção de Cura Maior uma vez por dia, ou reviver uma criatura morta colocada dentro dele sob os efeitos da magia Reencarnação."
+    "description": "Requer sintonia. Este caldeirão de metal pesado permite a você criar uma Poção de Cura Maior uma vez por dia, ou reviver uma criatura morta colocada dentro dele sob os efeitos da magia Reencarnação.",
+    "icon": "Library/Adventuring Gear/Iron Pot.svg"
   },
   {
     "d100": 2,
@@ -17,7 +18,8 @@
     "attune": false,
     "source": "GotG",
     "englishName": "Thunderbuss",
-    "description": "Arma (Pistola), muito rara. Esta arma mágica não exige munição, causa dano de trovão e concede +1 de bônus em jogadas de ataque e dano. Permite disparar uma esfera explosiva de 3d6 de dano de trovão uma vez por dia."
+    "description": "Arma (Pistola), muito rara. Esta arma mágica não exige munição, causa dano de trovão e concede +1 de bônus em jogadas de ataque e dano. Permite disparar uma esfera explosiva de 3d6 de dano de trovão uma vez por dia.",
+    "icon": "Library/Weapons/Hand Crossbow.svg"
   },
   {
     "d100": 3,
@@ -27,7 +29,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Crystalline Chronicle",
-    "description": "Requer sintonia por um Mago. Este livro de cristal serve como grimório e foco arcano. Ele permite a você conjurar magias e rolar dados de Inteligência com bônus extras."
+    "description": "Requer sintonia por um Mago. Este livro de cristal serve como grimório e foco arcano. Ele permite a você conjurar magias e rolar dados de Inteligência com bônus extras.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 3,
@@ -37,7 +40,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Rod of the Pact Keeper, +3",
-    "description": "Requer sintonia por Bruxo. Concede um bônus de +3 nas jogadas de ataque de magia e na CD de salvamento de suas magias de bruxo. Além disso, você pode recuperar um espaço de magia de bruxo com uma ação uma vez por dia."
+    "description": "Requer sintonia por Bruxo. Concede um bônus de +3 nas jogadas de ataque de magia e na CD de salvamento de suas magias de bruxo. Além disso, você pode recuperar um espaço de magia de bruxo com uma ação uma vez por dia.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 4,
@@ -47,7 +51,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Oathbow",
-    "description": "Requer sintonia. Ao puxar a corda deste arco e sussurrar um juramento jurando vingança contra um inimigo, o alvo se torna seu Inimigo Jurado. Seus ataques contra ele ignoram cobertura e causam +3d6 de dano perfurante extra."
+    "description": "Requer sintonia. Ao puxar a corda deste arco e sussurrar um juramento jurando vingança contra um inimigo, o alvo se torna seu Inimigo Jurado. Seus ataques contra ele ignoram cobertura e causam +3d6 de dano perfurante extra.",
+    "icon": "Library/Weapons/Longbow.svg"
   },
   {
     "d100": 5,
@@ -57,7 +62,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Absorbing Tattoo",
-    "description": "Requer sintonia. Esta tatuagem mágica de linhas fluidas concede a você resistência a um tipo de dano elemental específico. Permite também usar sua reação para ganhar imunidade temporária àquele tipo de dano."
+    "description": "Requer sintonia. Esta tatuagem mágica de linhas fluidas concede a você resistência a um tipo de dano elemental específico. Permite também usar sua reação para ganhar imunidade temporária àquele tipo de dano.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 6,
@@ -67,7 +73,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Djinni's Bracers",
-    "description": "Requer sintonia (Amaldiçoado). Concede +1 na CA e permite conjurar magias como Incompatibilidade ou Forma Gasosa. Enquanto os usar, você não pode removê-los e qualquer comando que comece com 'Eu desejo...' age como uma magia Sugestão contra você."
+    "description": "Requer sintonia (Amaldiçoado). Concede +1 na CA e permite conjurar magias como Incompatibilidade ou Forma Gasosa. Enquanto os usar, você não pode removê-los e qualquer comando que comece com 'Eu desejo...' age como uma magia Sugestão contra você.",
+    "icon": "Library/Magical Items/Bracers of Archery.svg"
   },
   {
     "d100": 7,
@@ -77,7 +84,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Hunter's Coat",
-    "description": "Requer sintonia. Este casaco de couro concede +1 na CA. Possui 3 cargas e permite que você cause +1d10 de dano necrótico extra a uma criatura machucada ao atingi-la com um ataque."
+    "description": "Requer sintonia. Este casaco de couro concede +1 na CA. Possui 3 cargas e permite que você cause +1d10 de dano necrótico extra a uma criatura machucada ao atingi-la com um ataque.",
+    "icon": "Library/Armour/Leather Armour.svg"
   },
   {
     "d100": 8,
@@ -87,7 +95,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Elven Thrower",
-    "description": "Requer sintonia por um Elfo ou Meio-Elfo. Esta arma mágica de arremesso concede +3 de bônus em ataques e dano, e retorna automaticamente para sua mão após ser arremessada."
+    "description": "Requer sintonia por um Elfo ou Meio-Elfo. Esta arma mágica de arremesso concede +3 de bônus em ataques e dano, e retorna automaticamente para sua mão após ser arremessada.",
+    "icon": "Library/Weapons/Warhammer.svg"
   },
   {
     "d100": 9,
@@ -97,7 +106,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Last Stand Armor",
-    "description": "Esta armadura de metal impede que você morra instantaneamente por dano massivo. Se você cair a 0 HP, ela se quebra, mas estabiliza você na hora e cura 2d10 pontos de vida."
+    "description": "Esta armadura de metal impede que você morra instantaneamente por dano massivo. Se você cair a 0 HP, ela se quebra, mas estabiliza você na hora e cura 2d10 pontos de vida.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 10,
@@ -107,7 +117,8 @@
     "attune": false,
     "source": "GotG",
     "englishName": "Prehistoric Figurine of Wondrous Power (Carnelian Triceratops)",
-    "description": "Ao ser arremessada, esta estatueta se transforma em um Tricerátops aliado leal por até 24 horas. Pode ser usada uma vez a cada 7 dias."
+    "description": "Ao ser arremessada, esta estatueta se transforma em um Tricerátops aliado leal por até 24 horas. Pode ser usada uma vez a cada 7 dias.",
+    "icon": "Library/Treasure/Chardalyn Dragon Figurine.svg"
   },
   {
     "d100": 10,
@@ -117,7 +128,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Animated Shield",
-    "description": "Requer sintonia. Enquanto empunha este escudo, você pode usar uma ação bônus para fazê-lo flutuar ao seu redor por 1 minuto, protegendo você enquanto deixa suas duas mãos livres."
+    "description": "Requer sintonia. Enquanto empunha este escudo, você pode usar uma ação bônus para fazê-lo flutuar ao seu redor por 1 minuto, protegendo você enquanto deixa suas duas mãos livres.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 11,
@@ -127,7 +139,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Dwarven Plate",
-    "description": "Esta armadura de placas completa forjada por anões concede um bônus de +2 na CA e impede que você seja empurrado ou derrubado contra sua vontade."
+    "description": "Esta armadura de placas completa forjada por anões concede um bônus de +2 na CA e impede que você seja empurrado ou derrubado contra sua vontade.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 12,
@@ -137,7 +150,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of Thunder and Lightning",
-    "description": "Requer sintonia. Este cajado mágico serve como arma e permite a você conjurar relâmpagos (CD 15, 8d6 de dano) ou causar explosões de som ensurdecedoras."
+    "description": "Requer sintonia. Este cajado mágico serve como arma e permite a você conjurar relâmpagos (CD 15, 8d6 de dano) ou causar explosões de som ensurdecedoras.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 13,
@@ -147,7 +161,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Mage's Diadem",
-    "description": "Requer sintonia. Sempre que você conjurar uma magia, você ganha pontos de vida temporários iguais ao nível da magia. Permite também armazenar uma magia de contingência de até 5º nível."
+    "description": "Requer sintonia. Sempre que você conjurar uma magia, você ganha pontos de vida temporários iguais ao nível da magia. Permite também armazenar uma magia de contingência de até 5º nível.",
+    "icon": "Library/Magical Items/Circlet of Blasting.svg"
   },
   {
     "d100": 14,
@@ -157,7 +172,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Horn of Valhalla (Bronze)",
-    "description": "Você pode soprar esta corneta para invocar espíritos guerreiros de Ysgard que lutam por você por 1 hora. Esta corneta invoca guerreiros armados com armas de bronze."
+    "description": "Você pode soprar esta corneta para invocar espíritos guerreiros de Ysgard que lutam por você por 1 hora. Esta corneta invoca guerreiros armados com armas de bronze.",
+    "icon": "Library/Instruments/Horn.svg"
   },
   {
     "d100": 15,
@@ -167,7 +183,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Manual of Gainful Exercise",
-    "description": "Ao ler este manual por 48 horas ao longo de 6 dias, seu valor de Força aumenta em 2 e seu valor máximo para esse atributo também aumenta em 2 permanentemente."
+    "description": "Ao ler este manual por 48 horas ao longo de 6 dias, seu valor de Força aumenta em 2 e seu valor máximo para esse atributo também aumenta em 2 permanentemente.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 16,
@@ -177,7 +194,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Nimbus Coronet",
-    "description": "Requer sintonia. Esta coroa de bronze concede imunidade a dano de queda. Permite também invocar a runa da nuvem para assumir uma forma de névoa flutuante com velocidade de voo de 18 metros."
+    "description": "Requer sintonia. Esta coroa de bronze concede imunidade a dano de queda. Permite também invocar a runa da nuvem para assumir uma forma de névoa flutuante com velocidade de voo de 18 metros.",
+    "icon": "Library/Treasure/Gold Crown.svg"
   },
   {
     "d100": 17,
@@ -187,7 +205,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Ioun Stone*",
-    "description": "Esta pedra mágica orbita sua cabeça e concede benefícios como bônus de atributos, proficiência ou regeneração conforme o tipo."
+    "description": "Esta pedra mágica orbita sua cabeça e concede benefícios como bônus de atributos, proficiência ou regeneração conforme o tipo.",
+    "icon": "Library/Magical Items/Ioun Stone - Agility.svg"
   },
   {
     "d100": 17,
@@ -197,7 +216,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Wand of Polymorph",
-    "description": "Requer sintonia por um conjurador. Esta varinha tem 7 cargas e permite conjurar a magia Polimorfia (CD 15) gastando cargas."
+    "description": "Requer sintonia por um conjurador. Esta varinha tem 7 cargas e permite conjurar a magia Polimorfia (CD 15) gastando cargas.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 18,
@@ -207,7 +227,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Cloak of Arachnida",
-    "description": "Requer sintonia. Concede a você resistência a dano de veneno, velocidade de escalada igual à sua velocidade de caminhada, imunidade a ser preso por teias e permite conjurar a magia Teia (CD 15)."
+    "description": "Requer sintonia. Concede a você resistência a dano de veneno, velocidade de escalada igual à sua velocidade de caminhada, imunidade a ser preso por teias e permite conjurar a magia Teia (CD 15).",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 19,
@@ -217,7 +238,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "All-Purpose Tool, +3",
-    "description": "Requer sintonia por Artífice. Concede +3 em jogadas de ataque e CD de magias de artífice. Pode se transformar em qualquer ferramenta e conceder um truque temporário."
+    "description": "Requer sintonia por Artífice. Concede +3 em jogadas de ataque e CD de magias de artífice. Pode se transformar em qualquer ferramenta e conceder um truque temporário.",
+    "icon": "Library/Tools, Kits, and Artisan Tools/Smith Tools.svg"
   },
   {
     "d100": 20,
@@ -227,7 +249,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Ghost Step Tattoo",
-    "description": "Requer sintonia. Esta tatuagem mágica possui 3 cargas e permite que você use uma ação bônus para se tornar intangível, passando por objetos e ganhando resistência a dano físico por 1 rodada."
+    "description": "Requer sintonia. Esta tatuagem mágica possui 3 cargas e permite que você use uma ação bônus para se tornar intangível, passando por objetos e ganhando resistência a dano físico por 1 rodada.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 21,
@@ -237,7 +260,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Rod of Security",
-    "description": "Ao ativar este bastão de ouro, você e até 199 outras criaturas são transportadas para um paraíso extradimensional seguro onde ninguém envelhece e alimentos e curas são abundantes por tempo limitado."
+    "description": "Ao ativar este bastão de ouro, você e até 199 outras criaturas são transportadas para um paraíso extradimensional seguro onde ninguém envelhece e alimentos e curas são abundantes por tempo limitado.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 22,
@@ -247,7 +271,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Dancing Sword",
-    "description": "Requer sintonia. Você pode usar uma ação bônus para fazer esta espada mágica flutuar e atacar de forma autônoma a até 9 metros de você por 4 rodadas."
+    "description": "Requer sintonia. Você pode usar uma ação bônus para fazer esta espada mágica flutuar e atacar de forma autônoma a até 9 metros de você por 4 rodadas.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 23,
@@ -257,7 +282,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Arctic Ring",
-    "description": "Requer sintonia. Concede imunidade a dano de frio e permite ignorar terreno difícil de gelo. Possui 3 cargas para conjurar Tempestade de Gelo ou Cone de Frio (CD 17)."
+    "description": "Requer sintonia. Concede imunidade a dano de frio e permite ignorar terreno difícil de gelo. Possui 3 cargas para conjurar Tempestade de Gelo ou Cone de Frio (CD 17).",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 23,
@@ -267,7 +293,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Ring of Telekinesis",
-    "description": "Requer sintonia. Enquanto estiver usando este anel, você pode conjurar a magia Telecinese (CD 15) à vontade contra objetos não portados."
+    "description": "Requer sintonia. Enquanto estiver usando este anel, você pode conjurar a magia Telecinese (CD 15) à vontade contra objetos não portados.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 24,
@@ -277,7 +304,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Amulet of the Planes",
-    "description": "Requer sintonia. Este amuleto permite a você tentar conjurar a magia Viagem Planar (CD 15 Inteligência). Em caso de falha, você e seus aliados são teleportados para uma localização aleatória."
+    "description": "Requer sintonia. Este amuleto permite a você tentar conjurar a magia Viagem Planar (CD 15 Inteligência). Em caso de falha, você e seus aliados são teleportados para uma localização aleatória.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 25,
@@ -287,7 +315,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Mistral Mantle",
-    "description": "Requer sintonia. Concede resistência a dano de frio. Permite usar sua reação para causar 1d6 de dano de frio a criaturas que se aproximem a menos de 1,5 metros."
+    "description": "Requer sintonia. Concede resistência a dano de frio. Permite usar sua reação para causar 1d6 de dano de frio a criaturas que se aproximem a menos de 1,5 metros.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 26,
@@ -297,7 +326,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Spider's Kiss",
-    "description": "Requer sintonia. Este arco longo concede +1d8 de dano de veneno em acertos e dá imunidade a veneno ao portador. Possui 3 cargas para prender inimigos em teias (CD 15 de Destreza)."
+    "description": "Requer sintonia. Este arco longo concede +1d8 de dano de veneno em acertos e dá imunidade a veneno ao portador. Possui 3 cargas para prender inimigos em teias (CD 15 de Destreza).",
+    "icon": "Library/Weapons/Longbow.svg"
   },
   {
     "d100": 27,
@@ -307,7 +337,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Mirror of Life Trapping",
-    "description": "Este espelho mágico possui 12 compartimentos extradimensionais. Qualquer criatura que olhe para o espelho a até 9 metros deve passar num salvamento de Carisma CD 15 ou ficará presa dentro dele."
+    "description": "Este espelho mágico possui 12 compartimentos extradimensionais. Qualquer criatura que olhe para o espelho a até 9 metros deve passar num salvamento de Carisma CD 15 ou ficará presa dentro dele.",
+    "icon": "Library/Adventuring Gear/Mirror.svg"
   },
   {
     "d100": 28,
@@ -317,7 +348,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Scaled Ornament (Wakened)",
-    "description": "Requer sintonia. Concede +1 na CA, imunidade a ser enfeitiçado ou amedrontado, resistência elemental e permite causar dano extra."
+    "description": "Requer sintonia. Concede +1 na CA, imunidade a ser enfeitiçado ou amedrontado, resistência elemental e permite causar dano extra.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 29,
@@ -327,7 +359,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Candle of Invocation",
-    "description": "Esta vela dedicada a um alinhamento específico queima por 4 horas. Enquanto estiver acesa, criaturas do mesmo alinhamento num raio de 9 metros ganham vantagem em jogadas e salvamentos, e clérigos podem conjurar magias sem gastar espaços de magia."
+    "description": "Esta vela dedicada a um alinhamento específico queima por 4 horas. Enquanto estiver acesa, criaturas do mesmo alinhamento num raio de 9 metros ganham vantagem em jogadas e salvamentos, e clérigos podem conjurar magias sem gastar espaços de magia.",
+    "icon": "Library/Adventuring Gear/Candle.svg"
   },
   {
     "d100": 30,
@@ -337,7 +370,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Armor of Resistance*",
-    "description": "Requer sintonia. Concede resistência a um tipo específico de dano elemental determinado na criação da armadura."
+    "description": "Requer sintonia. Concede resistência a um tipo específico de dano elemental determinado na criação da armadura.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 30,
@@ -347,7 +381,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Scimitar of Speed",
-    "description": "Requer sintonia. Esta cimitarra +2 permite que você realize um ataque com ela como uma ação bônus em cada um de seus turnos."
+    "description": "Requer sintonia. Esta cimitarra +2 permite que você realize um ataque com ela como uma ação bônus em cada um de seus turnos.",
+    "icon": "Library/Weapons/Scimitar.svg"
   },
   {
     "d100": 31,
@@ -357,7 +392,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Sanctum Amulet",
-    "description": "Requer sintonia. Concede resistência a dano necrótico e permite conjurar o truque Poupar os Mortos. Se um aliado próximo cair a 0 HP, você pode usar sua reação para deixá-lo com 1 HP."
+    "description": "Requer sintonia. Concede resistência a dano necrótico e permite conjurar o truque Poupar os Mortos. Se um aliado próximo cair a 0 HP, você pode usar sua reação para deixá-lo com 1 HP.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 32,
@@ -367,7 +403,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Sapphire Buckler",
-    "description": "Requer sintonia. Este escudo de escamas de dragão de safira concede +2 na CA e resistência a dano psíquico e trovejante. Permite usar sua reação para contra-atacar com 2d6 de dano de frio."
+    "description": "Requer sintonia. Este escudo de escamas de dragão de safira concede +2 na CA e resistência a dano psíquico e trovejante. Permite usar sua reação para contra-atacar com 2d6 de dano de frio.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 33,
@@ -377,7 +414,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Duskcrusher",
-    "description": "Requer sintonia. Este martelo de guerra mágico causa +2 nas jogadas, causa dano radiante no lugar de físico e emite luz solar. Causa +1d8 necrótico contra mortos-vivos e permite conjurar Raio de Sol uma vez ao dia."
+    "description": "Requer sintonia. Este martelo de guerra mágico causa +2 nas jogadas, causa dano radiante no lugar de físico e emite luz solar. Causa +1d8 necrótico contra mortos-vivos e permite conjurar Raio de Sol uma vez ao dia.",
+    "icon": "Library/Weapons/Warhammer.svg"
   },
   {
     "d100": 34,
@@ -387,7 +425,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Robe of Scintillating Colors",
-    "description": "Requer sintonia. Este manto possui 3 cargas. Com uma ação, você faz o manto brilhar com padrões ondulantes de luzes, fazendo com que ataques contra você tenham desvantagem e cegando criaturas próximas."
+    "description": "Requer sintonia. Este manto possui 3 cargas. Com uma ação, você faz o manto brilhar com padrões ondulantes de luzes, fazendo com que ataques contra você tenham desvantagem e cegando criaturas próximas.",
+    "icon": "Library/Magical Items/Robe of Scintillating Colors.svg"
   },
   {
     "d100": 35,
@@ -397,7 +436,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Robe of Stars",
-    "description": "Requer sintonia. Este manto permite que você se teleporte para o Plano Astral como uma ação. Ele também permite disparar mísseis mágicos de 5º nível gastando estrelas bordadas."
+    "description": "Requer sintonia. Este manto permite que você se teleporte para o Plano Astral como uma ação. Ele também permite disparar mísseis mágicos de 5º nível gastando estrelas bordadas.",
+    "icon": "Library/Magical Items/Robe of Stars.svg"
   },
   {
     "d100": 36,
@@ -407,7 +447,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Belt of Stone Giant Strength",
-    "description": "Requer sintonia. Seu valor de Força se torna 23 enquanto você estiver usando este cinto de couro runado."
+    "description": "Requer sintonia. Seu valor de Força se torna 23 enquanto você estiver usando este cinto de couro runado.",
+    "icon": "Library/Magical Items/Belt of Dwarvenkind.svg"
   },
   {
     "d100": 37,
@@ -417,7 +458,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Belt of Frost Giant Strength",
-    "description": "Requer sintonia. Seu valor de Força se torna 23 enquanto você estiver usando este cinto de couro runado."
+    "description": "Requer sintonia. Seu valor de Força se torna 23 enquanto você estiver usando este cinto de couro runado.",
+    "icon": "Library/Magical Items/Belt of Dwarvenkind.svg"
   },
   {
     "d100": 37,
@@ -427,7 +469,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Armor of Safeguarding",
-    "description": "Requer sintonia. Esta armadura pesada aumenta seu HP máximo em 10 + seu nível. Permite também conjurar Farol de Esperança uma vez ao dia sem exigir concentração."
+    "description": "Requer sintonia. Esta armadura pesada aumenta seu HP máximo em 10 + seu nível. Permite também conjurar Farol de Esperança uma vez ao dia sem exigir concentração.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 38,
@@ -437,7 +480,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Arcane Cannon",
-    "description": "Este pequeno canhão de ferro mágico pode ser apontado e disparado como uma ação, liberando uma rajada de energia elemental que causa 8d6 de dano em cone."
+    "description": "Este pequeno canhão de ferro mágico pode ser apontado e disparado como uma ação, liberando uma rajada de energia elemental que causa 8d6 de dano em cone.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 39,
@@ -447,7 +491,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Sojourner's Flute",
-    "description": "Requer sintonia. Esta flauta possui 3 cargas. Tocar uma melodia permite teleportar você e aliados próximos de volta para o último local onde você tocou a melodia."
+    "description": "Requer sintonia. Esta flauta possui 3 cargas. Tocar uma melodia permite teleportar você e aliados próximos de volta para o último local onde você tocou a melodia.",
+    "icon": "Library/Instruments/Flute.svg"
   },
   {
     "d100": 40,
@@ -457,7 +502,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Barrier Tattoo (AC 18)",
-    "description": "Requer sintonia. Esta tatuagem complexa e densa concede a você uma CA de 18 (e limite de +2 de Destreza) caso você não esteja usando armadura."
+    "description": "Requer sintonia. Esta tatuagem complexa e densa concede a você uma CA de 18 (e limite de +2 de Destreza) caso você não esteja usando armadura.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 41,
@@ -467,7 +513,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Sword of Sharpness",
-    "description": "Requer sintonia. Ao rolar um 20 na jogada de ataque com esta espada mágica, ela causa 14 de dano extra. Ao rolar outro d20, você pode cortar um membro do alvo."
+    "description": "Requer sintonia. Ao rolar um 20 na jogada de ataque com esta espada mágica, ela causa 14 de dano extra. Ao rolar outro d20, você pode cortar um membro do alvo.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 42,
@@ -477,7 +524,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Rod of Absorption",
-    "description": "Requer sintonia. Este bastão permite que você use sua reação para absorver uma magia direcionada a você, anulando o efeito da magia e acumulando cargas que podem ser usadas para conjurar suas próprias magias."
+    "description": "Requer sintonia. Este bastão permite que você use sua reação para absorver uma magia direcionada a você, anulando o efeito da magia e acumulando cargas que podem ser usadas para conjurar suas próprias magias.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 43,
@@ -487,7 +535,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Weapon, +3",
-    "description": "Esta arma mágica concede um bônus de +3 nas jogadas de ataque e dano feitas com ela."
+    "description": "Esta arma mágica concede um bônus de +3 nas jogadas de ataque e dano feitas com ela.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 43,
@@ -497,7 +546,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Dragon's Scepter",
-    "description": "Requer sintonia. Este cetro permite aprisionar um dragão de forma similar à magia Aprisionamento. Concede cargas para conjurar Medo ou Voo e usar o sopro do dragão aprisionado."
+    "description": "Requer sintonia. Este cetro permite aprisionar um dragão de forma similar à magia Aprisionamento. Concede cargas para conjurar Medo ou Voo e usar o sopro do dragão aprisionado.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 44,
@@ -507,7 +557,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Ring of Shadows",
-    "description": "Requer sintonia. Enquanto estiver na penumbra ou escuridão, concede resistência a dano físico não-mágico, permite se teleportar a até 9 metros como ação bônus e ficar invisível."
+    "description": "Requer sintonia. Enquanto estiver na penumbra ou escuridão, concede resistência a dano físico não-mágico, permite se teleportar a até 9 metros como ação bônus e ficar invisível.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 45,
@@ -517,7 +568,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Survivor's Armor",
-    "description": "Requer sintonia. Esta armadura concede vantagem em salvamentos contra morte e cura você em 1d6 HP no início de cada um dos seus turnos se você estiver com menos da metade da vida."
+    "description": "Requer sintonia. Esta armadura concede vantagem em salvamentos contra morte e cura você em 1d6 HP no início de cada um dos seus turnos se você estiver com menos da metade da vida.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 46,
@@ -527,7 +579,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Armor, +1*",
-    "description": "Você ganha um bônus de +1 na Classe de Armadura (CA) enquanto estiver usando esta armadura mágica."
+    "description": "Você ganha um bônus de +1 na Classe de Armadura (CA) enquanto estiver usando esta armadura mágica.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 47,
@@ -537,7 +590,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Bloodshed Blade",
-    "description": "Requer sintonia. Esta arma mágica permite gastar dados de vida ao atingir um alvo para causar dano necrótico massivo extra."
+    "description": "Requer sintonia. Esta arma mágica permite gastar dados de vida ao atingir um alvo para causar dano necrótico massivo extra.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Blood.svg"
   },
   {
     "d100": 48,
@@ -547,7 +601,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Spellguard Shield",
-    "description": "Requer sintonia. Enquanto empunha este escudo, você ganha vantagem em salvamentos contra magias e ataques de magia contra você sofrem desvantagem."
+    "description": "Requer sintonia. Enquanto empunha este escudo, você ganha vantagem em salvamentos contra magias e ataques de magia contra você sofrem desvantagem.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 49,
@@ -557,7 +612,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Angel's Heart",
-    "description": "Requer sintonia. Este amuleto possui 7 cargas e permite conjurar magias sagradas como Escudo da Fé, Visão Verdadeira ou Divinação."
+    "description": "Requer sintonia. Este amuleto possui 7 cargas e permite conjurar magias sagradas como Escudo da Fé, Visão Verdadeira ou Divinação.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 50,
@@ -567,7 +623,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Rod of Alertness",
-    "description": "Requer sintonia. Concede a você vantagem em testes de Percepção e Iniciativa. Permite fincar o bastão no chão para criar uma aura protetora de +1 na CA e salvamentos para aliados."
+    "description": "Requer sintonia. Concede a você vantagem em testes de Percepção e Iniciativa. Permite fincar o bastão no chão para criar uma aura protetora de +1 na CA e salvamentos para aliados.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 50,
@@ -577,7 +634,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Animated Painting",
-    "description": "Uma pintura em tela que obedece seus comandos de voz para animar e se mover, agindo como batedor ou criando distrações realistas."
+    "description": "Uma pintura em tela que obedece seus comandos de voz para animar e se mover, agindo como batedor ou criando distrações realistas.",
+    "icon": "Library/Adventuring Gear/Parchment (one sheet).svg"
   },
   {
     "d100": 51,
@@ -587,7 +645,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Carpet of Flying",
-    "description": "Este tapete mágico pode flutuar e voar sob comando de voz, carregando peso e se movendo a uma velocidade de voo determinada pelo tamanho do tapete."
+    "description": "Este tapete mágico pode flutuar e voar sob comando de voz, carregando peso e se movendo a uma velocidade de voo determinada pelo tamanho do tapete.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 52,
@@ -597,7 +656,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Dragon-Touched Focus (Wakened)",
-    "description": "Requer sintonia por conjurador. Concede +2 de bônus em ataques de magia e CD de salvamento, além de causar +1d6 de dano elemental extra."
+    "description": "Requer sintonia por conjurador. Concede +2 de bônus em ataques de magia e CD de salvamento, além de causar +1d6 de dano elemental extra.",
+    "icon": "Library/Treasure/Quartz.svg"
   },
   {
     "d100": 53,
@@ -607,7 +667,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Bladesinger's Spear",
-    "description": "Requer sintonia por um Cantor das Lâminas. Esta lança mágica serve como foco arcano e concede bônus em sua CA e testes de concentração enquanto sua Cantiga das Lâminas estiver ativa."
+    "description": "Requer sintonia por um Cantor das Lâminas. Esta lança mágica serve como foco arcano e concede bônus em sua CA e testes de concentração enquanto sua Cantiga das Lâminas estiver ativa.",
+    "icon": "Library/Weapons/Spear.svg"
   },
   {
     "d100": 54,
@@ -617,7 +678,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Figurine of Wondrous Power (Obsidian Steed)",
-    "description": "Esta estatueta de obsidiana se transforma em um Pesadelo (Nightmare) aliado leal por até 24 horas. Há chance de o corcel se rebelar contra você."
+    "description": "Esta estatueta de obsidiana se transforma em um Pesadelo (Nightmare) aliado leal por até 24 horas. Há chance de o corcel se rebelar contra você.",
+    "icon": "Library/Treasure/Chardalyn Dragon Figurine.svg"
   },
   {
     "d100": 55,
@@ -627,7 +689,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Shield, +3",
-    "description": "Enquanto empunha este escudo mágico, você ganha +3 de bônus na CA além do bônus normal do escudo (+5 CA no total)."
+    "description": "Enquanto empunha este escudo mágico, você ganha +3 de bônus na CA além do bônus normal do escudo (+5 CA no total).",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 56,
@@ -637,7 +700,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of Fire",
-    "description": "Requer sintonia por um conjurador. Este cajado possui 10 cargas e permite conjurar magias de fogo como Mãos Flamejantes, Bola de Fogo ou Parede de Fogo gastando cargas."
+    "description": "Requer sintonia por um conjurador. Este cajado possui 10 cargas e permite conjurar magias de fogo como Mãos Flamejantes, Bola de Fogo ou Parede de Fogo gastando cargas.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 57,
@@ -647,7 +711,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Nine Lives Stealer",
-    "description": "Requer sintonia. Esta espada +2 possui 1d9 cargas. Ao obter um 20 natural em uma criatura com menos de 100 HP, a criatura morre instantaneamente se falhar num salvamento de Constituição CD 15."
+    "description": "Requer sintonia. Esta espada +2 possui 1d9 cargas. Ao obter um 20 natural em uma criatura com menos de 100 HP, a criatura morre instantaneamente se falhar num salvamento de Constituição CD 15.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 57,
@@ -657,7 +722,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Crystal Ball",
-    "description": "Requer sintonia. Esta esfera permite que você conjure a magia Vidência (Scrying) à vontade para observar locais e criaturas distantes."
+    "description": "Requer sintonia. Esta esfera permite que você conjure a magia Vidência (Scrying) à vontade para observar locais e criaturas distantes.",
+    "icon": "Library/Treasure/Quartz.svg"
   },
   {
     "d100": 58,
@@ -667,7 +733,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Lifewell Tattoo",
-    "description": "Requer sintonia. Concede resistência a dano necrótico. Uma vez por dia, se você cair a 0 HP, você cai a 1 HP no lugar."
+    "description": "Requer sintonia. Concede resistência a dano necrótico. Uma vez por dia, se você cair a 0 HP, você cai a 1 HP no lugar.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 59,
@@ -677,7 +744,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Demon Armor",
-    "description": "Requer sintonia. Esta armadura +1 amaldiçoada faz seus ataques desarmados causarem 1d8 de dano mágico garra, mas impõe desvantagem em ataques contra demônios."
+    "description": "Requer sintonia. Esta armadura +1 amaldiçoada faz seus ataques desarmados causarem 1d8 de dano mágico garra, mas impõe desvantagem em ataques contra demônios.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 60,
@@ -687,7 +755,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Katana of the Deathtouched",
-    "description": "Requer sintonia. Esta espada longa mágica causa +1d10 de dano necrótico extra em cada acerto e drena a energia dos alvos."
+    "description": "Requer sintonia. Esta espada longa mágica causa +1d10 de dano necrótico extra em cada acerto e drena a energia dos alvos.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 61,
@@ -697,7 +766,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Tome of Leadership and Influence",
-    "description": "Ler este livro por 48 horas aumenta seu valor de Carisma em 2 e seu limite máximo para esse atributo em 2 permanentemente."
+    "description": "Ler este livro por 48 horas aumenta seu valor de Carisma em 2 e seu limite máximo para esse atributo em 2 permanentemente.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 62,
@@ -707,7 +777,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Efreeti Bottle",
-    "description": "Esta garrafa de latão contém um Efreeti aprisionado. Abrir a garrafa liberta o gênio, que pode lutar por você, conceder desejos ou tentar matar você dependendo da rolagem."
+    "description": "Esta garrafa de latão contém um Efreeti aprisionado. Abrir a garrafa liberta o gênio, que pode lutar por você, conceder desejos ou tentar matar você dependendo da rolagem.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 63,
@@ -717,7 +788,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Dwarven Thrower",
-    "description": "Requer sintonia por um Anão. Este martelo +3 causa +1d8 de dano extra (ou +2d8 contra gigantes) e retorna automaticamente para sua mão quando arremessado."
+    "description": "Requer sintonia por um Anão. Este martelo +3 causa +1d8 de dano extra (ou +2d8 contra gigantes) e retorna automaticamente para sua mão quando arremessado.",
+    "icon": "Library/Weapons/Warhammer.svg"
   },
   {
     "d100": 63,
@@ -727,7 +799,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Staff of Dunamancy",
-    "description": "Requer sintonia por um conjurador. Este cajado permite manipular a gravidade e o tempo, concedendo bônus em magias de dunamancia."
+    "description": "Requer sintonia por um conjurador. Este cajado permite manipular a gravidade e o tempo, concedendo bônus em magias de dunamancia.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 64,
@@ -737,7 +810,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Manual of Bodily Health",
-    "description": "Ler este manual por 48 horas aumenta seu valor de Constituição em 2 e seu valor máximo para esse atributo em 2 permanentemente."
+    "description": "Ler este manual por 48 horas aumenta seu valor de Constituição em 2 e seu valor máximo para esse atributo em 2 permanentemente.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 65,
@@ -747,7 +821,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of Striking",
-    "description": "Requer sintonia. Este cajado +3 possui 10 cargas. Ao acertar um ataque físico com ele, você pode gastar cargas para causar +1d6 de dano de força extra por carga gasta."
+    "description": "Requer sintonia. Este cajado +3 possui 10 cargas. Ao acertar um ataque físico com ele, você pode gastar cargas para causar +1d6 de dano de força extra por carga gasta.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 66,
@@ -757,7 +832,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Amulet of the Devout, +3",
-    "description": "Requer sintonia por Clérigo ou Paladino. Concede +3 de bônus em jogadas de ataque de magia e CD de salvamento de suas magias. Permite usar Canalização de Divindade uma vez extra."
+    "description": "Requer sintonia por Clérigo ou Paladino. Concede +3 de bônus em jogadas de ataque de magia e CD de salvamento de suas magias. Permite usar Canalização de Divindade uma vez extra.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 67,
@@ -767,7 +843,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Bloodaxe",
-    "description": "Requer sintonia. Este machado +2 causa +1d6 de dano necrótico extra. Ao reduzir uma criatura a 0 HP, você ganha 10 pontos de vida temporários."
+    "description": "Requer sintonia. Este machado +2 causa +1d6 de dano necrótico extra. Ao reduzir uma criatura a 0 HP, você ganha 10 pontos de vida temporários.",
+    "icon": "Library/Weapons/Battleaxe.svg"
   },
   {
     "d100": 68,
@@ -777,7 +854,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Helm of Brilliance",
-    "description": "Requer sintonia. Este elmo é cravejado de gemas mágicas que podem ser removidas para conjurar magias de fogo e luz, ou usadas para causar dano radiante extra com armas."
+    "description": "Requer sintonia. Este elmo é cravejado de gemas mágicas que podem ser removidas para conjurar magias de fogo e luz, ou usadas para causar dano radiante extra com armas.",
+    "icon": "Library/Magical Items/Hat of Disguise.svg"
   },
   {
     "d100": 69,
@@ -787,7 +865,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Iceshard Whip",
-    "description": "Requer sintonia. Este chicote +2 causa +1d6 de dano de frio extra e pode congelar e imobilizar inimigos temporariamente."
+    "description": "Requer sintonia. Este chicote +2 causa +1d6 de dano de frio extra e pode congelar e imobilizar inimigos temporariamente.",
+    "icon": "Library/Weapons/Whip.svg"
   },
   {
     "d100": 70,
@@ -797,7 +876,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of Power",
-    "description": "Requer sintonia por um conjurador. Este cajado +2 concede +2 na CA e salvamentos. Possui 20 cargas para conjurar diversas magias poderosas, ou pode ser quebrado para desencadear uma explosão retributiva massiva."
+    "description": "Requer sintonia por um conjurador. Este cajado +2 concede +2 na CA e salvamentos. Possui 20 cargas para conjurar diversas magias poderosas, ou pode ser quebrado para desencadear uma explosão retributiva massiva.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 70,
@@ -807,7 +887,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Adamantine Armor*",
-    "description": "Esta armadura de metal é reforçada com adamantina. Qualquer acerto crítico desferido contra você torna-se um acerto normal."
+    "description": "Esta armadura de metal é reforçada com adamantina. Qualquer acerto crítico desferido contra você torna-se um acerto normal.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 71,
@@ -817,7 +898,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Wand of the War Mage, +3",
-    "description": "Requer sintonia por um conjurador. Enquanto empunha esta varinha, você ganha +3 de bônus nas jogadas de ataque de magia e ignora cobertura meio-obstáculo e três-quartos."
+    "description": "Requer sintonia por um conjurador. Enquanto empunha esta varinha, você ganha +3 de bônus nas jogadas de ataque de magia e ignora cobertura meio-obstáculo e três-quartos.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 72,
@@ -827,7 +909,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Arcane Grimoire, +3",
-    "description": "Requer sintonia por um Mago. Concede +3 de bônus em jogadas de ataque de magia e CD de salvamento de mago, além de melhorar sua Recuperação Arcana."
+    "description": "Requer sintonia por um Mago. Concede +3 de bônus em jogadas de ataque de magia e CD de salvamento de mago, além de melhorar sua Recuperação Arcana.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 73,
@@ -837,7 +920,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Dragonhide Belt",
-    "description": "Requer sintonia por Monge. Concede +3 de bônus na CD de salvamento de suas técnicas de Ki e permite a você recuperar pontos de Ki com dados de vida."
+    "description": "Requer sintonia por Monge. Concede +3 de bônus na CD de salvamento de suas técnicas de Ki e permite a você recuperar pontos de Ki com dados de vida.",
+    "icon": "Library/Magical Items/Belt of Dwarvenkind.svg"
   },
   {
     "d100": 74,
@@ -847,7 +931,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Frost Brand",
-    "description": "Requer sintonia. Esta espada mágica causa +1d6 de dano de frio extra em acertos e concede a você resistência a dano de fogo."
+    "description": "Requer sintonia. Esta espada mágica causa +1d6 de dano de frio extra em acertos e concede a você resistência a dano de fogo.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 75,
@@ -857,7 +942,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Manual of Quickness of Action",
-    "description": "Ler este manual por 48 horas aumenta seu valor de Destreza em 2 e seu limite máximo para esse atributo em 2 permanentemente."
+    "description": "Ler este manual por 48 horas aumenta seu valor de Destreza em 2 e seu limite máximo para esse atributo em 2 permanentemente.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 76,
@@ -867,7 +953,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Manual of Golems",
-    "description": "Este livro contém informações necessárias para criar um tipo específico de Golem de metal, barro, pedra ou carne ao longo de vários dias e custo de ouro."
+    "description": "Este livro contém informações necessárias para criar um tipo específico de Golem de metal, barro, pedra ou carne ao longo de vários dias e custo de ouro.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 77,
@@ -877,7 +964,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Tome of Clear Thought",
-    "description": "Ler este livro por 48 horas aumenta seu valor de Inteligência em 2 e seu limite máximo para esse atributo em 2 permanentemente."
+    "description": "Ler este livro por 48 horas aumenta seu valor de Inteligência em 2 e seu limite máximo para esse atributo em 2 permanentemente.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 77,
@@ -887,7 +975,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Dragon's Wrath Weapon (Wakened)",
-    "description": "Requer sintonia. Esta arma +2 causa +2d6 de dano elemental de dragão em cada acerto e pode liberar sopros de energia em críticos."
+    "description": "Requer sintonia. Esta arma +2 causa +2d6 de dano elemental de dragão em cada acerto e pode liberar sopros de energia em críticos.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 78,
@@ -897,7 +986,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Dragon Vessel (Wakened)",
-    "description": "Requer sintonia. Permite criar Poções de Cura Superior uma vez por dia e concede resistência a um tipo de dano elemental."
+    "description": "Requer sintonia. Permite criar Poções de Cura Superior uma vez por dia e concede resistência a um tipo de dano elemental.",
+    "icon": "Library/Adventuring Gear/Iron Pot.svg"
   },
   {
     "d100": 79,
@@ -907,7 +997,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Ring of Legendary Resistance",
-    "description": "Requer sintonia. Este anel permite que você passe automaticamente em um salvamento falhado uma vez por dia."
+    "description": "Requer sintonia. Este anel permite que você passe automaticamente em um salvamento falhado uma vez por dia.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 80,
@@ -917,7 +1008,8 @@
     "attune": true,
     "source": "FToD",
     "englishName": "Amethyst Lodestone",
-    "description": "Requer sintonia. Esta pedra de gravidade permite manipular o peso e atrair ou repelir objetos e criaturas metálicas."
+    "description": "Requer sintonia. Esta pedra de gravidade permite manipular o peso e atrair ou repelir objetos e criaturas metálicas.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 81,
@@ -927,7 +1019,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Belt of Fire Giant Strength",
-    "description": "Requer sintonia. Seu valor de Força se torna 25 enquanto você estiver usando este cinto de couro runado."
+    "description": "Requer sintonia. Seu valor de Força se torna 25 enquanto você estiver usando este cinto de couro runado.",
+    "icon": "Library/Magical Items/Belt of Dwarvenkind.svg"
   },
   {
     "d100": 82,
@@ -937,7 +1030,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Key to Anywhere",
-    "description": "Esta chave se adapta a qualquer fechadura. Ao girá-la, cria um portal planar ligando a porta a qualquer outro portal ou porta planar por 10 minutos."
+    "description": "Esta chave se adapta a qualquer fechadura. Ao girá-la, cria um portal planar ligando a porta a qualquer outro portal ou porta planar por 10 minutos.",
+    "icon": "Library/Adventuring Gear/Key.svg"
   },
   {
     "d100": 83,
@@ -947,7 +1041,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Armor, +2*",
-    "description": "Você ganha um bônus de +2 na Classe de Armadura (CA) enquanto estiver usando esta armadura mágica."
+    "description": "Você ganha um bônus de +2 na Classe de Armadura (CA) enquanto estiver usando esta armadura mágica.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 83,
@@ -957,7 +1052,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Bag of Monsters",
-    "description": "Requer sintonia. Esta bolsa contém gobbets de carne que podem ser arremessados para invocar monstros e feras bizarras sob seu comando."
+    "description": "Requer sintonia. Esta bolsa contém gobbets de carne que podem ser arremessados para invocar monstros e feras bizarras sob seu comando.",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 84,
@@ -967,7 +1063,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Moon Sickle, +3",
-    "description": "Requer sintonia por Druida ou Patrulheiro. Concede +3 em jogadas de ataque, dano, magias de ataque e CD de magias. Adiciona +1d4 nas curas."
+    "description": "Requer sintonia por Druida ou Patrulheiro. Concede +3 em jogadas de ataque, dano, magias de ataque e CD de magias. Adiciona +1d4 nas curas.",
+    "icon": "Library/Weapons/Sickle.svg"
   },
   {
     "d100": 85,
@@ -977,7 +1074,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Tome of Understanding",
-    "description": "Ler este grimório por 48 horas aumenta seu valor de Sabedoria em 2 e seu limite máximo para esse atributo em 2 permanentemente."
+    "description": "Ler este grimório por 48 horas aumenta seu valor de Sabedoria em 2 e seu limite máximo para esse atributo em 2 permanentemente.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 86,
@@ -987,7 +1085,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Orb of the Veil",
-    "description": "Requer sintonia (Amaldiçoado). Concede +2 de Wisdom, visão no escuro de 18 metros e vantagem para achar portas secretas. Apaga chamas mundanas e corta dano de fogo pela metade."
+    "description": "Requer sintonia (Amaldiçoado). Concede +2 de Wisdom, visão no escuro de 18 metros e vantagem para achar portas secretas. Apaga chamas mundanas e corta dano de fogo pela metade.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 87,
@@ -997,7 +1096,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Instrument of the Bards (Anstruth Harp)",
-    "description": "Requer sintonia por Bardo. Permite conjurar magias poderosas (como Controlar Clima, Confusão, Levitação, etc.) e impõe desvantagem em salvamentos contra seus encantos."
+    "description": "Requer sintonia por Bardo. Permite conjurar magias poderosas (como Controlar Clima, Confusão, Levitação, etc.) e impõe desvantagem em salvamentos contra seus encantos.",
+    "icon": "Library/Instruments/Lute.svg"
   },
   {
     "d100": 88,
@@ -1007,7 +1107,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Ring of Regeneration",
-    "description": "Requer sintonia. Enquanto estiver usando este anel, você recupera 1d6 pontos de vida a cada 10 minutos."
+    "description": "Requer sintonia. Enquanto estiver usando este anel, você recupera 1d6 pontos de vida a cada 10 minutos.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 89,
@@ -1017,7 +1118,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Mithrandine Armor",
-    "description": "Esta armadura de mitral reforçada com adamantina não impõe desvantagem em Furtividade, não tem requisito de Força e torna acertos críticos em normais."
+    "description": "Esta armadura de mitral reforçada com adamantina não impõe desvantagem em Furtividade, não tem requisito de Força e torna acertos críticos em normais.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 90,
@@ -1027,7 +1129,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Bloodwell Vial, +3",
-    "description": "Requer sintonia por Feiticeiro. Concede +3 de bônus em jogadas de ataque de magia e CD de feiticeiro, além de recuperar pontos de feitiçaria."
+    "description": "Requer sintonia por Feiticeiro. Concede +3 de bônus em jogadas de ataque de magia e CD de feiticeiro, além de recuperar pontos de feitiçaria.",
+    "icon": "Library/Spell Components and Spellcasting foci/Ruby Vial with Human Blood (Summon Fiend).svg"
   },
   {
     "d100": 90,
@@ -1037,7 +1140,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of Frost",
-    "description": "Requer sintonia por um conjurador. Este cajado possui 10 cargas e permite conjurar magias de gelo como Névoa Sombria, Tempestade de Gelo ou Cone de Frio gastando charges."
+    "description": "Requer sintonia por um conjurador. Este cajado possui 10 cargas e permite conjurar magias de gelo como Névoa Sombria, Tempestade de Gelo ou Cone de Frio gastando charges.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 91,
@@ -1047,7 +1151,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Spellbreaker's Axe",
-    "description": "Requer sintonia. Este machado mágico concede vantagem em salvamentos contra magias e pode dissipar efeitos mágicos de alvos atingidos."
+    "description": "Requer sintonia. Este machado mágico concede vantagem em salvamentos contra magias e pode dissipar efeitos mágicos de alvos atingidos.",
+    "icon": "Library/Weapons/Battleaxe.svg"
   },
   {
     "d100": 92,
@@ -1057,7 +1162,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Tonguelasher",
-    "description": "Esta arma mágica causa +1d8 de dano psíquico e impõe desvantagem no próximo salvamento do alvo atingido até o fim do seu próximo turno."
+    "description": "Esta arma mágica causa +1d8 de dano psíquico e impõe desvantagem no próximo salvamento do alvo atingido até o fim do seu próximo turno.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 93,
@@ -1067,7 +1173,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Ring of Shooting Stars",
-    "description": "Requer sintonia. Este anel permite conjurar globos de luz brilhante ou liberar estrelas cadentes explosivas (faíscas elétricas de 4d12) na escuridão."
+    "description": "Requer sintonia. Este anel permite conjurar globos de luz brilhante ou liberar estrelas cadentes explosivas (faíscas elétricas de 4d12) na escuridão.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 94,
@@ -1077,7 +1184,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Lucent Destroyer",
-    "description": "Requer sintonia. Este mosquete de três canos não precisa de munição, causa dano radiante, ignora carregamento e permite conjurar Raio de Sol uma vez ao dia."
+    "description": "Requer sintonia. Este mosquete de três canos não precisa de munição, causa dano radiante, ignora carregamento e permite conjurar Raio de Sol uma vez ao dia.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 95,
@@ -1087,7 +1195,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Wyrmreaver Gauntlets",
-    "description": "Requer sintonia. Seus ataques desarmados causam +1d6 de dano de força e ganham alcance de 9 metros temporariamente. Concede também uma resistência elemental à sua escolha por dia."
+    "description": "Requer sintonia. Seus ataques desarmados causam +1d6 de dano de força e ganham alcance de 9 metros temporariamente. Concede também uma resistência elemental à sua escolha por dia.",
+    "icon": "Library/Magical Items/Gloves of Thievery.svg"
   },
   {
     "d100": 96,
@@ -1097,7 +1206,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Rhythm-Maker's Drum, +3",
-    "description": "Requer sintonia por Bardo. Concede +3 de bônus em jogadas de ataque de magia e CD de bardo, além de permitir recuperar um uso de Inspiração Bárdica."
+    "description": "Requer sintonia por Bardo. Concede +3 de bônus em jogadas de ataque de magia e CD de bardo, além de permitir recuperar um uso de Inspiração Bárdica.",
+    "icon": "Library/Instruments/Drum.svg"
   },
   {
     "d100": 97,
@@ -1107,7 +1217,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Glove of the Woodland",
-    "description": "Requer sintonia. Feras e plantas têm dificuldade para atacar você. Possui 7 cargas para conjurar magias de floresta como Enredar ou Passo de Árvore."
+    "description": "Requer sintonia. Feras e plantas têm dificuldade para atacar você. Possui 7 cargas para conjurar magias de floresta como Enredar ou Passo de Árvore.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 97,
@@ -1117,7 +1228,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Ring of Amity",
-    "description": "Requer sintonia. Cria um vínculo com um aliado voluntário. Enquanto o vínculo durar, qualquer cura mágica que você receber também cura o aliado bonded."
+    "description": "Requer sintonia. Cria um vínculo com um aliado voluntário. Enquanto o vínculo durar, qualquer cura mágica que você receber também cura o aliado bonded.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 98,
@@ -1127,7 +1239,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Temporal Amulet",
-    "description": "Requer sintonia. Possui 3 cargas. Permite usar sua reação para voltar no tempo até sua posição inicial do turno de um inimigo, recuperando HP e removendo debuffs sofridos."
+    "description": "Requer sintonia. Possui 3 cargas. Permite usar sua reação para voltar no tempo até sua posição inicial do turno de um inimigo, recuperando HP e removendo debuffs sofridos.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 99,
@@ -1137,7 +1250,8 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Dragon Scale Mail",
-    "description": "Requer sintonia. Esta armadura de escamas de dragão concede +1 na CA, vantagem em salvamentos contra sopro de dragão e resistência ao elemento correspondente."
+    "description": "Requer sintonia. Esta armadura de escamas de dragão concede +1 na CA, vantagem em salvamentos contra sopro de dragão e resistência ao elemento correspondente.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 100,
@@ -1147,6 +1261,7 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Assassin's Blade",
-    "description": "Esta adaga concede vantagem em jogadas de ataque contra qualquer criatura que ainda não tenha agido no combate e causa +2d6 de dano extra."
+    "description": "Esta adaga concede vantagem em jogadas de ataque contra qualquer criatura que ainda não tenha agido no combate e causa +2d6 de dano extra.",
+    "icon": "Library/Weapons/Longsword.svg"
   }
 ]

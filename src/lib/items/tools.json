@@ -8,7 +8,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Gaita de Fole",
@@ -19,7 +20,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Bagpipes.svg"
   },
   {
     "name": "Suprimentos de Cervejeiro",
@@ -30,7 +32,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Suprimentos de Calígrafo",
@@ -41,7 +44,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Ferramentas de Carpinteiro",
@@ -52,7 +56,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Carpenter Tools.svg"
   },
   {
     "name": "Ferramentas de Cartógrafo",
@@ -63,7 +68,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Cartographer Tools.svg"
   },
   {
     "name": "Ferramentas de Sapateiro",
@@ -74,7 +80,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Cobbler Tools.svg"
   },
   {
     "name": "Utensílios de Cozinheiro",
@@ -85,7 +92,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Conjunto de Dados",
@@ -96,7 +104,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Gaming Sets/Dice Set.svg"
   },
   {
     "name": "Kit de Disfarce",
@@ -107,7 +116,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Tambor",
@@ -118,7 +128,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Drum.svg"
   },
   {
     "name": "Dulcimer",
@@ -129,7 +140,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Dulcimer.svg"
   },
   {
     "name": "Flauta",
@@ -140,7 +152,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Flute.svg"
   },
   {
     "name": "Kit de Falsificação",
@@ -151,7 +164,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Ferramentas de Vitralista",
@@ -162,7 +176,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Smith Tools.svg"
   },
   {
     "name": "Kit de Herbalismo",
@@ -173,7 +188,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Chifre",
@@ -184,7 +200,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Ferramentas de Joalheiro",
@@ -195,7 +212,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Jeweler Tools.svg"
   },
   {
     "name": "Ferramentas de Coureiro",
@@ -206,7 +224,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Leatherworker Tools.svg"
   },
   {
     "name": "Alaúde",
@@ -217,7 +236,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Lute.svg"
   },
   {
     "name": "Lira",
@@ -228,7 +248,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Lyre.svg"
   },
   {
     "name": "Ferramentas de Pedreiro",
@@ -239,7 +260,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Mason Tools.svg"
   },
   {
     "name": "Ferramentas de Navegador",
@@ -250,7 +272,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Navigators Tools.svg"
   },
   {
     "name": "Suprimentos de Pintor",
@@ -261,7 +284,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Flauta de Pã",
@@ -272,7 +296,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Pan Flute.svg"
   },
   {
     "name": "Baralho de Cartas",
@@ -283,7 +308,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Gaming Sets/Playing Card.svg"
   },
   {
     "name": "Kit de Envenenador",
@@ -294,7 +320,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": null
   },
   {
     "name": "Ferramentas de Oleiro",
@@ -305,7 +332,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Potter Tools.svg"
   },
   {
     "name": "Xalouco",
@@ -316,7 +344,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Shawm.svg"
   },
   {
     "name": "Ferramentas de Ferreiro",
@@ -327,7 +356,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Smith Tools.svg"
   },
   {
     "name": "Ferramentas de Ladrão",
@@ -338,7 +368,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Thieves Tools.svg"
   },
   {
     "name": "Ferramentas de Funileiro",
@@ -349,7 +380,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Tinker Tools.svg"
   },
   {
     "name": "Viola",
@@ -360,7 +392,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Instruments/Viol.svg"
   },
   {
     "name": "Ferramentas de Tecelão",
@@ -371,7 +404,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Weaver Tools.svg"
   },
   {
     "name": "Ferramentas de Entalhador",
@@ -382,6 +416,7 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Tools, Kits, and Artisan Tools/Woodcarver Tools.svg"
   }
 ]

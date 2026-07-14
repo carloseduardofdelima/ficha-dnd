@@ -5,7 +5,8 @@
     "type": "Scroll",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 11,
@@ -13,7 +14,8 @@
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "EGtW"
+    "source": "EGtW",
+    "icon": "Library/Magical Items/Sending Stones.svg"
   },
   {
     "d100": 16,
@@ -21,7 +23,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Healing.svg"
   },
   {
     "d100": 21,
@@ -29,7 +32,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 26,
@@ -37,7 +41,8 @@
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "EGtW"
+    "source": "EGtW",
+    "icon": "Library/Spell Components and Spellcasting foci/Bone Dust.svg"
   },
   {
     "d100": 32,
@@ -45,7 +50,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Speed.svg"
   },
   {
     "d100": 37,
@@ -53,7 +59,8 @@
     "type": "Scroll",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 42,
@@ -61,7 +68,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "d100": 47,
@@ -69,7 +77,8 @@
     "type": "Wondrous Item",
     "rarity": "Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 53,
@@ -77,7 +86,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Giant Strength.svg"
   },
   {
     "d100": 58,
@@ -85,7 +95,8 @@
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Adventuring Gear/Ink.svg"
   },
   {
     "d100": 63,
@@ -93,7 +104,8 @@
     "type": "Weapon",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 68,
@@ -101,7 +113,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Flying.svg"
   },
   {
     "d100": 74,
@@ -109,7 +122,8 @@
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Magical Items/Horseshoes of Speed.svg"
   },
   {
     "d100": 79,
@@ -117,7 +131,8 @@
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
-    "source": "DMG"
+    "source": "DMG",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 84,
@@ -127,7 +142,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Invisibility",
-    "description": "Ao beber esta poção, você fica invisível por 1 hora. A invisibilidade acaba se você atacar ou conjurar magias."
+    "description": "Ao beber esta poção, você fica invisível por 1 hora. A invisibilidade acaba se você atacar ou conjurar magias.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Invisibility.svg"
   },
   {
     "d100": 89,
@@ -137,7 +153,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Potion of Possibility",
-    "description": "Beber esta poção concede 2 Fragmentos de Possibilidade que duram 8 horas. Você pode gastar um fragmento para rolar um d20 extra em um teste, ataque ou salvamento."
+    "description": "Beber esta poção concede 2 Fragmentos de Possibilidade que duram 8 horas. Você pode gastar um fragmento para rolar um d20 extra em um teste, ataque ou salvamento.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 95,
@@ -147,7 +164,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Bag of Devouring",
-    "description": "Esta bolsa mágica funciona como uma Bolsa de Carga, mas abriga uma criatura extradimensional devoradora. Qualquer objeto ou criatura colocada dentro dela tem chance de ser devorado e digerido permanentemente."
+    "description": "Esta bolsa mágica funciona como uma Bolsa de Carga, mas abriga uma criatura extradimensional devoradora. Qualquer objeto ou criatura colocada dentro dela tem chance de ser devorado e digerido permanentemente.",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 100,
@@ -157,6 +175,7 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (6th Level)",
-    "description": "Este pergaminho contém uma magia de 6º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 6º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   }
 ]

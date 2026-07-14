@@ -7,7 +7,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll, 1st Level",
-    "description": "Este pergaminho contém uma magia de 1º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 1º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 2,
@@ -17,7 +18,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Healing",
-    "description": "Você recupera 2d4 + 2 pontos de vida ao beber esta poção."
+    "description": "Você recupera 2d4 + 2 pontos de vida ao beber esta poção.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Red.svg"
   },
   {
     "d100": 4,
@@ -27,7 +29,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo, Cantrip",
-    "description": "Uma tatuagem mágica gravada na pele contendo um truque (cantrip). Você pode conjurar o truque uma vez através dela e ela sumirá."
+    "description": "Uma tatuagem mágica gravada na pele contendo um truque (cantrip). Você pode conjurar o truque uma vez através dela e ela sumirá.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 5,
@@ -37,7 +40,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Cast-Off Armor",
-    "description": "Você pode vestir ou remover esta armadura como uma ação, em vez do tempo normal exigido."
+    "description": "Você pode vestir ou remover esta armadura como uma ação, em vez do tempo normal exigido.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 6,
@@ -47,7 +51,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Clockwork Amulet",
-    "description": "Este amuleto de cobre abriga pequenas engrenagens conectadas. Quando você faz uma jogada de ataque, você pode escolher abdicar de rolar o d20 e usar o valor 10 no lugar. Uma vez usado, este amuleto não pode ser usado novamente até o próximo amanhecer."
+    "description": "Este amuleto de cobre abriga pequenas engrenagens conectadas. Quando você faz uma jogada de ataque, você pode escolher abdicar de rolar o d20 e usar o valor 10 no lugar. Uma vez usado, este amuleto não pode ser usado novamente até o próximo amanhecer.",
+    "icon": "Library/Magical Items/Clockwork Amulet.svg"
   },
   {
     "d100": 7,
@@ -57,7 +62,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo, 1st Level",
-    "description": "Uma tatuagem mágica gravada na pele contendo uma magia de 1º nível. Você pode conjurar a magia uma vez por meio dela e ela desaparecerá."
+    "description": "Uma tatuagem mágica gravada na pele contendo uma magia de 1º nível. Você pode conjurar a magia uma vez por meio dela e ela desaparecerá.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 9,
@@ -67,7 +73,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Tankard of Sobriety",
-    "description": "Esta caneca de metal ornamentada impede que você fique bêbado por qualquer bebida alcoólica ingerida através dela."
+    "description": "Esta caneca de metal ornamentada impede que você fique bêbado por qualquer bebida alcoólica ingerida através dela.",
+    "icon": "Library/Food and Drink/Ale (Mug).svg"
   },
   {
     "d100": 10,
@@ -77,7 +84,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Extending Staff",
-    "description": "Como uma ação bônus, você pode fazer com que este cajado de madeira se estenda até 3 metros de comprimento ou encolha de volta para 1,8 metros."
+    "description": "Como uma ação bônus, você pode fazer com que este cajado de madeira se estenda até 3 metros de comprimento ou encolha de volta para 1,8 metros.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 11,
@@ -87,7 +95,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Climbing",
-    "description": "Por 1 hora após beber esta poção, você ganha velocidade de escalada igual à sua velocidade de caminhada e tem vantagem em testes de Força (Atletismo) para escalar."
+    "description": "Por 1 hora após beber esta poção, você ganha velocidade de escalada igual à sua velocidade de caminhada e tem vantagem em testes de Força (Atletismo) para escalar.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Blue.svg"
   },
   {
     "d100": 12,
@@ -97,7 +106,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Bag of Cooling",
-    "description": "Qualquer item colocado dentro desta bolsa permanece gelado e fresco, impedindo que alimentos estraguem."
+    "description": "Qualquer item colocado dentro desta bolsa permanece gelado e fresco, impedindo que alimentos estraguem.",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 14,
@@ -107,7 +117,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Dread Helm",
-    "description": "Este elmo de metal assustador faz com que seus olhos brilhem na cor vermelha enquanto você o estiver usando."
+    "description": "Este elmo de metal assustador faz com que seus olhos brilhem na cor vermelha enquanto você o estiver usando.",
+    "icon": "Library/Magical Items/Hat of Disguise.svg"
   },
   {
     "d100": 15,
@@ -117,7 +128,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Breathing Bubble",
-    "description": "Esta bolha de vidro parecida com um capacete abriga 1 hora de ar respirável. Ela recupera todo o ar diariamente ao amanhecer."
+    "description": "Esta bolha de vidro parecida com um capacete abriga 1 hora de ar respirável. Ela recupera todo o ar diariamente ao amanhecer.",
+    "icon": "Library/Magical Items/Cap of Water Breathing.svg"
   },
   {
     "d100": 16,
@@ -127,7 +139,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Speed",
-    "description": "Esta tatuagem mágica requer sintonia e aumenta sua velocidade de caminhada em 3 metros."
+    "description": "Esta tatuagem mágica requer sintonia e aumenta sua velocidade de caminhada em 3 metros.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 17,
@@ -137,7 +150,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Ear Horn of Hearing",
-    "description": "Enquanto segura esta corneta contra o ouvido, você tem vantagem em testes de Sabedoria (Percepção) relacionados à audição."
+    "description": "Enquanto segura esta corneta contra o ouvido, você tem vantagem em testes de Sabedoria (Percepção) relacionados à audição.",
+    "icon": "Library/Magical Items/Ear Horn of Hearing.svg"
   },
   {
     "d100": 19,
@@ -147,7 +161,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Staff of Adornment",
-    "description": "Este cajado tem 3 pequenas pedras flutuando ao redor de sua ponta. Você pode usar uma ação para fazer com que pequenos objetos não-mágicos flutuem ao redor dele."
+    "description": "Este cajado tem 3 pequenas pedras flutuando ao redor de sua ponta. Você pode usar uma ação para fazer com que pequenos objetos não-mágicos flutuem ao redor dele.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 20,
@@ -157,7 +172,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Ruby of the War Mage",
-    "description": "Este rubi de 2,5 cm de diâmetro requer sintonia por um conjurador. Ele pode ser fixado a uma arma simples ou marcial, permitindo que você use a arma como um foco de conjuração para suas magias."
+    "description": "Este rubi de 2,5 cm de diâmetro requer sintonia por um conjurador. Ele pode ser fixado a uma arma simples ou marcial, permitindo que você use a arma como um foco de conjuração para suas magias.",
+    "icon": "Library/Treasure/Gems - generic/Brilliant Gem - Red.svg"
   },
   {
     "d100": 21,
@@ -167,7 +183,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Ersatz Eye",
-    "description": "Este olho artificial substitui um olho perdido. Ele funciona exatamente como um olho normal, mas requer sintonia."
+    "description": "Este olho artificial substitui um olho perdido. Ele funciona exatamente como um olho normal, mas requer sintonia.",
+    "icon": "Library/Spell Components and Spellcasting foci/Glass Eye.svg"
   },
   {
     "d100": 22,
@@ -177,7 +194,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Horn of Silent Alarm",
-    "description": "Esta corneta pode ser soprada para emitir um aviso que apenas criaturas escolhidas por você num raio de 180 metros conseguem ouvir mentalmente."
+    "description": "Esta corneta pode ser soprada para emitir um aviso que apenas criaturas escolhidas por você num raio de 180 metros conseguem ouvir mentalmente.",
+    "icon": "Library/Instruments/Horn.svg"
   },
   {
     "d100": 23,
@@ -187,7 +205,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Heward's Handy Spice Pouch",
-    "description": "Esta algibeira mágica tem 10 cargas. Você pode gastar 1 charge para retirar dela uma pitada de qualquer tempero não-mágico (como sal ou pimenta), suficiente para temperar uma refeição. Recupera 1d6 + 4 cargas diariamente ao amanhecer."
+    "description": "Esta algibeira mágica tem 10 cargas. Você pode gastar 1 charge para retirar dela uma pitada de qualquer tempero não-mágico (como sal ou pimenta), suficiente para temperar uma refeição. Recupera 1d6 + 4 cargas diariamente ao amanhecer.",
+    "icon": "Library/Adventuring Gear/Pouch.svg"
   },
   {
     "d100": 25,
@@ -197,7 +216,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Amulet of Freshness",
-    "description": "Este amuleto impede que você sue ou fique com odores ruins, mantendo você e suas roupas limpos."
+    "description": "Este amuleto impede que você sue ou fique com odores ruins, mantendo você e suas roupas limpos.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 26,
@@ -207,7 +227,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Map of Many Places",
-    "description": "Este mapa em branco se auto-desenha revelando a geografia detalhada da região num raio de 8 quilômetros ao seu redor."
+    "description": "Este mapa em branco se auto-desenha revelando a geografia detalhada da região num raio de 8 quilômetros ao seu redor.",
+    "icon": "Library/Adventuring Gear/Parchment (one sheet).svg"
   },
   {
     "d100": 27,
@@ -217,7 +238,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll, Cantrip",
-    "description": "Este pergaminho contém um truque mágico escrito. Ler o pergaminho conjura a magia sem custo de componentes materiais."
+    "description": "Este pergaminho contém um truque mágico escrito. Ler o pergaminho conjura a magia sem custo de componentes materiais.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 28,
@@ -227,7 +249,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Bead of Refreshment",
-    "description": "Esta pequena conta esponjosa se dissolve instantaneamente na água, transformando até 500ml de qualquer líquido não-mágico em água potável limpa e gelada."
+    "description": "Esta pequena conta esponjosa se dissolve instantaneamente na água, transformando até 500ml de qualquer líquido não-mágico em água potável limpa e gelada.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 30,
@@ -237,7 +260,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Rope of Mending",
-    "description": "Esta corda de cânhamo de 15 metros pode ser cortada em vários pedaços. Como uma ação, você pode falar uma palavra de comando para fazer com que os pedaços em contato se costurem magicamente de volta."
+    "description": "Esta corda de cânhamo de 15 metros pode ser cortada em vários pedaços. Como uma ação, você pode falar uma palavra de comando para fazer com que os pedaços em contato se costurem magicamente de volta.",
+    "icon": "Library/Adventuring Gear/Silk Rope.svg"
   },
   {
     "d100": 31,
@@ -247,7 +271,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Empowerment",
-    "description": "Ao beber esta poção, você ganha vantagem no próximo teste de atributo que fizer dentro de 1 hora."
+    "description": "Ao beber esta poção, você ganha vantagem no próximo teste de atributo que fizer dentro de 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 32,
@@ -257,7 +282,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Instrument of Scribing",
-    "description": "Requer sintonia. Este instrumento musical tem 3 cargas. Ao tocá-lo, você pode gastar 1 carga para escrever uma mensagem flutuante de até 6 palavras em uma superfície a até 9 metros. A escrita dura 24 horas."
+    "description": "Requer sintonia. Este instrumento musical tem 3 cargas. Ao tocá-lo, você pode gastar 1 carga para escrever uma mensagem flutuante de até 6 palavras em uma superfície a até 9 metros. A escrita dura 24 horas.",
+    "icon": "Library/Instruments/Lute.svg"
   },
   {
     "d100": 33,
@@ -267,7 +293,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Lock of Trickery",
-    "description": "Esta fechadura mágica impõe desvantagem em qualquer teste de Destreza feito para tentar arrombá-la."
+    "description": "Esta fechadura mágica impõe desvantagem em qualquer teste de Destreza feito para tentar arrombá-la.",
+    "icon": "Library/Adventuring Gear/Lock.svg"
   },
   {
     "d100": 35,
@@ -277,7 +304,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Prosthetic Limb",
-    "description": "Esta prótese substitui um membro perdido (mão, pé, braço ou perna). Ela funciona exatamente de forma idêntica ao membro original e não pode ser removida contra sua vontade enquanto você estiver vivo."
+    "description": "Esta prótese substitui um membro perdido (mão, pé, braço ou perna). Ela funciona exatamente de forma idêntica ao membro original e não pode ser removida contra sua vontade enquanto você estiver vivo.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 36,
@@ -287,7 +315,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Hat of Naivety",
-    "description": "Enquanto usa este chapéu, você tem desvantagem em testes de Sabedoria (Intuição), mas ganha vantagem em um teste de Carisma por dia."
+    "description": "Enquanto usa este chapéu, você tem desvantagem em testes de Sabedoria (Intuição), mas ganha vantagem em um teste de Carisma por dia.",
+    "icon": "Library/Adventuring Gear/Wizard hat.svg"
   },
   {
     "d100": 37,
@@ -297,7 +326,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Candle of the Deep",
-    "description": "A chama desta vela mágica não se apaga mesmo quando submersa na água, fornecendo calor e luz normais."
+    "description": "A chama desta vela mágica não se apaga mesmo quando submersa na água, fornecendo calor e luz normais.",
+    "icon": "Library/Adventuring Gear/Candle.svg"
   },
   {
     "d100": 38,
@@ -307,7 +337,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Strongspirit Mug",
-    "description": "Você pode encher esta caneca com álcool forte uma vez por dia. Qualquer criatura que beber deve passar num teste de resistência de Constituição CD 12 ou ficará envenenada por 1 hora (ganhando vantagem contra medo e 2d6 pontos de vida temporários)."
+    "description": "Você pode encher esta caneca com álcool forte uma vez por dia. Qualquer criatura que beber deve passar num teste de resistência de Constituição CD 12 ou ficará envenenada por 1 hora (ganhando vantagem contra medo e 2d6 pontos de vida temporários).",
+    "icon": "Library/Food and Drink/Ale (Mug).svg"
   },
   {
     "d100": 40,
@@ -317,7 +348,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Illuminator's Tattoo",
-    "description": "Requer sintonia. Permite que você escreva usando a ponta do dedo como se fosse uma pena de tinta. Uma vez por dia, você pode tornar um texto invisível por 24 horas para todos, exceto você e um alvo escolhido."
+    "description": "Requer sintonia. Permite que você escreva usando a ponta do dedo como se fosse uma pena de tinta. Uma vez por dia, você pode tornar um texto invisível por 24 horas para todos, exceto você e um alvo escolhido.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 41,
@@ -327,7 +359,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Moon-Touched Sword",
-    "description": "Esta espada brilha com luz prateada equivalente à de uma lua cheia num raio de 4,5 metros sempre que empunhada."
+    "description": "Esta espada brilha com luz prateada equivalente à de uma lua cheia num raio de 4,5 metros sempre que empunhada.",
+    "icon": "Library/Weapons/Longsword.svg"
   },
   {
     "d100": 42,
@@ -337,7 +370,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Liar's Stone",
-    "description": "Enquanto estiver portando esta pedra, você pode escolher uma mentira específica. Qualquer magia que tente detectar mentiras ou ler sua mente perceberá essa mentira específica como uma verdade absoluta."
+    "description": "Enquanto estiver portando esta pedra, você pode escolher uma mentira específica. Qualquer magia que tente detectar mentiras ou ler sua mente perceberá essa mentira específica como uma verdade absoluta.",
+    "icon": "Library/Magical Items/Sending Stones.svg"
   },
   {
     "d100": 43,
@@ -347,7 +381,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Hat of Vermin",
-    "description": "Este chapéu possui 3 cargas. Você pode usar uma ação e gastar 1 carga para puxar do chapéu um morcego, rã ou rato. A criatura é amigável a você, mas age por instinto. O chapéu recupera todas as cargas diariamente ao amanhecer."
+    "description": "Este chapéu possui 3 cargas. Você pode usar uma ação e gastar 1 carga para puxar do chapéu um morcego, rã ou rato. A criatura é amigável a você, mas age por instinto. O chapéu recupera todas as cargas diariamente ao amanhecer.",
+    "icon": "Library/Adventuring Gear/Wizard hat.svg"
   },
   {
     "d100": 44,
@@ -357,7 +392,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Veteran's Cane",
-    "description": "Como uma ação, você pode transformar esta bengala de madeira comum em uma espada longa real. A transformação é permanente."
+    "description": "Como uma ação, você pode transformar esta bengala de madeira comum em uma espada longa real. A transformação é permanente.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 46,
@@ -367,7 +403,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Bead of Nourishment",
-    "description": "Esta pequena conta gelatinosa se dissolve na língua e provê nutrientes equivalentes a um dia inteiro de rações de viagem."
+    "description": "Esta pequena conta gelatinosa se dissolve na língua e provê nutrientes equivalentes a um dia inteiro de rações de viagem.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 47,
@@ -377,7 +414,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Wand of Pyrotechnics",
-    "description": "Esta varinha tem 7 cargas. Com uma ação, você pode gastar 1 carga para criar uma explosão inofensiva de luzes coloridas a até 18 metros de distância, acompanhada por um estampido ouvido a até 90 metros."
+    "description": "Esta varinha tem 7 cargas. Com uma ação, você pode gastar 1 carga para criar uma explosão inofensiva de luzes coloridas a até 18 metros de distância, acompanhada por um estampido ouvido a até 90 metros.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 48,
@@ -387,7 +425,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Wand of Conducting",
-    "description": "Esta varinha permite que você conduza uma orquestra invisível que toca uma música suave num raio de 9 metros."
+    "description": "Esta varinha permite que você conduza uma orquestra invisível que toca uma música suave num raio de 9 metros.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 49,
@@ -397,7 +436,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Wand of Scowls",
-    "description": "Esta varinha tem 3 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que a expressão de uma criatura se torne carrancuda ou brava por 1 minuto."
+    "description": "Esta varinha tem 3 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que a expressão de uma criatura se torne carrancuda ou brava por 1 minuto.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 51,
@@ -407,7 +447,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Boots of False Tracks",
-    "description": "Enquanto usa estas botas, você pode fazer com que suas pegadas pareçam com as de outra criatura humanoide ou fera de tamanho similar."
+    "description": "Enquanto usa estas botas, você pode fazer com que suas pegadas pareçam com as de outra criatura humanoide ou fera de tamanho similar.",
+    "icon": "Library/Magical Items/Boots of Speed.svg"
   },
   {
     "d100": 52,
@@ -417,7 +458,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Coin of Delving",
-    "description": "Esta moeda mágica brilha suavemente quando deixada cair em buracos ou fendas, revelando a profundidade do local."
+    "description": "Esta moeda mágica brilha suavemente quando deixada cair em buracos ou fendas, revelando a profundidade do local.",
+    "icon": "Library/Adventuring Gear/Coin Pouch.svg"
   },
   {
     "d100": 53,
@@ -427,7 +469,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Shield of Expression",
-    "description": "A face deste escudo de metal pode alterar sua expressão facial estampada (como raiva, alegria ou pavor) conforme a vontade do portador."
+    "description": "A face deste escudo de metal pode alterar sua expressão facial estampada (como raiva, alegria ou pavor) conforme a vontade do portador.",
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "d100": 54,
@@ -437,7 +480,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Pole of Angling",
-    "description": "Esta vara de pesca de 3 metros pode ser encolhida até medir apenas 30 centímetros como uma ação."
+    "description": "Esta vara de pesca de 3 metros pode ser encolhida até medir apenas 30 centímetros como uma ação.",
+    "icon": "Library/Adventuring Gear/Pole (10-foot).svg"
   },
   {
     "d100": 56,
@@ -447,7 +491,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Walloping Ammunition",
-    "description": "Esta munição é encantada. Quando atinge uma criatura, a criatura deve passar num teste de resistência de Força CD 10 ou cairá caída no chão (derrubada)."
+    "description": "Esta munição é encantada. Quando atinge uma criatura, a criatura deve passar num teste de resistência de Força CD 10 ou cairá caída no chão (derrubada).",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 57,
@@ -457,7 +502,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Cloak of Billowing",
-    "description": "Esta capa de tecido fino permite que você use uma ação bônus para fazê-la tremular dramaticamente, mesmo que não haja vento no local."
+    "description": "Esta capa de tecido fino permite que você use uma ação bônus para fazê-la tremular dramaticamente, mesmo que não haja vento no local.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 58,
@@ -467,7 +513,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Perfume of Bewitching",
-    "description": "Este frasco contém perfume suficiente para 1 dose. Ao aplicá-lo, você ganha vantagem em testes de Carisma contra criaturas num raio de 1,5 metros por 1 hora."
+    "description": "Este frasco contém perfume suficiente para 1 dose. Ao aplicá-lo, você ganha vantagem em testes de Carisma contra criaturas num raio de 1,5 metros por 1 hora.",
+    "icon": "Library/Adventuring Gear/Perfume.svg"
   },
   {
     "d100": 59,
@@ -477,7 +524,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Goodberry Hat",
-    "description": "Uma vez por dia, você pode puxar 1d4 frutos mágicos (Goodberries) de dentro deste chapéu."
+    "description": "Uma vez por dia, você pode puxar 1d4 frutos mágicos (Goodberries) de dentro deste chapéu.",
+    "icon": "Library/Adventuring Gear/Wizard hat.svg"
   },
   {
     "d100": 60,
@@ -487,7 +535,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Wand of Smiles",
-    "description": "Esta varinha tem 3 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que uma criatura sorria por 1 minuto."
+    "description": "Esta varinha tem 3 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que uma criatura sorria por 1 minuto.",
+    "icon": "Library/Spell Components and Spellcasting foci/Wand.svg"
   },
   {
     "d100": 62,
@@ -497,7 +546,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Absorption",
-    "description": "Esta tatuagem mágica requer sintonia. Ela permite que você use sua reação para absorver dano de um elemento específico uma vez ao dia."
+    "description": "Esta tatuagem mágica requer sintonia. Ela permite que você use sua reação para absorver dano de um elemento específico uma vez ao dia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 63,
@@ -507,7 +557,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Renewal",
-    "description": "Ao beber esta poção, você remove um nível de exaustão e recupera 1d10 pontos de vida."
+    "description": "Ao beber esta poção, você remove um nível de exaustão e recupera 1d10 pontos de vida.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 64,
@@ -517,7 +568,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Cloak of Many Fashions",
-    "description": "Esta capa pode alterar sua cor, style e padrão de costura como uma ação bônus, embora mantenha suas propriedades físicas normais."
+    "description": "Esta capa pode alterar sua cor, style e padrão de costura como uma ação bônus, embora mantenha suas propriedades físicas normais.",
+    "icon": "Library/Magical Items/Cloak of the Bat.svg"
   },
   {
     "d100": 65,
@@ -527,7 +579,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Talking Doll",
-    "description": "Esta boneca de pano pode ser programada para falar até 6 frases curtas quando certas condições simples forem atendidas."
+    "description": "Esta boneca de pano pode ser programada para falar até 6 frases curtas quando certas condições simples forem atendidas.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 67,
@@ -537,7 +590,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Hat of Wizardry",
-    "description": "Este chapéu pontudo requer sintonia por um bruxo, mago ou feiticeiro. Ele serve como foco de conjuração e permite tentar conjurar um truque da sua lista de classe que você não conheça fazendo um teste de Inteligência (Arcana) CD 10."
+    "description": "Este chapéu pontudo requer sintonia por um bruxo, mago ou feiticeiro. Ele serve como foco de conjuração e permite tentar conjurar um truque da sua lista de classe que você não conheça fazendo um teste de Inteligência (Arcana) CD 10.",
+    "icon": "Library/Magical Items/Hat of Wizardry.svg"
   },
   {
     "d100": 68,
@@ -547,7 +601,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Pole of Collapsing",
-    "description": "Este bastão de 3 metros pode ser encolhido até medir apenas 30 centímetros como uma ação."
+    "description": "Este bastão de 3 metros pode ser encolhido até medir apenas 30 centímetros como uma ação.",
+    "icon": "Library/Spell Components and Spellcasting foci/Rod.svg"
   },
   {
     "d100": 69,
@@ -557,7 +612,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Enduring Spellbook",
-    "description": "Este grimório e as páginas de pergaminho contidas nele não podem ser danificados por fogo ou água, nem se deterioram pela passagem do tempo."
+    "description": "Este grimório e as páginas de pergaminho contidas nele não podem ser danificados por fogo ou água, nem se deterioram pela passagem do tempo.",
+    "icon": "Library/Adventuring Gear/Book.svg"
   },
   {
     "d100": 70,
@@ -567,7 +623,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Unbreakable Arrow",
-    "description": "Esta flecha de madeira mágica não pode ser quebrada ou danificada por meios não-mágicos."
+    "description": "Esta flecha de madeira mágica não pode ser quebrada ou danificada por meios não-mágicos.",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 72,
@@ -577,7 +634,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Pipe of Smoke Monsters",
-    "description": "Enquanto fuma este cachimbo, você pode fazer com que a fumaça exalada tome brevemente a forma de uma criatura monstruosa de sua escolha antes de se dissipar."
+    "description": "Enquanto fuma este cachimbo, você pode fazer com que a fumaça exalada tome brevemente a forma de uma criatura monstruosa de sua escolha antes de se dissipar.",
+    "icon": "Library/Magical Items/Pipes of Haunting.svg"
   },
   {
     "d100": 73,
@@ -587,7 +645,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Orb of Time",
-    "description": "Enquanto segura este orbe, você pode usar uma ação para descobrir se é manhã, tarde, noite ou madrugada."
+    "description": "Enquanto segura este orbe, você pode usar uma ação para descobrir se é manhã, tarde, noite ou madrugada.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 74,
@@ -597,7 +656,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Charlatan's Die",
-    "description": "Este dado de seis lados comum pode ser controlado mentalmente para cair sempre no número que você escolher."
+    "description": "Este dado de seis lados comum pode ser controlado mentalmente para cair sempre no número que você escolher.",
+    "icon": "Library/Gaming Sets/Dice Set.svg"
   },
   {
     "d100": 75,
@@ -607,7 +667,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Armor of Gleaming",
-    "description": "Esta armadura nunca fica suja ou enferrujada. Ela brilha levemente sob a luz comum."
+    "description": "Esta armadura nunca fica suja ou enferrujada. Ela brilha levemente sob a luz comum.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 77,
@@ -617,7 +678,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Dark Shard Amulet",
-    "description": "Requer sintonia por um Bruxo (Warlock). Este amuleto permite tentar conjurar um truque de bruxo que você não conheça fazendo um teste de Inteligência (Arcana) CD 10."
+    "description": "Requer sintonia por um Bruxo (Warlock). Este amuleto permite tentar conjurar um truque de bruxo que você não conheça fazendo um teste de Inteligência (Arcana) CD 10.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 78,
@@ -627,7 +689,8 @@
     "attune": true,
     "source": "XGtE",
     "englishName": "Instrument of Illusions",
-    "description": "Enquanto toca este instrumento musical, você pode criar efeitos visuales ilusórios simples num raio de 1,5 metros ao seu redor."
+    "description": "Enquanto toca este instrumento musical, você pode criar efeitos visuales ilusórios simples num raio de 1,5 metros ao seu redor.",
+    "icon": "Library/Instruments/Lute.svg"
   },
   {
     "d100": 79,
@@ -637,7 +700,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Vial of Spiders",
-    "description": "Ao quebrar este frasco no chão, um enxame de aranhas não-hostis a você emerge e se dispersa pela área, criando distração."
+    "description": "Ao quebrar este frasco no chão, um enxame de aranhas não-hostis a você emerge e se dispersa pela área, criando distração.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 80,
@@ -647,7 +711,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Smoldering Armor",
-    "description": "Uma fumaça tênue e sem cheiro exala constantemente desta armadura enquanto você a estiver usando."
+    "description": "Uma fumaça tênue e sem cheiro exala constantemente desta armadura enquanto você a estiver usando.",
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "d100": 81,
@@ -657,7 +722,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Staff of Flowers",
-    "description": "Este cajado tem 10 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que uma flor fresca desabroche em um pedaço de terra ou vaso num raio de 1,5 metros."
+    "description": "Este cajado tem 10 cargas. Você pode usar uma ação para gastar 1 carga e fazer com que uma flor fresca desabroche em um pedaço de terra ou vaso num raio de 1,5 metros.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 83,
@@ -667,7 +733,8 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Masquerade Tattoo",
-    "description": "Requer sintonia. Uma tatuagem mágica que permite a você alterar sua aparência física (tamanho, cor, formato) como uma ação bônus. Uma vez por dia, você pode usá-la para conjurar a magia Disfarçar-se."
+    "description": "Requer sintonia. Uma tatuagem mágica que permite a você alterar sua aparência física (tamanho, cor, formato) como uma ação bônus. Uma vez por dia, você pode usá-la para conjurar a magia Disfarçar-se.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 84,
@@ -677,7 +744,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Pot of Awakening",
-    "description": "Se você plantar um arbusto comum neste vaso de argila mágica e regá-lo por 30 dias, o arbusto ganha vida como um arbusto desperto (Awakened Shrub) leal a você."
+    "description": "Se você plantar um arbusto comum neste vaso de argila mágica e regá-lo por 30 dias, o arbusto ganha vida como um arbusto desperto (Awakened Shrub) leal a você.",
+    "icon": "Library/Adventuring Gear/Iron Pot.svg"
   },
   {
     "d100": 85,
@@ -687,7 +755,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Clothes of Mending",
-    "description": "Este conjunto de roupas se remenda magicamente de qualquer rasgo ou desgaste após 1 minuto."
+    "description": "Este conjunto de roupas se remenda magicamente de qualquer rasgo ou desgaste após 1 minuto.",
+    "icon": "Library/Adventuring Gear/Fine Clothes.svg"
   },
   {
     "d100": 86,
@@ -697,7 +766,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Buckleshot Belt",
-    "description": "Este cinto de couro permite arremessar suas fivelas metálicas como se fossem adagas de arremesso que causam 1d4 de dano perfurante."
+    "description": "Este cinto de couro permite arremessar suas fivelas metálicas como se fossem adagas de arremesso que causam 1d4 de dano perfurante.",
+    "icon": "Library/Magical Items/Belt of Dwarvenkind.svg"
   },
   {
     "d100": 88,
@@ -707,7 +777,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Orb of Direction",
-    "description": "Enquanto segura este orbe, você pode usar uma ação para descobrir para qual direção fica o Norte."
+    "description": "Enquanto segura este orbe, você pode usar uma ação para descobrir para qual direção fica o Norte.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 89,
@@ -717,7 +788,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Orb of Spell Storing",
-    "description": "Este pequeno orbe pode conter uma magia de até 1º nível conjurada nele, permitindo que qualquer criatura a libere posteriormente."
+    "description": "Este pequeno orbe pode conter uma magia de até 1º nível conjurada nele, permitindo que qualquer criatura a libere posteriormente.",
+    "icon": "Library/Spell Components and Spellcasting foci/Orb.svg"
   },
   {
     "d100": 90,
@@ -727,7 +799,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Lux's Teacup Holster",
-    "description": "Um pequeno dispositivo acoplado ao cinto que mantém uma xícara de chá perfeitamente equilibrada e quente, impedindo que derrame."
+    "description": "Um pequeno dispositivo acoplado ao cinto que mantém uma xícara de chá perfeitamente equilibrada e quente, impedindo que derrame.",
+    "icon": "Library/Treasure/Gold Cup Set with Emeralds.svg"
   },
   {
     "d100": 91,
@@ -737,7 +810,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Dancer's Boots",
-    "description": "Enquanto usa estas botas, você tem vantagem em testes de Destreza (Acrobacia) para manter o equilíbrio ou realizar performances de dança."
+    "description": "Enquanto usa estas botas, você tem vantagem em testes de Destreza (Acrobacia) para manter o equilíbrio ou realizar performances de dança.",
+    "icon": "Library/Magical Items/Boots of Speed.svg"
   },
   {
     "d100": 93,
@@ -747,7 +821,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Vox Seeker",
-    "description": "Um pequeno autômato de metal parecido com um caranguejo. Quando acionado (dura de 1 a 10 minutos), ele se move e ataca a fonte da voz mais próxima que conseguir detectar."
+    "description": "Um pequeno autômato de metal parecido com um caranguejo. Quando acionado (dura de 1 a 10 minutos), ele se move e ataca a fonte da voz mais próxima que conseguir detectar.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 94,
@@ -757,7 +832,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Staff of Birdcalls",
-    "description": "Este cajado tem 10 cargas. Você pode usar uma ação para gastar 1 carga e imitar o canto de um pássaro de sua escolha de forma perfeita."
+    "description": "Este cajado tem 10 cargas. Você pode usar uma ação para gastar 1 carga e imitar o canto de um pássaro de sua escolha de forma perfeita.",
+    "icon": "Library/Weapons/Staff.svg"
   },
   {
     "d100": 95,
@@ -767,7 +843,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Death Petal Rose",
-    "description": "Esta rosa mágica preta requer sintonia. Suas pétalas podem ser esmagadas para criar uma dose de veneno básico."
+    "description": "Esta rosa mágica preta requer sintonia. Suas pétalas podem ser esmagadas para criar uma dose de veneno básico.",
+    "icon": "Library/Spell Components and Spellcasting foci/Gilded Flower (Summon Fey).svg"
   },
   {
     "d100": 96,
@@ -777,7 +854,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Goblet of Confidence",
-    "description": "Beber qualquer líquido nesta taça concede a você vantagem em testes de Carisma (Persuasão) pelos próximos 10 minutos."
+    "description": "Beber qualquer líquido nesta taça concede a você vantagem em testes de Carisma (Persuasão) pelos próximos 10 minutos.",
+    "icon": "Library/Treasure/Copper Chalice.svg"
   },
   {
     "d100": 98,
@@ -787,7 +865,8 @@
     "attune": false,
     "source": "XGtE",
     "englishName": "Mystery Key",
-    "description": "Esta chave estranha tem 5% de chance de destrancar qualquer fechadura na qual for inserida. Se ela funcionar e destrancar a fechadura, ela desaparece permanentemente."
+    "description": "Esta chave estranha tem 5% de chance de destrancar qualquer fechadura na qual for inserida. Se ela funcionar e destrancar a fechadura, ela desaparece permanentemente.",
+    "icon": "Library/Adventuring Gear/Key.svg"
   },
   {
     "d100": 99,
@@ -797,7 +876,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Temperate Blanket",
-    "description": "Este cobertor se ajusta termicamente para manter você confortável tanto em climas extremamente frios quanto quentes."
+    "description": "Este cobertor se ajusta termicamente para manter você confortável tanto em climas extremamente frios quanto quentes.",
+    "icon": "Library/Adventuring Gear/Blanket.svg"
   },
   {
     "d100": 100,
@@ -807,6 +887,7 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Magical Tattoo Ink",
-    "description": "Um frasco contendo tinta especial necessária para a aplicação de tatuagens mágicas descritas no Caldeirão de Tasha."
+    "description": "Um frasco contendo tinta especial necessária para a aplicação de tatuagens mágicas descritas no Caldeirão de Tasha.",
+    "icon": "Library/Adventuring Gear/Ink.svg"
   }
 ]

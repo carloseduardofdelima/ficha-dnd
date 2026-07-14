@@ -8,7 +8,8 @@
     "classification": "",
     "properties": "ingestão",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Blood.svg"
   },
   {
     "name": "Vapores de Othur Queimados",
@@ -19,7 +20,8 @@
     "classification": "",
     "properties": "inalação",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Muco de Rastejador",
@@ -30,7 +32,8 @@
     "classification": "",
     "properties": "contato",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Veneno Drow",
@@ -41,7 +44,8 @@
     "classification": "",
     "properties": "ferimento",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Essência de Éter",
@@ -52,7 +56,8 @@
     "classification": "",
     "properties": "inalação",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Malícia",
@@ -63,7 +68,8 @@
     "classification": "",
     "properties": "inalação",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Lágrimas da Meia-Noite",
@@ -74,7 +80,8 @@
     "classification": "",
     "properties": "ingestão",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Óleo de Taggit",
@@ -85,7 +92,8 @@
     "classification": "",
     "properties": "contato",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "name": "Tintura Pálida",
@@ -96,7 +104,8 @@
     "classification": "",
     "properties": "ingestão",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Veneno de Verme Púrpura",
@@ -107,7 +116,8 @@
     "classification": "",
     "properties": "ferimento",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Peçonha de Serpente",
@@ -118,7 +128,8 @@
     "classification": "",
     "properties": "ferimento",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Torpor",
@@ -129,7 +140,8 @@
     "classification": "",
     "properties": "ingestão",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Torpor.svg"
   },
   {
     "name": "Soro da Verdade",
@@ -140,7 +152,8 @@
     "classification": "",
     "properties": "ingestão",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   },
   {
     "name": "Veneno de Wyvern",
@@ -151,6 +164,7 @@
     "classification": "",
     "properties": "ferimento",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Drow Poison.svg"
   }
 ]

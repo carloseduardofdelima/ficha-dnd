@@ -8,7 +8,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Breastplate.svg"
   },
   {
     "name": "Cota de Malha de Adamantina",
@@ -19,7 +20,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Chain mail.svg"
   },
   {
     "name": "Escudo Animado",
@@ -30,7 +32,8 @@
     "classification": "Escudo",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Escudo Captor de Flechas",
@@ -41,7 +44,8 @@
     "classification": "Escudo",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Magical Items/Arrow-Catching Shield.svg"
   },
   {
     "name": "Couraça",
@@ -52,7 +56,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Breastplate.svg"
   },
   {
     "name": "Couraça de Resistência",
@@ -63,7 +68,8 @@
     "classification": "Armadura Média",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Breastplate.svg"
   },
   {
     "name": "Cota de Malha",
@@ -74,7 +80,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Chain mail.svg"
   },
   {
     "name": "Camisão de Malha",
@@ -85,7 +92,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Cota de Escamas de Dragão",
@@ -96,7 +104,8 @@
     "classification": "Armadura Média",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Placas Anãs",
@@ -107,7 +116,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Cota de Malha Élfica",
@@ -118,7 +128,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Chain mail.svg"
   },
   {
     "name": "Couro Batido Ilusionista",
@@ -129,7 +140,8 @@
     "classification": "Armadura Leve",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Studded Leather Armour.svg"
   },
   {
     "name": "Meia-Armadura",
@@ -140,7 +152,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "name": "Pele",
@@ -151,7 +164,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Couro",
@@ -162,7 +176,8 @@
     "classification": "Armadura Leve",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Hide Armour.svg"
   },
   {
     "name": "Acolchoado",
@@ -173,7 +188,8 @@
     "classification": "Armadura Leve",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Placas",
@@ -184,7 +200,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Placas de Eterabilidade",
@@ -195,7 +212,8 @@
     "classification": "Armadura Pesada",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Placas de Invulnerabilidade",
@@ -206,7 +224,8 @@
     "classification": "Armadura Pesada",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Cota de Anéis",
@@ -217,7 +236,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Ring Mail.svg"
   },
   {
     "name": "Cota de Escamas",
@@ -228,7 +248,8 @@
     "classification": "Armadura Média",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Escudo",
@@ -239,7 +260,8 @@
     "classification": "Escudo",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Escudo de Atração de Mísseis",
@@ -250,7 +272,8 @@
     "classification": "Escudo",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Escudo Protetor de Magia",
@@ -261,7 +284,8 @@
     "classification": "Escudo",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Cota de Talas",
@@ -272,7 +296,8 @@
     "classification": "Armadura Pesada",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Shield (Kite).svg"
   },
   {
     "name": "Couro Batido",
@@ -283,7 +308,8 @@
     "classification": "Armadura Leve",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Armour/Studded Leather Armour.svg"
   },
   {
     "name": "Couro Batido de Resistência",
@@ -294,6 +320,7 @@
     "classification": "Armadura Leve",
     "properties": "requer sintonia",
     "damage": "",
-    "attunement": true
+    "attunement": true,
+    "icon": "Library/Armour/Studded Leather Armour.svg"
   }
 ]

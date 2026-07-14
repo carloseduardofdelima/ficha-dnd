@@ -7,7 +7,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Gaseous Form",
-    "description": "O recipiente desta poção parece conter uma névoa densa que se move como água. Ao bebê-la, você ganha os efeitos da magia Forma Gasosa por 1 hora (sem exigir concentração)."
+    "description": "O recipiente desta poção parece conter uma névoa densa que se move como água. Ao bebê-la, você ganha os efeitos da magia Forma Gasosa por 1 hora (sem exigir concentração).",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 4,
@@ -17,7 +18,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo (4th Level)",
-    "description": "Uma tatuagem mágica contendo uma magia de 4º nível. Você pode conjurar a magia uma vez através da tatuagem e depois ela desaparecerá."
+    "description": "Uma tatuagem mágica contendo uma magia de 4º nível. Você pode conjurar a magia uma vez através da tatuagem e depois ela desaparecerá.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 6,
@@ -27,7 +29,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Silence Serum",
-    "description": "Uma criatura que beber este líquido deve passar num salvamento de Constituição CD 13 ou ficará envenenada por 1 hora. Enquanto estiver envenenada dessa forma, a criatura não pode falar nem conjurar magias com componentes verbais."
+    "description": "Uma criatura que beber este líquido deve passar num salvamento de Constituição CD 13 ou ficará envenenada por 1 hora. Enquanto estiver envenenada dessa forma, a criatura não pode falar nem conjurar magias com componentes verbais.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 8,
@@ -37,7 +40,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Fire Giant Strength",
-    "description": "Ao beber esta poção, seu valor de Força se torna 25 por 1 hora."
+    "description": "Ao beber esta poção, seu valor de Força se torna 25 por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 10,
@@ -47,7 +51,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Stone Giant Strength",
-    "description": "Ao beber esta poção, seu valor de Força se torna 23 por 1 hora."
+    "description": "Ao beber esta poção, seu valor de Força se torna 23 por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 13,
@@ -57,7 +62,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Scroll of Protection",
-    "description": "Qualquer criatura que saiba ler pode ler este pergaminho como uma ação. Ele cria uma barreira de 1,5m de raio e 3m de altura ao seu redor por 5 minutos, impedindo a entrada de um tipo específico de criatura escolhido pelo Mestre (ex: mortos-vivos, demônios)."
+    "description": "Qualquer criatura que saiba ler pode ler este pergaminho como uma ação. Ele cria uma barreira de 1,5m de raio e 3m de altura ao seu redor por 5 minutos, impedindo a entrada de um tipo específico de criatura escolhido pelo Mestre (ex: mortos-vivos, demônios).",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 15,
@@ -67,7 +73,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Oil of Etherealness",
-    "description": "Leva 10 minutos para aplicar este óleo cinzento em uma criatura Média ou menor. Uma vez aplicado, a criatura entra no Plano Etereal (efeito da magia Projeção Etérea) por 1 hora."
+    "description": "Leva 10 minutos para aplicar este óleo cinzento em uma criatura Média ou menor. Uma vez aplicado, a criatura entra no Plano Etereal (efeito da magia Projeção Etérea) por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "d100": 17,
@@ -77,7 +84,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Elixir of Health",
-    "description": "Esta poção vermelha cura qualquer doença e encerra as condições cego, surdo, paralisado ou envenenado que estejam afetando você."
+    "description": "Esta poção vermelha cura qualquer doença e encerra as condições cego, surdo, paralisado ou envenenado que estejam afetando você.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Glass Bottle - Red.svg"
   },
   {
     "d100": 19,
@@ -87,7 +95,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Luck",
-    "description": "Beber esta poção concede a você uma sorte incrível por 1 hora. Sempre que fizer um ataque, teste ou salvamento, você pode rolar um d20 adicional e escolher qual usar."
+    "description": "Beber esta poção concede a você uma sorte incrível por 1 hora. Sempre que fizer um ataque, teste ou salvamento, você pode rolar um d20 adicional e escolher qual usar.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 21,
@@ -97,7 +106,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Folding Boat",
-    "description": "Uma caixa de madeira de 30 cm que flutua. Ao falar a primeira palavra de comando, ela se desdobra em um barco de 3 metros de comprimento. A segunda palavra a transforma em um navio de 7 metros. A terceira palavra a dobra de volta em uma caixa."
+    "description": "Uma caixa de madeira de 30 cm que flutua. Ao falar a primeira palavra de comando, ela se desdobra em um barco de 3 metros de comprimento. A segunda palavra a transforma em um navio de 7 metros. A terceira palavra a dobra de volta em uma caixa.",
+    "icon": "Library/Vehicles/Rowboat.svg"
   },
   {
     "d100": 23,
@@ -107,7 +117,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Heward's Handy Haversack",
-    "description": "Esta mochila mágica possui três compartimentos extradimensionais. Ela pode carregar até 55 kg e os itens desejados sempre aparecem no topo quando você tenta retirá-los."
+    "description": "Esta mochila mágica possui três compartimentos extradimensionais. Ela pode carregar até 55 kg e os itens desejados sempre aparecem no topo quando você tenta retirá-los.",
+    "icon": "Library/Adventuring Gear/Backpack.svg"
   },
   {
     "d100": 25,
@@ -117,7 +128,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Dreamwalker's Amulet",
-    "description": "Requer sintonia. Enquanto estiver usando o amuleto, você não precisa dormir e pode projetar sua consciência no Plano Etereal enquanto medita. Além disso, possui 5 cargas para conjurar as magias Sono ou Sonho."
+    "description": "Requer sintonia. Enquanto estiver usando o amuleto, você não precisa dormir e pode projetar sua consciência no Plano Etereal enquanto medita. Além disso, possui 5 cargas para conjurar as magias Sono ou Sonho.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 27,
@@ -127,7 +139,8 @@
     "attune": true,
     "source": "EGtW",
     "englishName": "Ring of Temporal Salvation",
-    "description": "Requer sintonia. Se você morrer enquanto estiver usando este anel, você desaparece e ressurge instantaneamente a até 1,5 metros com 3d6 + mod de Constituição de pontos de vida. Em seguida, o anel vira poeira."
+    "description": "Requer sintonia. Se você morrer enquanto estiver usando este anel, você desaparece e ressurge instantaneamente a até 1,5 metros com 3d6 + mod de Constituição de pontos de vida. Em seguida, o anel vira poeira.",
+    "icon": "Library/Treasure/Gold Ring.svg"
   },
   {
     "d100": 29,
@@ -137,7 +150,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Superior Speed",
-    "description": "Requer sintonia. Esta tatuagem aumenta sua velocidade de caminhada em 9 metros."
+    "description": "Requer sintonia. Esta tatuagem aumenta sua velocidade de caminhada em 9 metros.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 31,
@@ -147,7 +161,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Quaal's Feather Token",
-    "description": "Um pequeno objeto em formato de pena que ativa um efeito mágico de uso único (como invocar uma árvore gigante, um barco em forma de cisne ou uma grande ave de montaria) antes de desaparecer."
+    "description": "Um pequeno objeto em formato de pena que ativa um efeito mágico de uso único (como invocar uma árvore gigante, um barco em forma de cisne ou uma grande ave de montaria) antes de desaparecer.",
+    "icon": "Library/Adventuring Gear/Ink Pen.svg"
   },
   {
     "d100": 33,
@@ -157,7 +172,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Ammunition, +2",
-    "description": "Esta munição concede um bônus de +2 nas jogadas de ataque e dano."
+    "description": "Esta munição concede um bônus de +2 nas jogadas de ataque e dano.",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 35,
@@ -167,7 +183,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Arrow of Seeking",
-    "description": "Ao disparar esta flecha, você não faz jogada de ataque. Você escolhe um alvo visto a até 180 metros e a flecha desvia de obstáculos. O alvo deve passar num salvamento de Destreza CD 17 ou sofrerá o dano da flecha."
+    "description": "Ao disparar esta flecha, você não faz jogada de ataque. Você escolhe um alvo visto a até 180 metros e a flecha desvia de obstáculos. O alvo deve passar num salvamento de Destreza CD 17 ou sofrerá o dano da flecha.",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 38,
@@ -177,7 +194,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Superior Absorption",
-    "description": "Requer sintonia. Esta tatuagem protege você de um elemento específico. Ela possui 50 pontos de vida próprios e absorve todo o dano daquele elemento direcionado a você até ser destruída."
+    "description": "Requer sintonia. Esta tatuagem protege você de um elemento específico. Ela possui 50 pontos de vida próprios e absorve todo o dano daquele elemento direcionado a você até ser destruída.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 40,
@@ -187,7 +205,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Expertise",
-    "description": "Ao beber esta poção, você ganha proficiência em uma perícia à sua escolha por 1 hora. Se já for proficiente, o seu bônus de proficiência é dobrado para testes com aquela perícia."
+    "description": "Ao beber esta poção, você ganha proficiência em uma perícia à sua escolha por 1 hora. Se já for proficiente, o seu bônus de proficiência é dobrado para testes com aquela perícia.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 42,
@@ -197,7 +216,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Healing (Superior)",
-    "description": "Você recupera 8d4 + 8 pontos de vida ao beber esta poção."
+    "description": "Você recupera 8d4 + 8 pontos de vida ao beber esta poção.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Bubbling Vial - Red.svg"
   },
   {
     "d100": 44,
@@ -207,7 +227,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Periapt of Health",
-    "description": "Enquanto portar este pingente de prata, você é imune a doenças. Se já estiver doente, a doença é suspensa enquanto você usar o periapto."
+    "description": "Enquanto portar este pingente de prata, você é imune a doenças. Se já estiver doente, a doença é suspensa enquanto você usar o periapto.",
+    "icon": "Library/Spell Components and Spellcasting foci/Amulet.svg"
   },
   {
     "d100": 46,
@@ -217,7 +238,8 @@
     "attune": false,
     "source": "TCoE",
     "englishName": "Spellwrought Tattoo (5th Level)",
-    "description": "Uma tatuagem mágica contendo uma magia de 5º nível. Você pode conjurar a magia uma vez através da tatuagem e depois ela sumirá."
+    "description": "Uma tatuagem mágica contendo uma magia de 5º nível. Você pode conjurar a magia uma vez através da tatuagem e depois ela sumirá.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 48,
@@ -227,7 +249,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (5th Level)",
-    "description": "Este pergaminho contém uma magia de 5º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 5º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 50,
@@ -237,7 +260,8 @@
     "attune": false,
     "source": "EGtW",
     "englishName": "Potion of Maximum Power",
-    "description": "Ao beber esta poção, a próxima magia de 1º a 4º nível que você conjurar dentro de 1 minuto e que cause dano terá seu dano maximizado (causa o dano máximo possível)."
+    "description": "Ao beber esta poção, a próxima magia de 1º a 4º nível que você conjurar dentro de 1 minuto e que cause dano terá seu dano maximizado (causa o dano máximo possível).",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 52,
@@ -247,7 +271,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Necklace of Fireballs",
-    "description": "Este colar possui 1d6 + 3 contas penduradas. Você pode usar uma ação para destacar uma conta e arremessá-la a até 18 metros, detonando uma magia Bola de Fogo de 3º nível (CD 15)."
+    "description": "Este colar possui 1d6 + 3 contas penduradas. Você pode usar uma ação para destacar uma conta e arremessá-la a até 18 metros, detonando uma magia Bola de Fogo de 3º nível (CD 15).",
+    "icon": "Library/Magical Items/Necklace of Fireballs.svg"
   },
   {
     "d100": 54,
@@ -257,7 +282,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Heroism",
-    "description": "Ao beber esta poção, você ganha 10 pontos de vida temporários e os efeitos da magia Heroísmo por 1 hora (imunidade a medo e bônus de 1d4 nas jogadas de ataque e salvamentos)."
+    "description": "Ao beber esta poção, você ganha 10 pontos de vida temporários e os efeitos da magia Heroísmo por 1 hora (imunidade a medo e bônus de 1d4 nas jogadas de ataque e salvamentos).",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 56,
@@ -267,7 +293,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Envisioner's Compass",
-    "description": "Uma bússola que permite a você sintonizar uma localização, criatura ou objeto no mesmo plano de existência por 24 horas, fazendo com que a agulha aponte sempre na direção do alvo."
+    "description": "Uma bússola que permite a você sintonizar uma localização, criatura ou objeto no mesmo plano de existência por 24 horas, fazendo com que a agulha aponte sempre na direção do alvo.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 58,
@@ -277,7 +304,8 @@
     "attune": false,
     "source": "GotG",
     "englishName": "Glowrune Pigment",
-    "description": "Uma tinta mágica brilhante com 1d4+2 cargas. Pintar uma runa em si mesmo ou aliado leva 10 minutos e concede bênçãos mágicas por 8 horas baseadas na runa desenhada."
+    "description": "Uma tinta mágica brilhante com 1d4+2 cargas. Pintar uma runa em si mesmo ou aliado leva 10 minutos e concede bênçãos mágicas por 8 horas baseadas na runa desenhada.",
+    "icon": "Library/Adventuring Gear/Ink.svg"
   },
   {
     "d100": 60,
@@ -287,7 +315,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Spell Turning",
-    "description": "Requer sintonia. Concede vantagem em salvamentos contra magias direcionadas apenas a você. Se você passar no salvamento ou o ataque errar, a magia é refletida de volta para o conjurador original."
+    "description": "Requer sintonia. Concede vantagem em salvamentos contra magias direcionadas apenas a você. Se você passar no salvamento ou o ataque errar, a magia é refletida de volta para o conjurador original.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 63,
@@ -297,7 +326,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Sending Stones",
-    "description": "Um par de pedras rúnicas conectadas. Uma vez por dia, o portador de uma pedra pode usá-la para conjurar a magia Enviar Mensagem direcionada ao portador da outra pedra."
+    "description": "Um par de pedras rúnicas conectadas. Uma vez por dia, o portador de uma pedra pode usá-la para conjurar a magia Enviar Mensagem direcionada ao portador da outra pedra.",
+    "icon": "Library/Magical Items/Sending Stones.svg"
   },
   {
     "d100": 65,
@@ -307,7 +337,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (4th Level)",
-    "description": "Este pergaminho contém uma magia de 4º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 4º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 67,
@@ -317,7 +348,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Clairvoyance",
-    "description": "Ao beber esta poção, você ganha os efeitos da magia Clarividência por 10 minutos."
+    "description": "Ao beber esta poção, você ganha os efeitos da magia Clarividência por 10 minutos.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 69,
@@ -327,7 +359,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Invulnerability",
-    "description": "Ao beber esta poção, você ganha resistência a todos os tipos de dano por 1 minuto."
+    "description": "Ao beber esta poção, você ganha resistência a todos os tipos de dano por 1 minuto.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 71,
@@ -337,7 +370,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Diminution",
-    "description": "Ao beber esta poção, você encolhe de tamanho (efeito de tamanho reduzido da magia Aumentar/Reduzir) por 1d4 horas."
+    "description": "Ao beber esta poção, você encolhe de tamanho (efeito de tamanho reduzido da magia Aumentar/Reduzir) por 1d4 horas.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 73,
@@ -347,7 +381,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Superior Empowerment",
-    "description": "Beber esta poção concede a você vantagem em todas as jogadas de ataque e testes de atributos pelas próximas 8 horas."
+    "description": "Beber esta poção concede a você vantagem em todas as jogadas de ataque e testes de atributos pelas próximas 8 horas.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 75,
@@ -357,7 +392,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Eyes of Minute Seeing",
-    "description": "Enquanto usar estas lentes de cristal sobre os olhos, você ganha vantagem em testes de Investigação para examinar objetos de perto (a menos de 30 cm)."
+    "description": "Enquanto usar estas lentes de cristal sobre os olhos, você ganha vantagem em testes de Investigação para examinar objetos de perto (a menos de 30 cm).",
+    "icon": "Library/Armour/Goggles.svg"
   },
   {
     "d100": 77,
@@ -367,7 +403,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Horseshoes of Speed",
-    "description": "Este conjunto de 4 ferraduras de ferro pode ser colocado em uma montaria, aumentando a velocidade de deslocamento dela em 9 metros."
+    "description": "Este conjunto de 4 ferraduras de ferro pode ser colocado em uma montaria, aumentando a velocidade de deslocamento dela em 9 metros.",
+    "icon": "Library/Magical Items/Boots of Speed.svg"
   },
   {
     "d100": 79,
@@ -377,7 +414,8 @@
     "attune": true,
     "source": "GotG",
     "englishName": "Wayfarer's Boots",
-    "description": "Requer sintonia. Estas botas de couro aumentam sua velocidade de caminhada em 3 metros e dão vantagem em testes de Sobrevivência. Permitem também conjurar Recuo Acelerado uma vez ao dia."
+    "description": "Requer sintonia. Estas botas de couro aumentam sua velocidade de caminhada em 3 metros e dão vantagem em testes de Sobrevivência. Permitem também conjurar Recuo Acelerado uma vez ao dia.",
+    "icon": "Library/Magical Items/Boots of Speed.svg"
   },
   {
     "d100": 81,
@@ -387,7 +425,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Chime of Opening",
-    "description": "Este tubo metálico tem 10 cargas. Bater o carrilhão direcionado a uma porta, baú ou fechadura trancada consome 1 carga e a destranca magicamente, mesmo que esteja trancada por feitiços como Tranca Arcana."
+    "description": "Este tubo metálico tem 10 cargas. Bater o carrilhão direcionado a uma porta, baú ou fechadura trancada consome 1 carga e a destranca magicamente, mesmo que esteja trancada por feitiços como Tranca Arcana.",
+    "icon": "Library/Adventuring Gear/Bell.svg"
   },
   {
     "d100": 83,
@@ -397,7 +436,8 @@
     "attune": false,
     "source": "GotG",
     "englishName": "War Horn of Valor",
-    "description": "Ao soprar esta trombeta como uma ação bônus, você encerra a condição amedrontado em si mesmo e ganha vantagem em testes contra ser amedrontado até seu próximo turno."
+    "description": "Ao soprar esta trombeta como uma ação bônus, você encerra a condição amedrontado em si mesmo e ganha vantagem em testes contra ser amedrontado até seu próximo turno.",
+    "icon": "Library/Instruments/Horn.svg"
   },
   {
     "d100": 85,
@@ -407,7 +447,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Frost Giant Strength",
-    "description": "Ao beber esta poção, seu valor de Força se torna 23 por 1 hora."
+    "description": "Ao beber esta poção, seu valor de Força se torna 23 por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 88,
@@ -417,7 +458,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Bead of Force",
-    "description": "Uma pequena conta que pode ser arremessada a até 18 metros. Ela explode causando 5d4 de dano de força CD 15 de Destreza e prende criaturas próximas em uma redoma de força invisível por 1 minuto."
+    "description": "Uma pequena conta que pode ser arremessada a até 18 metros. Ela explode causando 5d4 de dano de força CD 15 de Destreza e prende criaturas próximas em uma redoma de força invisível por 1 minuto.",
+    "icon": "Library/Magical Items/Bead of Force.svg"
   },
   {
     "d100": 90,
@@ -427,7 +469,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Mind Reading",
-    "description": "Beber esta poção concede a você os efeitos da magia Detectar Pensamentos por 10 minutos."
+    "description": "Beber esta poção concede a você os efeitos da magia Detectar Pensamentos por 10 minutos.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 92,
@@ -437,7 +480,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Decanter of Endless Water",
-    "description": "Esta garrafa de metal pode produzir água infinita sob comando de voz: um copo d'água, um galão de água, ou um jato de alta pressão que pode empurrar criaturas inimigas (CD 13 de Força)."
+    "description": "Esta garrafa de metal pode produzir água infinita sob comando de voz: um copo d'água, um galão de água, ou um jato de alta pressão que pode empurrar criaturas inimigas (CD 13 de Força).",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Flask.svg"
   },
   {
     "d100": 94,
@@ -447,7 +491,8 @@
     "attune": true,
     "source": "WGMM",
     "englishName": "Tattoo of Death Ward",
-    "description": "Requer sintonia. A primeira vez que você cair a 0 HP, você cai a 1 HP e a tatuagem some. Também anula um efeito de morte instantânea."
+    "description": "Requer sintonia. A primeira vez que você cair a 0 HP, você cai a 1 HP e a tatuagem some. Também anula um efeito de morte instantânea.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 96,
@@ -457,7 +502,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Magic Resistance",
-    "description": "Ao beber esta poção, você ganha vantagem em testes de resistência contra magias e outros efeitos mágicos por 1 hora."
+    "description": "Ao beber esta poção, você ganha vantagem em testes de resistência contra magias e outros efeitos mágicos por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 98,
@@ -467,7 +513,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Bag of Beans",
-    "description": "Esta sacola contém 3d4 feijões mágicos. Plantar um feijão na terra e regá-lo gera um efeito selvagem aleatório da tabela de feijões (como criar uma pirâmide com uma múmia, gerar um pé de feijão gigante ou fazer nascer uma árvore de ovos de ouro)."
+    "description": "Esta sacola contém 3d4 feijões mágicos. Plantar um feijão na terra e regá-lo gera um efeito selvagem aleatório da tabela de feijões (como criar uma pirâmide com uma múmia, gerar um pé de feijão gigante ou fazer nascer uma árvore de ovos de ouro).",
+    "icon": "Library/Magical Items/Bag of Holding.svg"
   },
   {
     "d100": 100,
@@ -477,6 +524,7 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of Superior Renewal",
-    "description": "Beber esta poção remove toda a exaustão, restaura todos os pontos de vida perdidos e encerra todas as condições negativas e maldições que afetam a criatura."
+    "description": "Beber esta poção remove toda a exaustão, restaura todos os pontos de vida perdidos e encerra todas as condições negativas e maldições que afetam a criatura.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   }
 ]

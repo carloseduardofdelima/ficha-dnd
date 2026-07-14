@@ -8,7 +8,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "name": "Óleo da Afiação",
@@ -19,7 +20,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "name": "Óleo da Escorregabilidade",
@@ -30,7 +32,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
   },
   {
     "name": "Filtro do Amor",
@@ -41,7 +44,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "name": "Poção de Amizade com Animais",
@@ -52,7 +56,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Green.svg"
   },
   {
     "name": "Poção de Clarividência",
@@ -63,7 +68,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Escalada",
@@ -74,7 +80,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Blue.svg"
   },
   {
     "name": "Poção de Diminuição",
@@ -85,7 +92,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Voo",
@@ -96,7 +104,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Flying.svg"
   },
   {
     "name": "Poção de Forma Gasosa",
@@ -107,7 +116,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Cura Maior",
@@ -118,7 +128,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Glass Bottle - Red.svg"
   },
   {
     "name": "Poção de Crescimento",
@@ -129,7 +140,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Cura",
@@ -140,7 +152,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Red.svg"
   },
   {
     "name": "Poção de Heroísmo",
@@ -151,7 +164,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Invisibilidade",
@@ -162,7 +176,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Invisibility.svg"
   },
   {
     "name": "Poção de Ler Mentes",
@@ -173,7 +188,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Veneno",
@@ -184,7 +200,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Corked Vial - Purple.svg"
   },
   {
     "name": "Poção de Resistência",
@@ -195,7 +212,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Velocidade",
@@ -206,7 +224,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Speed.svg"
   },
   {
     "name": "Poção de Cura Superior",
@@ -217,7 +236,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Bubbling Vial - Red.svg"
   },
   {
     "name": "Poção de Cura Suprema",
@@ -228,7 +248,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Glass Bottle - Red.svg"
   },
   {
     "name": "Poção de Vitalidade",
@@ -239,7 +260,8 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "name": "Poção de Respirar na Água",
@@ -250,6 +272,7 @@
     "classification": "",
     "properties": "",
     "damage": "",
-    "attunement": false
+    "attunement": false,
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   }
 ]

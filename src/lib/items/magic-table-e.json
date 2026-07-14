@@ -7,7 +7,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Potion of the Phoenix",
-    "description": "Ao beber esta poção, você fica imbuído com energia de fênix por 1 ano e 1 dia. Se você morrer nesse período, você ressurge no seu próximo turno com metade do seu HP máximo e causa 5d8 de dano radiante a inimigos próximos."
+    "description": "Ao beber esta poção, você fica imbuído com energia de fênix por 1 ano e 1 dia. Se você morrer nesse período, você ressurge no seu próximo turno com metade do seu HP máximo e causa 5d8 de dano radiante a inimigos próximos.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 17,
@@ -17,7 +18,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Healing (Supreme)",
-    "description": "Você recupera 10d4 + 20 pontos de vida ao beber esta poção."
+    "description": "Você recupera 10d4 + 20 pontos de vida ao beber esta poção.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Glass Bottle - Red.svg"
   },
   {
     "d100": 25,
@@ -27,7 +29,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Sovereign Glue",
-    "description": "Uma substância leitosa extremamente forte que une dois objetos permanentemente após 1 minuto. O vínculo só pode ser quebrado por Solvente Universal, Óleo de Eterização ou Desejo."
+    "description": "Uma substância leitosa extremamente forte que une dois objetos permanentemente após 1 minuto. O vínculo só pode ser quebrado por Solvente Universal, Óleo de Eterização ou Desejo.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 33,
@@ -37,7 +40,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Arrow of Slaying",
-    "description": "Esta flecha mágica é feita para um tipo específico de criatura. Ao atingir o alvo, ele deve fazer um salvamento de Constituição CD 17 ou sofrerá 6d10 de dano perfurante extra. A flecha perde a magia após o acerto."
+    "description": "Esta flecha mágica é feita para um tipo específico de criatura. Ao atingir o alvo, ele deve fazer um salvamento de Constituição CD 17 ou sofrerá 6d10 de dano perfurante extra. A flecha perde a magia após o acerto.",
+    "icon": "Library/Ammunition/Arrow.svg"
   },
   {
     "d100": 42,
@@ -47,7 +51,8 @@
     "attune": false,
     "source": "HAT",
     "englishName": "Tablet of Reawakening",
-    "description": "Esta placa de pedra mágica permite conjurar a magia Ressurreição Verdadeira sem gastar componentes materiais. Ela vira pó após o uso."
+    "description": "Esta placa de pedra mágica permite conjurar a magia Ressurreição Verdadeira sem gastar componentes materiais. Ela vira pó após o uso.",
+    "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
     "d100": 50,
@@ -57,7 +62,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Potion of Storm Giant Strength",
-    "description": "Ao beber esta poção, seu valor de Força se torna 29 por 1 hora."
+    "description": "Ao beber esta poção, seu valor de Força se torna 29 por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   },
   {
     "d100": 58,
@@ -67,7 +73,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Scroll of Time Travel",
-    "description": "Ler este pergaminho transporta você e até 8 aliados voluntários para um ponto do passado pelo tempo que você determinar. Ao final do tempo, vocês retornam ao momento logo após a leitura."
+    "description": "Ler este pergaminho transporta você e até 8 aliados voluntários para um ponto do passado pelo tempo que você determinar. Ao final do tempo, vocês retornam ao momento logo após a leitura.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 67,
@@ -77,7 +84,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (9th Level)",
-    "description": "Este pergaminho contém uma magia de 9º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 9º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 75,
@@ -87,7 +95,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Spell Scroll (8th Level)",
-    "description": "Este pergaminho contém uma magia de 8º nível escrita. Ler o pergaminho conjura a magia."
+    "description": "Este pergaminho contém uma magia de 8º nível escrita. Ler o pergaminho conjura a magia.",
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
   },
   {
     "d100": 83,
@@ -97,7 +106,8 @@
     "attune": false,
     "source": "DMG",
     "englishName": "Universal Solvent",
-    "description": "Este líquido mágicos dissolve instantaneamente até 30 centímetros quadrados de qualquer adesivo, incluindo a Cola Soberana."
+    "description": "Este líquido mágicos dissolve instantaneamente até 30 centímetros quadrados de qualquer adesivo, incluindo a Cola Soberana.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 92,
@@ -107,7 +117,8 @@
     "attune": false,
     "source": "WGMM",
     "englishName": "Flask of Cloning",
-    "description": "Ao colocar um pedaço de carne de uma criatura viva dentro dele, o frasco cria um clone inerte. Se o original morrer, a alma é transferida e o clone cresce rapidamente até o tamanho original, quebrando o frasco."
+    "description": "Ao colocar um pedaço de carne de uma criatura viva dentro dele, o frasco cria um clone inerte. Se o original morrer, a alma é transferida e o clone cresce rapidamente até o tamanho original, quebrando o frasco.",
+    "icon": "Library/Adventuring Gear/Vial.svg"
   },
   {
     "d100": 100,
@@ -117,6 +128,7 @@
     "attune": false,
     "source": "FToD",
     "englishName": "Potion of Dragon's Majesty",
-    "description": "Ao beber esta poção contendo uma escama de dragão, você se transforma em um Dragão Adulto correspondente ao tipo da escama por 1 hora."
+    "description": "Ao beber esta poção contendo uma escama de dragão, você se transforma em um Dragão Adulto correspondente ao tipo da escama por 1 hora.",
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
   }
 ]
