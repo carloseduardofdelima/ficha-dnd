@@ -489,8 +489,9 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
           background: var(--bg2);
           border: 1px solid var(--border);
           color: var(--fg);
-          padding: 0 16px;
+          padding: 10px 16px;
           border-radius: 12px;
+          font-size: 14px;
           outline: none;
         }
 
@@ -501,9 +502,10 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
           background: var(--accent);
           color: white;
           border: none;
-          padding: 0 20px;
+          padding: 10px 24px;
           border-radius: 12px;
           font-weight: 700;
+          font-size: 14px;
           cursor: pointer;
           transition: all 0.2s;
         }

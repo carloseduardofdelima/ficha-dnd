@@ -176,6 +176,8 @@ model CampaignNote {
   campaignId  String
   title       String
   content     String
+  type        String   @default("text") // "text", "map", "document"
+  imageUrl    String?
   isPublic    Boolean  @default(false)
   isFixed     Boolean  @default(false)
   createdAt   DateTime @default(now())

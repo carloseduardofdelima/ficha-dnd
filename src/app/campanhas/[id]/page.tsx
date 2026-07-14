@@ -6,9 +6,10 @@ import {
   Users, BookOpen, Shield, Zap, Info, ChevronLeft,
   Settings, Save, Plus, Target, MessageSquare,
   Sword, Clock, Layout, Edit, Trash2, Calendar, X, Skull, Search, Contact,
-  Play, Loader2
+  Play, Loader2, Map, Maximize2, ZoomIn, ZoomOut, RotateCcw, Upload, FileText
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import { compressCover } from '@/lib/image'
 import NpcTab from './NpcTab'
 import CombatTab from './CombatTab'
 
@@ -24,11 +25,25 @@ export default function CampaignDetailsPage() {
   const [myCharacters, setMyCharacters] = useState<any[]>([])
   const [newSession, setNewSession] = useState({ title: '', summary: '', number: 1 })
   const [showNoteModal, setShowNoteModal] = useState(false)
-  const [newNote, setNewNote] = useState<any>({ title: '', content: '', isPublic: false, isFixed: false })
+  const [newNote, setNewNote] = useState<any>({ title: '', content: '', isPublic: false, isFixed: false, type: 'text', imageUrl: '' })
   const [showSelectThreatModal, setShowSelectThreatModal] = useState(false)
   const [allGlobalThreats, setAllGlobalThreats] = useState<any[]>([])
   const [linkingThreat, setLinkingThreat] = useState(false)
   const [savingSession, setSavingSession] = useState(false)
+  const [savingNote, setSavingNote] = useState(false)
+  
+  // Zoom & Image state for maps/documents
+  const [zoomImage, setZoomImage] = useState<string | null>(null)
+  const [zoomScale, setZoomScale] = useState(1)
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [showMapDocModal, setShowMapDocModal] = useState(false)
+  const [noteToDelete, setNoteToDelete] = useState<string | null>(null)
+  const [deletingNote, setDeletingNote] = useState(false)
+  const [charToUnlink, setCharToUnlink] = useState<any | null>(null)
+  const [unlinkingChar, setUnlinkingChar] = useState(false)
 
   const fetchGlobalThreats = async () => {
     try {
@@ -123,14 +138,40 @@ export default function CampaignDetailsPage() {
 
   const handleDeleteNote = async (e: React.MouseEvent, noteId: string) => {
     e.stopPropagation()
-    if (!confirm('Deseja realmente excluir esta nota?')) return
+    setNoteToDelete(noteId)
+  }
+
+  const confirmDeleteNote = async () => {
+    if (!noteToDelete) return
+    setDeletingNote(true)
     try {
-      const res = await fetch(`/api/campanhas/${id}/notas/${noteId}`, { method: 'DELETE' })
+      const res = await fetch(`/api/campanhas/${id}/notas/${noteToDelete}`, { method: 'DELETE' })
       if (res.ok) {
-        fetchCampaign()
+        await fetchCampaign()
+        setNoteToDelete(null)
       }
     } catch (error) {
       console.error('Error deleting note:', error)
+    } finally {
+      setDeletingNote(false)
+    }
+  }
+
+  const confirmUnlinkChar = async () => {
+    if (!charToUnlink) return
+    setUnlinkingChar(true)
+    try {
+      const res = await fetch(`/api/campanhas/${id}/personagens?characterId=${charToUnlink.id}`, {
+        method: 'DELETE'
+      })
+      if (res.ok) {
+        await fetchCampaign()
+        setCharToUnlink(null)
+      }
+    } catch (error) {
+      console.error('Error unlinking character:', error)
+    } finally {
+      setUnlinkingChar(false)
     }
   }
 
@@ -500,16 +541,37 @@ export default function CampaignDetailsPage() {
 
             <div className="chars-grid">
               {campaign.characters?.map((link: any) => (
-                <div key={link.id} className="char-mini-card" onClick={() => router.push(`/personagens/${link.character.slug}`)}>
+                <div key={link.id} className="char-mini-card" style={{ position: 'relative' }} onClick={() => router.push(`/personagens/${link.character.slug}`)}>
                   {link.character.avatarUrl ? (
                     <img src={link.character.avatarUrl} alt={link.character.name} />
                   ) : (
                     <div className="char-placeholder">{link.character.name[0]}</div>
                   )}
-                  <div className="char-details">
+                  <div className="char-details" style={{ flex: 1, paddingRight: campaign.isOwner ? '32px' : '0' }}>
                     <span className="char-name">{link.character.name}</span>
                     <span className="char-meta">{link.character.race} • {link.character.class} Lvl {link.character.level}</span>
                   </div>
+                  {campaign.isOwner && (
+                    <button
+                      className="btn-icon-sm danger"
+                      style={{
+                        position: 'absolute',
+                        right: '12px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 2,
+                        opacity: 0.7,
+                        transition: 'opacity 0.2s'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setCharToUnlink(link.character)
+                      }}
+                      title="Desvincular Personagem"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
                 </div>
               ))}
               {(!campaign.characters || campaign.characters.length === 0) && (
@@ -527,15 +589,26 @@ export default function CampaignDetailsPage() {
             <div className="list-header">
               <h3>Bloco de Notas</h3>
               {campaign.isOwner && (
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={() => {
-                    setNewNote({ title: '', content: '', isPublic: false, isFixed: false })
-                    setShowNoteModal(true)
-                  }}
-                >
-                  <Plus size={16} /> Nova Nota
-                </button>
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setNewNote({ title: '', content: '', isPublic: false, isFixed: false, type: 'text', imageUrl: '' })
+                      setShowNoteModal(true)
+                    }}
+                  >
+                    <Plus size={16} /> Nova Nota
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setNewNote({ title: '', content: '', isPublic: false, isFixed: false, type: 'map', imageUrl: '' })
+                      setShowMapDocModal(true)
+                    }}
+                  >
+                    <Map size={16} /> + Mapa/Documento
+                  </button>
+                </div>
               )}
             </div>
 
@@ -547,13 +620,19 @@ export default function CampaignDetailsPage() {
                   onClick={() => {
                     if (campaign.isOwner) {
                       setNewNote(note)
-                      setShowNoteModal(true)
+                      if (note.type === 'map' || note.type === 'document') {
+                        setShowMapDocModal(true)
+                      } else {
+                        setShowNoteModal(true)
+                      }
                     }
                   }}
                 >
                   <div className="note-header">
                     <h4>{note.title}</h4>
                     <div className="flex items-center gap-2">
+                      {note.type === 'map' && <span className="type-tag map-tag">Mapa</span>}
+                      {note.type === 'document' && <span className="type-tag doc-tag">Documento</span>}
                       {note.isPublic && <span className="public-tag">Pública</span>}
                       {campaign.isOwner && (
                         <div className="flex gap-2">
@@ -562,7 +641,11 @@ export default function CampaignDetailsPage() {
                             onClick={(e) => {
                               e.stopPropagation()
                               setNewNote(note)
-                              setShowNoteModal(true)
+                              if (note.type === 'map' || note.type === 'document') {
+                                setShowMapDocModal(true)
+                              } else {
+                                setShowNoteModal(true)
+                              }
                             }}
                           >
                             <Edit size={14} />
@@ -577,7 +660,55 @@ export default function CampaignDetailsPage() {
                       )}
                     </div>
                   </div>
-                  <p className="note-content">{note.content}</p>
+
+                  {(note.type === 'map' || note.type === 'document') && note.imageUrl && (
+                    <div className="note-card-image-container" style={{
+                      position: 'relative',
+                      height: '140px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      border: '1px solid var(--border)',
+                      marginTop: '8px',
+                      background: 'rgba(0,0,0,0.2)'
+                    }}>
+                      <img src={note.imageUrl} alt={note.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div className="note-card-image-overlay" style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(transparent, rgba(0,0,0,0.6))',
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        justifyContent: 'flex-end',
+                        padding: '8px'
+                      }}>
+                        <button
+                          className="btn btn-primary btn-xs zoom-btn"
+                          style={{
+                            padding: '4px 8px',
+                            fontSize: '11px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            borderRadius: '4px',
+                            background: 'var(--accent)',
+                            color: '#fff',
+                            border: 'none',
+                            cursor: 'pointer'
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setZoomImage(note.imageUrl)
+                            setZoomScale(1)
+                            setPanOffset({ x: 0, y: 0 })
+                          }}
+                        >
+                          <Maximize2 size={12} /> Zoom
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {note.content && <p className="note-content">{note.content}</p>}
                   <div className="note-footer">
                     <span>{new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
                   </div>
@@ -838,26 +969,37 @@ export default function CampaignDetailsPage() {
       )}
 
       {showNoteModal && (
-        <div className="modal-overlay" onClick={() => setShowNoteModal(false)}>
+        <div className="modal-overlay" onClick={() => !savingNote && setShowNoteModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h3>{newNote.id ? 'Editar Nota' : 'Nova Nota'}</h3>
-              <button className="close-btn" onClick={() => setShowNoteModal(false)}><X size={20} /></button>
+              <button className="close-btn" onClick={() => setShowNoteModal(false)} disabled={savingNote}><X size={20} /></button>
             </div>
             <form className="modal-form" onSubmit={async (e) => {
               e.preventDefault()
+              setSavingNote(true)
               const isEditing = !!newNote.id
               const url = isEditing 
                 ? `/api/campanhas/${id}/notas/${newNote.id}`
                 : `/api/campanhas/${id}/notas`
-              const res = await fetch(url, {
-                method: isEditing ? 'PATCH' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newNote)
-              })
-              if (res.ok) {
-                fetchCampaign()
-                setShowNoteModal(false)
+              
+              // Force type text when saving standard text notes
+              const noteData = { ...newNote, type: 'text', imageUrl: null }
+
+              try {
+                const res = await fetch(url, {
+                  method: isEditing ? 'PATCH' : 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(noteData)
+                })
+                if (res.ok) {
+                  await fetchCampaign()
+                  setShowNoteModal(false)
+                }
+              } catch (error) {
+                console.error('Error saving note:', error)
+              } finally {
+                setSavingNote(false)
               }
             }}>
               <div className="form-group">
@@ -867,6 +1009,7 @@ export default function CampaignDetailsPage() {
                   value={newNote.title}
                   onChange={e => setNewNote({ ...newNote, title: e.target.value })}
                   required
+                  disabled={savingNote}
                 />
               </div>
               <div className="form-group">
@@ -874,8 +1017,10 @@ export default function CampaignDetailsPage() {
                 <textarea
                   rows={6}
                   value={newNote.content}
+                  placeholder="Digite o conteúdo da sua nota..."
                   onChange={e => setNewNote({ ...newNote, content: e.target.value })}
                   required
+                  disabled={savingNote}
                 ></textarea>
               </div>
               <div style={{ display: 'flex', gap: 24, margin: '8px 0 20px 0' }}>
@@ -885,6 +1030,7 @@ export default function CampaignDetailsPage() {
                     className="checkbox-input"
                     checked={newNote.isPublic}
                     onChange={e => setNewNote({ ...newNote, isPublic: e.target.checked })}
+                    disabled={savingNote}
                   />
                   Pública para jogadores
                 </label>
@@ -894,17 +1040,406 @@ export default function CampaignDetailsPage() {
                     className="checkbox-input"
                     checked={newNote.isFixed}
                     onChange={e => setNewNote({ ...newNote, isFixed: e.target.checked })}
+                    disabled={savingNote}
                   />
                   Fixar no topo
                 </label>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-ghost" onClick={() => setShowNoteModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary">
-                  {newNote.id ? 'Salvar Nota' : 'Criar Nota'}
+                <button type="button" className="btn btn-ghost" onClick={() => setShowNoteModal(false)} disabled={savingNote}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" disabled={savingNote}>
+                  {savingNote ? <Loader2 className="animate-spin" size={18} /> : (newNote.id ? 'Salvar Nota' : 'Criar Nota')}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showMapDocModal && (
+        <div className="modal-overlay" onClick={() => !savingNote && setShowMapDocModal(false)}>
+          <div className="modal-content" style={{ maxWidth: '680px' }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header" style={{ padding: '20px 24px' }}>
+              <h3>{newNote.id ? 'Editar Mapa/Documento' : 'Novo Mapa/Documento'}</h3>
+              <button className="close-btn" onClick={() => setShowMapDocModal(false)} disabled={savingNote}><X size={20} /></button>
+            </div>
+            <form className="modal-form" style={{ padding: '20px 24px' }} onSubmit={async (e) => {
+              e.preventDefault()
+              if (!newNote.imageUrl) {
+                alert('Por favor, faça o upload de uma imagem.')
+                return
+              }
+              setSavingNote(true)
+              const isEditing = !!newNote.id
+              const url = isEditing 
+                ? `/api/campanhas/${id}/notas/${newNote.id}`
+                : `/api/campanhas/${id}/notas`
+              try {
+                const res = await fetch(url, {
+                  method: isEditing ? 'PATCH' : 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(newNote)
+                })
+                if (res.ok) {
+                  await fetchCampaign()
+                  setShowMapDocModal(false)
+                }
+              } catch (error) {
+                console.error('Error saving map/document:', error)
+              } finally {
+                setSavingNote(false)
+              }
+            }}>
+              <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                {/* Coluna Esquerda: Upload de Imagem */}
+                <div style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--fg2)', marginBottom: '8px' }}>
+                    Imagem do {newNote.type === 'map' ? 'Mapa' : 'Documento'}
+                  </label>
+                  <div className="upload-container" style={{ position: 'relative', flex: 1, display: 'flex' }}>
+                    <input
+                      type="file"
+                      id="note-mapdoc-image-upload"
+                      accept=".jpg,.jpeg,.png,.webp,.gif"
+                      style={{ display: 'none' }}
+                      disabled={savingNote}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        
+                        setUploadingImage(true)
+                        const reader = new FileReader()
+                        reader.onload = async (event) => {
+                          try {
+                            const base64 = event.target?.result as string
+                            const compressed = await compressCover(base64, 1600, 1200, 0.85)
+                            setNewNote((prev: any) => ({ ...prev, imageUrl: compressed }))
+                          } catch (error) {
+                            console.error('Error compressing map/document:', error)
+                            alert('Erro ao carregar imagem.')
+                          } finally {
+                            setUploadingImage(false)
+                          }
+                        }
+                        reader.readAsDataURL(file)
+                      }}
+                    />
+                    <label htmlFor="note-mapdoc-image-upload" className="upload-box" style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      minHeight: '210px',
+                      height: '100%',
+                      border: '2px dashed var(--border)',
+                      borderRadius: '12px',
+                      cursor: (uploadingImage || savingNote) ? 'not-allowed' : 'pointer',
+                      background: 'rgba(255,255,255,0.02)',
+                      transition: 'all 0.2s',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      {newNote.imageUrl ? (
+                        <>
+                          <img src={newNote.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                          <div style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'rgba(0,0,0,0.6)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            opacity: 0,
+                            transition: 'opacity 0.2s',
+                            color: '#fff'
+                          }} className="upload-overlay-hover">
+                            <Upload size={20} />
+                            <span style={{ fontSize: '11px', marginTop: '4px' }}>Alterar Imagem</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {uploadingImage ? (
+                            <Loader2 className="animate-spin" size={24} color="var(--accent)" />
+                          ) : (
+                            <Upload size={24} color="var(--fg3)" />
+                          )}
+                          <span style={{ fontSize: '13px', marginTop: '6px', color: 'var(--fg2)' }}>
+                            {uploadingImage ? 'Processando...' : 'Selecionar Imagem'}
+                          </span>
+                        </>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                {/* Coluna Direita: Campos de texto e seleções */}
+                <div style={{ flex: '1.2 1 280px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label style={{ fontSize: '13px' }}>Estilo</label>
+                    <div style={{ display: 'flex', gap: 12, marginTop: 4 }}>
+                      <button
+                        type="button"
+                        className={`btn ${(newNote.type === 'map') ? 'btn-primary' : 'btn-ghost'}`}
+                        style={{ flex: 1, padding: '8px 16px', fontSize: '12px' }}
+                        disabled={savingNote}
+                        onClick={() => setNewNote({ ...newNote, type: 'map' })}
+                      >
+                        Mapa
+                      </button>
+                      <button
+                        type="button"
+                        className={`btn ${(newNote.type === 'document') ? 'btn-primary' : 'btn-ghost'}`}
+                        style={{ flex: 1, padding: '8px 16px', fontSize: '12px' }}
+                        disabled={savingNote}
+                        onClick={() => setNewNote({ ...newNote, type: 'document' })}
+                      >
+                        Documento
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label style={{ fontSize: '13px' }}>Título</label>
+                    <input
+                      type="text"
+                      style={{ padding: '8px 12px', fontSize: '13px' }}
+                      value={newNote.title}
+                      disabled={savingNote}
+                      onChange={e => setNewNote({ ...newNote, title: e.target.value })}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label style={{ fontSize: '13px' }}>Descrição (Opcional)</label>
+                    <textarea
+                      rows={2}
+                      style={{ padding: '8px 12px', fontSize: '13px', minHeight: '60px' }}
+                      value={newNote.content}
+                      disabled={savingNote}
+                      placeholder="Descrição ou notas adicionais..."
+                      onChange={e => setNewNote({ ...newNote, content: e.target.value })}
+                    ></textarea>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: 20, margin: '4px 0' }}>
+                    <label className="checkbox-container" style={{ fontSize: '12px' }}>
+                      <input
+                        type="checkbox"
+                        className="checkbox-input"
+                        checked={newNote.isPublic}
+                        disabled={savingNote}
+                        onChange={e => setNewNote({ ...newNote, isPublic: e.target.checked })}
+                      />
+                      Pública
+                    </label>
+                    <label className="checkbox-container" style={{ fontSize: '12px' }}>
+                      <input
+                        type="checkbox"
+                        className="checkbox-input"
+                        checked={newNote.isFixed}
+                        disabled={savingNote}
+                        onChange={e => setNewNote({ ...newNote, isFixed: e.target.checked })}
+                      />
+                      Fixar no topo
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-footer" style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
+                <button type="button" className="btn btn-ghost" onClick={() => setShowMapDocModal(false)} disabled={savingNote}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" disabled={uploadingImage || savingNote}>
+                  {savingNote ? <Loader2 className="animate-spin" size={18} /> : (newNote.id ? 'Salvar' : 'Criar')}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmação de Exclusão */}
+      {noteToDelete && (
+        <div className="modal-overlay" onClick={() => !deletingNote && setNoteToDelete(null)}>
+          <div className="modal-content" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header" style={{ padding: '20px 24px' }}>
+              <h3>Excluir Nota</h3>
+              <button className="close-btn" onClick={() => setNoteToDelete(null)} disabled={deletingNote}><X size={20} /></button>
+            </div>
+            <div className="modal-body" style={{ padding: '20px 24px', color: 'var(--fg2)', fontSize: '14px', lineHeight: 1.6 }}>
+              Tem certeza que deseja excluir esta nota? Esta ação é permanente e não poderá ser desfeita.
+            </div>
+            <div className="modal-footer" style={{ padding: '16px 24px 20px 24px', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
+              <button type="button" className="btn btn-ghost" onClick={() => setNoteToDelete(null)} disabled={deletingNote}>Cancelar</button>
+              <button type="button" className="btn btn-primary" style={{ background: 'var(--danger)', color: '#fff' }} onClick={confirmDeleteNote} disabled={deletingNote}>
+                {deletingNote ? <Loader2 className="animate-spin" size={18} /> : 'Excluir'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmação para Desvincular Personagem */}
+      {charToUnlink && (
+        <div className="modal-overlay" onClick={() => !unlinkingChar && setCharToUnlink(null)}>
+          <div className="modal-content" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header" style={{ padding: '20px 24px' }}>
+              <h3>Desvincular Personagem</h3>
+              <button className="close-btn" onClick={() => setCharToUnlink(null)} disabled={unlinkingChar}><X size={20} /></button>
+            </div>
+            <div className="modal-body" style={{ padding: '20px 24px', color: 'var(--fg2)', fontSize: '14px', lineHeight: 1.6 }}>
+              Tem certeza que deseja desvincular o personagem <strong>{charToUnlink.name}</strong> desta campanha?
+            </div>
+            <div className="modal-footer" style={{ padding: '16px 24px 20px 24px', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
+              <button type="button" className="btn btn-ghost" onClick={() => setCharToUnlink(null)} disabled={unlinkingChar}>Cancelar</button>
+              <button type="button" className="btn btn-primary" style={{ background: 'var(--danger)', color: '#fff' }} onClick={confirmUnlinkChar} disabled={unlinkingChar}>
+                {unlinkingChar ? <Loader2 className="animate-spin" size={18} /> : 'Desvincular'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Visualizador de Imagem (Zoom/Lightbox) */}
+      {zoomImage && (
+        <div 
+          className="modal-overlay" 
+          onClick={() => setZoomImage(null)}
+          style={{ background: 'rgba(0,0,0,0.95)', zIndex: 1100 }}
+        >
+          <div 
+            className="zoom-lightbox-content" 
+            onClick={e => e.stopPropagation()}
+            style={{
+              position: 'relative',
+              width: '90vw',
+              height: '85vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Topbar do lightbox */}
+            <div style={{
+              position: 'absolute',
+              top: 16,
+              left: 20,
+              right: 20,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              zIndex: 10
+            }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button 
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setZoomScale(prev => Math.min(prev + 0.25, 4))}
+                  title="Aumentar Zoom"
+                  style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none', padding: '6px 12px', cursor: 'pointer', borderRadius: '6px' }}
+                >
+                  <ZoomIn size={16} /> Zoom +
+                </button>
+                <button 
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setZoomScale(prev => Math.max(prev - 0.25, 0.5))}
+                  title="Diminuir Zoom"
+                  style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none', padding: '6px 12px', cursor: 'pointer', borderRadius: '6px' }}
+                >
+                  <ZoomOut size={16} /> Zoom -
+                </button>
+                <button 
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => {
+                    setZoomScale(1)
+                    setPanOffset({ x: 0, y: 0 })
+                  }}
+                  title="Resetar"
+                  style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none', padding: '6px 12px', cursor: 'pointer', borderRadius: '6px' }}
+                >
+                  <RotateCcw size={16} /> Reset
+                </button>
+              </div>
+              
+              <button 
+                className="close-btn" 
+                onClick={() => setZoomImage(null)}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Hint message */}
+            <div style={{
+              position: 'absolute',
+              bottom: 16,
+              color: 'rgba(255,255,255,0.7)',
+              fontSize: '12px',
+              background: 'rgba(0,0,0,0.6)',
+              padding: '6px 12px',
+              borderRadius: '20px',
+              zIndex: 10,
+              pointerEvents: 'none'
+            }}>
+              Use os botões acima para controlar o zoom, ou clique e arraste para mover o mapa.
+            </div>
+
+            {/* Image Container with dragging support */}
+            <div 
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: isDragging ? 'grabbing' : zoomScale > 1 ? 'grab' : 'default',
+                overflow: 'hidden'
+              }}
+              onMouseDown={(e) => {
+                if (zoomScale <= 1) return;
+                setIsDragging(true);
+                setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+              }}
+              onMouseMove={(e) => {
+                if (!isDragging) return;
+                setPanOffset({
+                  x: e.clientX - dragStart.x,
+                  y: e.clientY - dragStart.y
+                });
+              }}
+              onMouseUp={() => setIsDragging(false)}
+              onMouseLeave={() => setIsDragging(false)}
+            >
+              <img 
+                src={zoomImage} 
+                alt="Map/Document Zoomed"
+                draggable={false}
+                style={{
+                  maxHeight: '90%',
+                  maxWidth: '90%',
+                  objectFit: 'contain',
+                  transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomScale})`,
+                  transition: isDragging ? 'none' : 'transform 0.15s ease-out',
+                  userSelect: 'none'
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
@@ -1965,6 +2500,41 @@ export default function CampaignDetailsPage() {
         .tabs-nav {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+
+        .type-tag {
+          font-size: 10px;
+          color: white;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-weight: 800;
+          text-transform: uppercase;
+        }
+
+        .map-tag {
+          background: #2563eb;
+        }
+
+        .doc-tag {
+          background: #d97706;
+        }
+
+        .note-card-image-container:hover .note-card-image-overlay {
+          background: rgba(0,0,0,0.4) !important;
+        }
+
+        .note-card-image-container .zoom-btn {
+          opacity: 0.85;
+          transition: all 0.2s;
+        }
+
+        .note-card-image-container:hover .zoom-btn {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+
+        .upload-box:hover .upload-overlay-hover {
+          opacity: 1 !important;
         }
       `}</style>
     </div>

@@ -12,7 +12,7 @@ export async function POST(
   }
 
   const { id } = await params
-  const { title, content, isPublic, isFixed } = await req.json()
+  const { title, content, isPublic, isFixed, type, imageUrl } = await req.json()
 
   try {
     const note = await prisma.campaignNote.create({
@@ -20,6 +20,8 @@ export async function POST(
         campaignId: id,
         title,
         content,
+        type: type || "text",
+        imageUrl,
         isPublic: isPublic || false,
         isFixed: isFixed || false
       }
