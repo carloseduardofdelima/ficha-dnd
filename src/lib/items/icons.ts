@@ -38,6 +38,9 @@ export function getItemIconUrl(itemOrName: any, category?: string): string | nul
 
   if (itemOrName && typeof itemOrName === 'object') {
     iconPath = itemOrName.icon || null;
+    if (iconPath && !iconPath.endsWith('.svg')) {
+      iconPath = null;
+    }
     if (!iconPath && itemOrName.name) {
       iconPath = itemToIconMap[itemOrName.name.toLowerCase()] || null;
     }
@@ -75,7 +78,7 @@ export function getItemIconUrl(itemOrName: any, category?: string): string | nul
   }
 
   if (iconPath) {
-    return `https://cdn.jsdelivr.net/gh/Gwillewyn/dnd-item-icons-by-gwill@${iconsMap.branch}/${iconPath}`;
+    return encodeURI(`https://cdn.jsdelivr.net/gh/Gwillewyn/dnd-item-icons-by-gwill@${iconsMap.branch}/${iconPath}`);
   }
 
   return null;
