@@ -29,6 +29,7 @@ import { FEATS_2024, type Feat } from '@/lib/dnd-feats-2024'
 import { FEATS_2014 } from '@/lib/feats-2014'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 import { getItemIconUrl, cleanDescription } from '@/lib/items/icons'
+import { BEAST_FORMS, type BeastForm } from '@/lib/beast-forms'
 
 const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
   'Caminho Primitivo',
@@ -212,6 +213,7 @@ export default function CharacterDetailPage() {
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const [detailItem, setDetailItem] = useState<any | null>(null)
   const [detailFeature, setDetailFeature] = useState<any | null>(null)
+  const [selectedBeast, setSelectedBeast] = useState<BeastForm | null>(null)
   const [isAttrModalOpen, setIsAttrModalOpen] = useState(false)
   const [editingAttrs, setEditingAttrs] = useState({
     strength: 0, dexterity: 0, constitution: 0,
@@ -3377,6 +3379,90 @@ export default function CharacterDetailPage() {
                       </div>
                     )}
 
+                    {/* Forma Selvagem (Bestiário) */}
+                    {character.class === 'Druida' && character.level >= 2 && (
+                      <div style={{ marginBottom: 24, marginTop: 24 }}>
+                        <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                          Forma Selvagem (Bestiário)
+                        </h3>
+                        <p style={{ fontSize: 11, color: 'var(--fg3)', marginBottom: 16 }}>
+                          De acordo com as regras de 2014, você pode se transformar em feras que já viu. 
+                          {character.subclass === 'Círculo da Lua' 
+                            ? ' Como Druida do Círculo da Lua, você pode assumir formas de ND muito maior (ND 1 no nível 2, ou Nível/3 a partir do nível 6).'
+                            : ' Seu ND máximo para formas selvagens é 1/4 no nível 2, 1/2 no nível 4 e 1 no nível 8.'
+                          } 
+                          {character.level < 4 && ' Limitações atuais: Sem voo e sem natação.'}
+                          {character.level >= 4 && character.level < 8 && ' Limitações atuais: Sem voo (Natação permitida).'}
+                          {character.level >= 8 && ' Nenhuma limitação de movimentação (Voo e Natação permitidos).'}
+                        </p>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
+                          {(() => {
+                            const isMoon = character.subclass === 'Círculo da Lua';
+                            const lvl = character.level;
+                            
+                            const available = BEAST_FORMS.filter(beast => {
+                              if (beast.moonOnly && !isMoon) return false;
+                              if (beast.minLevel && lvl < beast.minLevel) return false;
+                              if (beast.fly && lvl < 8) return false;
+                              if (beast.swim && lvl < 4) return false;
+
+                              if (isMoon) {
+                                const maxCr = lvl >= 6 ? Math.floor(lvl / 3) : 1;
+                                return beast.crVal <= maxCr;
+                              } else {
+                                const maxCr = lvl >= 8 ? 1.0 : (lvl >= 4 ? 0.5 : 0.25);
+                                return beast.crVal <= maxCr;
+                              }
+                            });
+
+                            if (available.length === 0) {
+                              return <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma fera disponível.</div>;
+                            }
+
+                            return available.map((beast, idx) => (
+                              <div
+                                key={idx}
+                                className="card clickable"
+                                onClick={() => setSelectedBeast(beast)}
+                                style={{
+                                  padding: 16,
+                                  background: 'var(--bg2)',
+                                  borderLeft: '3px solid var(--accent)',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  gap: 8
+                                }}
+                              >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--fg)' }}>{beast.name}</span>
+                                  <span style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 800, background: 'var(--accentGlow)', padding: '2px 6px', borderRadius: 4 }}>
+                                    ND {beast.cr}
+                                  </span>
+                                </div>
+                                
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, fontSize: 12, color: 'var(--fg3)' }}>
+                                  <div><strong>PV:</strong> {beast.hp}</div>
+                                  <div><strong>CA:</strong> {beast.ac}</div>
+                                  <div><strong>Desl.:</strong> {beast.speed}</div>
+                                  {beast.swim && <div><strong>Natação:</strong> Sim</div>}
+                                  {beast.fly && <div><strong>Voo:</strong> Sim</div>}
+                                </div>
+
+                                <div style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.4 }}>
+                                  <strong>Ataques:</strong> {beast.attacks}
+                                </div>
+
+                                <div style={{ fontSize: 12, color: 'var(--fg3)', lineHeight: 1.4, fontStyle: 'italic' }}>
+                                  <strong>Características:</strong> {beast.features}
+                                </div>
+                              </div>
+                            ));
+                          })()}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Artificer Infusions Selection */}
                     {character?.class === 'Artífice' && character.level >= 2 && (
                       <div style={{ marginBottom: 24, marginTop: 24 }}>
@@ -4926,6 +5012,107 @@ export default function CharacterDetailPage() {
                 onClick={() => setDetailFeature(null)}
               >
                 Entendido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Beast Details Modal */}
+      {selectedBeast && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, backdropFilter: 'blur(8px)', padding: 20
+        }} onClick={() => setSelectedBeast(null)}>
+          <div style={{
+            backgroundColor: 'var(--bg2)', width: '100%', maxWidth: 450,
+            borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column',
+            boxShadow: '0 20px 50px rgba(0,0,0,1)', border: '1px solid rgba(255,255,255,0.1)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ background: 'var(--accent)', padding: 8, borderRadius: 10 }}>
+                  <Footprints size={24} color="#fff" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>{selectedBeast.name}</h3>
+                  <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>
+                    Fera • ND {selectedBeast.cr}
+                  </span>
+                </div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setSelectedBeast(null)} style={{ padding: 8, borderRadius: '50%' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {/* Stat block grid */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 12,
+                background: 'rgba(255,255,255,0.02)',
+                padding: 16,
+                borderRadius: 12,
+                border: '1px solid rgba(255,255,255,0.05)',
+                textAlign: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>Pontos de Vida</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--fg)' }}>{selectedBeast.hp} PV</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>Classe de Armadura</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--fg)' }}>{selectedBeast.ac} CA</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4 }}>Deslocamento</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fg)' }}>{selectedBeast.speed}</div>
+                </div>
+              </div>
+
+              <div>
+                <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Ataques</span>
+                <p style={{
+                  fontSize: 14,
+                  color: 'var(--fg)',
+                  lineHeight: 1.5,
+                  margin: 0,
+                  background: 'rgba(255,255,255,0.02)',
+                  padding: 12,
+                  borderRadius: 8,
+                  border: '1px solid rgba(255,255,255,0.05)'
+                }}>
+                  {selectedBeast.attacks}
+                </p>
+              </div>
+
+              <div>
+                <span style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Características Especiais</span>
+                <p style={{
+                  fontSize: 13,
+                  color: 'var(--fg2)',
+                  lineHeight: 1.5,
+                  margin: 0,
+                  background: 'rgba(255,255,255,0.02)',
+                  padding: 12,
+                  borderRadius: 8,
+                  border: '1px solid rgba(255,255,255,0.05)',
+                  fontStyle: 'italic'
+                }}>
+                  {selectedBeast.features}
+                </p>
+              </div>
+
+              <button
+                className="btn btn-secondary"
+                style={{ width: '100%', marginTop: 8 }}
+                onClick={() => setSelectedBeast(null)}
+              >
+                Fechar Detalhes
               </button>
             </div>
           </div>
