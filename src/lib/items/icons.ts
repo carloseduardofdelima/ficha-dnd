@@ -7,6 +7,7 @@ import poisons from './poisons.json';
 import adventuringGear from './adventuring-gear.json';
 import potionsOils from './potions-oils.json';
 import other from './other.json';
+import magicPropertiesTable from './magic-properties-table.json';
 
 const iconsMap = iconsMapData as { branch: string; icons: Record<string, string> };
 
@@ -19,7 +20,8 @@ const allItems = [
   ...poisons,
   ...adventuringGear,
   ...potionsOils,
-  ...other
+  ...other,
+  ...magicPropertiesTable
 ];
 
 const itemToIconMap: Record<string, string> = {};

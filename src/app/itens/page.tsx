@@ -18,6 +18,7 @@ import magicTableF from '@/lib/items/magic-table-f.json'
 import magicTableG from '@/lib/items/magic-table-g.json'
 import magicTableH from '@/lib/items/magic-table-h.json'
 import magicTableI from '@/lib/items/magic-table-i.json'
+import magicPropertiesTable from '@/lib/items/magic-properties-table.json'
 import { getItemIconUrl, cleanDescription } from '@/lib/items/icons'
 
 const itemsData = [
@@ -45,6 +46,26 @@ import {
   RotateCcw,
   BookOpen
 } from 'lucide-react'
+
+// Custom SVG D20 Icon Component
+const D20Icon = ({ size = 24, style = {} }: { size?: number; style?: React.CSSProperties }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.8" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    style={style}
+  >
+    <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+    <polyline points="12 2 12 22" />
+    <polyline points="2 8.5 12 13 22 8.5" />
+    <polyline points="2 15.5 12 13 22 15.5" />
+  </svg>
+)
 
 // Icon mapping per category
 const CATEGORY_CONFIG: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
@@ -473,18 +494,8 @@ export default function ItemsPage() {
               onClick={() => {
                 // Pre-set the pool category filter to current selected category if one is active
                 setRollCategoryFilter(selectedCategory || 'all')
-                const pool = (selectedCategory 
-                  ? itemsData.filter(i => i.category === selectedCategory) 
-                  : itemsData)
-                if (pool.length > 0) {
-                  const randomIndex = Math.floor(Math.random() * pool.length)
-                  setRolledItem(pool[randomIndex])
-                }
-                setIsRolling(true)
+                setRolledItem(null)
                 setShowRollModal(true)
-                setTimeout(() => {
-                  setIsRolling(false)
-                }, 800)
               }}
               style={{
                 marginLeft: 'auto',
@@ -508,7 +519,7 @@ export default function ItemsPage() {
         </div>
 
         {/* Modal for Rolled Item */}
-        {showRollModal && rolledItem && (
+        {showRollModal && (
           <div style={{
             position: 'fixed',
             top: 0,
@@ -587,73 +598,7 @@ export default function ItemsPage() {
                 <select
                   value={rollCategoryFilter}
                   onChange={(e) => {
-                    const newCat = e.target.value
-                    setRollCategoryFilter(newCat)
-                    
-                    let rolledItemObj = null
-                    if (newCat === 'table-a') {
-                      const randomIndex = Math.floor(Math.random() * magicTableA.length)
-                      const tableItem = magicTableA[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-b') {
-                      const randomIndex = Math.floor(Math.random() * magicTableB.length)
-                      const tableItem = magicTableB[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-c') {
-                      const randomIndex = Math.floor(Math.random() * magicTableC.length)
-                      const tableItem = magicTableC[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-d') {
-                      const randomIndex = Math.floor(Math.random() * magicTableD.length)
-                      const tableItem = magicTableD[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-e') {
-                      const randomIndex = Math.floor(Math.random() * magicTableE.length)
-                      const tableItem = magicTableE[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-f') {
-                      const randomIndex = Math.floor(Math.random() * magicTableF.length)
-                      const tableItem = magicTableF[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-g') {
-                      const randomIndex = Math.floor(Math.random() * magicTableG.length)
-                      const tableItem = magicTableG[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-h') {
-                      const randomIndex = Math.floor(Math.random() * magicTableH.length)
-                      const tableItem = magicTableH[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (newCat === 'table-i') {
-                      const randomIndex = Math.floor(Math.random() * magicTableI.length)
-                      const tableItem = magicTableI[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else {
-                      const pool = newCat === 'all' 
-                        ? itemsData 
-                        : itemsData.filter(i => i.category === newCat)
-                      
-                      if (pool.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * pool.length)
-                        rolledItemObj = pool[randomIndex]
-                      }
-                    }
-                    
-                    if (rolledItemObj) {
-                      setRolledItem(rolledItemObj)
-                      setIsRolling(true)
-                      setTimeout(() => {
-                        setIsRolling(false)
-                      }, 500)
-                    }
+                    setRollCategoryFilter(e.target.value)
                   }}
                   style={{
                     background: 'var(--bg)',
@@ -679,6 +624,7 @@ export default function ItemsPage() {
                   <option value="table-g">Tabela Mágica G (Rara Major)</option>
                   <option value="table-h">Tabela Mágica H (Muito Rara Major)</option>
                   <option value="table-i">Tabela Mágica I (Lendária Major)</option>
+                  <option value="table-props">Tabela de Propriedades Especiais (d100 DMG)</option>
                 </select>
               </div>
 
@@ -690,18 +636,96 @@ export default function ItemsPage() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '40px 0',
+                    padding: '30px 0',
                     gap: '16px'
                   }}>
+                    {/* Glowing slot container */}
                     <div style={{
-                      width: '50px',
-                      height: '50px',
-                      border: '4px solid var(--border)',
-                      borderTop: '4px solid var(--accent)',
-                      borderRadius: '50%',
-                      animation: 'spin 0.8s linear infinite'
-                    }} />
-                    <p style={{ color: 'var(--fg2)', fontStyle: 'italic' }}>Consultando o compêndio arcano...</p>
+                      width: '100%',
+                      maxWidth: '380px',
+                      height: '110px',
+                      background: 'rgba(0, 0, 0, 0.4)',
+                      border: '2px solid var(--accent)',
+                      borderRadius: '12px',
+                      boxShadow: '0 0 25px var(--accentGlow)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      padding: '16px'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.8) 100%)',
+                        zIndex: 2,
+                        pointerEvents: 'none'
+                      }} />
+                      
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        animation: 'fadeIn 0.1s ease-in-out infinite alternate',
+                        transform: 'scale(1.05)'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px'
+                        }}>
+                          <Sparkles size={28} className="animate-spin" style={{ color: 'var(--accentL)' }} />
+                          <span style={{
+                            fontFamily: 'Cinzel, serif',
+                            fontSize: '20px',
+                            fontWeight: '700',
+                            color: 'var(--accentL)',
+                            textShadow: '0 0 12px var(--accent)'
+                          }}>
+                            Rolando Tesouro...
+                          </span>
+                        </div>
+                        <span style={{
+                          fontSize: '12px',
+                          color: 'var(--fg2)',
+                          letterSpacing: '2px',
+                          textTransform: 'uppercase',
+                          fontWeight: '600'
+                        }}>
+                          ⚡ Sortando d100... ⚡
+                        </span>
+                      </div>
+                    </div>
+
+                    <p style={{ 
+                      color: 'var(--fg2)', 
+                      fontSize: '13px',
+                      fontStyle: 'italic', 
+                      margin: 0
+                    }}>
+                      Consultando os tomos antigos do compêndio...
+                    </p>
+                  </div>
+                ) : !rolledItem ? (
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '40px 20px',
+                    textAlign: 'center',
+                    gap: '12px'
+                  }}>
+                    <Sparkles size={40} style={{ color: 'var(--accentL)', opacity: 0.8 }} />
+                    <h4 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: '18px', color: 'var(--fg)' }}>
+                      Pronto para sortear
+                    </h4>
+                    <p style={{ margin: 0, fontSize: '14px', color: 'var(--fg2)', maxWidth: '320px' }}>
+                      Selecione uma categoria ou tabela acima se desejar, e clique em <strong>Girar / Sortear Item</strong> para sortear um item aleatório.
+                    </p>
                   </div>
                 ) : (
                   <>
@@ -925,6 +949,10 @@ export default function ItemsPage() {
                       const tableItem = magicTableI[randomIndex]
                       const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
                       rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
+                    } else if (rollCategoryFilter === 'table-props') {
+                      const randomIndex = Math.floor(Math.random() * magicPropertiesTable.length)
+                      const tableItem = magicPropertiesTable[randomIndex]
+                      rolledItemObj = { ...tableItem, category: 'Other' }
                     } else {
                       const pool = rollCategoryFilter === 'all'
                         ? itemsData
@@ -937,11 +965,11 @@ export default function ItemsPage() {
                     }
 
                     if (rolledItemObj) {
-                      setRolledItem(rolledItemObj)
                       setIsRolling(true)
                       setTimeout(() => {
+                        setRolledItem(rolledItemObj)
                         setIsRolling(false)
-                      }, 600)
+                      }, 1200)
                     }
                   }}
                   style={{
@@ -951,7 +979,7 @@ export default function ItemsPage() {
                   }}
                 >
                   <RotateCcw size={14} />
-                  Girar Novamente
+                  {rolledItem ? 'Girar Novamente' : 'Sortear Item'}
                 </button>
                 <button
                   className="cat-btn"
