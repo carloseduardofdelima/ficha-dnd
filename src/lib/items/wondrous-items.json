@@ -26,7 +26,7 @@
   {
     "name": "Amuleto dos Planos",
     "category": "Wondrous Item",
-    "description": "Enquanto estiver usando este amuleto, você pode usar uma ação para\nnomeie um local com o qual você esteja familiarizado em outro\nplano de existência. Então faça uma Inteligência CD 15\nverifique. Em um teste bem-sucedido, você lança o deslocamento planar\nmagia. Em caso de falha, você e cada criatura e objeto\ndentro de 4.5 metros (15 pés) de você viajar para um destino aleatório. Rolar\num d100. Com 1–60, você viaja para um local aleatório em\no plano que você nomeou. Com 61–100, você viaja para um\nplano de existência determinado aleatoriamente.",
+    "description": "Enquanto estiver usando este amuleto, você pode usar uma ação para\nnomeie um local com o qual você esteja familiarizado em outro\nplano de existência. Então faça uma Inteligência CD 15\nteste. Em um teste bem-sucedido, você lança o deslocamento planar\nmagia. Em caso de falha, você e cada criatura e objeto\ndentro de 4.5 metros (15 pés) de você viajar para um destino aleatório. Rolar\num d100. Com 1–60, você viaja para um local aleatório em\no plano que você nomeou. Com 61–100, você viaja para um\nplano de existência determinado aleatoriamente.",
     "cost": "160000 PO",
     "ac": "",
     "classification": "",
@@ -206,7 +206,7 @@
   {
     "name": "Broche de Escudo",
     "category": "Wondrous Item",
-    "description": "Ao usar este broche, você tem resistência à força\ndano, e você tem imunidade a danos do\nmagia de míssil mágico.",
+    "description": "Ao usar este broche, você tem resistência a dano de força, e você tem imunidade a danos do\nmagia de míssil mágico.",
     "cost": "7500 PO",
     "ac": "",
     "classification": "",
@@ -386,7 +386,7 @@
   {
     "name": "Cubo de Força",
     "category": "Wondrous Item",
-    "description": "Este cubo tem cerca de uma polegada de diâmetro. Cada rosto tem um\nmarcação distinta que pode ser pressionada. O cubo\ncomeça com 36 cargas e recupera 1d20 gastos\ncobra diariamente ao amanhecer. Você pode usar uma ação para pressionar\numa das faces do cubo, gastando uma série de cargas\ncom base na face escolhida, conforme mostrado no Cubo de Força\nMesa de rostos. Cada rosto tem um efeito diferente. Se o cubo\ntiver cargas insuficientes restantes, nada acontece.\nCaso contrário, uma barreira de força invisível surge\nexistência, formando um cubo de 4.5 metros (15 pés) de lado. A barreira\nestá centrado em você, se move com você e dura 1\nminuto, até que você use uma ação para pressionar o sexto\nface, ou o cubo fica sem carga. Você pode alterar o\nefeito da barreira pressionando uma face diferente do cubo\ne gastando o número necessário de cobranças, redefinindo\na duração.\n\nSe o seu movimento fizer com que a barreira entre em contato\ncom um objeto sólido que não pode passar pelo cubo, você\nnão pode se aproximar desse objeto enquanto a barreira\npermanece.\n\nCubo de Faces de Força\nEfeito de cargas faciais\n1 1 Gases, vento e neblina não conseguem passar\na barreira.\n2 2\nA matéria inanimada não pode passar pelo\nbarreira. Paredes, pisos e tetos podem\npassagem a seu critério.\n3 3 A matéria viva não pode passar pelo\nbarreira.\n4 4 Os efeitos do magia não podem passar pelo\nbarreira.\n5 5\nNada pode passar pela barreira.\nParedes, pisos e tetos podem passar\natravés a seu critério.\n6 0 A barreira é desativada.\n\nO cubo perde cargas quando a barreira é alvo de\ncertos magias ou entra em contato com certos magias ou\nefeitos de itens mágicos, conforme mostrado na tabela abaixo.\nCargas de magia ou item perdidas\nDesintegrar 1d12\nChifre de explosão 1d10\nPassagem 1d6\nJato Prismático 1d20\nParede de fogo 1d4",
+    "description": "Este cubo tem cerca de uma polegada de diâmetro. Cada rosto tem um\nmarcação distinta que pode ser pressionada. O cubo\ncomeça com 36 cargas e recupera 1d20 gastos\ncargas diariamente ao amanhecer. Você pode usar uma ação para pressionar\numa das faces do cubo, gastando uma série de cargas\ncom base na face escolhida, conforme mostrado no Cubo de Força\nMesa de rostos. Cada rosto tem um efeito diferente. Se o cubo\ntiver cargas insuficientes restantes, nada acontece.\nCaso contrário, uma barreira de força invisível surge\nexistência, formando um cubo de 4.5 metros (15 pés) de lado. A barreira\nestá centrado em você, se move com você e dura 1\nminuto, até que você use uma ação para pressionar o sexto\nface, ou o cubo fica sem carga. Você pode alterar o\nefeito da barreira pressionando uma face diferente do cubo\ne gastando o número necessário de cobranças, redefinindo\na duração.\n\nSe o seu movimento fizer com que a barreira entre em contato\ncom um objeto sólido que não pode passar pelo cubo, você\nnão pode se aproximar desse objeto enquanto a barreira\npermanece.\n\nCubo de Faces de Força\nEfeito de cargas faciais\n1 1 Gases, vento e neblina não conseguem passar\na barreira.\n2 2\nA matéria inanimada não pode passar pelo\nbarreira. Paredes, pisos e tetos podem\npassagem a seu critério.\n3 3 A matéria viva não pode passar pelo\nbarreira.\n4 4 Os efeitos do magia não podem passar pelo\nbarreira.\n5 5\nNada pode passar pela barreira.\nParedes, pisos e tetos podem passar\natravés a seu critério.\n6 0 A barreira é desativada.\n\nO cubo perde cargas quando a barreira é alvo de\ncertos magias ou entra em contato com certos magias ou\nefeitos de itens mágicos, conforme mostrado na tabela abaixo.\nCargas de magia ou item perdidas\nDesintegrar 1d12\nChifre de explosão 1d10\nPassagem 1d6\nJato Prismático 1d20\nParede de fogo 1d4",
     "cost": "16000 PO",
     "ac": "",
     "classification": "",
@@ -650,7 +650,7 @@
   {
     "name": "Gema da Visão",
     "category": "Wondrous Item",
-    "description": "Esta joia tem 3 cargas. Como uma ação, você pode falar o\npalavra de comando da gema e gasta 1 carga. Para o próximo\n10 minutos, você terá visão verdadeira de até 36 metros quando\nespie através da gema. A gema recupera 1d3 gasto\ncobra diariamente ao amanhecer.",
+    "description": "Esta joia tem 3 cargas. Como uma ação, você pode falar o\npalavra de comando da gema e gasta 1 carga. Para o próximo\n10 minutos, você terá visão verdadeira de até 36 metros quando\nespie através da gema. A gema recupera 1d3 gasto\ncargas diariamente ao amanhecer.",
     "cost": "32000 PO",
     "ac": "",
     "classification": "",
@@ -1226,7 +1226,7 @@
   {
     "name": "Flauta Assombrada",
     "category": "Wondrous Item",
-    "description": "Você deve ter proficiência com instrumentos de sopro para usar\nesses canos. Eles têm 3 cobranças. Você pode usar uma ação\npara jogá-los e gastar 1 carga para criar um jogo misterioso,\nmelodia fascinante. Cada criatura a até 9 metros de você\nque ouve você tocar deve ter sucesso em um teste de Sabedoria CD 15\nteste de resistência ou ficar com medo de você por 1 minuto.\nSe desejar, todas as criaturas na área que não sejam hostis\nem sua direção obtém sucesso automaticamente no teste de resistência. Um\ncriatura que falhar no teste de resistência pode repeti-lo no\nfinal de cada um de seus turnos, encerrando o efeito sobre si mesmo em um\nsucesso. Uma criatura que obtiver sucesso em seu teste de resistência é\nimune ao efeito desses tubos por 24 horas. O\ncanos recuperam 1d3 cargas gastas diariamente ao amanhecer.",
+    "description": "Você deve ter proficiência com instrumentos de sopro para usar\nesses canos. Eles têm 3 cargas. Você pode usar uma ação\npara jogá-los e gastar 1 carga para criar um jogo misterioso,\nmelodia fascinante. Cada criatura a até 9 metros de você\nque ouve você tocar deve ter sucesso em um teste de Sabedoria CD 15\nteste de resistência ou ficar com medo de você por 1 minuto.\nSe desejar, todas as criaturas na área que não sejam hostis\nem sua direção obtém sucesso automaticamente no teste de resistência. Um\ncriatura que falhar no teste de resistência pode repeti-lo no\nfinal de cada um de seus turnos, encerrando o efeito sobre si mesmo em um\nsucesso. Uma criatura que obtiver sucesso em seu teste de resistência é\nimune ao efeito desses tubos por 24 horas. O\ncanos recuperam 1d3 cargas gastas diariamente ao amanhecer.",
     "cost": "6000 PO",
     "ac": "",
     "classification": "",
@@ -1262,7 +1262,7 @@
   {
     "name": "Anel de Comando de Elemental do Ar",
     "category": "Wondrous Item",
-    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrolagens contra os elementais, e eles têm desvantagem\nnas jogadas de ataque contra você. Além disso, você tem acesso\npara propriedades baseadas no Plano Elemental.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncobra diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro em um elemental do ar.\n\nAlém disso, quando você cai, você desce 18 metros por\nrodada e não sofrerá nenhum dano ao cair. Você também pode\nfale e entenda Auran.\nSe você ajudar a matar um elemental do ar enquanto estiver sintonizado com o\nanel, você ganha acesso aos seguintes recursos adicionais\npropriedades:\nVocê tem resistência a danos causados por raios.\nVocê tem uma velocidade de vôo igual à sua caminhada\nvelocidade e pode pairar.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cargas: cadeia\nrelâmpago (3 cargas), rajada de vento (2 cargas) ou\nparede de vento (1 carga).",
+    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrolagens contra os elementais, e eles têm desvantagem\nnas jogadas de ataque contra você. Além disso, você tem acesso\npara propriedades baseadas no Plano Elemental.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncargas diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro em um elemental do ar.\n\nAlém disso, quando você cai, você desce 18 metros por\nrodada e não sofrerá nenhum dano ao cair. Você também pode\nfale e entenda Auran.\nSe você ajudar a matar um elemental do ar enquanto estiver sintonizado com o\nanel, você ganha acesso aos seguintes recursos adicionais\npropriedades:\nVocê tem resistência a danos causados por raios.\nVocê tem uma velocidade de vôo igual à sua caminhada\nvelocidade e pode pairar.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cargas: cadeia\nrelâmpago (3 cargas), rajada de vento (2 cargas) ou\nparede de vento (1 carga).",
     "cost": "35000 PO",
     "ac": "",
     "classification": "",
@@ -1274,7 +1274,7 @@
   {
     "name": "Anel de Influência Animal",
     "category": "Wondrous Item",
-    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncobra diariamente ao amanhecer. Enquanto estiver usando o anel, você pode\nuse uma ação para gastar 1 de suas cargas para lançar um dos\nseguintes magias:\nAmizade animal (CD 13)\nMedo (CD 13), visando apenas feras que tenham\numa Inteligência de 3 ou inferior\nFale com animais",
+    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncargas diariamente ao amanhecer. Enquanto estiver usando o anel, você pode\nuse uma ação para gastar 1 de suas cargas para lançar um dos\nseguintes magias:\nAmizade animal (CD 13)\nMedo (CD 13), visando apenas feras que tenham\numa Inteligência de 3 ou inferior\nFale com animais",
     "cost": "4000 PO",
     "ac": "",
     "classification": "",
@@ -1298,7 +1298,7 @@
   {
     "name": "Anel de Evasão",
     "category": "Wondrous Item",
-    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncobra diariamente ao amanhecer. Quando você falha em um teste de resistência de Destreza\njogar enquanto o usa, você pode usar sua reação para\ngaste 1 de suas cargas para ter sucesso naquele teste de resistência\nem vez disso.",
+    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncargas diariamente ao amanhecer. Quando você falha em um teste de resistência de Destreza\njogar enquanto o usa, você pode usar sua reação para\ngaste 1 de suas cargas para ter sucesso naquele teste de resistência\nem vez disso.",
     "cost": "5000 PO",
     "ac": "",
     "classification": "",
@@ -1322,7 +1322,7 @@
   {
     "name": "Anel de Comando de Elemental do Fogo",
     "category": "Wondrous Item",
-    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrolagens contra os elementais, e eles têm desvantagem\nnas jogadas de ataque contra você. Além disso, você tem acesso\npara propriedades baseadas no Plano Elemental.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncobra diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro do tipo elemental.\n\nAlém disso, você tem resistência a danos com base no\ntipo. Você também pode falar e entender Ignan.\nSe você ajudar a matar um elemental desse tipo enquanto estiver sintonizado\nao anel, você ganha acesso aos seguintes itens adicionais\npropriedades:\nVocê está imune a danos elementais desse tipo.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cargas: queimando\nmãos (1 carga), bola de fogo (2 cargas) e parede de fogo (3\nencargos).",
+    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrolagens contra os elementais, e eles têm desvantagem\nnas jogadas de ataque contra você. Além disso, você tem acesso\npara propriedades baseadas no Plano Elemental.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncargas diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro do tipo elemental.\n\nAlém disso, você tem resistência a danos com base no\ntipo. Você também pode falar e entender Ignan.\nSe você ajudar a matar um elemental desse tipo enquanto estiver sintonizado\nao anel, você ganha acesso aos seguintes itens adicionais\npropriedades:\nVocê está imune a danos elementais desse tipo.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cargas: queimando\nmãos (1 carga), bola de fogo (2 cargas) e parede de fogo (3\nencargos).",
     "cost": "17000 PO",
     "ac": "",
     "classification": "",
@@ -1478,7 +1478,7 @@
   {
     "name": "Anel de Calor",
     "category": "Wondrous Item",
-    "description": "Ao usar este anel, você tem resistência ao frio\ndano. Além disso, você e tudo o que você veste e\ncarry não são prejudicados por temperaturas tão baixas quanto -50\ngraus Fahrenheit.",
+    "description": "Ao usar este anel, você tem resistência a dano de frio. Além disso, você e tudo o que você veste e\ncarry não são prejudicados por temperaturas tão baixas quanto -50\ngraus Fahrenheit.",
     "cost": "1000 PO",
     "ac": "",
     "classification": "",
@@ -1490,7 +1490,7 @@
   {
     "name": "Anel de Comando de Elemental da Água",
     "category": "Wondrous Item",
-    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrola contra elementais do plano vinculado, e eles\ntem desvantagem nas jogadas de ataque contra você. Em\nAlém disso, você tem acesso a propriedades com base no\nplano vinculado.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncobra diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro em um elemental da água. Além disso, você pode ficar de pé\nandar e andar sobre superfícies líquidas como se fossem sólidas\nchão. Você também pode falar e entender Aquan.\n\nSe você ajudar a matar um elemental da água enquanto estiver sintonizado com o\nanel, você ganha acesso aos seguintes recursos adicionais\npropriedades:\nVocê pode respirar debaixo d'água e ter velocidade de natação\nigual à sua velocidade de caminhada.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cobranças: criar ou\ndestruir água (1 carga), controlar água (3 cargas), gelo\ntempestade (2 cargas) ou parede de gelo (3 cargas).",
+    "description": "Este anel está ligado a um dos quatro Planos Elementais.\nO Mestre escolhe ou determina aleatoriamente o link\nplano.\nEnquanto estiver usando este anel, você terá vantagem no ataque\nrola contra elementais do plano vinculado, e eles\ntem desvantagem nas jogadas de ataque contra você. Em\nAlém disso, você tem acesso a propriedades com base no\nplano vinculado.\nO anel tem 5 cargas. Ele recupera 1d4 + 1 gasto\ncargas diariamente ao amanhecer. magias lançados do anel têm um\nCD de resistência de 17.\nVocê pode gastar 2 das cargas do anel para conjurar dominar\nmonstro em um elemental da água. Além disso, você pode ficar de pé\nandar e andar sobre superfícies líquidas como se fossem sólidas\nchão. Você também pode falar e entender Aquan.\n\nSe você ajudar a matar um elemental da água enquanto estiver sintonizado com o\nanel, você ganha acesso aos seguintes recursos adicionais\npropriedades:\nVocê pode respirar debaixo d'água e ter velocidade de natação\nigual à sua velocidade de caminhada.\nVocê pode lançar os seguintes magias do anel,\ngastando o número necessário de cobranças: criar ou\ndestruir água (1 carga), controlar água (3 cargas), gelo\ntempestade (2 cargas) ou parede de gelo (3 cargas).",
     "cost": "25000 PO",
     "ac": "",
     "classification": "",
@@ -1526,7 +1526,7 @@
   {
     "name": "Anel do Bode",
     "category": "Wondrous Item",
-    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncobra diariamente ao amanhecer. Enquanto estiver usando o anel, você pode\nuse uma ação para gastar 1 a 3 de suas cargas para atacar um\ncriatura que você possa ver a até 18 metros de você. O anel\nproduz uma cabeça de carneiro espectral e faz sua jogada de ataque\ncom um bônus de +7. Com um acerto, para cada carga que você gasta, o\no alvo sofre 2d10 de dano de força e é empurrado 1,5 metro\nlonge de você.",
+    "description": "Este anel tem 3 cargas e recupera 1d3 gasto\ncargas diariamente ao amanhecer. Enquanto estiver usando o anel, você pode\nuse uma ação para gastar 1 a 3 de suas cargas para atacar um\ncriatura que você possa ver a até 18 metros de você. O anel\nproduz uma cabeça de carneiro espectral e faz sua jogada de ataque\ncom um bônus de +7. Com um acerto, para cada carga que você gasta, o\no alvo sofre 2d10 de dano de força e é empurrado 1,5 metro\nlonge de você.",
     "cost": "5000 PO",
     "ac": "",
     "classification": "",
@@ -1550,7 +1550,7 @@
   {
     "name": "Manto das Cores Cintilantes",
     "category": "Wondrous Item",
-    "description": "Este manto tem 3 cargas e recupera 1d3 gasto\ncobra diariamente ao amanhecer. Enquanto você o usa, você pode usar um\nação e gaste 1 carga para fazer com que a vestimenta\nexibir um padrão mutável de tons deslumbrantes até o final\ndo seu próximo turno. Durante este tempo, o manto brilha\nluz em um raio de 9 metros (30 pés) e luz fraca por um adicional\n9 metros (30 pés). Criaturas que podem ver você têm desvantagem\njogadas de ataque contra você. Além disso, qualquer criatura no\nluz brilhante que pode ver você quando o poder do manto é\nativado deve ter sucesso em um teste de resistência de Sabedoria CD 15\njogue ou fique atordoado até que o efeito termine.",
+    "description": "Este manto tem 3 cargas e recupera 1d3 gasto\ncargas diariamente ao amanhecer. Enquanto você o usa, você pode usar um\nação e gaste 1 carga para fazer com que a vestimenta\nexibir um padrão mutável de tons deslumbrantes até o final\ndo seu próximo turno. Durante este tempo, o manto brilha\nluz em um raio de 9 metros (30 pés) e luz fraca por um adicional\n9 metros (30 pés). Criaturas que podem ver você têm desvantagem\njogadas de ataque contra você. Além disso, qualquer criatura no\nluz brilhante que pode ver você quando o poder do manto é\nativado deve ter sucesso em um teste de resistência de Sabedoria CD 15\njogue ou fique atordoado até que o efeito termine.",
     "cost": "6000 PO",
     "ac": "",
     "classification": "",
@@ -1578,7 +1578,7 @@
     "cost": "34000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um sorcerer",
+    "properties": "requer sintonia por um feiticeiro, bruxo ou mago",
     "damage": "",
     "attunement": true,
     "icon": "Library/Magical Items/Cloak of the Bat.svg"
@@ -1730,7 +1730,7 @@
   {
     "name": "Esfera de Aniquilação",
     "category": "Wondrous Item",
-    "description": "Esta esfera preta de 60 centímetros de diâmetro é um buraco no\nmultiverso, pairando no espaço e estabilizado por um\ncampo mágico que o rodeia.\nA esfera oblitera toda a matéria pela qual passa e todos\nmatéria que passa por ele. Os artefatos são a exceção.\nA menos que um artefato seja suscetível a danos causados por um\nesfera de aniquilação, passa pela esfera\nileso. Qualquer outra coisa que toque a esfera, mas não seja\ntotalmente engolfado e obliterado por ele requer 4d10 força\ndano.\nA esfera fica parada até que alguém a controle. Se você\nestiver a até 18 metros de uma esfera não controlada, você pode usar\numa ação para realizar um teste de Inteligência (Arcanismo) CD 25.\nCom um sucesso, a esfera levita em uma direção\nsua escolha, até um número de pés igual a 5 × seu\nModificador de inteligência (mínimo 1,5 metro). Em caso de falha, o\nesfera se move 3 metros em sua direção.\n\nUma criatura em cujo espaço a esfera entra deve ter sucesso\nem um teste de resistência de Destreza CD 13 ou ser tocado por ele,\nsofrendo 4d10 de dano de força.\nSe você tentar controlar uma esfera que está sob outra\ncontrole da criatura, você faz um teste de Inteligência (Arcano)\nteste contestado pela Inteligência da outra criatura\n(Arcano) verifique. O vencedor do concurso ganha o controle\nda esfera e pode levitá-la normalmente.\nSe a esfera entrar em contato com um portal planar,\ncomo aquele criado pelo magia portão, ou um\nespaço extradimensional, como aquele dentro de um portátil\nburaco, o Mestre determina aleatoriamente o que acontece, usando\na tabela a seguir.\n\nResultado d100\n01-\n50 A esfera é destruída.\n51-\n85\nA esfera se move através do portal ou para dentro do\nespaço extradimensional.\n86-\n00\nUma fenda espacial envia cada criatura e objeto\ndentro de 54 metros (180 pés) da esfera, incluindo o\nesfera, para um plano aleatório de existência.\n( )",
+    "description": "Esta esfera preta de 60 centímetros de diâmetro é um buraco no\nmultiverso, pairando no espaço e estabilizado por um\ncampo mágico que o rodeia.\nA esfera oblitera toda a matéria pela qual passa e todos\nmatéria que passa por ele. Os artefatos são a exceção.\nA menos que um artefato seja suscetível a danos causados por um\nesfera de aniquilação, passa pela esfera\nileso. Qualquer outra coisa que toque a esfera, mas não seja\ntotalmente engolfado e obliterado por ele requer 4d10 de dano de força.\nA esfera fica parada até que alguém a controle. Se você\nestiver a até 18 metros de uma esfera não controlada, você pode usar\numa ação para realizar um teste de Inteligência (Arcanismo) CD 25.\nCom um sucesso, a esfera levita em uma direção\nsua escolha, até um número de pés igual a 5 × seu\nModificador de inteligência (mínimo 1,5 metro). Em caso de falha, o\nesfera se move 3 metros em sua direção.\n\nUma criatura em cujo espaço a esfera entra deve ter sucesso\nem um teste de resistência de Destreza CD 13 ou ser tocado por ele,\nsofrendo 4d10 de dano de força.\nSe você tentar controlar uma esfera que está sob outra\ncontrole da criatura, você faz um teste de Inteligência (Arcano)\nteste contestado pela Inteligência da outra criatura\n(Arcano) teste. O vencedor do concurso ganha o controle\nda esfera e pode levitá-la normalmente.\nSe a esfera entrar em contato com um portal planar,\ncomo aquele criado pelo magia portão, ou um\nespaço extradimensional, como aquele dentro de um portátil\nburaco, o Mestre determina aleatoriamente o que acontece, usando\na tabela a seguir.\n\nResultado d100\n01-\n50 A esfera é destruída.\n51-\n85\nA esfera se move através do portal ou para dentro do\nespaço extradimensional.\n86-\n00\nUma fenda espacial envia cada criatura e objeto\ndentro de 54 metros (180 pés) da esfera, incluindo o\nesfera, para um plano aleatório de existência.\n",
     "cost": "15000 PO",
     "ac": "",
     "classification": "",
@@ -1746,7 +1746,7 @@
     "cost": "12000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um bard",
+    "properties": "requer sintonia por um bardo, clérigo, druida, feiticeiro, bruxo ou mago",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1754,11 +1754,11 @@
   {
     "name": "Cajado do Fogo",
     "category": "Wondrous Item",
-    "description": "Você tem resistência a dano de fogo enquanto segura este\npessoal.\nA equipe tem 10 cobranças. Enquanto o segura, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar um\ndos seguintes magias dele, usando sua CD de teste de resistência de magias:\nmãos em chamas (1 carga), bola de fogo (3 cargas) ou parede de\nfogo (4 cargas).\nO cajado recupera 1d6 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no cajado escurece, se desfaz em cinzas e é\ndestruído.",
+    "description": "Você tem resistência a dano de fogo enquanto segura este cajado.\nO cajado possui 10 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar um\ndos seguintes magias dele, usando sua CD de teste de resistência de magias:\nmãos em chamas (1 carga), bola de fogo (3 cargas) ou parede de\nfogo (4 cargas).\nO cajado recupera 1d6 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no cajado escurece, se desfaz em cinzas e é\ndestruído.",
     "cost": "16000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um druid",
+    "properties": "requer sintonia por um druida",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1766,11 +1766,11 @@
   {
     "name": "Cajado do Gelo",
     "category": "Wondrous Item",
-    "description": "Você tem resistência a dano de frio enquanto segura este\npessoal. A equipe tem 10 cobranças. Enquanto o segura, você pode\nuse uma ação para gastar 1 ou mais de suas cargas para conjurar\num dos seguintes magias dele, usando seu teste de resistência de magia\nDC: cone de frio (5 cargas), nuvem de neblina (1 carga), gelo\ntempestade (4 cargas) ou parede de gelo (4 cargas).\nO cajado recupera 1d6 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no bastão vira água e é destruído.",
+    "description": "Você tem resistência a dano de frio enquanto segura este cajado. O cajado possui 10 cargas. Enquanto o empunha, você pode\nuse uma ação para gastar 1 ou mais de suas cargas para conjurar\num dos seguintes magias dele, usando seu teste de resistência de magia\nDC: cone de frio (5 cargas), nuvem de neblina (1 carga), gelo\ntempestade (4 cargas) ou parede de gelo (4 cargas).\nO cajado recupera 1d6 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no bastão vira água e é destruído.",
     "cost": "26000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um druid",
+    "properties": "requer sintonia por um druida",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1778,11 +1778,11 @@
   {
     "name": "Cajado da Cura",
     "category": "Wondrous Item",
-    "description": "Esta equipe tem 10 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar um\ndos seguintes magias dele, usando sua CD de teste de resistência de magias\ne modificador de habilidade de lançamento de magias: curar ferimentos (1 carga\npor nível de magia, até o 4º), restauração menor (2 cargas),\nou curar feridas em massa (5 cargas).",
+    "description": "Este cajado possui 10 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar um\ndos seguintes magias dele, usando sua CD de teste de resistência de magias\ne modificador de habilidade de lançamento de magias: curar ferimentos (1 carga\npor nível de magia, até o 4º), restauração menor (2 cargas),\nou curar feridas em massa (5 cargas).",
     "cost": "13000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um bard",
+    "properties": "requer sintonia por um bardo, clérigo, druida, feiticeiro, bruxo ou mago",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1790,11 +1790,11 @@
   {
     "name": "Cajado do Poder",
     "category": "Wondrous Item",
-    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +2 nas jogadas de ataque e dano feitas com\nisso. Enquanto estiver segurando-o, você ganha +2 de bônus na CA (CA),\ntestes de resistência e jogadas de ataque mágico.\nA equipe tem 20 cobranças para as seguintes propriedades.\nO cajado recupera 2d8 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no cajado mantém seu bônus de +2 nas jogadas de ataque e dano\nmas perde todas as outras propriedades. Com um 20, o cajado recupera\n1d8 + 2 cargas.\nGolpe de Poder. Quando você acerta um ataque corpo a corpo usando\no cajado, você pode gastar 1 carga para lidar com 1d6 extras\nforçar dano ao alvo.\n\nmagias. Enquanto estiver segurando este cajado, você pode usar uma ação para\ngastar 1 ou mais de suas cargas para lançar um dos\nseguintes magias dele, usando seu CD de teste de resistência de magias e\nbônus de ataque mágico: cone de frio (5 cargas), bola de fogo\n(versão de 5º nível, 5 cargas), globo de invulnerabilidade\n(6 cargas), segurar monstro (5 cargas), levitar (2\ncargas), relâmpago (versão de 5º nível, 5 cargas),\nmíssil mágico (1 carga), raio de enfraquecimento (1\ncarga) ou parede de força (5 cargas).\nGolpe Retributivo. Você pode usar uma ação para quebrar o\npessoal sobre o joelho ou contra uma superfície sólida,\nrealizando um ataque retributivo. A equipe está destruída\ne libera sua magia restante em uma explosão que\nse expande para preencher uma esfera de 9 metros de raio centralizada nele.\n\nVocê tem 50% de chance de viajar instantaneamente para um\nplano aleatório de existência, evitando a explosão. Se\nvocê não consegue evitar o efeito, você sofre dano de força igual\npara 16 × o número de encargos na equipe. Todos os outros\ncriatura na área deve fazer um teste de resistência de Destreza CD 17\njogar. Se falhar na resistência, uma criatura sofre uma quantidade de\ndano com base em quão longe está do ponto de\norigem, conforme mostrado na tabela a seguir. Em um sucesso\nsalva, uma criatura sofre metade do dano.\n\nDistância de\nDano de Origem\n3 metros (10 pés) de distância ou mais próximo 8 x o número de cargas no\npessoal\n11 a 6 metros (20 pés) de distância 6 x o número de cargas no\npessoal\n21 a 9 metros (30 pés) de distância 4 x o número de cargas no\npessoal",
+    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +2 nas jogadas de ataque e dano feitas com\nisso. Enquanto estiver segurando-o, você ganha +2 de bônus na CA (CA),\ntestes de resistência e jogadas de ataque mágico.\nO cajado possui 20 cargas para as seguintes propriedades.\nO cajado recupera 2d8 + 4 cargas gastas diariamente em\namanhecer. Se você gastar a última carga, jogue um d20. Em um 1,\no cajado mantém seu bônus de +2 nas jogadas de ataque e dano\nmas perde todas as outras propriedades. Com um 20, o cajado recupera\n1d8 + 2 cargas.\nGolpe de Poder. Quando você acerta um ataque corpo a corpo usando\no cajado, você pode gastar 1 carga para lidar com 1d6 extras\nforçar dano ao alvo.\n\nmagias. Enquanto estiver segurando este cajado, você pode usar uma ação para\ngastar 1 ou mais de suas cargas para lançar um dos\nseguintes magias dele, usando seu CD de teste de resistência de magias e\nbônus de ataque mágico: cone de frio (5 cargas), bola de fogo\n(versão de 5º nível, 5 cargas), globo de invulnerabilidade\n(6 cargas), segurar monstro (5 cargas), levitar (2\ncargas), relâmpago (versão de 5º nível, 5 cargas),\nmíssil mágico (1 carga), raio de enfraquecimento (1\ncarga) ou parede de força (5 cargas).\nGolpe Retributivo. Você pode usar uma ação para quebrar o\npessoal sobre o joelho ou contra uma superfície sólida,\nrealizando um ataque retributivo. A equipe está destruída\ne libera sua magia restante em uma explosão que\nse expande para preencher uma esfera de 9 metros de raio centralizada nele.\n\nVocê tem 50% de chance de viajar instantaneamente para um\nplano aleatório de existência, evitando a explosão. Se\nvocê não consegue evitar o efeito, você sofre dano de força igual\npara 16 × o número de encargos na equipe. Todos os outros\ncriatura na área deve fazer um teste de resistência de Destreza CD 17\njogar. Se falhar na resistência, uma criatura sofre uma quantidade de\ndano com base em quão longe está do ponto de\norigem, conforme mostrado na tabela a seguir. Em um sucesso\nsalva, uma criatura sofre metade do dano.\n\nDistância de\nDano de Origem\n3 metros (10 pés) de distância ou mais próximo 8 x o número de cargas no\npessoal\n11 a 6 metros (20 pés) de distância 6 x o número de cargas no\npessoal\n21 a 9 metros (30 pés) de distância 4 x o número de cargas no\npessoal",
     "cost": "95500 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um sorcerer",
+    "properties": "requer sintonia por um feiticeiro, bruxo ou mago",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1802,7 +1802,7 @@
   {
     "name": "Cajado do Golpe",
     "category": "Wondrous Item",
-    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +3 nas jogadas de ataque e dano feitas com\nisso. A equipe tem 10 cobranças. Quando você acerta com um corpo a corpo\nataque usando-o, você pode gastar até 3 de suas cargas. Para\ncada carga que você gasta, o alvo recebe 1d6 extra\ndano de força. O cajado recupera 1d6 + 4 gastos\ncobra diariamente ao amanhecer. Se você gastar a última carga, role\num d20. Com 1, o cajado se torna um não-mágico\npessoal.",
+    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +3 nas jogadas de ataque e dano feitas com\nisso. O cajado possui 10 cargas. Quando você acerta com um corpo a corpo\nataque usando-o, você pode gastar até 3 de suas cargas. Para\ncada carga que você gasta, o alvo recebe 1d6 extra\ndano de força. O cajado recupera 1d6 + 4 gastos\ncargas diariamente ao amanhecer. Se você gastar a última carga, role\num d20. Com 1, o cajado se torna um não-mágico\npessoal.",
     "cost": "21000 PO",
     "ac": "",
     "classification": "",
@@ -1814,11 +1814,11 @@
   {
     "name": "Cajado dos Insetos Enxameantes",
     "category": "Wondrous Item",
-    "description": "Este cajado tem 10 cargas e recupera 1d6 + 4 gastos\ncobra diariamente ao amanhecer. Se você gastar a última carga, role\num d20. Com 1, um enxame de insetos consome e destrói\na equipe e então se dispersa.\nmagias. Enquanto segura o cajado, você pode usar uma ação para\ngastar algumas de suas cargas para lançar um dos seguintes\nmagias dele, usando seu CD de teste de resistência de magias: inseto gigante (4\ncargas) ou praga de insetos (5 cargas).\nNuvem de insetos. Enquanto segura o cajado, você pode usar um\nação e gaste 1 carga para causar um enxame de\ninsetos voadores inofensivos se espalhem em um raio de 9 metros\nde você. Os insetos permanecem por 10 minutos, fazendo com que o\nárea fortemente obscurecida para outras criaturas além de você.\n\nO enxame se move com você, permanecendo centrado em você.\nUm vento de pelo menos 16 quilômetros por hora dispersa o enxame\ne termina o efeito.",
+    "description": "Este cajado tem 10 cargas e recupera 1d6 + 4 gastos\ncargas diariamente ao amanhecer. Se você gastar a última carga, role\num d20. Com 1, um enxame de insetos consome e destrói\na equipe e então se dispersa.\nmagias. Enquanto segura o cajado, você pode usar uma ação para\ngastar algumas de suas cargas para lançar um dos seguintes\nmagias dele, usando seu CD de teste de resistência de magias: inseto gigante (4\ncargas) ou praga de insetos (5 cargas).\nNuvem de insetos. Enquanto segura o cajado, você pode usar um\nação e gaste 1 carga para causar um enxame de\ninsetos voadores inofensivos se espalhem em um raio de 9 metros\nde você. Os insetos permanecem por 10 minutos, fazendo com que o\nárea fortemente obscurecida para outras criaturas além de você.\n\nO enxame se move com você, permanecendo centrado em você.\nUm vento de pelo menos 16 quilômetros por hora dispersa o enxame\ne termina o efeito.",
     "cost": "16000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um bard",
+    "properties": "requer sintonia por um bardo, clérigo, druida, feiticeiro, bruxo ou mago",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1838,11 +1838,11 @@
   {
     "name": "Cajado do Definhar",
     "category": "Wondrous Item",
-    "description": "Este cajado tem 3 cargas e recupera 1d3 gasto\ncobra diariamente ao amanhecer.\nO cajado pode ser manejado como um bordão mágico. Em um\natingido, ele causa dano como um bordão normal, e você pode\ngaste 1 carga para causar 2d10 de dano necrótico extra\npara o alvo. Além disso, o alvo deve ter sucesso em um\nteste de resistência de Constituição CD 15 ou tem desvantagem\npor 1 hora em qualquer teste de habilidade ou teste de resistência que use\nForça ou Constituição.",
+    "description": "Este cajado tem 3 cargas e recupera 1d3 gasto\ncargas diariamente ao amanhecer.\nO cajado pode ser manejado como um bordão mágico. Em um\natingido, ele causa dano como um bordão normal, e você pode\ngaste 1 carga para causar 2d10 de dano necrótico extra\npara o alvo. Além disso, o alvo deve ter sucesso em um\nteste de resistência de Constituição CD 15 ou tem desvantagem\npor 1 hora em qualquer teste de habilidade ou teste de resistência que use\nForça ou Constituição.",
     "cost": "3000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um cleric",
+    "properties": "requer sintonia por um clérigo, druida ou paladino",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1854,7 +1854,7 @@
     "cost": "2000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um cleric",
+    "properties": "requer sintonia por um clérigo, druida ou paladino",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1862,11 +1862,11 @@
   {
     "name": "Cajado das Florestas",
     "category": "Wondrous Item",
-    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +2 nas jogadas de ataque e dano feitas com\nisso. Enquanto o segura, você recebe +2 de bônus no ataque mágico\nrolos.\nA equipe tem 10 cobranças para as seguintes propriedades. Isso\nrecupera 1d6 + 4 cargas gastas diariamente ao amanhecer. Se você\ngaste a última carga, jogue um d20. Com 1, o cajado perde\nsuas propriedades e se torna um bordão não-mágico.\nmagias. Você pode usar uma ação para gastar 1 ou mais dos\nencargos da equipe para lançar um dos seguintes magias dele,\nusando seu magia save DC: amizade animal (1 carga),\ndespertar (5 cargas), pele de casca de árvore (2 cargas), localizar animais\nou plantas (2 cargas), falar com animais (1 carga),\nfalar com plantas (3 cargas) ou parede de espinhos (6\nencargos).\n\nVocê também pode usar uma ação para lançar o passe sem deixar rastros\nmagia da equipe sem usar quaisquer cargas.\nForma de árvore. Você pode usar uma ação para plantar uma extremidade do\nequipe em terra fértil e gaste 1 carga para transformar o\nequipe em uma árvore saudável. A árvore tem 60 metros de altura e\nTronco de 1,5 metro de diâmetro e seus galhos espalhados no topo\nem um raio de 6 metros (20 pés). A árvore parece comum, mas\nirradia uma leve aura de magia de transmutação se for alvo\ndetectando magia. Ao tocar na árvore e usar\noutra ação para falar sua palavra de comando, você retorna\na equipe à sua forma normal. Qualquer criatura na árvore cai\nquando reverte para uma pauta.",
+    "description": "Este cajado pode ser manejado como um cajado mágico que\nconcede um bônus de +2 nas jogadas de ataque e dano feitas com\nisso. Enquanto o empunha, você recebe +2 de bônus no ataque mágico\nrolos.\nO cajado possui 10 cargas para as seguintes propriedades. Isso\nrecupera 1d6 + 4 cargas gastas diariamente ao amanhecer. Se você\ngaste a última carga, jogue um d20. Com 1, o cajado perde\nsuas propriedades e se torna um bordão não-mágico.\nmagias. Você pode usar uma ação para gastar 1 ou mais dos\nencargos da equipe para lançar um dos seguintes magias dele,\nusando seu magia save DC: amizade animal (1 carga),\ndespertar (5 cargas), pele de casca de árvore (2 cargas), localizar animais\nou plantas (2 cargas), falar com animais (1 carga),\nfalar com plantas (3 cargas) ou parede de espinhos (6\nencargos).\n\nVocê também pode usar uma ação para lançar o passe sem deixar rastros\nmagia da equipe sem usar quaisquer cargas.\nForma de árvore. Você pode usar uma ação para plantar uma extremidade do\nequipe em terra fértil e gaste 1 carga para transformar o\nequipe em uma árvore saudável. A árvore tem 60 metros de altura e\nTronco de 1,5 metro de diâmetro e seus galhos espalhados no topo\nem um raio de 6 metros (20 pés). A árvore parece comum, mas\nirradia uma leve aura de magia de transmutação se for alvo\ndetectando magia. Ao tocar na árvore e usar\noutra ação para falar sua palavra de comando, você retorna\na equipe à sua forma normal. Qualquer criatura na árvore cai\nquando reverte para uma pauta.",
     "cost": "44000 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um druid",
+    "properties": "requer sintonia por um druida",
     "damage": "",
     "attunement": true,
     "icon": "Library/Weapons/Staff.svg"
@@ -1890,7 +1890,7 @@
     "cost": "71680 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um creature of good",
+    "properties": "requer sintonia por uma criatura boa",
     "damage": "",
     "attunement": true,
     "icon": "Library/Treasure/Generic Treasure.svg"
@@ -1898,19 +1898,19 @@
   {
     "name": "Talisã do Mal Supremo",
     "category": "Wondrous Item",
-    "description": "Este item simboliza o mal impenitente. Uma criatura que é\nnem o bem nem o mal no alinhamento levam 6d6 necrótico\ndano ao tocar no talismã. Uma boa criatura\nsofre 8d6 de dano necrótico ao tocar o talismã.\nQualquer tipo de criatura sofre o dano novamente a cada vez\ntermina seu turno segurando ou carregando o talismã. Se você\nfor um clérigo ou paladino maligno, você pode usar o talismã como\num símbolo sagrado, e você ganha um bônus de +2 para ataque mágico\nrola enquanto você o usa ou segura. O talismã tem 6\nencargos. Se você estiver usando ou segurando, você pode usar um\nação para gastar 1 carga do talismã e escolher\numa criatura que você pode ver no chão a até 36 metros\nde você. Se o alvo estiver bem alinhado, uma chama\nfissura se abre sob ele.\n\nO alvo deve ter sucesso em um teste de resistência de Destreza CD 20\njogue ou caia na fissura e seja destruído, deixando\nnão resta. A fissura então se fecha, não deixando nenhum vestígio de\nsua existência. Quando você gasta a última carga, o\ntalismã se dissolve em lodo fétido e é\ndestruído.\nalinhamento",
+    "description": "Este item simboliza o mal impenitente. Uma criatura que é\nnem o bem nem o mal no alinhamento levam 6d6 de dano necrótico ao tocar no talismã. Uma boa criatura\nsofre 8d6 de dano necrótico ao tocar o talismã.\nQualquer tipo de criatura sofre o dano novamente a cada vez\ntermina seu turno segurando ou carregando o talismã. Se você\nfor um clérigo ou paladino maligno, você pode usar o talismã como\num símbolo sagrado, e você ganha um bônus de +2 para ataque mágico\nrola enquanto você o usa ou segura. O talismã tem 6\nencargos. Se você estiver usando ou segurando, você pode usar um\nação para gastar 1 carga do talismã e escolher\numa criatura que você pode ver no chão a até 36 metros\nde você. Se o alvo estiver bem alinhado, uma chama\nfissura se abre sob ele.\n\nO alvo deve ter sucesso em um teste de resistência de Destreza CD 20\njogue ou caia na fissura e seja destruído, deixando\nnão resta. A fissura então se fecha, não deixando nenhum vestígio de\nsua existência. Quando você gasta a última carga, o\ntalismã se dissolve em lodo fétido e é\ndestruído.\nalinhamento",
     "cost": "61440 PO",
     "ac": "",
     "classification": "",
-    "properties": "requer sintonia por um creature of evil",
+    "properties": "requer sintonia por uma criatura maligna",
     "damage": "",
     "attunement": true,
     "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
-    "name": "Talisã da Esfera",
+    "name": "Talismã da Esfera",
     "category": "Wondrous Item",
-    "description": "Quando você faz um teste de Inteligência (Arcano) para\ncontrole uma esfera de aniquilação enquanto você segura\neste talismã, você dobra seu bônus de proficiência no\nverifique. Além disso, quando você inicia seu turno com controle\nsobre uma esfera de aniquilação, você pode usar uma ação para\nlevite-o 3 metros (10 pés) mais um número de pés adicionais igual\na 10 × seu modificador de Inteligência.",
+    "description": "Quando você faz um teste de Inteligência (Arcano) para\ncontrole uma esfera de aniquilação enquanto você segura\neste talismã, você dobra seu bônus de proficiência no\nteste. Além disso, quando você inicia seu turno com controle\nsobre uma esfera de aniquilação, você pode usar uma ação para\nlevite-o 3 metros (10 pés) mais um número de pés adicionais igual\na 10 × seu modificador de Inteligência.",
     "cost": "20000 PO",
     "ac": "",
     "classification": "",
@@ -1934,7 +1934,7 @@
   {
     "name": "Varinha do Aprisionamento",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas para as seguintes propriedades. Isso\nrecupera 1d6 + 1 cargas gastas diariamente ao amanhecer. Se você\ngaste a última carga da varinha, jogue um d20. Em um 1, o\nvarinha se transforma em cinzas e é destruída.\nmagias: Enquanto segura a varinha, você pode usar uma ação para\ngastar algumas de suas cargas para lançar um dos seguintes\nmagias (CD 17): segurar monstro (5 cargas) ou segurar\npessoa (2 cobranças).\nFuga Assistida: Enquanto segura a varinha, você pode usar\nsua reação para gastar 1 carga e ganhar vantagem em\num teste de resistência que você faz para evitar ficar paralisado ou\nrestringido, ou você pode gastar 1 carga e ganhar\nvantagem em qualquer teste que você fizer para escapar de uma luta.",
+    "description": "Esta varinha tem 7 cargas para as seguintes propriedades. Isso\nrecupera 1d6 + 1 cargas gastas diariamente ao amanhecer. Se você\ngaste a última carga da varinha, jogue um d20. Em um 1, o\nvarinha se transforma em cinzas e é destruída.\nmagias: Enquanto segura a varinha, você pode usar uma ação para\ngastar algumas de suas cargas para lançar um dos seguintes\nmagias (CD 17): segurar monstro (5 cargas) ou segurar\npessoa (2 cargas).\nFuga Assistida: Enquanto segura a varinha, você pode usar\nsua reação para gastar 1 carga e ganhar vantagem em\num teste de resistência que você faz para evitar ficar paralisado ou\nrestringido, ou você pode gastar 1 carga e ganhar\nvantagem em qualquer teste que você fizer para escapar de uma luta.",
     "cost": "10000 PO",
     "ac": "",
     "classification": "",
@@ -1946,7 +1946,7 @@
   {
     "name": "Varinha de Detecção de Inimigos",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação e gaste 1 carga para falar seu comando\npalavra. No minuto seguinte, você sabe a direção do\ncriatura mais próxima hostil a você num raio de 18 metros, mas não seu\ndistância de você. A varinha pode sentir a presença de\ncriaturas hostis que são etéreas, invisíveis, disfarçadas ou\nescondidos, bem como aqueles à vista. O efeito termina se\nvocê para de segurar a varinha. A varinha recupera 1d6 + 1\ncargas gastas diariamente ao amanhecer. Se você gastar o\núltima carga da varinha, jogue um d20. Com 1, a varinha desmorona\nem cinzas e é destruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação e gaste 1 carga para falar seu comando\npalavra. No minuto seguinte, você sabe a direção do\ncriatura mais próxima hostil a você num raio de 18 metros, mas não seu\ndistância de você. A varinha pode sentir a presença de\ncriaturas hostis que são etéreas, invisíveis, disfarçadas ou\nescondidos, bem como aqueles à vista. O efeito termina se\nvocê para de segurar a varinha. A varinha recupera 1d6 + 1\ncargas gastas diariamente ao amanhecer. Se você gastar o\núltima carga da varinha, jogue um d20. Com 1, a varinha desmorona\nem cinzas e é destruído.",
     "cost": "4000 PO",
     "ac": "",
     "classification": "",
@@ -1970,7 +1970,7 @@
   {
     "name": "Varinha de Bola de Fogo",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia bola de fogo (CD 15) dele. Por 1 carga, você\nlançar a versão de 3º nível da magia. Você pode aumentar\no nível do espaço de magia em um para cada carga adicional que você\ngastar. A varinha recupera 1d6 + 1 cargas gastas\ndiariamente ao amanhecer. Se você gastar a última carga da varinha, role\num d20. Com um 1, a varinha se desfaz em cinzas e é\ndestruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia bola de fogo (CD 15) dele. Por 1 carga, você\nlançar a versão de 3º nível da magia. Você pode aumentar\no nível do espaço de magia em um para cada carga adicional que você\ngastar. A varinha recupera 1d6 + 1 cargas gastas\ndiariamente ao amanhecer. Se você gastar a última carga da varinha, role\num d20. Com um 1, a varinha se desfaz em cinzas e é\ndestruído.",
     "cost": "32000 PO",
     "ac": "",
     "classification": "",
@@ -1982,7 +1982,7 @@
   {
     "name": "Varinha de Relâmpagos",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia relâmpago (CD 15) dele. Por 1 carga,\nvocê conjurou a versão de 3º nível da magia. Você pode\naumente o nível do espaço de magia em um para cada adicional\ntaxa que você gasta. A varinha recupera 1d6 + 1 gasto\ncobra diariamente ao amanhecer. Se você gastar o último da varinha\ncarga, role um d20. Com 1, a varinha se desfaz em cinzas\ne é destruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia relâmpago (CD 15) dele. Por 1 carga,\nvocê conjurou a versão de 3º nível da magia. Você pode\naumente o nível do espaço de magia em um para cada adicional\ntaxa que você gasta. A varinha recupera 1d6 + 1 gasto\ncargas diariamente ao amanhecer. Se você gastar o último da varinha\ncarga, role um d20. Com 1, a varinha se desfaz em cinzas\ne é destruído.",
     "cost": "32000 PO",
     "ac": "",
     "classification": "",
@@ -1994,7 +1994,7 @@
   {
     "name": "Varinha de Detecção de Magia",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 3 cargas. Enquanto o segura, você pode\ngaste 1 carga como uma ação para lançar a detecção mágica\nsoletrar a partir dele. A varinha recupera 1d3 cargas gastas\ndiariamente ao amanhecer.",
+    "description": "Esta varinha tem 3 cargas. Enquanto o empunha, você pode\ngaste 1 carga como uma ação para lançar a detecção mágica\nsoletrar a partir dele. A varinha recupera 1d3 cargas gastas\ndiariamente ao amanhecer.",
     "cost": "1500 PO",
     "ac": "",
     "classification": "",
@@ -2006,7 +2006,7 @@
   {
     "name": "Varinha de Mísseis Mágicos",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia de míssil mágico dele. Por 1 carga, você lança o\nVersão de 1º nível do magia. Você pode aumentar o magia\nnível de slot em um para cada carga adicional gasta.\nA varinha recupera 1d6 + 1 cargas gastas diariamente em\namanhecer. Se você gastar a última carga da varinha, jogue um d20.\nCom um 1, a varinha se transforma em cinzas e é destruída.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 ou mais de suas cargas para lançar o\nmagia de míssil mágico dele. Por 1 carga, você lança o\nVersão de 1º nível do magia. Você pode aumentar o magia\nnível de slot em um para cada carga adicional gasta.\nA varinha recupera 1d6 + 1 cargas gastas diariamente em\namanhecer. Se você gastar a última carga da varinha, jogue um d20.\nCom um 1, a varinha se transforma em cinzas e é destruída.",
     "cost": "8000 PO",
     "ac": "",
     "classification": "",
@@ -2018,7 +2018,7 @@
   {
     "name": "Varinha de Paralisia",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 de suas cargas para causar um fino azul\nraio para riscar da ponta em direção a uma criatura que você pode ver\ndentro de 18 metros (60 pés) de você. O alvo deve ter sucesso em uma CD\n15 teste de resistência de Constituição ou ficará paralisado por 1\nminuto. No final de cada turno do alvo, ele pode\nrepetir o teste de resistência, encerrando o efeito sobre si mesmo em um\nsucesso. A varinha recupera 1d6 + 1 cargas gastas\ndiariamente ao amanhecer. Se você gastar a última carga da varinha, role\num d20. Com um 1, a varinha se desfaz em cinzas e é\ndestruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 de suas cargas para causar um fino azul\nraio para riscar da ponta em direção a uma criatura que você pode ver\ndentro de 18 metros (60 pés) de você. O alvo deve ter sucesso em uma CD\n15 teste de resistência de Constituição ou ficará paralisado por 1\nminuto. No final de cada turno do alvo, ele pode\nrepetir o teste de resistência, encerrando o efeito sobre si mesmo em um\nsucesso. A varinha recupera 1d6 + 1 cargas gastas\ndiariamente ao amanhecer. Se você gastar a última carga da varinha, role\num d20. Com um 1, a varinha se desfaz em cinzas e é\ndestruído.",
     "cost": "16000 PO",
     "ac": "",
     "classification": "",
@@ -2030,7 +2030,7 @@
   {
     "name": "Varinha de Metamorfose",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 de suas cargas para lançar o\nmagia polimorfo (CD 15) dele. A varinha recupera\n1d6 + 1 carga gasta diariamente ao amanhecer. Se você gastar\núltima carga da varinha, jogue um d20. Com 1, a varinha\nse desfaz em cinzas e é destruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 de suas cargas para lançar o\nmagia polimorfo (CD 15) dele. A varinha recupera\n1d6 + 1 carga gasta diariamente ao amanhecer. Se você gastar\núltima carga da varinha, jogue um d20. Com 1, a varinha\nse desfaz em cinzas e é destruído.",
     "cost": "32000 PO",
     "ac": "",
     "classification": "",
@@ -2042,7 +2042,7 @@
   {
     "name": "Varinha dos Segredos",
     "category": "Wondrous Item",
-    "description": "A varinha tem 3 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 de suas cargas, e se uma porta secreta\nou armadilha estiver a até 9 metros de você, a varinha pulsa e\naponta para o mais próximo de você. A varinha recupera 1d3\ncargas gastas diariamente ao amanhecer.",
+    "description": "A varinha tem 3 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 de suas cargas, e se uma porta secreta\nou armadilha estiver a até 9 metros de você, a varinha pulsa e\naponta para o mais próximo de você. A varinha recupera 1d3\ncargas gastas diariamente ao amanhecer.",
     "cost": "1500 PO",
     "ac": "",
     "classification": "",
@@ -2054,7 +2054,7 @@
   {
     "name": "Varinha de Teia",
     "category": "Wondrous Item",
-    "description": "Esta varinha tem 7 cargas. Enquanto o segura, você pode usar\numa ação para gastar 1 de suas cargas para lançar a magia teia\n(CD 15) dele. A varinha recupera 1d6 + 1\ncargas gastas diariamente ao amanhecer. Se você gastar o\núltima carga da varinha, jogue um d20. Com 1, a varinha desmorona\nem cinzas e é destruído.",
+    "description": "Esta varinha tem 7 cargas. Enquanto o empunha, você pode usar\numa ação para gastar 1 de suas cargas para lançar a magia teia\n(CD 15) dele. A varinha recupera 1d6 + 1\ncargas gastas diariamente ao amanhecer. Se você gastar o\núltima carga da varinha, jogue um d20. Com 1, a varinha desmorona\nem cinzas e é destruído.",
     "cost": "8000 PO",
     "ac": "",
     "classification": "",

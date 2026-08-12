@@ -87,6 +87,72 @@ export default function ItemsPage() {
   const [isRolling, setIsRolling] = useState(false)
   const [showRollModal, setShowRollModal] = useState(false)
   const [rollCategoryFilter, setRollCategoryFilter] = useState<string>('all')
+  const [customD100, setCustomD100] = useState<string>('')
+
+  // Helper to fetch item by d100 value (1-100)
+  const getItemByD100 = (rollVal: number, filter: string) => {
+    const boundedVal = Math.min(100, Math.max(1, rollVal))
+    
+    const tableMap: Record<string, any[]> = {
+      'table-a': magicTableA,
+      'table-b': magicTableB,
+      'table-c': magicTableC,
+      'table-d': magicTableD,
+      'table-e': magicTableE,
+      'table-f': magicTableF,
+      'table-g': magicTableG,
+      'table-h': magicTableH,
+      'table-i': magicTableI,
+      'table-props': magicPropertiesTable,
+    }
+
+    const table = tableMap[filter]
+    if (table) {
+      const tableItem = table.find(item => item.d100 >= boundedVal) || table[table.length - 1]
+      if (filter === 'table-props') {
+        return { ...tableItem, category: 'Other', d100: boundedVal }
+      }
+      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
+      return detailed 
+        ? { ...detailed, d100: boundedVal, rarity: tableItem.rarity, source: tableItem.source } 
+        : { ...tableItem, d100: boundedVal, category: 'Wondrous Item' }
+    } else {
+      const pool = filter === 'all'
+        ? itemsData
+        : itemsData.filter(i => i.category === filter)
+      if (pool.length === 0) return null
+      const index = Math.min(pool.length - 1, Math.max(0, Math.floor(((boundedVal - 1) / 100) * pool.length)))
+      return { ...pool[index], d100: boundedVal }
+    }
+  }
+
+  const handleRollRandom = () => {
+    const randomVal = Math.floor(Math.random() * 100) + 1
+    setCustomD100(randomVal.toString())
+    const item = getItemByD100(randomVal, rollCategoryFilter)
+    if (item) {
+      setIsRolling(true)
+      setTimeout(() => {
+        setRolledItem(item)
+        setIsRolling(false)
+      }, 1000)
+    }
+  }
+
+  const handleManualFetch = (valStr?: string) => {
+    const targetStr = valStr !== undefined ? valStr : customD100
+    const targetVal = parseInt(targetStr, 10)
+    if (isNaN(targetVal) || targetVal < 1 || targetVal > 100) return
+
+    const item = getItemByD100(targetVal, rollCategoryFilter)
+    if (item) {
+      setIsRolling(true)
+      setTimeout(() => {
+        setRolledItem(item)
+        setIsRolling(false)
+      }, 400)
+    }
+  }
 
   // Clear all filters
   const handleClearFilters = () => {
@@ -111,6 +177,16 @@ export default function ItemsPage() {
   return (
     <div className="fade-in">
       <style jsx>{`
+        .no-spinner::-webkit-inner-spin-button,
+        .no-spinner::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .no-spinner {
+          -moz-appearance: textfield;
+          appearance: textfield;
+        }
+
         .filters-container {
           display: flex;
           flex-direction: column;
@@ -594,13 +670,14 @@ export default function ItemsPage() {
                 justifyContent: 'space-between',
                 gap: '12px'
               }}>
-                <span style={{ fontSize: '13px', color: 'var(--fg2)', fontWeight: '600' }}>Filtrar Categoria:</span>
+                <span style={{ fontSize: '13px', color: 'var(--fg2)', fontWeight: '600', whiteSpace: 'nowrap' }}>Filtrar Categoria:</span>
                 <select
                   value={rollCategoryFilter}
                   onChange={(e) => {
                     setRollCategoryFilter(e.target.value)
                   }}
                   style={{
+                    flex: 1,
                     background: 'var(--bg)',
                     color: 'var(--fg)',
                     border: '1px solid var(--border)',
@@ -723,8 +800,8 @@ export default function ItemsPage() {
                     <h4 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: '18px', color: 'var(--fg)' }}>
                       Pronto para sortear
                     </h4>
-                    <p style={{ margin: 0, fontSize: '14px', color: 'var(--fg2)', maxWidth: '320px' }}>
-                      Selecione uma categoria ou tabela acima se desejar, e clique em <strong>Girar / Sortear Item</strong> para sortear um item aleatório.
+                    <p style={{ margin: 0, fontSize: '14px', color: 'var(--fg2)', maxWidth: '360px' }}>
+                      Selecione uma categoria ou tabela, insira um valor entre 1 e 100 no campo <strong>d100</strong> para buscar um item manualmente, ou clique em <strong>Sortear Item</strong>.
                     </p>
                   </div>
                 ) : (
@@ -896,102 +973,96 @@ export default function ItemsPage() {
                 padding: '16px 24px',
                 borderTop: '1px solid var(--border)',
                 display: 'flex',
-                justifyContent: 'flex-end',
+                alignItems: 'center',
+                justifyContent: 'space-between',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.01)'
+                background: 'rgba(255, 255, 255, 0.01)',
+                flexWrap: 'wrap'
               }}>
-                <button
-                  className="cat-btn"
-                  onClick={() => {
-                    let rolledItemObj = null
-                    if (rollCategoryFilter === 'table-a') {
-                      const randomIndex = Math.floor(Math.random() * magicTableA.length)
-                      const tableItem = magicTableA[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-b') {
-                      const randomIndex = Math.floor(Math.random() * magicTableB.length)
-                      const tableItem = magicTableB[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-c') {
-                      const randomIndex = Math.floor(Math.random() * magicTableC.length)
-                      const tableItem = magicTableC[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-d') {
-                      const randomIndex = Math.floor(Math.random() * magicTableD.length)
-                      const tableItem = magicTableD[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-e') {
-                      const randomIndex = Math.floor(Math.random() * magicTableE.length)
-                      const tableItem = magicTableE[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-f') {
-                      const randomIndex = Math.floor(Math.random() * magicTableF.length)
-                      const tableItem = magicTableF[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-g') {
-                      const randomIndex = Math.floor(Math.random() * magicTableG.length)
-                      const tableItem = magicTableG[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-h') {
-                      const randomIndex = Math.floor(Math.random() * magicTableH.length)
-                      const tableItem = magicTableH[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-i') {
-                      const randomIndex = Math.floor(Math.random() * magicTableI.length)
-                      const tableItem = magicTableI[randomIndex]
-                      const detailed = itemsData.find(i => i.name.toLowerCase() === tableItem.name.toLowerCase())
-                      rolledItemObj = detailed ? { ...detailed, d100: tableItem.d100, rarity: tableItem.rarity, source: tableItem.source } : { ...tableItem, category: 'Wondrous Item' }
-                    } else if (rollCategoryFilter === 'table-props') {
-                      const randomIndex = Math.floor(Math.random() * magicPropertiesTable.length)
-                      const tableItem = magicPropertiesTable[randomIndex]
-                      rolledItemObj = { ...tableItem, category: 'Other' }
-                    } else {
-                      const pool = rollCategoryFilter === 'all'
-                        ? itemsData
-                        : itemsData.filter(i => i.category === rollCategoryFilter)
-                      
-                      if (pool.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * pool.length)
-                        rolledItemObj = pool[randomIndex]
-                      }
-                    }
+                {/* Manual d100 search input (Bottom Left) */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '13px', color: 'var(--fg2)', fontWeight: '600', whiteSpace: 'nowrap' }}>
+                    d100:
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      className="no-spinner"
+                      min={1}
+                      max={100}
+                      placeholder="1-100"
+                      value={customD100}
+                      onChange={(e) => setCustomD100(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleManualFetch()
+                        }
+                      }}
+                      style={{
+                        width: '65px',
+                        background: 'var(--bg)',
+                        color: 'var(--fg)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '6px 0 0 6px',
+                        padding: '6px 8px',
+                        fontSize: '13px',
+                        textAlign: 'center',
+                        outline: 'none',
+                        MozAppearance: 'textfield'
+                      }}
+                    />
+                    <button
+                      onClick={() => handleManualFetch()}
+                      disabled={!customD100 || parseInt(customD100) < 1 || parseInt(customD100) > 100}
+                      title="Buscar item para este resultado do d100"
+                      style={{
+                        background: 'var(--accent)',
+                        color: '#fff',
+                        border: '1px solid var(--accent2)',
+                        borderLeft: 'none',
+                        borderRadius: '0 6px 6px 0',
+                        padding: '6px 12px',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        cursor: (!customD100 || parseInt(customD100) < 1 || parseInt(customD100) > 100) ? 'not-allowed' : 'pointer',
+                        opacity: (!customD100 || parseInt(customD100) < 1 || parseInt(customD100) > 100) ? 0.5 : 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Search size={13} />
+                      Pegar
+                    </button>
+                  </div>
+                </div>
 
-                    if (rolledItemObj) {
-                      setIsRolling(true)
-                      setTimeout(() => {
-                        setRolledItem(rolledItemObj)
-                        setIsRolling(false)
-                      }, 1200)
-                    }
-                  }}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    color: 'var(--fg)',
-                    border: '1px solid var(--border)'
-                  }}
-                >
-                  <RotateCcw size={14} />
-                  {rolledItem ? 'Girar Novamente' : 'Sortear Item'}
-                </button>
-                <button
-                  className="cat-btn"
-                  onClick={() => setShowRollModal(false)}
-                  style={{
-                    background: 'var(--accent)',
-                    color: '#fff',
-                    borderColor: 'var(--accent2)'
-                  }}
-                >
-                  Fechar
-                </button>
+                {/* Modal Action Buttons (Bottom Right) */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <button
+                    className="cat-btn"
+                    onClick={handleRollRandom}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      color: 'var(--fg)',
+                      border: '1px solid var(--border)'
+                    }}
+                  >
+                    <RotateCcw size={14} />
+                    {rolledItem ? 'Girar Novamente' : 'Sortear Item'}
+                  </button>
+                  <button
+                    className="cat-btn"
+                    onClick={() => setShowRollModal(false)}
+                    style={{
+                      background: 'var(--accent)',
+                      color: '#fff',
+                      borderColor: 'var(--accent2)'
+                    }}
+                  >
+                    Fechar
+                  </button>
+                </div>
               </div>
             </div>
           </div>

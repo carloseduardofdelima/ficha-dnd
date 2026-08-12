@@ -87,16 +87,64 @@ export function getItemIconUrl(itemOrName: any, category?: string): string | nul
 }
 
 /**
- * Removes unnecessary single newlines (line wraps) but preserves double newlines (paragraphs).
+ * Removes unnecessary single newlines (line wraps), preserves double newlines (paragraphs),
+ * and polishes D&D 5e terminology and translation artifacts for maximum clarity.
  */
 export function cleanDescription(text: string | undefined): string {
   if (!text) return '';
-  return text
+  
+  let cleaned = text
     .replace(/\r\n/g, '\n') // Normalize CRLF to LF
-    .replace(/\n\n+/g, '__PARAGRAPH__') // Preserve actual paragraph breaks
+    .replace(/\n\n+/g, '__PARAGRAPH__') // Preserve paragraph breaks
     .replace(/\n/g, ' ') // Replace single line breaks with spaces
     .replace(/ +/g, ' ') // Merge multiple spaces
-    .replace(/__PARAGRAPH__/g, '\n\n') // Restore paragraph breaks
+    .replace(/__PARAGRAPH__/g, '\n\n')
+
+  // Clean redundant lead-in headers if present inside description text
+  cleaned = cleaned.replace(/^(requer sintonia[^\n.]*\.\s*)+/gi, '');
+
+  // Fix literal translation artifacts for checks and skills
+  cleaned = cleaned
+    .replace(/\bInteligência CD (\d+) verifique\b/gi, 'um teste de Inteligência (Arcanismo) CD $1')
+    .replace(/\bInteligência \(Arcano\) teste contestado\b/gi, 'um teste de Inteligência (Arcanismo) oposto')
+    .replace(/\bInteligência \(Arcano\) verifique\b/gi, 'um teste de Inteligência (Arcanismo)')
+    .replace(/\bInteligência \(Arcano\)\b/gi, 'Inteligência (Arcanismo)')
+    .replace(/\bteste de Inteligência \(Arcano\)\b/gi, 'teste de Inteligência (Arcanismo)')
+    .replace(/\b([a-zA-Záéíóúâêôãõç]+) verifique\b/gi, 'teste de $1')
+    .replace(/\b no verifique\b/gi, ' no teste')
+    .replace(/\b do verifique\b/gi, ' do teste')
+    .replace(/\b o verifique\b/gi, ' o teste')
+    .replace(/\bverifique\b/gi, 'teste')
+
+  // Fix literal damage type translations (e.g. "4d10 força dano" -> "4d10 de dano de força")
+  cleaned = cleaned
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+força\s+dano/gi, '$1 de dano de força')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+fogo\s+dano/gi, '$1 de dano de fogo')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+frio\s+dano/gi, '$1 de dano de frio')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+gelo\s+dano/gi, '$1 de dano de gelo')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+elétrico\s+dano/gi, '$1 de dano elétrico')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+veneno\s+dano/gi, '$1 de dano de veneno')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+radiante\s+dano/gi, '$1 de dano radiante')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+necrótico\s+dano/gi, '$1 de dano necrótico')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+trovão\s+dano/gi, '$1 de dano de trovão')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+ácido\s+dano/gi, '$1 de dano de ácido')
+    .replace(/(\d+d\d+(?:\s*\+\s*\d+)?)\s+psíquico\s+dano/gi, '$1 de dano psíquico')
+
+  // Fix common spell and item name translations
+  cleaned = cleaned
+    .replace(/\bdeslocamento planar magia\b/gi, 'magia Deslocamento Planar')
+    .replace(/\bmagia portão\b/gi, 'magia Portão')
+    .replace(/\bburaco portátil\b/gi, 'Buraco Portátil')
+    .replace(/\besfera de aniquilação\b/gi, 'Esfera de Aniquilação')
+    .replace(/\bportão mágica\b/gi, 'magia Portão')
+
+  // Clean trailing artifacts or bad punctuation
+  cleaned = cleaned
+    .replace(/\( \)/g, '')
+    .replace(/\s+([.,;:!?])/g, '$1')
+    .replace(/ +/g, ' ')
     .trim();
+
+  return cleaned;
 }
 

@@ -172,7 +172,7 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Lyre of Building",
-    "description": "Requer sintonia por um bardo. Enquanto toca esta lira, você pode realizar façanhas incríveis de construção ou reparação rapidamente. Uma vez por dia, você pode tocá-la para conjurar Muralha de Pedra ou Fabricar.",
+    "description": "requer sintonia por um bardo, clérigo, druida, feiticeiro, bruxo ou magoo, clérigo, druida, feiticeiro, bruxo ou magoo. Enquanto toca esta lira, você pode realizar façanhas incríveis de construção ou reparação rapidamente. Uma vez por dia, você pode tocá-la para conjurar Muralha de Pedra ou Fabricar.",
     "icon": "Library/Instruments/Lyre.svg"
   },
   {
@@ -1162,7 +1162,7 @@
     "attune": true,
     "source": "DMG",
     "englishName": "Staff of the Woodlands",
-    "description": "Requer sintonia por um Druida. Este cajado +2 permite conjurar magias da natureza à vontade (como Passos Sem Pegadas) ou transformar o cajado em uma árvore frutífera gigante de 18 metros.",
+    "description": "requer sintonia por um druidaaa. Este cajado +2 permite conjurar magias da natureza à vontade (como Passos Sem Pegadas) ou transformar o cajado em uma árvore frutífera gigante de 18 metros.",
     "icon": "Library/Weapons/Staff.svg"
   },
   {
@@ -1657,7 +1657,7 @@
     "attune": true,
     "source": "TCoE",
     "englishName": "Reveler's Concertina",
-    "description": "Requer sintonia por um bardo. Concede +1 na CD de salvamento de suas magias de bardo e permite conjurar a magia Dança Irresistível de Otto uma vez ao dia.",
+    "description": "requer sintonia por um bardo, clérigo, druida, feiticeiro, bruxo ou magoo, clérigo, druida, feiticeiro, bruxo ou magoo. Concede +1 na CD de salvamento de suas magias de bardo e permite conjurar a magia Dança Irresistível de Otto uma vez ao dia.",
     "icon": "Library/Treasure/Generic Treasure.svg"
   },
   {
