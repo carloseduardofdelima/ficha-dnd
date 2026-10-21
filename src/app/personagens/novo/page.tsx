@@ -281,7 +281,7 @@ export default function NovoPersonagem() {
     const pb = Math.ceil(form.level / 4) + 1
 
     // Final attributes calculation based on ruleset
-    let finalAttrs = { ...attrs };
+    const finalAttrs = { ...attrs };
     
     if (form.ruleset === '2024') {
       // 2024 style: +2/+1 from ASI

@@ -26,15 +26,16 @@ const NAV = [
   { href: '/subclasses', label: 'Subclasses', icon: BookOpen },
 ]
 
-export function Sidebar() {
-  const path = usePathname()
-  const { data: session, status } = useSession()
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
-
-  const NavLinks = ({ vertical = false }: { vertical?: boolean }) => (
+function NavLinks({
+  path,
+  onNavigate,
+  vertical = false,
+}: {
+  path: string
+  onNavigate?: () => void
+  vertical?: boolean
+}) {
+  return (
     <>
       {NAV.map(({ href, label, icon: Icon }) => {
         const active = path.startsWith(href)
@@ -43,7 +44,7 @@ export function Sidebar() {
             key={href}
             href={href}
             prefetch={false}
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={onNavigate}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -65,6 +66,15 @@ export function Sidebar() {
       })}
     </>
   )
+}
+
+export function Sidebar() {
+  const path = usePathname()
+  const { data: session, status } = useSession()
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
 
   return (
     <>
@@ -97,7 +107,7 @@ export function Sidebar() {
 
             {/* Desktop Links */}
             <div style={{ display: 'flex', gap: 4 }} className="hide-mobile">
-              <NavLinks />
+              <NavLinks path={path} />
             </div>
           </div>
 
@@ -254,7 +264,7 @@ export function Sidebar() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--fg3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Navegação</span>
-            <NavLinks vertical />
+            <NavLinks path={path} onNavigate={() => setMobileMenuOpen(false)} vertical />
           </div>
 
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 20, marginBottom: 20 }}>

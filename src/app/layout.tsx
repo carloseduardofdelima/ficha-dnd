@@ -1,8 +1,21 @@
 import type { Metadata } from 'next'
+import { Inter, Cinzel } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/Providers'
 import { Sidebar } from '@/components/Sidebar'
 import { auth } from '@/lib/auth'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-cinzel',
+})
 
 export const metadata: Metadata = {
   title: 'Ficha D&D | Crie e Compartilhe Personagens',
@@ -14,12 +27,10 @@ export const metadata: Metadata = {
   },
 }
 
-
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -40,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
       </head>
-      <body style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }} suppressHydrationWarning>
+      <body className={inter.className} style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }} suppressHydrationWarning>
         <Providers session={session}>
           <Sidebar />
           <main className="main-content" style={{ minHeight: '100vh' }}>

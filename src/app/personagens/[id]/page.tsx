@@ -535,7 +535,7 @@ export default function CharacterDetailPage() {
 
     // Check if item already exists
     const existingIdx = (character.inventory as any[]).findIndex(e => e.item.name === item.name);
-    let newInventory = [...(character.inventory as any[])];
+    const newInventory = [...(character.inventory as any[])];
 
     if (existingIdx >= 0) {
       newInventory[existingIdx] = {
@@ -1977,7 +1977,7 @@ export default function CharacterDetailPage() {
                           const baseArmor = armors.length > 0 ? armors[0].item : null;
                           const shield = inv.find(e => e.item.category === 'armor' && e.item.armorType === 'shield' && e.isEquipped);
 
-                          let parts = [];
+                          const parts = [];
                           if (baseArmor) {
                             parts.push(`${baseArmor.name}: ${baseArmor.ac}`);
                             if (baseArmor.armorType === 'light') parts.push(`Des: ${dexMod >= 0 ? '+' : ''}${dexMod}`);
@@ -4096,7 +4096,7 @@ export default function CharacterDetailPage() {
               {levelUpStep === 0 && (
                 <div className="fade-up">
                   <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>Versão das Regras</h3>
-                  <p style={{ fontSize: 13, color: 'var(--fg3)', textAlign: 'center', marginBottom: 24 }}>Escolha qual versão do Player's Handbook seguir para este personagem.</p>
+                  <p style={{ fontSize: 13, color: 'var(--fg3)', textAlign: 'center', marginBottom: 24 }}>Escolha qual versão do Player&apos;s Handbook seguir para este personagem.</p>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
                     <button
@@ -5460,7 +5460,7 @@ export default function CharacterDetailPage() {
                 if (filtered.length === 0) {
                   return (
                     <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--fg3)', fontSize: 14 }}>
-                      Nenhum talento encontrado para "{featSearchTerm}".
+                      Nenhum talento encontrado para &ldquo;{featSearchTerm}&rdquo;.
                     </div>
                   );
                 }

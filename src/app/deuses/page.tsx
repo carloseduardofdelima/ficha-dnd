@@ -170,7 +170,7 @@ export default function GodsPage() {
                   borderTop: '1px solid var(--border)',
                   paddingTop: 16
                 }}>
-                  "{god.description}"
+                  &ldquo;{god.description}&rdquo;
                 </p>
               </div>
             </div>

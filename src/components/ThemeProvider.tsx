@@ -11,26 +11,26 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('default')
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme') as Theme
+      if (saved) return saved
+    }
+    return 'default'
+  })
 
   useEffect(() => {
-    // Load theme from localStorage on client side mount
-    const savedTheme = localStorage.getItem('theme') as Theme
-    console.log('ThemeProvider: loaded theme from localStorage:', savedTheme)
-    if (savedTheme) {
-      setThemeState(savedTheme)
-      if (savedTheme === 'default') {
-        document.documentElement.removeAttribute('data-theme')
-        document.body.removeAttribute('data-theme')
-      } else {
-        document.documentElement.setAttribute('data-theme', savedTheme)
-        document.body.setAttribute('data-theme', savedTheme)
-      }
+    const savedTheme = (localStorage.getItem('theme') as Theme) || 'default'
+    if (savedTheme === 'default') {
+      document.documentElement.removeAttribute('data-theme')
+      document.body.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', savedTheme)
+      document.body.setAttribute('data-theme', savedTheme)
     }
   }, [])
 
   const setTheme = (newTheme: Theme) => {
-    console.log('ThemeProvider: setting new theme:', newTheme)
     setThemeState(newTheme)
     localStorage.setItem('theme', newTheme)
     if (newTheme === 'default') {

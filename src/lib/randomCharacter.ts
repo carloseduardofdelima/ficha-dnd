@@ -154,7 +154,7 @@ export function generateRandomCharacter(ruleset: '2014' | '2024' | '5e-custom') 
   // Helper to select skills randomly from options
   const selectRandomSkills = (count: number, options?: string[]) => {
     let chosen = 0
-    let candidates = options 
+    const candidates = options 
       ? options.map(o => SKILL_PT_TO_KEY[o] || o).filter(k => !skills[k])
       : Object.values(SKILL_PT_TO_KEY).filter(k => !skills[k])
 

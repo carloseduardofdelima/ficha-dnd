@@ -93,7 +93,7 @@ async function fixResources() {
   const characters = await prisma.character.findMany()
 
   for (const char of characters) {
-    let resources = typeof char.resources === 'string' 
+    const resources = typeof char.resources === 'string' 
       ? JSON.parse(char.resources) 
       : (char.resources || {})
     

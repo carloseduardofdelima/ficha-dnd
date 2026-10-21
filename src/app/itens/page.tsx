@@ -44,7 +44,11 @@ import {
   Scale, 
   Flame, 
   RotateCcw,
-  BookOpen
+  BookOpen,
+  Filter,
+  ChevronDown,
+  ChevronUp,
+  X
 } from 'lucide-react'
 
 // Custom SVG D20 Icon Component
@@ -83,6 +87,7 @@ export default function ItemsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [showAttunementOnly, setShowAttunementOnly] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [rolledItem, setRolledItem] = useState<any | null>(null)
   const [isRolling, setIsRolling] = useState(false)
   const [showRollModal, setShowRollModal] = useState(false)
@@ -173,6 +178,9 @@ export default function ItemsPage() {
       return matchesSearch && matchesCategory && matchesAttunement
     })
   }, [searchTerm, selectedCategory, showAttunementOnly])
+
+  const activeFilterCount = (selectedCategory ? 1 : 0) + (showAttunementOnly ? 1 : 0)
+  const hasActiveFilters = Boolean(searchTerm || selectedCategory || showAttunementOnly)
 
   return (
     <div className="fade-in">
@@ -444,9 +452,215 @@ export default function ItemsPage() {
           background: rgba(255, 255, 255, 0.04);
         }
 
+        .items-header {
+          margin-bottom: 40px;
+          text-align: center;
+        }
+
+        .items-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 8px 16px;
+          background: rgba(225, 29, 72, 0.1);
+          border-radius: 100px;
+          color: var(--accentL);
+          margin-bottom: 16px;
+          font-size: 14px;
+          font-weight: 600;
+          border: 1px solid rgba(225, 29, 72, 0.2);
+        }
+
+        .items-title {
+          font-family: 'Cinzel, serif';
+          font-size: 2.5rem;
+          margin: 0 0 12px;
+          background: linear-gradient(to right, #fff, var(--fgM));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .items-subtitle {
+          color: var(--fg2);
+          font-size: 16px;
+          max-width: 600px;
+          margin: 0 auto;
+          line-height: 1.6;
+        }
+
+        .search-row {
+          display: flex;
+          gap: 10px;
+          width: 100%;
+          align-items: center;
+        }
+
+        .search-clear-btn {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: var(--fg3);
+          cursor: pointer;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          transition: color 0.2s;
+          z-index: 2;
+        }
+
+        .search-clear-btn:hover {
+          color: var(--fg);
+        }
+
+        .mobile-actions-row {
+          display: none;
+        }
+
+        .mobile-filter-btn {
+          display: none;
+          align-items: center;
+          gap: 6px;
+          height: 46px;
+          flex-shrink: 0;
+          padding: 0 14px;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        .filter-badge-count {
+          background: var(--accent);
+          color: #fff;
+          border-radius: 99px;
+          font-size: 11px;
+          padding: 1px 6px;
+          font-weight: 700;
+          margin-left: 2px;
+        }
+
+        .collapsible-filters {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+        }
+
+        .filters-bottom-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          width: 100%;
+        }
+
+        .random-item-btn {
+          background: var(--accent);
+          color: #fff;
+          border-color: var(--accent2);
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-weight: 700;
+          box-shadow: 0 4px 12px var(--accentGlow);
+          transition: all 0.2s;
+        }
+
+        .desktop-random-btn {
+          margin-left: auto;
+          display: inline-flex;
+        }
+
+        .mobile-clear-btn {
+          display: none;
+        }
+
         @media (max-width: 640px) {
+          .items-header {
+            margin-bottom: 18px !important;
+          }
+          .items-badge {
+            padding: 4px 12px !important;
+            font-size: 12px !important;
+            margin-bottom: 8px !important;
+            gap: 8px !important;
+          }
+          .items-title {
+            font-size: 1.55rem !important;
+            margin: 0 0 8px !important;
+            line-height: 1.25 !important;
+          }
+          .items-subtitle {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            padding: 0 8px;
+          }
           .filters-container {
-            padding: 16px;
+            padding: 12px;
+            gap: 10px;
+            margin-bottom: 20px;
+          }
+          .search-input {
+            padding: 11px 36px 11px 40px;
+            font-size: 14px;
+          }
+          .search-icon {
+            left: 14px;
+          }
+          .mobile-actions-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            align-items: center;
+          }
+          .mobile-random-btn {
+            flex: 1;
+            justify-content: center;
+            height: 42px;
+            font-size: 13px;
+            padding: 0 12px;
+            margin-left: 0 !important;
+            white-space: nowrap;
+          }
+          .mobile-filter-btn {
+            display: inline-flex;
+            height: 42px;
+            padding: 0 12px;
+            flex-shrink: 0;
+          }
+          .desktop-random-btn {
+            display: none !important;
+          }
+          .collapsible-filters {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            animation: fadeIn 0.2s ease-out;
+          }
+          .collapsible-filters.open {
+            display: flex;
+          }
+          .filters-bottom-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+          }
+          .mobile-clear-btn {
+            display: inline-flex;
+            width: 100%;
+            justify-content: center;
+            height: 38px;
+          }
+          .hide-on-mobile {
+            display: none !important;
           }
           .items-grid {
             grid-template-columns: 1fr;
@@ -456,41 +670,22 @@ export default function ItemsPage() {
 
       <main style={{ padding: '20px 0' }}>
         {/* Header */}
-        <header style={{ marginBottom: 40, textAlign: 'center' }}>
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: 12, 
-            padding: '8px 16px', 
-            background: 'rgba(225, 29, 72, 0.1)', 
-            borderRadius: 100,
-            color: 'var(--accentL)',
-            marginBottom: 16,
-            fontSize: 14,
-            fontWeight: 600,
-            border: '1px solid rgba(225, 29, 72, 0.2)'
-          }}>
-            <Sword size={16} />
+        <header className="items-header">
+          <div className="items-badge">
+            <Sword size={14} />
             D&D 5ª Edição
           </div>
-          <h1 style={{ 
-            fontFamily: 'Cinzel, serif', 
-            fontSize: '2.5rem', 
-            margin: '0 0 12px', 
-            background: 'linear-gradient(to right, #fff, var(--fgM))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
+          <h1 className="items-title">
             Compêndio de Itens
           </h1>
-          <p style={{ color: 'var(--fg2)', fontSize: 16, maxWidth: 600, margin: '0 auto', lineHeight: 1.6 }}>
+          <p className="items-subtitle">
             Consulte equipamentos, armas, armaduras, ferramentas e itens mágicos para equipar seus personagens na campanha.
           </p>
         </header>
 
         {/* Filters */}
         <div className="filters-container">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, width: '100%' }}>
+          <div className="search-row">
             <div className="search-wrapper">
               <Search 
                 size={18} 
@@ -511,12 +706,22 @@ export default function ItemsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm('')}
+                  className="search-clear-btn"
+                  aria-label="Limpar pesquisa"
+                >
+                  <X size={16} />
+                </button>
+              )}
             </div>
-            
-            {/* Clear button */}
-            {(searchTerm || selectedCategory || showAttunementOnly) && (
+
+            {/* Desktop Clear button */}
+            {hasActiveFilters && (
               <button 
-                className="cat-btn"
+                className="cat-btn hide-on-mobile"
                 onClick={handleClearFilters}
                 style={{ height: 46 }}
               >
@@ -526,71 +731,103 @@ export default function ItemsPage() {
             )}
           </div>
 
-          {/* Category buttons */}
-          <div className="category-buttons">
+          {/* Mobile Actions Row: Random item button stays ALWAYS visible on mobile, outside collapsible filters */}
+          <div className="mobile-actions-row">
             <button 
-              className={`cat-btn ${selectedCategory === null ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(null)}
-            >
-              Todos os Tipos
-            </button>
-            {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
-              <button
-                key={key}
-                className={`cat-btn ${selectedCategory === key ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(key)}
-              >
-                {config.icon}
-                {config.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Attunement Filter */}
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <label className="attunement-toggle">
-              <input 
-                type="checkbox"
-                className="attunement-checkbox"
-                style={{ display: 'none' }}
-                checked={showAttunementOnly}
-                onChange={(e) => setShowAttunementOnly(e.target.checked)}
-              />
-              <div className="custom-checkbox">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </div>
-              <span>Apenas Itens que Requerem Sintonia</span>
-            </label>
-
-            {/* Random Item Generator Button */}
-            <button 
-              className="cat-btn"
+              type="button"
+              className="cat-btn random-item-btn mobile-random-btn"
               onClick={() => {
-                // Pre-set the pool category filter to current selected category if one is active
                 setRollCategoryFilter(selectedCategory || 'all')
                 setRolledItem(null)
                 setShowRollModal(true)
-              }}
-              style={{
-                marginLeft: 'auto',
-                background: 'var(--accent)',
-                color: '#fff',
-                borderColor: 'var(--accent2)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontWeight: '700',
-                boxShadow: '0 4px 12px var(--accentGlow)',
-                transition: 'all 0.2s'
               }}
             >
               <Flame size={16} className={isRolling ? 'animate-pulse' : ''} />
               Gerar Item Aleatório
             </button>
+
+            <button
+              type="button"
+              className={`cat-btn mobile-filter-btn ${activeFilterCount > 0 ? 'active' : ''}`}
+              onClick={() => setMobileFiltersOpen((prev) => !prev)}
+              aria-label="Abrir ou fechar filtros"
+            >
+              <Filter size={15} />
+              <span>Filtros</span>
+              {activeFilterCount > 0 && (
+                <span className="filter-badge-count">
+                  {activeFilterCount}
+                </span>
+              )}
+              {mobileFiltersOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+          </div>
+
+          {/* Collapsible Filters on mobile, always visible on desktop */}
+          <div className={`collapsible-filters ${mobileFiltersOpen ? 'open' : ''}`}>
+            {/* Category buttons */}
+            <div className="category-buttons">
+              <button 
+                className={`cat-btn ${selectedCategory === null ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(null)}
+              >
+                Todos os Tipos
+              </button>
+              {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
+                <button
+                  key={key}
+                  className={`cat-btn ${selectedCategory === key ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(key)}
+                >
+                  {config.icon}
+                  {config.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Attunement Filter & Actions */}
+            <div className="filters-bottom-row">
+              <label className="attunement-toggle">
+                <input 
+                  type="checkbox"
+                  className="attunement-checkbox"
+                  style={{ display: 'none' }}
+                  checked={showAttunementOnly}
+                  onChange={(e) => setShowAttunementOnly(e.target.checked)}
+                />
+                <div className="custom-checkbox">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span>Apenas Itens que Requerem Sintonia</span>
+              </label>
+
+              {/* Mobile Clear Button */}
+              {hasActiveFilters && (
+                <button 
+                  className="cat-btn mobile-clear-btn"
+                  onClick={handleClearFilters}
+                >
+                  <RotateCcw size={14} />
+                  Limpar Todos os Filtros
+                </button>
+              )}
+
+              {/* Desktop Random Item Generator Button */}
+              <button 
+                type="button"
+                className="cat-btn random-item-btn desktop-random-btn"
+                onClick={() => {
+                  setRollCategoryFilter(selectedCategory || 'all')
+                  setRolledItem(null)
+                  setShowRollModal(true)
+                }}
+              >
+                <Flame size={16} className={isRolling ? 'animate-pulse' : ''} />
+                Gerar Item Aleatório
+              </button>
+            </div>
           </div>
         </div>
 

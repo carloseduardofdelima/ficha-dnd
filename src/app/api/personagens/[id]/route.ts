@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { isUserAdmin } from '@/lib/admin'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -15,8 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   
   // Privacy check: Must be owner OR the character must be public OR be admin
-  const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com']
-  const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '')
+  const isAdmin = isUserAdmin(session?.user?.email)
   const isOwner = session?.user?.id === character.userId
   
   if (!character.isPublic && !isOwner && !isAdmin) {
@@ -64,8 +64,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const body = await req.json()
 
   const existing = await prisma.character.findUnique({ where: { id } })
-  const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com']
-  const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '')
+  const isAdmin = isUserAdmin(session?.user?.email)
   if (!existing || (existing.userId !== session?.user?.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -124,8 +123,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
   const { id } = await params
   const existing = await prisma.character.findUnique({ where: { id } })
-  const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com']
-  const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '')
+  const isAdmin = isUserAdmin(session?.user?.email)
   if (!existing || (existing.userId !== session?.user?.id && !isAdmin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }

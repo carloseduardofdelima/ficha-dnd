@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { nanoid } from 'nanoid'
+import { isUserAdmin } from '@/lib/admin'
 
 export async function GET() {
   const session = await auth()
@@ -24,8 +25,7 @@ export async function GET() {
   // Fetch characters
   let allCharacters;
   
-  const ADMIN_EMAILS = ['carloseduardoff12@gmail.com', 'hellendagnysouza@gmail.com'];
-  const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? '');
+  const isAdmin = isUserAdmin(session?.user?.email);
 
   if (isAdmin) {
     // Admin sees everything

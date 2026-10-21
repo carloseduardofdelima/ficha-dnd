@@ -176,7 +176,7 @@ export default function CombatTab({ campaignId, campaign, onUpdate, isOwner }: C
   const handleAddParticipant = async (entity: any, type: 'player' | 'threat' | 'npc') => {
     if (!activeCombat) return
 
-    let participantData: any = {
+    const participantData: any = {
       entityType: type,
       entityId: entity.id,
       name: entity.name || entity.character?.name || 'Desconhecido',
