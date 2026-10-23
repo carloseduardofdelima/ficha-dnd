@@ -90,3 +90,28 @@ export async function compressCover(
     img.onerror = (err) => reject(err);
   });
 }
+
+/**
+ * Uploads an image to Supabase Storage via /api/upload.
+ * Falls back gracefully to base64 on network errors.
+ */
+export async function uploadImageToStorage(
+  base64: string,
+  folder: 'avatars' | 'campaign_covers' | 'maps' | 'npcs' | 'threats' = 'avatars'
+): Promise<string> {
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base64, folder }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      if (data.url) return data.url
+    }
+  } catch (err) {
+    console.error('Failed to upload image to storage, falling back to base64', err)
+  }
+  return base64
+}
+

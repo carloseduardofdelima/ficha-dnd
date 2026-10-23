@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { isUserAdmin } from '@/lib/admin'
+import { uploadBase64ToStorage } from '@/lib/supabase'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -62,6 +63,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const { id } = await params
   const body = await req.json()
+  const avatarUrl = body.avatarUrl !== undefined 
+    ? await uploadBase64ToStorage(body.avatarUrl, 'avatars', session.user.id)
+    : undefined
 
   const existing = await prisma.character.findUnique({ where: { id } })
   const isAdmin = isUserAdmin(session?.user?.email)
@@ -79,7 +83,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       subclass: body.subclass,
       level: body.level,
       background: body.background,
-      avatarUrl: body.avatarUrl,
+      avatarUrl: avatarUrl !== undefined ? avatarUrl : existing.avatarUrl,
       playerName: body.playerName,
       strength: body.strength,
       dexterity: body.dexterity,

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useRef } from 'react'
 import { User, Camera, ScrollText, Palette, CheckCircle2, AlertCircle, Save, Loader2 } from 'lucide-react'
-import { compressImage } from '@/lib/image'
+import { compressImage, uploadImageToStorage } from '@/lib/image'
 
 interface FinalStepProps {
   form: {
@@ -57,7 +57,8 @@ export default function FinalStep({
       const base64 = reader.result as string
       try {
         const compressed = await compressImage(base64)
-        onFormChange({ ...form, avatarUrl: compressed })
+        const finalUrl = await uploadImageToStorage(compressed, 'avatars')
+        onFormChange({ ...form, avatarUrl: finalUrl })
       } catch (err) {
         console.error('Compression failed', err)
         alert('Erro ao processar imagem. Verifique se o arquivo não está corrompido.')

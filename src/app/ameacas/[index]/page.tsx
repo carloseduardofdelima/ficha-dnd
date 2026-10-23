@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft, Sword, Shield, Heart, Zap, Brain, Eye, MessageSquare, Award, Flame, Wind, Droplets, Target, Loader2, Trash2, Edit, X, Plus, Skull } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { compressImage, uploadImageToStorage } from '@/lib/image'
 
 interface PageProps {
   params: Promise<{ index: string }>
@@ -546,13 +547,14 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                           const reader = new FileReader()
                           reader.onloadend = async () => {
                             if (typeof reader.result === 'string') {
-                              const base64 = reader.result
-                              setMonster({ ...monster, imageUrl: base64 })
                               try {
+                                const compressed = await compressImage(reader.result)
+                                const finalUrl = await uploadImageToStorage(compressed, 'threats')
+                                setMonster({ ...monster, imageUrl: finalUrl })
                                 await fetch(`/api/ameacas/${index}`, {
                                   method: 'PATCH',
                                   headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({ imageUrl: base64 })
+                                  body: JSON.stringify({ imageUrl: finalUrl })
                                 })
                               } catch (err) {
                                 console.error(err)
@@ -723,9 +725,16 @@ export default function MonsterDetailsPage({ params }: PageProps) {
                           const file = e.target.files?.[0]
                           if (file) {
                             const reader = new FileReader()
-                            reader.onloadend = () => {
+                            reader.onloadend = async () => {
                               if (typeof reader.result === 'string') {
-                                setThreatForm({ ...threatForm, imageUrl: reader.result })
+                                try {
+                                  const compressed = await compressImage(reader.result)
+                                  const finalUrl = await uploadImageToStorage(compressed, 'threats')
+                                  setThreatForm({ ...threatForm, imageUrl: finalUrl })
+                                } catch (err) {
+                                  console.error(err)
+                                  setThreatForm({ ...threatForm, imageUrl: reader.result as string })
+                                }
                               }
                             }
                             reader.readAsDataURL(file)

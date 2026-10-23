@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Shield, Search, Loader2, ArrowRight, Skull, Plus, X, Trash2 } from 'lucide-react'
 import { MonsterSummary, MonsterListResponse } from '@/types/monster'
+import { compressImage, uploadImageToStorage } from '@/lib/image'
 
 export default function AmeacasPage() {
   const [monsters, setMonsters] = useState<MonsterSummary[]>([])
@@ -10,6 +11,7 @@ export default function AmeacasPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [showThreatModal, setShowThreatModal] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
   const [threatForm, setThreatForm] = useState({
     name: '',
     description: '',
@@ -409,22 +411,38 @@ export default function AmeacasPage() {
                       flex: 1,
                       textAlign: 'center'
                     }}>
-                      <span>Selecionar Imagem...</span>
+                      <span>{uploadingImage ? 'Enviando imagem...' : 'Selecionar Imagem...'}</span>
                       <span style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 2 }}>PNG, JPG ou GIF</span>
                       <input
                         type="file"
                         accept="image/*"
                         style={{ display: 'none' }}
-                        onChange={e => {
+                        disabled={uploadingImage}
+                        onChange={async e => {
                           const file = e.target.files?.[0]
-                          if (file) {
+                          if (!file) return
+
+                          setUploadingImage(true)
+                          try {
                             const reader = new FileReader()
-                            reader.onloadend = () => {
+                            reader.onloadend = async () => {
                               if (typeof reader.result === 'string') {
-                                setThreatForm({ ...threatForm, imageUrl: reader.result })
+                                try {
+                                  const compressed = await compressImage(reader.result)
+                                  const finalUrl = await uploadImageToStorage(compressed, 'threats')
+                                  setThreatForm(prev => ({ ...prev, imageUrl: finalUrl }))
+                                } catch (err) {
+                                  console.error(err)
+                                  setThreatForm(prev => ({ ...prev, imageUrl: reader.result as string }))
+                                } finally {
+                                  setUploadingImage(false)
+                                }
                               }
                             }
                             reader.readAsDataURL(file)
+                          } catch (err) {
+                            console.error(err)
+                            setUploadingImage(false)
                           }
                         }}
                       />

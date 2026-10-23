@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Calendar, Users, Target, MoreVertical, Edit2, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react'
 import { useState, useRef } from 'react'
-import { compressCover } from '@/lib/image'
+import { compressCover, uploadImageToStorage } from '@/lib/image'
 
 interface CampaignCardProps {
   campaign: {
@@ -59,11 +59,12 @@ export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps
       reader.onload = async () => {
         const base64 = reader.result as string
         const compressed = await compressCover(base64)
+        const finalUrl = await uploadImageToStorage(compressed, 'campaign_covers')
         
         const res = await fetch(`/api/campanhas/${campaign.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ coverUrl: compressed })
+          body: JSON.stringify({ coverUrl: finalUrl })
         })
 
         if (res.ok) {

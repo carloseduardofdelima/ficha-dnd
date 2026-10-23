@@ -6,7 +6,7 @@ import {
   Heart, ShieldAlert, Zap, Book, Tag, Eye, EyeOff,
   Upload, Loader2
 } from 'lucide-react'
-import { compressImage } from '@/lib/image'
+import { compressImage, uploadImageToStorage } from '@/lib/image'
 
 interface NpcTabProps {
   campaign: any
@@ -122,7 +122,8 @@ export default function NpcTab({ campaign, onUpdate, isOwner }: NpcTabProps) {
       try {
         const base64 = event.target?.result as string
         const compressed = await compressImage(base64)
-        setFormData(prev => ({ ...prev, avatarUrl: compressed }))
+        const finalUrl = await uploadImageToStorage(compressed, 'npcs')
+        setFormData(prev => ({ ...prev, avatarUrl: finalUrl }))
       } catch (error) {
         console.error('Error uploading image:', error)
         alert('Erro ao processar imagem.')

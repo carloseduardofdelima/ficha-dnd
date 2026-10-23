@@ -13,7 +13,7 @@ import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { SPELLS, ALL_SPELLS, getSpellSlots, SPELLS_2014 } from '@/lib/spells'
 import { ITEM_CATALOG } from '@/lib/inventory'
 import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014'
-import { compressImage } from '@/lib/image'
+import { compressImage, uploadImageToStorage } from '@/lib/image'
 import CharacterPDF from '@/components/CharacterPDF'
 import { BeastForm } from '@/lib/beast-forms'
 import { SUBCLASS_EXCLUDED_FEATURES_2014 } from '../utils/subclass-spells'
@@ -1092,7 +1092,8 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
         try {
           const base64 = event.target?.result as string
           const compressed = await compressImage(base64)
-          const updated = { ...character, avatarUrl: compressed }
+          const finalUrl = await uploadImageToStorage(compressed, 'avatars')
+          const updated = { ...character, avatarUrl: finalUrl }
           await saveCharacterToDB(updated)
           setCharacter(updated)
           setUploadSuccess(true)

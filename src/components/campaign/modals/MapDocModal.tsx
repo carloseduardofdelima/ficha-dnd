@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { X, Upload, Loader2 } from 'lucide-react'
-import { compressCover } from '@/lib/image'
+import { compressCover, uploadImageToStorage } from '@/lib/image'
 import { useCampaign } from '../context/CampaignContext'
 
 export default function MapDocModal() {
@@ -83,7 +83,8 @@ export default function MapDocModal() {
                       try {
                         const base64 = event.target?.result as string
                         const compressed = await compressCover(base64, 1600, 1200, 0.85)
-                        setNewNote((prev: any) => ({ ...prev, imageUrl: compressed }))
+                        const finalUrl = await uploadImageToStorage(compressed, 'maps')
+                        setNewNote((prev: any) => ({ ...prev, imageUrl: finalUrl }))
                       } catch (error) {
                         console.error('Error compressing map/document:', error)
                         alert('Erro ao carregar imagem.')

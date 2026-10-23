@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { nanoid } from 'nanoid'
 import { isUserAdmin } from '@/lib/admin'
+import { uploadBase64ToStorage } from '@/lib/supabase'
 
 export async function GET() {
   const session = await auth()
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
+  const avatarUrl = await uploadBase64ToStorage(body.avatarUrl, 'avatars', session.user.id)
 
   const character = await prisma.character.create({
     data: {
@@ -102,7 +104,7 @@ export async function POST(req: NextRequest) {
       bonds: body.bonds,
       flaws: body.flaws,
       playerName: body.playerName,
-      avatarUrl: body.avatarUrl,
+      avatarUrl,
       isPublic: body.isPublic || false,
       notes: body.notes,
       spellSlots: body.spellSlots,
