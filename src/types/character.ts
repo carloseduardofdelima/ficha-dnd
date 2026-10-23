@@ -90,7 +90,7 @@ export interface Character {
   defenses?: Defense[] | string | null
   skills?: Record<string, boolean> | string | null
   inventory?: any[] | string | null
-  spells?: any[] | string | null
+  spells?: string[] | string | null
   traits?: Record<string, any> | string | null
   appearance?: string | null
   backstory?: string | null

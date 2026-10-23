@@ -8,9 +8,9 @@ import { getSpellsForClass, getSpellSlots } from './spells'
 import CLASS_LEVEL1_DATA from './class-features'
 import { CLASS_LEVEL1_DATA_2014 } from './class-features-2014'
 import type { Attrs, ASI } from '@/components/AttributesStep'
-import { getStartingInventory, type InventoryEntry } from './inventory'
+import { getStartingInventory } from './inventory'
 
-const NAMES = [
+const _NAMES = [
   'Aethelgard', 'Galdor', 'Valerius', 'Kaelen', 'Thorgar', 'Elysia', 'Lyra', 'Morrigan', 'Zephyr', 'Rowan',
   'Orion', 'Sariel', 'Gideon', 'Thalia', 'Balthazar', 'Seraphina', 'Ignis', 'Vesper', 'Dante', 'Beatrix',
   'Kaelith', 'Sylas', 'Finnian', 'Maeve', 'Garrick', 'Freya', 'Cassian', 'Aurelia', 'Doran', 'Isolde',

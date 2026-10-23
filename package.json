@@ -36,6 +36,7 @@
   },
   "overrides": {
     "deepmerge-ts": "^8.0.2",
-    "esbuild": "^0.28.2"
+    "esbuild": "^0.28.2",
+    "braces": "^3.0.3"
   }
 }

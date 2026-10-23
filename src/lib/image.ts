@@ -4,7 +4,7 @@
 export async function compressImage(
   base64: string,
   maxWidth = 400,
-  maxHeight = 400,
+  _maxHeight = 400,
   quality = 0.8
 ): Promise<string> {
   return new Promise((resolve, reject) => {
