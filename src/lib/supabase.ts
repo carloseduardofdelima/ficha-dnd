@@ -2,8 +2,13 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lpgeyojvwcelberuunee.supabase.co'
-const supabaseKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const rawSupabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+export const isSupabaseConfigured = Boolean(rawSupabaseKey)
+
+// Fallback to a placeholder key during Next.js build-time module evaluation so createClient does not throw
+const supabaseKey = rawSupabaseKey || 'dummy-key-for-build'
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
@@ -17,6 +22,11 @@ export async function uploadBase64ToStorage(
   userId = 'system'
 ): Promise<string | null | undefined> {
   if (!base64OrUrl || !base64OrUrl.startsWith('data:image')) {
+    return base64OrUrl
+  }
+
+  if (!isSupabaseConfigured) {
+    console.warn('Supabase credentials not configured. Skipping storage upload.')
     return base64OrUrl
   }
 

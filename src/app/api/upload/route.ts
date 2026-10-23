@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import { nanoid } from 'nanoid'
 
 export async function POST(req: NextRequest) {
   const session = await auth()
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  if (!isSupabaseConfigured) {
+    return NextResponse.json(
+      { error: 'Configuração do Supabase Storage ausente no servidor' },
+      { status: 503 }
+    )
   }
 
   try {
