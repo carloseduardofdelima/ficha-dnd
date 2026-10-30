@@ -6,6 +6,15 @@ import { FEATS_2014 } from '@/lib/feats-2014'
 import { FEATS_2024 } from '@/lib/dnd-feats-2024'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
+const getCategoryLabel = (category?: string) => {
+  switch (category) {
+    case 'General': return 'Geral'
+    case 'Fighting Style': return 'Estilo de Luta'
+    case 'Epic Boon': return 'Bênção Épica'
+    default: return category
+  }
+}
+
 export default function FeatsModal() {
   const {
     isFeatModalOpen,
@@ -25,7 +34,7 @@ export default function FeatsModal() {
 
   const filtered = catalog.filter(f => {
     const term = featSearchTerm.toLowerCase()
-    const nameMatch = f.name.toLowerCase().includes(term)
+    const nameMatch = f.name.toLowerCase().includes(term) || (('englishName' in f) && (f as any).englishName?.toLowerCase().includes(term))
     
     const descText = is2014 
       ? ((f as any).benefits || []).join(' ') 
@@ -124,7 +133,12 @@ export default function FeatsModal() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--fg)' }}>{feat.name}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                        <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--fg)' }}>{feat.name}</div>
+                        {feat.englishName && (
+                          <span style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>({feat.englishName})</span>
+                        )}
+                      </div>
                       {feat.requirement && (
                         <div style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 600, marginTop: 2 }}>
                           Pré-requisito: {feat.requirement}
@@ -133,11 +147,11 @@ export default function FeatsModal() {
                       <div style={{ marginTop: 4 }}>
                         {feat.category && (
                           <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--fg3)', fontWeight: 800, textTransform: 'uppercase', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: 4 }}>
-                            {feat.category}
+                            {getCategoryLabel(feat.category)}
                           </span>
                         )}
                         <span style={{ display: 'inline-block', fontSize: 9, color: 'var(--accentL)', fontWeight: 800, textTransform: 'uppercase', background: 'var(--accentGlow)', padding: '2px 6px', borderRadius: 4, marginLeft: feat.category ? 6 : 0 }}>
-                          {feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)')}
+                          {feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')}
                         </span>
                       </div>
                     </div>
@@ -147,7 +161,7 @@ export default function FeatsModal() {
                       style={{ height: 32, padding: '0 12px', fontSize: 12, flexShrink: 0 }}
                       disabled={isAlreadyAdded}
                       onClick={() => {
-                        const featSource = feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Player\'s Handbook (2024)')
+                        const featSource = feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')
                         handleAddFeat({ name: feat.name, description: descText, source: featSource })
                       }}
                     >

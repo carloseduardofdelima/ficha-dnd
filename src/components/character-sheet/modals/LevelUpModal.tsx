@@ -12,7 +12,26 @@ import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
 import { getSpellSlots } from '@/lib/spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
+const ATTRIBUTE_LABELS: Record<string, string> = {
+  strength: 'FORÇA',
+  dexterity: 'DESTREZA',
+  constitution: 'CONSTITUIÇÃO',
+  intelligence: 'INTELIGÊNCIA',
+  wisdom: 'SABEDORIA',
+  charisma: 'CARISMA',
+}
+
+const getCategoryLabel = (category: string) => {
+  switch (category) {
+    case 'General': return 'Geral'
+    case 'Fighting Style': return 'Estilo de Luta'
+    case 'Epic Boon': return 'Bênção Épica'
+    default: return category
+  }
+}
+
 export default function LevelUpModal() {
+  const [featSearch, setFeatSearch] = React.useState('')
   const {
     isLevelUpModalOpen,
     setIsLevelUpModalOpen,
@@ -490,13 +509,32 @@ export default function LevelUpModal() {
                 <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, textAlign: 'center', color: 'var(--accentL)' }}>
                   {character.level === 19 ? 'Bênção Épica' : 'Melhoria de Atributo ou Talento'}
                 </h3>
-                <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 20 }}>
+                <p style={{ fontSize: 12, color: 'var(--fg3)', textAlign: 'center', marginBottom: 16 }}>
                   Você atingiu o nível {character.level}! Escolha como seu personagem evoluiu.
                 </p>
 
-                <div style={{ maxHeight: 350, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+                <div style={{ marginBottom: 12 }}>
+                  <input
+                    type="text"
+                    className="card"
+                    style={{ width: '100%', padding: '10px 14px', background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--fg)', fontSize: 13, borderRadius: 8 }}
+                    placeholder="Buscar talento por nome ou descrição..."
+                    value={featSearch}
+                    onChange={e => setFeatSearch(e.target.value)}
+                  />
+                </div>
+
+                <div style={{ maxHeight: 330, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                   {(() => {
-                    const available = FEATS_2024.filter(f => character.level >= f.minLevel)
+                    const term = featSearch.trim().toLowerCase()
+                    const available = FEATS_2024.filter(f => character.level >= f.minLevel).filter(f => {
+                      if (!term) return true
+                      return (
+                        f.name.toLowerCase().includes(term) ||
+                        (f.englishName && f.englishName.toLowerCase().includes(term)) ||
+                        f.description.toLowerCase().includes(term)
+                      )
+                    })
                     const sorted = [...available].sort((a, b) => {
                       if (character.level === 19) {
                         if (a.category === 'Epic Boon' && b.category !== 'Epic Boon') return -1
@@ -504,6 +542,14 @@ export default function LevelUpModal() {
                       }
                       return a.name.localeCompare(b.name)
                     })
+
+                    if (sorted.length === 0) {
+                      return (
+                        <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--fg3)', fontSize: 13 }}>
+                          Nenhum talento encontrado para &ldquo;{featSearch}&rdquo;.
+                        </div>
+                      )
+                    }
 
                     return sorted.map(feat => (
                       <button
@@ -520,9 +566,16 @@ export default function LevelUpModal() {
                           textAlign: 'left', transition: 'all 0.2s'
                         }}
                       >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                          <span style={{ fontWeight: 800, color: selectedFeatId === feat.id ? 'var(--accentL)' : 'var(--fg1)' }}>{feat.name}</span>
-                          <span style={{ fontSize: 9, opacity: 0.6, textTransform: 'uppercase' }}>{feat.category}</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4, gap: 8 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                            <span style={{ fontWeight: 800, color: selectedFeatId === feat.id ? 'var(--accentL)' : 'var(--fg1)' }}>{feat.name}</span>
+                            {feat.englishName && (
+                              <span style={{ fontSize: 10, color: 'var(--fg3)', fontStyle: 'italic' }}>({feat.englishName})</span>
+                            )}
+                          </div>
+                          <span style={{ fontSize: 9, opacity: 0.7, textTransform: 'uppercase', background: 'rgba(255,255,255,0.06)', padding: '2px 6px', borderRadius: 4, whiteSpace: 'nowrap' }}>
+                            {getCategoryLabel(feat.category)}
+                          </span>
                         </div>
                         <p style={{ fontSize: 11, color: 'var(--fg3)', margin: 0 }}>{feat.description}</p>
                         {feat.requirement && <p style={{ fontSize: 10, color: 'var(--accent)', marginTop: 4, fontStyle: 'italic' }}>Req: {feat.requirement}</p>}
@@ -544,7 +597,7 @@ export default function LevelUpModal() {
                             onChange={e => setFeatAttr1(e.target.value)}
                           >
                             <option value="">Selecione o 1º Atributo (+1)</option>
-                            {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{a.toUpperCase()}</option>)}
+                            {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{ATTRIBUTE_LABELS[a] || a.toUpperCase()}</option>)}
                           </select>
                           <select
                             className="input"
@@ -553,7 +606,7 @@ export default function LevelUpModal() {
                             onChange={e => setFeatAttr2(e.target.value)}
                           >
                             <option value="">Selecione o 2º Atributo (+1)</option>
-                            {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{a.toUpperCase()}</option>)}
+                            {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => <option key={a} value={a}>{ATTRIBUTE_LABELS[a] || a.toUpperCase()}</option>)}
                           </select>
                           <p style={{ fontSize: 10, color: 'var(--fg3)', textAlign: 'center', marginTop: 4 }}>Dica: Se escolher o mesmo duas vezes, ganha +2 nele.</p>
                         </div>
@@ -570,7 +623,7 @@ export default function LevelUpModal() {
                           >
                             <option value="">Selecione o Atributo</option>
                             {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => (
-                              <option key={a} value={a}>{a.toUpperCase()}</option>
+                              <option key={a} value={a}>{ATTRIBUTE_LABELS[a] || a.toUpperCase()}</option>
                             ))}
                           </select>
                         </div>

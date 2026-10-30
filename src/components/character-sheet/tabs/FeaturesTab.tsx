@@ -530,7 +530,7 @@ export default function FeaturesTab() {
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {feats.map((feat: any, i: number) => {
-                const featSource = feat.source || ((character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? 'Livro do Jogador (2014)' : "Player's Handbook (2024)")
+                const featSource = feat.source || ((character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')
                 return (
                   <div
                     key={i}
