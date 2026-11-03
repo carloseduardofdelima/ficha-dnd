@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { isUserAdmin } from '@/lib/admin'
 
 export async function POST(
   req: Request,
@@ -14,7 +15,26 @@ export async function POST(
   const { id } = await params
   const { characterId } = await req.json()
 
+  if (!characterId) {
+    return NextResponse.json({ error: 'Missing characterId' }, { status: 400 })
+  }
+
   try {
+    const campaign = await prisma.campaign.findUnique({
+      where: { id }
+    })
+
+    if (!campaign) {
+      return NextResponse.json({ error: 'Campanha não encontrada' }, { status: 404 })
+    }
+
+    const isOwner = campaign.userId === session.user.id
+    const isAdmin = isUserAdmin(session.user.email)
+
+    if (!isOwner && !isAdmin) {
+      return NextResponse.json({ error: 'Apenas o mestre pode vincular personagens' }, { status: 403 })
+    }
+
     const link = await prisma.characterCampaignLink.create({
       data: {
         campaignId: id,
@@ -46,12 +66,18 @@ export async function DELETE(
   }
 
   try {
-    // Check if user is campaign owner
     const campaign = await prisma.campaign.findUnique({
-      where: { id, userId: session.user.id }
+      where: { id }
     })
 
     if (!campaign) {
+      return NextResponse.json({ error: 'Campanha não encontrada' }, { status: 404 })
+    }
+
+    const isOwner = campaign.userId === session.user.id
+    const isAdmin = isUserAdmin(session.user.email)
+
+    if (!isOwner && !isAdmin) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

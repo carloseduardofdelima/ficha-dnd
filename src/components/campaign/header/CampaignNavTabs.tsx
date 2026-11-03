@@ -22,7 +22,6 @@ export default function CampaignNavTabs() {
   const tabs = ALL_TABS.filter(tab => {
     if (tab.id === 'sessoes' && campaign.type !== 'campaign') return false
     if (tab.id === 'ameacas' && !campaign.isOwner) return false
-    if (tab.id === 'combate' && !campaign.isOwner) return false
     return true
   })
 

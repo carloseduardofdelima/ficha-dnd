@@ -116,7 +116,7 @@ export function CampaignProvider({ children }: { children: React.ReactNode }) {
 
   async function fetchMyCharacters() {
     try {
-      const res = await fetch('/api/personagens')
+      const res = await fetch('/api/personagens?forCampaign=true')
       if (res.ok) {
         const data = await res.json()
         setMyCharacters(data)

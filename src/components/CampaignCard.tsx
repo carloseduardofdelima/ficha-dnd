@@ -105,7 +105,7 @@ export function CampaignCard({ campaign, onDelete, onUpdate }: CampaignCardProps
             </button>
             {menuOpen && (
               <div className="dropdown-menu">
-                <Link href={`/campanhas/${campaign.id}/editar`} className="dropdown-item">
+                <Link href={`/campanhas/${campaign.id}`} className="dropdown-item">
                   <Edit2 size={14} /> Editar
                 </Link>
                 <button 

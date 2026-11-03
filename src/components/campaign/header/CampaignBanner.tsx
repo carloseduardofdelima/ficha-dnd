@@ -10,6 +10,11 @@ export default function CampaignBanner() {
 
   if (!campaign) return null
 
+  const isStatusActive = campaign.status === 'ativo' || campaign.status === 'active'
+  const isStatusPaused = campaign.status === 'em pausa' || campaign.status === 'paused'
+  const statusColor = isStatusActive ? '#10b981' : isStatusPaused ? '#f59e0b' : '#3b82f6'
+  const statusLabel = isStatusActive ? 'ATIVO' : isStatusPaused ? 'EM PAUSA' : 'FINALIZADO'
+
   return (
     <div
       className="campaign-banner"
@@ -36,30 +41,16 @@ export default function CampaignBanner() {
             <span
               className="status-tag"
               style={{
-                color:
-                  campaign.status === 'active'
-                    ? '#10b981'
-                    : campaign.status === 'paused'
-                    ? '#f59e0b'
-                    : '#3b82f6',
+                color: statusColor,
               }}
             >
               <span
                 className="status-dot"
                 style={{
-                  backgroundColor:
-                    campaign.status === 'active'
-                      ? '#10b981'
-                      : campaign.status === 'paused'
-                      ? '#f59e0b'
-                      : '#3b82f6',
+                  backgroundColor: statusColor,
                 }}
               ></span>
-              {campaign.status === 'active'
-                ? 'ATIVO'
-                : campaign.status === 'paused'
-                ? 'PAUSADO'
-                : 'FINALIZADO'}
+              {statusLabel}
             </span>
           </div>
         </div>

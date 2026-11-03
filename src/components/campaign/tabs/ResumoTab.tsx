@@ -8,6 +8,26 @@ export default function ResumoTab() {
 
   if (!campaign) return null
 
+  const formatDateInput = (dateVal: any) => {
+    if (!dateVal) return ''
+    try {
+      const d = new Date(dateVal)
+      return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0]
+    } catch {
+      return ''
+    }
+  }
+
+  const formatDateDisplay = (dateVal: any) => {
+    if (!dateVal) return 'Não definido'
+    try {
+      const d = new Date(dateVal)
+      return isNaN(d.getTime()) ? 'Não definido' : d.toLocaleDateString('pt-BR')
+    } catch {
+      return 'Não definido'
+    }
+  }
+
   return (
     <div className="resumo-grid">
       <div className="resumo-main">
@@ -102,11 +122,7 @@ export default function ResumoTab() {
               <input
                 type="date"
                 className="sidebar-editable-input"
-                value={
-                  campaign.startDate
-                    ? new Date(campaign.startDate).toISOString().split('T')[0]
-                    : ''
-                }
+                value={formatDateInput(campaign.startDate)}
                 onChange={(e) => setCampaign({ ...campaign, startDate: e.target.value })}
                 onBlur={() =>
                   fetch(`/api/campanhas/${id}`, {
@@ -117,11 +133,7 @@ export default function ResumoTab() {
                 }
               />
             ) : (
-              <span>
-                {campaign.startDate
-                  ? new Date(campaign.startDate).toLocaleDateString('pt-BR')
-                  : 'Não definido'}
-              </span>
+              <span>{formatDateDisplay(campaign.startDate)}</span>
             )}
           </div>
           <div className="info-item">

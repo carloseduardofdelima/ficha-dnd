@@ -18,6 +18,16 @@ export default function SessionModal() {
 
   if (!showSessionModal) return null
 
+  const formatDateInput = (dateVal: any) => {
+    if (!dateVal) return ''
+    try {
+      const d = new Date(dateVal)
+      return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0]
+    } catch {
+      return ''
+    }
+  }
+
   return (
     <div className="modal-overlay" onClick={() => setShowSessionModal(false)}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -75,7 +85,7 @@ export default function SessionModal() {
             <label>Data</label>
             <input
               type="date"
-              value={(newSession as any).date ? new Date((newSession as any).date).toISOString().split('T')[0] : ''}
+              value={formatDateInput((newSession as any).date)}
               onChange={e => setNewSession({ ...newSession, date: e.target.value } as any)}
             />
           </div>

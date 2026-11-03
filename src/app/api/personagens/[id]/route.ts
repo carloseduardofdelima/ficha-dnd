@@ -16,11 +16,22 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   
   if (!character) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   
-  // Privacy check: Must be owner OR the character must be public OR be admin
+  // Privacy check: Must be owner OR the character must be public OR be admin OR linked to a campaign the user owns
   const isAdmin = isUserAdmin(session?.user?.email)
   const isOwner = session?.user?.id === character.userId
+
+  let isLinkedToOwnCampaign = false
+  if (session?.user?.id) {
+    const link = await prisma.characterCampaignLink.findFirst({
+      where: {
+        characterId: character.id,
+        campaign: { userId: session.user.id }
+      }
+    })
+    isLinkedToOwnCampaign = !!link
+  }
   
-  if (!character.isPublic && !isOwner && !isAdmin) {
+  if (!character.isPublic && !isOwner && !isAdmin && !isLinkedToOwnCampaign) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
