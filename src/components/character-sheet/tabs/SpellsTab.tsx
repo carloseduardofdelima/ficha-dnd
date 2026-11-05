@@ -526,17 +526,24 @@ export default function SpellsTab() {
               if (lvlSpells.length === 0) return null
 
               const selectedInLvl = currentSpells.filter(sid => {
+                if (subclassSpells.some(ss => ss.id === sid)) return false
                 const s = ALL_SPELLS.find(sp => sp.id === sid)
                 return s && s.level === lvl
               }).length
 
               const isPoolBased = lvl > 0 && (currentProgression?.prepared !== undefined || currentProgression?.known !== undefined)
+              const maxPool = currentProgression?.prepared ?? currentProgression?.known ?? 0
+              const leveledSpellLevels = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(l => (baseList as any[]).some(s => s.level === l))
 
               let headerCounter = ''
               if (lvl === 0) {
                 headerCounter = `${selectedInLvl} / ${currentProgression?.cantrips || 0} CONHECIDOS`
               } else if (isPoolBased) {
-                headerCounter = `${selectedInLvl} ${isPreparing ? 'SELECIONADA(S)' : 'PREPARADA(S)'}`
+                if (leveledSpellLevels.length <= 1) {
+                  headerCounter = `${selectedInLvl} / ${maxPool} ${isPreparing ? 'SELECIONADA(S)' : 'PREPARADA(S)'}`
+                } else {
+                  headerCounter = `${selectedInLvl} ${isPreparing ? 'SELECIONADA(S)' : 'PREPARADA(S)'} (TOTAL: ${totalLeveledSpellsSelected} / ${maxPool})`
+                }
               } else {
                 const maxInLvl = slots[lvl.toString()] || 0
                 headerCounter = `${selectedInLvl} / ${maxInLvl} ${isPreparing ? 'SELECIONADAS' : 'PREPARADAS'}`
