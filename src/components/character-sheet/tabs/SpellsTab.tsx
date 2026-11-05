@@ -96,52 +96,47 @@ export default function SpellsTab() {
       </div>
 
       {/* Spellcasting Ability, Save DC & Attack Bonus Banner */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-        gap: 10,
-        marginBottom: 20
-      }}>
+      <div className="spellcasting-stats-banner">
         <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
             <Sparkles size={12} color="var(--accent)" /> Atributo Chave
           </div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--fg1)' }}>
+          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--fg)' }}>
             {spellAttr.name} <span style={{ fontSize: 13, color: 'var(--accentL)' }}>({spellMod >= 0 ? `+${spellMod}` : spellMod})</span>
           </div>
         </div>
 
         <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
             <ShieldAlert size={12} color="#f59e0b" /> CD de Salvaguarda
           </div>
           <div style={{ fontSize: 18, fontWeight: 900, color: '#f59e0b' }}>
             {spellSaveDC}
           </div>
-          <div style={{ fontSize: 9, color: 'var(--fg3)' }}>8 + PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
+          <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>8 + PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
         </div>
 
-        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+        <div className="card spell-attack-card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
             <Target size={12} color="#38bdf8" /> Ataque Mágico
           </div>
           <div style={{ fontSize: 18, fontWeight: 900, color: '#38bdf8' }}>
             {spellAttackBonus >= 0 ? `+${spellAttackBonus}` : spellAttackBonus}
           </div>
-          <div style={{ fontSize: 9, color: 'var(--fg3)' }}>PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
+          <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
         </div>
       </div>
 
       {/* Spell Slots Display */}
       {currentProgression && currentProgression.slots.some((s: number) => s > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginBottom: 8 }}>
+          <div style={{ fontSize: 11, color: 'var(--fg2)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginBottom: 8 }}>
             Espaços de Magia (Usos Disponíveis)
           </div>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
-            gap: 8,
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 10,
             background: 'rgba(255,255,255,0.02)',
             padding: 12,
             borderRadius: 12,
@@ -152,21 +147,21 @@ export default function SpellsTab() {
               const lvl = idx + 1
               const current = (parsedSpellSlots as any)[lvl] ?? max
               return (
-                <div key={lvl} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 10, color: 'var(--fg3)', marginBottom: 2 }}>{lvl}º Nvl</div>
+                <div key={lvl} style={{ minWidth: 70, textAlign: 'center' }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--fg2)', marginBottom: 4 }}>{lvl}º Nvl</div>
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: 4,
+                    gap: 6,
                     background: 'var(--bg)',
-                    padding: '4px 0',
-                    borderRadius: 6,
+                    padding: '6px 12px',
+                    borderRadius: 8,
                     border: '1px solid rgba(255,255,255,0.1)'
                   }}>
-                    <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--accent)' }}>{current}</span>
-                    <span style={{ opacity: 0.3, fontSize: 10 }}>/</span>
-                    <span style={{ fontSize: 12, fontWeight: 600 }}>{max}</span>
+                    <span style={{ fontWeight: 800, fontSize: 14, lineHeight: 1, color: 'var(--accentL)' }}>{current}</span>
+                    <span style={{ color: 'var(--fgM)', fontSize: 13, lineHeight: 1, fontWeight: 600 }}>/</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, lineHeight: 1, color: 'var(--fg)' }}>{max}</span>
                   </div>
                 </div>
               )
@@ -689,6 +684,33 @@ export default function SpellsTab() {
           </div>
         )
       })()}
+
+      <style jsx>{`
+        .spellcasting-stats-banner {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+
+        .spell-attack-card {
+          grid-column: 1 / -1;
+          justify-self: center;
+          width: 100%;
+          max-width: 260px;
+        }
+
+        @media (min-width: 680px) {
+          .spellcasting-stats-banner {
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .spell-attack-card {
+            grid-column: auto;
+            max-width: none;
+            justify-self: stretch;
+          }
+        }
+      `}</style>
     </div>
   )
 }

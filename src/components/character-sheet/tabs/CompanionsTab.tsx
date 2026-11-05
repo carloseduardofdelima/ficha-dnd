@@ -124,8 +124,19 @@ export default function CompanionsTab() {
         ))}
 
         {parsedCompanions.length === 0 && (
-          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px', background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '2px dashed var(--border)' }}>
-            <User size={48} color="var(--fg3)" style={{ marginBottom: 16, opacity: 0.5 }} />
+          <div style={{
+            gridColumn: '1 / -1',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            padding: '60px 20px',
+            background: 'rgba(255,255,255,0.01)',
+            borderRadius: 16,
+            border: '2px dashed var(--border)'
+          }}>
+            <User size={48} color="var(--fg3)" style={{ margin: '0 auto 16px', opacity: 0.5 }} />
             <h3 style={{ margin: 0, color: 'var(--fg2)' }}>Nenhum companheiro</h3>
             <p style={{ fontSize: 14, color: 'var(--fg3)', marginTop: 8 }}>Adicione pets, montarias ou espíritos invocados aqui.</p>
           </div>

@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { Plus, Settings } from 'lucide-react'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
 const SKILL_DEFINITIONS = [
@@ -43,25 +42,6 @@ export default function SkillsTab() {
     <div className="fade-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Perícias</h2>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <div style={{
-            background: 'var(--bg2)',
-            border: '1px solid var(--border)',
-            padding: '6px 12px',
-            borderRadius: 8,
-            fontSize: 12,
-            fontWeight: 700,
-            color: 'var(--fg1)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6
-          }}>
-            <span style={{ color: 'var(--fgM)', fontSize: 10, textTransform: 'uppercase' }}>Percepção Passiva:</span>
-            <span style={{ color: 'var(--accentL)', fontSize: 14 }}>{passivePerception}</span>
-          </div>
-          <button className="btn btn-outline" style={{ padding: 6 }}><Plus size={16} /></button>
-          <button className="btn btn-outline" style={{ padding: 6 }}><Settings size={16} /></button>
-        </div>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 1, fontSize: 15 }}>
@@ -96,8 +76,13 @@ export default function SkillsTab() {
                 transition: 'all 0.2s ease',
               }}
             >
-              <div style={{ flex: 1, fontWeight: isTrained ? 600 : 400, display: 'flex', alignItems: 'center', gap: 8 }}>
-                {skill.name}
+              <div style={{ flex: 1, fontWeight: isTrained ? 600 : 400, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <span>{skill.name}</span>
+                {skill.key === 'perception' && (
+                  <span style={{ fontSize: 12, color: 'var(--fg2)', fontWeight: 500 }}>
+                    (passiva: <strong style={{ color: 'var(--accentL)' }}>{passivePerception}</strong>)
+                  </span>
+                )}
                 {isExpert && (
                   <span style={{ fontSize: 9, background: 'rgba(234,179,8,0.15)', color: '#facc15', border: '1px solid rgba(234,179,8,0.3)', padding: '1px 4px', borderRadius: 4 }}>
                     Especialista

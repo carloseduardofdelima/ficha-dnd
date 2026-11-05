@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, Cinzel } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/Providers'
@@ -17,9 +17,30 @@ const cinzel = Cinzel({
   variable: '--font-cinzel',
 })
 
+export const viewport: Viewport = {
+  themeColor: '#0d0d0f',
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: 'Ficha D&D | Crie e Compartilhe Personagens',
   description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'A Forja',
+  },
+  icons: {
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: 'A Forja | Fichas de D&D',
     description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
@@ -32,6 +53,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="pt-BR" className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="A Forja" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -40,12 +65,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   var savedTheme = localStorage.getItem('theme');
                   if (savedTheme && savedTheme !== 'default') {
                     document.documentElement.setAttribute('data-theme', savedTheme);
-                    // Also try to set on body, but it might not be parsed yet, so check if body exists
                     if (document.body) {
                       document.body.setAttribute('data-theme', savedTheme);
                     }
                   }
                 } catch (e) {}
+
+                if ('serviceWorker' in navigator) {
+                  window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').catch(function() {});
+                  });
+                }
               })();
             `,
           }}

@@ -54,7 +54,7 @@ export default function ProficienciesTab() {
               ))
             })()}
           </div>
-          <div style={{ marginTop: 12, fontSize: 11, color: 'var(--fg3)' }}>
+          <div style={{ marginTop: 12, fontSize: 11, color: 'var(--fg2)' }}>
             Personagens 2024 começam com Comum + 2 idiomas padrão à escolha.
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function ProficienciesTab() {
             <span style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase' }}>Equipamento</span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {(() => {
               const is2014 = (character.ruleset === '2014' || character.ruleset === '5e-custom')
               const raceData = is2014
@@ -107,17 +107,17 @@ export default function ProficienciesTab() {
               return (
                 <>
                   <div>
-                    <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
-                    <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                    <div style={{ fontSize: 11, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700, letterSpacing: '0.05em' }}>Armaduras</div>
+                    <div style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 700 }}>
                       {displayArmorProf}
                     </div>
 
                     {/* Subclass Armor Proficiencies */}
                     {hasSubclassHeavyArmor && (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
-                        <div style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
-                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
-                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Proficiência adicional em Armaduras Pesadas.</div>
+                        <div style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.1)', border: '1px solid rgba(var(--accent-rgb), 0.25)', borderLeft: '3px solid var(--accent)', borderRadius: 6 }}>
+                          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
+                          <div style={{ fontSize: 12, color: 'var(--fg)', marginTop: 2 }}>Proficiência adicional em Armaduras Pesadas.</div>
                         </div>
                       </div>
                     )}
@@ -126,26 +126,26 @@ export default function ProficienciesTab() {
                     {armorTraining.length > 0 && (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
                         {armorTraining.map((t, idx) => (
-                          <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
-                            <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                          <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.1)', border: '1px solid rgba(var(--accent-rgb), 0.25)', borderLeft: '3px solid var(--accent)', borderRadius: 6 }}>
+                            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                            <div style={{ fontSize: 12, color: 'var(--fg)', marginTop: 2 }}>{t.description}</div>
                           </div>
                         ))}
                       </div>
                     )}
 
                     {displayArmorProf && !displayArmorProf.toLowerCase().includes('nenhuma') && (
-                      <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                      <div style={{ fontSize: 12, color: 'var(--fg2)', marginTop: 8, lineHeight: 1.5 }}>
                         {displayArmorProf.toLowerCase().includes('pesadas')
                           ? (
                             <>
-                              <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
-                              <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
+                              <div style={{ marginBottom: 4 }}><strong style={{ color: 'var(--fg)' }}>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
+                              <div><strong style={{ color: 'var(--fg)' }}>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
                             </>
                           )
                           : displayArmorProf.toLowerCase().includes('médias')
-                            ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
-                            : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
+                            ? <span><strong style={{ color: 'var(--fg)' }}>Leves e Médias:</strong> Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).</span>
+                            : <span><strong style={{ color: 'var(--fg)' }}>Apenas Leves:</strong> Couro, Acolchoada, Couro Batido.</span>}
                       </div>
                     )}
                   </div>
@@ -153,17 +153,17 @@ export default function ProficienciesTab() {
                   <div style={{ height: 1, background: 'var(--border)', opacity: 0.5 }} />
 
                   <div>
-                    <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
-                    <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
+                    <div style={{ fontSize: 11, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700, letterSpacing: '0.05em' }}>Armas</div>
+                    <div style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 700 }}>
                       {displayWeaponProf}
                     </div>
 
                     {/* Subclass Weapon Proficiencies */}
                     {hasSubclassMartialWeapons && (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
-                        <div style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
-                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
-                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Proficiência adicional em Armas Marciais.</div>
+                        <div style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.1)', border: '1px solid rgba(var(--accent-rgb), 0.25)', borderLeft: '3px solid var(--accent)', borderRadius: 6 }}>
+                          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
+                          <div style={{ fontSize: 12, color: 'var(--fg)', marginTop: 2 }}>Proficiência adicional em Armas Marciais.</div>
                         </div>
                       </div>
                     )}
@@ -172,20 +172,20 @@ export default function ProficienciesTab() {
                     {weaponTraining.length > 0 && (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
                         {weaponTraining.map((t, idx) => (
-                          <div key={idx} style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
-                            <div style={{ fontSize: 11, color: 'var(--fg3)' }}>{t.description}</div>
+                          <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.1)', border: '1px solid rgba(var(--accent-rgb), 0.25)', borderLeft: '3px solid var(--accent)', borderRadius: 6 }}>
+                            <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--accentL)' }}>{t.name} (Racial)</div>
+                            <div style={{ fontSize: 12, color: 'var(--fg)', marginTop: 2 }}>{t.description}</div>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--fg2)', marginTop: 8, lineHeight: 1.5 }}>
                       {characterClass?.weaponProf?.toLowerCase().includes('marciais')
                         ? (
                           <>
-                            <div style={{ marginBottom: 4 }}><strong>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
-                            <div><strong>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
+                            <div style={{ marginBottom: 4 }}><strong style={{ color: 'var(--fg)' }}>Simples:</strong> Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.</div>
+                            <div><strong style={{ color: 'var(--fg)' }}>Marciais:</strong> Espada (Curta, Longa, Grande), Rapieira, Machado, Arco Longo, Besta (Pesada, Mão), Alabarda, Martelo de Guerra, Tridente, Chicote.</div>
                           </>
                         )
                         : 'Adaga, Clava, Lança, Maça, Bordão, Machadinha, Besta Leve, Arco Curto.'}
@@ -239,27 +239,28 @@ export default function ProficienciesTab() {
                       padding: '6px 12px',
                       borderRadius: 8,
                       fontSize: 13,
+                      color: 'var(--fg)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 6
                     }}>
-                      <Settings size={12} style={{ opacity: 0.5 }} />
+                      <Settings size={12} style={{ opacity: 0.7, color: 'var(--accentL)' }} />
                       {tool}
                     </div>
                   )) : (
-                    !racialToolTraits.length && <div style={{ fontSize: 13, color: 'var(--fg3)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>
+                    !racialToolTraits.length && <div style={{ fontSize: 13, color: 'var(--fg2)', fontStyle: 'italic' }}>Nenhuma ferramenta registrada.</div>
                   )}
                 </div>
 
                 {racialToolTraits.length > 0 && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {racialToolTraits.map((t, idx) => (
-                      <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                      <div key={idx} style={{ padding: '8px 12px', background: 'rgba(var(--accent-rgb), 0.1)', border: '1px solid rgba(var(--accent-rgb), 0.25)', borderLeft: '3px solid var(--accent)', borderRadius: 6 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                           <Settings size={14} color="var(--accentL)" />
-                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)', textTransform: 'uppercase' }}>{t.name} (Racial)</div>
+                          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--accentL)', textTransform: 'uppercase' }}>{t.name} (Racial)</div>
                         </div>
-                        <div style={{ fontSize: 11, color: 'var(--fg3)', lineHeight: 1.4 }}>{t.description}</div>
+                        <div style={{ fontSize: 12, color: 'var(--fg)', lineHeight: 1.4, marginTop: 2 }}>{t.description}</div>
                       </div>
                     ))}
                   </div>

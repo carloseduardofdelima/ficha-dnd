@@ -708,4 +708,31 @@ body {
   color: var(--fg3);
   font-style: italic;
   margin: 0;
-}
+}
+
+/* Spellcasting stats banner responsiveness */
+.spellcasting-stats-banner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.spell-attack-card {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+  max-width: 260px;
+}
+
+@media (min-width: 680px) {
+  .spellcasting-stats-banner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .spell-attack-card {
+    grid-column: auto;
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+
