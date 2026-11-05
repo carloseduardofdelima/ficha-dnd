@@ -213,10 +213,15 @@ export default function AttributesStep({
     const raceList = (ruleset === '2014' || ruleset === '5e-custom') ? RACES_2014 : RACES
     const race = raceList.find(r => r.name === raceName)
     if (ruleset === '2014' || ruleset === '5e-custom') {
-      return race?.bonusSkillCount ? { count: race.bonusSkillCount } : undefined
+      let count = race?.bonusSkillCount || 0
+      if (subRaceName && race?.lineages) {
+        const lineage = race.lineages.find(l => l.name === subRaceName)
+        if (lineage?.bonusSkillCount) count += lineage.bonusSkillCount
+      }
+      return count > 0 ? { count } : undefined
     }
     return race?.skillChoice
-  }, [raceName, ruleset])
+  }, [raceName, subRaceName, ruleset])
 
   const classSkillInfo = useMemo(() => {
     if (ruleset === '2014' || ruleset === '5e-custom') {
@@ -229,16 +234,6 @@ export default function AttributesStep({
     }
     return CLASS_SKILL_DATA[className]
   }, [className, ruleset])
-
-  // Collision Logic: If a locked skill is also in class options, user gets a "free" choice
-  const collisionCount = useMemo(() => {
-    if (!classSkillInfo?.options) return 0
-    let count = 0
-    lockedSkillKeys.forEach(k => {
-      if (classSkillInfo.options?.includes(k)) count++
-    })
-    return count
-  }, [lockedSkillKeys, classSkillInfo])
 
   // Automatically sync locked skills to the skills state
   useEffect(() => {
@@ -295,7 +290,7 @@ export default function AttributesStep({
   const toggleSkill = (key: string) => {
     if (lockedSkillKeys.has(key)) return 
 
-    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0) + collisionCount
+    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0)
     const currentOutOfListSelections = Object.entries(skills).filter(([k, v]) => {
       if (!v || lockedSkillKeys.has(k)) return false
       const allowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(k)
@@ -303,7 +298,7 @@ export default function AttributesStep({
       return !allowedByClass && !allowedByRace
     }).length
 
-    const totalAllowedCount = (classSkillInfo?.count || 0) + (raceSkillChoice?.count || 0) + collisionCount
+    const totalAllowedCount = (classSkillInfo?.count || 0) + (raceSkillChoice?.count || 0)
     const selectedCount = Object.entries(skills).filter(([k, v]) => v && !lockedSkillKeys.has(k)).length
 
     // If trying to select a new skill
@@ -332,14 +327,14 @@ export default function AttributesStep({
     onExpertisesChange({ ...expertises, [key]: !expertises[key] })
   }
 
-  const totalAllowedCount = (classSkillInfo?.count || 0) + (raceSkillChoice?.count || 0) + collisionCount
+  const totalAllowedCount = (classSkillInfo?.count || 0) + (raceSkillChoice?.count || 0)
   const selectedCount = Object.entries(skills).filter(([k, v]) => v && !lockedSkillKeys.has(k)).length
   
   const isSkillDisabled = (key: string) => {
     if (lockedSkillKeys.has(key)) return false 
     if (skills[key]) return false 
 
-    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0) + collisionCount
+    const freeSelectionsAllowed = (raceSkillChoice && !raceSkillChoice.options ? raceSkillChoice.count : 0)
     const currentOutOfListSelections = Object.entries(skills).filter(([k, v]) => {
       if (!v || lockedSkillKeys.has(k)) return false
       const allowedByClass = !classSkillInfo?.options || classSkillInfo.options.includes(k)
@@ -422,7 +417,7 @@ export default function AttributesStep({
               let originBonus = 0
               if (ruleset === '2024') {
                 originBonus = (asi.primary === key ? 2 : 0) + (asi.secondary === key ? 1 : 0)
-              } else if (raceName === 'Meio-Elfo') {
+              } else if (raceName === 'Meio-Elfo' || subRaceName === 'Humano Variante') {
                 originBonus = (asi.primary === key ? 1 : 0) + (asi.secondary === key ? 1 : 0)
               }
               
@@ -516,7 +511,7 @@ export default function AttributesStep({
           </div>
 
           {/* ── ASI Selection ── */}
-          {(ruleset === '2024' || ((ruleset === '2014' || ruleset === '5e-custom') && raceName === 'Meio-Elfo')) && (
+          {(ruleset === '2024' || ((ruleset === '2014' || ruleset === '5e-custom') && (raceName === 'Meio-Elfo' || subRaceName === 'Humano Variante'))) && (
             <div style={{
               backgroundColor: 'rgba(255,255,255,0.02)',
               borderRadius: 16,
@@ -530,64 +525,70 @@ export default function AttributesStep({
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
                   <h3 style={{ fontSize: 11, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
-                    {ruleset === '2024' ? 'Bônus Origem (+2)' : 'Versatilidade (+1)'}
+                    {ruleset === '2024' ? 'Bônus Origem (+2)' : subRaceName === 'Humano Variante' ? 'Bônus Atributo (+1)' : 'Versatilidade (+1)'}
                   </h3>
                   <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)' }} />
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {ATTR_INFO.map(({ key, abbr }) => (
-                    <button
-                      key={`p-${key}`}
-                      onClick={() => handleAsiSelect('primary', key)}
-                      disabled={(ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma'} // Fixed +2 in 2014
-                      style={{
-                        padding: '6px 10px',
-                        borderRadius: 6,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        transition: 'all 0.2s',
-                        border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
-                        backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
-                        color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
-                        cursor: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 'not-allowed' : 'pointer',
-                        opacity: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 0.3 : 1
-                      }}
-                    >
-                      {abbr}
-                    </button>
-                  ))}
+                  {ATTR_INFO.map(({ key, abbr }) => {
+                    const isMeioElfoCha = (ruleset === '2014' || ruleset === '5e-custom') && raceName === 'Meio-Elfo' && key === 'charisma'
+                    return (
+                      <button
+                        key={`p-${key}`}
+                        onClick={() => handleAsiSelect('primary', key)}
+                        disabled={isMeioElfoCha}
+                        style={{
+                          padding: '6px 10px',
+                          borderRadius: 6,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          transition: 'all 0.2s',
+                          border: `1px solid ${asi.primary === key ? 'var(--accent)' : 'rgba(255,255,255,0.08)'}`,
+                          backgroundColor: asi.primary === key ? 'rgba(var(--accent-rgb, 191,155,48), 0.15)' : 'rgba(255,255,255,0.03)',
+                          color: asi.primary === key ? 'var(--accent)' : 'var(--fg3)',
+                          cursor: isMeioElfoCha ? 'not-allowed' : 'pointer',
+                          opacity: isMeioElfoCha ? 0.3 : 1
+                        }}
+                      >
+                        {abbr}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
                   <h3 style={{ fontSize: 11, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
-                    {ruleset === '2024' ? 'Bônus Origem (+1)' : 'Versatilidade (+1)'}
+                    {ruleset === '2024' ? 'Bônus Origem (+1)' : subRaceName === 'Humano Variante' ? 'Bônus Atributo (+1)' : 'Versatilidade (+1)'}
                   </h3>
                   <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accentL)' }} />
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {ATTR_INFO.map(({ key, abbr }) => (
-                    <button
-                      key={`s-${key}`}
-                      onClick={() => handleAsiSelect('secondary', key)}
-                      disabled={(ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma'} // Fixed +2 in 2014
-                      style={{
-                        padding: '6px 10px',
-                        borderRadius: 6,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        transition: 'all 0.2s',
-                        border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
-                        backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
-                        color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
-                        cursor: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 'not-allowed' : 'pointer',
-                        opacity: ((ruleset === '2014' || ruleset === '5e-custom') && key === 'charisma') ? 0.3 : 1
-                      }}
-                    >
-                      {abbr}
-                    </button>
-                  ))}
+                  {ATTR_INFO.map(({ key, abbr }) => {
+                    const isMeioElfoCha = (ruleset === '2014' || ruleset === '5e-custom') && raceName === 'Meio-Elfo' && key === 'charisma'
+                    return (
+                      <button
+                        key={`s-${key}`}
+                        onClick={() => handleAsiSelect('secondary', key)}
+                        disabled={isMeioElfoCha}
+                        style={{
+                          padding: '6px 10px',
+                          borderRadius: 6,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          transition: 'all 0.2s',
+                          border: `1px solid ${asi.secondary === key ? 'var(--accentL)' : 'rgba(255,255,255,0.08)'}`,
+                          backgroundColor: asi.secondary === key ? 'rgba(251,113,133,0.15)' : 'rgba(255,255,255,0.03)',
+                          color: asi.secondary === key ? 'var(--accentL)' : 'var(--fg3)',
+                          cursor: isMeioElfoCha ? 'not-allowed' : 'pointer',
+                          opacity: isMeioElfoCha ? 0.3 : 1
+                        }}
+                      >
+                        {abbr}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -638,8 +639,8 @@ export default function AttributesStep({
                  Você possui <strong>{totalAllowedCount}</strong> seleções disponíveis ({selectedCount} de {totalAllowedCount} usadas).
                  <div style={{ fontSize: 10, marginTop: 2, opacity: 0.8 }}>
                    Fontes: {className} ({classSkillInfo?.count || 0}) 
-                   {raceSkillChoice && ` + ${raceName} (${raceSkillChoice.count})`}
-                   {collisionCount > 0 && ` + ${ruleset === '2024' ? 'Perícias Repetidas' : 'Colisão de Origem'} (${collisionCount})`}
+                   {raceSkillChoice && ` + ${subRaceName || raceName} (${raceSkillChoice.count})`}
+
                  </div>
                </div>
              )}
@@ -666,7 +667,13 @@ export default function AttributesStep({
               const isChecked = isFromOrigin || !!skills[key]
               const isExpert = !!expertises[key] && isChecked
               const baseAttr = getAttrForSkill(attr)
-              const score = attrs[baseAttr] + (asi.primary === baseAttr ? 2 : 0) + (asi.secondary === baseAttr ? 1 : 0)
+              let originBonus = 0
+              if (ruleset === '2024') {
+                originBonus = (asi.primary === baseAttr ? 2 : 0) + (asi.secondary === baseAttr ? 1 : 0)
+              } else if (raceName === 'Meio-Elfo' || subRaceName === 'Humano Variante') {
+                originBonus = (asi.primary === baseAttr ? 1 : 0) + (asi.secondary === baseAttr ? 1 : 0)
+              }
+              const score = attrs[baseAttr] + (racialBonuses[baseAttr] || 0) + originBonus
               const pb = Math.ceil(level / 4) + 1
               const mod = calcMod(score)
               const disabled = isSkillDisabled(key)

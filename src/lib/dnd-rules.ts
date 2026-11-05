@@ -98,6 +98,13 @@ export function calculateAC(
     }
   }
 
+  // Fighting Style: Defense (+1 AC while wearing armor)
+  let defenseFightingStyleBonus = 0
+  const hasDefenseStyle = 
+    traits?.fightingStyle === 'Defesa' || 
+    traits?.selectedFightingStyle === 'Defesa' ||
+    traits?.feats?.some((f: any) => f?.name?.toLowerCase().includes('estilo de luta: defesa') || f?.name?.toLowerCase() === 'defesa')
+
   // 1. Base Unarmored
   let unarmoredBase = 10;
   
@@ -109,9 +116,11 @@ export function calculateAC(
 
   let maxAC = unarmoredBase + dexMod + shieldBonus + itemACBonus + infusionACBonus
 
-  // 2. Unarmored Defense (Class specific)
+  // 2. Unarmored Defense (Class specific - only applies when wearing NO armor)
   if (className === 'Bárbaro') {
-    maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus + itemACBonus + infusionACBonus)
+    if (armors.length === 0) {
+      maxAC = Math.max(maxAC, 10 + dexMod + conMod + shieldBonus + itemACBonus + infusionACBonus)
+    }
   } else if (className === 'Monge') {
     if (armors.length === 0 && !shield) {
       maxAC = Math.max(maxAC, 10 + dexMod + wisMod + itemACBonus + infusionACBonus)
@@ -119,6 +128,10 @@ export function calculateAC(
   }
 
   // 3. Armor calculations
+  if (armors.length > 0 && hasDefenseStyle) {
+    defenseFightingStyleBonus = 1
+  }
+
   for (const entry of armors) {
     const armor = entry.item
     const acBase = armor.ac || 10
@@ -131,7 +144,7 @@ export function calculateAC(
     } else if (armor.armorType === 'heavy') {
       currentArmorAC = acBase
     }
-    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus + itemACBonus + infusionACBonus)
+    maxAC = Math.max(maxAC, currentArmorAC + shieldBonus + itemACBonus + infusionACBonus + defenseFightingStyleBonus)
   }
 
   return maxAC

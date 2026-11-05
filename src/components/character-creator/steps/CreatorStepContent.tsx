@@ -82,6 +82,10 @@ export default function CreatorStepContent() {
           onFeatureChoicesChange={setFeatureChoices}
           ruleset={form.ruleset as any}
           level={form.level}
+          attrs={attrs}
+          asi={asi}
+          raceName={form.race}
+          subRaceName={form.subRace}
         />
       )
     case 7:

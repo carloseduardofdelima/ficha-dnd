@@ -144,11 +144,9 @@ export const RACES_2014: Race[] = [
     source: "Player's Handbook 2014",
     speed: 30,
     size: 'Médio',
-    attributeBonuses: {
-      strength: 1, dexterity: 1, constitution: 1, intelligence: 1, wisdom: 1, charisma: 1
-    },
+    attributeBonuses: {},
     subRaceTitle: 'Variante Étnica',
-    subRaceMandatory: false,
+    subRaceMandatory: true,
     lineages: [
       {
         name: 'Humano Padrão',

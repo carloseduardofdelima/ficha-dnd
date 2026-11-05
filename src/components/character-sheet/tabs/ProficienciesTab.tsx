@@ -89,13 +89,38 @@ export default function ProficienciesTab() {
                 t.name.toLowerCase().includes('armadura')
               )
 
+              const subLower = (character.subclass || '').toLowerCase()
+              const heavyArmorSubclasses = ['vida', 'guerra', 'tempestade', 'natureza', 'ordem', 'crepúsculo', 'crepusculo']
+              const hasSubclassHeavyArmor = character.class === 'Clérigo' && heavyArmorSubclasses.some(s => subLower.includes(s))
+              const hasSubclassMartialWeapons = character.class === 'Clérigo' && ['guerra', 'tempestade'].some(s => subLower.includes(s))
+
+              let displayArmorProf = characterClass?.armorProf || 'Nenhuma'
+              if (hasSubclassHeavyArmor && !displayArmorProf.toLowerCase().includes('pesadas')) {
+                displayArmorProf = `${displayArmorProf}, Armaduras Pesadas`
+              }
+
+              let displayWeaponProf = characterClass?.weaponProf || 'Simples'
+              if (hasSubclassMartialWeapons && !displayWeaponProf.toLowerCase().includes('marciais')) {
+                displayWeaponProf = `${displayWeaponProf}, Armas Marciais`
+              }
+
               return (
                 <>
                   <div>
                     <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armaduras</div>
                     <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
-                      {characterClass?.armorProf || 'Nenhuma'}
+                      {displayArmorProf}
                     </div>
+
+                    {/* Subclass Armor Proficiencies */}
+                    {hasSubclassHeavyArmor && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                        <div style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
+                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Proficiência adicional em Armaduras Pesadas.</div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Racial Armor Proficiencies */}
                     {armorTraining.length > 0 && (
@@ -109,16 +134,16 @@ export default function ProficienciesTab() {
                       </div>
                     )}
 
-                    {characterClass?.armorProf && !characterClass.armorProf.toLowerCase().includes('nenhuma') && (
+                    {displayArmorProf && !displayArmorProf.toLowerCase().includes('nenhuma') && (
                       <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8, lineHeight: 1.4 }}>
-                        {characterClass.armorProf.toLowerCase().includes('pesadas')
+                        {displayArmorProf.toLowerCase().includes('pesadas')
                           ? (
                             <>
                               <div style={{ marginBottom: 4 }}><strong>Leves/Médias:</strong> Couro, Acolchoada, Peitoral, Cota de Malha, Meia-Placa.</div>
                               <div><strong>Pesadas:</strong> Cota de Anéis, Cotas de Talas, Placas (Full Plate).</div>
                             </>
                           )
-                          : characterClass.armorProf.toLowerCase().includes('médias')
+                          : displayArmorProf.toLowerCase().includes('médias')
                             ? 'Leves (Couro, Acolchoada) e Médias (Gibão, Cota de Malha, Peitoral, Meia-Placa).'
                             : 'Apenas Armaduras Leves (Couro, Acolchoada, Couro Batido).'}
                       </div>
@@ -130,8 +155,18 @@ export default function ProficienciesTab() {
                   <div>
                     <div style={{ fontSize: 10, color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Armas</div>
                     <div style={{ color: 'var(--fg2)', fontSize: 14, fontWeight: 700 }}>
-                      {characterClass?.weaponProf || 'Simples'}
+                      {displayWeaponProf}
                     </div>
+
+                    {/* Subclass Weapon Proficiencies */}
+                    {hasSubclassMartialWeapons && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+                        <div style={{ padding: '6px 10px', background: 'rgba(var(--accent-rgb), 0.05)', borderLeft: '2px solid var(--accent)', borderRadius: '0 4px 4px 0' }}>
+                          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--accentL)' }}>{character.subclass} (Domínio Divino)</div>
+                          <div style={{ fontSize: 11, color: 'var(--fg3)' }}>Proficiência adicional em Armas Marciais.</div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Racial Weapon Proficiencies */}
                     {weaponTraining.length > 0 && (

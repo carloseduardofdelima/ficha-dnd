@@ -43,6 +43,62 @@ export default function CombatTab() {
               <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && updateValue('currentHp', -1)} disabled={!isOwner}>-1</button>
               <button className="btn btn-outline" style={{ flex: 1, padding: '4px 0', fontSize: 11 }} onClick={() => isOwner && updateValue('currentHp', 1)} disabled={!isOwner}>+1</button>
             </div>
+            {character.currentHp <= 0 && (() => {
+              const res = character.resources ? (typeof character.resources === 'string' ? JSON.parse(character.resources) : character.resources) : {}
+              const succCount = res['death_succ'] || 0
+              const failCount = res['death_fail'] || 0
+              const setSave = (type: 'death_succ' | 'death_fail', val: number) => {
+                const newRes = { ...res, [type]: val }
+                updateValue('resources', JSON.stringify(newRes))
+              }
+              return (
+                <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: '#ef4444', textTransform: 'uppercase', marginBottom: 8, textAlign: 'center' }}>
+                    💀 Testes Contra a Morte
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#4ade80', fontWeight: 600 }}>Sucessos:</span>
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        {[1, 2, 3].map(i => (
+                          <div
+                            key={i}
+                            onClick={() => isOwner && setSave('death_succ', succCount === i ? i - 1 : i)}
+                            style={{
+                              width: 14, height: 14, borderRadius: '50%',
+                              border: '1.5px solid #4ade80',
+                              background: succCount >= i ? '#4ade80' : 'transparent',
+                              cursor: isOwner ? 'pointer' : 'default',
+                              boxShadow: succCount >= i ? '0 0 6px #4ade80' : 'none',
+                              transition: 'all 0.15s'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#f87171', fontWeight: 600 }}>Falhas:</span>
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        {[1, 2, 3].map(i => (
+                          <div
+                            key={i}
+                            onClick={() => isOwner && setSave('death_fail', failCount === i ? i - 1 : i)}
+                            style={{
+                              width: 14, height: 14, borderRadius: '50%',
+                              border: '1.5px solid #ef4444',
+                              background: failCount >= i ? '#ef4444' : 'transparent',
+                              cursor: isOwner ? 'pointer' : 'default',
+                              boxShadow: failCount >= i ? '0 0 6px #ef4444' : 'none',
+                              transition: 'all 0.15s'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
           </div>
 
           {/* Resource Section */}
@@ -197,11 +253,11 @@ export default function CombatTab() {
                 initial['Astúcia Mística (Magical Cunning)'] = { max: 1, current: 1, color: '#c084fc' }
               }
 
-              if (character.class === 'Bruxo' && is2014) {
-                if (!is2014 && character.subclass === 'O Corruptor' && character.level >= 6) {
+              if (character.class === 'Bruxo') {
+                if (character.subclass === 'O Corruptor' && character.level >= 6) {
                   initial["Sorte do Próprio Obscuro"] = { max: 1, current: 1, color: '#ef4444' }
                 }
-                if (!is2014 && character.subclass === 'A Arquifada') {
+                if (character.subclass === 'A Arquifada') {
                   initial["Presença Feérica"] = { max: 1, current: 1, color: '#ec4899' }
                 }
               }
@@ -325,6 +381,13 @@ export default function CombatTab() {
               else if (character.class === 'Monge') parts.push(`Sab: ${wisMod >= 0 ? '+' : ''}${wisMod}`)
             }
             if (shield) parts.push(`${shield.item.name}: +${shield.item.ac}`)
+            const hasDefenseStyle = 
+              parsedTraits?.fightingStyle === 'Defesa' || 
+              parsedTraits?.selectedFightingStyle === 'Defesa' ||
+              parsedTraits?.feats?.some((f: any) => f?.name?.toLowerCase().includes('estilo de luta: defesa') || f?.name?.toLowerCase() === 'defesa')
+            if (baseArmor && hasDefenseStyle) {
+              parts.push('Estilo Defesa: +1')
+            }
             if (selectedInfusions.includes('defesa_aprimorada')) {
               const bonus = character.level >= 10 ? 2 : 1
               parts.push(`Defesa Aprimorada: +${bonus}`)

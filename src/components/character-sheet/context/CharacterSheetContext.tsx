@@ -16,7 +16,7 @@ import { ITEM_CATALOG_2014 } from '@/lib/inventory-2014'
 import { compressImage, uploadImageToStorage } from '@/lib/image'
 import CharacterPDF from '@/components/CharacterPDF'
 import { BeastForm } from '@/lib/beast-forms'
-import { SUBCLASS_EXCLUDED_FEATURES_2014 } from '../utils/subclass-spells'
+import { SUBCLASS_EXCLUDED_FEATURES_2014, getUnlockedSubclassSpells } from '../utils/subclass-spells'
 import { getCharacterPayloadString } from '../utils/character-payload'
 
 export interface CharacterSheetContextType {
@@ -545,13 +545,18 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
   }, [parsedSpells, character?.ruleset])
 
   const totalLeveledSpellsSelected = useMemo(() => {
-    if (!parsedSpells) return 0
-    const list = (character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
+    if (!parsedSpells || !character) return 0
+    const list = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
+    const subclassSpells = character.subclass 
+      ? getUnlockedSubclassSpells(character.class, character.subclass, character.level, (character.ruleset as any) || '2024')
+      : []
+    const subclassSpellIds = new Set(subclassSpells.map(s => s.id))
     return parsedSpells
+      .filter(id => !subclassSpellIds.has(id))
       .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
       .filter(s => s && s.level > 0).length
-  }, [parsedSpells, character?.ruleset])
+  }, [parsedSpells, character])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })

@@ -273,7 +273,7 @@ export const SPELLS_2014: Spell[] = [
   },
   { 
     id: 'spare-the-dying-2014', 
-    name: 'Poupar os Moribundos', 
+    name: 'Estabilizar (Poupar os Moribundos)', 
     level: 0, 
     school: 'Necromancia', 
     castingTime: '1 ação', 

@@ -194,7 +194,7 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       }
     },
     "Domínio da Vida": {
-      description: "Os curadores mais renomados de D&D, clérigos deste domínio canalizam ondas de energia positiva pura para restaurar a vitalidade dos aliados e trazer os caídos de volta ao combate.",
+      description: "Os curadores mais renomados de D&D, clérigos deste domínio canalizam ondas de energia positiva pura para restaurar a vitalidade dos aliados e trazer os caídos de volta ao combate. Concede proficiência com armaduras pesadas.",
       spells: ["Bênção", "Curar Ferimentos", "Restauração Menor", "Arma Espiritual", "Sinal de Esperança", "Revivificar", "Proteção Contra a Morte", "Guardião da Fé", "Curar Ferimentos em Massa", "Reviver os Mortos"],
       features: {
         1: [

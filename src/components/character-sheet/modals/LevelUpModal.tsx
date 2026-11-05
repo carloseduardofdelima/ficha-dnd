@@ -7,10 +7,36 @@ import { CLASS_PROGRESSION_2024, getProficiencyBonus, SPECIES_PROGRESSION_2024 }
 import { SUBCLASSES_2024 } from '@/lib/dnd-subclasses-2024'
 import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014'
 import { FEATS_2024 } from '@/lib/dnd-feats-2024'
+import { FEATS_2014 } from '@/lib/feats-2014'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
 import { getSpellSlots } from '@/lib/spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
+
+function checkNeedsFeat(className: string, newLevel: number): boolean {
+  if (className === 'Guerreiro') {
+    return [4, 6, 8, 12, 14, 16, 19].includes(newLevel)
+  }
+  if (className === 'Ladino') {
+    return [4, 8, 10, 12, 16, 19].includes(newLevel)
+  }
+  return [4, 8, 12, 16, 19].includes(newLevel)
+}
+
+function checkNeedsSubclass(ruleset: string | null | undefined, className: string, newLevel: number, currentSubclass: string | null | undefined): boolean {
+  if (currentSubclass) return false
+  const is2014 = ruleset === '2014' || ruleset === '5e-custom'
+  if (!is2014) {
+    return newLevel >= 3
+  }
+  if (['Mago', 'Druida'].includes(className)) {
+    return newLevel >= 2
+  }
+  if (['Bárbaro', 'Bardo', 'Guerreiro', 'Ladino', 'Monge', 'Paladino', 'Patrulheiro', 'Artífice'].includes(className)) {
+    return newLevel >= 3
+  }
+  return false
+}
 
 const ATTRIBUTE_LABELS: Record<string, string> = {
   strength: 'FORÇA',
@@ -334,8 +360,8 @@ export default function LevelUpModal() {
                       }
 
                       const rulesetToUse = character.ruleset || selectedRuleset
-                      const needsSubclass = (rulesetToUse === '2024' && newLevel >= 3 && !character.subclass)
-                      const needsFeat = [4, 8, 12, 16, 19].includes(newLevel)
+                      const needsSubclass = checkNeedsSubclass(rulesetToUse, character.class, newLevel, character.subclass)
+                      const needsFeat = checkNeedsFeat(character.class, newLevel)
                       const needsSpecialChoice = (rulesetToUse === '2014' || rulesetToUse === '5e-custom') && (
                         (['Paladino', 'Patrulheiro'].includes(character.class) && newLevel === 2) ||
                         (character.class === 'Bruxo' && (newLevel === 2 || newLevel === 3))
@@ -479,7 +505,7 @@ export default function LevelUpModal() {
                         resources: JSON.stringify(newResources)
                       }
 
-                      const needsFeat = [4, 8, 12, 16, 19].includes(updated.level)
+                      const needsFeat = checkNeedsFeat(updated.class, updated.level)
                       const needsSpecialChoice = (updated.ruleset === '2014' || updated.ruleset === '5e-custom') && (
                         (['Paladino', 'Patrulheiro'].includes(updated.class) && updated.level === 2) ||
                         (updated.class === 'Bruxo' && (updated.level === 2 || updated.level === 3))
@@ -527,7 +553,19 @@ export default function LevelUpModal() {
                 <div style={{ maxHeight: 330, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                   {(() => {
                     const term = featSearch.trim().toLowerCase()
-                    const available = FEATS_2024.filter(f => character.level >= f.minLevel).filter(f => {
+                    const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
+                    const normalized2014Feats = FEATS_2014.map(f => ({
+                      id: f.id,
+                      name: f.name,
+                      englishName: undefined,
+                      description: f.description || f.benefits?.join(' ') || '',
+                      category: 'Geral',
+                      minLevel: 1,
+                      requirement: f.requirement
+                    }))
+                    const activePool = is2014 ? normalized2014Feats : FEATS_2024
+
+                    const available = activePool.filter(f => character.level >= f.minLevel).filter(f => {
                       if (!term) return true
                       return (
                         f.name.toLowerCase().includes(term) ||
@@ -586,7 +624,7 @@ export default function LevelUpModal() {
 
                 {selectedFeatId && (
                   <div className="card" style={{ background: 'var(--bg2)', padding: 16, marginBottom: 24, border: '1px solid var(--accent)' }}>
-                    {selectedFeatId === 'asi' ? (
+                    {(selectedFeatId === 'asi' || selectedFeatId === 'asi-2014') ? (
                       <div>
                         <p style={{ fontSize: 12, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>Escolha os Atributos (+2 ou +1/+1)</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -612,22 +650,32 @@ export default function LevelUpModal() {
                         </div>
                       </div>
                     ) : (
-                      FEATS_2024.find(f => f.id === selectedFeatId)?.description.includes('+1') && (
-                        <div>
-                          <p style={{ fontSize: 12, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>Escolha o Atributo para aumentar (+1)</p>
-                          <select
-                            className="input"
-                            style={{ width: '100%', padding: 8, fontSize: 12 }}
-                            value={featAttr1 || ''}
-                            onChange={e => setFeatAttr1(e.target.value)}
-                          >
-                            <option value="">Selecione o Atributo</option>
-                            {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => (
-                              <option key={a} value={a}>{ATTRIBUTE_LABELS[a] || a.toUpperCase()}</option>
-                            ))}
-                          </select>
-                        </div>
-                      )
+                      (() => {
+                        const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
+                        const currentFeat = is2014 
+                          ? FEATS_2014.find(f => f.id === selectedFeatId)
+                          : FEATS_2024.find(f => f.id === selectedFeatId)
+                        const featDesc = (currentFeat as any)?.description || (currentFeat as any)?.benefits?.join(' ') || ''
+                        if (featDesc.includes('+1')) {
+                          return (
+                            <div>
+                              <p style={{ fontSize: 12, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>Escolha o Atributo para aumentar (+1)</p>
+                              <select
+                                className="input"
+                                style={{ width: '100%', padding: 8, fontSize: 12 }}
+                                value={featAttr1 || ''}
+                                onChange={e => setFeatAttr1(e.target.value)}
+                              >
+                                <option value="">Selecione o Atributo</option>
+                                {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(a => (
+                                  <option key={a} value={a}>{ATTRIBUTE_LABELS[a] || a.toUpperCase()}</option>
+                                ))}
+                              </select>
+                            </div>
+                          )
+                        }
+                        return null
+                      })()
                     )}
                   </div>
                 )}
@@ -637,9 +685,15 @@ export default function LevelUpModal() {
                   <button
                     className="btn bg-accent"
                     style={{ flex: 2, justifyContent: 'center' }}
-                    disabled={!selectedFeatId || (selectedFeatId === 'asi' && (!featAttr1 || !featAttr2)) || (FEATS_2024.find(f => f.id === selectedFeatId)?.description.includes('+1') && !featAttr1)}
+                    disabled={!selectedFeatId || ((selectedFeatId === 'asi' || selectedFeatId === 'asi-2014') && (!featAttr1 || !featAttr2))}
                     onClick={() => {
-                      const feat = FEATS_2024.find(f => f.id === selectedFeatId)!
+                      const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
+                      const feat = is2014 
+                        ? FEATS_2014.find(f => f.id === selectedFeatId) || FEATS_2024.find(f => f.id === selectedFeatId)
+                        : FEATS_2024.find(f => f.id === selectedFeatId) || FEATS_2014.find(f => f.id === selectedFeatId)
+                      const featName = feat?.name || 'Talento'
+                      const featDesc = (feat as any)?.description || (feat as any)?.benefits?.join(' ') || ''
+
                       const updatedAttrs = {
                         strength: (character.strength || 10) + (featAttr1 === 'strength' ? 1 : 0) + (featAttr2 === 'strength' ? 1 : 0),
                         dexterity: (character.dexterity || 10) + (featAttr1 === 'dexterity' ? 1 : 0) + (featAttr2 === 'dexterity' ? 1 : 0),
@@ -652,7 +706,7 @@ export default function LevelUpModal() {
                       const currentTraits = typeof character.traits === 'string' ? JSON.parse(character.traits) : (character.traits || {})
                       const newTraits = {
                         ...currentTraits,
-                        feats: [...(currentTraits.feats || []), { name: feat.name, description: feat.description }]
+                        feats: [...(currentTraits.feats || []), { name: featName, description: featDesc }]
                       }
 
                       const updated = {
@@ -661,7 +715,7 @@ export default function LevelUpModal() {
                         traits: newTraits
                       }
 
-                      handleLevelUpPersistence(updated as Character, [`🎉 Novo Talento: ${feat.name}!`])
+                      handleLevelUpPersistence(updated as Character, [`🎉 Novo Talento: ${featName}!`])
                     }}
                   >
                     Finalizar Level Up
@@ -718,7 +772,7 @@ export default function LevelUpModal() {
                                   invocations: [...(currentTraits.invocations || []), ...invs.map(i => ({ name: i!.name, description: i!.description }))]
                                 }
                                 const updated = { ...character, traits: updatedTraits }
-                                const needsFeat = [4, 8, 12, 16, 19].includes(character.level)
+                                const needsFeat = checkNeedsFeat(character.class, character.level)
                                 if (needsFeat) {
                                   setLevelUpStep(4)
                                   setCharacter(updated)

@@ -2,7 +2,8 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Zap } from 'lucide-react'
+import { Zap, Sparkles, Target, ShieldAlert } from 'lucide-react'
+import { calcModifier } from '@/types/character'
 import { SPELLS, ALL_SPELLS, SPELLS_2014 } from '@/lib/spells'
 import { getUnlockedSubclassSpells } from '../utils/subclass-spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
@@ -11,6 +12,7 @@ export default function SpellsTab() {
   const {
     id,
     character,
+    effectiveStats,
     isOwner,
     isPreparing,
     setIsPreparing,
@@ -27,6 +29,27 @@ export default function SpellsTab() {
   } = useCharacterSheet()
 
   if (!character) return null
+
+  const getSpellcastingAttribute = (cls: string, subcls?: string | null): { name: string; key: keyof typeof effectiveStats } => {
+    if (cls === 'Mago' || cls === 'Artífice' || subcls === 'Cavaleiro Arcano' || subcls === 'Trapaceiro Arcano') {
+      return { name: 'Inteligência', key: 'intelligence' }
+    }
+    if (cls === 'Clérigo' || cls === 'Druida' || cls === 'Patrulheiro') {
+      return { name: 'Sabedoria', key: 'wisdom' }
+    }
+    if (cls === 'Bardo' || cls === 'Feiticeiro' || cls === 'Bruxo' || cls === 'Paladino') {
+      return { name: 'Carisma', key: 'charisma' }
+    }
+    return { name: 'Inteligência', key: 'intelligence' }
+  }
+
+  const spellAttr = getSpellcastingAttribute(character.class, character.subclass)
+  const stats = effectiveStats || character
+  const spellAttrVal = (stats as any)[spellAttr.key] ?? (character as any)[spellAttr.key] ?? 10
+  const spellMod = calcModifier(spellAttrVal)
+  const pb = character.proficiencyBonus || 2
+  const spellSaveDC = 8 + pb + spellMod
+  const spellAttackBonus = pb + spellMod
 
   return (
     <div className="fade-up">
@@ -69,6 +92,43 @@ export default function SpellsTab() {
               )}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Spellcasting Ability, Save DC & Attack Bonus Banner */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+        gap: 10,
+        marginBottom: 20
+      }}>
+        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+            <Sparkles size={12} color="var(--accent)" /> Atributo Chave
+          </div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--fg1)' }}>
+            {spellAttr.name} <span style={{ fontSize: 13, color: 'var(--accentL)' }}>({spellMod >= 0 ? `+${spellMod}` : spellMod})</span>
+          </div>
+        </div>
+
+        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+            <ShieldAlert size={12} color="#f59e0b" /> CD de Salvaguarda
+          </div>
+          <div style={{ fontSize: 18, fontWeight: 900, color: '#f59e0b' }}>
+            {spellSaveDC}
+          </div>
+          <div style={{ fontSize: 9, color: 'var(--fg3)' }}>8 + PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
+        </div>
+
+        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+          <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--fgM)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+            <Target size={12} color="#38bdf8" /> Ataque Mágico
+          </div>
+          <div style={{ fontSize: 18, fontWeight: 900, color: '#38bdf8' }}>
+            {spellAttackBonus >= 0 ? `+${spellAttackBonus}` : spellAttackBonus}
+          </div>
+          <div style={{ fontSize: 9, color: 'var(--fg3)' }}>PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
         </div>
       </div>
 
@@ -282,6 +342,7 @@ export default function SpellsTab() {
 
               if (isPoolBased) {
                 const selectedLeveled = currentSpells.filter(sid => {
+                  if (subclassSpells.some(ss => ss.id === sid)) return false
                   const s = ALL_SPELLS.find(sp => sp.id === sid)
                   return s && s.level > 0
                 }).length

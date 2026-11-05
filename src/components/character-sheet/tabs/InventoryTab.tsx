@@ -8,6 +8,7 @@ import { useCharacterSheet } from '../context/CharacterSheetContext'
 export default function InventoryTab() {
   const {
     character,
+    effectiveStats,
     isOwner,
     updateValue,
     setDetailItem,
@@ -18,21 +19,35 @@ export default function InventoryTab() {
 
   if (!character) return null
 
+  const str = effectiveStats?.strength ?? character.strength ?? 10
+  const maxCapacity = str * 7 // ~15 lb/STR convertidos para kg (~7 kg)
+  const currentWeight = (character.inventory as any[]).reduce((sum, entry) => {
+    const w = parseFloat(entry.item.weight) || 0
+    return sum + (w * (entry.qty || 1))
+  }, 0)
+  const isOverencumbered = currentWeight > maxCapacity
+
   return (
     <div className="fade-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Inventário</h2>
-        <div style={{ padding: '4px 12px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 10 }}>
-          <span style={{ color: 'var(--fgM)' }}>Peso Total: </span>
-          <span style={{ color: 'var(--accentL)', fontWeight: 700 }}>
-            {(() => {
-              const weight = (character.inventory as any[]).reduce((sum, entry) => {
-                const w = parseFloat(entry.item.weight) || 0
-                return sum + (w * (entry.qty || 1))
-              }, 0)
-              return weight.toFixed(1)
-            })()} kg
+        <div style={{
+          padding: '4px 12px',
+          background: isOverencumbered ? 'rgba(239,68,68,0.1)' : 'var(--bg2)',
+          border: `1px solid ${isOverencumbered ? '#ef4444' : 'var(--border)'}`,
+          borderRadius: 8,
+          fontSize: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6
+        }}>
+          <span style={{ color: 'var(--fgM)' }}>Carga: </span>
+          <span style={{ color: isOverencumbered ? '#ef4444' : 'var(--accentL)', fontWeight: 700 }}>
+            {currentWeight.toFixed(1)} / {maxCapacity} kg
           </span>
+          {isOverencumbered && (
+            <span style={{ color: '#ef4444', fontWeight: 800, fontSize: 9 }}>[SOBRECARGA]</span>
+          )}
         </div>
       </div>
       

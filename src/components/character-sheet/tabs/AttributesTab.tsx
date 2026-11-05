@@ -10,9 +10,11 @@ export default function AttributesTab() {
     character,
     isOwner,
     attributes,
+    effectiveStats,
     setEditingAttrs,
     setIsAttrModalOpen,
     parsedInventory,
+    parsedTraits,
     setDetailItem
   } = useCharacterSheet()
 
@@ -92,58 +94,122 @@ export default function AttributesTab() {
 
         <div className="attacks-list">
           {/* Unarmed Strike */}
-          <div className="attack-row card">
-            <div className="col-atk">
-              <div className="atk-name">Ataque Desarmado</div>
-              <div className="atk-type">Corpo a corpo</div>
-            </div>
-            <div className="col-range">
-              <span className="mobile-label">Alcance: </span>
-              1.5 m
-            </div>
-            <div className="col-hit">
-              <div className="hit-badge">
-                {formatModifier(character.strength + character.proficiencyBonus - 10)} Ataque
+          {(() => {
+            const isMonk = character.class === 'Monge'
+            const strStat = effectiveStats?.strength ?? character.strength ?? 10
+            const dexStat = effectiveStats?.dexterity ?? character.dexterity ?? 10
+            const unarmedStat = isMonk && dexStat > strStat ? dexStat : strStat
+            const unarmedMod = calcModifier(unarmedStat)
+            const unarmedHit = unarmedMod + (character.proficiencyBonus || 2)
+            
+            // Monk martial arts damage die
+            let unarmedDamageDisplay = `${1 + unarmedMod}`
+            if (isMonk) {
+              const lvl = character.level || 1
+              let die = '1d4'
+              if (character.ruleset === '2024') {
+                if (lvl >= 17) die = '1d12'
+                else if (lvl >= 11) die = '1d10'
+                else if (lvl >= 5) die = '1d8'
+                else die = '1d6'
+              } else {
+                if (lvl >= 17) die = '1d10'
+                else if (lvl >= 11) die = '1d8'
+                else if (lvl >= 5) die = '1d6'
+                else die = '1d4'
+              }
+              unarmedDamageDisplay = `${die}${unarmedMod !== 0 ? (unarmedMod > 0 ? `+${unarmedMod}` : unarmedMod) : ''}`
+            }
+
+            return (
+              <div className="attack-row card">
+                <div className="col-atk">
+                  <div className="atk-name">Ataque Desarmado</div>
+                  <div className="atk-type">Corpo a corpo</div>
+                </div>
+                <div className="col-range">
+                  <span className="mobile-label">Alcance: </span>
+                  1.5 m
+                </div>
+                <div className="col-hit">
+                  <div className="hit-badge">
+                    {unarmedHit >= 0 ? `+${unarmedHit}` : unarmedHit} Ataque
+                  </div>
+                </div>
+                <div className="col-dmg">
+                  <div className="dmg-box">
+                    <span className="dmg-value">{unarmedDamageDisplay}</span>
+                    <Sword size={12} color="var(--accentL)" />
+                    <span className="dmg-type">Concussão</span>
+                  </div>
+                </div>
+                <div className="col-info">
+                  <button className="btn btn-ghost"><Info size={18} /></button>
+                </div>
               </div>
-            </div>
-            <div className="col-dmg">
-              <div className="dmg-box">
-                <span className="dmg-value">{1 + calcModifier(character.strength)}</span>
-                <Sword size={12} color="var(--accentL)" />
-                <span className="dmg-type">Concussão</span>
-              </div>
-            </div>
-            <div className="col-info">
-              <button className="btn btn-ghost"><Info size={18} /></button>
-            </div>
-          </div>
+            )
+          })()}
 
           {/* Weapons from Inventory */}
           {parsedInventory
             .filter(e => e.item.category === 'weapon')
             .map((entry, idx) => {
               const weapon = entry.item
-              const isFinesse = weapon.properties?.toLowerCase().includes('acuidade')
-              const isRange = weapon.properties?.toLowerCase().includes('alcance') || (weapon.category === 'weapon' && (weapon.name.toLowerCase().includes('arco') || weapon.name.toLowerCase().includes('besta')))
+              const propsLower = (weapon.properties || '').toLowerCase()
+              const nameLower = (weapon.name || '').toLowerCase()
 
-              let attackStat = character.strength
-              if (isRange || (isFinesse && character.dexterity > character.strength)) {
-                attackStat = character.dexterity
+              const isFinesse = propsLower.includes('acuidade')
+              const isReach = propsLower.includes('alcance')
+              const isThrown = propsLower.includes('arremesso')
+              const isRange = 
+                propsLower.includes('distância') ||
+                nameLower.includes('arco') ||
+                nameLower.includes('besta') ||
+                nameLower.includes('funda') ||
+                nameLower.includes('zarabatana') ||
+                nameLower.includes('dardo')
+
+              const strStat = effectiveStats?.strength ?? character.strength ?? 10
+              const dexStat = effectiveStats?.dexterity ?? character.dexterity ?? 10
+              const isMonk = character.class === 'Monge'
+
+              let attackStat = strStat
+              if (isRange) {
+                attackStat = dexStat
+              } else if (isFinesse || isMonk) {
+                if (dexStat > strStat) {
+                  attackStat = dexStat
+                }
               }
 
-              const toHit = calcModifier(attackStat) + character.proficiencyBonus
-              const dmgMod = calcModifier(attackStat)
+              // Fighting style bonuses
+              let styleAtkBonus = 0
+              let styleDmgBonus = 0
+              const hasArchery = parsedTraits?.fightingStyle === 'Arquearia' || 
+                parsedTraits?.feats?.some((f: any) => f?.name?.toLowerCase().includes('arquearia'))
+              const hasDueling = parsedTraits?.fightingStyle === 'Duelismo' || 
+                parsedTraits?.feats?.some((f: any) => f?.name?.toLowerCase().includes('duelismo'))
+
+              if (isRange && hasArchery) {
+                styleAtkBonus += 2
+              }
+              if (!isRange && hasDueling) {
+                styleDmgBonus += 2
+              }
+
+              const toHit = calcModifier(attackStat) + character.proficiencyBonus + styleAtkBonus
+              const dmgMod = calcModifier(attackStat) + styleDmgBonus
               const dmgParts = weapon.properties?.split(',')[0].trim().split(' ')
               const dice = dmgParts?.[0] || '1d4'
               const type = dmgParts?.[1] || 'dano'
               const rangeMatch = weapon.properties?.match(/alcance\s+([\d\/]+)\s*m/i)
-              const range = rangeMatch ? rangeMatch[1] + ' m' : (isRange ? 'Distância' : '1.5 m')
+              const range = rangeMatch ? rangeMatch[1] + ' m' : (isReach ? '3.0 m' : (isRange ? 'Distância' : '1.5 m'))
 
               return (
                 <div key={idx} className="attack-row card">
                   <div className="col-atk">
                     <div className="atk-name">{weapon.name}</div>
-                    <div className="atk-type">{isRange ? 'À Distância' : 'Corpo a corpo'}</div>
+                    <div className="atk-type">{isRange ? 'À Distância' : (isReach ? 'Corpo a corpo (Alcance)' : 'Corpo a corpo')}</div>
                   </div>
                   <div className="col-range">
                     <span className="mobile-label">Alcance: </span>

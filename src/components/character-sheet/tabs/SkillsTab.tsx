@@ -26,15 +26,39 @@ const SKILL_DEFINITIONS = [
 ]
 
 export default function SkillsTab() {
-  const { character, parsedSkills, expertises } = useCharacterSheet()
+  const { character, parsedSkills, expertises, effectiveStats } = useCharacterSheet()
 
   if (!character) return null
+
+  const isBardJackOfAllTrades = character.class === 'Bardo' && character.level >= 2
+  const wisMod = Math.floor(((effectiveStats?.wisdom ?? character.wisdom ?? 10) - 10) / 2)
+  const isPerceptionTrained = parsedSkills['perception'] || false
+  const isPerceptionExpert = !!expertises['perception']
+  const perceptionBonus = isPerceptionTrained 
+    ? (character.proficiencyBonus * (isPerceptionExpert ? 2 : 1))
+    : (isBardJackOfAllTrades ? Math.floor(character.proficiencyBonus / 2) : 0)
+  const passivePerception = 10 + wisMod + perceptionBonus
 
   return (
     <div className="fade-up">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700 }}>Perícias</h2>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            padding: '6px 12px',
+            borderRadius: 8,
+            fontSize: 12,
+            fontWeight: 700,
+            color: 'var(--fg1)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6
+          }}>
+            <span style={{ color: 'var(--fgM)', fontSize: 10, textTransform: 'uppercase' }}>Percepção Passiva:</span>
+            <span style={{ color: 'var(--accentL)', fontSize: 14 }}>{passivePerception}</span>
+          </div>
           <button className="btn btn-outline" style={{ padding: 6 }}><Plus size={16} /></button>
           <button className="btn btn-outline" style={{ padding: 6 }}><Settings size={16} /></button>
         </div>
@@ -49,13 +73,15 @@ export default function SkillsTab() {
         </div>
 
         {SKILL_DEFINITIONS.map(skill => {
-          const attrVal = (character as any)[skill.attr] || 10
+          const stats = effectiveStats || character
+          const attrVal = (stats as any)[skill.attr] ?? (character as any)[skill.attr] ?? 10
           const mod = Math.floor((attrVal - 10) / 2)
           const isTrained = parsedSkills[skill.key] || false
           const isExpert = !!expertises[skill.key]
           const trainingBonus = isTrained ? character.proficiencyBonus : 0
           const extraBonus = isExpert ? character.proficiencyBonus : 0
-          const total = mod + trainingBonus + extraBonus
+          const jackBonus = (!isTrained && isBardJackOfAllTrades) ? Math.floor(character.proficiencyBonus / 2) : 0
+          const total = mod + trainingBonus + extraBonus + jackBonus
 
           return (
             <div
@@ -72,6 +98,16 @@ export default function SkillsTab() {
             >
               <div style={{ flex: 1, fontWeight: isTrained ? 600 : 400, display: 'flex', alignItems: 'center', gap: 8 }}>
                 {skill.name}
+                {isExpert && (
+                  <span style={{ fontSize: 9, background: 'rgba(234,179,8,0.15)', color: '#facc15', border: '1px solid rgba(234,179,8,0.3)', padding: '1px 4px', borderRadius: 4 }}>
+                    Especialista
+                  </span>
+                )}
+                {!isTrained && jackBonus > 0 && (
+                  <span style={{ fontSize: 9, background: 'rgba(168,85,247,0.15)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.3)', padding: '1px 4px', borderRadius: 4 }}>
+                    Pau p/ Toda Obra
+                  </span>
+                )}
               </div>
               <div style={{ width: 45, textAlign: 'center', color: 'var(--fg3)', fontSize: 10 }}>({skill.label})</div>
               <div style={{
@@ -90,7 +126,7 @@ export default function SkillsTab() {
                 fontSize: 11,
                 fontWeight: isTrained ? 700 : 400
               }}>
-                {isTrained ? `+${trainingBonus + extraBonus}` : '0'}
+                {isTrained ? `+${trainingBonus + extraBonus}` : (jackBonus > 0 ? `+${jackBonus}` : '0')}
               </div>
             </div>
           )

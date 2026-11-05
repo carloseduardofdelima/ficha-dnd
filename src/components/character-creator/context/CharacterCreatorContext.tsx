@@ -15,6 +15,7 @@ import { calculateAC } from '@/lib/dnd-rules'
 import CLASS_LEVEL1_DATA from '@/lib/class-features'
 import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
 import { generateRandomCharacter } from '@/lib/randomCharacter'
+import { getUnlockedSubclassSpells } from '@/components/character-sheet/utils/subclass-spells'
 
 export const STEPS = ['Edição', 'Raça', 'Classe', 'Antecedente', 'Atributos', 'Inventário', 'Magias', 'Finalização']
 
@@ -377,7 +378,12 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
     if (currentStep === 3) return !!form.background
     if (currentStep === 4) {
       const pointsValid = spentPoints === BUDGET
-      if (form.ruleset === '2014' || form.ruleset === '5e-custom') return pointsValid
+      if (form.ruleset === '2014' || form.ruleset === '5e-custom') {
+        if (form.race === 'Meio-Elfo' || form.subRace === 'Humano Variante') {
+          return pointsValid && !!asi.primary && !!asi.secondary
+        }
+        return pointsValid
+      }
       return pointsValid && !!asi.primary && !!asi.secondary
     }
     if (currentStep === 6) {
@@ -398,23 +404,89 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
 
       if (!isCaster) return true
 
-      const slots = getSpellSlots(form.class, form.level, form.ruleset as any)
+      const subclassName = (() => {
+        const classData = (form.ruleset === '2014' || form.ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
+        if (!classData || !classData.choices) return ''
+        const subclassChoiceIds = [
+          'cleric-domain-2014', 'sorcerous-origin-2014', 'warlock-patron-2014',
+          'Especialista Artesão', 'Caminho Primitivo', 'Juramento Sagrado', 'Tradição Monástica', 
+          'Arquétipo Marcial', 'Origem de Feitiçaria', 'Patrono do Além', 'Tradição Arcana', 
+          'Domínio Divino', 'Círculo Druídico', 'Colégio Bárdico', 'Conclave de Patrulheiro', 
+          'Arquétipo de Ladino'
+        ]
+        for (const id of subclassChoiceIds) {
+          const val = featureChoices[id]
+          if (val && typeof val === 'string') {
+            const choice = classData.choices.find((c: any) => c.id === id)
+            if (choice) {
+              const opt = choice.options.find((o: any) => o.id === val)
+              if (opt) return opt.name
+            }
+            return val
+          }
+        }
+        return ''
+      })()
+
+      const finalAttrs: Attrs = { ...attrs }
+      if (form.ruleset === '2024') {
+        if (asi.primary) finalAttrs[asi.primary] += 2
+        if (asi.secondary) finalAttrs[asi.secondary] += 1
+      } else {
+        const race = RACES_2014.find(r => r.name === form.race)
+        if (race) {
+          if (race.attributeBonuses && form.subRace !== 'Humano Variante') {
+            Object.entries(race.attributeBonuses).forEach(([attr, val]) => {
+              finalAttrs[attr as keyof Attrs] += val
+            })
+          }
+          const lineage = race.lineages?.find(l => l.name === form.subRace)
+          if (lineage?.attributeBonuses) {
+            Object.entries(lineage.attributeBonuses).forEach(([attr, val]) => {
+              finalAttrs[attr as keyof Attrs] += val
+            })
+          }
+          if (form.race === 'Meio-Elfo' || form.subRace === 'Humano Variante') {
+            if (asi.primary) finalAttrs[asi.primary] += 1
+            if (asi.secondary) finalAttrs[asi.secondary] += 1
+          }
+        }
+      }
+
+      const modifiers = {
+        strength: Math.floor((finalAttrs.strength - 10) / 2),
+        dexterity: Math.floor((finalAttrs.dexterity - 10) / 2),
+        constitution: Math.floor((finalAttrs.constitution - 10) / 2),
+        intelligence: Math.floor((finalAttrs.intelligence - 10) / 2),
+        wisdom: Math.floor((finalAttrs.wisdom - 10) / 2),
+        charisma: Math.floor((finalAttrs.charisma - 10) / 2),
+      }
+
+      const slots = getSpellSlots(form.class, form.level, form.ruleset as any, modifiers, subclassName)
       if (!slots) return true
+
+      const domainSpells = subclassName ? getUnlockedSubclassSpells(form.class, subclassName, form.level, form.ruleset as any) : []
+      const domainSpellIds = new Set(domainSpells.map(s => s.id))
 
       const availableSpells = getSpellsForClass(form.class, form.ruleset as any)
       const selectedCantrips = selectedSpells.filter(id => {
         const s = availableSpells.find(sp => sp.id === id)
         return s?.level === 0
       }).length
-      const selectedLvl1 = selectedSpells.filter(id => {
-        const s = availableSpells.find(sp => sp.id === id)
+      const userSelectedLvl1 = selectedSpells.filter(id => {
+        if (domainSpellIds.has(id)) return false
+        const s = availableSpells.find(sp => sp.id === id) || domainSpells.find(sp => sp.id === id)
         return s && s.level > 0
       }).length
 
       const maxCantrips = slots.cantrips || 0
-      const maxLvl1 = (slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)
+      let maxLvl1 = 0
+      if (form.class === 'Mago' && form.level === 1) maxLvl1 = 6
+      else if (typeof slots.prepared === 'number') maxLvl1 = slots.prepared
+      else if (typeof slots.known === 'number') maxLvl1 = slots.known
+      else maxLvl1 = (slots as any).lvl1 || (slots.slots ? slots.slots[0] : 0)
 
-      return selectedCantrips === maxCantrips && selectedLvl1 === maxLvl1
+      return selectedCantrips === maxCantrips && userSelectedLvl1 === maxLvl1
     }
     return true
   }
@@ -468,8 +540,8 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
             finalAttrs[attr as keyof Attrs] += val
           })
         }
-        // Special case: Half-Elf choice of two +1s
-        if (form.race === 'Meio-Elfo') {
+        // Special case: Half-Elf choice of two +1s or Human Variant (+1 and +1)
+        if (form.race === 'Meio-Elfo' || form.subRace === 'Humano Variante') {
           if (asi.primary) finalAttrs[asi.primary] += 1
           if (asi.secondary) finalAttrs[asi.secondary] += 1
         }
@@ -501,6 +573,35 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
     }
     const totalHp = baseHp + conMod + hpBonus
 
+    const resolvedSubclass = (() => {
+      const classData = (form.ruleset === '2014' || form.ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
+      if (!classData) return ''
+
+      const subclassChoiceIds = [
+        'cleric-domain-2014', 'sorcerous-origin-2014', 'warlock-patron-2014',
+        'Especialista Artesão', 'Caminho Primitivo', 'Juramento Sagrado', 'Tradição Monástica', 
+        'Arquétipo Marcial', 'Origem de Feitiçaria', 'Patrono do Além', 'Tradição Arcana', 
+        'Domínio Divino', 'Círculo Druídico', 'Colégio Bárdico', 'Conclave de Patrulheiro', 
+        'Arquétipo de Ladino'
+      ]
+
+      for (const id of subclassChoiceIds) {
+        const val = featureChoices[id]
+        if (val && typeof val === 'string') {
+          const choice = classData.choices.find(c => c.id === id)
+          if (choice) {
+            const opt = choice.options.find(o => o.id === val)
+            if (opt) return opt.name
+          }
+          return val
+        }
+      }
+      return ''
+    })()
+
+    const domainSpells = resolvedSubclass ? getUnlockedSubclassSpells(form.class, resolvedSubclass, form.level, form.ruleset as any) : []
+    const finalSpells = Array.from(new Set([...selectedSpells, ...domainSpells.map((s: any) => s.id)]))
+
     const payload = {
       ...form,
       subrace: form.subRace,
@@ -508,37 +609,13 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
       skills,
       traits: { ...featureChoices, expertises },
       inventory,
-      spells: selectedSpells,
+      spells: finalSpells,
       maxHp: totalHp,
       currentHp: totalHp,
       armorClass: calculateAC(form.class, finalAttrs, inventory),
       initiative: dexMod,
       proficiencyBonus: pb,
-      subclass: (() => {
-        const classData = (form.ruleset === '2014' || form.ruleset === '5e-custom') ? CLASS_LEVEL1_DATA_2014[form.class] : CLASS_LEVEL1_DATA[form.class]
-        if (!classData) return ''
-
-        const subclassChoiceIds = [
-          'cleric-domain-2014', 'sorcerous-origin-2014', 'warlock-patron-2014',
-          'Especialista Artesão', 'Caminho Primitivo', 'Juramento Sagrado', 'Tradição Monástica', 
-          'Arquétipo Marcial', 'Origem de Feitiçaria', 'Patrono do Além', 'Tradição Arcana', 
-          'Domínio Divino', 'Círculo Druídico', 'Colégio Bárdico', 'Conclave de Patrulheiro', 
-          'Arquétipo de Ladino'
-        ]
-
-        for (const id of subclassChoiceIds) {
-          const val = featureChoices[id]
-          if (val && typeof val === 'string') {
-            const choice = classData.choices.find(c => c.id === id)
-            if (choice) {
-              const opt = choice.options.find(o => o.id === val)
-              if (opt) return opt.name
-            }
-            return val
-          }
-        }
-        return ''
-      })(),
+      subclass: resolvedSubclass,
       speed: (() => {
         const race = availableRaces.find(r => r.name === form.race)
         if (!race) return 30
@@ -546,7 +623,7 @@ export function CharacterCreatorProvider({ children }: { children: React.ReactNo
         return lineage?.speed || race.speed || 30
       })(),
       spellSlots: (() => {
-        const slots = getSpellSlots(form.class, form.level, form.ruleset as any)
+        const slots = getSpellSlots(form.class, form.level, form.ruleset as any, undefined, resolvedSubclass)
         if (!slots) return JSON.stringify({})
         const result: Record<string, number> = {}
         if (slots.slots) {
