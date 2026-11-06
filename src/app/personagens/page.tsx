@@ -41,13 +41,17 @@ export default function PersonagensPage() {
 
   return (
     <div className="container">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+      <div className="personagens-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Users size={20} color="var(--accentL)" />
           <span style={{ fontWeight: 600, color: 'var(--fg2)' }}>Personagens: <span style={{ color: 'var(--fg)' }}>{loading ? '...' : chars.length}/15</span></span>
         </div>
         <Link href="/personagens/novo">
-          <button className="btn btn-primary"><Plus size={16} /> Novo Personagem</button>
+          <button className="btn btn-primary btn-novo-personagem">
+            <Plus size={16} />
+            <span>Novo</span>
+            <span className="btn-novo-full-text">&nbsp;Personagem</span>
+          </button>
         </Link>
       </div>
 

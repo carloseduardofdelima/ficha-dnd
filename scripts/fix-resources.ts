@@ -73,7 +73,11 @@ const CLASS_RESOURCES: Record<string, (char: any) => Record<string, number>> = {
     return { 'Forma Selvagem': 2 }
   },
   'Mago': (char) => {
-    return { 'Recuperação Arcana': 1, 'Memória Arcana': 1 }
+    const res: Record<string, number> = { 'Recuperação Arcana': 1 }
+    if (char.ruleset !== '2014' && char.level >= 5) {
+      res['Memorizar Magia'] = 1
+    }
+    return res
   },
   'Patrulheiro': (char) => {
     return { 'Marca do Caçador': char.proficiencyBonus || 2 }

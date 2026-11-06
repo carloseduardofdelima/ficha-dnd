@@ -268,19 +268,20 @@ export const CLASS_PROGRESSION_2024: Record<string, ClassProgression> = {
   'Mago': {
     hitDie: 6,
     features: {
-      1: ['Arcane Recovery', 'Spellcasting (Grimório)'],
-      2: ['Scholar (Expertise)'],
+      1: ['Recuperação Arcana', 'Conjuração (Grimório)'],
+      2: ['Estudioso (Scholar)'],
       3: ['Subclasse Mago [SC]'],
-      4: ['Melhoria de Atributo ou Talento [ASI]', 'Memorize Spell'],
+      4: ['Melhoria de Atributo ou Talento [ASI]'],
+      5: ['Memorizar Magia (Memorize Spell)'],
       6: ['Feature de Subclasse [SC]'],
       8: ['Melhoria de Atributo ou Talento [ASI]'],
       10: ['Feature de Subclasse [SC]'],
       12: ['Melhoria de Atributo ou Talento [ASI]'],
       14: ['Feature de Subclasse [SC]'],
       16: ['Melhoria de Atributo ou Talento [ASI]'],
-      18: ['Spell Mastery'],
+      18: ['Dominar Magia (Spell Mastery)'],
       19: ['Melhoria de Atributo ou Talento [ASI] ou Epic Boon'],
-      20: ['Signature Spells'],
+      20: ['Magias de Assinatura (Signature Spells)'],
     }
   },
   'Artífice': {

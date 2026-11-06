@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
 import { Zap, Sparkles, Target, ShieldAlert } from 'lucide-react'
 import { calcModifier } from '@/types/character'
@@ -30,6 +30,25 @@ export default function SpellsTab() {
 
   if (!character) return null
 
+  const subclassSpells = useMemo(() => {
+    return character.subclass 
+      ? getUnlockedSubclassSpells(character.class, character.subclass, character.level, (character.ruleset as any) || '2024')
+      : []
+  }, [character?.class, character?.subclass, character?.level, character?.ruleset])
+
+  const hasProgressionSlots = Boolean(
+    currentProgression && (
+      (currentProgression.cantrips && currentProgression.cantrips > 0) ||
+      (currentProgression.slots && currentProgression.slots.some((s: number) => s > 0)) ||
+      (currentProgression.prepared && currentProgression.prepared > 0) ||
+      (currentProgression.known && currentProgression.known > 0)
+    )
+  )
+
+  const hasSubclassOrKnownSpells = (subclassSpells && subclassSpells.length > 0) || (parsedSpells && parsedSpells.length > 0)
+
+  const isSpellcaster = Boolean(hasProgressionSlots || hasSubclassOrKnownSpells)
+
   const getSpellcastingAttribute = (cls: string, subcls?: string | null): { name: string; key: keyof typeof effectiveStats } => {
     if (cls === 'Mago' || cls === 'Artífice' || subcls === 'Cavaleiro Arcano' || subcls === 'Trapaceiro Arcano') {
       return { name: 'Inteligência', key: 'intelligence' }
@@ -57,11 +76,15 @@ export default function SpellsTab() {
         <div>
           <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 24, fontWeight: 700, margin: 0 }}>Magias</h2>
           <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 4 }}>
-            {isPreparing ? '🛡️ Selecione as magias para o dia' : '📖 Suas magias ativas'}
+            {!isSpellcaster
+              ? '🛡️ Esta classe não é conjuradora de magias'
+              : isPreparing
+              ? '🛡️ Selecione as magias para o dia'
+              : '📖 Suas magias ativas'}
           </p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-          {isOwner && (
+          {isOwner && isSpellcaster && (
             <button
               className={`btn ${isPreparing ? 'btn-primary' : 'btn-outline'}`}
               onClick={() => setIsPreparing(!isPreparing)}
@@ -72,7 +95,7 @@ export default function SpellsTab() {
             </button>
           )}
 
-          {currentProgression && (
+          {isSpellcaster && currentProgression && (
             <div style={{ display: 'flex', gap: 16 }}>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: 9, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 800 }}>Truques</div>
@@ -96,36 +119,38 @@ export default function SpellsTab() {
       </div>
 
       {/* Spellcasting Ability, Save DC & Attack Bonus Banner */}
-      <div className="spellcasting-stats-banner">
-        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-            <Sparkles size={12} color="var(--accent)" /> Atributo Chave
+      {isSpellcaster && (
+        <div className="spellcasting-stats-banner">
+          <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+              <Sparkles size={12} color="var(--accent)" /> Atributo Chave
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--fg)' }}>
+              {spellAttr.name} <span style={{ fontSize: 13, color: 'var(--accentL)' }}>({spellMod >= 0 ? `+${spellMod}` : spellMod})</span>
+            </div>
           </div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--fg)' }}>
-            {spellAttr.name} <span style={{ fontSize: 13, color: 'var(--accentL)' }}>({spellMod >= 0 ? `+${spellMod}` : spellMod})</span>
-          </div>
-        </div>
 
-        <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-            <ShieldAlert size={12} color="#f59e0b" /> CD de Salvaguarda
+          <div className="card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+              <ShieldAlert size={12} color="#f59e0b" /> CD de Salvaguarda
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#f59e0b' }}>
+              {spellSaveDC}
+            </div>
+            <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>8 + PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
           </div>
-          <div style={{ fontSize: 18, fontWeight: 900, color: '#f59e0b' }}>
-            {spellSaveDC}
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>8 + PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
-        </div>
 
-        <div className="card spell-attack-card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-            <Target size={12} color="#38bdf8" /> Ataque Mágico
+          <div className="card spell-attack-card" style={{ padding: '10px 14px', background: 'var(--bg2)', border: '1px solid var(--border)', textAlign: 'center' }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--fg2)', textTransform: 'uppercase', marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+              <Target size={12} color="#38bdf8" /> Ataque Mágico
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: '#38bdf8' }}>
+              {spellAttackBonus >= 0 ? `+${spellAttackBonus}` : spellAttackBonus}
+            </div>
+            <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
           </div>
-          <div style={{ fontSize: 18, fontWeight: 900, color: '#38bdf8' }}>
-            {spellAttackBonus >= 0 ? `+${spellAttackBonus}` : spellAttackBonus}
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--fg2)', marginTop: 2 }}>PB ({pb >= 0 ? `+${pb}` : pb}) + Mod</div>
         </div>
-      </div>
+      )}
 
       {/* Spell Slots Display */}
       {currentProgression && currentProgression.slots.some((s: number) => s > 0) && (
@@ -283,10 +308,6 @@ export default function SpellsTab() {
         const lastSlotIdx = currentProgression?.slots ? [...currentProgression.slots].reduce((acc: number, curr: number, idx: number) => curr > 0 ? idx : acc, 0) : 0
         const finalMaxLevel = currentProgression?.slot_level || lastSlotIdx + 1
 
-        const subclassSpells = character.subclass 
-          ? getUnlockedSubclassSpells(character.class, character.subclass, character.level, character.ruleset || '2024')
-          : []
-
         const spellcastingClass = (character.class === 'Guerreiro' && character.subclass === 'Cavaleiro Arcano') || (character.class === 'Ladino' && character.subclass === 'Trapaceiro Arcano')
           ? 'Mago'
           : character.class
@@ -368,14 +389,21 @@ export default function SpellsTab() {
           const hasFutureSlots = (character.ruleset === '2014' || character.ruleset === '5e-custom') && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1
           return (
             <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.05)' }}>
-              <p style={{ color: 'var(--fg3)', margin: 0 }}>
+              <p style={{ color: 'var(--fg3)', margin: 0, fontSize: 13, fontWeight: 600 }}>
                 {hasFutureSlots
                   ? '🛡️ Você desbloqueará espaços de magia no Nível 2 (Regras 2014).'
+                  : !isSpellcaster
+                  ? '🛡️ Esta classe não possui capacidade de conjuração de magias.'
                   : '📖 Nenhuma magia preparada para hoje.'}
               </p>
               {hasFutureSlots && (
                 <p style={{ fontSize: 11, color: 'var(--fg4)', marginTop: 8 }}>
                   No D&D 2014, Paladinos e Patrulheiros começam sua jornada mística apenas no segundo nível.
+                </p>
+              )}
+              {!hasFutureSlots && !isSpellcaster && (
+                <p style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 8 }}>
+                  Personagens da classe {character.class || 'atual'} não utilizam magias por padrão.
                 </p>
               )}
             </div>

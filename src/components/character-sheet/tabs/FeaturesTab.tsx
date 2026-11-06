@@ -24,6 +24,7 @@ export default function FeaturesTab() {
     character,
     isOwner,
     parsedTraits,
+    parsedSkills,
     selectedInfusions,
     setSelectedInfusions,
     setSelectedBeast,
@@ -120,19 +121,118 @@ export default function FeaturesTab() {
               description
             }))
 
-            return filteredTraits.map((trait, i) => (
-              <div
-                key={i}
-                className="card clickable"
-                style={{ padding: 16, background: 'var(--bg2)', cursor: 'pointer', transition: 'transform 0.2s' }}
-                onClick={() => setDetailFeature({ ...trait, source: 'Raça', level: 1 })}
-              >
-                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
-                <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                  {trait.description}
-                </p>
-              </div>
-            ))
+            const feats = parsedTraits?.feats || []
+            const chosenFeat = feats.length > 0 ? feats[0] : null
+
+            const bgName = character.background?.toLowerCase().trim()
+            const bgData = (is2014 ? BACKGROUNDS_2014 : BACKGROUNDS).find(b =>
+              b.name.toLowerCase().trim() === bgName || b.id.toLowerCase() === bgName
+            )
+            const bgSkills = bgData?.skills || []
+
+            const skillPtToKey: Record<string, string> = {
+              'acrobacia': 'acrobatics',
+              'adestramento': 'animalHandling',
+              'adestrar animais': 'animalHandling',
+              'arcanismo': 'arcana',
+              'atletismo': 'athletics',
+              'atuação': 'performance',
+              'enganação': 'deception',
+              'furtividade': 'stealth',
+              'história': 'history',
+              'intimidação': 'intimidation',
+              'intuição': 'insight',
+              'investigação': 'investigation',
+              'medicina': 'medicine',
+              'natureza': 'nature',
+              'percepção': 'perception',
+              'persuasão': 'persuasion',
+              'prestidigitação': 'sleightOfHand',
+              'religião': 'religion',
+              'sobrevivência': 'survival',
+            }
+
+            const skillKeyToPt: Record<string, string> = {
+              'acrobatics': 'Acrobacia',
+              'animalHandling': 'Adestramento',
+              'arcana': 'Arcanismo',
+              'athletics': 'Atletismo',
+              'performance': 'Atuação',
+              'deception': 'Enganação',
+              'stealth': 'Furtividade',
+              'history': 'História',
+              'intimidation': 'Intimidação',
+              'insight': 'Intuição',
+              'investigation': 'Investigação',
+              'medicine': 'Medicina',
+              'nature': 'Natureza',
+              'perception': 'Percepção',
+              'persuasion': 'Persuasão',
+              'sleightOfHand': 'Prestidigitação',
+              'religion': 'Religião',
+              'survival': 'Sobrevivência',
+            }
+
+            const bgKeys = new Set(
+              bgSkills.map((s: string) => skillPtToKey[s.toLowerCase()] || s)
+            )
+
+            const trainedKeys = Object.keys(parsedSkills || {}).filter(k => parsedSkills[k])
+            const nonBgKeys = trainedKeys.filter(k => !bgKeys.has(k))
+
+            const classDataForSkills = is2014
+              ? CLASSES_2014.find(c => c.name === character.class)
+              : CLASSES.find(c => c.name === character.class)
+
+            const classSkillOptions = (classDataForSkills as any)?.skillOptions || []
+            const classKeys = new Set(
+              classSkillOptions.map((s: string) => skillPtToKey[s.toLowerCase()] || s)
+            )
+
+            const outOfClassKeys = nonBgKeys.filter(k => !classKeys.has(k))
+            const chosenSkillKey = outOfClassKeys.length > 0 
+              ? outOfClassKeys[0] 
+              : (nonBgKeys.length > (classDataForSkills?.skillCount || 2) ? nonBgKeys[nonBgKeys.length - 1] : nonBgKeys[0])
+
+            const chosenSkillName = chosenSkillKey ? (skillKeyToPt[chosenSkillKey] || chosenSkillKey) : null
+
+            return filteredTraits.map((trait, i) => {
+              const isFeatTrait = trait.name.toLowerCase().includes('talento') || trait.name === 'Versátil'
+              const isSkillTrait = trait.name.toLowerCase().includes('perícia') || trait.name === 'Habilidoso'
+
+              return (
+                <div
+                  key={i}
+                  className="card clickable"
+                  style={{ padding: 16, background: 'var(--bg2)', cursor: 'pointer', transition: 'transform 0.2s' }}
+                  onClick={() => setDetailFeature({
+                    ...trait,
+                    source: 'Raça',
+                    level: 1,
+                    description: isFeatTrait && chosenFeat
+                      ? `${trait.description}\n\nTalento escolhido: ${chosenFeat.name}`
+                      : isSkillTrait && chosenSkillName
+                      ? `${trait.description}\n\nPerícia escolhida: ${chosenSkillName}`
+                      : trait.description
+                  })}
+                >
+                  <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: 'var(--fg)' }}>{trait.name}</div>
+                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>
+                    {trait.description}
+                  </p>
+                  {isFeatTrait && chosenFeat && (
+                    <div style={{ marginTop: 8, fontSize: 13, color: 'var(--fg2)' }}>
+                      <strong style={{ color: 'var(--fg)' }}>Talento escolhido:</strong> <span style={{ color: 'var(--ok)', fontWeight: 600 }}>{chosenFeat.name}</span>
+                    </div>
+                  )}
+                  {isSkillTrait && chosenSkillName && (
+                    <div style={{ marginTop: 8, fontSize: 13, color: 'var(--fg2)' }}>
+                      <strong style={{ color: 'var(--fg)' }}>Perícia escolhida:</strong> <span style={{ color: 'var(--accentL)', fontWeight: 600 }}>{chosenSkillName}</span>
+                    </div>
+                  )}
+                </div>
+              )
+            })
           })()}
         </div>
       </div>

@@ -733,9 +733,9 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       features: {
         2: [
           { name: "Necromancia Instruída", description: "O custo para copiar magias de necromancia é reduzido à metade." },
-          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." },
-          { name: "Escravos Mortos-Vivos", description: "Aprende Animar Mortos; cria um morto-vivo extra; eles ganham PV e dano adicionais." }
+          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." }
         ],
+        6: [{ name: "Escravos Mortos-Vivos", description: "Aprende a magia Animar Mortos; ao conjurar, cria um morto-vivo extra; todos os mortos-vivos que você criar ganham PV adicionais iguais ao seu nível de mago e somam seu bônus de proficiência nas jogadas de dano com armas." }],
         10: [{ name: "Acostumado à Morte-Vida", description: "Resistência a dano necrótico e seu máximo de PV não pode ser reduzido." }],
         14: [{ name: "Comandar Mortos-Vivos", description: "Usa ação para tentar trazer um morto-vivo sob seu controle (save de Carisma)." }]
       }

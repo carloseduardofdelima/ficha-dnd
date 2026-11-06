@@ -63,6 +63,16 @@ export const FEATURE_CATALOG: Record<string, string> = {
   "Forma Selvagem": "Você pode usar sua ação para assumir a forma de uma fera que você já tenha visto.",
   "Wild Shape": "Você pode usar sua ação para assumir a forma de uma fera que você já tenha visto.",
   "Recuperação Arcana": "Você aprendeu a recuperar parte de sua energia mágica estudando seu grimório. Durante um descanso curto, você pode recuperar slots de magia gastos.",
+  "Arcane Recovery": "Você aprendeu a recuperar parte de sua energia mágica estudando seu grimório. Durante um descanso curto, você pode recuperar slots de magia gastos.",
+  "Grimório": "Você possui um livro de magias que reflete seus estudos arcanos, contendo as fórmulas de todas as magias que você conhece.",
+  "Estudioso": "Você ganha proficiência ou especialização em uma perícia acadêmica (Arcanismo, História, Investigação, Medicina, Natureza ou Religião).",
+  "Scholar": "Você ganha proficiência ou especialização em uma perícia acadêmica (Arcanismo, História, Investigação, Medicina, Natureza ou Religião).",
+  "Memorizar Magia": "Ao terminar um descanso curto, você pode estudar seu grimório e trocar uma de suas magias preparadas de 1º círculo ou superior por outra do seu grimório.",
+  "Memorize Spell": "Ao terminar um descanso curto, você pode estudar seu grimório e trocar uma de suas magias preparadas de 1º círculo ou superior por outra do seu grimório.",
+  "Dominar Magia": "Você alcançou tamanha maestria sobre certas magias que pode conjurá-las à vontade. Escolha uma magia de 1º círculo e uma de 2º círculo do seu grimório para conjurar sem gastar espaços de magia.",
+  "Spell Mastery": "Você alcançou tamanha maestria sobre certas magias que pode conjurá-las à vontade. Escolha uma magia de 1º círculo e uma de 2º círculo do seu grimório para conjurar sem gastar espaços de magia.",
+  "Magias de Assinatura": "Você domina duas magias de 3º círculo como sua assinatura pessoal. Você sempre as tem preparadas e pode conjurar cada uma uma vez sem gastar espaço de magia por descanso curto ou longo.",
+  "Signature Spells": "Você domina duas magias de 3º círculo como sua assinatura pessoal. Você sempre as tem preparadas e pode conjurar cada uma uma vez sem gastar espaço de magia por descanso curto ou longo.",
   "Metamagia": "Você ganha a habilidade de moldar suas magias de acordo com suas necessidades.",
   "Invocações Místicas": "Em seus estudos de conhecimentos ocultos, você descobriu invocações místicas que o imbuem com habilidades mágicas permanentes."
 };

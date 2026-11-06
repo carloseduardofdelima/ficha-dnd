@@ -238,7 +238,9 @@ export default function CombatTab() {
 
               if (character.class === 'Mago') {
                 initial['Recuperação Arcana'] = { max: 1, current: 1, color: '#3b82f6' }
-                initial['Memória Arcana'] = { max: 1, current: 1, color: '#3b82f6' }
+                if (!is2014 && character.level >= 5) {
+                  initial['Memorizar Magia'] = { max: 1, current: 1, color: '#3b82f6' }
+                }
                 
                 if (!is2014 && character.subclass === 'Escola de Adivinhação') {
                   initial['Dados de Portento'] = { max: character.level >= 14 ? 3 : 2, current: character.level >= 14 ? 3 : 2, color: '#3b82f6' }

@@ -20,18 +20,22 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
   }
 
   return (
-    <div className="card fade-up" style={{ display: 'flex', gap: 16, padding: 16, position: 'relative' }}>
+    <div className="card fade-up character-card" style={{ display: 'flex', gap: 14, padding: '16px', position: 'relative', width: '100%' }}>
       {/* Avatar & Level */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-        <div style={{ width: 90, height: 90, borderRadius: 10, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+        <div style={{ width: 85, height: 85, borderRadius: 10, overflow: 'hidden', background: 'var(--bg2)', border: '2px solid var(--border)' }}>
           {character.avatarUrl
-            ? <Image src={character.avatarUrl} alt={character.name} width={90} height={90} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ? <Image src={character.avatarUrl} alt={character.name} width={85} height={85} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#1a1030,#0d0820)' }}><Shield size={32} color="var(--fgM)" /></div>
           }
         </div>
         <span style={{ display: 'flex', alignItems: 'center', gap: 3, color: 'var(--warn)', fontSize: 12, fontWeight: 600 }}>
           <Star size={11} fill="currentColor" />Nível {character.level}
         </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'var(--fgM)' }}>
+          <Calendar size={10} color="var(--fgM)" />
+          <span>{new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
+        </div>
       </div>
 
       {/* Info */}
@@ -65,12 +69,7 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
           {character.race && <span className="badge" style={{ background: 'var(--bg2)', color: 'var(--fg2)', borderColor: 'var(--border)' }}>{character.race}</span>}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <Calendar size={11} color="var(--fgM)" />
-            <span style={{ fontSize: 11, color: 'var(--fgM)' }}>{new Date(character.createdAt).toLocaleDateString('pt-BR')}</span>
-          </div>
-
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           {character.ruleset && (
             <span style={{
               background: character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(156, 163, 175, 0.1)',

@@ -170,7 +170,6 @@ export const RACES_2014: Race[] = [
       }
     ],
     traits: [
-      { name: 'Adaptabilidade', description: 'Humanos são versáteis e ambiciosos.' },
       { name: 'Idioma Adicional', description: 'Você pode falar, ler e escrever um idioma adicional à sua escolha.' }
     ]
   },

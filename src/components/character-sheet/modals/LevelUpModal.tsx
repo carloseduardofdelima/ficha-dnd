@@ -10,6 +10,8 @@ import { FEATS_2024 } from '@/lib/dnd-feats-2024'
 import { FEATS_2014 } from '@/lib/feats-2014'
 import { INVOCATIONS_2014 } from '@/lib/invocations-2014'
 import { CLASS_LEVEL1_DATA_2014 } from '@/lib/class-features-2014'
+import { CLASSES_2014 } from '@/lib/classes-2014'
+import { SUBCLASS_EXCLUDED_FEATURES_2014 } from '../utils/subclass-spells'
 import { getSpellSlots } from '@/lib/spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
@@ -185,12 +187,21 @@ export default function LevelUpModal() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {(() => {
                       const nextLevel = character.level + 1
-                      const classFeatures = CLASS_PROGRESSION_2024[character.class]?.features[nextLevel] || []
-                      const speciesFeatures = SPECIES_PROGRESSION_2024[character.race]?.[nextLevel] || []
+                      const rulesetToUse = character.ruleset || selectedRuleset
+                      const is2014 = rulesetToUse === '2014' || rulesetToUse === '5e-custom'
 
+                      const classFeatures = is2014
+                        ? (CLASSES_2014.find(c => c.name === character.class)?.features
+                            .filter(f => f.level === nextLevel && !SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name))
+                            .map(f => f.name) || [])
+                        : (CLASS_PROGRESSION_2024[character.class]?.features[nextLevel] || [])
+
+                      const speciesFeatures = !is2014 ? (SPECIES_PROGRESSION_2024[character.race]?.[nextLevel] || []) : []
+
+                      const subclassData = is2014 ? SUBCLASSES_2014 : SUBCLASSES_2024
                       let subclassFeatures: string[] = []
-                      if (character.subclass && SUBCLASSES_2024[character.class]?.[character.subclass]) {
-                        subclassFeatures = SUBCLASSES_2024[character.class][character.subclass].features[nextLevel]?.map((f: any) => f.name) || []
+                      if (character.subclass && subclassData[character.class]?.[character.subclass]) {
+                        subclassFeatures = subclassData[character.class][character.subclass].features[nextLevel]?.map((f: any) => f.name) || []
                       }
 
                       const allFeatures = [...classFeatures, ...speciesFeatures, ...subclassFeatures]

@@ -260,7 +260,6 @@ const CLASS_LEVEL1_DATA: Record<string, ClassLevel1Data> = {
   'Mago': {
     passiveFeatures: [
       { name: 'Recuperação Arcana', description: '1x por dia: após um Descanso Curto, você pode recuperar espaços de magia gastos cujo nível total seja igual ou menor que metade do seu nível (mín. 1).' },
-      { name: 'Memória Arcana', description: 'Ação: você pode trocar uma das suas magias preparadas por outra do seu grimório. Usos: 1 por Descanso Longo.' },
       { name: 'Conjuração', description: 'Habilidade: Inteligência. Você usa um grimório para estudar suas magias. Começa com 3 Truques e 6 magias no livro.' },
     ],
     choices: [],

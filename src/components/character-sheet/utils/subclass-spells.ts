@@ -23,6 +23,7 @@ export const SUBCLASS_EXCLUDED_FEATURES_2014 = new Set([
   'Característica de Juramento Sagrado',
   'Característica de Conclave',
   'Característica de Tradição Monástica',
+  'Característica de Tradição Arcana',
   'Característica de Especialização',
 ])
 
