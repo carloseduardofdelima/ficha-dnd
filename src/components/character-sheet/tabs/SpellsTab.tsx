@@ -318,7 +318,11 @@ export default function SpellsTab() {
           null
 
         // Se estiver preparando, mostramos a lista da classe. Se não, mostramos as salvas.
-        const availableSpellsList = (character.ruleset === '2014' || character.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
+        const availableSpellsList = character.ruleset === '2024'
+          ? SPELLS
+          : (character.ruleset === '2014'
+              ? SPELLS_2014.filter(s => s.ruleset !== '5e-custom')
+              : SPELLS_2014)
         const baseList = isPreparing
           ? availableSpellsList.filter(s => {
               const matchClass = s.classes.includes(spellcastingClass)

@@ -473,6 +473,49 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     return getSpellSlots(character.class, character.level, (character.ruleset as any) || '2024', modifiers, character.subclass || undefined)
   }, [character?.class, character?.level, character?.subclass, character?.ruleset, character?.strength, character?.dexterity, character?.constitution, character?.intelligence, character?.wisdom, character?.charisma])
 
+  // Helper to detect newly unlocked spell circles for classes
+  const getUnlockedSpellCircle = (className: string, lvl: number, ruleset: '2014' | '2024' | '5e-custom', subclass?: string): string | null => {
+    const current = getSpellSlots(className, lvl, ruleset, undefined, subclass)
+    if (!current) return null
+    const prev = lvl > 1 ? getSpellSlots(className, lvl - 1, ruleset, undefined, subclass) : null
+
+    if (current.slot_level) {
+      if (!prev || current.slot_level > (prev.slot_level || 0)) {
+        return `Magias de ${current.slot_level}º Círculo`
+      }
+      const curPactSlots = current.slots?.[0] || 0
+      const prevPactSlots = prev?.slots?.[0] || 0
+      if (curPactSlots > prevPactSlots) {
+        return `${curPactSlots} Espaços de Pacto`
+      }
+      return null
+    }
+
+    if (Array.isArray(current.slots)) {
+      let currentMax = -1
+      for (let idx = current.slots.length - 1; idx >= 0; idx--) {
+        if (current.slots[idx] > 0) {
+          currentMax = idx + 1
+          break
+        }
+      }
+      let prevMax = -1
+      if (prev && Array.isArray(prev.slots)) {
+        for (let idx = prev.slots.length - 1; idx >= 0; idx--) {
+          if (prev.slots[idx] > 0) {
+            prevMax = idx + 1
+            break
+          }
+        }
+      }
+      if (currentMax > 0 && currentMax > prevMax) {
+        return `Magias de ${currentMax}º Círculo`
+      }
+    }
+
+    return null
+  }
+
   // Progression Data for levels 1-20
   const progressionData = useMemo(() => {
     if (!character) return []
@@ -502,12 +545,17 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
         (classData as any)?.features
           ?.filter((f: any) => f.level === i)
           .forEach((f: any) => {
-            if (!SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name)) {
+            // Se já tem subclasse selecionada, substitui o nome genérico pelas features específicas
+            // Se ainda NÃO tem subclasse, mantém o placeholder (ex: Tradição Arcana) para indicar que ganha subclasse naquele nível
+            if (!subclassData || !SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name)) {
               levelFeatures.push(f.name)
             }
           })
       } else {
-        (classData as any)?.features[i]?.forEach((f: string) => levelFeatures.push(f))
+        (classData as any)?.features[i]?.forEach((f: string) => {
+          if (subclassData && f.includes('[SC]')) return
+          levelFeatures.push(f)
+        })
       }
 
       if (subclassData) {
@@ -516,6 +564,12 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
 
       if (raceProgression?.[i]) {
         raceProgression[i].forEach(f => levelFeatures.push(f))
+      }
+
+      // Desbloqueio de novos círculos de magia para conjuradores
+      const unlockedCircle = getUnlockedSpellCircle(character.class, i, (character.ruleset as any) || '2024', character.subclass || undefined)
+      if (unlockedCircle) {
+        levelFeatures.push(unlockedCircle)
       }
 
       let hpAtLevel = hitDieValue + conMod

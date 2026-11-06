@@ -564,8 +564,12 @@ export default function LevelUpModal() {
                 <div style={{ maxHeight: 330, overflowY: 'auto', paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
                   {(() => {
                     const term = featSearch.trim().toLowerCase()
-                    const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
-                    const normalized2014Feats = FEATS_2014.map(f => ({
+                    const rulesetToUse = character.ruleset || selectedRuleset
+                    const is2014 = rulesetToUse === '2014' || rulesetToUse === '5e-custom'
+                    const featsPool2014 = rulesetToUse === '2014'
+                      ? FEATS_2014.filter(f => !f.source || f.source === "Player's Handbook 2014")
+                      : FEATS_2014
+                    const normalized2014Feats = featsPool2014.map(f => ({
                       id: f.id,
                       name: f.name,
                       englishName: undefined,

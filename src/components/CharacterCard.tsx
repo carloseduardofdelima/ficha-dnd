@@ -72,16 +72,16 @@ export function CharacterCard({ character, onDelete }: { character: Character; o
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           {character.ruleset && (
             <span style={{
-              background: character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(156, 163, 175, 0.1)',
-              color: character.ruleset === '2024' ? '#3b82f6' : '#9ca3af',
-              border: `1px solid ${character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(156, 163, 175, 0.2)'}`,
+              background: character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.1)' : (character.ruleset === '5e-custom' ? 'rgba(168, 85, 247, 0.1)' : 'rgba(156, 163, 175, 0.1)'),
+              color: character.ruleset === '2024' ? '#3b82f6' : (character.ruleset === '5e-custom' ? '#c084fc' : '#9ca3af'),
+              border: `1px solid ${character.ruleset === '2024' ? 'rgba(59, 130, 246, 0.2)' : (character.ruleset === '5e-custom' ? 'rgba(168, 85, 247, 0.2)' : 'rgba(156, 163, 175, 0.2)')}`,
               padding: '4px',
               borderRadius: '4px',
               fontSize: '9px',
               fontWeight: 800,
               textTransform: 'uppercase',
             }}>
-              {character.ruleset === '2024' ? '5.5e 2024' : '5e 2014'}
+              {character.ruleset === '2024' ? '5.5e 2024' : (character.ruleset === '5e-custom' ? '5e + Comp.' : '5e 2014')}
             </span>
           )}
 

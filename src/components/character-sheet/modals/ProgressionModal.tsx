@@ -50,7 +50,9 @@ export default function ProgressionModal() {
             </div>
             <div>
               <h3 style={{ margin: 0, fontFamily: 'Cinzel, serif', fontSize: 20 }}>Progressão do Personagem</h3>
-              <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>Nível 1 ao 20 — {character.class}</span>
+              <span style={{ fontSize: 11, color: 'var(--fg3)', textTransform: 'uppercase', fontWeight: 700 }}>
+                Nível 1 ao 20 — {character.class}{character.subclass ? ` (${character.subclass})` : ''}
+              </span>
             </div>
           </div>
           <button className="btn btn-ghost" onClick={() => setIsProgressionModalOpen(false)} style={{ padding: 8, borderRadius: '50%' }}>
@@ -83,21 +85,25 @@ export default function ProgressionModal() {
                   <td style={{ padding: '12px', color: 'var(--fg2)' }}>{lvl.hp} <span style={{ fontSize: 10, color: 'var(--fg3)' }}>PV</span></td>
                   <td style={{ padding: '12px' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {lvl.features.length > 0 ? lvl.features.map((f: string, idx: number) => (
-                        <span
-                          key={idx}
-                          style={{
-                            padding: '2px 8px',
-                            background: 'var(--bg)',
-                            border: '1px solid var(--border)',
-                            borderRadius: 6,
-                            fontSize: 11,
-                            color: 'var(--fg)'
-                          }}
-                        >
-                          {f}
-                        </span>
-                      )) : <span style={{ color: 'var(--fg3)', fontStyle: 'italic', fontSize: 11 }}>—</span>}
+                      {lvl.features.length > 0 ? lvl.features.map((f: string, idx: number) => {
+                        const isSpellCircle = f.includes('Círculo') || f.includes('Espaços de Pacto')
+                        return (
+                          <span
+                            key={idx}
+                            style={{
+                              padding: '2px 8px',
+                              background: isSpellCircle ? 'rgba(168, 85, 247, 0.15)' : 'var(--bg)',
+                              border: isSpellCircle ? '1px solid rgba(168, 85, 247, 0.35)' : '1px solid var(--border)',
+                              borderRadius: 6,
+                              fontSize: 11,
+                              color: isSpellCircle ? '#c084fc' : 'var(--fg)',
+                              fontWeight: isSpellCircle ? 600 : 400
+                            }}
+                          >
+                            {f}
+                          </span>
+                        )
+                      }) : <span style={{ color: 'var(--fg3)', fontStyle: 'italic', fontSize: 11 }}>—</span>}
                     </div>
                   </td>
                 </tr>
@@ -107,7 +113,7 @@ export default function ProgressionModal() {
         </div>
 
         <div style={{ padding: '16px 24px', background: 'rgba(0,0,0,0.2)', borderTop: '1px solid var(--border)', fontSize: 11, color: 'var(--fg3)', textAlign: 'center' }}>
-          ℹ️ A vida é calculada com base na média dos dados por nível + modificador de Constituição ({formatModifier(character.constitution)}).
+          ℹ️ A vida é calculada com base na média dos dados por nível + mod de Constituição ({formatModifier(character.constitution)}). Inclui características de classe, subclasse, atributos e novos círculos de magia.
         </div>
       </div>
     </div>

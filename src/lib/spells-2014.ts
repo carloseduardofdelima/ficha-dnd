@@ -310,19 +310,6 @@ export const SPELLS_2014: Spell[] = [
     concentration: true 
   },
   { 
-    id: 'booming-blade-2014', 
-    name: 'Lâmina Estrondosa', 
-    level: 0, 
-    school: 'Evocação', 
-    castingTime: '1 ação', 
-    duration: '1 rodada', 
-    range: '1,5 metros', 
-    components: 'V, M', 
-    description: 'Como parte da ação usada para conjurar esta magia, você deve fazer um ataque corpo a corpo com uma arma. Se acertar, o alvo sofre os efeitos normais do ataque e fica envolto em energia trovejante até o início do seu próximo turno. Se o alvo se mover voluntariamente antes disso, ele sofre 1d8 de dano de trovão.', 
-    damageEffect: '1d8 Trovão (movimento)', 
-    classes: ['Feiticeiro', 'Bruxo', 'Mago', 'Artífice'] 
-  },
-  { 
     id: 'vicious-mockery-2014', 
     name: 'Zombaria Viciosa', 
     level: 0, 
@@ -991,19 +978,6 @@ export const SPELLS_2014: Spell[] = [
     classes: ['Clérigo', 'Druida', 'Paladino', 'Artífice'],
     ritual: true
   },
-  {
-    id: 'catapult-2014',
-    name: 'Catapulta',
-    level: 1,
-    school: 'Transmutação',
-    castingTime: '1 ação',
-    duration: 'Instantânea',
-    range: '18 metros',
-    components: 'S',
-    description: 'Você escolhe um objeto pesando entre 0,5 e 2,5 kg dentro do alcance que não esteja sendo usado ou carregado. O objeto voa em linha reta até 27 metros em uma direção à sua escolha antes de cair no chão, parando prematuramente se colidir contra uma criatura. Se colidir, a criatura deve realizar um teste de resistência de Destreza. Se falhar, ela sofre 3d8 de dano de concussão.',
-    damageEffect: '3d8 Concussão',
-    classes: ['Mago', 'Feiticeiro', 'Artífice']
-  },
   { 
     id: 'ray-of-sickness-2014', 
     name: 'Raio de Doença', 
@@ -1178,19 +1152,6 @@ export const SPELLS_2014: Spell[] = [
     concentration: true 
   },
   { 
-    id: 'absorb-elements-2014', 
-    name: 'Absorver Elementos', 
-    level: 1, 
-    school: 'Abjuração', 
-    castingTime: '1 reação', 
-    duration: '1 rodada', 
-    range: 'Pessoal', 
-    components: 'S', 
-    description: 'A magia captura parte da energia recebida, diminuindo seu efeito sobre você e armazenando-a para seu próximo ataque corpo a corpo. Você tem resistência ao tipo de dano desencadeante até o início do seu próximo turno. Além disso, a primeira vez que você acertar um ataque corpo a corpo no seu próximo turno, o alvo sofre 1d6 de dano extra do tipo desencadeante.', 
-    damageEffect: 'Resistência + 1d6 extra', 
-    classes: ['Druida', 'Patrulheiro', 'Feiticeiro', 'Mago', 'Artífice'] 
-  },
-  { 
     id: 'distort-value-2014', 
     name: 'Distorcer Valor', 
     level: 1, 
@@ -1201,18 +1162,6 @@ export const SPELLS_2014: Spell[] = [
     components: 'V', 
     description: 'Você lança uma ilusão sobre um objeto que você toca para fazê-lo parecer valer o dobro ou metade do seu valor real.', 
     classes: ['Bardo', 'Feiticeiro', 'Bruxo', 'Mago'] 
-  },
-  { 
-    id: 'snare-2014', 
-    name: 'Armadilha', 
-    level: 1, 
-    school: 'Abjuração', 
-    castingTime: '1 minuto', 
-    duration: '8 horas', 
-    range: 'Toque', 
-    components: 'V, S, M', 
-    description: 'Enquanto você conjura esta magia, você usa uma corda para criar um laço em uma superfície. Quando a magia termina, o laço torna-se invisível. Uma criatura que entrar na área deve ser bem-sucedida num teste de resistência de Destreza ou ficará pendurada de cabeça para baixo e impedida.', 
-    classes: ['Druida', 'Patrulheiro', 'Mago', 'Artífice'] 
   },
   {
     id: 'acalmar-emocoes',

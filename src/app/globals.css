@@ -821,3 +821,37 @@ body {
     display: none;
   }
 }
+
+/* ── Perícias (Skills Tab) Responsive 2 Columns ── */
+.skills-grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  font-size: 15px;
+}
+
+.skills-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.skills-header-col2 {
+  display: none !important;
+}
+
+.skill-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+/* 2 colunas a partir de 600px (abrange notebooks, tablets e telas médias/grandes) */
+@media (min-width: 600px) {
+  .skills-grid-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .skills-header-col2 {
+    display: flex !important;
+  }
+}

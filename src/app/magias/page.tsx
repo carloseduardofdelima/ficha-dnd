@@ -1,7 +1,7 @@
 'use client'
 import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
-import { Search, Wand2, Sparkles, Filter, ChevronRight, BookOpen, User, Shield, Zap, Info, X, Clock, Globe, Wind, Layers } from 'lucide-react'
+import { Search, Wand2, Sparkles, Filter, ChevronRight, BookOpen, User, Shield, Zap, Info, X, Clock, Globe, Wind, Layers, BookMarked } from 'lucide-react'
 import { SPELLS_2014, Spell } from '@/lib/spells'
 import Image from 'next/image'
 
@@ -28,6 +28,12 @@ const CLASSES = [
   'Artífice', 'Bardo', 'Bruxo', 'Clérigo', 'Druida', 'Feiticeiro', 'Mago', 'Paladino', 'Patrulheiro'
 ]
 
+const SOURCES = [
+  'Livro do Jogador (PHB)',
+  'Guia de Xanathar para Todas as Coisas',
+  'Caldeirão de Tasha'
+]
+
 const SCHOOL_COLORS: Record<string, string> = {
   'Abjuração': '#60a5fa', 'Adivinhação': '#a78bfa', 'Conjuração': '#34d399',
   'Encantamento': '#f472b6', 'Evocação': '#f87171', 'Ilusão': '#c084fc',
@@ -51,6 +57,7 @@ export default function MagiasPage() {
   const [selectedLevel, setSelectedLevel] = useState<string | number>('all')
   const [selectedSchool, setSelectedSchool] = useState<string>('all')
   const [selectedClass, setSelectedClass] = useState<string>('all')
+  const [selectedSource, setSelectedSource] = useState<string>('all')
   const [selectedSpell, setSelectedSpell] = useState<Spell | null>(null)
   const [showFilters, setShowFilters] = useState(false)
 
@@ -68,7 +75,9 @@ export default function MagiasPage() {
       const matchesLevel = selectedLevel === 'all' || spell.level === Number(selectedLevel)
       const matchesSchool = selectedSchool === 'all' || spell.school === selectedSchool
       const matchesClass = selectedClass === 'all' || spell.classes.includes(selectedClass)
-      return matchesSearch && matchesLevel && matchesSchool && matchesClass
+      const spellSource = spell.sourceBook || 'Livro do Jogador (PHB)'
+      const matchesSource = selectedSource === 'all' || spellSource === selectedSource
+      return matchesSearch && matchesLevel && matchesSchool && matchesClass && matchesSource
     }).sort((a, b) => a.name.localeCompare(b.name))
 
     // Debug duplicate IDs
@@ -80,7 +89,7 @@ export default function MagiasPage() {
 
     // De-duplicate as a safety measure
     return Array.from(new Map(filtered.map(s => [s.id, s])).values())
-  }, [debouncedSearch, selectedLevel, selectedSchool, selectedClass])
+  }, [debouncedSearch, selectedLevel, selectedSchool, selectedClass, selectedSource])
 
   // Close modal with ESC
   useEffect(() => {
@@ -152,6 +161,14 @@ export default function MagiasPage() {
           <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
             <option value="all">Todas as Classes</option>
             {CLASSES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+
+        <div className="filter-item">
+          <label><BookMarked size={14} /> Fonte</label>
+          <select value={selectedSource} onChange={(e) => setSelectedSource(e.target.value)}>
+            <option value="all">Todas as Fontes</option>
+            {SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
       </div>
@@ -488,7 +505,8 @@ export default function MagiasPage() {
           display: flex;
           flex-direction: column;
           gap: 8px;
-          min-width: 200px;
+          flex: 1 1 180px;
+          min-width: 160px;
         }
 
         .filter-item label {

@@ -29,7 +29,11 @@ export default function FeatsModal() {
   if (!isFeatModalOpen) return null
 
   const is2014 = (character?.ruleset === '2014' || character?.ruleset === '5e-custom')
-  const catalog = is2014 ? FEATS_2014 : FEATS_2024
+  const catalog = character?.ruleset === '2024'
+    ? FEATS_2024
+    : (character?.ruleset === '2014'
+        ? FEATS_2014.filter(f => !f.source || f.source === "Player's Handbook 2014")
+        : FEATS_2014)
   const selectedNames = new Set((parsedTraits?.feats || []).map((f: any) => f.name))
 
   const filtered = catalog.filter(f => {
