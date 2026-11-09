@@ -18,6 +18,7 @@ export default function CombatTab() {
     selectedInfusions,
     parsedDefenses,
     updateValue,
+    effectiveStats,
   } = useCharacterSheet()
 
   if (!character) return null
@@ -362,9 +363,10 @@ export default function CombatTab() {
             const acRef = ac
 
             const inv = parsedInventory
-            const dexMod = Math.floor((character.dexterity - 10) / 2)
-            const conMod = Math.floor((character.constitution - 10) / 2)
-            const wisMod = Math.floor((character.wisdom - 10) / 2)
+            const curStats = effectiveStats || character
+            const dexMod = Math.floor(((curStats?.dexterity ?? character.dexterity) - 10) / 2)
+            const conMod = Math.floor(((curStats?.constitution ?? character.constitution) - 10) / 2)
+            const wisMod = Math.floor(((curStats?.wisdom ?? character.wisdom) - 10) / 2)
             const armors = inv.filter(e => e.item.category === 'armor' && e.item.armorType !== 'shield' && e.isEquipped)
             const baseArmor = armors.length > 0 ? armors[0].item : null
             const shield = inv.find(e => e.item.category === 'armor' && e.item.armorType === 'shield' && e.isEquipped)

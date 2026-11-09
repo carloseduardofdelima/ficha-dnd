@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Brain, X } from 'lucide-react'
+import { Brain, X, Trash2 } from 'lucide-react'
 import { FEATS_2014 } from '@/lib/feats-2014'
 import { FEATS_2024 } from '@/lib/dnd-feats-2024'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
@@ -23,7 +23,8 @@ export default function FeatsModal() {
     setFeatSearchTerm,
     character,
     parsedTraits,
-    handleAddFeat
+    handleAddFeat,
+    handleRemoveFeat
   } = useCharacterSheet()
 
   if (!isFeatModalOpen) return null
@@ -128,11 +129,11 @@ export default function FeatsModal() {
                   style={{ 
                     padding: 16, 
                     background: 'var(--bg)', 
-                    border: '1px solid var(--border)', 
+                    border: isAlreadyAdded ? '1px solid rgba(225, 29, 72, 0.3)' : '1px solid var(--border)', 
                     display: 'flex', 
                     flexDirection: 'column', 
                     gap: 12,
-                    opacity: isAlreadyAdded ? 0.6 : 1 
+                    transition: 'all 0.2s ease'
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
@@ -141,6 +142,19 @@ export default function FeatsModal() {
                         <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--fg)' }}>{feat.name}</div>
                         {feat.englishName && (
                           <span style={{ fontSize: 11, color: 'var(--fg3)', fontStyle: 'italic' }}>({feat.englishName})</span>
+                        )}
+                        {isAlreadyAdded && (
+                          <span style={{
+                            fontSize: 9,
+                            fontWeight: 800,
+                            color: 'var(--ok)',
+                            background: 'rgba(34, 197, 94, 0.12)',
+                            border: '1px solid rgba(34, 197, 94, 0.3)',
+                            padding: '1px 6px',
+                            borderRadius: 4
+                          }}>
+                            ✓ NA FICHA
+                          </span>
                         )}
                       </div>
                       {feat.requirement && (
@@ -160,17 +174,39 @@ export default function FeatsModal() {
                       </div>
                     </div>
 
-                    <button
-                      className={`btn ${isAlreadyAdded ? 'btn-ghost' : 'btn-primary'}`}
-                      style={{ height: 32, padding: '0 12px', fontSize: 12, flexShrink: 0 }}
-                      disabled={isAlreadyAdded}
-                      onClick={() => {
-                        const featSource = feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')
-                        handleAddFeat({ name: feat.name, description: descText, source: featSource })
-                      }}
-                    >
-                      {isAlreadyAdded ? 'Adicionado' : 'Adicionar'}
-                    </button>
+                    {isAlreadyAdded ? (
+                      <button
+                        className="btn btn-outline"
+                        style={{
+                          height: 32,
+                          padding: '0 12px',
+                          fontSize: 12,
+                          flexShrink: 0,
+                          color: 'var(--danger)',
+                          borderColor: 'rgba(239, 68, 68, 0.4)',
+                          gap: 6
+                        }}
+                        onClick={() => {
+                          if (confirm(`Deseja remover o talento ${feat.name}?`)) {
+                            handleRemoveFeat(feat.name)
+                          }
+                        }}
+                      >
+                        <Trash2 size={13} />
+                        Remover
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary"
+                        style={{ height: 32, padding: '0 12px', fontSize: 12, flexShrink: 0 }}
+                        onClick={() => {
+                          const featSource = feat.source || (is2014 ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')
+                          handleAddFeat({ name: feat.name, description: descText, source: featSource })
+                        }}
+                      >
+                        Adicionar
+                      </button>
+                    )}
                   </div>
 
                   <div style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5 }}>

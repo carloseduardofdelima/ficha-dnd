@@ -98,7 +98,7 @@ export function Sidebar() {
             {/* Logo */}
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
               <div style={{ width: 40, height: 40, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'var(--logo-filter)', transition: 'filter 0.25s ease' }}>
-                <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={40} height={40} style={{ objectFit: 'contain' }} />
+                <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={40} height={40} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} />
               </div>
               <span style={{ fontFamily: 'Cinzel,serif', fontSize: 18, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 A Forja
@@ -251,7 +251,7 @@ export function Sidebar() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48 }}>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
               <div style={{ width: 32, height: 32, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'var(--logo-filter)', transition: 'filter 0.25s ease' }}>
-                <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={32} height={32} style={{ objectFit: 'contain' }} />
+                <Image src="/a-forja-logo-2.png" alt="A Forja Logo" width={32} height={32} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} />
               </div>
               <span style={{ fontFamily: 'Cinzel,serif', fontSize: 16, fontWeight: 700, background: 'linear-gradient(135deg, var(--accentL), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 A Forja

@@ -89,6 +89,11 @@ export function PWAUpdater() {
     async (force = false) => {
       if (typeof window === 'undefined' || !navigator.onLine || isReloadingRef.current) return
 
+      const isDev = process.env.NODE_ENV === 'development' || 
+                    window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1'
+      if (isDev) return
+
       const now = Date.now()
       if (!force && now - lastCheckRef.current < MIN_CHECK_GAP_MS) return
       lastCheckRef.current = now
@@ -153,6 +158,25 @@ export function PWAUpdater() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+
+    const isDev = process.env.NODE_ENV === 'development' || 
+                  window.location.hostname === 'localhost' || 
+                  window.location.hostname === '127.0.0.1'
+
+    if (isDev) {
+      // In development, automatically unregister any service workers to prevent reload loops
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister()
+          }
+        }).catch(() => {})
+      }
+      try {
+        localStorage.removeItem(STORAGE_KEY)
+      } catch {}
+      return
+    }
 
     // Store initial build ID if not present
     try {
@@ -244,7 +268,13 @@ export function PWAUpdater() {
     checkForUpdates(false)
   }, [pathname, checkForUpdates])
 
-  if (!updateReady) return null
+  const isDev = typeof window !== 'undefined' && (
+    process.env.NODE_ENV === 'development' || 
+    window.location.hostname === 'localhost' || 
+    window.location.hostname === '127.0.0.1'
+  )
+
+  if (!updateReady || isDev) return null
 
   return (
     <div

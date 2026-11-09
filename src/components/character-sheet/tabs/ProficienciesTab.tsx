@@ -180,6 +180,30 @@ export default function ProficienciesTab() {
                       </div>
                     )}
 
+                    {/* Feat Weapon Proficiencies */}
+                    {(() => {
+                      const featWeapons: { featName: string; weapons: string[] }[] = []
+                      const feats = parsedTraits?.feats || []
+                      feats.forEach((f: any) => {
+                        if (f.chosenProficiencies && Array.isArray(f.chosenProficiencies) && f.chosenProficiencies.length > 0) {
+                          featWeapons.push({ featName: f.name, weapons: f.chosenProficiencies })
+                        }
+                      })
+                      if (featWeapons.length === 0) return null
+                      return (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+                          {featWeapons.map((fw, idx) => (
+                            <div key={idx} style={{ padding: '8px 12px', background: 'rgba(34, 197, 94, 0.08)', border: '1px solid rgba(34, 197, 94, 0.25)', borderLeft: '3px solid var(--ok)', borderRadius: 6 }}>
+                              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ok)' }}>{fw.featName} (Talento)</div>
+                              <div style={{ fontSize: 12, color: 'var(--fg)', marginTop: 2 }}>
+                                Proficiência em: <strong>{fw.weapons.join(', ')}</strong>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    })()}
+
                     <div style={{ fontSize: 12, color: 'var(--fg2)', marginTop: 8, lineHeight: 1.5 }}>
                       {characterClass?.weaponProf?.toLowerCase().includes('marciais')
                         ? (

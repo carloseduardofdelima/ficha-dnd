@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Sparkles, Settings, AlertCircle, Check, Shield, Sword } from 'lucide-react'
+import { FEATS_2014 } from '@/lib/feats-2014'
 import { RACES } from '@/lib/races'
 import { RACES_2014 } from '@/lib/races-2014'
 import { BACKGROUNDS } from '@/lib/backgrounds'
@@ -16,6 +17,7 @@ import { CLASSES } from '@/lib/classes'
 import { CLASSES_2014 } from '@/lib/classes-2014'
 import { BEAST_FORMS } from '@/lib/beast-forms'
 import { SUBCLASS_EXCLUDED_FEATURES_2014 } from '../utils/subclass-spells'
+import { ALL_SPELLS } from '@/lib/spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
 export default function FeaturesTab() {
@@ -31,6 +33,10 @@ export default function FeaturesTab() {
     setDetailFeature,
     setIsFeatModalOpen,
     handleRemoveFeat,
+    setIsFeatSpellsModalOpen,
+    setSelectedFeatForSpells,
+    setIsFeatChoicesModalOpen,
+    setSelectedFeatForChoices,
   } = useCharacterSheet()
 
   if (!character) return null
@@ -631,6 +637,7 @@ export default function FeaturesTab() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {feats.map((feat: any, i: number) => {
                 const featSource = feat.source || ((character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? 'Livro do Jogador (2014)' : 'Livro do Jogador (2024)')
+                const isMagicInitiate = feat.name.toLowerCase().includes('iniciado em magia') || feat.name.toLowerCase().includes('magic initiate') || (feat.chosenSpells && feat.chosenSpells.length > 0)
                 return (
                   <div
                     key={i}
@@ -662,6 +669,311 @@ export default function FeaturesTab() {
                     <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                       {feat.description}
                     </p>
+
+                    {isMagicInitiate && (
+                      <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                        {feat.chosenClass && feat.chosenSpells && feat.chosenSpells.length > 0 ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
+                                <span style={{ color: 'var(--fg3)', fontWeight: 600 }}>Classe Escolhida:</span>
+                                <span style={{ background: 'var(--accentGlow)', color: 'var(--accentL)', border: '1px solid var(--accent)', padding: '2px 8px', borderRadius: 4, fontWeight: 700 }}>
+                                  {feat.chosenClass}
+                                </span>
+                              </div>
+                              {isOwner && (
+                                <button
+                                  className="btn btn-outline"
+                                  style={{ height: 28, fontSize: 11, padding: '0 10px', gap: 4 }}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setSelectedFeatForSpells(feat)
+                                    setIsFeatSpellsModalOpen(true)
+                                  }}
+                                >
+                                  <Sparkles size={12} color="var(--accentL)" />
+                                  Alterar Magias
+                                </button>
+                              )}
+                            </div>
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                              {feat.chosenSpells.map((sid: string) => {
+                                const spell = ALL_SPELLS.find(s => s.id === sid)
+                                if (!spell) return null
+                                const isCantrip = spell.level === 0
+                                return (
+                                  <div
+                                    key={sid}
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: 6,
+                                      background: 'rgba(255,255,255,0.04)',
+                                      border: '1px solid rgba(255,255,255,0.1)',
+                                      borderRadius: 6,
+                                      padding: '4px 10px',
+                                      fontSize: 12
+                                    }}
+                                  >
+                                    <span style={{
+                                      fontSize: 9,
+                                      fontWeight: 800,
+                                      textTransform: 'uppercase',
+                                      color: isCantrip ? '#4ade80' : '#f59e0b',
+                                      background: isCantrip ? 'rgba(34,197,94,0.12)' : 'rgba(245,158,11,0.12)',
+                                      border: `1px solid ${isCantrip ? 'rgba(34,197,94,0.3)' : 'rgba(245,158,11,0.3)'}`,
+                                      padding: '1px 5px',
+                                      borderRadius: 4
+                                    }}>
+                                      {isCantrip ? 'Truque' : '1º Nível (1x/dia)'}
+                                    </span>
+                                    <span style={{ fontWeight: 600, color: 'var(--fg)' }}>{spell.name}</span>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        ) : (
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                            <span style={{ fontSize: 12, color: 'var(--fg3)', fontStyle: 'italic' }}>
+                              Nenhuma magia selecionada para este talento.
+                            </span>
+                            {isOwner && (
+                              <button
+                                className="btn btn-primary"
+                                style={{ height: 32, fontSize: 12, padding: '0 12px', gap: 6 }}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setSelectedFeatForSpells(feat)
+                                  setIsFeatSpellsModalOpen(true)
+                                }}
+                              >
+                                <Sparkles size={14} />
+                                Escolher Magias
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Configurable Choices (Attribute, Weapons, Saves, etc.) */}
+                    {(() => {
+                      if (isMagicInitiate) return null
+                      const featDef = FEATS_2014.find((f: any) => f.name.toLowerCase() === feat.name.toLowerCase() || f.id === feat.id)
+                      const isASI = feat.name.toLowerCase().includes('incremento') || feat.name.toLowerCase().includes('melhoria no valor') || featDef?.id === 'asi-2014' || featDef?.id === 'asi'
+                      const isWeaponMaster = feat.name.toLowerCase().includes('mestre de armas') || featDef?.id === 'mestre-de-armas'
+                      const isResilient = feat.name.toLowerCase().includes('resiliente') || featDef?.id === 'resiliente'
+                      const isElementalAdept = feat.name.toLowerCase().includes('adepto elemental') || featDef?.id === 'adepto-elemental'
+                      const isSkillExpert = feat.name.toLowerCase().includes('especialista em perícia') || featDef?.id === 'especialista-em-pericia'
+                      const isSkilled = feat.name.toLowerCase().includes('habilidoso') || featDef?.id === 'habilidoso'
+                      const hasChoiceInDef = Boolean(featDef?.attributeBonus?.choice && featDef.attributeBonus.choice.length > 0)
+                      const descText = `${feat.description || ''} ${(featDef?.benefits || []).join(' ')}`.toLowerCase()
+                      const descHasChoice = descText.includes('aumente') && (descText.includes('ou') || descText.includes('à sua escolha') || descText.includes('a sua escolha'))
+
+                      const isConfigurable = isASI || isWeaponMaster || isResilient || isElementalAdept || isSkillExpert || isSkilled || hasChoiceInDef || descHasChoice
+                      const hasFixedBonus = !isConfigurable && featDef?.attributeBonus && !featDef.attributeBonus.choice
+
+                      const attrNameMap: Record<string, string> = {
+                        strength: 'Força',
+                        dexterity: 'Destreza',
+                        constitution: 'Constituição',
+                        intelligence: 'Inteligência',
+                        wisdom: 'Sabedoria',
+                        charisma: 'Carisma'
+                      }
+
+                      if (hasFixedBonus && featDef?.attributeBonus) {
+                        const fixedEntries = Object.entries(featDef.attributeBonus).filter(([_, v]) => typeof v === 'number')
+                        if (fixedEntries.length === 0) return null
+                        return (
+                          <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            {fixedEntries.map(([k, v]) => (
+                              <span
+                                key={k}
+                                style={{
+                                  background: 'rgba(34, 197, 94, 0.12)',
+                                  color: '#4ade80',
+                                  border: '1px solid rgba(34, 197, 94, 0.3)',
+                                  padding: '2px 8px',
+                                  borderRadius: 4,
+                                  fontWeight: 700,
+                                  fontSize: 11
+                                }}
+                              >
+                                +{v as number} {attrNameMap[k] || k} (Aplicado)
+                              </span>
+                            ))}
+                          </div>
+                        )
+                      }
+
+                      if (!isConfigurable) return null
+
+                      const hasChoicesMade = Boolean(
+                        feat.chosenAttribute ||
+                        (feat.chosenAttributes && feat.chosenAttributes.length > 0) ||
+                        (feat.chosenProficiencies && feat.chosenProficiencies.length > 0) ||
+                        feat.chosenDamageType ||
+                        (feat.chosenSkills && feat.chosenSkills.length > 0)
+                      )
+
+                      return (
+                        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          {hasChoicesMade ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                                  {/* Single Chosen Attribute */}
+                                  {feat.chosenAttribute && (
+                                    <span style={{
+                                      background: 'rgba(34, 197, 94, 0.15)',
+                                      color: '#4ade80',
+                                      border: '1px solid rgba(34, 197, 94, 0.3)',
+                                      padding: '2px 8px',
+                                      borderRadius: 4,
+                                      fontWeight: 700,
+                                      fontSize: 11
+                                    }}>
+                                      +1 {attrNameMap[feat.chosenAttribute] || feat.chosenAttribute}
+                                    </span>
+                                  )}
+
+                                  {/* Multiple Chosen Attributes (ASI) */}
+                                  {feat.chosenAttributes && feat.chosenAttributes.length > 0 && (
+                                    <span style={{
+                                      background: 'rgba(34, 197, 94, 0.15)',
+                                      color: '#4ade80',
+                                      border: '1px solid rgba(34, 197, 94, 0.3)',
+                                      padding: '2px 8px',
+                                      borderRadius: 4,
+                                      fontWeight: 700,
+                                      fontSize: 11
+                                    }}>
+                                      {feat.chosenAttributes.length === 2 && feat.chosenAttributes[0] === feat.chosenAttributes[1]
+                                        ? `+2 ${attrNameMap[feat.chosenAttributes[0]] || feat.chosenAttributes[0]}`
+                                        : feat.chosenAttributes.map((a: string) => `+1 ${attrNameMap[a] || a}`).join(', ')}
+                                    </span>
+                                  )}
+
+                                  {/* Resilient Save */}
+                                  {isResilient && feat.chosenAttribute && (
+                                    <span style={{
+                                      background: 'rgba(59, 130, 246, 0.15)',
+                                      color: '#60a5fa',
+                                      border: '1px solid rgba(59, 130, 246, 0.3)',
+                                      padding: '2px 8px',
+                                      borderRadius: 4,
+                                      fontWeight: 700,
+                                      fontSize: 11,
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: 4
+                                    }}>
+                                      <Shield size={10} />
+                                      TR: {attrNameMap[feat.chosenAttribute] || feat.chosenAttribute}
+                                    </span>
+                                  )}
+
+                                  {/* Elemental Adept */}
+                                  {feat.chosenDamageType && (
+                                    <span style={{
+                                      background: 'rgba(239, 68, 68, 0.15)',
+                                      color: '#f87171',
+                                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                                      padding: '2px 8px',
+                                      borderRadius: 4,
+                                      fontWeight: 700,
+                                      fontSize: 11
+                                    }}>
+                                      Dano: {feat.chosenDamageType}
+                                    </span>
+                                  )}
+
+                                  {/* Skills */}
+                                  {feat.chosenSkills && feat.chosenSkills.length > 0 && (
+                                    <span style={{
+                                      background: 'rgba(168, 85, 247, 0.15)',
+                                      color: '#c084fc',
+                                      border: '1px solid rgba(168, 85, 247, 0.3)',
+                                      padding: '2px 8px',
+                                      borderRadius: 4,
+                                      fontWeight: 700,
+                                      fontSize: 11
+                                    }}>
+                                      {feat.chosenSkills.length} Perícia(s)
+                                    </span>
+                                  )}
+                                </div>
+
+                                {isOwner && (
+                                  <button
+                                    className="btn btn-outline"
+                                    style={{ height: 28, fontSize: 11, padding: '0 10px', gap: 4 }}
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setSelectedFeatForChoices(feat)
+                                      setIsFeatChoicesModalOpen(true)
+                                    }}
+                                  >
+                                    <Settings size={12} color="var(--accentL)" />
+                                    Alterar Escolhas
+                                  </button>
+                                )}
+                              </div>
+
+                              {/* Weapons List (Weapon Master) */}
+                              {feat.chosenProficiencies && feat.chosenProficiencies.length > 0 && (
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+                                  <span style={{ fontSize: 11, color: 'var(--fg3)', fontWeight: 600 }}>Armas:</span>
+                                  {feat.chosenProficiencies.map((wpn: string) => (
+                                    <span
+                                      key={wpn}
+                                      style={{
+                                        background: 'rgba(255,255,255,0.04)',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        borderRadius: 4,
+                                        padding: '2px 8px',
+                                        fontSize: 11,
+                                        color: 'var(--fg)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 4
+                                      }}
+                                    >
+                                      <Sword size={11} color="var(--accentL)" />
+                                      {wpn}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+                              <span style={{ fontSize: 12, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <AlertCircle size={14} color="#f59e0b" />
+                                Escolhas pendentes (Atributo / Proficiências)
+                              </span>
+                              {isOwner && (
+                                <button
+                                  className="btn btn-primary"
+                                  style={{ height: 32, fontSize: 12, padding: '0 12px', gap: 6 }}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setSelectedFeatForChoices(feat)
+                                    setIsFeatChoicesModalOpen(true)
+                                  }}
+                                >
+                                  <Settings size={14} />
+                                  Configurar Escolhas
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })()}
                   </div>
                 )
               })}

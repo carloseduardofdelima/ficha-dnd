@@ -512,7 +512,7 @@ export default function MagiasPage() {
         .filter-item label {
           font-size: 11px;
           font-weight: 800;
-          color: var(--fg3);
+          color: var(--fg2);
           text-transform: uppercase;
           letter-spacing: 0.05em;
           display: flex;
@@ -521,6 +521,7 @@ export default function MagiasPage() {
         }
 
         .filter-item select {
+          color-scheme: dark;
           background: var(--bg2);
           border: 1px solid var(--border);
           padding: 10px 16px;
@@ -535,6 +536,11 @@ export default function MagiasPage() {
           background-repeat: no-repeat;
           background-position: right 12px center;
           background-size: 12px;
+        }
+
+        .filter-item select option {
+          background-color: var(--bg2);
+          color: var(--fg);
         }
 
         .filter-item select:hover {
@@ -569,7 +575,7 @@ export default function MagiasPage() {
           left: 16px;
           top: 50%;
           transform: translateY(-50%);
-          color: var(--fg3);
+          color: var(--fg2);
           pointer-events: none;
         }
 
@@ -733,7 +739,12 @@ export default function MagiasPage() {
           align-items: center;
           gap: 8px;
           font-size: 12px;
-          color: var(--fg3);
+          color: #cbd5e1;
+        }
+
+        .meta-item svg {
+          color: var(--accentL);
+          flex-shrink: 0;
         }
 
         .spell-classes {
@@ -745,12 +756,13 @@ export default function MagiasPage() {
         }
 
         .class-pill {
-          font-size: 10px;
-          background: rgba(255,255,255,0.05);
+          font-size: 11px;
+          font-weight: 500;
+          background: rgba(255,255,255,0.08);
           padding: 2px 8px;
           border-radius: 4px;
-          color: var(--fg2);
-          border: 1px solid var(--border);
+          color: #e4e4e7;
+          border: 1px solid rgba(255,255,255,0.14);
         }
 
         .card-footer {
@@ -761,7 +773,12 @@ export default function MagiasPage() {
           font-size: 12px;
           font-weight: 700;
           color: var(--accentL);
-          opacity: 0.6;
+          opacity: 1;
+          transition: all 0.2s ease;
+        }
+
+        .spell-card-new:hover .card-footer {
+          transform: translateX(2px);
         }
 
         /* ── MODAL STYLES ────────────────────────────────────────────────── */
@@ -885,7 +902,7 @@ export default function MagiasPage() {
         .info-box label {
           display: block;
           font-size: 9px;
-          color: var(--fg3);
+          color: var(--fg2);
           text-transform: uppercase;
           font-weight: 800;
           margin-bottom: 2px;

@@ -11,8 +11,10 @@ export default function PersonagensPage() {
   const [chars, setChars] = useState<Character[]>([])
   const [loading, setLoading] = useState(true)
 
+  const userEmail = session?.user?.email
+
   useEffect(() => {
-    if (session) {
+    if (userEmail) {
       setLoading(true)
       fetch('/api/personagens')
         .then(res => res.json())
@@ -22,7 +24,7 @@ export default function PersonagensPage() {
         })
         .catch(() => setLoading(false))
     }
-  }, [session])
+  }, [userEmail])
 
   const deleteChar = async (id: string) => {
     if (confirm('Deletar este personagem?')) {

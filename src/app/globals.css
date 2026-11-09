@@ -10,6 +10,7 @@ body {
 }
 
 :root {
+  color-scheme: dark;
   --bg: #0b0b0d;
   --bg2: #111114;
   --card: #17171c;
@@ -42,6 +43,7 @@ body[data-theme="escuro"] {
 
 html[data-theme="claro"],
 body[data-theme="claro"] {
+  color-scheme: light;
   --bg: #f8fafc;
   --bg2: #f1f5f9;
   --card: #ffffff;
@@ -106,6 +108,27 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+
+select {
+  color-scheme: dark;
+}
+
+html[data-theme="claro"] select,
+body[data-theme="claro"] select {
+  color-scheme: light;
+}
+
+select option {
+  background-color: var(--bg2);
+  color: var(--fg);
+}
+
+html[data-theme="claro"] select option,
+body[data-theme="claro"] select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
 
 ::-webkit-scrollbar {
   width: 6px;

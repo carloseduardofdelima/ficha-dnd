@@ -14,6 +14,8 @@ import ImageUploadModal from './ImageUploadModal'
 import CompanionModal from './CompanionModal'
 import AttributeEditModal from './AttributeEditModal'
 import ProgressionModal from './ProgressionModal'
+import FeatSpellsModal from './FeatSpellsModal'
+import FeatChoicesModal from './FeatChoicesModal'
 
 export default function CharacterModals() {
   return (
@@ -27,6 +29,8 @@ export default function CharacterModals() {
       <InventoryAddModal />
       <CustomItemModal />
       <FeatsModal />
+      <FeatSpellsModal />
+      <FeatChoicesModal />
       <ImageUploadModal />
       <CompanionModal />
       <AttributeEditModal />

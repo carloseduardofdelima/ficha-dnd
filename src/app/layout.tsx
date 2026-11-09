@@ -72,9 +72,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 } catch (e) {}
 
                 if ('serviceWorker' in navigator) {
-                  window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(function() {});
-                  });
+                  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    navigator.serviceWorker.getRegistrations().then(function(regs) {
+                      for (var i = 0; i < regs.length; i++) {
+                        regs[i].unregister();
+                      }
+                    }).catch(function() {});
+                  } else {
+                    window.addEventListener('load', function() {
+                      navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(function() {});
+                    });
+                  }
                 }
               })();
             `,

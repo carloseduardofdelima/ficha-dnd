@@ -78,6 +78,18 @@ export interface CharacterSheetContextType {
   handleSelectSubclassDirectly: (subclassName: string) => Promise<void>
   handleAddFeat: (feat: { name: string; description: string; source?: string }) => Promise<void>
   handleRemoveFeat: (featName: string) => Promise<void>
+  handleSaveFeatSpells: (featName: string, chosenClass: string, chosenSpellIds: string[]) => Promise<void>
+  handleSaveFeatChoices: (
+    featName: string,
+    choices: {
+      chosenAttribute?: string
+      chosenAttributes?: string[]
+      chosenProficiencies?: string[]
+      chosenSkills?: string[]
+      chosenExpertise?: string
+      chosenDamageType?: string
+    }
+  ) => Promise<void>
   handleAddInventoryItem: (item: any) => Promise<void>
   handleRemoveInventoryItem: (itemName: string) => Promise<void>
   toggleEquip: (index: number) => void
@@ -185,6 +197,16 @@ export interface CharacterSheetContextType {
   featSearchTerm: string
   setFeatSearchTerm: (term: string) => void
 
+  isFeatSpellsModalOpen: boolean
+  setIsFeatSpellsModalOpen: (open: boolean) => void
+  selectedFeatForSpells: any | null
+  setSelectedFeatForSpells: (feat: any | null) => void
+
+  isFeatChoicesModalOpen: boolean
+  setIsFeatChoicesModalOpen: (open: boolean) => void
+  selectedFeatForChoices: any | null
+  setSelectedFeatForChoices: (feat: any | null) => void
+
   isCompanionModalOpen: boolean
   setIsCompanionModalOpen: (open: boolean) => void
   newCompanion: Partial<Companion>
@@ -271,6 +293,14 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
   const [isFeatModalOpen, setIsFeatModalOpen] = useState(false)
   const [featSearchTerm, setFeatSearchTerm] = useState('')
 
+  // Feat Spells Modal
+  const [isFeatSpellsModalOpen, setIsFeatSpellsModalOpen] = useState(false)
+  const [selectedFeatForSpells, setSelectedFeatForSpells] = useState<any | null>(null)
+
+  // Feat Choices Modal
+  const [isFeatChoicesModalOpen, setIsFeatChoicesModalOpen] = useState(false)
+  const [selectedFeatForChoices, setSelectedFeatForChoices] = useState<any | null>(null)
+
   const [isClient, setIsClient] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
 
@@ -285,17 +315,40 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     }
   }, [character?.traits])
 
-  const expertises = useMemo(() => parsedTraits.expertises || {}, [parsedTraits])
+  const expertises = useMemo(() => {
+    const exp = { ...(parsedTraits.expertises || {}) }
+    const feats = parsedTraits?.feats || []
+    for (const f of feats) {
+      if (f.chosenExpertise) {
+        exp[f.chosenExpertise] = true
+      }
+    }
+    return exp
+  }, [parsedTraits])
 
   const parsedSkills = useMemo<Record<string, boolean>>(() => {
-    if (!character?.skills) return {}
-    if (typeof character.skills === 'object') return character.skills as Record<string, boolean>
-    try {
-      return JSON.parse(character.skills as string)
-    } catch (e) {
-      return {}
+    let skills: Record<string, boolean> = {}
+    if (character?.skills) {
+      if (typeof character.skills === 'object') {
+        skills = { ...(character.skills as Record<string, boolean>) }
+      } else {
+        try {
+          skills = { ...JSON.parse(character.skills as string) }
+        } catch (e) {
+          skills = {}
+        }
+      }
     }
-  }, [character?.skills])
+    const feats = parsedTraits?.feats || []
+    for (const f of feats) {
+      if (f.chosenSkills && Array.isArray(f.chosenSkills)) {
+        for (const s of f.chosenSkills) {
+          skills[s] = true
+        }
+      }
+    }
+    return skills
+  }, [character?.skills, parsedTraits?.feats])
 
   const parsedDefenses = useMemo<Defense[]>(() => {
     if (!(character as any)?.defenses) return []
@@ -589,14 +642,26 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     return levels
   }, [character?.class, character?.subclass, character?.race, character?.ruleset, character?.constitution, character?.strength, character?.dexterity, character?.intelligence, character?.wisdom, character?.charisma])
 
+  const featSpellIds = useMemo(() => {
+    const feats = parsedTraits?.feats || []
+    const ids: string[] = []
+    feats.forEach((f: any) => {
+      if (f.chosenSpells && Array.isArray(f.chosenSpells)) {
+        ids.push(...f.chosenSpells)
+      }
+    })
+    return new Set(ids)
+  }, [parsedTraits?.feats])
+
   const totalCantripsSelected = useMemo(() => {
     if (!parsedSpells) return 0
     const list = (character?.ruleset === '2014' || character?.ruleset === '5e-custom') ? SPELLS_2014 : SPELLS
     return parsedSpells
+      .filter(id => !featSpellIds.has(id))
       .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
       .filter(s => s?.level === 0).length
-  }, [parsedSpells, character?.ruleset])
+  }, [parsedSpells, character?.ruleset, featSpellIds])
 
   const totalLeveledSpellsSelected = useMemo(() => {
     if (!parsedSpells || !character) return 0
@@ -606,11 +671,11 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
       : []
     const subclassSpellIds = new Set(subclassSpells.map(s => s.id))
     return parsedSpells
-      .filter(id => !subclassSpellIds.has(id))
+      .filter(id => !subclassSpellIds.has(id) && !featSpellIds.has(id))
       .filter(id => list.some(s => s.id === id))
       .map(id => ALL_SPELLS.find(s => s.id === id))
       .filter(s => s && s.level > 0).length
-  }, [parsedSpells, character])
+  }, [parsedSpells, character, featSpellIds])
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -701,7 +766,26 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
         : CLASSES.find(c => c.name === character.class))
     : null
 
-  const proficientSaves = characterClass?.savingThrows || []
+  const proficientSaves = useMemo(() => {
+    const saves = new Set<string>(characterClass?.savingThrows || [])
+    const feats = parsedTraits?.feats || []
+    for (const f of feats) {
+      if (f.name?.toLowerCase().includes('resiliente') && f.chosenAttribute) {
+        const attrMap: Record<string, string> = {
+          strength: 'Força',
+          dexterity: 'Destreza',
+          constitution: 'Constituição',
+          intelligence: 'Inteligência',
+          wisdom: 'Sabedoria',
+          charisma: 'Carisma'
+        }
+        if (attrMap[f.chosenAttribute]) {
+          saves.add(attrMap[f.chosenAttribute])
+        }
+      }
+    }
+    return Array.from(saves)
+  }, [characterClass?.savingThrows, parsedTraits?.feats])
 
   const effectiveStats = character
     ? calculateEffectiveStats({
@@ -711,7 +795,7 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
         intelligence: character.intelligence,
         wisdom: character.wisdom,
         charisma: character.charisma
-      }, (character.inventory as any[]) || [])
+      }, (character.inventory as any[]) || [], parsedTraits?.feats)
     : { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 }
 
   const attributes = [
@@ -1009,7 +1093,114 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
   const handleRemoveFeat = async (featName: string) => {
     if (!character) return
     const currentFeats = parsedTraits?.feats || []
+    const featToRemove = currentFeats.find((f: any) => f.name === featName)
     const updatedFeats = currentFeats.filter((f: any) => f.name !== featName)
+    const updatedTraits = {
+      ...parsedTraits,
+      feats: updatedFeats
+    }
+
+    let updatedSpells = parsedSpells
+    if (featToRemove?.chosenSpells && Array.isArray(featToRemove.chosenSpells)) {
+      const toRemoveSet = new Set(featToRemove.chosenSpells)
+      updatedSpells = parsedSpells.filter(sid => !toRemoveSet.has(sid))
+    }
+
+    const updated = {
+      ...character,
+      traits: JSON.stringify(updatedTraits),
+      spells: JSON.stringify(updatedSpells)
+    }
+
+    setCharacter(updated as any)
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}')
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        traits: JSON.stringify(updatedTraits),
+        spells: JSON.stringify(updatedSpells),
+        lastModified: Date.now()
+      }))
+    } catch (e) {
+      console.error(e)
+    }
+
+    await saveCharacterToDB(updated as any)
+  }
+
+  const handleSaveFeatSpells = async (featName: string, chosenClass: string, chosenSpellIds: string[]) => {
+    if (!character) return
+    const currentFeats = parsedTraits?.feats || []
+    const oldFeat = currentFeats.find((f: any) => f.name === featName)
+    const oldSpells: string[] = oldFeat?.chosenSpells || []
+
+    const updatedFeats = currentFeats.map((f: any) => {
+      if (f.name === featName) {
+        return {
+          ...f,
+          chosenClass,
+          chosenSpells: chosenSpellIds
+        }
+      }
+      return f
+    })
+
+    const updatedTraits = {
+      ...parsedTraits,
+      feats: updatedFeats
+    }
+
+    const oldSpellSet = new Set(oldSpells)
+    const remainingSpells = parsedSpells.filter(sid => !oldSpellSet.has(sid))
+    const newSpells = Array.from(new Set([...remainingSpells, ...chosenSpellIds]))
+
+    const updated = {
+      ...character,
+      traits: JSON.stringify(updatedTraits),
+      spells: JSON.stringify(newSpells)
+    }
+
+    setCharacter(updated as any)
+    try {
+      const localData = JSON.parse(localStorage.getItem(`char_stats_${id}`) || '{}')
+      localStorage.setItem(`char_stats_${id}`, JSON.stringify({
+        ...localData,
+        traits: JSON.stringify(updatedTraits),
+        spells: JSON.stringify(newSpells),
+        lastModified: Date.now()
+      }))
+    } catch (e) {
+      console.error(e)
+    }
+
+    await saveCharacterToDB(updated as any)
+    setIsFeatSpellsModalOpen(false)
+    setSelectedFeatForSpells(null)
+  }
+
+  const handleSaveFeatChoices = async (
+    featName: string,
+    choices: {
+      chosenAttribute?: string
+      chosenAttributes?: string[]
+      chosenProficiencies?: string[]
+      chosenSkills?: string[]
+      chosenExpertise?: string
+      chosenDamageType?: string
+    }
+  ) => {
+    if (!character) return
+    const currentFeats = parsedTraits?.feats || []
+    const updatedFeats = currentFeats.map((f: any) => {
+      if (f.name === featName) {
+        return {
+          ...f,
+          ...choices
+        }
+      }
+      return f
+    })
+
     const updatedTraits = {
       ...parsedTraits,
       feats: updatedFeats
@@ -1033,6 +1224,8 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     }
 
     await saveCharacterToDB(updated as any)
+    setIsFeatChoicesModalOpen(false)
+    setSelectedFeatForChoices(null)
   }
 
   const handleAddCompanion = (comp: Partial<Companion>) => {
@@ -1240,6 +1433,8 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     handleSelectSubclassDirectly,
     handleAddFeat,
     handleRemoveFeat,
+    handleSaveFeatSpells,
+    handleSaveFeatChoices,
     handleAddInventoryItem,
     handleRemoveInventoryItem,
     toggleEquip,
@@ -1330,6 +1525,16 @@ export function CharacterSheetProvider({ children }: { children: React.ReactNode
     setIsFeatModalOpen,
     featSearchTerm,
     setFeatSearchTerm,
+
+    isFeatSpellsModalOpen,
+    setIsFeatSpellsModalOpen,
+    selectedFeatForSpells,
+    setSelectedFeatForSpells,
+
+    isFeatChoicesModalOpen,
+    setIsFeatChoicesModalOpen,
+    selectedFeatForChoices,
+    setSelectedFeatForChoices,
 
     isCompanionModalOpen,
     setIsCompanionModalOpen,

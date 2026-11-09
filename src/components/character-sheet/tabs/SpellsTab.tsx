@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import Image from 'next/image'
 import { Zap, Sparkles, Target, ShieldAlert } from 'lucide-react'
 import { calcModifier } from '@/types/character'
-import { SPELLS, ALL_SPELLS, SPELLS_2014 } from '@/lib/spells'
+import { SPELLS, ALL_SPELLS, SPELLS_2014, Spell } from '@/lib/spells'
 import { getUnlockedSubclassSpells } from '../utils/subclass-spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
@@ -23,6 +23,7 @@ export default function SpellsTab() {
     selectedMetamagics,
     setSelectedMetamagics,
     parsedSpells,
+    parsedTraits,
     ekSchoolFilter,
     setEkSchoolFilter,
     updateValue,
@@ -36,6 +37,23 @@ export default function SpellsTab() {
       : []
   }, [character?.class, character?.subclass, character?.level, character?.ruleset])
 
+  const featWithSpells = useMemo(() => {
+    const feats = parsedTraits?.feats || []
+    return feats.find((f: any) => 
+      (f.name.toLowerCase().includes('iniciado em magia') || f.name.toLowerCase().includes('magic initiate') || (f.chosenSpells && f.chosenSpells.length > 0)) &&
+      f.chosenSpells && f.chosenSpells.length > 0
+    )
+  }, [parsedTraits?.feats])
+
+  const featSpells = useMemo(() => {
+    if (!featWithSpells?.chosenSpells) return []
+    return (featWithSpells.chosenSpells as string[])
+      .map(sid => ALL_SPELLS.find(s => s.id === sid))
+      .filter((s): s is Spell => Boolean(s))
+  }, [featWithSpells])
+
+  const featSpellIds = useMemo(() => new Set(featSpells.map(s => s.id)), [featSpells])
+
   const hasProgressionSlots = Boolean(
     currentProgression && (
       (currentProgression.cantrips && currentProgression.cantrips > 0) ||
@@ -45,18 +63,19 @@ export default function SpellsTab() {
     )
   )
 
-  const hasSubclassOrKnownSpells = (subclassSpells && subclassSpells.length > 0) || (parsedSpells && parsedSpells.length > 0)
+  const hasSubclassOrKnownSpells = (subclassSpells && subclassSpells.length > 0) || (parsedSpells && parsedSpells.length > 0) || (featSpells.length > 0)
 
   const isSpellcaster = Boolean(hasProgressionSlots || hasSubclassOrKnownSpells)
 
   const getSpellcastingAttribute = (cls: string, subcls?: string | null): { name: string; key: keyof typeof effectiveStats } => {
-    if (cls === 'Mago' || cls === 'Artífice' || subcls === 'Cavaleiro Arcano' || subcls === 'Trapaceiro Arcano') {
+    const targetClass = (!hasProgressionSlots && featWithSpells?.chosenClass) ? featWithSpells.chosenClass : cls
+    if (targetClass === 'Mago' || targetClass === 'Artífice' || subcls === 'Cavaleiro Arcano' || subcls === 'Trapaceiro Arcano') {
       return { name: 'Inteligência', key: 'intelligence' }
     }
-    if (cls === 'Clérigo' || cls === 'Druida' || cls === 'Patrulheiro') {
+    if (targetClass === 'Clérigo' || targetClass === 'Druida' || targetClass === 'Patrulheiro') {
       return { name: 'Sabedoria', key: 'wisdom' }
     }
-    if (cls === 'Bardo' || cls === 'Feiticeiro' || cls === 'Bruxo' || cls === 'Paladino') {
+    if (targetClass === 'Bardo' || targetClass === 'Feiticeiro' || targetClass === 'Bruxo' || targetClass === 'Paladino') {
       return { name: 'Carisma', key: 'charisma' }
     }
     return { name: 'Inteligência', key: 'intelligence' }
@@ -327,11 +346,14 @@ export default function SpellsTab() {
           ? availableSpellsList.filter(s => {
               const matchClass = s.classes.includes(spellcastingClass)
               const matchLevel = s.level <= finalMaxLevel
-              const isExcluded = subclassSpells.some(ss => ss.id === s.id)
+              const isExcluded = subclassSpells.some(ss => ss.id === s.id) || featSpellIds.has(s.id)
               const matchSchool = !ekSchoolFilter || s.level === 0 || !restrictedSchools || restrictedSchools.includes(s.school)
               return matchClass && matchLevel && !isExcluded && matchSchool
             })
-          : currentSpells.map(sid => ALL_SPELLS.find(s => s.id === sid)).filter(Boolean)
+          : currentSpells
+              .filter(sid => !featSpellIds.has(sid))
+              .map(sid => ALL_SPELLS.find(s => s.id === sid))
+              .filter(Boolean)
 
         const slots = character.spellSlots ? JSON.parse(character.spellSlots as string) : {}
 
@@ -350,6 +372,7 @@ export default function SpellsTab() {
 
             if (lvl === 0) {
               const selectedCantrips = currentSpells.filter(sid => {
+                if (featSpellIds.has(sid)) return false
                 const s = ALL_SPELLS.find(sp => sp.id === sid)
                 return s && s.level === 0
               }).length
@@ -362,7 +385,7 @@ export default function SpellsTab() {
 
               if (isPoolBased) {
                 const selectedLeveled = currentSpells.filter(sid => {
-                  if (subclassSpells.some(ss => ss.id === sid)) return false
+                  if (subclassSpells.some(ss => ss.id === sid) || featSpellIds.has(sid)) return false
                   const s = ALL_SPELLS.find(sp => sp.id === sid)
                   return s && s.level > 0
                 }).length
@@ -389,7 +412,7 @@ export default function SpellsTab() {
           updateValue('spells', newSpells, true)
         }
 
-        if (baseList.length === 0 && subclassSpells.length === 0 && !isPreparing) {
+        if (baseList.length === 0 && subclassSpells.length === 0 && featSpells.length === 0 && !isPreparing) {
           const hasFutureSlots = (character.ruleset === '2014' || character.ruleset === '5e-custom') && ['Paladino', 'Patrulheiro'].includes(character.class) && character.level === 1
           return (
             <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.01)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.05)' }}>
@@ -437,7 +460,7 @@ export default function SpellsTab() {
                         style={{
                           padding: 16,
                           background: 'var(--bg2)',
-                          borderLeft: '3px solid var(--accentL)',
+                          border: '1px solid var(--border)',
                           cursor: 'default',
                           transition: 'all 0.2s',
                           position: 'relative',
@@ -558,7 +581,7 @@ export default function SpellsTab() {
               if (lvlSpells.length === 0) return null
 
               const selectedInLvl = currentSpells.filter(sid => {
-                if (subclassSpells.some(ss => ss.id === sid)) return false
+                if (subclassSpells.some(ss => ss.id === sid) || featSpellIds.has(sid)) return false
                 const s = ALL_SPELLS.find(sp => sp.id === sid)
                 return s && s.level === lvl
               }).length
@@ -604,7 +627,7 @@ export default function SpellsTab() {
                           style={{
                             padding: isPreparing ? '10px 12px' : 16,
                             background: isSelected ? 'var(--bg2)' : 'rgba(255,255,255,0.02)',
-                            borderLeft: isSelected ? '3px solid var(--accent)' : '1px solid var(--border)',
+                            border: isPreparing && isSelected ? '1px solid var(--accent)' : '1px solid var(--border)',
                             cursor: isPreparing ? 'pointer' : 'default',
                             transition: 'all 0.2s',
                             position: 'relative',
@@ -720,6 +743,144 @@ export default function SpellsTab() {
                 </div>
               )
             })}
+
+            {/* Magias Concedidas por Talento (ex: Iniciado em Magia) */}
+            {featSpells.length > 0 && (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, borderBottom: '1px solid var(--accentL)', paddingBottom: 8 }}>
+                  <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+                    Magias de Talento — {featWithSpells?.name || 'Iniciado em Magia'}{featWithSpells?.chosenClass ? ` (${featWithSpells.chosenClass})` : ''}
+                  </h3>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', background: 'rgba(225,29,72,0.1)', padding: '2px 6px', borderRadius: 4 }}>
+                    Concedidas por Talento
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {featSpells.map((spell: any) => {
+                    const isCantrip = spell.level === 0
+                    return (
+                      <div
+                        key={spell.id}
+                        className="card"
+                        style={{
+                          padding: 16,
+                          background: 'var(--bg2)',
+                          border: '1px solid var(--border)',
+                          cursor: 'default',
+                          transition: 'all 0.2s',
+                          position: 'relative',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                          {(() => {
+                            const icon = spell.icon || (
+                              spell.school === 'Abjuração' ? 'protection-field.png' :
+                                spell.school === 'Adivinhação' ? 'all-seeing-eye.png' :
+                                  spell.school === 'Conjuração' ? 'magic-sparks.png' :
+                                    spell.school === 'Encantamento' ? 'heart-heal.png' :
+                                      spell.school === 'Evocação' ? 'fire-blast.png' :
+                                        spell.school === 'Ilusão' ? 'mirror-image.png' :
+                                          spell.school === 'Necromancia' ? 'undead-skull.png' :
+                                            spell.school === 'Transmutação' ? 'elemental-spiral.png' :
+                                              'magic-scroll.png'
+                            )
+                            return (
+                              <div style={{
+                                flexShrink: 0,
+                                width: 40,
+                                height: 40,
+                                borderRadius: 6,
+                                overflow: 'hidden',
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                background: 'rgba(0,0,0,0.3)'
+                              }}>
+                                <Image
+                                  src={`/assets/spells-icons/${icon}`}
+                                  alt={spell.name}
+                                  width={40}
+                                  height={40}
+                                  style={{ objectFit: 'cover' }}
+                                />
+                              </div>
+                            )
+                          })()}
+
+                          <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                              <div>
+                                <div style={{
+                                  fontWeight: 700,
+                                  fontSize: 15,
+                                  color: 'var(--fg)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 8,
+                                  lineHeight: 1.2
+                                }}>
+                                  {spell.name}
+                                  {!isCantrip && (
+                                    <span style={{
+                                      fontSize: 9,
+                                      fontWeight: 800,
+                                      color: '#f59e0b',
+                                      background: 'rgba(245, 158, 11, 0.15)',
+                                      padding: '2px 6px',
+                                      borderRadius: 4,
+                                      border: '1px solid rgba(245, 158, 11, 0.3)'
+                                    }}>
+                                      1x / DESCANSO LONGO
+                                    </span>
+                                  )}
+                                  {spell.ritual && (
+                                    <span style={{
+                                      fontSize: 9,
+                                      fontWeight: 800,
+                                      color: '#fbbf24',
+                                      background: 'rgba(251, 191, 36, 0.15)',
+                                      padding: '2px 6px',
+                                      borderRadius: 4,
+                                      border: '1px solid rgba(251, 191, 36, 0.3)'
+                                    }}>
+                                      RITUAL
+                                    </span>
+                                  )}
+                                </div>
+                                <div style={{ fontSize: 10, color: 'var(--accentL)', fontWeight: 600, textTransform: 'uppercase', marginTop: 2 }}>
+                                  {spell.school}
+                                </div>
+                              </div>
+
+                              <div style={{
+                                fontSize: 11,
+                                fontWeight: 700,
+                                color: 'var(--accentL)',
+                                background: 'rgba(225, 29, 72, 0.15)',
+                                border: '1px solid var(--accent)',
+                                padding: '4px 8px',
+                                borderRadius: 6
+                              }}>
+                                {spell.range}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '10px 0', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 10 }}>
+                          <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Tempo:</span> {spell.castingTime}</div>
+                          <div style={{ fontSize: 11 }}><span style={{ color: 'var(--fg3)' }}>Duração:</span> {spell.duration}</div>
+                          {spell.concentration && <div style={{ fontSize: 9, background: '#fbbf24', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>CONC.</div>}
+                          {spell.ritual && <div style={{ fontSize: 9, background: '#a78bfa', color: '#000', padding: '1px 4px', borderRadius: 3, fontWeight: 800 }}>RITUAL</div>}
+                        </div>
+                        <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.5, margin: 0 }}>{spell.description}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         )
       })()}
