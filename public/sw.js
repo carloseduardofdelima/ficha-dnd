@@ -18,6 +18,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
+  let hadOldCache = false;
   event.waitUntil(
     caches
       .keys()
@@ -25,6 +26,7 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== CURRENT_CACHE) {
+              hadOldCache = true;
               return caches.delete(cacheName);
             }
           })
@@ -38,6 +40,11 @@ self.addEventListener('activate', (event) => {
         });
         for (const client of clientList) {
           client.postMessage({ type: 'SW_ACTIVATED' });
+          if (hadOldCache && 'navigate' in client) {
+            try {
+              await client.navigate(client.url);
+            } catch {}
+          }
         }
       })
   );
@@ -88,7 +95,7 @@ self.addEventListener('fetch', (event) => {
   // so the installed PWA always gets the freshest site version when online.
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request, { cache: 'no-cache' })
+      fetch(request.url, { cache: 'no-cache', credentials: 'same-origin' })
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const clone = networkResponse.clone();

@@ -4,6 +4,7 @@ import './globals.css'
 import { Providers } from '@/components/Providers'
 import { Sidebar } from '@/components/Sidebar'
 import { auth } from '@/lib/auth'
+import { getBaseUrl } from '@/lib/url'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,6 +25,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
   title: 'Ficha D&D | Crie e Compartilhe Personagens',
   description: 'Crie, gerencie e compartilhe fichas de personagens de Dungeons & Dragons.',
   manifest: '/manifest.json',
