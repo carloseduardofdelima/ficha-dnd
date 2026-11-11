@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'a-forja-cache';
-let CURRENT_CACHE = `${CACHE_PREFIX}-v2`;
+let CURRENT_CACHE = `${CACHE_PREFIX}-v3`;
 
 const STATIC_ASSETS = [
   '/manifest.json',
@@ -12,13 +12,12 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CURRENT_CACHE).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch(() => {});
+      return cache.addAll(STATIC_ASSETS).catch(() => { });
     })
   );
 });
 
 self.addEventListener('activate', (event) => {
-  let hadOldCache = false;
   event.waitUntil(
     caches
       .keys()
@@ -26,7 +25,6 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== CURRENT_CACHE) {
-              hadOldCache = true;
               return caches.delete(cacheName);
             }
           })
@@ -40,11 +38,6 @@ self.addEventListener('activate', (event) => {
         });
         for (const client of clientList) {
           client.postMessage({ type: 'SW_ACTIVATED' });
-          if (hadOldCache && 'navigate' in client) {
-            try {
-              await client.navigate(client.url);
-            } catch {}
-          }
         }
       })
   );
@@ -94,9 +87,19 @@ self.addEventListener('fetch', (event) => {
   // For HTML navigation requests: Always Network-First (bypassing browser disk cache)
   // so the installed PWA always gets the freshest site version when online.
   if (request.mode === 'navigate') {
+    // If navigating to root '/', let the browser handle the server-side redirect natively
+    // to avoid Chromium's Service Worker redirect mode mismatch error.
+    if (url.pathname === '/') {
+      return;
+    }
+
     event.respondWith(
       fetch(request.url, { cache: 'no-cache', credentials: 'same-origin' })
         .then((networkResponse) => {
+          // If the response is a redirect, cleanly redirect to avoid Chromium ERR_FAILED
+          if (networkResponse.redirected) {
+            return Response.redirect(networkResponse.url, 302);
+          }
           if (networkResponse && networkResponse.status === 200) {
             const clone = networkResponse.clone();
             caches.open(CURRENT_CACHE).then((cache) => {
@@ -108,7 +111,7 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cachedPage = await caches.match(request);
           if (cachedPage) return cachedPage;
-          const cachedHome = await caches.match('/');
+          const cachedHome = (await caches.match('/personagens')) || (await caches.match('/'));
           if (cachedHome) return cachedHome;
           return new Response('Offline - Verifique sua conexão com a internet.', {
             status: 503,
