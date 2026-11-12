@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'a-forja-cache';
-let CURRENT_CACHE = `${CACHE_PREFIX}-v3`;
+let CURRENT_CACHE = `${CACHE_PREFIX}-v4`;
 
 const STATIC_ASSETS = [
   '/manifest.json',
@@ -84,42 +84,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For HTML navigation requests: Always Network-First (bypassing browser disk cache)
-  // so the installed PWA always gets the freshest site version when online.
+  // For HTML navigation requests: Let the browser handle navigation natively.
+  // Intercepting navigation with event.respondWith in Chromium causes ERR_FAILED
+  // whenever server-side redirects (e.g. auth or route redirects) occur due to redirect mode mismatch.
   if (request.mode === 'navigate') {
-    // If navigating to root '/', let the browser handle the server-side redirect natively
-    // to avoid Chromium's Service Worker redirect mode mismatch error.
-    if (url.pathname === '/') {
-      return;
-    }
-
-    event.respondWith(
-      fetch(request.url, { cache: 'no-cache', credentials: 'same-origin' })
-        .then((networkResponse) => {
-          // If the response is a redirect, cleanly redirect to avoid Chromium ERR_FAILED
-          if (networkResponse.redirected) {
-            return Response.redirect(networkResponse.url, 302);
-          }
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CURRENT_CACHE).then((cache) => {
-              cache.put(request, clone);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(async () => {
-          const cachedPage = await caches.match(request);
-          if (cachedPage) return cachedPage;
-          const cachedHome = (await caches.match('/personagens')) || (await caches.match('/'));
-          if (cachedHome) return cachedHome;
-          return new Response('Offline - Verifique sua conexão com a internet.', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-          });
-        })
-    );
     return;
   }
 
