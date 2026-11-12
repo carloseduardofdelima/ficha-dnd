@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { Zap, Sparkles, Target, ShieldAlert } from 'lucide-react'
+import { Zap, Sparkles, Target, ShieldAlert, BookOpen, Plus, Trash2, Search, X } from 'lucide-react'
 import { calcModifier } from '@/types/character'
 import { SPELLS, ALL_SPELLS, SPELLS_2014, Spell } from '@/lib/spells'
 import { getUnlockedSubclassSpells } from '../utils/subclass-spells'
@@ -29,7 +29,43 @@ export default function SpellsTab() {
     updateValue,
   } = useCharacterSheet()
 
+  const [showSpellbookCopy, setShowSpellbookCopy] = useState(false)
+  const [spellbookSearch, setSpellbookSearch] = useState('')
+
   if (!character) return null
+
+  const isWizard = character.class === 'Mago'
+
+  const wizardSpellbookIds: string[] = useMemo(() => {
+    if (!isWizard) return []
+    if (Array.isArray(parsedTraits?.spellbook)) {
+      return parsedTraits.spellbook as string[]
+    }
+    // Fallback retrocompatível: inicializa com magias de nível > 0 já presentes na ficha
+    return (parsedSpells || []).filter((sid: string) => {
+      const sp = ALL_SPELLS.find(s => s.id === sid)
+      return sp && sp.level > 0
+    })
+  }, [isWizard, parsedTraits?.spellbook, parsedSpells])
+
+  const saveSpellbook = (nextIds: string[]) => {
+    updateValue('traits', { ...(parsedTraits || {}), spellbook: nextIds }, true)
+  }
+
+  const getWizardSchoolDiscount = (school: string): boolean => {
+    const sub = (character.subclass || '').toLowerCase()
+    const sch = school.toLowerCase()
+    if (!sub || !sch) return false
+    if (sub.includes('abjur') && sch.includes('abjur')) return true
+    if ((sub.includes('adivinh') || sub.includes('divin')) && (sch.includes('adivinh') || sch.includes('divin'))) return true
+    if (sub.includes('conjur') && sch.includes('conjur')) return true
+    if (sub.includes('encant') && sch.includes('encant')) return true
+    if (sub.includes('evoc') && sch.includes('evoc')) return true
+    if (sub.includes('ilus') && sch.includes('ilus')) return true
+    if (sub.includes('necro') && sch.includes('necro')) return true
+    if (sub.includes('transmut') && sch.includes('transmut')) return true
+    return false
+  }
 
   const subclassSpells = useMemo(() => {
     return character.subclass 
@@ -348,7 +384,8 @@ export default function SpellsTab() {
               const matchLevel = s.level <= finalMaxLevel
               const isExcluded = subclassSpells.some(ss => ss.id === s.id) || featSpellIds.has(s.id)
               const matchSchool = !ekSchoolFilter || s.level === 0 || !restrictedSchools || restrictedSchools.includes(s.school)
-              return matchClass && matchLevel && !isExcluded && matchSchool
+              const matchWizardSpellbook = !isWizard || s.level === 0 || wizardSpellbookIds.includes(s.id)
+              return matchClass && matchLevel && !isExcluded && matchSchool && matchWizardSpellbook
             })
           : currentSpells
               .filter(sid => !featSpellIds.has(sid))
@@ -879,6 +916,231 @@ export default function SpellsTab() {
                     )
                   })}
                 </div>
+              </div>
+            )}
+          </div>
+        )
+      })()}
+
+      {isWizard && (() => {
+        const availableForWizard = (character.ruleset === '2024'
+          ? SPELLS
+          : (character.ruleset === '2014'
+              ? SPELLS_2014.filter(s => s.ruleset !== '5e-custom')
+              : SPELLS_2014)
+        ).filter(s => s.classes.includes('Mago') && s.level > 0)
+
+        const maxWizardSlotLevel = currentProgression?.slots
+          ? currentProgression.slots.reduce((acc: number, count: number, idx: number) => (count > 0 ? idx + 1 : acc), 1)
+          : 1
+
+        const spellbookSpells = wizardSpellbookIds
+          .map(sid => ALL_SPELLS.find(s => s.id === sid))
+          .filter((s): s is Spell => Boolean(s))
+          .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name))
+
+        const copyCandidates = availableForWizard
+          .filter(s =>
+            s.level <= maxWizardSlotLevel &&
+            !wizardSpellbookIds.includes(s.id) &&
+            (!spellbookSearch.trim() ||
+              s.name.toLowerCase().includes(spellbookSearch.toLowerCase()) ||
+              s.school.toLowerCase().includes(spellbookSearch.toLowerCase()))
+          )
+          .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name))
+
+        const preparedSet = new Set(parsedSpells || [])
+
+        return (
+          <div style={{ marginTop: 28, padding: 18, borderRadius: 16, background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <BookOpen size={18} color="var(--accentL)" />
+                <div>
+                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: 'var(--fg)' }}>
+                    Grimório do Mago ({spellbookSpells.length})
+                  </h3>
+                  <p style={{ margin: 0, fontSize: 11, color: 'var(--fg3)' }}>
+                    Apenas magias registradas no grimório podem ser preparadas.
+                  </p>
+                </div>
+              </div>
+              {isOwner && (
+                <button
+                  type="button"
+                  onClick={() => setShowSpellbookCopy(v => !v)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '7px 12px',
+                    borderRadius: 10,
+                    border: '1px solid var(--accent)',
+                    background: showSpellbookCopy ? 'color-mix(in srgb, var(--accent) 22%, transparent)' : 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                    color: 'var(--accentL)',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {showSpellbookCopy ? <X size={14} /> : <Plus size={14} />}
+                  {showSpellbookCopy ? 'Fechar Cópia' : 'Copiar Magia para o Grimório'}
+                </button>
+              )}
+            </div>
+
+            {showSpellbookCopy && isOwner && (
+              <div style={{ marginBottom: 16, padding: 14, borderRadius: 12, background: 'var(--bg1)', border: '1px solid var(--border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, padding: '6px 10px', borderRadius: 8, background: 'var(--bg2)', border: '1px solid var(--border)' }}>
+                  <Search size={14} color="var(--fg3)" />
+                  <input
+                    type="text"
+                    value={spellbookSearch}
+                    onChange={e => setSpellbookSearch(e.target.value)}
+                    placeholder="Buscar magia de Mago por nome ou escola..."
+                    style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--fg)', fontSize: 12 }}
+                  />
+                </div>
+                <div style={{ maxHeight: 320, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+                  {copyCandidates.length === 0 ? (
+                    <div style={{ fontSize: 12, color: 'var(--fg4)', padding: 8 }}>Nenhuma magia disponível encontrada.</div>
+                  ) : (
+                    copyCandidates.slice(0, 40).map(sp => {
+                      const hasDiscount = getWizardSchoolDiscount(sp.school)
+                      const goldCost = sp.level * (hasDiscount ? 25 : 50)
+                      const hoursCost = sp.level * (hasDiscount ? 1 : 2)
+                      const inBook = wizardSpellbookIds.includes(sp.id)
+                      const icon = (
+                        sp.school === 'Abjuração' ? 'shield-ward.png' :
+                        sp.school === 'Adivinhação' ? 'eye-vision.png' :
+                        sp.school === 'Conjuração' ? 'magic-sparks.png' :
+                        sp.school === 'Encantamento' ? 'heart-heal.png' :
+                        sp.school === 'Evocação' ? 'fire-blast.png' :
+                        sp.school === 'Ilusão' ? 'mirror-image.png' :
+                        sp.school === 'Necromancia' ? 'undead-skull.png' :
+                        sp.school === 'Transmutação' ? 'elemental-spiral.png' :
+                        'magic-scroll.png'
+                      )
+                      return (
+                        <button
+                          key={sp.id}
+                          type="button"
+                          onClick={() => {
+                            if (inBook) {
+                              saveSpellbook(wizardSpellbookIds.filter(id => id !== sp.id))
+                            } else {
+                              saveSpellbook([...wizardSpellbookIds, sp.id])
+                            }
+                          }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 12,
+                            padding: '10px 14px',
+                            borderRadius: 12,
+                            background: inBook ? 'color-mix(in srgb, var(--accent) 8%, var(--bg2))' : 'var(--bg2)',
+                            border: inBook ? '1px solid var(--accent)' : '1px solid var(--border)',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            width: '100%',
+                            transition: 'all 0.15s ease',
+                          }}
+                        >
+                          <div style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 6,
+                            border: '1.5px solid var(--accent)',
+                            background: inBook ? 'var(--accent)' : 'transparent',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                          }}>
+                            {inBook && <Zap size={11} color="#fff" fill="#fff" />}
+                          </div>
+                          <div style={{
+                            flexShrink: 0,
+                            width: 32,
+                            height: 32,
+                            borderRadius: 6,
+                            overflow: 'hidden',
+                            border: '1px solid var(--border)',
+                            background: 'rgba(0,0,0,0.3)',
+                          }}>
+                            <Image
+                              src={`/assets/spells-icons/${icon}`}
+                              alt={sp.name}
+                              width={32}
+                              height={32}
+                              style={{ objectFit: 'cover', opacity: inBook ? 1 : 0.45 }}
+                            />
+                          </div>
+                          <div style={{ minWidth: 0, flex: 1 }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: inBook ? 'var(--fg)' : 'var(--fg2)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {sp.name}
+                            </div>
+                            <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--accentL)', textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 2 }}>
+                              {sp.school} • {sp.level}º ({goldCost} PO / {hoursCost}h{hasDiscount ? ' -50%' : ''})
+                            </div>
+                          </div>
+                        </button>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            )}
+
+            {spellbookSpells.length === 0 ? (
+              <div style={{ fontSize: 12, color: 'var(--fg4)', textAlign: 'center', padding: 16 }}>
+                Seu grimório está vazio. Use o botão acima para copiar magias.
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
+                {spellbookSpells.map(sp => {
+                  const isPrepared = preparedSet.has(sp.id)
+                  return (
+                    <div key={sp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 10, background: 'var(--bg1)', border: isPrepared ? '1px solid var(--accent)' : '1px solid var(--border)' }}>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {sp.name}
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2, flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: 10, color: 'var(--fg3)' }}>{sp.level}º Círculo • {sp.school}</span>
+                          {isPrepared && (
+                            <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 5px', borderRadius: 4, background: 'color-mix(in srgb, var(--accent) 20%, transparent)', color: 'var(--accentL)' }}>
+                              PREPARADA
+                            </span>
+                          )}
+                          {sp.ritual && (
+                            <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 5px', borderRadius: 4, background: 'color-mix(in srgb, var(--accent) 14%, transparent)', color: 'var(--fg2)' }}>
+                              RITUAL
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {isOwner && (
+                        <button
+                          type="button"
+                          title="Remover do grimório"
+                          onClick={() => saveSpellbook(wizardSpellbookIds.filter(id => id !== sp.id))}
+                          style={{
+                            padding: 5,
+                            borderRadius: 6,
+                            border: 'none',
+                            background: 'transparent',
+                            color: 'var(--fg4)',
+                            cursor: 'pointer',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>
