@@ -1,138 +1,168 @@
 [
   {
     "d100": 5,
-    "name": "Spell Scroll (7th Level)",
+    "name": "Pergaminho de 7º Círculo",
     "type": "Scroll",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg",
+    "englishName": "Spell Scroll (7th Level)",
+    "description": "Pergaminho, Muito Raro. Contém uma magia de 7º círculo escrita. Ler o pergaminho conjura a magia se ela estiver na sua lista de classe. A CD para resistir à magia é 18 e o bônus de ataque é +10."
   },
   {
     "d100": 11,
-    "name": "Dispelling Stone",
+    "name": "Pedra de Dissipação",
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
     "source": "EGtW",
-    "icon": "Library/Magical Items/Sending Stones.svg"
+    "icon": "Library/Magical Items/Sending Stones.svg",
+    "englishName": "Dispelling Stone",
+    "description": "Item Maravilhoso, Muito Raro. Uma pedra polida com runas de abjuração. Com uma ação, você pode arremessar esta pedra a até 18 metros. Ao colidir com o solo ou uma criatura, a pedra se quebra e conjura Dissipar Magia (como uma magia de 5º círculo) centrada no local de impacto."
   },
   {
     "d100": 16,
-    "name": "Potion of Healing (Supreme)",
+    "name": "Poção de Cura Suprema",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Healing.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Healing.svg",
+    "englishName": "Potion of Healing (Supreme)",
+    "description": "Poção, Muito Rara. Uma criatura que beber este líquido rubi translúcido recupera 10d4 + 20 pontos de vida."
   },
   {
     "d100": 21,
-    "name": "Potion of Longevity",
+    "name": "Poção da Longevidade",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg",
+    "englishName": "Potion of Longevity",
+    "description": "Poção, Muito Rara. Ao beber esta poção, sua idade física é reduzida em 1d6 + 6 anos, até o mínimo de 13 anos. Cada vez que você beber uma nova poção da longevidade após a primeira, há 10% de chance cumulativa de envelhecer 1d6 + 6 anos em vez de rejuvenescer."
   },
   {
     "d100": 26,
-    "name": "Reincarnation Dust",
+    "name": "Poeira da Reencarnação",
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
     "source": "EGtW",
-    "icon": "Library/Spell Components and Spellcasting foci/Bone Dust.svg"
+    "icon": "Library/Spell Components and Spellcasting foci/Bone Dust.svg",
+    "englishName": "Reincarnation Dust",
+    "description": "Item Maravilhoso, Muito Raro. Um frasco com pó brilhante. Aspergido sobre os restos mortais de um humanoide morto há não mais que 10 dias, produz o mesmo efeito da magia Reencarnação."
   },
   {
     "d100": 32,
-    "name": "Potion of Speed",
+    "name": "Poção de Velocidade",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Speed.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Speed.svg",
+    "englishName": "Potion of Speed",
+    "description": "Poção, Muito Rara. Ao beber este líquido amarelo cintilante, você ganha o efeito da magia Velocidade por 1 minuto sem precisar se concentrar."
   },
   {
     "d100": 37,
-    "name": "Spell Scroll (8th Level)",
+    "name": "Pergaminho de 8º Círculo",
     "type": "Scroll",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg"
+    "icon": "Library/Books and Scrolls/Plain Scroll 1.svg",
+    "englishName": "Spell Scroll (8th Level)",
+    "description": "Pergaminho, Muito Raro. Contém uma magia de 8º círculo escrita. Ler o pergaminho conjura a magia se ela estiver na sua lista de classe. A CD para resistir à magia é 18 e o bônus de ataque é +10."
   },
   {
     "d100": 42,
-    "name": "Oil of Sharpness",
+    "name": "Óleo de Afiação",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Oil (flask).svg",
+    "englishName": "Oil of Sharpness",
+    "description": "Poção, Muito Rara. Este óleo claro pode cobrir uma arma cortante ou perfurante (ou até 5 peças de munição). Aplicá-lo leva 1 minuto. Pela próxima 1 hora, a arma ou munição ganha um bônus de +3 nas jogadas de ataque e dano."
   },
   {
     "d100": 47,
-    "name": "Portable Hole",
+    "name": "Buraco Portátil",
     "type": "Wondrous Item",
     "rarity": "Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Treasure/Generic Treasure.svg"
+    "icon": "Library/Treasure/Generic Treasure.svg",
+    "englishName": "Portable Hole",
+    "description": "Item Maravilhoso, Raro. Um pedaço circular de tecido preto como seda com 1,8 metro de diâmetro. Desdobrado em uma superfície sólida, cria uma abertura para um espaço extradimensional cilíndrico de 3 metros de profundidade. Pode ser dobrado e guardado como um lenço."
   },
   {
     "d100": 53,
-    "name": "Potion of Cloud Giant Strength",
+    "name": "Poção de Força do Gigante das Nuvens",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Giant Strength.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Giant Strength.svg",
+    "englishName": "Potion of Cloud Giant Strength",
+    "description": "Poção, Muito Rara. Quando você bebe esta poção, seu valor de Força se torna 27 por 1 hora. Não possui efeito se sua Força já for igual ou superior a 27."
   },
   {
     "d100": 58,
-    "name": "Nolzur's Marvelous Pigments",
+    "name": "Pigmentos Maravilhosos de Nolzur",
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Adventuring Gear/Ink.svg"
+    "icon": "Library/Adventuring Gear/Ink.svg",
+    "englishName": "Nolzur's Marvelous Pigments",
+    "description": "Item Maravilhoso, Muito Raro. Um conjunto de potes com tintas mágicas e pincéis. Permite pintar objetos tridimensionais reais de até 28 metros cúbicos em 10 minutos (como portas, pontes, comida, ouro ou armas)."
   },
   {
     "d100": 63,
-    "name": "Ammunition, +3",
+    "name": "Munição +3",
     "type": "Weapon",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Ammunition/Arrow.svg"
+    "icon": "Library/Ammunition/Arrow.svg",
+    "englishName": "Ammunition, +3",
+    "description": "Arma, Muito Rara. Você ganha um bônus de +3 nas jogadas de ataque e dano feitas com esta peça de munição mágica. Uma vez disparada, a munição perde a magia."
   },
   {
     "d100": 68,
-    "name": "Potion of Flying",
+    "name": "Poção de Voo",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Flying.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Potion of Flying.svg",
+    "englishName": "Potion of Flying",
+    "description": "Poção, Muito Rara. Ao beber este líquido límpido que parece conter nuvens em miniatura, você ganha um deslocamento de voo igual ao seu deslocamento de caminhada por 1 hora e pode pairar."
   },
   {
     "d100": 74,
-    "name": "Horseshoes of a Zephyr",
+    "name": "Ferraduras do Zéfiro",
     "type": "Wondrous Item",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Magical Items/Horseshoes of Speed.svg"
+    "icon": "Library/Magical Items/Horseshoes of Speed.svg",
+    "englishName": "Horseshoes of a Zephyr",
+    "description": "Item Maravilhoso, Muito Raro. Um conjunto de quatro ferraduras de ferro. Quando afixadas aos cascos de um cavalo ou montaria semelhante, a criatura flutua a 10 cm do solo, ignorando terreno difícil e podendo andar sobre água ou lava sem afundar."
   },
   {
     "d100": 79,
-    "name": "Potion of Vitality",
+    "name": "Poção da Vitalidade",
     "type": "Potion",
     "rarity": "Very Rare",
     "attune": false,
     "source": "DMG",
-    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg"
+    "icon": "Library/Potions, Poisions, Bottles, and Vials/Generic/Potion - Red.svg",
+    "englishName": "Potion of Vitality",
+    "description": "Poção, Muito Rara. Ao beber esta poção carmesim revigorante, qualquer nível de exaustão que você tenha é curado, todas as doenças e venenos são neutralizados e, pelas próximas 24 horas, você recupera o máximo de pontos de vida em qualquer dado de vida gasto em descansos curtos."
   },
   {
     "d100": 84,

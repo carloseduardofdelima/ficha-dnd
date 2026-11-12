@@ -2,10 +2,10 @@
   {
     "name": "Flechas (20)",
     "category": "Weapon",
-    "description": "",
+    "description": "Munição para arcos. Um feixe com 20 flechas com pontas afiadas de aço e penas de estabilização. Após um combate, é possível recuperar metade das flechas gastas gastando 1 minuto procurando pelo campo de batalha.",
     "cost": "1 PO",
     "ac": "",
-    "classification": "",
+    "classification": "Munição",
     "properties": "",
     "damage": "",
     "attunement": false,
@@ -14,7 +14,7 @@
   {
     "name": "Machado de Batalha",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo que causa 1d8 de dano cortante. Possui a propriedade Versátil (1d10), permitindo empunhadura com uma ou duas mãos para desferir golpes mais devastadores.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -26,7 +26,7 @@
   {
     "name": "Zarabatana",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial à distância que dispara pequenas agulhas a até 7,5/30 metros causando 1 ponto de dano perfurante. Possui Munição e Recarga, sendo frequentemente utilizada para inocular venenos em alvos desavisados.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial à Distância",
@@ -38,10 +38,10 @@
   {
     "name": "Agulhas de Zarabatana (50)",
     "category": "Weapon",
-    "description": "",
+    "description": "Munição para zarabatana. Um estojo contendo 50 agulhas finas de metal, ideais para serem embebidas em toxinas ou venenos paralisantes.",
     "cost": "1 PO",
     "ac": "",
-    "classification": "",
+    "classification": "Munição",
     "properties": "",
     "damage": "",
     "attunement": false,
@@ -50,7 +50,7 @@
   {
     "name": "Clava",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d4 de dano contundente. Possui a propriedade Leve, sendo uma arma de fabricação acessível e fácil de manejar.",
     "cost": "1 PP",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -62,10 +62,10 @@
   {
     "name": "Virotes de Besta (20)",
     "category": "Weapon",
-    "description": "",
+    "description": "Munição para bestas leves, de mão ou pesadas. Um conjunto de 20 virotes curtos e resistentes com pontas de aço reforçado.",
     "cost": "1 PO",
     "ac": "",
-    "classification": "",
+    "classification": "Munição",
     "properties": "",
     "damage": "",
     "attunement": false,
@@ -74,7 +74,7 @@
   {
     "name": "Adaga",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d4 de dano perfurante. Possui as propriedades Acuidade, Leve e Arremesso (alcance 6/18 metros), sendo fácil de ocultar e muito versátil em combate.",
     "cost": "2 PO",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -134,7 +134,7 @@
   {
     "name": "Dardo",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples à distância que causa 1d4 de dano perfurante. Possui as propriedades Acuidade e Arremesso (alcance 6/18 metros).",
     "cost": "5 PC",
     "ac": "",
     "classification": "Arma Simples à Distância",
@@ -182,7 +182,7 @@
   {
     "name": "Mangual",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo que causa 1d8 de dano contundente. Consiste em uma ou mais esferas de ferro cravadas de pontas presas a um cabo por correntes resistentes.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -230,7 +230,7 @@
   {
     "name": "Glaive",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo de haste que causa 1d10 de dano cortante. Possui as propriedades Pesada, Alcance e Duas Mãos, permitindo golpear alvos a até 3 metros de distância.",
     "cost": "20 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -242,7 +242,7 @@
   {
     "name": "Machado Grande",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo massiva que causa 1d12 de dano cortante. Possui as propriedades Pesada e Duas Mãos, sendo a arma de escolha de bárbaros e guerreiros pela sua capacidade destrutiva.",
     "cost": "30 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -254,7 +254,7 @@
   {
     "name": "Grande Clava",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d8 de dano contundente. Possui a propriedade Duas Mãos, consistindo em um porrete pesado de madeira maciça reforçada com nós ou pregos.",
     "cost": "2 PP",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -266,7 +266,7 @@
   {
     "name": "Espada Grande",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo imponente que causa 2d6 de dano cortante. Possui as propriedades Pesada e Duas Mãos, proporcionando dano extremamente sólido e confiável.",
     "cost": "50 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -302,7 +302,7 @@
   {
     "name": "Alabarda",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo de haste que causa 1d10 de dano cortante. Possui as propriedades Pesada, Alcance e Duas Mãos, combinando a lâmina de um machado com a ponta de uma lança para golpear a até 3 metros.",
     "cost": "20 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -326,7 +326,7 @@
   {
     "name": "Besta de Mão",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial à distância compacta que causa 1d6 de dano perfurante (alcance 9/36 metros). Possui as propriedades Munição, Leve e Recarga, podendo ser empunhada em uma mão.",
     "cost": "75 PO",
     "ac": "",
     "classification": "Arma Marcial à Distância",
@@ -338,7 +338,7 @@
   {
     "name": "Machadinha",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d6 de dano cortante. Possui as propriedades Leve e Arremesso (alcance 6/18 metros), perfeita tanto para o combate corpo a corpo quanto para arremessos rápidos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -350,7 +350,7 @@
   {
     "name": "Besta Pesada",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial à distância de grande poder e penetração que causa 1d10 de dano perfurante (alcance 30/120 metros). Possui as propriedades Munição, Pesada, Recarga e Duas Mãos.",
     "cost": "50 PO",
     "ac": "",
     "classification": "Arma Marcial à Distância",
@@ -374,7 +374,7 @@
   {
     "name": "Javelina",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d6 de dano perfurante. Possui a propriedade Arremesso com alcance estendido de 9/36 metros, sendo ideal para abrir combates à distância.",
     "cost": "5 PP",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -398,7 +398,7 @@
   {
     "name": "Lança de Montaria",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo que causa 1d12 de dano perfurante. Possui Alcance (3 metros) e Especial: impõe desvantagem ao atacar alvos a até 1,5m de você e requer duas mãos quando você estiver a pé, mas pode ser usada com apenas uma mão enquanto montado.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -410,7 +410,7 @@
   {
     "name": "Besta Leve",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples à distância muito difundida que causa 1d8 de dano perfurante (alcance 24/96 metros). Possui as propriedades Munição, Recarga e Duas Mãos.",
     "cost": "25 PO",
     "ac": "",
     "classification": "Arma Simples à Distância",
@@ -422,7 +422,7 @@
   {
     "name": "Martelo Leve",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d4 de dano contundente. Possui as propriedades Leve e Arremesso (alcance 6/18 metros).",
     "cost": "2 PP",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -434,7 +434,7 @@
   {
     "name": "Arco Longo",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial à distância tradicional que causa 1d8 de dano perfurante com alcance estendido de 45/180 metros. Possui as propriedades Munição, Pesada e Duas Mãos.",
     "cost": "50 PO",
     "ac": "",
     "classification": "Arma Marcial à Distância",
@@ -446,7 +446,7 @@
   {
     "name": "Espada Longa",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo clássica que causa 1d8 de dano cortante. Possui a propriedade Versátil (1d10), permitindo ser empunhada com uma ou duas mãos para maior impacto.",
     "cost": "15 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -470,7 +470,7 @@
   {
     "name": "Maça",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo que causa 1d6 de dano contundente. Possui uma cabeça de ferro fundido com flanges ou cravos para esmagar armaduras.",
     "cost": "5 PO",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -518,7 +518,7 @@
   {
     "name": "Malho",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo pesada que causa 2d6 de dano contundente. Possui as propriedades Pesada e Duas Mãos, capaz de pulverizar defesas com seu peso colossal.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -530,7 +530,7 @@
   {
     "name": "Estrela da Manhã",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo que causa 1d8 de dano perfurante. Possui uma cabeça de metal cravada de espigões montada sobre uma haste rígida de madeira e ferro.",
     "cost": "15 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -578,7 +578,7 @@
   {
     "name": "Pique",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo de grande porte que causa 1d10 de dano perfurante. Possui as propriedades Pesada, Alcance e Duas Mãos, permitindo manter oponentes a 3 metros de distância.",
     "cost": "5 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -590,7 +590,7 @@
   {
     "name": "Bordão",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo de madeira nobre que causa 1d6 de dano contundente. Possui a propriedade Versátil (1d8) e frequentemente é utilizado como apoio de caminhada ou foco de conjuração.",
     "cost": "2 PP",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -602,7 +602,7 @@
   {
     "name": "Rapieira",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo elegante que causa 1d8 de dano perfurante. Possui a propriedade Acuidade, permitindo usar Destreza no lugar de Força nas jogadas de ataque e dano.",
     "cost": "25 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -614,7 +614,7 @@
   {
     "name": "Cimitarra",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo com lâmina curvada que causa 1d6 de dano cortante. Possui as propriedades Acuidade e Leve, sendo perfeita para combates ágeis com duas armas.",
     "cost": "25 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -638,7 +638,7 @@
   {
     "name": "Arco Curto",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples à distância leve e prática que causa 1d6 de dano perfurante (alcance 24/96 metros). Possui as propriedades Munição e Duas Mãos.",
     "cost": "25 PO",
     "ac": "",
     "classification": "Arma Simples à Distância",
@@ -650,7 +650,7 @@
   {
     "name": "Espada Curta",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo ágil que causa 1d6 de dano perfurante. Possui as propriedades Acuidade e Leve, ideal para ladinos, duelistas e combatentes com duas armas.",
     "cost": "10 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -674,7 +674,7 @@
   {
     "name": "Foice",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo tradicionalmente agrícola adaptada para combate, causando 1d4 de dano cortante. Possui a propriedade Leve.",
     "cost": "1 PO",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -686,7 +686,7 @@
   {
     "name": "Funda",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples à distância barata e discreta que causa 1d4 de dano contundente (alcance 9/36 metros). Possui a propriedade Munição.",
     "cost": "1 PP",
     "ac": "",
     "classification": "Arma Simples à Distância",
@@ -698,10 +698,10 @@
   {
     "name": "Balas de Funda (20)",
     "category": "Weapon",
-    "description": "",
+    "description": "Munição para funda. Um saquinho com 20 esferas fundidas de chumbo ou ferro polido, que proporcionam voo uniforme e maior poder de impacto do que pedras comuns.",
     "cost": "4 PC",
     "ac": "",
-    "classification": "",
+    "classification": "Munição",
     "properties": "",
     "damage": "",
     "attunement": false,
@@ -710,7 +710,7 @@
   {
     "name": "Lança",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma simples corpo a corpo versátil que causa 1d6 de dano perfurante. Possui as propriedades Arremesso (alcance 6/18 metros) e Versátil (1d8), podendo ser empunhada com uma ou duas mãos, ou arremessada.",
     "cost": "1 PO",
     "ac": "",
     "classification": "Arma Simples Corpo a Corpo",
@@ -734,7 +734,7 @@
   {
     "name": "Tridente",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo de três pontas farpadas que causa 1d6 de dano perfurante. Possui as propriedades Arremesso (alcance 6/18 metros) e Versátil (1d8).",
     "cost": "5 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -854,7 +854,7 @@
   {
     "name": "Picareta de Guerra",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo com uma ponta resistente de aço que causa 1d8 de dano perfurante, desenhada especialmente para perfurar couraças e capacetes metálicos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -866,7 +866,7 @@
   {
     "name": "Martelo de Guerra",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo versátil que causa 1d8 de dano contundente. Possui a propriedade Versátil (1d10), permitindo empunhadura com uma ou duas mãos para amassar armaduras.",
     "cost": "15 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",
@@ -878,7 +878,7 @@
   {
     "name": "Chicote",
     "category": "Weapon",
-    "description": "",
+    "description": "Arma marcial corpo a corpo flexível que causa 1d4 de dano cortante. Possui as propriedades Acuidade e Alcance (3 metros), permitindo atacar de uma distância segura usando Força ou Destreza.",
     "cost": "2 PO",
     "ac": "",
     "classification": "Arma Marcial Corpo a Corpo",

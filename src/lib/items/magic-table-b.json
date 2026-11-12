@@ -243,12 +243,14 @@
   },
   {
     "d100": 29,
-    "name": "Rope of Reaching",
+    "name": "Corda de Alcance",
     "type": "Wondrous Item",
     "rarity": "Uncommon",
     "attune": false,
     "source": "WGMM",
-    "icon": "Library/Adventuring Gear/Silk Rope.svg"
+    "icon": "Library/Adventuring Gear/Silk Rope.svg",
+    "englishName": "Rope of Reaching",
+    "description": "Item Maravilhoso, Incomum. Esta corda de seda de 15 metros parece comum à primeira vista. Enquanto você segurar uma das pontas, pode usar uma ação bônus para comandar a outra ponta a se estender e serpentear até um ponto a até 15 metros de distância, podendo se amarrar em um objeto sólido ou laçar uma criatura voluntária."
   },
   {
     "d100": 30,

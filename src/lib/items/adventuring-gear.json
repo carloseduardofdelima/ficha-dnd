@@ -2,7 +2,7 @@
   {
     "name": "Ábaco",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um instrumento de cálculo manual com contas deslizantes em varetas paralelas, utilizado por mercadores, contadores e tesoureiros para realizar operações aritméticas complexas e contabilidade rápida.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -14,7 +14,7 @@
   {
     "name": "Ácido (frasco)",
     "category": "Adventuring Gear",
-    "description": "Com uma ação, você pode espalhar o conteúdo deste frasco\nem uma criatura a até 1,5 metro de você ou jogue o frasco para cima\na 20 pés, quebrando-o com o impacto. Em ambos os casos, faça um\nataque à distância contra uma criatura ou objeto, tratando o\nácido como arma improvisada. Se acertar, o alvo recebe\n2d6 de dano ácido.",
+    "description": "Com uma ação, você pode espalhar o conteúdo deste frasco em uma criatura a até 1,5 metro de você ou arremessá-lo a até 6 metros, quebrando-o no impacto. Faça uma jogada de ataque à distância contra a criatura ou objeto, tratando o frasco como arma improvisada. Se acertar, o alvo sofre 2d6 de dano de ácido.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -26,7 +26,7 @@
   {
     "name": "Fogo Alquímico (frasco)",
     "category": "Adventuring Gear",
-    "description": "Este fluido pegajoso e adesivo inflama quando exposto ao ar.\nComo uma ação, você pode lançar este frasco até 6 metros,\nquebrando-o com o impacto. Faça um ataque à distância contra um\ncriatura ou objeto, tratando o fogo do alquimista como um\narma improvisada. Se acertar, o alvo recebe 1d4 de fogo\ndano no início de cada um de seus turnos. Uma criatura pode\ntermine este dano usando sua ação para fazer um CD 10\nTeste de destreza para extinguir as chamas.",
+    "description": "Este fluido viscoso e inflamável entra em combustão instantânea ao contato com o ar. Com uma ação, você pode arremessar este frasco a até 6 metros, quebrando-o no impacto. Faça um ataque à distância contra uma criatura ou objeto, tratando o frasco como arma improvisada. Se acertar, o alvo sofre 1d4 de dano de fogo no início de cada um dos turnos dele. Uma criatura pode encerrar esse dano usando uma ação para fazer um teste de Destreza CD 10 a fim de apagar as chamas.",
     "cost": "50 PO",
     "ac": "",
     "classification": "",
@@ -38,7 +38,7 @@
   {
     "name": "Antídoto (frasco)",
     "category": "Adventuring Gear",
-    "description": "Uma criatura que beber este frasco de líquido ganha vantagem\nem testes de resistência contra veneno por 1 hora. Não confere\nbenefício para mortos-vivos ou construtos.",
+    "description": "Uma criatura que beber este líquido ganha vantagem em testes de resistência contra veneno durante 1 hora. Não confere benefício a mortos-vivos ou construtos.",
     "cost": "50 PO",
     "ac": "",
     "classification": "",
@@ -50,7 +50,7 @@
   {
     "name": "Foco Arcano, Cristal",
     "category": "Adventuring Gear",
-    "description": "Um foco arcano é um item especial – um orbe, um cristal, um bastão,\num cajado especialmente construído, um pedaço de madeira em forma de varinha,\nou algum item semelhante - projetado para canalizar o poder de\nfeitiços arcanos. Um feiticeiro, bruxo ou mago pode usar\num item como um foco de lançamento de feitiços.",
+    "description": "Um cristal lapidado ou quartzo facetado, usado como foco de conjuração por feiticeiros, bruxos e magos.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -62,7 +62,7 @@
   {
     "name": "Foco Arcano, Orbe",
     "category": "Adventuring Gear",
-    "description": "Um foco arcano é um item especial – um orbe, um cristal, um bastão,\num cajado especialmente construído, um pedaço de madeira em forma de varinha,\nou algum item semelhante - projetado para canalizar o poder de\nfeitiços arcanos. Um feiticeiro, bruxo ou mago pode usar\num item como um foco de lançamento de feitiços.",
+    "description": "Uma esfera de vidro, cristal ou pedra mágica, usada como foco de conjuração por feiticeiros, bruxos e magos.",
     "cost": "20 PO",
     "ac": "",
     "classification": "",
@@ -74,7 +74,7 @@
   {
     "name": "Foco Arcano, Bastão",
     "category": "Adventuring Gear",
-    "description": "Um foco arcano é um item especial – um orbe, um cristal, um bastão,\num cajado especialmente construído, um pedaço de madeira em forma de varinha,\nou algum item semelhante - projetado para canalizar o poder de\nfeitiços arcanos. Um feiticeiro, bruxo ou mago pode usar\num item como um foco de lançamento de feitiços.",
+    "description": "Um pequeno bastão de metal nobre ou madeira gravada com runas, usado como foco de conjuração por feiticeiros, bruxos e magos.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -86,7 +86,7 @@
   {
     "name": "Foco Arcano, Cajado",
     "category": "Adventuring Gear",
-    "description": "Um foco arcano é um item especial – um orbe, um cristal, um bastão,\num cajado especialmente construído, um pedaço de madeira em forma de varinha,\nou algum item semelhante - projetado para canalizar o poder de\nfeitiços arcanos. Um feiticeiro, bruxo ou mago pode usar\num item como um foco de lançamento de feitiços.",
+    "description": "Um cajado entalhado com símbolos místicos, usado como foco de conjuração por feiticeiros, bruxos e magos. Pode também ser utilizado como bordão em combate.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -98,7 +98,7 @@
   {
     "name": "Foco Arcano, Varinha",
     "category": "Adventuring Gear",
-    "description": "Um foco arcano é um item especial – um orbe, um cristal, um bastão,\num cajado especialmente construído, um pedaço de madeira em forma de varinha,\nou algum item semelhante - projetado para canalizar o poder de\nfeitiços arcanos. Um feiticeiro, bruxo ou mago pode usar\num item como um foco de lançamento de feitiços.",
+    "description": "Uma haste delgada de madeira nobre, marfim ou metal, usada como foco de conjuração por feiticeiros, bruxos e magos.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -110,7 +110,7 @@
   {
     "name": "Mochila",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1 pé cúbico/30 libras de equipamento. Você também pode\namarre itens, como um saco de dormir ou um rolo de corda, ao\nfora de uma mochila.",
+    "description": "Uma bolsa de couro ou lona reforçada com capacidade para comportar até 30 litros ou 15 kg de equipamento. Permite também amarrar itens, como um saco de dormir ou corda, na sua parte exterior.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -122,7 +122,7 @@
   {
     "name": "Esferas de Aço (sacola de 1000)",
     "category": "Adventuring Gear",
-    "description": "Como uma ação, você pode derramar essas pequenas bolas de metal\nsua bolsa para cobrir uma área plana e quadrada de 3 metros de altura\num lado. Uma criatura que se mova pela área coberta deve\nter sucesso em um teste de resistência de Destreza CD 10 ou cair\npropenso. Uma criatura se movendo pela área com metade do deslocamento\nnão precisa fazer o salvamento.",
+    "description": "Com uma ação, você pode espalhar essas 1.000 esferas de metal para cobrir uma área quadrada e plana de 3 metros de lado. Qualquer criatura que se mover pela área coberta deve passar em uma salvaguarda de Destreza CD 10 ou cair no chão (condição Caído). Uma criatura movendo-se com metade do seu deslocamento pela área não precisa fazer o teste.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -134,7 +134,7 @@
   {
     "name": "Barril",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 40 galões de líquido, 4 pés cúbicos de sólido",
+    "description": "Um tonel de madeira arqueada reforçado com aros de ferro. Capacidade para 150 litros de líquido ou 110 litros de sólidos.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -146,7 +146,7 @@
   {
     "name": "Cesta",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 2 pés cúbicos/40 libras de equipamento",
+    "description": "Um cesto de vime trançado com alça. Capacidade para até 20 litros ou 18 kg de mantimentos e equipamentos.",
     "cost": "4 PP",
     "ac": "",
     "classification": "",
@@ -158,7 +158,7 @@
   {
     "name": "Saco de Dormir",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um saco acolchoado e resistente às intempéries, forrado com lã ou pele, projetado para manter uma pessoa aquecida e confortável durante descansos no ermo.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -170,7 +170,7 @@
   {
     "name": "Sino",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um pequeno sino de metal com badalo ou cordão. Pode ser amarrado a fios de tropeço para criar alarmes sonoros em acampamentos ou portas.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -182,7 +182,7 @@
   {
     "name": "Cobertor",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um cobertor espesso de lã que proporciona calor e proteção contra o frio da noite ao dormir ao ar livre.",
     "cost": "5 PP",
     "ac": "",
     "classification": "",
@@ -194,7 +194,7 @@
   {
     "name": "Rondana e Cadernal",
     "category": "Adventuring Gear",
-    "description": "Um conjunto de polias com um cabo passando por elas e\num gancho para prender a objetos, um bloco e equipamento permite que você\npara içar até quatro vezes o peso que você normalmente consegue\nlevante.",
+    "description": "Um conjunto de roldanas e polias com corda e gancho para fixação em objetos. Permite a você içar com facilidade até quatro vezes o peso que você normalmente conseguiria erguer.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -206,7 +206,7 @@
   {
     "name": "Livro",
     "category": "Adventuring Gear",
-    "description": "Um livro pode conter poesia, relatos históricos,\ninformações pertencentes a um determinado campo de conhecimento,\ndiagramas e notas sobre engenhocas gnômicas, ou apenas\nsobre qualquer outra coisa que possa ser representada usando texto ou\nfotos.",
+    "description": "Um livro encadernado em couro com páginas de pergaminho, podendo conter tratados de história, registros contábeis ou poesia.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -218,7 +218,7 @@
   {
     "name": "Garrafa de Vidro",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1,5 litro de líquido",
+    "description": "Uma garrafa de vidro grosso com rolha de cortiça. Capacidade para comportar cerca de 750 ml de líquido.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -230,7 +230,7 @@
   {
     "name": "Balde",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 3 galões de líquido, 1/2 pé cúbico de sólido",
+    "description": "Um balde simples de madeira ou metal com alça. Capacidade para até 12 litros de água ou terra.",
     "cost": "5 PC",
     "ac": "",
     "classification": "",
@@ -242,7 +242,7 @@
   {
     "name": "Abrolhos (sacola de 20)",
     "category": "Adventuring Gear",
-    "description": "Como uma ação, você pode espalhar um saco de estrepes para cobrir um\nárea quadrada com 5 pés de lado. Qualquer criatura que\nentra na área deve ter sucesso em um teste de Destreza CD 15\nteste de resistência ou pare de se mover neste turno e pegue 1\ndano perfurante. Receber esse dano reduz o\na velocidade de caminhada da criatura em 3 metros até que a criatura\nrecupera pelo menos 1 ponto de vida. Uma criatura se movendo\na área na metade da velocidade não precisa ser salva.",
+    "description": "Com uma ação, você pode espalhar um saco de abrolhos pontiagudos de metal para cobrir uma área quadrada de 1,5 metro de lado. Qualquer criatura que entrar na área deve obter sucesso em um teste de resistência de Destreza CD 15 ou interrompe seu movimento no turno e sofre 1 ponto de dano perfurante. Sofrer esse dano reduz o deslocamento de caminhada da criatura em 3 metros até que ela recupere ao menos 1 ponto de vida. Mover-se com metade do deslocamento ignora o efeito.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -254,7 +254,7 @@
   {
     "name": "Vela",
     "category": "Adventuring Gear",
-    "description": "Por 1 hora, uma vela emite luz brilhante em um raio de 1,5 metro\ne pouca luz por mais 1,5 metro.",
+    "description": "Durante 1 hora, uma vela emite luz brilhante em um raio de 1,5 metro e penumbra por mais 1,5 metro adicional.",
     "cost": "1 PC",
     "ac": "",
     "classification": "",
@@ -266,7 +266,7 @@
   {
     "name": "Estojo de Virotes de Besta",
     "category": "Adventuring Gear",
-    "description": "Esta caixa de madeira pode conter até vinte virotes de besta.",
+    "description": "Um estojo tubular de couro rígido projetado para transportar com segurança até 20 virotes de besta.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -278,7 +278,7 @@
   {
     "name": "Porta-Mapas ou Estojo de Pergaminhos",
     "category": "Adventuring Gear",
-    "description": "Este estojo cilíndrico de couro pode acomodar até dez\nfolhas de papel ou cinco folhas de pergaminho enroladas.",
+    "description": "Um estojo cilíndrico de couro impermeável com tampa ajustada, projetado para proteger até 10 folhas de pergaminho enroladas contra água e sujeira.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -290,7 +290,7 @@
   {
     "name": "Corrente (3 metros)",
     "category": "Adventuring Gear",
-    "description": "Uma corrente tem 10 pontos de vida. Pode ser estourado com um\nteste bem-sucedido de Força CD 20.",
+    "description": "Uma corrente de elos de ferro forjado. Possui 10 pontos de vida e pode ser rompida com um teste de Força CD 20 bem-sucedido.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -302,7 +302,7 @@
   {
     "name": "Giz (1 pedaço)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um pedaço de giz para marcar paredes de masmorras, pisos de pedra ou portas para evitar se perder em labirintos e cavernas.",
     "cost": "1 PC",
     "ac": "",
     "classification": "",
@@ -314,7 +314,7 @@
   {
     "name": "Baú",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 12 pés cúbicos/300 libras de equipamento",
+    "description": "Um baú de madeira reforçada com travas de ferro. Capacidade para comportar até 340 litros ou 135 kg de tesouros e equipamentos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -326,7 +326,7 @@
   {
     "name": "Kit de Escalada",
     "category": "Adventuring Gear",
-    "description": "O kit de um escalador inclui pitons especiais, pontas de botas, luvas,\ne um arnês. Você pode usar o kit do escalador como uma ação\npara se ancorar; quando você faz isso, você não pode cair mais\na mais de 25 pés do ponto onde você ancorou,\ne você não pode subir mais de 25 pés de distância disso\napontar sem desfazer a âncora.",
+    "description": "Inclui pítons especiais, pontas de botas, luvas de couro grosso e um arnês de segurança. Com uma ação, você pode usar o kit para se ancorar em uma parede; quando ancorado, você não pode despencar a mais de 7,5 metros do ponto de fixação e não pode subir além de 7,5 metros sem soltar a âncora.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -338,7 +338,7 @@
   {
     "name": "Roupas Comuns",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um conjunto de roupas simples e funcionais apropriadas para trabalhadores e camponeses, consistindo em túnica, calças ou saia de tecido rústico, cinto e botas de couro simples.",
     "cost": "5 PP",
     "ac": "",
     "classification": "",
@@ -350,7 +350,7 @@
   {
     "name": "Roupas de Fantasia",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um traje elaborado e chamativo usado por bardos, acrobatas e atores em performances teatrais, festivais ou para personificar arquétipos específicos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -362,7 +362,7 @@
   {
     "name": "Roupas Finas",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Trajes confeccionados com tecidos nobres (como seda, veludo ou linho fino), bordados requintados e adornos de alta qualidade, típicos da nobreza e alta aristocracia.",
     "cost": "15 PO",
     "ac": "",
     "classification": "",
@@ -374,7 +374,7 @@
   {
     "name": "Roupas de Viajante",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Roupas resistentes e práticas projetadas para longas jornadas em climas variados, incluindo botas reforçadas, calças resistentes, camisa, cinto, luvas e capa com capuz.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -386,7 +386,7 @@
   {
     "name": "Algibeira de Componentes",
     "category": "Adventuring Gear",
-    "description": "Uma bolsa componente é um pequeno cinto de couro impermeável\nbolsa que possui compartimentos para guardar todo o material\ncomponentes e outros itens especiais que você precisa para lançar\nsuas magias, exceto aqueles componentes que possuem um\ncusto específico (conforme indicado na descrição da mágica).",
+    "description": "Uma bolsa de cintura impermeável com múltiplos pequenos compartimentos para guardar todos os componentes materiais necessários para suas magias, exceto aqueles que possuem um custo específico em peças de ouro indicado na descrição da magia.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -398,7 +398,7 @@
   {
     "name": "Pé de Cabra",
     "category": "Adventuring Gear",
-    "description": "Usar um pé de cabra concede vantagem em testes de Força\nonde a alavancagem do pé-de-cabra pode ser aplicada.",
+    "description": "Usar um pé de cabra concede vantagem em testes de Força em que a alavancagem de uma barra de ferro possa ser aplicada (como arrombar portas ou forçar tampas de baús).",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -410,7 +410,7 @@
   {
     "name": "Foco Druídico, Ramo de Visco",
     "category": "Adventuring Gear",
-    "description": "Um foco druídico pode ser um ramo de visco ou azevinho, um\nvarinha ou cetro feito de teixo ou outra madeira especial, um\nbastão retirado inteiro de uma árvore viva ou de um objeto totêmico\nincorporando penas, pêlos, ossos e dentes de\nanimais. Um druida pode usar tal objeto como um feitiço\nfoco.",
+    "description": "Um ramo de visco colhido sob a luz da lua cheia, usado como foco de conjuração sagrado por druidas.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -422,7 +422,7 @@
   {
     "name": "Foco Druídico, Totem",
     "category": "Adventuring Gear",
-    "description": "Um foco druídico pode ser um ramo de visco ou azevinho, um\nvarinha ou cetro feito de teixo ou outra madeira especial, um\nbastão retirado inteiro de uma árvore viva ou de um objeto totêmico\nincorporando penas, pêlos, ossos e dentes de\nanimais. Um druida pode usar tal objeto como um feitiço\nfoco.",
+    "description": "Um pequeno amuleto esculpido com penas, ossos ou pelo de um animal sagrado, usado como foco de conjuração por druidas.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -434,7 +434,7 @@
   {
     "name": "Foco Druídico, Cajado de Madeira",
     "category": "Adventuring Gear",
-    "description": "Um foco druídico pode ser um ramo de visco ou azevinho, um\nvarinha ou cetro feito de teixo ou outra madeira especial, um\nbastão retirado inteiro de uma árvore viva ou de um objeto totêmico\nincorporando penas, pêlos, ossos e dentes de\nanimais. Um druida pode usar tal objeto como um feitiço\nfoco.",
+    "description": "Um bastão de teixo ou carvalho entalhado, usado como foco de conjuração por druidas. Pode ser usado como bordão em combate.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -446,7 +446,7 @@
   {
     "name": "Foco Druídico, Varinha de Texo",
     "category": "Adventuring Gear",
-    "description": "Um foco druídico pode ser um ramo de visco ou azevinho, um\nvarinha ou cetro feito de teixo ou outra madeira especial, um\nbastão retirado inteiro de uma árvore viva ou de um objeto totêmico\nincorporando penas, pêlos, ossos e dentes de\nanimais. Um druida pode usar tal objeto como um feitiço\nfoco.",
+    "description": "Uma varinha entalhada em madeira nobre e consagrada à natureza, usada como foco de conjuração por druidas.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -458,7 +458,7 @@
   {
     "name": "Equipamento de Pesca",
     "category": "Adventuring Gear",
-    "description": "Este kit inclui vareta de madeira, linha de seda, cortiça\nbobbers, anzóis de aço, chumbadas, iscas de veludo e\nrede estreita.",
+    "description": "Inclui uma vara de madeira, linha de seda reforçada, anzóis de metal, chumbadas, iscas e boias de cortiça, necessários para pescar no ermo.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -470,7 +470,7 @@
   {
     "name": "Frasco",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1 litro de líquido",
+    "description": "Um pequeno recipiente de vidro, cerâmica ou metal com tampa hermética, capaz de armazenar até 120 ml de líquido (como poções ou óleos).",
     "cost": "2 PC",
     "ac": "",
     "classification": "",
@@ -482,7 +482,7 @@
   {
     "name": "Gancho de Escalada",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um gancho de ferro forjado de três ou quatro pontas com um anel para amarrar uma corda. Pode ser arremessado para fixar-se em saliências rochosas, ameias de muros ou galhos altos para escalada.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -494,7 +494,7 @@
   {
     "name": "Martelo",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um martelo de ferro de uma mão, útil para tarefas utilitárias como pregar pítons, montar acampamentos ou obras de carpintaria leve.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -506,7 +506,7 @@
   {
     "name": "Marreta",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma marreta pesada de duas mãos com cabeça de ferro maciço, adequada para quebrar alvenaria, forçar fechaduras ou cravar estacas grandes no solo.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -518,7 +518,7 @@
   {
     "name": "Kit de Curandeiro",
     "category": "Adventuring Gear",
-    "description": "Este kit é uma bolsa de couro contendo bandagens, pomadas,\ne talas. O kit tem dez utilizações. Como uma ação, você pode\ngaste um uso do kit para estabilizar uma criatura que tenha\n0 pontos de vida, sem precisar fazer um teste de Sabedoria\n(Remédio) cheque.",
+    "description": "Uma bolsa de couro contendo bandagens esterilizadas, unguentos, pomadas e talas. Possui 10 utilizações. Com uma ação, você pode gastar um uso do kit para estabilizar imediatamente uma criatura com 0 pontos de vida, sem necessidade de realizar um teste de Sabedoria (Medicina).",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -530,7 +530,7 @@
   {
     "name": "Símbolo Sagrado, Amuleto",
     "category": "Adventuring Gear",
-    "description": "Um símbolo sagrado é uma representação de um deus ou panteão.\nPode ser um amuleto representando um símbolo que representa uma\ndivindade, o mesmo símbolo cuidadosamente gravado ou incrustado como um\nemblema em um escudo, ou uma pequena caixa contendo um fragmento de\numa relíquia sagrada. Apêndice PH-B \"Fantasia-Histórica\nPanteões\" lista os símbolos comumente associados com\nmuitos deuses no multiverso. Um clérigo ou paladino pode usar\num símbolo sagrado como foco de lançamento de feitiços. Para usar o símbolo\ndesta forma, o lançador deve segurá-lo na mão, usá-lo\nvisivelmente, ou carregue-o em um escudo.",
+    "description": "Um medalhão ou pingente com o símbolo esculpido de uma divindade, usado como foco de conjuração por clérigos e paladinos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -542,7 +542,7 @@
   {
     "name": "Símbolo Sagrado, Emblema",
     "category": "Adventuring Gear",
-    "description": "Um símbolo sagrado é uma representação de um deus ou panteão.\nPode ser um amuleto representando um símbolo que representa uma\ndivindade, o mesmo símbolo cuidadosamente gravado ou incrustado como um\nemblema em um escudo, ou uma pequena caixa contendo um fragmento de\numa relíquia sagrada. Apêndice PH-B \"Fantasia-Histórica\nPanteões\" lista os símbolos comumente associados com\nmuitos deuses no multiverso. Um clérigo ou paladino pode usar\num símbolo sagrado como foco de lançamento de feitiços. Para usar o símbolo\ndesta forma, o lançador deve segurá-lo na mão, usá-lo\nvisivelmente, ou carregue-o em um escudo.",
+    "description": "Um símbolo sagrado gravado ou estampado no centro de um escudo ou peitoral de armadura, servindo como foco de conjuração sem ocupar as mãos do clérigo ou paladino.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -554,7 +554,7 @@
   {
     "name": "Símbolo Sagrado, Relicário",
     "category": "Adventuring Gear",
-    "description": "Um símbolo sagrado é uma representação de um deus ou panteão.\nPode ser um amuleto representando um símbolo que representa uma\ndivindade, o mesmo símbolo cuidadosamente gravado ou incrustado como um\nemblema em um escudo, ou uma pequena caixa contendo um fragmento de\numa relíquia sagrada. Apêndice PH-B \"Fantasia-Histórica\nPanteões\" lista os símbolos comumente associados com\nmuitos deuses no multiverso. Um clérigo ou paladino pode usar\num símbolo sagrado como foco de lançamento de feitiços. Para usar o símbolo\ndesta forma, o lançador deve segurá-lo na mão, usá-lo\nvisivelmente, ou carregue-o em um escudo.",
+    "description": "Uma caixinha ornamentada contendo um fragmento de osso, mecha de cabelo ou fragmento sagrado de um santo ou mártir, usada como foco de conjuração por clérigos e paladinos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -566,7 +566,7 @@
   {
     "name": "Água Benta (frasco)",
     "category": "Adventuring Gear",
-    "description": "Como uma ação, você pode espalhar o conteúdo deste frasco\nem uma criatura a até 1,5 metro de você ou jogue-a até 20\npés, quebrando-o com o impacto. Em ambos os casos, faça um\nataque à distância contra uma criatura alvo, tratando o sagrado\nágua como arma improvisada. Se o alvo for um demônio ou\nmorto-vivo, sofre 2d6 de dano radiante. Um clérigo ou paladino\npode criar água benta realizando um ritual especial.\nO ritual leva 1 hora para ser realizado, usa 25 po de\nprata em pó e exige que o conjurador gaste um 1º\nespaço de magia de nível.",
+    "description": "Com uma ação, você pode aspergir o conteúdo deste frasco em uma criatura a até 1,5 metro de você ou arremessá-lo a até 6 metros, quebrando-o no impacto. Trate o frasco como uma arma improvisada. Se atingir um corruptor (demônio ou diabo) ou morto-vivo, a criatura sofre 2d6 de dano radiante. Um clérigo ou paladino pode consagrar água benta realizando um ritual especial de 1 hora que consome 25 po de pó de prata e gasta um espaço de magia de 1º círculo.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -578,7 +578,7 @@
   {
     "name": "Ampulheta",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um dispositivo refinado de vidro e latão contendo areia fina calibrada para medir a passagem de exatamente uma hora.",
     "cost": "25 PO",
     "ac": "",
     "classification": "",
@@ -590,7 +590,7 @@
   {
     "name": "Armadilha de Caça",
     "category": "Adventuring Gear",
-    "description": "Quando você usa sua ação para armá-la, esta armadilha forma uma serra\nanel de aço dentado que se fecha quando uma criatura pisa\nem uma placa de pressão no centro. A armadilha é fixada por um\ncorrente pesada a um objeto imóvel, como uma árvore ou um\nespigão cravado no chão. Uma criatura que pisa no\nplaca deve ter sucesso em um teste de resistência de Destreza CD 13\nou receba 1d4 de dano perfurante e pare de se mover.\nDepois disso, até que a criatura se liberte da armadilha, seu\no movimento é limitado pelo comprimento da corrente (normalmente\n3 metros de comprimento). Uma criatura pode usar sua ação para fazer uma CD\n13 Teste de Força, libertando-se ou libertando outra criatura\nao seu alcance em caso de sucesso. Cada verificação falhada causa 1\ndano perfurante à criatura presa.",
+    "description": "Ao usar uma ação para armá-la, esta armadilha de ferro dentada se fecha instantaneamente quando uma criatura pisa na placa de pressão central. Fica fixada por uma corrente resistente a uma árvore ou estaca. A criatura que pisar na armadilha deve passar em um teste de resistência de Destreza CD 13 ou sofre 1d4 de dano perfurante e fica presa. Enquanto presa, seu movimento é limitado a 3 metros. Com uma ação, a criatura ou um aliado pode fazer um teste de Força CD 13 para soltá-la; cada falha causa 1 ponto de dano perfurante.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -602,7 +602,7 @@
   {
     "name": "Tinta (frasco de 30ml)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um frasco com tinta preta de qualidade durável para escrever fórmulas arcanas, registrar diários ou redigir mapas e documentos.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -614,7 +614,7 @@
   {
     "name": "Caneta Tinteiro",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma pena estilizada ou caneta de metal com ponta afilada para escrita precisa com tinta líquida em papel ou pergaminho.",
     "cost": "2 PC",
     "ac": "",
     "classification": "",
@@ -626,7 +626,7 @@
   {
     "name": "Jarra",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1 galão de líquido",
+    "description": "Um pote de barro vidrado com tampa. Capacidade para armazenar até 4 litros de grãos ou líquidos.",
     "cost": "2 PC",
     "ac": "",
     "classification": "",
@@ -638,7 +638,7 @@
   {
     "name": "Lâmpada",
     "category": "Adventuring Gear",
-    "description": "Uma lâmpada emite luz brilhante em um raio de 4,5 metros e fraca\nluz por mais 30 pés. Uma vez aceso, queima por 6\nhoras em um frasco (1 litro) de óleo.",
+    "description": "Uma lamparina a óleo que emite luz brilhante em um raio de 4,5 metros e penumbra por mais 9 metros adicionais. Queima por 6 horas com um frasco (500 ml) de óleo.",
     "cost": "5 PP",
     "ac": "",
     "classification": "",
@@ -650,7 +650,7 @@
   {
     "name": "Lanterna Focada",
     "category": "Adventuring Gear",
-    "description": "Uma lanterna em forma de alvo emite luz brilhante em um cone de 18 metros\ne pouca luz por mais 18 metros. Uma vez aceso, ele queima\npor 6 horas em um frasco (1 litro) de óleo.",
+    "description": "Uma lanterna com espelho côncavo que emite luz brilhante em um cone de 18 metros e penumbra por mais 18 metros adicionais. Queima por 6 horas com um frasco de óleo.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -662,7 +662,7 @@
   {
     "name": "Lanterna Furta-Fogo",
     "category": "Adventuring Gear",
-    "description": "Uma lanterna encapuzada emite luz brilhante em um raio de 9 metros\ne pouca luz por mais 30 pés. Uma vez aceso, ele queima\npor 6 horas em um frasco (1 litro) de óleo. Como uma ação, você\npode abaixar o capô, reduzindo a luz para pouca luz em um\nRaio de 5 pés.",
+    "description": "Uma lanterna cilíndrica com tampa ajustável que emite luz brilhante em um raio de 9 metros e penumbra por mais 9 metros adicionais. Queima por 6 horas com um frasco de óleo. Com uma ação, você pode fechar a tampa, reduzindo a emissão a uma penumbra fraca em um raio de 1,5 metro.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -674,7 +674,7 @@
   {
     "name": "Cadeado",
     "category": "Adventuring Gear",
-    "description": "Uma chave é fornecida com a fechadura. Sem a chave, um\ncriatura proficiente com ferramentas de ladrão pode arrombar esta fechadura\ncom um teste bem-sucedido de Destreza CD 15. Seu GM pode\ndecidir que fechaduras melhores estão disponíveis por preços mais elevados.",
+    "description": "Uma fechadura metálica resistente que acompanha uma chave. Sem a chave, uma criatura proficiente com ferramentas de ladrão pode tentar arrombá-la obtendo sucesso em um teste de Destreza CD 15.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -686,7 +686,7 @@
   {
     "name": "Lupa",
     "category": "Adventuring Gear",
-    "description": "Esta lente permite uma visão mais próxima de pequenos objetos. Também é\nútil como substituto de pederneira e aço ao iniciar\nincêndios. Acender uma fogueira com uma lupa requer\nluz tão brilhante quanto a luz do sol para focar, isca para acender e\ncerca de 5 minutos para o fogo acender. Uma lupa\nconcede vantagem em qualquer teste de habilidade feito para avaliar\nou inspecione um item pequeno ou altamente detalhado.",
+    "description": "Uma lente de aumento circular de vidro óptico. Concede vantagem em qualquer teste de habilidade para examinar ou avaliar itens pequenos ou detalhados. Também pode ser usada com luz solar direta para acender uma fogueira em cerca de 5 minutos.",
     "cost": "100 PO",
     "ac": "",
     "classification": "",
@@ -698,7 +698,7 @@
   {
     "name": "Algemas",
     "category": "Adventuring Gear",
-    "description": "Essas restrições de metal podem prender um pequeno ou médio\ncriatura. Escapar das algemas requer um sucesso\nTeste de Destreza CD 20. Quebrá-los requer um\nteste bem-sucedido de Força CD 20. Cada conjunto de algemas\nvem com uma chave. Sem a chave, uma criatura\nproficiente com ferramentas de ladrões pode arrombar a fechadura das algemas\ncom um teste bem-sucedido de Destreza CD 15. Algemas têm\n15 pontos de vida.",
+    "description": "Algemas de ferro que podem prender uma criatura Pequena ou Média. Escapar requer sucesso em teste de Destreza CD 20; arrombá-las com ferramentas de ladrão requer teste de Destreza CD 15; quebrá-las à força bruta requer teste de Força CD 20. Possuem 15 pontos de vida.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -710,7 +710,7 @@
   {
     "name": "Kit de Refeição",
     "category": "Adventuring Gear",
-    "description": "Esta caixa de lata contém um copo e talheres simples. A caixa\ngrampos juntos, e um lado pode ser usado como cozinha\npanela e a outra como prato ou tigela rasa.",
+    "description": "Uma caixa de lata compacta contendo prato de metal, caneca, tigela e talheres simples, essenciais para refeições em acampamentos.",
     "cost": "2 PP",
     "ac": "",
     "classification": "",
@@ -722,7 +722,7 @@
   {
     "name": "Espelho de Aço",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um espelho de aço altamente polido do tamanho de uma palma, ideal para olhar ao redor de cantos sem se expor, refletir luz ou sinalizar a distância.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -734,7 +734,7 @@
   {
     "name": "Óleo (frasco)",
     "category": "Adventuring Gear",
-    "description": "O óleo geralmente vem em um frasco de argila com capacidade para 1 litro. Como um\nação, você pode espirrar o óleo deste frasco em uma criatura\na até 1,5 metro de você ou jogue-o até 6 metros, quebrando\nisso no impacto. Faça um ataque à distância contra um alvo\ncriatura ou objeto, tratando o óleo como um produto improvisado\narma. Ao acertar, o alvo fica coberto de óleo. Se o alvo\nsofre qualquer dano de fogo antes que o óleo seque (após 1\nminuto), o alvo sofre 5 de dano de fogo adicional\ndo óleo ardente. Você também pode derramar um frasco de óleo\no terreno para cobrir uma área de 5 pés quadrados, desde que\na superfície está nivelada. Se aceso, o óleo queima por 2 rodadas e\ncausa 5 pontos de dano de fogo a qualquer criatura que entre na área ou\ntermina seu turno na área. Uma criatura pode sofrer este dano\napenas uma vez por turno.",
+    "description": "Um frasco de argila contendo 500 ml de óleo combustível. Com uma ação, pode ser arremessado a até 6 metros como arma improvisada. Se atingir uma criatura ou objeto, ela fica embebida em óleo: se sofrer dano de fogo antes do óleo secar (1 minuto), sofre 5 pontos de dano de fogo adicional das chamas. Você também pode despejar o óleo no chão cobrindo um quadrado de 1,5 metro de lado; se aceso, o óleo queima por 2 rodadas, causando 5 de dano de fogo a qualquer um que entrar na área ou encerrar seu turno nela.",
     "cost": "1 PP",
     "ac": "",
     "classification": "",
@@ -746,7 +746,7 @@
   {
     "name": "Papel (uma folha)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma folha de papel leve feita de fibras vegetais prensadas, adequada para cartas e desenhos detalhados.",
     "cost": "2 PP",
     "ac": "",
     "classification": "",
@@ -758,7 +758,7 @@
   {
     "name": "Pergaminho (uma folha)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma folha de couro animal fino tratada especificamente para escrita de documentos formais, mapas duráveis ou inscrições mágicas.",
     "cost": "1 PP",
     "ac": "",
     "classification": "",
@@ -770,7 +770,7 @@
   {
     "name": "Perfume (frasco)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um pequeno frasco contendo essências aromáticas refinadas, muito apreciado pela corte para disfarçar odores de viagens e causar uma boa impressão.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -782,7 +782,7 @@
   {
     "name": "Picareta de Minerador",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma ferramenta pesada com cabeça de ferro pontiaguda de um lado e chata do outro, indispensável para minerar, romper paredes rochosas ou abrir passagens em cavernas.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -806,7 +806,7 @@
   {
     "name": "Píton",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um prego de ferro grosso e pontiagudo com um anel na cabeça, projetado para ser cravado em fendas de rochas com um martelo para prender cordas de escalada.",
     "cost": "5 PC",
     "ac": "",
     "classification": "",
@@ -818,7 +818,7 @@
   {
     "name": "Veneno Básico (frasco)",
     "category": "Adventuring Gear",
-    "description": "Você pode usar o veneno neste frasco para cobrir um corte\nou arma perfurante ou até três munições.\nAplicar o veneno requer uma ação. Uma criatura atingida por\na arma ou munição envenenada deve ter um CD 10\nteste de resistência de Constituição ou sofrerá 1d4 de dano venenoso.\nUma vez aplicado, o veneno mantém a potência por 1 minuto\nantes de secar.",
+    "description": "Com uma ação, você pode aplicar este veneno em uma arma cortante ou perfurante, ou em até 3 munições. A próxima criatura atingida deve passar em uma salvaguarda de Constituição CD 10 ou sofre 1d4 de dano de veneno. O veneno mantém sua potência por 1 minuto após aplicado.",
     "cost": "100 PO",
     "ac": "",
     "classification": "",
@@ -830,7 +830,7 @@
   {
     "name": "Vara (3 metros)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma vara de madeira resistente com 3 metros de comprimento, frequentemente utilizada por aventureiros cautelosos para sondar o solo à frente em busca de armadilhas, poços e pisos falsos.",
     "cost": "5 PC",
     "ac": "",
     "classification": "",
@@ -878,7 +878,7 @@
   {
     "name": "Aríete Portátil",
     "category": "Adventuring Gear",
-    "description": "Você pode usar um aríete portátil para arrombar portas. Quando\nfazendo isso, você ganha um bônus de +4 no teste de Força.\nUm outro personagem pode ajudá-lo a usar o carneiro, dando\nvocê tem vantagem neste teste.",
+    "description": "Uma tora de madeira reforçada com ferragens e alças de apoio para arrombar portas. Concede um bônus de +4 no teste de Força para quebrar portas. Outro personagem pode ajudar na manobra, concedendo vantagem no teste.",
     "cost": "4 PO",
     "ac": "",
     "classification": "",
@@ -890,7 +890,7 @@
   {
     "name": "Rações (1 dia)",
     "category": "Adventuring Gear",
-    "description": "As rações consistem em alimentos secos adequados para viagens prolongadas,\nincluindo carne seca, frutas secas, biscoito duro e nozes.",
+    "description": "Alimentos desidratados e nutritivos (carne seca, frutas secas e pão duro) suficientes para sustentar uma criatura durante um dia inteiro de marcha.",
     "cost": "5 PP",
     "ac": "",
     "classification": "",
@@ -902,7 +902,7 @@
   {
     "name": "Vestes",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Trajes compridos e soltos de tecido de linho ou lã, comuns entre clérigos, monges e estudiosos arcanos.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -914,7 +914,7 @@
   {
     "name": "Corda de Cânhamo (15 metros)",
     "category": "Adventuring Gear",
-    "description": "A corda, seja feita de cânhamo ou seda, tem 2 pontos de vida e\npode ser explodido com um teste de Força CD 17.\n",
+    "description": "Uma corda resistente trançada em fibras naturais de cânhamo. Possui 2 pontos de vida e pode ser rompida com um teste de Força CD 17 bem-sucedido.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -926,7 +926,7 @@
   {
     "name": "Corda de Seda (15 metros)",
     "category": "Adventuring Gear",
-    "description": "A corda, seja feita de cânhamo ou seda, tem 2 pontos de vida e\npode ser explodido com um teste de Força CD 17.",
+    "description": "Uma corda leve, flexível e muito resistente trançada em fios de seda. Possui 2 pontos de vida e pode ser rompida com um teste de Força CD 17.",
     "cost": "10 PO",
     "ac": "",
     "classification": "",
@@ -938,7 +938,7 @@
   {
     "name": "Saco",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1 pé cúbico/30 libras de equipamento",
+    "description": "Um saco de estopa ou linho rústico. Capacidade para comportar até 30 litros ou 15 kg de itens variados.",
     "cost": "1 PC",
     "ac": "",
     "classification": "",
@@ -950,7 +950,7 @@
   {
     "name": "Balança de Mercador",
     "category": "Adventuring Gear",
-    "description": "Uma balança inclui uma pequena balança, pratos e um\nvariedade de pesos de até 2 libras. Com ele, você pode\nmedir o peso exato de pequenos objetos, como matérias-primas\nmetais preciosos ou bens comerciais, para ajudar a determinar a sua\nvale a pena.",
+    "description": "Uma balança de dois pratos com um jogo de pesos de latão, permitindo medir com exatidão o peso de moedas, pedras preciosas e pós mágicos.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -962,7 +962,7 @@
   {
     "name": "Lacre",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma barra de cera maleável especial que pode ser derretida sobre cartas ou envelopes e marcada com um anel de sinete para autenticar documentos e garantir sigilo.",
     "cost": "4 PP",
     "ac": "",
     "classification": "",
@@ -974,7 +974,7 @@
   {
     "name": "Pá",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma pá de ferro com cabo de madeira resistente, usada para cavar trincheiras, desenterrar tesouros ou abrir covas.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -986,7 +986,7 @@
   {
     "name": "Apito de Sinalização",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um apito de metal ou osso que produz um som agudo e penetrante, capaz de ser ouvido a centenas de metros para alertar companheiros ou pedir socorro.",
     "cost": "5 PC",
     "ac": "",
     "classification": "",
@@ -998,7 +998,7 @@
   {
     "name": "Anel de Sinete",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um anel de metal entalhado com o brasão de uma casa nobre, congregação religiosa ou guilda, usado para prensar a marca da família em lacre quente.",
     "cost": "5 PO",
     "ac": "",
     "classification": "",
@@ -1010,7 +1010,7 @@
   {
     "name": "Sabão",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Uma barra de sabão à base de gordura vegetal ou animal e cinzas alcalinas, usada para higiene pessoal e lavagem de vestimentas.",
     "cost": "2 PC",
     "ac": "",
     "classification": "",
@@ -1022,7 +1022,7 @@
   {
     "name": "Grimório",
     "category": "Adventuring Gear",
-    "description": "Essencial para os magos, um livro de feitiços é uma capa de couro\ntomo com 100 páginas de pergaminho em branco adequadas para gravação\nfeitiços.",
+    "description": "Essencial para todo mago, um livro encadernado em couro reforçado contendo 100 páginas de pergaminho virgem, adequadas para registrar e copiar fórmulas de magias arcanas.",
     "cost": "50 PO",
     "ac": "",
     "classification": "",
@@ -1034,7 +1034,7 @@
   {
     "name": "Picos de Ferro (10)",
     "category": "Adventuring Gear",
-    "description": "",
+    "description": "Um conjunto de dez estacas resistentes de ferro forjado, usadas para calçar portas, travar mecanismos ou ancorar correntes.",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -1046,7 +1046,7 @@
   {
     "name": "Luneta",
     "category": "Adventuring Gear",
-    "description": "Os objetos vistos através de uma luneta são ampliados para\no dobro do seu tamanho.",
+    "description": "Um instrumento óptico telescópico com lentes de vidro. Amplia a visão de objetos distantes para o dobro do tamanho aparente.",
     "cost": "1000 PO",
     "ac": "",
     "classification": "",
@@ -1058,7 +1058,7 @@
   {
     "name": "Caneca",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 1 litro de líquido",
+    "description": "Uma caneca simples de barro, estanho ou madeira para consumo de bebidas.",
     "cost": "2 PC",
     "ac": "",
     "classification": "",
@@ -1070,7 +1070,7 @@
   {
     "name": "Tenda para Duas Pessoas",
     "category": "Adventuring Gear",
-    "description": "Um abrigo de lona simples e portátil, adequado para 2\npessoas",
+    "description": "Uma tenda portátil de lona encerada resistente à chuva com estacas de madeira, suficiente para abrigar confortavelmente duas criaturas Médias.",
     "cost": "2 PO",
     "ac": "",
     "classification": "",
@@ -1082,7 +1082,7 @@
   {
     "name": "Isqueiro",
     "category": "Adventuring Gear",
-    "description": "Este pequeno recipiente contém pederneira, aço para fogo e isca\n(geralmente pano seco embebido em óleo leve) usado para acender um\nfogo. Usá-lo para acender uma tocha – ou qualquer outra coisa com\ncombustível abundante e exposto – realiza uma ação. Iluminando qualquer\noutro fogo leva 1 minuto.",
+    "description": "Uma pequena caixa de metal contendo pederneira, fuzil de aço e mecha seca embebida em óleo leve. Permite acender uma tocha ou fogueira com facilidade.",
     "cost": "5 PP",
     "ac": "",
     "classification": "",
@@ -1094,7 +1094,7 @@
   {
     "name": "Tocha",
     "category": "Adventuring Gear",
-    "description": "Uma tocha queima por 1 hora, fornecendo luz brilhante em um intervalo de 20 minutos.\nraio de metro e luz fraca por mais 6 metros adicionais. Se você\nfaça um ataque corpo a corpo com uma tocha acesa e acerte,\ncausa 1 dano de fogo.",
+    "description": "Uma haste de madeira com estopa embebida em breu que queima por 1 hora, emitindo luz plena em um raio de 6 metros e penumbra por mais 6 metros adicionais. Se usada como arma improvisada, causa 1 ponto de dano de fogo.",
     "cost": "1 PC",
     "ac": "",
     "classification": "",
@@ -1106,7 +1106,7 @@
   {
     "name": "Frasco",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 4 onças de líquido",
+    "description": "Um pequeno recipiente de vidro, cerâmica ou metal com tampa hermética, capaz de armazenar até 120 ml de líquido (como poções ou óleos).",
     "cost": "1 PO",
     "ac": "",
     "classification": "",
@@ -1118,7 +1118,7 @@
   {
     "name": "Odre",
     "category": "Adventuring Gear",
-    "description": "Capacidade: 4 litros de líquido",
+    "description": "Um recipiente flexível de couro tratado impermeabilizado com cera ou pez, com bocal e alça. Capacidade para até 2 litros de água ou vinho.",
     "cost": "2 PP",
     "ac": "",
     "classification": "",
@@ -1130,7 +1130,7 @@
   {
     "name": "Pedra de Amolar",
     "category": "Adventuring Gear",
-    "description": "Pedra de amolar usada para afiar facas e outros\nferramentas de corte",
+    "description": "Uma pedra abrasiva de granito fino usada para afiar o fio de espadas, machados e adagas.",
     "cost": "1 PC",
     "ac": "",
     "classification": "",
