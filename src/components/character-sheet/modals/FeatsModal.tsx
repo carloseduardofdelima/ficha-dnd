@@ -36,18 +36,42 @@ export default function FeatsModal() {
         ? FEATS_2014.filter(f => !f.source || f.source === "Player's Handbook 2014")
         : FEATS_2014)
   const selectedNames = new Set((parsedTraits?.feats || []).map((f: any) => f.name))
+  const charLevel = character?.level || 1
 
-  const filtered = catalog.filter(f => {
-    const term = featSearchTerm.toLowerCase()
-    const nameMatch = f.name.toLowerCase().includes(term) || (('englishName' in f) && (f as any).englishName?.toLowerCase().includes(term))
-    
-    const descText = is2014 
-      ? ((f as any).benefits || []).join(' ') 
-      : ((f as any).description || '')
-    const descMatch = descText.toLowerCase().includes(term)
-    
-    return nameMatch || descMatch
-  })
+  const isASI = (f: any) =>
+    f.id === 'asi' ||
+    f.id === 'asi-2014' ||
+    f.name?.toLowerCase().includes('incremento no valor de habilidade') ||
+    f.name?.toLowerCase().includes('melhoria no valor de habilidade')
+
+  const isFeatPermittedForLevel = (f: any) => {
+    if (isASI(f)) {
+      return charLevel >= 4
+    }
+    if (typeof f.minLevel === 'number') {
+      return charLevel >= f.minLevel
+    }
+    if (f.requirement) {
+      const req = f.requirement.toLowerCase()
+      if (req.includes('nível 19') || req.includes('level 19')) return charLevel >= 19
+      if (req.includes('nível 4') || req.includes('level 4')) return charLevel >= 4
+    }
+    return true
+  }
+
+  const filtered = catalog
+    .filter(isFeatPermittedForLevel)
+    .filter(f => {
+      const term = featSearchTerm.toLowerCase()
+      const nameMatch = f.name.toLowerCase().includes(term) || (('englishName' in f) && (f as any).englishName?.toLowerCase().includes(term))
+      
+      const descText = is2014 
+        ? ((f as any).benefits || []).join(' ') 
+        : ((f as any).description || '')
+      const descMatch = descText.toLowerCase().includes(term)
+      
+      return nameMatch || descMatch
+    })
 
   return (
     <div

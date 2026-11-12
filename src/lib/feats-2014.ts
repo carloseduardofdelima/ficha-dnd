@@ -2,6 +2,7 @@ export interface Feat2014 {
   id: string;
   name: string;
   requirement?: string;
+  minLevel?: number;
   description?: string; // Summary description
   benefits: string[]; // Detailed list of benefits
   attributeBonus?: {
@@ -20,6 +21,8 @@ export const FEATS_2014: Feat2014[] = [
   {
     id: 'asi-2014',
     name: 'Incremento no Valor de Habilidade',
+    requirement: 'Nível 4+',
+    minLevel: 4,
     benefits: [
       'Aumente um valor de habilidade em 2 ou dois valores de habilidade em 1.',
       'Você não pode aumentar um valor de habilidade acima de 20 dessa forma.'

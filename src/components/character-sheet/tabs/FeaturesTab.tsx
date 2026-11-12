@@ -651,6 +651,17 @@ export default function FeaturesTab() {
                         <span style={{ display: 'inline-block', fontSize: 8, color: 'var(--accentL)', fontWeight: 800, textTransform: 'uppercase', background: 'var(--accentGlow)', padding: '1px 4px', borderRadius: 3, marginTop: 2 }}>
                           {featSource}
                         </span>
+                        {(() => {
+                          const isASI = feat.name.toLowerCase().includes('incremento no valor de habilidade') || feat.name.toLowerCase().includes('melhoria no valor de habilidade')
+                          if (isASI && character.level < 4) {
+                            return (
+                              <span style={{ display: 'inline-block', fontSize: 8, color: '#f87171', fontWeight: 800, textTransform: 'uppercase', background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', padding: '1px 4px', borderRadius: 3, marginTop: 2, marginLeft: 6 }}>
+                                ⚠️ Requer Nível 4 (Nível Atual: {character.level})
+                              </span>
+                            )
+                          }
+                          return null
+                        })()}
                       </div>
                       {isOwner && (
                         <button

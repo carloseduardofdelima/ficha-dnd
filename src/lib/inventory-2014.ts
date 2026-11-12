@@ -288,6 +288,7 @@ export const CLASS_STARTING_ITEMS_2014: Record<string, InventoryEntry[]> = {
     { item: ITEM_CATALOG_2014.find(i => i.id === 'adaga-2014')!, qty: 2, locked: true },
   ],
   'Mago': [
+    { item: ITEM_CATALOG_2014.find(i => i.id === 'grimorio-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'cajado-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'pack-estudioso-2014')!, qty: 1, locked: true },
     { item: ITEM_CATALOG_2014.find(i => i.id === 'adaga-2014')!, qty: 1, locked: true },

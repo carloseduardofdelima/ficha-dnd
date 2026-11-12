@@ -192,8 +192,8 @@ export default function LevelUpModal() {
 
                       const classFeatures = is2014
                         ? (CLASSES_2014.find(c => c.name === character.class)?.features
-                            .filter(f => f.level === nextLevel && !SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name))
-                            .map(f => f.name) || [])
+                          .filter(f => f.level === nextLevel && !SUBCLASS_EXCLUDED_FEATURES_2014.has(f.name))
+                          .map(f => f.name) || [])
                         : (CLASS_PROGRESSION_2024[character.class]?.features[nextLevel] || [])
 
                       const speciesFeatures = !is2014 ? (SPECIES_PROGRESSION_2024[character.race]?.[nextLevel] || []) : []
@@ -334,7 +334,7 @@ export default function LevelUpModal() {
                       if (character.class === 'Artífice') {
                         const modInt = Math.max(1, Math.floor((character.intelligence - 10) / 2))
                         newResources['Engenharia Mágica'] = modInt
-                        
+
                         if (newLevel >= 7) {
                           newResources['Brilho de Gênio'] = modInt
                         } else {
@@ -575,7 +575,7 @@ export default function LevelUpModal() {
                       englishName: undefined,
                       description: f.description || f.benefits?.join(' ') || '',
                       category: 'Geral',
-                      minLevel: 1,
+                      minLevel: f.minLevel || (f.id === 'asi-2014' ? 4 : (f.requirement?.toLowerCase().includes('nível 4') ? 4 : 1)),
                       requirement: f.requirement
                     }))
                     const activePool = is2014 ? normalized2014Feats : FEATS_2024
@@ -667,7 +667,7 @@ export default function LevelUpModal() {
                     ) : (
                       (() => {
                         const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
-                        const currentFeat = is2014 
+                        const currentFeat = is2014
                           ? FEATS_2014.find(f => f.id === selectedFeatId)
                           : FEATS_2024.find(f => f.id === selectedFeatId)
                         const featDesc = (currentFeat as any)?.description || (currentFeat as any)?.benefits?.join(' ') || ''
@@ -703,7 +703,7 @@ export default function LevelUpModal() {
                     disabled={!selectedFeatId || ((selectedFeatId === 'asi' || selectedFeatId === 'asi-2014') && (!featAttr1 || !featAttr2))}
                     onClick={() => {
                       const is2014 = character.ruleset === '2014' || character.ruleset === '5e-custom'
-                      const feat = is2014 
+                      const feat = is2014
                         ? FEATS_2014.find(f => f.id === selectedFeatId) || FEATS_2024.find(f => f.id === selectedFeatId)
                         : FEATS_2024.find(f => f.id === selectedFeatId) || FEATS_2014.find(f => f.id === selectedFeatId)
                       const featName = feat?.name || 'Talento'
