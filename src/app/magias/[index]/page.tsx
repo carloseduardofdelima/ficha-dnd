@@ -8,17 +8,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import { ALL_SPELLS, Spell } from '@/lib/spells'
-
-const SCHOOL_ICONS: Record<string, string> = {
-  'Abjuração': '/assets/spells-icons/protection-field.png',
-  'Conjuração': '/assets/spells-icons/teleport-swirl.png',
-  'Adivinhação': '/assets/spells-icons/all-seeing-eye.png',
-  'Encantamento': '/assets/spells-icons/mind-waves.png',
-  'Evocação': '/assets/spells-icons/fire-blast.png',
-  'Ilusão': '/assets/spells-icons/mirror-image.png',
-  'Necromancia': '/assets/spells-icons/undead-skull.png',
-  'Transmutação': '/assets/spells-icons/elemental-spiral.png',
-}
+import { getSpellIcon } from '@/lib/spell-icons'
 
 interface PageProps {
   params: Promise<{ index: string }>
@@ -126,28 +116,26 @@ export default function SpellDetailsPage({ params }: PageProps) {
             </div>
           </div>
 
-          {/* Ícone da Escola na Direita */}
-          {SCHOOL_ICONS[spell.school] && (
-            <div style={{
-              zIndex: 1,
-              width: 120,
-              height: 120,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative'
-            }} className="school-icon-container">
-              <Image 
-                src={SCHOOL_ICONS[spell.school]} 
-                alt={spell.school} 
-                width={100} 
-                height={100} 
-                style={{ 
+          {/* Ícone da Magia na Direita */}
+          <div style={{
+            zIndex: 1,
+            width: 120,
+            height: 120,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative'
+          }} className="school-icon-container">
+            <Image 
+              src={getSpellIcon(spell)} 
+              alt={spell.name} 
+              width={100} 
+              height={100} 
+              style={{ 
                   transition: 'transform 0.3s ease'
-                }}
-              />
-            </div>
-          )}
+              }}
+            />
+          </div>
         </div>
 
         {/* Basic Info Grid */}

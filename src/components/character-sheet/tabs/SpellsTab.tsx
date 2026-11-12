@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Zap, Sparkles, Target, ShieldAlert, BookOpen, Plus, Trash2, Search, X } from 'lucide-react'
 import { calcModifier } from '@/types/character'
 import { SPELLS, ALL_SPELLS, SPELLS_2014, Spell } from '@/lib/spells'
+import { getSpellIcon } from '@/lib/spell-icons'
 import { getUnlockedSubclassSpells } from '../utils/subclass-spells'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
@@ -523,7 +524,7 @@ export default function SpellsTab() {
                                 border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.3)'
                               }}>
                                 <Image
-                                  src={`/assets/spells-icons/${icon}`}
+                                  src={getSpellIcon(spell)}
                                   alt={spell.name}
                                   width={40} height={40}
                                   style={{ objectFit: 'cover', opacity: 1 }}
@@ -706,7 +707,7 @@ export default function SpellsTab() {
                                   background: 'rgba(0,0,0,0.3)'
                                 }}>
                                   <Image
-                                    src={`/assets/spells-icons/${icon}`}
+                                    src={getSpellIcon(spell)}
                                     alt={spell.name}
                                     width={isPreparing ? 32 : 40}
                                     height={isPreparing ? 32 : 40}
@@ -835,7 +836,7 @@ export default function SpellsTab() {
                                 background: 'rgba(0,0,0,0.3)'
                               }}>
                                 <Image
-                                  src={`/assets/spells-icons/${icon}`}
+                                  src={getSpellIcon(spell)}
                                   alt={spell.name}
                                   width={40}
                                   height={40}
@@ -1069,7 +1070,7 @@ export default function SpellsTab() {
                             background: 'rgba(0,0,0,0.3)',
                           }}>
                             <Image
-                              src={`/assets/spells-icons/${icon}`}
+                              src={getSpellIcon(sp)}
                               alt={sp.name}
                               width={32}
                               height={32}

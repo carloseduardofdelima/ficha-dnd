@@ -40,16 +40,7 @@ const SCHOOL_COLORS: Record<string, string> = {
   'Necromancia': '#94a3b8', 'Transmutação': '#fbbf24',
 }
 
-const SCHOOL_ICONS: Record<string, string> = {
-  'Abjuração': '/assets/spells-icons/protection-field.png',
-  'Conjuração': '/assets/spells-icons/teleport-swirl.png',
-  'Adivinhação': '/assets/spells-icons/all-seeing-eye.png',
-  'Encantamento': '/assets/spells-icons/mind-waves.png',
-  'Evocação': '/assets/spells-icons/fire-blast.png',
-  'Ilusão': '/assets/spells-icons/mirror-image.png',
-  'Necromancia': '/assets/spells-icons/undead-skull.png',
-  'Transmutação': '/assets/spells-icons/elemental-spiral.png',
-}
+import { getSpellIcon } from '@/lib/spell-icons'
 
 export default function MagiasPage() {
   const [search, setSearch] = useState('')
@@ -204,8 +195,8 @@ export default function MagiasPage() {
                       </span>
                     )}
                   </div>
-                  <div className="level-badge">
-                    {spell.level === 0 ? 'T' : `${spell.level}`}
+                  <div className="spell-card-icon">
+                    <Image src={getSpellIcon(spell)} alt={spell.name} width={32} height={32} style={{ objectFit: 'cover', borderRadius: 6 }} />
                   </div>
                 </div>
                 
@@ -224,9 +215,14 @@ export default function MagiasPage() {
                   {spell.classes.length > 3 && <span className="class-pill">+ {spell.classes.length - 3}</span>}
                 </div>
 
-                <div className="card-footer">
-                  <span>Detalhes</span>
-                  <ChevronRight size={14} />
+                <div className="card-footer" style={{ justifyContent: 'space-between' }}>
+                  <div className="level-badge">
+                    {spell.level === 0 ? 'T' : `${spell.level}`}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <span>Detalhes</span>
+                    <ChevronRight size={14} />
+                  </div>
                 </div>
               </div>
             ))}
@@ -282,9 +278,9 @@ export default function MagiasPage() {
                   </span>
                 </div>
               </div>
-              {selectedSpell && SCHOOL_ICONS[selectedSpell.school] && (
+              {selectedSpell && (
                 <div className="modal-icon hide-mobile">
-                  <Image src={SCHOOL_ICONS[selectedSpell.school]} alt={selectedSpell.school} width={64} height={64} />
+                  <Image src={getSpellIcon(selectedSpell)} alt={selectedSpell.name} width={64} height={64} />
                 </div>
               )}
             </div>
