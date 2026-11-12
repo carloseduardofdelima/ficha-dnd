@@ -61,7 +61,7 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Inteligência +1', description: 'Seu valor de Inteligência aumenta em 1.' },
           { name: 'Treinamento com Armas Élficas', description: 'Proficiência com espada longa, espada curta, arco curto e arco longo.' },
-          { name: 'Truque', description: 'Você conhece um truque da lista de magias do mago.' },
+          { name: 'Truque', description: 'Você conhece um truque da lista de magias do mago à sua escolha. Inteligência é a sua habilidade de conjuração para ele.' },
           { name: 'Idioma Adicional', description: 'Você pode falar, ler e escrever um idioma adicional à sua escolha.' }
         ]
       },
@@ -73,8 +73,8 @@ export const RACES_2014: Race[] = [
         traits: [
           { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
           { name: 'Treinamento com Armas Élficas', description: 'Proficiência com espada longa, espada curta, arco curto e arco longo.' },
-          { name: 'Pés Ligeiros', description: 'Seu deslocamento aumenta para 10,5 metros (35 pés).' },
-          { name: 'Máscara da Natureza', description: 'Você pode tentar se esconder mesmo quando está apenas levemente obscurecido por folhagem, chuva forte, neve, névoa ou outro fenômeno natural.' }
+          { name: 'Pés Ligeiros', description: 'Seu deslocamento base de caminhada aumenta para 10,5 metros (35 pés).' },
+          { name: 'Máscara da Natureza', description: 'Você pode tentar se esconder mesmo quando estiver apenas levemente obscurecido por folhagem, chuva forte, neve caindo, névoa ou outro fenômeno natural.' }
         ]
       },
       {
@@ -83,19 +83,19 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { charisma: 1 },
         traits: [
           { name: 'Carisma +1', description: 'Seu valor de Carisma aumenta em 1.' },
-          { name: 'Visão no Escuro Superior', description: 'Sua visão no escuro tem alcance de 36 metros (120 pés).' },
-          { name: 'Sensibilidade à Luz Solar', description: 'Desvantagem em ataques e Percepção visual sob luz solar direta.' },
-          { name: 'Magia Drow', description: 'Você conhece Globos de Luz. No nível 3 conhece Fogo das Fadas e no nível 5, Escuridão.' },
+          { name: 'Visão no Escuro Superior', description: 'Sua visão no escuro tem alcance estendido de 36 metros (120 pés).' },
+          { name: 'Sensibilidade à Luz Solar', description: 'Você tem desvantagem em jogadas de ataque e em testes de Sabedoria (Percepção) baseados na visão quando você, o alvo do seu ataque ou o que estiver tentando perceber estiver sob luz solar direta.' },
+          { name: 'Magia Drow', description: 'Você conhece o truque Globos de Luz. Ao alcançar o 3º nível, pode conjurar Fogo Feérico 1x por descanso longo. Ao alcançar o 5º nível, pode conjurar Escuridão 1x por descanso longo. Carisma é sua habilidade de conjuração.' },
           { name: 'Treinamento com Armas Drow', description: 'Você tem proficiência com rapieiras, espadas curtas e bestas de mão.' }
         ]
       }
     ],
     traits: [
       { name: 'Destreza +2', description: 'Seu valor de Destreza aumenta em 2.' },
-      { name: 'Visão no Escuro', description: 'Você possui uma visão superior em condições de escuridão e na penumbra a até 18 metros.' },
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena, e no escuro como se fosse na penumbra.' },
       { name: 'Sentidos Aguçados', description: 'Você tem proficiência na perícia Percepção.' },
-      { name: 'Ancestral Feérico', description: 'Você tem vantagem nos testes de resistência para resistir a ser enfeitiçado e magias não podem colocá-lo para dormir.' },
-      { name: 'Transe', description: 'Elfos não precisam dormir. Ao invés disso, eles meditam profundamente por 4 horas por dia.' }
+      { name: 'Ancestral Feérico', description: 'Você tem vantagem em testes de resistência contra ser enfeitiçado e magia não pode colocá-lo para dormir.' },
+      { name: 'Transe', description: 'Elfos não precisam dormir. Ao invés disso, meditam profundamente por 4 horas ao dia (mantendo plena consciência), obtendo o mesmo benefício de 8 horas de sono de um humano.' }
     ]
   },
   {
@@ -125,15 +125,15 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { constitution: 1 },
         traits: [
           { name: 'Constituição +1', description: 'Seu valor de Constituição aumenta em 1.' },
-          { name: 'Resiliência dos Robustos', description: 'Vantagem em salvaguardas contra veneno e resistência a dano de veneno.' }
+          { name: 'Resiliência dos Robustos', description: 'Você tem vantagem em testes de resistência contra veneno e possui resistência contra dano de veneno.' }
         ]
       }
     ],
     traits: [
       { name: 'Destreza +2', description: 'Seu valor de Destreza aumenta em 2.' },
-      { name: 'Sortudo', description: 'Ao tirar 1 natural, pode rolar novamente o dado.' },
-      { name: 'Bravura', description: 'Vantagem contra ficar amedrontado.' },
-      { name: 'Agilidade Halfling', description: 'Pode se mover através do espaço de criaturas maiores.' }
+      { name: 'Sortudo', description: 'Quando você rolar um 1 natural em uma jogada de ataque, teste de habilidade ou teste de resistência, você pode jogar o dado novamente e deve usar a nova rolagem.' },
+      { name: 'Bravura', description: 'Você tem vantagem em testes de resistência contra ficar amedrontado.' },
+      { name: 'Agilidade Halfling', description: 'Você pode se mover através do espaço de qualquer criatura que seja de um tamanho maior que o seu.' }
     ]
   },
   {
@@ -163,9 +163,9 @@ export const RACES_2014: Race[] = [
         bonusFeatCount: 1,
         selectableAttributesCount: 2,
         traits: [
-          { name: 'Atributos +1 (x2)', description: 'Dois valores de habilidade, à sua escolha, aumentam em 1.' },
+          { name: 'Atributos +1 (x2)', description: 'Dois valores de habilidade diferentes, à sua escolha, aumentam em 1.' },
           { name: 'Perícia Extra', description: 'Você ganha proficiência em uma perícia à sua escolha.' },
-          { name: 'Talento Extra', description: 'Você adquire um talento de sua escolha.' }
+          { name: 'Talento Extra', description: 'Você adquire um talento à sua escolha.' }
         ]
       }
     ],
@@ -185,21 +185,21 @@ export const RACES_2014: Race[] = [
     subRaceTitle: 'Ancestralidade Dracônica',
     subRaceMandatory: true,
     lineages: [
-      { name: 'Dragão Negro (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
-      { name: 'Dragão Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
-      { name: 'Dragão de Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
-      { name: 'Dragão de Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Relâmpago.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
-      { name: 'Dragão de Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (teste de Des).' }] },
-      { name: 'Dragão de Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Des).' }] },
-      { name: 'Dragão Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Veneno.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
-      { name: 'Dragão Vermelho (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Des).' }] },
-      { name: 'Dragão de Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
-      { name: 'Dragão Branco (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (teste de Con).' }] },
+      { name: 'Dragão Negro (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (salvaguarda de Des). Causa 2d6 de dano de ácido (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão Azul (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano Elétrico.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (salvaguarda de Des). Causa 2d6 de dano elétrico (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão de Latão (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Fogo.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (salvaguarda de Des). Causa 2d6 de dano de fogo (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão de Bronze (Elétrico)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano Elétrico.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (salvaguarda de Des). Causa 2d6 de dano elétrico (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão de Cobre (Ácido)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Ácido.' }, { name: 'Arma de Sopro', description: 'Linha de 1,5m por 9m (salvaguarda de Des). Causa 2d6 de dano de ácido (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão de Ouro (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (salvaguarda de Des). Causa 2d6 de dano de fogo (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão Verde (Veneno)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Veneno.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (salvaguarda de Con). Causa 2d6 de dano de veneno (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão Vermelho (Fogo)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Fogo.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (salvaguarda de Des). Causa 2d6 de dano de fogo (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão de Prata (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (salvaguarda de Con). Causa 2d6 de dano de frio (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
+      { name: 'Dragão Branco (Frio)', traits: [{ name: 'Resistência Dracônica', description: 'Você tem resistência a dano de Frio.' }, { name: 'Arma de Sopro', description: 'Cone de 4,5m (salvaguarda de Con). Causa 2d6 de dano de frio (metade num sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. CD 8 + prof + Con. 1x por descanso curto/longo.' }] },
     ],
     traits: [
-      { name: 'Força +2, Carisma +1', description: 'Seus atributos aumentam.' },
-      { name: 'Ancestralidade Dracônica', description: 'Você escolhe um tipo de dragão que define sua resistência e sopro.' },
-      { name: 'Arma de Sopro', description: '2d6 de dano (escala no nível 6, 11 e 16). 1x por descanso curto/longo.' }
+      { name: 'Força +2, Carisma +1', description: 'Seus valores de Força aumentam em 2 e Carisma em 1.' },
+      { name: 'Ancestralidade Dracônica', description: 'Você possui ancestralidade dracônica que define seu tipo de resistência a dano e arma de sopro.' },
+      { name: 'Arma de Sopro', description: 'Com uma ação, exala energia dracônica em linha ou cone conforme seu ancestral. Cada criatura na área faz uma salvaguarda (CD 8 + prof + mod Con) sofrendo 2d6 de dano (metade em sucesso); aumenta para 3d6 no nível 6, 4d6 no 11 e 5d6 no 16. Recupera após descanso curto ou longo.' }
     ]
   },
   {
@@ -252,9 +252,9 @@ export const RACES_2014: Race[] = [
     bonusSkillCount: 2,
     selectableAttributesCount: 2,
     traits: [
-      { name: 'Carisma +2', description: '+2 Carisma e +1 em outros dois atributos.' },
-      { name: 'Ancestralidade Feérica', description: 'Vantagem contra encanto e imunidade a sono mágico.' },
-      { name: 'Versatilidade em Perícias', description: 'Proficiência em duas perícias à sua escolha.' }
+      { name: 'Carisma +2', description: 'Seu valor de Carisma aumenta em 2 e outros dois valores de habilidade, à sua escolha, aumentam em 1.' },
+      { name: 'Ancestralidade Feérica', description: 'Você tem vantagem em testes de resistência contra ser enfeitiçado e magia não pode colocá-lo para dormir.' },
+      { name: 'Versatilidade em Perícias', description: 'Você ganha proficiência em duas perícias à sua escolha.' }
     ]
   },
   {
@@ -268,10 +268,10 @@ export const RACES_2014: Race[] = [
     attributeBonuses: { strength: 2, constitution: 1 },
     fixedSkills: ['Intimidação'],
     traits: [
-      { name: 'Força +2, Constituição +1', description: 'Seus atributos aumentam.' },
-      { name: 'Ameaçador', description: 'Proficiência na perícia Intimidação.' },
-      { name: 'Resistência Implacável', description: 'Ao cair a 0 PV, pode ficar com 1 PV (1x por descanso longo).' },
-      { name: 'Ataques Selvagens', description: 'Críticos corpo-a-corpo causam um dado de dano extra.' }
+      { name: 'Força +2, Constituição +1', description: 'Seu valor de Força aumenta em 2 e Constituição em 1.' },
+      { name: 'Ameaçador', description: 'Você ganha proficiência na perícia Intimidação.' },
+      { name: 'Resistência Implacável', description: 'Quando você for reduzido a 0 pontos de vida, mas não for morto instantaneamente, você pode ficar com 1 ponto de vida em vez disso. Você não pode usar esta característica novamente até terminar um descanso longo.' },
+      { name: 'Ataques Selvagens', description: 'Quando você atinge um acerto crítico com um ataque corpo a corpo com arma, você pode rolar um dos dados de dano da arma adicionalmente e somá-lo ao dano extra do acerto crítico.' }
     ]
   },
   {
@@ -284,9 +284,9 @@ export const RACES_2014: Race[] = [
     size: 'Médio',
     attributeBonuses: { intelligence: 1, charisma: 2 },
     traits: [
-      { name: 'Inteligência +1, Carisma +2', description: 'Seus atributos aumentam.' },
-      { name: 'Resistência Infernal', description: 'Resistência a dano de Fogo.' },
-      { name: 'Legado Infernal', description: 'Taumaturgia (nível 1), Repreensão Infernal (nível 3), Escuridão (nível 5).' }
+      { name: 'Inteligência +1, Carisma +2', description: 'Seu valor de Carisma aumenta em 2 e Inteligência em 1.' },
+      { name: 'Resistência Infernal', description: 'Você possui resistência a dano de Fogo.' },
+      { name: 'Legado Infernal', description: 'Você conhece o truque Taumaturgia. Ao alcançar o 3º nível, pode conjurar Represália Infernal como magia de 2º nível 1x por descanso longo. Ao alcançar o 5º nível, pode conjurar Escuridão 1x por descanso longo. Carisma é sua habilidade de conjuração para essas magias.' }
     ]
   },
   {
@@ -307,7 +307,7 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { wisdom: 1 },
         traits: [
           { name: 'Sabedoria +1', description: 'Seu valor de Sabedoria aumenta em 1.' },
-          { name: 'Alma Radiante (Nível 3)', description: 'Como ação bônus, você ganha asas de luz e voo de 9m por 1 minuto. Uma vez por descanso longo.' }
+          { name: 'Alma Radiante (Nível 3)', description: 'Com uma ação bônus, você manifesta asas luminosas por 1 minuto: ganha deslocamento de voo de 9 metros e, 1x em cada um dos seus turnos, causa dano radiante extra igual ao seu nível ao causar dano a um alvo com ataque ou magia (1x por descanso longo).' }
         ]
       },
       {
@@ -316,7 +316,7 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { constitution: 1 },
         traits: [
           { name: 'Constituição +1', description: 'Seu valor de Constituição aumenta em 1.' },
-          { name: 'Consumação Radiante (Nível 3)', description: 'Como ação bônus, você derrama luz divina por 1 minuto, causando dano radiante a si mesmo e a quem estiver perto. Uma vez por descanso longo.' }
+          { name: 'Consumação Radiante (Nível 3)', description: 'Com uma ação bônus, você irradia luz ardente por 1 minuto. No fim de cada um dos seus turnos, você e criaturas a até 3m sofrem dano radiante igual a metade do seu nível (arredondado para cima). Além disso, 1x por turno causa dano radiante extra igual ao seu nível a um alvo ao causar dano a ele com ataque ou magia (1x por descanso longo).' }
         ]
       },
       {
@@ -325,15 +325,15 @@ export const RACES_2014: Race[] = [
         attributeBonuses: { strength: 1 },
         traits: [
           { name: 'Força +1', description: 'Seu valor de Força aumenta em 1.' },
-          { name: 'Mortalha Necrótica (Nível 3)', description: 'Como ação bônus, você libera uma energia aterrorizante por 1 minuto, assustando inimigos próximos. Uma vez por descanso longo.' }
+          { name: 'Mortalha Necrótica (Nível 3)', description: 'Com uma ação bônus, você libera energia sombria por 1 minuto: criaturas a até 3m que possam vê-lo devem passar em salvaguarda de Carisma (CD 8 + prof + mod Car) ou ficarão amedrontadas até o fim do seu próximo turno. Além disso, 1x por turno causa dano necrótico extra igual ao seu nível ao causar dano com ataque ou magia (1x por descanso longo).' }
         ]
       }
     ],
     traits: [
       { name: 'Carisma +2', description: 'Seu valor de Carisma aumenta em 2.' },
-      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena.' },
-      { name: 'Resistência Celestial', description: 'Você tem resistência a dano necrótico e radiante.' },
-      { name: 'Mãos Curadoras', description: 'Como ação, você pode tocar uma criatura e curar PV igual ao seu nível. 1x por descanso longo.' }
+      { name: 'Visão no Escuro', description: 'Você enxerga na penumbra a até 18 metros como se fosse luz plena, e no escuro como se fosse na penumbra.' },
+      { name: 'Resistência Celestial', description: 'Você tem resistência a dano necrótico e dano radiante.' },
+      { name: 'Mãos Curadoras', description: 'Com uma ação, você toca uma criatura e restaura pontos de vida iguais ao seu nível de personagem (1x por descanso longo).' }
     ]
   },
   {

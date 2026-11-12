@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'a-forja-cache';
-let CURRENT_CACHE = `${CACHE_PREFIX}-v4`;
+let CURRENT_CACHE = `${CACHE_PREFIX}-v5`;
 
 const STATIC_ASSETS = [
   '/manifest.json',
@@ -84,10 +84,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For HTML navigation requests: Let the browser handle navigation natively.
+  // For HTML navigation or document requests: Let the browser handle navigation natively.
   // Intercepting navigation with event.respondWith in Chromium causes ERR_FAILED
   // whenever server-side redirects (e.g. auth or route redirects) occur due to redirect mode mismatch.
-  if (request.mode === 'navigate') {
+  if (request.mode === 'navigate' || request.destination === 'document') {
     return;
   }
 
@@ -111,22 +111,26 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For other public assets (icons, images, manifest): Network-First with cache fallback
-  event.respondWith(
-    fetch(request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200) {
-          const clone = networkResponse.clone();
-          caches.open(CURRENT_CACHE).then((cache) => {
-            cache.put(request, clone);
-          });
-        }
-        return networkResponse;
-      })
-      .catch(async () => {
-        const cached = await caches.match(request);
+  // For known static icons and manifest: Cache-First with network fallback
+  if (STATIC_ASSETS.includes(url.pathname)) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
         if (cached) return cached;
-        return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+        return fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CURRENT_CACHE).then((cache) => {
+              cache.put(request, clone);
+            });
+          }
+          return networkResponse;
+        });
       })
-  );
+    );
+    return;
+  }
+
+  // Never intercept any other requests (HTML documents, pages, dynamic routes, API).
+  // Leaving them unhandled lets the browser handle them natively with full redirect support.
+  return;
 });
