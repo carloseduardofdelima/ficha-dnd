@@ -33,18 +33,19 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Adepto Elemental',
     requirement: 'Capacidade de conjurar pelo menos uma magia',
     benefits: [
-      'Escolha um tipo de dano: ácido, elétrico, fogo, frio ou trovão.',
+      'Ao obter este talento, escolha um tipo de dano: ácido, elétrico, fogo, frio ou trovão.',
       'Suas magias ignoram resistência ao tipo de dano escolhido.',
-      'Ao rolar o dano para uma magia do tipo escolhido, você pode tratar qualquer 1 no dado como um 2.'
+      'Ao rolar o dano para uma magia que cause o tipo de dano escolhido, você pode tratar qualquer resultado 1 em um dado de dano como um 2.',
+      'Você pode escolher este talento mais de uma vez, mas deve escolher um tipo de dano diferente a cada vez.'
     ]
   },
   {
     id: 'adepto-marcial',
     name: 'Adepto Marcial',
     benefits: [
-      'Você aprende duas manobras da lista do arquétipo Mestre de Batalha.',
-      'A CD para suas manobras é 8 + bônus de proficiência + modificador de Força ou Destreza.',
-      'Você ganha um dado de superioridade (d6), ou um adicional se já possuir. Recupera em descanso curto ou longo.'
+      'Você aprende duas manobras à sua escolha da lista do arquétipo Mestre de Batalha do Guerreiro. Se uma manobra exigir salvaguarda do alvo, a CD é 8 + seu bônus de proficiência + seu modificador de Força ou Destreza (à sua escolha).',
+      'Você ganha um dado de superioridade (um d6) para gastar em suas manobras. Se você já possuir dados de superioridade por outra fonte, ele se junta aos seus dados existentes e você adiciona mais um dado do mesmo tipo dos seus dados atuais.',
+      'Você recupera o dado de superioridade gasto ao terminar um descanso curto ou longo.'
     ]
   },
   {
@@ -69,16 +70,16 @@ export const FEATS_2014: Feat2014[] = [
     id: 'atacante-bestial',
     name: 'Atacante Bestial',
     benefits: [
-      'Uma vez por turno, ao rolar o dano para um ataque corpo-a-corpo com arma, você pode jogar novamente o dado de dano e usar qualquer dos valores.'
+      'Uma vez por turno, ao rolar o dano para um ataque corpo a corpo com arma, você pode rolar os dados de dano da arma novamente e usar qualquer um dos resultados à sua escolha.'
     ]
   },
   {
     id: 'atirador-aguçado',
     name: 'Atirador Aguçado',
     benefits: [
-      'Distância longa não impõe desvantagem em ataques com armas à distância.',
+      'Atacar alvos em distância longa não impõe desvantagem em suas jogadas de ataque com armas à distância.',
       'Seus ataques com armas à distância ignoram meia-cobertura e três-quartos de cobertura.',
-      'Antes de atacar com arma à distância (proficiente), você pode sofrer -5 no acerto para ganhar +10 no dano.'
+      'Antes de realizar um ataque com uma arma à distância na qual seja proficiente, você pode escolher sofrer uma penalidade de -5 na jogada de ataque. Se o ataque acertar, você adiciona +10 ao dano da arma.'
     ]
   },
   {
@@ -86,9 +87,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Atirador de Magia',
     requirement: 'Capacidade de conjurar pelo menos uma magia',
     benefits: [
-      'O alcance de magias que requerem jogada de ataque é dobrado.',
-      'Seus ataques à distância com magia ignoram meia-cobertura e três-quartos de cobertura.',
-      'Você aprende um truque que requer jogada de ataque de qualquer lista de classe (Bardo, Bruxo, Clérigo, Druida, Feiticeiro ou Mago).'
+      'Ao conjurar uma magia que exige uma jogada de ataque, o alcance da magia é dobrado.',
+      'Seus ataques com magias à distância ignoram meia-cobertura e três-quartos de cobertura.',
+      'Você aprende um truque que exige uma jogada de ataque, escolhido da lista de magias de Bardo, Bruxo, Clérigo, Druida, Feiticeiro ou Mago. Sua habilidade de conjuração para este truque depende da lista escolhida: Carisma para Bardo, Bruxo ou Feiticeiro; Sabedoria para Clérigo ou Druida; Inteligência para Mago.'
     ]
   },
   {
@@ -116,9 +117,9 @@ export const FEATS_2014: Feat2014[] = [
     id: 'combatente-montado',
     name: 'Combatente Montado',
     benefits: [
-      'Vantagem em ataques corpo-a-corpo contra criaturas menores que sua montaria.',
-      'Pode forçar ataques contra sua montaria a serem direcionados a você.',
-      'Sua montaria ganha algo similar a Evasão (meio dano em falha, nenhum em sucesso de Destreza).'
+      'Você tem vantagem em jogadas de ataque corpo a corpo contra qualquer criatura desequipada que seja menor do que a sua montaria.',
+      'Você pode forçar um ataque direcionado à sua montaria a ter você como alvo em vez disso.',
+      'Se a sua montaria for submetida a um efeito que permita realizar um teste de resistência de Destreza para sofrer apenas metade do dano, ela não sofre dano algum se for bem-sucedida, e sofre apenas metade do dano se falhar.'
     ]
   },
   {
@@ -126,9 +127,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Conjurador de Guerra',
     requirement: 'Capacidade de conjurar pelo menos uma magia',
     benefits: [
-      'Vantagem em testes de Constituição para manter concentração ao sofrer dano.',
-      'Pode realizar componentes somáticos mesmo com armas ou escudos nas mãos.',
-      'Pode usar reação para conjurar uma magia em vez de realizar ataque de oportunidade.'
+      'Você tem vantagem em testes de resistência de Constituição para manter a concentração em uma magia ao sofrer dano.',
+      'Você pode executar os componentes somáticos de magias mesmo quando estiver empunhando armas ou um escudo em uma ou ambas as mãos.',
+      'Quando o movimento de uma criatura hostil provocar um ataque de oportunidade de você, você pode usar sua reação para conjurar uma magia contra a criatura, em vez de realizar um ataque de oportunidade. A magia deve ter tempo de conjuração de 1 ação e ter como alvo apenas aquela criatura.'
     ]
   },
   {
@@ -145,8 +146,8 @@ export const FEATS_2014: Feat2014[] = [
     id: 'curandeiro',
     name: 'Curandeiro',
     benefits: [
-      'Ao estabilizar alguém com kit de primeiros-socorros, a criatura recupera 1 PV.',
-      'Com uma ação, gasta um uso do kit para curar 1d6 + 4 + total de Dados de Vida da criatura (1x por descanso curto/longo).'
+      'Ao usar um kit de primeiros-socorros para estabilizar uma criatura morrendo, ela recupera 1 ponto de vida em vez de permanecer inconsciente a 0 PV.',
+      'Com uma ação, você pode gastar um uso de um kit de primeiros-socorros para cuidar de uma criatura e restaurar 1d6 + 4 pontos de vida a ela, mais um número adicional de PV igual ao número total de Dados de Vida que a criatura possui. Uma criatura não pode recuperar PV com este benefício novamente até terminar um descanso curto ou longo.'
     ]
   },
   {
@@ -154,7 +155,7 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Duelista Defensivo',
     requirement: 'Destreza 13 ou maior',
     benefits: [
-      'Ao ser atingido corpo-a-corpo usando arma de acuidade proficiente, usa reação para somar bônus de proficiência na CA.'
+      'Quando você estiver empunhando uma arma de acuidade na qual seja proficiente e outra criatura acertar você com um ataque corpo a corpo, você pode usar sua reação para adicionar seu bônus de proficiência à sua CA contra aquele ataque, potencialmente fazendo-o errar.'
     ]
   },
   {
@@ -171,8 +172,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Especialista em Briga',
     benefits: [
       'Aumente seu valor de Força ou Constituição em 1, até o máximo de 20.',
-      'Seus ataques desarmados causam 1d4 de dano.',
-      'Pode usar ação bônus para agarrar após atingir com ataque desarmado ou arma improvisada.'
+      'Você é proficiente com armas improvisadas.',
+      'Seus ataques desarmados causam 1d4 de dano de concussão.',
+      'Ao atingir uma criatura com um ataque desarmado ou arma improvisada no seu turno, você pode usar uma ação bônus para tentar agarrar o alvo.'
     ],
     attributeBonus: { choice: ['strength', 'constitution'] }
   },
@@ -180,9 +182,10 @@ export const FEATS_2014: Feat2014[] = [
     id: 'explorador-de-cavernas',
     name: 'Explorador de Cavernas',
     benefits: [
-      'Vantagem para detectar portas secretas e em testes de resistência contra armadilhas.',
-      'Resistência a dano de armadilhas.',
-      'Pode procurar armadilhas em ritmo de viagem normal.'
+      'Você tem vantagem em testes de Sabedoria (Percepção) e Inteligência (Investigação) feitos para detectar a presença de portas secretas.',
+      'Você tem vantagem em testes de resistência feitos para evitar ou resistir a armadilhas.',
+      'Você tem resistência ao dano causado por armadilhas.',
+      'Viajar em ritmo acelerado ou normal não impõe a penalidade de -5 à sua Percepção Passiva para perceber armadilhas.'
     ]
   },
   {
@@ -190,25 +193,25 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Imobilizador',
     requirement: 'Força 13 ou maior',
     benefits: [
-      'Vantagem em ataques contra criaturas agarradas.',
-      'Pode usar ação para realizar um segundo teste de agarrar e deixar ambos impedidos.'
+      'Você tem vantagem em jogadas de ataque contra qualquer criatura que você esteja agarrando.',
+      'Você pode usar sua ação para tentar imobilizar uma criatura agarrada por você. Para fazer isso, faça outro teste de agarrar. Se for bem-sucedido, você e a criatura estarão ambos impedidos (restrained) até o término do agarre.'
     ]
   },
   {
     id: 'iniciado-em-magia',
     name: 'Iniciado em Magia',
     benefits: [
-      'Aprende dois truques e uma magia de 1º nível de uma classe específica.',
-      'Pode conjurar a magia de 1º nível uma vez por descanso longo.',
-      'A habilidade de conjuração depende da classe escolhida.'
+      'Escolha uma classe: Bardo, Bruxo, Clérigo, Druida, Feiticeiro ou Mago. Você aprende dois truques da lista dessa classe.',
+      'Você aprende uma magia de 1º nível da lista da mesma classe e pode conjurá-la uma vez com o menor nível possível sem gastar espaço de magia. Você recupera a capacidade de conjurá-la dessa forma ao terminar um descanso longo.',
+      'Sua habilidade de conjuração depende da classe escolhida: Carisma para Bardo, Bruxo ou Feiticeiro; Sabedoria para Clérigo ou Druida; Inteligência para Mago. Se possuir espaços de magia da classe correspondente, também pode utilizá-los para conjurar a magia aprendida.'
     ]
   },
   {
     id: 'investida-poderosa',
     name: 'Investida Poderosa',
     benefits: [
-      'Ao usar Disparada, pode usar ação bônus para atacar ou empurrar.',
-      'Se mover 3m em linha reta antes, ganha +5 no dano ou empurra o alvo 3m.'
+      'Quando você usar a ação de Disparada, você pode usar uma ação bônus para realizar um ataque corpo a corpo com arma ou empurrar uma criatura.',
+      'Se você se mover ao menos 3 metros em linha reta imediatamente antes de realizar essa ação bônus, você ganha um bônus de +5 na rolagem de dano do ataque (se acertar) ou empurra o alvo até 3 metros de distância de você (se for bem-sucedido no empurrão).'
     ]
   },
   {
@@ -216,16 +219,16 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Líder Inspirador',
     requirement: 'Carisma 13 ou maior',
     benefits: [
-      'Pode inspirar até 6 criaturas em 10 min.',
-      'Cada criatura ganha PV temporários igual ao seu nível + modificador de Carisma (1x por descanso).'
+      'Você pode despender 10 minutos discursando para inspirar seus companheiros. Escolha até 6 criaturas amigáveis (incluindo você) a até 9 metros que possam ver ou ouvir você e compreendam sua linguagem.',
+      'Cada criatura ganha pontos de vida temporários iguais ao seu nível + seu modificador de Carisma. Uma criatura não pode se beneficiar novamente deste talento até terminar um descanso curto ou longo.'
     ]
   },
   {
     id: 'maestria-em-arma-de-haste',
     name: 'Maestria em Arma de Haste',
     benefits: [
-      'Ao atacar com glaive, alabarda ou bordão, pode usar ação bônus para ataque de d4 com a outra ponta.',
-      'Criaturas provocam ataque de oportunidade ao entrarem no seu alcance (glaive, alabarda, lança longa ou bastão).'
+      'Ao realizar a ação de Ataque e atacar apenas com uma glaive, alabarda, bordão ou lança, você pode usar uma ação bônus para realizar um ataque corpo a corpo com a outra ponta da arma. Este ataque causa 1d4 de dano de concussão e usa o mesmo modificador de habilidade do ataque principal.',
+      'Enquanto empunha uma glaive, alabarda, bordão, lança ou pique, criaturas hostis provocam um ataque de oportunidade seu quando entram no seu alcance.'
     ]
   },
   {
@@ -251,9 +254,9 @@ export const FEATS_2014: Feat2014[] = [
     id: 'matador-de-conjuradores',
     name: 'Matador de Conjuradores',
     benefits: [
-      'Reação para atacar criatura a 1,5m que conjure magia.',
-      'Causa desvantagem no teste de concentração do alvo ao dar dano.',
-      'Vantagem em resistências contra magias de criaturas a até 1,5m.'
+      'Quando uma criatura a até 1,5 metro de você conjurar uma magia, você pode usar sua reação para realizar um ataque corpo a corpo com arma contra ela.',
+      'Quando você causa dano a uma criatura que está se concentrando em uma magia, ela tem desvantagem no teste de resistência para manter a concentração.',
+      'Você tem vantagem em testes de resistência contra magias conjuradas por criaturas que estejam a até 1,5 metro de você.'
     ]
   },
   {
@@ -279,17 +282,17 @@ export const FEATS_2014: Feat2014[] = [
     id: 'mestre-de-armas-grandes',
     name: 'Mestre de Armas Grandes',
     benefits: [
-      'Ao dar crítico ou reduzir PV a 0, pode realizar um ataque como ação bônus.',
-      'Antes de atacar com arma pesada proficiente, pode sofrer -5 no acerto para ganhar +10 no dano.'
+      'No seu turno, ao acertar um acerto crítico com uma arma corpo a corpo ou reduzir os pontos de vida de uma criatura a 0 com ela, você pode realizar um ataque corpo a corpo com arma como uma ação bônus.',
+      'Antes de realizar um ataque corpo a corpo com uma arma pesada na qual seja proficiente, você pode escolher sofrer uma penalidade de -5 na jogada de ataque. Se o ataque acertar, você adiciona +10 ao dano da arma.'
     ]
   },
   {
     id: 'mestre-de-escudo',
     name: 'Mestre de Escudo',
     benefits: [
-      'Ação bônus para empurrar com escudo ao realizar ação de Ataque.',
-      'Soma bônus do escudo em testes de Destreza contra magias de alvo único.',
-      'Reação para não sofrer dano se passar em teste de Destreza (Evasão com escudo).'
+      'Se você realizar a ação de Ataque no seu turno, pode usar uma ação bônus para empurrar uma criatura a até 1,5 metro de você com seu escudo.',
+      'Se você não estiver incapacitado, pode adicionar o bônus de CA do seu escudo a qualquer teste de resistência de Destreza que fizer contra uma magia ou outro efeito nocivo que tenha apenas você como alvo.',
+      'Se for alvo de um efeito que permita realizar um teste de resistência de Destreza para sofrer apenas metade do dano, você pode usar sua reação para não sofrer dano algum caso passe no teste, interpondo seu escudo entre você e o efeito.'
     ]
   },
   {
@@ -387,9 +390,9 @@ export const FEATS_2014: Feat2014[] = [
     id: 'sentinela',
     name: 'Sentinela',
     benefits: [
-      'Ao atingir com ataque de oportunidade, o deslocamento do alvo vira 0.',
-      'Inimigos provocam ataque de oportunidade mesmo se usarem Desengajar.',
-      'Reação para atacar quem agride aliado a até 1,5m.'
+      'Quando você acerta uma criatura com um ataque de oportunidade, o deslocamento dela se torna 0 pelo restante do turno.',
+      'Criaturas provocam ataques de oportunidade de você mesmo se realizarem a ação Desengajar antes de sair do seu alcance.',
+      'Quando uma criatura a até 1,5 metro de você realizar um ataque contra um alvo que não seja você (e o alvo não possua este talento), você pode usar sua reação para realizar um ataque corpo a corpo com arma contra a criatura atacante.'
     ]
   },
   {
@@ -397,9 +400,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Sorrateiro',
     requirement: 'Destreza 13 ou maior',
     benefits: [
-      'Pode se esconder quando estiver levemente obscurecido.',
-      'Errar ataque à distância enquanto escondido não revela sua posição.',
-      'Penumbra não impõe desvantagem em Percepção visual.'
+      'Você pode tentar se esconder mesmo quando estiver apenas levemente obscurecido da criatura de quem você está se escondendo.',
+      'Quando você estiver escondido de uma criatura e errar um ataque com arma à distância contra ela, o ataque não revela sua posição.',
+      'Luz baixa (penumbra) não impõe desvantagem em seus testes de Sabedoria (Percepção) que dependam da visão.'
     ]
   },
   {
@@ -603,8 +606,8 @@ export const FEATS_2014: Feat2014[] = [
     id: 'dadiva-do-dragao-metalico',
     name: 'Dádiva do Dragão Metálico (Gift of the Metallic Dragon)',
     benefits: [
-      'Você aprende a magia curar ferimentos e pode conjurá-la 1x sem espaço de magia por descanso longo (usando Int, Sab ou Car). Também pode conjurá-la usando seus próprios espaços.',
-      'Asas Protetoras: Ao ser atingido (ou ver criatura a até 1,5m ser atingida), use sua reação para somar seu bônus de proficiência na CA do alvo contra aquele ataque (número de vezes igual ao bônus de proficiência por descanso longo).'
+      'Cura Dracônica: Você aprende a magia Curar Ferimentos e pode conjurá-la 1x sem gastar espaço de magia por descanso longo. Também pode conjurá-la usando quaisquer espaços de magia que possua. O atributo de conjuração é Inteligência, Sabedoria ou Carisma (escolhido ao obter o talento).',
+      'Asas Protetoras: Quando você ou uma criatura a até 1,5 metro de você for atingida por uma jogada de ataque, você pode usar sua reação para manifestar asas espectrais que adicionam seu bônus de proficiência à CA do alvo contra aquele ataque, potencialmente fazendo-o errar (usos iguais ao bônus de proficiência por descanso longo).'
     ],
     source: "Fizban's Treasury of Dragons"
   },
@@ -613,13 +616,14 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Ataque dos Gigantes (Strike of the Giants)',
     requirement: 'Proficiência com Armas Marciais ou Antecedente Enjeitado dos Gigantes',
     benefits: [
-      'Escolha um tipo de ataque ao obter este talento. 1x por turno, ao atingir com ataque corpo-a-corpo ou arma arremessada, causa efeito extra (usos = bônus de proficiência por descanso longo; CD = 8 + prof + For ou Con):',
-      'Nuvem: +1d4 de dano de trovão e alvo faz teste de Sabedoria ou você fica invisível para ele até o início do seu próximo turno.',
-      'Fogo: +1d10 de dano de fogo.',
-      'Gelo: +1d6 de dano de frio e alvo faz teste de Con ou seu deslocamento cai para 0.',
-      'Colina: +1d6 de dano da arma e alvo faz teste de Força ou cai no chão.',
-      'Pedra: +1d6 de dano de força e alvo faz teste de Força ou é empurrado 3 metros.',
-      'Tempestade: +1d6 de dano elétrico e alvo faz teste de Con ou tem desvantagem em ataques.'
+      'Escolha um tipo de golpe ao obter este talento: Nuvem, Fogo, Gelo, Colina, Pedra ou Tempestade.',
+      'Uma vez por turno, ao acertar uma criatura com um ataque com arma corpo a corpo ou arma arremessada, você aplica o benefício do golpe escolhido. Usos iguais ao bônus de proficiência por descanso longo; CD da salvaguarda é 8 + bônus de proficiência + mod de Força ou Constituição (à sua escolha):',
+      '• Golpe da Nuvem: O ataque causa 1d4 de dano de trovão extra e o alvo deve passar em salvaguarda de Sabedoria ou você fica invisível para ele até o início do seu próximo turno.',
+      '• Golpe do Fogo: O ataque causa 1d10 de dano de fogo extra.',
+      '• Golpe do Gelo: O ataque causa 1d6 de dano de frio extra e o alvo deve passar em salvaguarda de Constituição ou seu deslocamento cai para 0 até o início do seu próximo turno.',
+      '• Golpe da Colina: O ataque causa 1d6 de dano extra da arma e o alvo deve passar em salvaguarda de Força ou cairá no chão (caído).',
+      '• Golpe da Pedra: O ataque causa 1d6 de dano de força extra e o alvo deve passar em salvaguarda de Força ou será empurrado 3 metros em linha reta.',
+      '• Golpe da Tempestade: O ataque causa 1d6 de dano elétrico extra e o alvo deve passar em salvaguarda de Constituição ou terá desvantagem em todas as jogadas de ataque até o início do seu próximo turno.'
     ],
     source: 'Glory of the Giants'
   },
@@ -628,8 +632,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Escultor de Runas (Rune Shaper)',
     requirement: 'Conjuração ou Antecedente Entalhador de Runas',
     benefits: [
-      'Você aprende compreender idiomas e pode conjurá-la 1x sem gastar espaço de magia por descanso longo.',
-      'Gravação de Runas: Ao fim de um descanso longo, grave runas (metade de prof, mínimo 1) em itens para acessar magias adicionais de 1º nível. Conjure 1x cada sem espaço de magia (Int, Sab ou Car) ou use seus próprios espaços.'
+      'Você escolhe Inteligência, Sabedoria ou Carisma como sua habilidade de conjuração para este talento.',
+      'Você aprende a magia Compreender Idiomas e pode conjurá-la 1x sem gastar espaço de magia por descanso longo (ou usando seus próprios espaços).',
+      'Gravação de Runas: Ao fim de um descanso longo, você inscreve um número de runas em objetos igual a metade do seu bônus de proficiência (arredondado para baixo, mínimo 1). Cada runa concede uma magia de 1º nível específica da tabela de Runas dos Gigantes, que você pode conjurar 1x sem espaço de magia e sem componentes materiais por descanso longo, ou usando seus espaços de magia normais.'
     ],
     source: 'Glory of the Giants'
   },
@@ -637,9 +642,10 @@ export const FEATS_2014: Feat2014[] = [
     id: 'ardil-do-gigante-da-nuvem',
     name: 'Ardil do Gigante da Nuvem (Guile of the Cloud Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Nuvem)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Constituição ou Carisma em 1, até o máximo de 20.',
-      'Ardil da Nuvem: Ao ser atingido por ataque, use reação para reduzir dano à metade e teleportar-se até 9 metros para local visível (usos = bônus de proficiência por descanso longo).'
+      'Ardil da Nuvem: Ao ser atingido por um ataque, você pode usar sua reação para se envolver em névoa: você sofre apenas metade do dano do ataque e pode se teletransportar magicamente até 9 metros para um espaço desocupado visível. Você pode usar esta reação um número de vezes igual ao seu bônus de proficiência por descanso longo.'
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'charisma'] },
     source: 'Glory of the Giants'
@@ -648,10 +654,11 @@ export const FEATS_2014: Feat2014[] = [
     id: 'brasa-do-gigante-do-fogo',
     name: 'Brasa do Gigante do Fogo (Ember of the Fire Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Fogo)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
-      'Ganha resistência a dano de fogo.',
-      'Ignição Ardente: Substitui um ataque por explosão de fogo de 4,5m de raio centrada em você. Criaturas fazem salvaguarda de Destreza; falhas sofrem 1d8 + prof de dano de fogo e ficam cegas por 1 turno (metade do dano e sem cegueira em caso de sucesso). Usos = bônus de proficiência por descanso longo.'
+      'Você ganha resistência a dano de fogo.',
+      'Ignição Ardente: Em vez de um dos seus ataques na ação de Ataque, você pode liberar uma explosão de chamas de 4,5 metros de raio centrada em você. Cada criatura à sua escolha na área deve fazer uma salvaguarda de Destreza (CD = 8 + prof + mod de For, Con ou Sab). Falhas sofrem 1d8 + bônus de proficiência de dano de fogo e ficam cegas até o início do seu próximo turno (metade do dano e sem cegueira em caso de sucesso). Usos iguais ao bônus de proficiência por descanso longo.'
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
     source: 'Glory of the Giants'
@@ -660,10 +667,11 @@ export const FEATS_2014: Feat2014[] = [
     id: 'furia-do-gigante-do-gelo',
     name: 'Fúria do Gigante do Gelo (Fury of the Frost Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Gelo)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
-      'Ganha resistência a dano de frio.',
-      'Retaliação Gelada: Ao ser atingido por criatura a até 9m, use reação para forçá-la a salvaguarda de Constituição. Falhas sofrem 1d8 + prof de dano de frio e deslocamento cai para 0 por 1 turno. Usos = bônus de proficiência por descanso longo.'
+      'Você ganha resistência a dano de frio.',
+      'Retaliação Gelada: Ao ser atingido por uma criatura a até 9 metros, você pode usar sua reação para liberar gelo primordial contra ela. O atacante deve fazer uma salvaguarda de Constituição (CD = 8 + prof + mod de For, Con ou Sab). Numa falha, sofre 1d8 + bônus de proficiência de dano de frio e seu deslocamento se torna 0 até o início do seu próximo turno. Usos iguais ao bônus de proficiência por descanso longo.'
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
     source: 'Glory of the Giants'
@@ -672,10 +680,11 @@ export const FEATS_2014: Feat2014[] = [
     id: 'agudeza-do-gigante-da-pedra',
     name: 'Agudeza do Gigante da Pedra (Keenness of the Stone Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Pedra)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
-      'Ganha visão no escuro de 18m (ou adiciona 18m se já possuir).',
-      'Arremesso de Pedra: Com ação bônus, faz ataque mágico contra criatura a até 18m. Causas 1d10 de dano de força e faz teste de Força ou cai no chão. Usos = bônus de proficiência por descanso longo.'
+      'Você ganha visão no escuro com alcance de 18 metros (ou adiciona 18 metros ao seu alcance existente).',
+      'Arremesso de Pedra: Com uma ação bônus, você conjura e arremessa magicamente uma pedra teleguiada contra uma criatura a até 18 metros. Faça um ataque mágico à distância; se acertar, causa 1d10 + mod de For, Con ou Sab de dano de força e o alvo deve passar em salvaguarda de Força ou cairá no chão (caído). Usos iguais ao bônus de proficiência por descanso longo.'
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
     source: 'Glory of the Giants'
@@ -684,9 +693,10 @@ export const FEATS_2014: Feat2014[] = [
     id: 'alma-do-gigante-da-tempestade',
     name: 'Alma do Gigante da Tempestade (Soul of the Storm Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Tempestade)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Sabedoria ou Carisma em 1, até o máximo de 20.',
-      'Aura do Turbilhão: Com ação bônus, cria aura de 3m por 1 turno. Dá resistência a elétrico/trovão, ataques contra você têm desvantagem, e inimigos que iniciarem o turno nela fazem salvaguarda de Força ou têm velocidade reduzida pela metade. Usos = bônus de proficiência por descanso longo.'
+      'Aura do Turbilhão: Com uma ação bônus, você manifesta uma tempestade mágica de 3 metros de raio ao seu redor até o início do seu próximo turno. Você ganha resistência a dano elétrico e de trovão, jogadas de ataque contra você têm desvantagem, e criaturas inimigas que começarem o turno na aura devem fazer uma salvaguarda de Força ou terão seu deslocamento reduzido pela metade. Usos iguais ao bônus de proficiência por descanso longo.'
     ],
     attributeBonus: { choice: ['strength', 'wisdom', 'charisma'] },
     source: 'Glory of the Giants'
@@ -695,10 +705,11 @@ export const FEATS_2014: Feat2014[] = [
     id: 'vigor-do-gigante-da-colina',
     name: 'Vigor do Gigante da Colina (Vigor of the Hill Giant)',
     requirement: 'Nível 4, talento Ataque dos Gigantes (Colina)',
+    minLevel: 4,
     benefits: [
       'Aumente seu valor de Força, Constituição ou Sabedoria em 1, até o máximo de 20.',
-      'Robustez da Colina: Pode usar reação para evitar ser empurrado ou derrubado.',
-      'Ao recuperar PV usando Dados de Vida, cure adicionalmente 1d8 + modificador de Con.'
+      'Baluarte da Colina: Quando você for submetido a um efeito que o moveria pelo menos 1,5 metro ou o derrubaria no chão (caído), você pode usar sua reação para não ser movido e não ficar caído.',
+      'Recuperação Glutona: Quando realizar um descanso curto e gastar pelo menos um Dado de Vida para recuperar pontos de vida consumindo comida e bebida, você recupera pontos de vida adicionais iguais ao seu modificador de Constituição + seu bônus de proficiência.'
     ],
     attributeBonus: { choice: ['strength', 'constitution', 'wisdom'] },
     source: 'Glory of the Giants'
@@ -707,9 +718,9 @@ export const FEATS_2014: Feat2014[] = [
     id: 'iniciado-em-artificio',
     name: 'Iniciado em Artifício (Artificer Initiate)',
     benefits: [
-      'Você aprende um truque e uma magia de 1º nível da lista do Artífice. O atributo de conjuração é Inteligência.',
-      'Conjura a magia de 1º nível 1x sem espaço de magia por descanso longo, ou usando seus próprios espaços.',
-      'Proficiência com uma ferramenta de artesão, que pode ser usada como foco para magias baseadas em Inteligência.'
+      'Você aprende um truque e uma magia de 1º nível da lista de magias do Artífice. Inteligência é o seu atributo de conjuração para essas magias.',
+      'Você pode conjurar a magia de 1º nível escolhida uma vez sem gastar espaço de magia por descanso longo, ou usando seus próprios espaços de magia.',
+      'Você ganha proficiência com um tipo de ferramenta de artesão à sua escolha e pode usar essa ferramenta como foco de conjuração para qualquer magia que você conjurar utilizando Inteligência.'
     ],
     source: "Tasha's Cauldron of Everything"
   },
@@ -718,9 +729,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Chef',
     benefits: [
       'Aumente seu valor de Constituição ou Sabedoria em 1, até o máximo de 20.',
-      'Proficiência com utensílios de cozinheiro.',
-      'Ao fim de descanso curto, prepara refeição que concede +1d8 PV recuperados por Dado de Vida gasto.',
-      'Prepara guloseimas (igual a proficiência) que duram 8h. Ação bônus para comer e ganhar PV temporários igual a proficiência.'
+      'Você ganha proficiência com utensílios de cozinheiro se ainda não a possuir.',
+      'Ao fim de um descanso curto, você pode preparar uma refeição especial para até 4 + seu bônus de proficiência criaturas. Qualquer dessas criaturas que gastar um ou mais Dados de Vida para recuperar PV recupera 1d8 pontos de vida adicionais.',
+      'Com 1 hora de trabalho ou ao terminar um descanso longo, você pode preparar guloseimas em número igual ao seu bônus de proficiência que duram 8 horas. Uma criatura pode usar uma ação bônus para comer uma guloseima e ganhar pontos de vida temporários iguais ao seu bônus de proficiência.'
     ],
     attributeBonus: { choice: ['constitution', 'wisdom'] },
     source: "Tasha's Cauldron of Everything"
@@ -730,8 +741,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Esmagador (Crusher)',
     benefits: [
       'Aumente seu valor de Força ou Constituição em 1, até o máximo de 20.',
-      '1x por turno, ao causar dano de concussão (bludgeoning), empurra criatura de tamanho até Médio em 1,5m.',
-      'Crítico com dano de concussão concede vantagem em todos os ataques contra o alvo até o início do seu próximo turno.'
+      'Uma vez por turno, ao acertar uma criatura com um ataque que cause dano de concussão, você pode movê-la 1,5 metro para um espaço desocupado, desde que o tamanho dela não seja mais de uma categoria maior que o seu.',
+      'Quando você acerta um acerto crítico que cause dano de concussão a uma criatura, todas as jogadas de ataque contra essa criatura têm vantagem até o início do seu próximo turno.'
     ],
     attributeBonus: { choice: ['strength', 'constitution'] },
     source: "Tasha's Cauldron of Everything"
@@ -741,8 +752,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Adepto Místico (Eldritch Adept)',
     requirement: 'Capacidade de conjurar magias',
     benefits: [
-      'Você aprende uma Invocação Mística (Eldritch Invocation) de Bruxo. Se tiver requisitos, só pode escolher se for Bruxo e os cumprir.',
-      'Pode trocar a invocação sempre que ganhar um nível.'
+      'Você aprende uma Invocação Mística (Eldritch Invocation) à sua escolha da classe Bruxo. Se a invocação possuir qualquer pré-requisito, você só poderá escolhê-la se pertencer à classe Bruxo e atender aos pré-requisitos exigidos.',
+      'Sempre que você subir de nível, você pode substituir essa invocação por outra invocação mística de Bruxo para a qual você se qualifique.'
     ],
     source: "Tasha's Cauldron of Everything"
   },
@@ -751,8 +762,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Tocado pelas Fadas (Fey Touched)',
     benefits: [
       'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
-      'Aprende Passo Nebuloso (Misty Step) e uma magia de 1º nível de adivinhação ou encantamento.',
-      'Conjura cada magia 1x sem espaço de magia por descanso longo (usando o atributo aumentado) ou com seus próprios espaços.'
+      'Você aprende a magia Passo Nebuloso (Misty Step) e uma magia de 1º nível de sua escolha das escolas de Adivinhação ou Encantamento.',
+      'Você pode conjurar cada uma dessas magias uma vez sem gastar espaço de magia por descanso longo. Você também pode conjurá-las usando quaisquer espaços de magia que possua. O atributo de conjuração é a habilidade aumentada por este talento.'
     ],
     attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
     source: "Tasha's Cauldron of Everything"
@@ -762,8 +773,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Iniciado em Combate (Fighting Initiate)',
     requirement: 'Proficiência com pelo menos uma Arma Marcial',
     benefits: [
-      'Você aprende um Estilo de Luta (Fighting Style) de Guerreiro.',
-      'Pode trocar esse estilo sempre que ganhar um nível que conceda ASI.'
+      'Você aprende uma opção de Estilo de Luta (Fighting Style) à sua escolha da classe Guerreiro.',
+      'Sempre que você alcançar um nível que conceda o benefício de Incremento no Valor de Habilidade (níveis 4, 8, 12, etc.), você pode substituir esse estilo por outro estilo de luta do Guerreiro.'
     ],
     source: "Tasha's Cauldron of Everything"
   },
@@ -772,9 +783,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Artilheiro (Gunner)',
     benefits: [
       'Aumente seu valor de Destreza em 1, até o máximo de 20.',
-      'Proficiência com armas de fogo.',
-      'Ignora propriedade de recarga (loading) de armas de fogo.',
-      'Estar a até 1,5m de criatura hostil não impõe desvantagem em ataques à distância.'
+      'Você ganha proficiência com armas de fogo.',
+      'Você ignora a propriedade de recarga (loading) de armas de fogo.',
+      'Estar a até 1,5 metro de uma criatura hostil não impõe desvantagem em suas jogadas de ataque à distância.'
     ],
     attributeBonus: { dexterity: 1 },
     source: "Tasha's Cauldron of Everything"
@@ -784,9 +795,9 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Adepto de Metamagia (Metamagic Adept)',
     requirement: 'Capacidade de conjurar magias',
     benefits: [
-      'Você aprende duas opções de Metamagia de Feiticeiro.',
-      'Ganha 2 pontos de feitiçaria (recuperados após descanso longo).',
-      'Pode trocar uma opção de Metamagia sempre que ganhar um nível que conceda ASI.'
+      'Você aprende duas opções de Metamagia à sua escolha da classe Feiticeiro.',
+      'Você ganha 2 pontos de feitiçaria para gastar em opções de Metamagia (recuperados ao terminar um descanso longo). Se já possuir pontos de feitiçaria, esses pontos somam-se ao seu total, mas não podem ser transformados em espaços de magia.',
+      'Sempre que você alcançar um nível que conceda o benefício de Incremento no Valor de Habilidade, você pode substituir uma opção de Metamagia aprendida por outra opção de Feiticeiro.'
     ],
     source: "Tasha's Cauldron of Everything"
   },
@@ -795,8 +806,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Perfurador (Piercer)',
     benefits: [
       'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
-      '1x por turno, ao causar dano de perfuração (piercing), rerola um dado de dano da arma e usa o novo.',
-      'Crítico de perfuração adiciona um dado de dano extra da arma.'
+      'Uma vez por turno, ao acertar uma criatura com um ataque que cause dano perfurante, você pode rolar novamente um dos dados de dano da arma e usar o novo resultado.',
+      'Quando você acerta um acerto crítico que cause dano perfurante a uma criatura, você rola um dado de dano adicional da arma ao determinar o dano extra do acerto crítico.'
     ],
     attributeBonus: { choice: ['strength', 'dexterity'] },
     source: "Tasha's Cauldron of Everything"
@@ -805,10 +816,10 @@ export const FEATS_2014: Feat2014[] = [
     id: 'envenenador',
     name: 'Envenenador (Poisoner)',
     benefits: [
-      'Proficiência com kit de envenenador.',
-      'Ataques ignoram resistência a dano de veneno.',
-      'Aplica veneno em arma/munição com ação bônus (dura 1 min ou até atingir).',
-      'Prepara veneno potente em descanso longo (50 po, igual a prof). Causa 2d8 de dano e envenena por 1 turno (Con save CD 14).'
+      'Você ganha proficiência com o kit de envenenador caso ainda não a possua.',
+      'Suas jogadas de ataque com armas ignoram resistência a dano de veneno.',
+      'Com uma ação bônus, você pode aplicar veneno a uma arma ou munição (dura 1 minuto ou até acertar).',
+      'Com 1 hora de trabalho e 50 po em materiais utilizando um kit de envenenador, você cria um número de doses de veneno potente igual ao seu bônus de proficiência. Uma criatura atingida deve passar em salvaguarda de Constituição CD 14 ou sofrerá 2d8 de dano de veneno e ficará envenenada até o final do seu próximo turno.'
     ],
     source: "Tasha's Cauldron of Everything"
   },
@@ -817,8 +828,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Tocado pelas Sombras (Shadow Touched)',
     benefits: [
       'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
-      'Aprende Invisibilidade e uma magia de 1º nível de ilusão ou necromancia.',
-      'Conjura cada magia 1x sem espaço de magia por descanso longo (usando o atributo aumentado) ou com seus próprios espaços.'
+      'Você aprende a magia Invisibilidade e uma magia de 1º nível de sua escolha das escolas de Ilusão ou Necromancia.',
+      'Você pode conjurar cada uma dessas magias uma vez sem gastar espaço de magia por descanso longo. Você também pode conjurá-las usando quaisquer espaços de magia que possua. O atributo de conjuração é a habilidade aumentada por este talento.'
     ],
     attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
     source: "Tasha's Cauldron of Everything"
@@ -828,9 +839,10 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Especialista em Perícia (Skill Expert)',
     benefits: [
       'Aumente um valor de habilidade à sua escolha em 1, até o máximo de 20.',
-      'Ganha proficiência em uma perícia à sua escolha.',
-      'Ganha Especialização (Expertise) em uma perícia proficiente, dobrando o bônus de proficiência.'
+      'Você ganha proficiência em uma perícia à sua escolha.',
+      'Você ganha Especialização (Expertise) em uma perícia na qual seja proficiente, dobrando o seu bônus de proficiência para qualquer teste de habilidade que utilize essa perícia.'
     ],
+    attributeBonus: { choice: ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'] },
     source: "Tasha's Cauldron of Everything"
   },
   {
@@ -838,8 +850,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Cortador (Slasher)',
     benefits: [
       'Aumente seu valor de Força ou Destreza em 1, até o máximo de 20.',
-      '1x por turno, ao causar dano cortante (slashing), reduz deslocamento do alvo em 3m por 1 turno.',
-      'Crítico de dano cortante impõe desvantagem em todas as jogadas de ataque do alvo por 1 turno.'
+      'Uma vez por turno, ao acertar uma criatura com um ataque que cause dano cortante, você pode reduzir o deslocamento da criatura em 3 metros até o início do seu próximo turno.',
+      'Quando você acerta um acerto crítico que cause dano cortante a uma criatura, você a fere gravemente: ela tem desvantagem em todas as jogadas de ataque até o início do seu próximo turno.'
     ],
     attributeBonus: { choice: ['strength', 'dexterity'] },
     source: "Tasha's Cauldron of Everything"
@@ -849,8 +861,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Telecinético (Telekinetic)',
     benefits: [
       'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
-      'Aprende Mãos Mágicas (invisível, sem componentes).',
-      'Ação bônus para tentar empurrar criatura a até 9m por 1,5m (For save CD 8 + prof + mod do atributo aumentado).'
+      'Você aprende o truque Mãos Mágicas. Você pode conjurá-lo sem componentes verbais ou somáticos, a mão espectral é invisível e seu alcance é aumentado em 9 metros se você já conhecer o truque.',
+      'Com uma ação bônus, você pode tentar empurrar telepaticamente uma criatura a até 9 metros de você. O alvo deve ser bem-sucedido em uma salvaguarda de Força (CD = 8 + seu bônus de proficiência + modificador da habilidade aumentada) ou será movido 1,5 metro em sua direção ou para longe de você. Uma criatura pode escolher falhar voluntariamente nessa salvaguarda.'
     ],
     attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
     source: "Tasha's Cauldron of Everything"
@@ -860,8 +872,8 @@ export const FEATS_2014: Feat2014[] = [
     name: 'Telepata (Telepathic)',
     benefits: [
       'Aumente seu valor de Inteligência, Sabedoria ou Carisma em 1, até o máximo de 20.',
-      'Fala telepática com criatura visível a até 18 metros.',
-      'Aprende Detectar Pensamentos e pode conjurar 1x sem gastar espaço de magia por descanso longo (ou usando espaços).'
+      'Você pode falar telepaticamente com qualquer criatura que possa ver a até 18 metros de você. A criatura não precisa compartilhar um idioma com você, mas precisa ser capaz de compreender ao menos um idioma.',
+      'Você aprende a magia Detectar Pensamentos e pode conjurá-la uma vez sem gastar espaço de magia por descanso longo (usando o atributo aumentado). Você também pode conjurá-la usando quaisquer espaços de magia que possua.'
     ],
     attributeBonus: { choice: ['intelligence', 'wisdom', 'charisma'] },
     source: "Tasha's Cauldron of Everything"
