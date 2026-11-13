@@ -4,6 +4,7 @@ import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Sparkles, Loader2, BookOpen, Shield } from 'lucide-react'
 import { SUBCLASSES_2014 } from '@/lib/dnd-subclasses-2014'
+import { getSpellConditions } from '@/lib/dnd-conditions'
 
 const CLASS_COLORS: Record<string, string> = {
   'Bárbaro': '#f87171', 'Bardo': '#db2777', 'Clérigo': '#fbbf24',
@@ -25,7 +26,35 @@ const SUBCLASS_IMAGES: Record<string, string> = {
   'Alquimista': '/assets/subclasses/alquimista.png',
   'Armeiro': '/assets/subclasses/armeiro.png',
   'Atirador': '/assets/subclasses/artilheiro.png',
-  'Ferreiro de Batalha': '/assets/subclasses/ferreiro-de-batalha.png'
+  'Ferreiro de Batalha': '/assets/subclasses/ferreiro-de-batalha.png',
+  'Escola de Abjuração': '/assets/subclasses/escola-de-abjuracao.png',
+  'Abjurador': '/assets/subclasses/escola-de-abjuracao.png',
+  'Escola de Adivinhação': '/assets/subclasses/escola-de-adivinhacao.png',
+  'Adivinho': '/assets/subclasses/escola-de-adivinhacao.png',
+  'Escola de Evocação': '/assets/subclasses/escola-de-evocacao.png',
+  'Evocador': '/assets/subclasses/escola-de-evocacao.png',
+  'Escola de Conjuração': '/assets/subclasses/escola-de-conjuracao.png',
+  'Conjurador': '/assets/subclasses/escola-de-conjuracao.png',
+  'Escola de Necromancia': '/assets/subclasses/escola-de-necromancia.png',
+  'Necromante': '/assets/subclasses/escola-de-necromancia.png',
+  'Escola de Transmutação': '/assets/subclasses/escola-de-transmutacao.png',
+  'Transmutador': '/assets/subclasses/escola-de-transmutacao.png',
+  'Escola de Ilusão': '/assets/subclasses/escola-de-ilusao.png',
+  'Ilusionista': '/assets/subclasses/escola-de-ilusao.png',
+  'Escola de Encantamento': '/assets/subclasses/escola-de-encantamento.png',
+  'Encantador': '/assets/subclasses/escola-de-encantamento.png',
+  'Domínio da Enganação': '/assets/subclasses/dominio-da-enganacao.png',
+  'Domínio da Guerra': '/assets/subclasses/dominio-da-guerra.png',
+  'Domínio da Luz': '/assets/subclasses/dominio-da-luz.png',
+  'Domínio da Natureza': '/assets/subclasses/dominio-da-natureza.png',
+  'Domínio da Ordem': '/assets/subclasses/dominio-da-ordem.png',
+  'Domínio da Paz': '/assets/subclasses/dominio-da-paz.png',
+  'Domínio da Tempestade': '/assets/subclasses/dominio-da-tempestade.png',
+  'Domínio da Vida': '/assets/subclasses/dominio-da-vida.png',
+  'Domínio do Conhecimento': '/assets/subclasses/dominio-do-conhecimento.png',
+  'Domínio do Crepúsculo': '/assets/subclasses/dominio-do-crepusculo.jpg',
+  'Colégio da Bravura': '/assets/subclasses/colegio-da-bravura.png',
+  'Colégio da Criação': '/assets/subclasses/colegio-da-criacao.png',
 }
 
 // Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
@@ -330,16 +359,34 @@ export default function SubclassDetailsPage({ params }: PageProps) {
             {Object.entries(subclass.features).map(([level, feats]) => (
               <div key={level} className="timeline-item">
                 <div className="timeline-badge" style={{ '--class-color': subclass.color } as any}>{level}</div>
-                {feats.map((f: any) => (
-                  <div key={f.name} style={{ marginBottom: 20 }}>
-                    <h4 style={{ margin: 0, fontSize: 16, color: 'var(--fg)', fontWeight: 700 }}>
-                      {f.name}
-                    </h4>
-                    <p style={{ margin: '8px 0 0 0', fontSize: 14, color: 'var(--fg2)', lineHeight: 1.6 }}>
-                      {f.description}
-                    </p>
-                  </div>
-                ))}
+                {feats.map((f: any) => {
+                  const conditions = getSpellConditions({ description: f.description })
+                  return (
+                    <div key={f.name} style={{ marginBottom: 20 }}>
+                      <h4 style={{ margin: 0, fontSize: 16, color: 'var(--fg)', fontWeight: 700 }}>
+                        {f.name}
+                      </h4>
+                      <p style={{ margin: '8px 0 0 0', fontSize: 14, color: 'var(--fg2)', lineHeight: 1.6 }}>
+                        {f.description}
+                      </p>
+                      {conditions.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
+                          {conditions.map(cond => (
+                            <div key={cond.name} style={{
+                              background: 'rgba(255,255,255,0.03)',
+                              border: '1px solid var(--border)',
+                              borderRadius: 8,
+                              padding: '8px 12px',
+                            }}>
+                              <div style={{ fontWeight: 700, color: 'var(--accentL)', fontSize: 12, marginBottom: 2 }}>{cond.name}</div>
+                              <div style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.45 }}>{cond.summary}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             ))}
           </div>

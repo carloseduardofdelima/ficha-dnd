@@ -54,7 +54,7 @@ export default function AmeacasPage() {
   return (
     <div className="container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
-        <div>
+        <div style={{ flex: 1, textAlign: 'center' }}>
           <h1 style={{
             fontFamily: 'Cinzel, serif',
             fontSize: 36,
@@ -62,11 +62,12 @@ export default function AmeacasPage() {
             color: 'var(--accentL)',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: 16
           }}>
             <Skull size={32} /> Bestiário
           </h1>
-          <p style={{ color: 'var(--fg2)', fontSize: 16 }}>
+          <p style={{ color: 'var(--fg2)', fontSize: 16, textAlign: 'center' }}>
             Explore e gerencie as criaturas do seu multiverso.
           </p>
         </div>

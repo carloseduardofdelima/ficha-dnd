@@ -111,8 +111,8 @@ export default function CampanhasPage() {
     <div className="container">
       {/* Header */}
       <div className="page-header">
-        <div>
-          <h1 className="page-title">
+        <div style={{ textAlign: 'center', flex: 1 }}>
+          <h1 className="page-title" style={{ justifyContent: 'center' }}>
             <BookOpen size={32} /> Minhas Campanhas
           </h1>
           <p className="page-subtitle">Organize suas aventuras, sessões e combates em um só lugar.</p>

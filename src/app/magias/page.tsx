@@ -41,6 +41,7 @@ const SCHOOL_COLORS: Record<string, string> = {
 }
 
 import { getSpellIcon } from '@/lib/spell-icons'
+import { getSpellConditions } from '@/lib/dnd-conditions'
 
 export default function MagiasPage() {
   const [search, setSearch] = useState('')
@@ -102,11 +103,12 @@ export default function MagiasPage() {
           color: 'var(--accentL)',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
           gap: 16
         }}>
           <Wand2 size={32} /> Grimório de Magias
         </h1>
-        <p style={{ color: 'var(--fg2)', fontSize: 16 }}>
+        <p style={{ color: 'var(--fg2)', fontSize: 16, textAlign: 'center' }}>
           Explore o catálogo completo de magias das regras de 2014.
         </p>
       </div>
@@ -326,6 +328,25 @@ export default function MagiasPage() {
                   <h3 className="body-title" style={{ marginTop: 24 }}>Efeito</h3>
                   <p className="effect-text">{selectedSpell.damageEffect}</p>
                   {selectedSpell.attackSave && <p className="save-text">Salvaguarda/Ataque: {selectedSpell.attackSave}</p>}
+                </>
+              )}
+
+              {selectedSpell && getSpellConditions(selectedSpell).length > 0 && (
+                <>
+                  <h3 className="body-title" style={{ marginTop: 24 }}>Condições Aplicadas</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {getSpellConditions(selectedSpell).map(cond => (
+                      <div key={cond.name} style={{
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 8,
+                        padding: '10px 14px',
+                      }}>
+                        <div style={{ fontWeight: 700, color: 'var(--accentL)', fontSize: 13, marginBottom: 4 }}>{cond.name}</div>
+                        <div style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5 }}>{cond.summary}</div>
+                      </div>
+                    ))}
+                  </div>
                 </>
               )}
 

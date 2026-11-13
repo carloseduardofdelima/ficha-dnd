@@ -9,6 +9,7 @@ import {
 import Image from 'next/image'
 import { ALL_SPELLS, Spell } from '@/lib/spells'
 import { getSpellIcon } from '@/lib/spell-icons'
+import { getSpellConditions } from '@/lib/dnd-conditions'
 
 interface PageProps {
   params: Promise<{ index: string }>
@@ -187,6 +188,24 @@ export default function SpellDetailsPage({ params }: PageProps) {
                 ))}
               </div>
             </InfoSection>
+
+            {getSpellConditions(spell).length > 0 && (
+              <InfoSection title="Condições Aplicadas">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {getSpellConditions(spell).map(cond => (
+                    <div key={cond.name} style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 8,
+                      padding: '10px 14px',
+                    }}>
+                      <div style={{ fontWeight: 700, color: 'var(--accentL)', fontSize: 14, marginBottom: 4 }}>{cond.name}</div>
+                      <div style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5 }}>{cond.summary}</div>
+                    </div>
+                  ))}
+                </div>
+              </InfoSection>
+            )}
           </div>
         </div>
       </div>

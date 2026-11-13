@@ -19,22 +19,22 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Caminho do Furioso": {
       description: "Focados na brutalidade implacável do combate corpo-a-corpo, bárbaros deste caminho canalizam uma fúria frenética capaz de superar a própria dor, desferindo golpes devastadores ao custo do esgotamento físico.",
       features: {
-        3: [{ name: "Frenesi", description: "Pode entrar em frenesi ao enfurecer; permite um ataque de arma corpo-a-corpo como ação bônus in cada turno. Sofre exaustão ao fim da fúria." }],
-        6: [{ name: "Fúria Inconsciente", description: "Não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Efeitos atuais são suspensos." }],
-        10: [{ name: "Presença Intimidante", description: "Usa ação para amedrontar criatura a até 9m (CD 8+Prof+Car). Pode estender com ações em turnos seguintes." }],
-        14: [{ name: "Retaliação", description: "Quando sofrer dano de criatura a até 1,5m, pode usar reação para atacar quem te atingiu." }]
+        3: [{ name: "Frenesi", description: "Ao entrar em fúria, você pode optar por entrar em frenesi. Enquanto estiver em frenesi, você pode fazer um ataque corpo a corpo com arma como ação bônus em cada um dos seus turnos. Quando a fúria terminar, você sofre 1 nível de exaustão." }],
+        6: [{ name: "Fúria Inconsciente", description: "Você não pode ser enfeitiçado ou amedrontado enquanto estiver em fúria. Se já estiver sob um desses efeitos ao entrar em fúria, o efeito é suspenso enquanto a fúria durar." }],
+        10: [{ name: "Presença Intimidante", description: "Com uma ação, você tenta amedrontar uma criatura a até 9 metros que possa vê-lo ou ouvi-lo. O alvo deve passar em um teste de resistência de Sabedoria (CD 8 + Bônus de Proficiência + Modificador de Carisma) ou ficará amedrontado até o fim do seu próximo turno. Você pode usar sua ação nos turnos seguintes para estender a duração." }],
+        14: [{ name: "Retaliação", description: "Quando sofrer dano de uma criatura a até 1,5 metro de você, você pode usar sua reação para fazer um ataque corpo a corpo com arma contra ela." }]
       }
     },
     "Caminho do Guerreiro Totêmico": {
       description: "Guiados por espíritos da natureza, estes bárbaros fundem sua força física com a energia mística de animais totêmicos como o Urso, a Águia ou o Lobo para obter resistência e velocidade sobrenaturais.",
       features: {
         3: [
-          { name: "Conselheiro Espiritual", description: "Pode conjurar Sentido Bestial e Falar com Animais como rituais." },
-          { name: "Totem Espiritual", description: "Escolha um totem: Urso (Resistência a quase tudo), Águia (Disparada como ação bônus e AdO com desvantagem), Lobo (Vantagem para aliados próximos)." }
+          { name: "Conselheiro Espiritual", description: "Você pode conjurar as magias Sentido Bestial e Falar com Animais apenas como rituais." },
+          { name: "Totem Espiritual", description: "Escolha um espírito totêmico enquanto estiver em fúria: Urso (resistência a todos os tipos de dano, exceto dano psíquico), Águia (outras criaturas têm desvantagem em ataques de oportunidade contra você e você pode usar Disparada como ação bônus) ou Lobo (seus aliados têm vantagem em ataques corpo a corpo contra inimigos a até 1,5 metro de você)." }
         ],
-        6: [{ name: "Aspecto da Besta", description: "Escolha: Urso (Dobrar capacidade de carga), Águia (Visão de 1,6km), Lobo (Rastrear em passo rápido)." }],
-        10: [{ name: "Andarilho Espiritual", description: "Pode conjurar Comunhão com a Natureza como ritual." }],
-        14: [{ name: "Sintonia Totêmica", description: "Escolha: Urso (Inimigos tem desvantagem ao atacar aliados), Águia (Voo temporário), Lobo (Derrubar com ação bônus)." }]
+        6: [{ name: "Aspecto da Besta", description: "Escolha um aspecto animal: Urso (sua capacidade de carga é dobrada e você tem vantagem em testes de Força para empurrar, puxar, levantar ou quebrar objetos), Águia (você enxerga a até 1,6 km sem dificuldade e não sofre desvantagem em Percepção por penumbra) ou Lobo (você pode rastrear outras criaturas viajando em passo rápido e se mover furtivamente em passo normal)." }],
+        10: [{ name: "Andarilho Espiritual", description: "Você pode conjurar a magia Comunhão com a Natureza apenas como ritual." }],
+        14: [{ name: "Sintonia Totêmica", description: "Escolha um efeito enquanto estiver em fúria: Urso (inimigos a até 1,5 metro têm desvantagem ao atacar aliados seus), Águia (você ganha deslocamento de voo igual ao seu deslocamento de caminhada durante o turno) ou Lobo (pode usar uma ação bônus para derrubar (condição Caído) uma criatura Grande ou menor que você acertar com ataque corpo a corpo)." }]
       }
     },
     "Trilha da Besta": {
@@ -66,22 +66,22 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Mestres de perícias e segredos arcanos, bardos deste colégio usam suas palavras afiadas para confundir inimigos e extraem magias de outras classes para expandir seu grimório.",
       features: {
         3: [
-          { name: "Proficiência Adicional", description: "Ganha proficiência em três perícias à sua escolha." },
-          { name: "Palavras de Interrupção", description: "Usa sua reação para gastar Inspiração Bárdica e subtrair o valor do ataque, dano ou teste de uma criatura." }
+          { name: "Proficiência Adicional", description: "Você ganha proficiência em três perícias quaisquer à sua escolha." },
+          { name: "Palavras de Interrupção", description: "Quando uma criatura a até 18 metros que você possa ver fizer uma jogada de ataque, teste de habilidade ou rolagem de dano, você pode usar sua reação para gastar um uso de Inspiração Bárdica, rolar o dado e subtrair o resultado da rolagem da criatura." }
         ],
-        6: [{ name: "Segredos Mágicos Adicionais", description: "Você aprende duas magias de qualquer classe, que contam como magias de bardo." }],
-        14: [{ name: "Perícia Inigualável", description: "Pode gastar Inspiração Bárdica para adicionar o dado ao seu próprio teste de habilidade." }]
+        6: [{ name: "Segredos Mágicos Adicionais", description: "Você aprende duas magias à sua escolha de qualquer classe. As magias escolhidas devem ser de um nível que você possa conjurar e passam a contar como magias de bardo para você." }],
+        14: [{ name: "Perícia Inigualável", description: "Quando fizer um teste de habilidade, você pode gastar um uso de Inspiração Bárdica, rolar o dado e somar o resultado ao seu teste (pode decidir após rolar o d20, mas antes de saber se teve sucesso)." }]
       }
     },
     "Colégio da Bravura": {
       description: "Cantores de guerra que inspiram bravura nos corações dos aliados, estes bardos combinam o uso de armas marciais e armaduras com sua magia para liderar no front de batalha.",
       features: {
         3: [
-          { name: "Proficiência Adicional", description: "Ganha proficiência com armaduras médias, escudos e armas marciais." },
-          { name: "Inspiração em Combate", description: "Criaturas podem usar o dado de inspiração para aumentar o dano ou a CA contra um ataque." }
+          { name: "Proficiência Adicional", description: "Você ganha proficiência com armaduras médias, escudos e armas marciais." },
+          { name: "Inspiração em Combate", description: "Uma criatura com seu dado de Inspiração Bárdica pode rolá-lo para somar ao dano de um ataque com arma que acertar, ou usar sua reação para rolar o dado e somar à própria CA contra um ataque que a atingiria." }
         ],
-        6: [{ name: "Ataque Extra", description: "Você pode atacar vezes quando usa a ação de Ataque." }],
-        14: [{ name: "Magia de Batalha", description: "Quando usa ação para conjurar uma magia, pode realizar um ataque com arma como ação bônus." }]
+        6: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque no seu turno." }],
+        14: [{ name: "Magia de Batalha", description: "Quando usar sua ação para conjurar uma magia de bardo, você pode realizar um ataque com arma como ação bônus." }]
       }
     },
     "Colégio da Criação": {
@@ -118,23 +118,23 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Comando", "Identificação", "Augúrio", "Sugestão", "Dificultar Detecção", "Falar com os Mortos", "Olho Arcano", "Confusão", "Conhecimento Lendário", "Vidência"],
       features: {
         1: [
-          { name: "Bênçãos do Conhecimento", description: "Aprende dois idiomas e ganha proficiência (com bônus dobrado) em duas perícias de conhecimento." }
+          { name: "Bênçãos do Conhecimento", description: "Você aprende dois idiomas à sua escolha e ganha proficiência em duas perícias entre Arcanismo, História, Natureza ou Religião. Seu bônus de proficiência é dobrado para qualquer teste de habilidade que fizer com elas." }
         ],
-        2: [{ name: "Canalizar Divindade: Conhecimento das Eras", description: "Ganha proficiência com uma perícia ou ferramenta por 10 minutos." }],
-        6: [{ name: "Canalizar Divindade: Ler Pensamentos", description: "Lê pensamentos superficiais e pode conjurar Sugestão sem gastar espaço." }],
-        8: [{ name: "Conjuração Poderosa", description: "Adiciona modificador de Sabedoria ao dano de seus truques de clérigo." }],
-        17: [{ name: "Visões do Passado", description: "Pode ver eventos passados relacionados a um objeto ou local." }]
+        2: [{ name: "Canalizar Divindade: Conhecimento das Eras", description: "Com uma ação, você escolhe uma perícia ou ferramenta e ganha proficiência nela por 10 minutos." }],
+        6: [{ name: "Canalizar Divindade: Ler Pensamentos", description: "Com uma ação, lê os pensamentos superficiais de uma criatura a até 18 metros (teste de resistência de Sabedoria). Se ela falhar, você também pode conjurar Sugestão nela sem gastar espaço de magia." }],
+        8: [{ name: "Conjuração Poderosa", description: "Você adiciona seu modificador de Sabedoria ao dano causado por qualquer truque de clérigo." }],
+        17: [{ name: "Visões do Passado", description: "Após meditar por 1 minuto, você pode ter visões de eventos passados relacionados a um objeto que esteja segurando ou ao ambiente ao seu redor (até 15 metros)." }]
       }
     },
     "Domínio da Enganação": {
       description: "Seguidores de divindades trapaceiras e caóticas, estes clérigos manipulam a realidade através de ilusões perfeitas, duplicatas e furtividade divina para enganar seus oponentes.",
       spells: ["Enfeitiçar Pessoa", "Disfarçar-se", "Reflexos", "Passos sem Pegadas", "Piscar", "Dissipar Magia", "Porta Dimensional", "Metamorfose", "Dominar Pessoa", "Modificar Memória"],
       features: {
-        1: [{ name: "Bênção do Trapaceiro", description: "Dá vantagem em testes de Furtividade para um aliado tocado por 1 hora." }],
-        2: [{ name: "Canalizar Divindade: Invocar Duplicidade", description: "Cria uma duplicata ilusória perfeita; pode conjurar magias a partir dela." }],
-        6: [{ name: "Canalizar Divindade: Manto de Sombras", description: "Fica invisível até o final do seu próximo turno ou até atacar/conjurar." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano de veneno com ataques de arma." }],
-        17: [{ name: "Duplicidade Aprimorada", description: "Pode criar até quatro duplicatas de si mesmo com Invocar Duplicidade." }]
+        1: [{ name: "Bênção do Trapaceiro", description: "Com uma ação, você toca uma criatura voluntária (exceto você mesmo) para conceder vantagem em testes de Destreza (Furtividade) por 1 hora." }],
+        2: [{ name: "Canalizar Divindade: Invocar Duplicidade", description: "Com uma ação, cria uma duplicata ilusória perfeita de si mesmo por 1 minuto (concentração). Você pode conjurar magias como se estivesse no espaço dela e ganha vantagem em ataques se você e a duplicata estiverem a até 1,5 metro do alvo." }],
+        6: [{ name: "Canalizar Divindade: Manto de Sombras", description: "Com uma ação, você fica invisível até o final do seu próximo turno. A invisibilidade termina antes se você atacar ou conjurar uma magia." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, quando acertar um ataque com arma, você causa 1d8 de dano de veneno extra (aumenta para 2d8 no 14º nível)." }],
+        17: [{ name: "Duplicidade Aprimorada", description: "Você pode criar até quatro duplicatas de si mesmo com Invocar Duplicidade e mover todas elas até 9 metros com uma única ação bônus." }]
       }
     },
     "Domínio da Guerra": {
@@ -142,13 +142,13 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Auxílio Divino", "Escudo da Fé", "Arma Mágica", "Arma Espiritual", "Manto do Cruzado", "Espíritos Guardiões", "Movimentação Livre", "Pele de Pedra", "Coluna de Chamas", "Imobilizar Monstro"],
       features: {
         1: [
-          { name: "Proficiência Adicional", description: "Ganha proficiência com armas marciais e armaduras pesadas." },
-          { name: "Sacerdote da Guerra", description: "Pode fazer um ataque de arma como ação bônus (número de vezes igual ao Mod. Sab)." }
+          { name: "Proficiência Adicional", description: "Você ganha proficiência com armas marciais e armaduras pesadas." },
+          { name: "Sacerdote da Guerra", description: "Quando usar a ação de Ataque, você pode fazer um ataque com arma como ação bônus. Pode usar este recurso um número de vezes igual ao seu modificador de Sabedoria (mínimo 1) por descanso longo." }
         ],
-        2: [{ name: "Canalizar Divindade: Ataque Dirigido", description: "Ganha +10 de bônus em uma jogada de ataque própria." }],
-        6: [{ name: "Canalizar Divindade: Bênção do Deus da Guerra", description: "Dá +10 de bônus em uma jogada de ataque de um aliado a até 9m." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano do tipo da arma." }],
-        17: [{ name: "Avatar da Batalha", description: "Resistência a dano de concussão, cortante e perfurante de ataques não-mágicos." }]
+        2: [{ name: "Canalizar Divindade: Ataque Dirigido", description: "Quando fizer uma jogada de ataque, você pode usar Canalizar Divindade para ganhar +10 de bônus na jogada (pode decidir após ver o resultado do dado)." }],
+        6: [{ name: "Canalizar Divindade: Bênção do Deus da Guerra", description: "Quando um aliado a até 9 metros fizer uma jogada de ataque, você pode usar sua reação para conceder +10 de bônus nessa jogada." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, quando acertar um ataque com arma, você causa 1d8 de dano extra do mesmo tipo da arma (aumenta para 2d8 no 14º nível)." }],
+        17: [{ name: "Avatar da Batalha", description: "Você ganha resistência a dano de concussão, cortante e perfurante de ataques não-mágicos." }]
       }
     },
     "Domínio da Luz": {
@@ -156,13 +156,13 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Mãos Flamejantes", "Fogo das Fadas", "Esfera Flamejante", "Raio Ardente", "Luz do Dia", "Bola de Fogo", "Guardião da Fé", "Muralha de Fogo", "Coluna de Chamas", "Vidência"],
       features: {
         1: [
-          { name: "Truque Adicional", description: "Você aprende o truque Luz." },
-          { name: "Labareda Protetora", description: "Usa sua reação para imponer desvantagem no ataque de uma criatura a até 9m." }
+          { name: "Truque Adicional", description: "Você aprende o truque Luz, se ainda não o conhecer." },
+          { name: "Labareda Protetora", description: "Quando uma criatura a até 9 metros que você possa ver atacá-lo, você pode usar sua reação para impor desvantagem na jogada de ataque (usos iguais ao modificador de Sabedoria por descanso longo)." }
         ],
-        2: [{ name: "Canalizar Divindade: Radiação do Amanhecer", description: "Dissipa escuridão mágica e causa 2d10 + nível de dano radiante em inimigos (9m)." }],
-        6: [{ name: "Labareda Aprimorada", description: "Pode usar Labareda Protetora para proteger aliados." }],
-        8: [{ name: "Conjuração Poderosa", description: "Adiciona seu modificador de Sabedoria ao dano de truques de clérigo." }],
-        17: [{ name: "Coroa de Luz", description: "Usa ação para emitir luz solar; inimigos têm desvantagem em saves contra fogo ou radiante." }]
+        2: [{ name: "Canalizar Divindade: Radiação do Amanhecer", description: "Com uma ação, dissipa qualquer escuridão mágica a até 9 metros e cada criatura hostil na área deve fazer um teste de resistência de Constituição, sofrendo 2d10 + nível de clérigo de dano radiante (ou metade se passar)." }],
+        6: [{ name: "Labareda Aprimorada", description: "Você também pode usar sua Labareda Protetora quando uma criatura a até 9 metros atacar um aliado seu." }],
+        8: [{ name: "Conjuração Poderosa", description: "Você adiciona seu modificador de Sabedoria ao dano causado por qualquer truque de clérigo." }],
+        17: [{ name: "Coroa de Luz", description: "Com uma ação, você emite luz solar plena por 1 minuto (18 metros). Inimigos na luz têm desvantagem em testes de resistência contra magias que causem dano de fogo ou radiante." }]
       }
     },
     "Domínio da Natureza": {
@@ -170,13 +170,13 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Amizade Animal", "Falar com Animais", "Pele de Árvore", "Crescer Espinhos", "Ampliar Plantas", "Muralha de Vento", "Dominar Besta", "Vinha Esmagadora", "Praga de Insetos", "Caminhar em Árvores"],
       features: {
         1: [
-          { name: "Acólito da Natureza", description: "Aprende um truque de druida e ganha proficiência em uma perícia (Natureza, Sobrevivência ou Adestrar Animais)." },
-          { name: "Proficiência Adicional", description: "Ganha proficiência com armaduras pesadas." }
+          { name: "Acólito da Natureza", description: "Você aprende um truque de druida à sua escolha e ganha proficiência em uma perícia entre Adestrar Animais, Natureza ou Sobrevivência." },
+          { name: "Proficiência Adicional", description: "Você ganha proficiência com armaduras pesadas." }
         ],
-        2: [{ name: "Canalizar Divindade: Enfeitiçar Animais e Plantas", description: "Usa ação para enfeitiçar bestas e plantas a até 9m por 1 minuto." }],
-        6: [{ name: "Amortecer Elementos", description: "Usa reação para dar resistência a dano elemental a uma criatura a até 9m." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano de frio, fogo ou elétrico." }],
-        17: [{ name: "Senhor da Natureza", description: "Pode comandar criaturas enfeitiçadas por seu Canalizar Divindade com ação bônus." }]
+        2: [{ name: "Canalizar Divindade: Enfeitiçar Animais e Plantas", description: "Com uma ação, cada besta ou planta a até 9 metros que possa vê-lo deve fazer um teste de resistência de Sabedoria ou ficará enfeitiçada por você por 1 minuto (ou até sofrer dano)." }],
+        6: [{ name: "Amortecer Elementos", description: "Quando você ou uma criatura a até 9 metros sofrer dano de ácido, frio, fogo, elétrico ou trovão, você pode usar sua reação para conceder resistência a esse tipo de dano contra o ataque." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, quando acertar um ataque com arma, você causa 1d8 de dano extra de frio, fogo ou elétrico à sua escolha (aumenta para 2d8 no 14º nível)." }],
+        17: [{ name: "Senhor da Natureza", description: "Enquanto criaturas estiverem enfeitiçadas por seu Canalizar Divindade, você pode usar uma ação bônus no seu turno para comandar verbalmente o que cada uma fará no próximo turno dela." }]
       }
     },
     "Domínio da Tempestade": {
@@ -184,13 +184,13 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Névoa Obscurecente", "Onda Trovejante", "Lufada de Vento", "Despedaçar", "Convocar Relâmpagos", "Nevasca", "Controlar a Água", "Tempestade de Gelo", "Onda Destrutiva", "Praga de Insetos"],
       features: {
         1: [
-          { name: "Proficiência Adicional", description: "Ganha proficiência com armas marciais e armaduras pesadas." },
-          { name: "Ira da Tormenta", description: "Ao ser atingido por criatura a 1,5m, usa reação para causar 2d8 de dano elétrico ou trovão." }
+          { name: "Proficiência Adicional", description: "Você ganha proficiência com armas marciais e armaduras pesadas." },
+          { name: "Ira da Tormenta", description: "Quando uma criatura a até 1,5 metro que você possa ver acertar você com um ataque, você pode usar sua reação para fazê-la fazer um teste de resistência de Destreza, sofrendo 2d8 de dano elétrico ou de trovão (metade se passar). Usos iguais ao modificador de Sabedoria por descanso longo." }
         ],
-        2: [{ name: "Canalizar Divindade: Ira Destruidora", description: "Ao rolar dano elétrico ou trovejante, pode usar o dano máximo em vez de rolar." }],
-        6: [{ name: "Golpe de Relâmpago", description: "Ao causar dano elétrico em criatura Grande ou menor, pode empurrá-la até 3m." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano trovejante com ataques de arma." }],
-        17: [{ name: "Filho da Tormenta", description: "Ganha deslocamento de voo igual ao seu deslocamento de caminhada ao ar livre." }]
+        2: [{ name: "Canalizar Divindade: Ira Destruidora", description: "Quando rolar dano elétrico ou de trovão, você pode usar Canalizar Divindade para causar o dano máximo possível em vez de rolar os dados." }],
+        6: [{ name: "Golpe de Relâmpago", description: "Quando causar dano elétrico a uma criatura Grande ou menor, você pode empurrá-la até 3 metros para longe de você." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, quando acertar um ataque com arma, você causa 1d8 de dano de trovão extra (aumenta para 2d8 no 14º nível)." }],
+        17: [{ name: "Filho da Tormenta", description: "Você ganha deslocamento de voo igual ao seu deslocamento de caminhada atual sempre que não estiver no subsolo ou em ambientes fechados." }]
       }
     },
     "Domínio da Vida": {
@@ -198,13 +198,13 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Bênção", "Curar Ferimentos", "Restauração Menor", "Arma Espiritual", "Sinal de Esperança", "Revivificar", "Proteção Contra a Morte", "Guardião da Fé", "Curar Ferimentos em Massa", "Reviver os Mortos"],
       features: {
         1: [
-          { name: "Proficiência Adicional", description: "Proficiência em armaduras pesadas." },
-          { name: "Discípulo da Vida", description: "Sempre que usar magia de cura, o alvo recupera PV adicionais iguais a 2 + nível da magia." }
+          { name: "Proficiência Adicional", description: "Você ganha proficiência com armaduras pesadas." },
+          { name: "Discípulo da Vida", description: "Sempre que usar uma magia de 1º nível ou superior para restaurar Pontos de Vida de uma criatura, ela recupera Pontos de Vida adicionais iguais a 2 + o nível da magia." }
         ],
-        2: [{ name: "Canalizar Divindade: Preservar a Vida", description: "Cura criaturas a até 9m (5x nível de clérigo) até metade do HP máximo." }],
-        6: [{ name: "Curandeiro Abençoado", description: "Quando curar outra criatura, você também se cura em 2 + nível da magia." }],
-        8: [{ name: "Golpe Divino", description: "Uma vez por turno, causa 1d8 extra de dano radiante com ataques de arma." }],
-        17: [{ name: "Cura Suprema", description: "Ao curar com magia, usa o valor máximo de cada dado em vez de rolar." }]
+        2: [{ name: "Canalizar Divindade: Preservar a Vida", description: "Com uma ação, você restaura até 5 × seu nível de clérigo em Pontos de Vida, divididos como quiser entre criaturas a até 9 metros. Essa cura não pode elevar os PV de uma criatura acima da metade do máximo dela." }],
+        6: [{ name: "Curandeiro Abençoado", description: "Quando conjurar uma magia de cura de 1º nível ou superior que restaure PV de outra criatura, você também recupera Pontos de Vida iguais a 2 + o nível da magia." }],
+        8: [{ name: "Golpe Divino", description: "Uma vez por turno, quando acertar um ataque com arma, você causa 1d8 de dano radiante extra (aumenta para 2d8 no 14º nível)." }],
+        17: [{ name: "Cura Suprema", description: "Quando normalmente rolaria um ou mais dados para restaurar Pontos de Vida com uma magia, você usa o valor máximo possível de cada dado em vez de rolar." }]
       }
     },
     "Domínio da Ordem": {
@@ -258,11 +258,11 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Campeão": {
       description: "Focados na perfeição atlética pura e na maestria no combate físico, guerreiros campeões desferem golpes críticos com frequência assustadora e possuem uma resistência física inigualável.",
       features: {
-        3: [{ name: "Crítico Aprimorado", description: "Suas jogadas de ataque com arma acertam crítico com 19 ou 20." }],
-        7: [{ name: "Atleta Extraordinário", description: "Soma metade da proficiência em testes físicos sem proficiência; aumenta distância de salto." }],
-        10: [{ name: "Estilo de Luta Adicional", description: "Escolhe um segundo Estilo de Luta da lista da classe." }],
-        15: [{ name: "Crítico Superior", description: "Suas jogadas de ataque com arma acertam crítico com 18, 19 ou 20." }],
-        18: [{ name: "Sobrevivente", description: "Recupera 5 + Mod. Con de vida se estiver com menos de 50% HP (e acima de 0)." }]
+        3: [{ name: "Crítico Aprimorado", description: "Suas jogadas de ataque com arma acertam um golpe crítico com um resultado de 19 ou 20 no d20." }],
+        7: [{ name: "Atleta Extraordinário", description: "Você soma metade do seu bônus de proficiência (arredondado para cima) a qualquer teste de Força, Destreza ou Constituição que fizer e que ainda não use sua proficiência. Além disso, sua distância de salto em distância aumenta em um número de metros igual ao seu modificador de Força × 0,3 m (1 pé por ponto)." }],
+        10: [{ name: "Estilo de Luta Adicional", description: "Você pode escolher uma segunda opção da característica Estilo de Luta da classe Guerreiro." }],
+        15: [{ name: "Crítico Superior", description: "Suas jogadas de ataque com arma acertam um golpe crítico com um resultado de 18, 19 ou 20 no d20." }],
+        18: [{ name: "Sobrevivente", description: "No início de cada um dos seus turnos, você recupera Pontos de Vida iguais a 5 + seu modificador de Constituição se não estiver com mais da metade dos seus Pontos de Vida máximos (e tiver pelo menos 1 PV)." }]
       }
     },
     "Cavaleiro Arcano": {
@@ -285,9 +285,9 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
           { name: "Superioridade em Combate", description: "Ganha 4 dados de superioridade (d8) para alimentar suas manobras.\n\nManobras (PHB 2014):\n• Aparar: Usa Reação para reduzir dano sofrido\n• Ameaçador: Causa medo no inimigo\n• Derrubar: Derruba o inimigo no chão\n• Precisão: Soma o d8 ao teste de ataque\n• Contra-Ataque: Usa Reação para atacar se o inimigo errar\n• Empurrão: Empurra o alvo até 4,5 metros\n• Distrativo: Dá vantagem para o ataque de um aliado\n• Provocativo: Força o inimigo a te focar\n• Desarmante: Faz o inimigo derrubar o que segura\n• Varredura: Causa dano a um segundo alvo a 1,5m\n• Evasivo: Soma o d8 à sua CA ao se mover\n• Comandante: Aliado ataca usando a Reação dele\n• Incentivar: Concede PV temporários a um aliado\n• Manobra: Move um aliado sem provocar Oportunidade\n• Prolongado: Aumenta alcance do ataque em 1,5m" },
           { name: "Estudioso da Guerra", description: "Ganha proficiência com um tipo de ferramenta de artesão." }
         ],
-        7: [{ name: "Conheça Seu Inimigo", description: "Observar criatura por 1 min revela se ela é superior/igual/inferior em certos atributos." }],
+        7: [{ name: "Conheça Seu Inimigo", description: "Se passar pelo menos 1 minuto observando ou interagindo com outra criatura fora de combate, você descobre informações sobre as capacidades dela comparadas às suas (Força, Destreza, Constituição, CA, PV atuais, níveis de classe ou níveis de guerreiro)." }],
         10: [{ name: "Superioridade em Combate Aprimorada", description: "Seus dados de superioridade se tornam d10s." }],
-        15: [{ name: "Implacável", description: "Se rolar iniciativa sem dados de superioridade, você recupera um." }],
+        15: [{ name: "Implacável", description: "Quando você rolar iniciativa e não tiver nenhum dado de superioridade restante, você recupera 1 dado de superioridade." }],
         18: [{ name: "Superioridade em Combate Aprimorada (d12)", description: "Seus dados de superioridade se tornam d12s." }]
       }
     },
@@ -326,36 +326,36 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Especialistas em mortes rápidas e furtivas, ladinos assassinos eliminam alvos prioritários antes mesmo do início das hostilidades usando disfarces, venenos e ataques surpresa letais.",
       features: {
         3: [
-          { name: "Proficiências Adicionais", description: "Ganha proficiência com kit de disfarce e kit de venenos." },
-          { name: "Assassinar", description: "Vantagem contra criaturas que ainda não agiram. Acertos contra criaturas surpresas são críticos." }
+          { name: "Proficiências Adicionais", description: "Você ganha proficiência com o kit de disfarce e o kit de venenos." },
+          { name: "Assassinar", description: "Você tem vantagem nas jogadas de ataque contra qualquer criatura que ainda não tenha agido no combate. Além disso, qualquer acerto contra uma criatura que esteja surpresa é automaticamente um golpe crítico." }
         ],
-        9: [{ name: "Especialização em Infiltração", description: "Pode criar identidades falsas infalíveis com 7 dias de trabalho e 25 po." }],
-        13: [{ name: "Impostor", description: "Pode imitar a fala, escrita e comportamento de outra pessoa após estudá-la por 3 horas." }],
-        17: [{ name: "Golpe Letal", description: "Ao atingir uma criatura surpresa, ela deve passar num save de Con ou sofrer dano dobrado." }]
+        9: [{ name: "Especialização em Infiltração", description: "Você pode criar identidades falsas infalíveis (com documentos, história e conhecidos) gastando 7 dias de trabalho e 25 peças de ouro." }],
+        13: [{ name: "Impostor", description: "Após estudar a fala, escrita e comportamento de outra pessoa por pelo menos 3 horas, você consegue imitá-la de forma indiscernível para observadores comuns." }],
+        17: [{ name: "Golpe Letal", description: "Quando atingir uma criatura que esteja surpresa, ela deve fazer um teste de resistência de Constituição (CD 8 + Modificador de Destreza + Bônus de Proficiência). Se falhar, o dano do seu ataque contra ela é dobrado." }]
       }
     },
     "Ladrão": {
       description: "Focados na agilidade extrema, ladinos ladrões utilizam de forma rápida fechaduras e dispositivos mágicos, escalando superfícies sem esforço para se infiltrar em qualquer lugar.",
       features: {
         3: [
-          { name: "Mãos Rápidas", description: "Ação bônus para usar ferramentas de ladrão, bater carteiras ou usar um objeto." },
-          { name: "Andarilho de Telhados", description: "Escalar não custa movimento extra e aumenta a distância de saltos." }
+          { name: "Mãos Rápidas", description: "Você pode usar a ação bônus concedida pela Ação Ardilosa para fazer um teste de Destreza (Prestidigitação), usar ferramentas de ladrão para desarmar armadilhas ou abrir fechaduras, ou usar a ação Usar um Objeto." },
+          { name: "Andarilho de Telhados", description: "Escalar não custa movimento adicional para você. Além disso, quando faz um salto em distância com corrida, a distância que você cobre aumenta em um número de metros igual ao seu modificador de Destreza × 0,3 m (1 pé por ponto)." }
         ],
-        9: [{ name: "Furtividade Suprema", description: "Vantagem em Furtividade se mover metade do deslocamento ou menos." }],
-        13: [{ name: "Usar Instrumento Mágico", description: "Ignora requisitos de classe, raça e nível para usar qualquer item mágico." }],
-        17: [{ name: "Reflexos de Ladrão", description: "Pode realizar dois turnos durante o primeiro turno de cada combate." }]
+        9: [{ name: "Furtividade Suprema", description: "Você tem vantagem em testes de Destreza (Furtividade) se não se mover mais do que metade do seu deslocamento no mesmo turno." }],
+        13: [{ name: "Usar Instrumento Mágico", description: "Você ignora todos os requisitos de classe, raça e nível para o uso de qualquer item mágico." }],
+        17: [{ name: "Reflexos de Ladrão", description: "Você pode realizar dois turnos durante a primeira rodada de qualquer combate: o primeiro na sua iniciativa normal e o segundo na sua iniciativa menos 10 (não funciona se estiver surpreso)." }]
       }
     },
     "Trapaceiro Arcano": {
       description: "Ladinos astutos que usam a magia de ilusão e encantamento para confundir guardas, roubar à distância usando Mãos Mágicas invisíveis e realizar furtos impossíveis.",
       features: {
         3: [
-          { name: "Conjuração", description: "Você aprende truques e magias de mago (encantamento/ilusão) usando Inteligência." },
-          { name: "Mãos Mágicas Malabaristas", description: "Suas Mãos Mágicas ficam invisíveis e podem realizar tarefas como abrir fechaduras à distância." }
+          { name: "Conjuração", description: "Você aprende truques e magias da lista de Mago (focando em Encantamento e Ilusão) usando Inteligência como atributo de conjuração (CD 8 + Bônus de Proficiência + Modificador de Inteligência)." },
+          { name: "Mãos Mágicas Malabaristas", description: "Quando você conjura Mãos Mágicas, a mão espectral fica invisível e pode guardar ou retirar objetos de recipientes carregados por outras criaturas, além de usar ferramentas de ladrão para abrir fechaduras e desarmar armadilhas à distância." }
         ],
-        9: [{ name: "Emboscada Mágica", description: "Se estiver escondido, o alvo tem desvantagem no save contra sua magia." }],
-        13: [{ name: "Trapaceiro Versátil", description: "Usa ação bônus para dar vantagem a si mesmo com as Mãos Mágicas." }],
-        17: [{ name: "Ladrão de Magia", description: "Pode usar sua reação para roubar o conhecimento de uma magia conjurada contra você." }]
+        9: [{ name: "Emboscada Mágica", description: "Se você estiver escondido de uma criatura quando conjurar uma magia nela, a criatura tem desvantagem em qualquer teste de resistência contra essa magia neste turno." }],
+        13: [{ name: "Trapaceiro Versátil", description: "Com uma ação bônus, você pode distrair uma criatura a até 1,5 metro da sua Mão Mágica, concedendo a si mesmo vantagem nas jogadas de ataque contra ela até o fim do turno." }],
+        17: [{ name: "Ladrão de Magia", description: "Quando uma criatura conjurar uma magia que tenha você como alvo ou o inclua na área de efeito, você pode usar sua reação para forçá-la a fazer um teste de resistência (CD da sua magia). Se falhar, você anula o efeito contra si e rouba o conhecimento da magia por 8 horas (1× por descanso longo)." }]
       }
     },
     "Fantasma": {
@@ -393,24 +393,24 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Carregando o sangue ou as escamas de dragões em suas veias, feiticeiros dracônicos manifestam asas, uma pele blindada e um poder elemental destrutivo herdado de seus ancestrais.",
       features: {
         1: [
-          { name: "Ancestral Dracônico", description: "Você escolhe um tipo de dragão como seu ancestral. Você pode falar, ler e escrever em Dracônico e seu bônus de proficiência é dobrado em testes de Carisma com dragões." },
-          { name: "Resiliência Dracônica", description: "Seu máximo de PV aumenta em 1 por nível. Quando sem armadura, sua CA é 13 + Modificador de Destreza." }
+          { name: "Ancestral Dracônico", description: "Você escolhe um tipo de dragão como seu ancestral (define o tipo de dano elemental). Você pode falar, ler e escrever em Dracônico, e seu bônus de proficiência é dobrado em testes de Carisma ao interagir com dragões." },
+          { name: "Resiliência Dracônica", description: "Seu máximo de Pontos de Vida aumenta em 1 por nível de feiticeiro. Quando não estiver usando armadura, sua Classe de Armadura (CA) é igual a 13 + seu modificador de Destreza." }
         ],
-        6: [{ name: "Afinidade Elemental", description: "Adicione seu modificador de Carisma ao dano de magias do tipo do seu ancestral. Pode gastar 1 ponto de feitiçaria para ganhar resistência a esse dano por 1 hora." }],
-        14: [{ name: "Asas de Dragão", description: "Você pode criar um par de asas de dragão com uma ação bônus, ganhando deslocamento de voo igual ao seu deslocamento atual." }],
-        18: [{ name: "Presença Dracônica", description: "Gasta 5 pontos para exalar uma aura de admiração ou medo (18m) por 1 minuto (concentração)." }]
+        6: [{ name: "Afinidade Elemental", description: "Quando conjurar uma magia que cause dano do mesmo tipo do seu ancestral dracônico, você soma seu modificador de Carisma a uma rolagem de dano dessa magia. Além disso, pode gastar 1 ponto de feitiçaria para ganhar resistência a esse tipo de dano por 1 hora." }],
+        14: [{ name: "Asas de Dragão", description: "Com uma ação bônus, você manifesta um par de asas de dragão nas costas, ganhando deslocamento de voo igual ao seu deslocamento atual até dissipá-las (como ação bônus) ou ficar inconsciente." }],
+        18: [{ name: "Presença Dracônica", description: "Com uma ação, você gasta 5 pontos de feitiçaria para exalar uma aura de admiração ou medo em um raio de 18 metros por 1 minuto (concentração). Criaturas hostis na área devem passar em um teste de resistência de Sabedoria ou ficam enfeitiçadas (admiração) ou amedrontadas (medo)." }]
       }
     },
     "Magia Selvagem": {
       description: "Canais do caos puro e do acaso, feiticeiros de magia selvagem manipulam as probabilidades da realidade em troca de surtos de magia instáveis e imprevisíveis.",
       features: {
         1: [
-          { name: "Surto de Magia Selvagem", description: "Após conjurar magia de 1º nível+, o Mestre pode pedir um d20. Se rolar 1, ocorre um efeito aleatório da tabela de Surto de Magia Selvagem." },
-          { name: "Marés de Caos", description: "Ganha vantagem em uma jogada de ataque, teste de habilidade ou salvaguarda. Recupera após um descanso longo ou se o Mestre forçar um Surto." }
+          { name: "Surto de Magia Selvagem", description: "Imediatamente após você conjurar uma magia de feiticeiro de 1º nível ou superior, o Mestre pode pedir que você role 1d20. Se rolar 1, ocorre um efeito mágico aleatório da tabela de Surto de Magia Selvagem." },
+          { name: "Marés de Caos", description: "Você pode manipular as forças do acaso para ganhar vantagem em uma jogada de ataque, teste de habilidade ou teste de resistência. Recupera o uso após um descanso longo ou se o Mestre forçar um Surto de Magia Selvagem." }
         ],
-        6: [{ name: "Sortudo", description: "Usa reação e 2 pontos para adicionar ou subtrair 1d4 da jogada de outra criatura." }],
-        14: [{ name: "Caos Controlado", description: "Ao rolar na tabela de Surto de Magia Selvagem, você pode rolar duas vezes e escolher o resultado." }],
-        18: [{ name: "Bombardeio de Feitiços", description: "Quando rolar o dano máximo em um dado de magia, role um dado adicional e some ao total." }]
+        6: [{ name: "Sortudo", description: "Quando outra criatura a até 9 metros que você possa ver fizer uma jogada de ataque, teste de habilidade ou teste de resistência, você pode usar sua reação e gastar 2 pontos de feitiçaria para rolar 1d4 e somar ou subtrair o resultado da rolagem dela." }],
+        14: [{ name: "Caos Controlado", description: "Sempre que rolar na tabela de Surto de Magia Selvagem, você pode rolar duas vezes e escolher qual dos dois resultados aplicar." }],
+        18: [{ name: "Bombardeio de Feitiços", description: "Quando rolar o valor máximo em qualquer dado de dano de uma magia que conjurar, você pode rolar esse dado mais uma vez e somar o resultado ao dano (uma vez por turno)." }]
       }
     },
     "Mente Aberrante": {
@@ -450,30 +450,30 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Ligados a um patrono misterioso das fadas, bruxos deste pacto dominam magias de controle mental, ilusões e teleportes sutis que confundem e desviam ataques.",
       spells: ["Fogo das Fadas", "Sono", "Acalmar Emoções", "Força Fantasmagórica", "Piscar", "Ampliar Plantas", "Dominar Besta", "Invisibilidade Maior", "Dominar Pessoa", "Similaridade"],
       features: {
-        1: [{ name: "Presença Feérica", description: "Usa sua ação para amedrontar ou enfeitiçar criaturas em um cubo de 3m (CD de magia)." }],
-        6: [{ name: "Névoa de Fuga", description: "Ao sofrer dano, usa reação para ficar invisível e se teletransportar até 18m." }],
-        10: [{ name: "Defesa Sedutora", description: "Imune a ser enfeitiçado. Pode usar reação para tentar voltar um encanto contra o conjurador." }],
-        14: [{ name: "Delírio Sombrio", description: "Usa ação para mergulhar criatura em reino ilusório (enfeitiçada ou amedrontada por 1 min)." }]
+        1: [{ name: "Presença Feérica", description: "Com uma ação, cada criatura em um cubo de 3 metros originado em você deve fazer um teste de resistência de Sabedoria (CD da sua magia) ou ficará enfeitiçada ou amedrontada (à sua escolha) até o fim do seu próximo turno (1× por descanso curto ou longo)." }],
+        6: [{ name: "Névoa de Fuga", description: "Quando sofrer dano, você pode usar sua reação para ficar invisível e se teletransportar até 18 metros para um espaço desocupado que possa ver. Permanece invisível até o início do seu próximo turno ou até atacar/conjurar (1× por descanso curto ou longo)." }],
+        10: [{ name: "Defesa Sedutora", description: "Você é imune a ser enfeitiçado. Além disso, quando outra criatura tentar enfeitiçá-lo, você pode usar sua reação para tentar refletir o encanto de volta para ela (teste de resistência de Sabedoria)." }],
+        14: [{ name: "Delírio Sombrio", description: "Com uma ação, escolha uma criatura a até 18 metros para fazer um teste de resistência de Sabedoria. Se falhar, ela fica enfeitiçada ou amedrontada por 1 minuto (ou até sofrer dano), imersa em uma ilusão (1× por descanso curto ou longo)." }]
       }
     },
     "O Corruptor": {
       description: "Servindo a demônios ou diabos, estes bruxos ceifam a energia vital dos mortos para ganhar vida temporária e convocam as chamas e o azar dos planos inferiores.",
       spells: ["Mãos Flamejantes", "Comando", "Cegueira/Surdez", "Raio Ardente", "Bola de Fogo", "Névoa Fétida", "Escudo de Fogo", "Muralha de Fogo", "Coluna de Chamas", "Consagrar"],
       features: {
-        1: [{ name: "Bênção do Obscuro", description: "Ganha PV temporários (Mod. Car + nível) ao reduzir inimigo hostil a 0 PV." }],
-        6: [{ name: "Sorte do Próprio Obscuro", description: "Adiciona 1d10 a um teste de habilidade ou resistência (1x/descanso curto)." }],
-        10: [{ name: "Resiliência Demoníaca", description: "Escolhe um tipo de dano para ganhar resistência após cada descanso longo." }],
-        14: [{ name: "Lançar no Inferno", description: "Ao atingir com ataque, transporta alvo para planos inferiores; causa 10d10 de dano psíquico." }]
+        1: [{ name: "Bênção do Obscuro", description: "Quando reduzir uma criatura hostil a 0 Pontos de Vida, você ganha Pontos de Vida temporários iguais ao seu modificador de Carisma + seu nível de bruxo (mínimo 1)." }],
+        6: [{ name: "Sorte do Próprio Obscuro", description: "Quando fizer um teste de habilidade ou teste de resistência, você pode usar este recurso para adicionar 1d10 à rolagem (pode decidir após ver o dado, mas antes de saber o resultado). 1× por descanso curto ou longo." }],
+        10: [{ name: "Resiliência Demoníaca", description: "Você escolhe um tipo de dano ao terminar um descanso curto ou longo e ganha resistência a ele até escolher outro (dano de armas mágicas ou prateadas ignora essa resistência)." }],
+        14: [{ name: "Lançar no Inferno", description: "Ao atingir uma criatura com um ataque, você pode fazê-la desaparecer pelos planos inferiores até o fim do seu próximo turno. Se não for um corruptor, ela sofre 10d10 de dano psíquico ao retornar (1× por descanso longo)." }]
       }
     },
     "O Grande Antigo": {
       description: "Conectados a entidades cósmicas insondáveis além da realidade, estes bruxos dominam a telepatia e afetam a sanidade mental de seus inimigos através do puro terror psíquico.",
       spells: ["Sussurros Dissonantes", "Riso Histérico de Tasha", "Detectar Pensamentos", "Força Fantasmagórica", "Clarividência", "Enviar Mensagem", "Dominar Besta", "Tentáculos Negros de Evard", "Dominar Pessoa", "Telecinésia"],
       features: {
-        1: [{ name: "Despertar a Mente", description: "Pode se comunicar telepaticamente com qualquer criatura a até 18 metros." }],
-        6: [{ name: "Proteção Entrópica", description: "Usa reação para impor desvantagem em ataque; se errar, ganha vantagem no próximo ataque contra ele." }],
-        10: [{ name: "Escudo de Pensamentos", description: "Pensamentos não podem ser lidos. Resistência a dano psíquico; reflete dano psíquico recebido." }],
-        14: [{ name: "Criar Lacaio", description: "Toca humanoide incapacitado para deixá-lo enfeitiçado permanentemente (até remover maldição)." }]
+        1: [{ name: "Despertar a Mente", description: "Você pode se comunicar telepaticamente com qualquer criatura que possa ver a até 9 metros (ela não precisa compartilhar um idioma com você, mas precisa entender pelo menos um idioma)." }],
+        6: [{ name: "Proteção Entrópica", description: "Quando uma criatura fizer uma jogada de ataque contra você, você pode usar sua reação para impor desvantagem nessa jogada. Se o ataque errar, você ganha vantagem no seu próximo ataque contra ela até o fim do seu próximo turno (1× por descanso curto ou longo)." }],
+        10: [{ name: "Escudo de Pensamentos", description: "Seus pensamentos não podem ser lidos por telepatia ou outros meios, a menos que você permita. Você também ganha resistência a dano psíquico e, sempre que sofrer dano psíquico, o atacante sofre a mesma quantidade de dano." }],
+        14: [{ name: "Criar Lacaio", description: "Com uma ação, você toca um humanoide incapacitado. Ele fica enfeitiçado por você até que uma magia Remover Maldição seja conjurada nele ou você use esta habilidade novamente." }]
       }
     },
     "O Hexblade": {
@@ -524,36 +524,36 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Rastreadores que partilham um elo espiritual eterno com uma criatura selvagem, lutando em perfeita sincronia com seu companheiro animal no campo de batalha.",
       features: {
         3: [
-          { name: "Companheiro Animal", description: "Invoca um animal leal (lobo, pantera, urso negro, etc.). Ele ganha seu bônus de proficiência na CA e dano, e dados de vida extras conforme você sobe de nível." },
-          { name: "Vínculo com o Companheiro", description: "O animal obedece seus comandos, tem iniciativa própria e compartilha seus inimigos favoritos." }
+          { name: "Companheiro Animal", description: "Você ganha um companheiro animal leal (besta de ND 1/4 ou menor, tamanho Médio ou menor). Ele soma seu bônus de proficiência à CA, jogadas de ataque, dano e testes de resistência/perícias com proficiência, e tem PV iguais a 4 × seu nível de patrulheiro (ou o máximo normal dele, o que for maior)." },
+          { name: "Vínculo com o Companheiro", description: "O animal obedece aos seus comandos o melhor que pode e age no seu turno. Você pode usar sua ação para comandá-lo a Atacar, Disparar, Desengajar ou Ajudar." }
         ],
-        5: [{ name: "Ataque Coordenado", description: "Quando você usa a ação de Ataque, seu companheiro pode usar a reação dele para realizar um ataque corpo-a-corpo." }],
-        7: [{ name: "Defesa da Besta", description: "Enquanto seu companheiro puder ver você, ele tem vantagem em todos os testes de resistência." }],
-        11: [{ name: "Tempestade de Garras e Presas", description: "Seu companheiro pode usar a ação dele para atacar cada criatura a até 1,5m dele." }],
-        15: [{ name: "Defesa da Besta Superior", description: "Seu companheiro pode usar a reação para reduzir o dano de um ataque pela metade." }]
+        5: [{ name: "Ataque Coordenado", description: "Quando você usar a ação de Ataque no seu turno, pode usar um dos seus ataques para comandar seu companheiro a realizar um ataque corpo a corpo (ou, na versão revisada, ele usa a reação dele para atacar)." }],
+        7: [{ name: "Defesa da Besta", description: "Enquanto seu companheiro puder ver você, ele tem vantagem em todos os testes de resistência (ou, no PHB, você pode comandá-lo a Disparar, Desengajar ou Ajudar como ação bônus)." }],
+        11: [{ name: "Tempestade de Garras e Presas", description: "Você pode usar sua ação para comandar seu companheiro a realizar um ataque corpo a corpo contra cada criatura a até 1,5 metro dele (ou fazer dois ataques quando você usar a ação de Ataque)." }],
+        15: [{ name: "Defesa da Besta Superior", description: "Quando um atacante que seu companheiro possa ver acertá-lo com um ataque, o companheiro pode usar a reação dele para reduzir o dano do ataque pela metade (e no PHB, magias que você conjura em si mesmo também afetam seu companheiro a até 9 metros)." }]
       }
     },
     "Conclave do Caçador": {
       description: "Sentinelas da civilização contra as ameaças selvagens, patrulheiros caçadores especializam-se em derrubar monstros colossais, escapar de hordas e resistir a táticas de ataque inimigas.",
       features: {
-        3: [{ name: "Presa do Caçador", description: "Escolha uma opção: Assassino de Colossos (+1d8 dano em alvos feridos), Matador de Gigantes (contra-ataque como reação) ou Destruidor de Hordas (ataque extra em alvo adjacente)." }],
-        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes ao realizar a ação de Ataque." }],
-        7: [{ name: "Táticas Defensivas", description: "Escolha uma opção: Escapar da Horda (desvantagem em AdO), Defesa Contra Múltiplos Ataques (+4 CA contra ataques subsequentes) ou Vontade de Aço (vantagem contra medo)." }],
-        11: [{ name: "Ataque Múltiplo", description: "Escolha uma opção: Saraivada (ataque em área à distância) ou Ataque Giratório (ataque em área corpo-a-corpo)." }],
-        15: [{ name: "Defesa de Caçador Superior", description: "Escolha uma opção: Evasão, Manter-se Contra a Maré ou Esquiva Sobrenatural." }]
+        3: [{ name: "Presa do Caçador", description: "Escolha uma opção: Assassino de Colossos (+1d8 de dano extra 1× por turno em alvos abaixo do PV máximo), Matador de Gigantes (usa reação para atacar criatura Grande ou maior a até 1,5m que o ataque) ou Destruidor de Hordas (1× por turno, faz um ataque extra contra outra criatura a até 1,5m do alvo original)." }],
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque no seu turno." }],
+        7: [{ name: "Táticas Defensivas", description: "Escolha uma opção: Escapar da Horda (ataques de oportunidade contra você têm desvantagem), Defesa Contra Múltiplos Ataques (+4 na CA contra ataques subsequentes do mesmo inimigo no turno) ou Vontade de Aço (vantagem em testes de resistência contra ser amedrontado)." }],
+        11: [{ name: "Ataque Múltiplo", description: "Escolha uma opção: Saraivada (com uma ação, faz um ataque à distância contra qualquer número de criaturas a até 3 metros de um ponto) ou Ataque Giratório (com uma ação, faz um ataque corpo a corpo contra cada criatura a até 1,5 metro de você)." }],
+        15: [{ name: "Defesa de Caçador Superior", description: "Escolha uma opção: Evasão (não sofre dano se passar em teste de Destreza e metade se falhar), Manter-se Contra a Maré (reação para fazer um inimigo errar e atacar outra criatura) ou Esquiva Sobrenatural (reação para reduzir à metade o dano de um ataque)." }]
       }
     },
     "Conclave do Rastreador Subterrâneo": {
       description: "Mestres da escuridão e do combate subterrâneo, estes patrulheiros emboscam inimigos a partir das sombras, sendo invisíveis até mesmo para criaturas com visão no escuro.",
       features: {
         3: [
-          { name: "Batedor do Subterrâneo", description: "No primeiro turno, ganha +3m de deslocamento e ataque adicional. Você é invisível para criaturas que usam visão no escuro na escuridão." },
-          { name: "Magia do Rastreador Subterrâneo", description: "Ganha visão no escuro (27m) e acesso a magias como Disfarçar-se." }
+          { name: "Batedor do Subterrâneo", description: "No primeiro turno de cada combate, seu deslocamento aumenta em 3 metros e, se usar a ação de Ataque, você pode fazer um ataque adicional com arma (causando +1d8 de dano extra se acertar). Além disso, você é invisível na escuridão para criaturas que dependem de visão no escuro." },
+          { name: "Magia do Rastreador Subterrâneo", description: "Você ganha visão no escuro de 18 metros (ou +9 metros se já possuir) e aprende magias adicionais como Disfarçar-se, Truque de Corda, Medo, Invisibilidade Maior e Similaridade." }
         ],
-        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes ao realizar a ação de Ataque." }],
-        7: [{ name: "Mente de Aço", description: "Ganha proficiência em testes de resistência de Sabedoria." }],
-        11: [{ name: "Rajada do Rastreador", description: "Se errar um ataque, você pode realizar outro ataque no mesmo turno." }],
-        15: [{ name: "Esquiva do Rastreador", description: "Usa reação para impor desvantagem em um ataque inimigo." }]
+        5: [{ name: "Ataque Extra", description: "Você pode atacar duas vezes, em vez de uma, sempre que usar a ação de Ataque no seu turno." }],
+        7: [{ name: "Mente de Aço", description: "Você ganha proficiência em testes de resistência de Sabedoria (ou de Inteligência/Carisma, caso já tenha Sabedoria)." }],
+        11: [{ name: "Rajada do Rastreador", description: "Uma vez por turno, quando você errar um ataque com arma, pode realizar outro ataque com arma como parte da mesma ação." }],
+        15: [{ name: "Esquiva do Rastreador", description: "Quando uma criatura fizer uma jogada de ataque contra você sem ter vantagem, você pode usar sua reação para impor desvantagem nessa jogada." }]
       }
     },
     "Andarilho Feérico": {
@@ -591,24 +591,24 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Místicos guardiões de biomas específicos, druidas deste círculo mantêm uma forte ligação com a própria terra, restaurando seus recursos arcanos rapidamente durante descansos.",
       features: {
         2: [
-          { name: "Truque Adicional", description: "Você aprende um truque de druida adicional." },
-          { name: "Recuperação Natural", description: "Recupera espaços de magia (nível total = metade do nível de druida) em descanso curto." }
+          { name: "Truque Adicional", description: "Você aprende um truque de druida adicional à sua escolha." },
+          { name: "Recuperação Natural", description: "Durante um descanso curto, você pode recuperar espaços de magia gastos cuja soma dos níveis seja igual ou inferior à metade do seu nível de druida (arredondado para cima), sendo nenhum deles de 6º nível ou superior (1× por descanso longo)." }
         ],
-        6: [{ name: "Caminho da Floresta", description: "Ignora terreno difícil não-mágico e tem vantagem contra plantas mágicas." }],
-        10: [{ name: "Proteção Natural", description: "Imune a venenos, doenças e a ser enfeitiçado ou amedrontado por fadas/elementais." }],
-        14: [{ name: "Santuário Natural", description: "Criaturas do mundo natural devem passar em save de Sabedoria para atacar você." }]
+        6: [{ name: "Caminho da Floresta", description: "Mover-se por terreno difícil não-mágico não custa movimento extra. Você também pode atravessar plantas não-mágicas sem sofrer dano ou redução de movimento, e tem vantagem em testes de resistência contra plantas criadas ou manipuladas magicamente." }],
+        10: [{ name: "Proteção Natural", description: "Você se torna imune a venenos e doenças, e não pode ser enfeitiçado ou amedrontado por elementais ou fadas." }],
+        14: [{ name: "Santuário Natural", description: "Quando uma besta ou planta tentar atacar você, ela deve fazer um teste de resistência de Sabedoria (CD da sua magia). Se falhar, deve escolher outro alvo ou o ataque é perdido; se passar, fica imune a este efeito por 24 horas." }]
       }
     },
     "Círculo da Lua": {
       description: "Guerreiros metamorfos focados no combate selvagem, estes druidas assumem formas animais de ND elevado como ação bônus e podem canalizar magia para curar suas feridas na forma de fera.",
       features: {
         2: [
-          { name: "Forma Selvagem de Combate", description: "Pode usar Forma Selvagem como ação bônus e gastar slots de magia para curar 1d8 PV." },
-          { name: "Formas de Círculo", description: "Pode se transformar em bestas com ND 1 (ou Nível/3 a partir do nível 6)." }
+          { name: "Forma Selvagem de Combate", description: "Você pode usar Forma Selvagem como ação bônus (em vez de ação). Além disso, enquanto transformado, pode usar uma ação bônus para gastar um espaço de magia e recuperar 1d8 Pontos de Vida por nível do espaço gasto." },
+          { name: "Formas de Círculo", description: "Você pode se transformar em bestas de até ND 1 (ignorando a limitação de não poder nadar, mas ainda sem voo até o 8º nível). A partir do 6º nível, o ND máximo passa a ser seu nível de druida dividido por 3 (arredondado para baixo)." }
         ],
-        6: [{ name: "Ataque Primordial", description: "Seus ataques na forma de besta contam como mágicos." }],
-        10: [{ name: "Forma Selvagem de Elemental", description: "Gasta dois usos de Forma Selvagem para se tornar um Elemental (Ar, Terra, Fogo ou Água)." }],
-        14: [{ name: "Mil Formas", description: "Pode conjurar Alterar-se à vontade." }]
+        6: [{ name: "Ataque Primordial", description: "Seus ataques na forma de besta passam a contar como mágicos para o propósito de superar resistência e imunidade a ataques e danos não-mágicos." }],
+        10: [{ name: "Forma Selvagem de Elemental", description: "Você pode gastar dois usos de Forma Selvagem de uma vez para se transformar em um Elemental do Ar, da Terra, do Fogo ou da Água." }],
+        14: [{ name: "Mil Formas", description: "Você pode conjurar a magia Alterar-se à vontade, sem gastar espaço de magia." }]
       }
     },
     "Círculo dos Esporos": {
@@ -660,96 +660,96 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       description: "Especialistas em defesas arcanas e barreiras mágicas, magos abjuradores projetam escudos que absorvem danos físicos e dissipam magias inimigas com precisão milimétrica.",
       features: {
         2: [
-          { name: "Abjuração Instruída", description: "O custo em ouro e tempo para copiar magias de abjuração é reduzido à metade." },
-          { name: "Proteção Arcana", description: "Cria uma proteção mágica com PV (2x nível + Int) ao conjurar magia de abjuração de nível 1+." }
+          { name: "Abjuração Instruída", description: "O custo em ouro e o tempo necessários para copiar magias de abjuração para o seu grimório são reduzidos à metade." },
+          { name: "Proteção Arcana", description: "Ao conjurar uma magia de abjuração de 1º nível ou superior, você cria uma barreira mágica com Pontos de Vida iguais a (2 × seu nível de mago) + seu modificador de Inteligência. Sempre que você sofrer dano, a proteção absorve o dano primeiro. Ela recupera 2 × o nível da magia de PV sempre que você conjurar outra magia de abjuração (1× por descanso longo para criar)." }
         ],
-        6: [{ name: "Proteção Projetada", description: "Usa sua reação para que sua Proteção Arcana absorva dano de um aliado a até 9m." }],
-        10: [{ name: "Abjuração Aprimorada", description: "Adiciona seu bônus de proficiência em testes para magias de abjuração (ex: Contramágica)." }],
-        14: [{ name: "Resistência à Magia", description: "Vantagem em saves contra magias e resistência contra o dano de magias." }]
+        6: [{ name: "Proteção Projetada", description: "Quando uma criatura a até 9 metros que você possa ver sofrer dano, você pode usar sua reação para fazer com que sua Proteção Arcana absorva esse dano." }],
+        10: [{ name: "Abjuração Aprimorada", description: "Quando conjurar uma magia de abjuração que exija um teste de habilidade como parte da conjuração (como Contramágica ou Dissipar Magia), você soma seu bônus de proficiência a esse teste." }],
+        14: [{ name: "Resistência à Magia", description: "Você tem vantagem em testes de resistência contra magias e resistência contra o dano causado por magias." }]
       }
     },
     "Escola de Adivinhação": {
       description: "Videntes do destino que leem as correntes do tempo, magos adivinhos prevêem resultados de dados com antecedência e recuperam energia arcana ao desvendar segredos.",
       features: {
         2: [
-          { name: "Adivinhação Instruída", description: "O custo para copiar magias de adivinhação é reduzido à metade." },
-          { name: "Prodígio", description: "Role dois d20s ao fim de um descanso longo; use os resultados para substituir jogadas de ataque/save/teste." }
+          { name: "Adivinhação Instruída", description: "O custo em ouro e o tempo para copiar magias de adivinhação para o seu grimório são reduzidos à metade." },
+          { name: "Prodígio", description: "Ao terminar um descanso longo, role dois d20s e anote os resultados. Você pode substituir qualquer jogada de ataque, teste de resistência ou teste de habilidade feito por você ou por uma criatura que possa ver por um desses resultados (antes da rolagem, 1× por turno)." }
         ],
-        6: [{ name: "Especialista em Adivinhação", description: "Ao conjurar magia de adivinhação de 2º+, recupera um espaço de nível inferior." }],
-        10: [{ name: "O Terceiro Olho", description: "Ganha benefício: Visão no Escuro, Visão Etérea, Compreensão Maior ou Ver Invisibilidade." }],
-        14: [{ name: "Prodígio Maior", description: "Você rola três d20s para a característica Prodígio em vez de dois." }]
+        6: [{ name: "Especialista em Adivinhação", description: "Quando conjurar uma magia de adivinhação de 2º nível ou superior usando um espaço de magia, você recupera um espaço de magia gasto de nível inferior (até 5º nível)." }],
+        10: [{ name: "O Terceiro Olho", description: "Com uma ação, você ganha um benefício até o próximo descanso curto ou longo: Visão no Escuro (18m), Visão Etérea (18m), Compreensão Maior (ler qualquer idioma) ou Ver Invisibilidade (3m)." }],
+        14: [{ name: "Prodígio Maior", description: "Você passa a rolar três d20s para a característica Prodígio em vez de dois." }]
       }
     },
     "Escola de Conjuração": {
       description: "Magos capazes de materializar objetos inanimados do nada, teleportar-se trocando de lugar com aliados e invocar criaturas extremamente resistentes que lutam a seu comando.",
       features: {
         2: [
-          { name: "Conjuração Instruída", description: "O custo para copiar magias de conjuração é reduzido à metade." },
-          { name: "Conjuração Menor", description: "Usa ação para conjurar um objeto inanimado não-mágico de até 5kg." }
+          { name: "Conjuração Instruída", description: "O custo em ouro e o tempo para copiar magias de conjuração para o seu grimório são reduzidos à metade." },
+          { name: "Conjuração Menor", description: "Com uma ação, você conjura um objeto inanimado não-mágico em um espaço desocupado ou na sua mão (até 90 cm de lado e 4,5 kg). O objeto dura 1 hora ou até sofrer dano." }
         ],
-        6: [{ name: "Transposição Benigna", description: "Teletransporta-se 9m ou troca de lugar com uma criatura voluntária." }],
-        10: [{ name: "Conjuração Focada", description: "Sua concentração em magias de conjuração não pode ser interrompida por dano." }],
-        14: [{ name: "Invocações Resistentes", description: "Qualquer criatura que você invocar terá 30 pontos de vida temporários." }]
+        6: [{ name: "Transposição Benigna", description: "Com uma ação, você se teletransporta até 9 metros para um espaço desocupado que possa ver, ou troca de lugar com uma criatura voluntária de tamanho Pequeno ou Médio a até 9 metros (1× por descanso longo, ou recarrega ao conjurar magia de conjuração de 1º+)." }],
+        10: [{ name: "Conjuração Focada", description: "Enquanto estiver concentrado em uma magia de conjuração, sua concentração não pode ser interrompida por sofrer dano." }],
+        14: [{ name: "Invocações Resistentes", description: "Qualquer criatura que você invocar ou criar usando uma magia de conjuração ganha 30 Pontos de Vida temporários." }]
       }
     },
     "Escola de Encantamento": {
       description: "Mestres do controle social e mental, estes magos paralisam oponentes com olhares hipnóticos e alteram as memórias de quem enfeitiçam sem deixar vestígios.",
       features: {
         2: [
-          { name: "Encantamento Instruído", description: "O custo para copiar magias de encantamento é reduzido à metade." },
-          { name: "Olhar Hipnotizante", description: "Usa ação para enfeitiçar criatura a 1,5m; alvo fica incapacitado e com 0 de deslocamento." }
+          { name: "Encantamento Instruído", description: "O custo em ouro e o tempo para copiar magias de encantamento para o seu grimório são reduzidos à metade." },
+          { name: "Olhar Hipnotizante", description: "Com uma ação, escolha uma criatura a até 1,5 metro que possa vê-lo ou ouvi-lo. Ela deve passar em um teste de resistência de Sabedoria ou ficará enfeitiçada por você até o fim do seu próximo turno, com deslocamento 0 e incapacitada (pode estender usando sua ação nos turnos seguintes)." }
         ],
-        6: [{ name: "Encanto Instintivo", description: "Usa reação para desviar um ataque contra você para outra criatura próxima." }],
-        10: [{ name: "Dividir Encantamento", description: "Ao conjurar magia de encantamento de alvo único, pode afetar uma segunda criatura." }],
-        14: [{ name: "Alterar Memórias", description: "Alvos de seus encantamentos não sabem que foram enfeitiçados; pode fazer o alvo esquecer horas da memória." }]
+        6: [{ name: "Encanto Instintivo", description: "Quando uma criatura que você possa ver a até 9 metros fizer uma jogada de ataque contra você, você pode usar sua reação para forçá-la a fazer um teste de resistência de Sabedoria e redirecionar o ataque para outra criatura a até 1,5 metro." }],
+        10: [{ name: "Dividir Encantamento", description: "Quando conjurar uma magia de encantamento de 1º nível ou superior que tenha apenas uma criatura como alvo, você pode escolher uma segunda criatura dentro do alcance como alvo adicional." }],
+        14: [{ name: "Alterar Memórias", description: "Quando conjurar uma magia de encantamento para enfeitiçar uma ou mais criaturas, elas não sabem que foram enfeitiçadas por você. Além disso, pode usar uma ação para fazer a criatura esquecer até 1 + seu modificador de Inteligência horas do período em que esteve enfeitiçada." }]
       }
     },
     "Escola de Evocação": {
       description: "Conjuradores de destruição elemental em larga escala, evocadores manipulam suas magias de área para não atingir aliados e potencializam seus truques básicos com sua inteligência.",
       features: {
         2: [
-          { name: "Evocação Instruída", description: "O custo em ouro e tempo para copiar magias de evocação é reduzido à metade." },
-          { name: "Esculpir Magias", description: "Cria áreas seguras em suas magias de evocação; aliados escolhidos passam automaticamente no save e não sofrem dano." }
+          { name: "Evocação Instruída", description: "O custo em ouro e o tempo para copiar magias de evocação para o seu grimório são reduzidos à metade." },
+          { name: "Esculpir Magias", description: "Ao conjurar uma magia de evocação que afete outras criaturas, você pode escolher um número delas igual a 1 + o nível da magia. As criaturas escolhidas passam automaticamente no teste de resistência e não sofrem dano se normalmente sofreriam metade." }
         ],
-        6: [{ name: "Truque Potente", description: "Suas magias de truque causam metade do dano mesmo se a criatura passar no save." }],
-        10: [{ name: "Evocação Potencializada", description: "Adiciona seu modificador de Inteligência ao dano de suas magias de evocação." }],
-        14: [{ name: "Sobrecarga", description: "Suas magias de nível 1-5 causam dano máximo, mas usar repetidamente causa dano necrótico a você." }]
+        6: [{ name: "Truque Potente", description: "Quando uma criatura passa no teste de resistência contra um dos seus truques que cause dano, ela ainda sofre metade do dano do truque (mas sem efeitos adicionais)." }],
+        10: [{ name: "Evocação Potencializada", description: "Você soma seu modificador de Inteligência a uma rolagem de dano de qualquer magia de evocação de mago que conjurar." }],
+        14: [{ name: "Sobrecarga", description: "Quando conjurar uma magia de mago de 1º a 5º nível que cause dano, você pode causar o dano máximo possível com ela. A primeira vez após descanso longo não tem custo; cada uso adicional antes de descansar causa 2d12 de dano necrótico por nível da magia a você (aumentando em 1d12 por uso)." }]
       }
     },
     "Escola de Ilusão": {
       description: "Artistas do engano visual e auditivo, estes magos tornam suas ilusões palpáveis e reais temporariamente, enganando os sentidos de qualquer criatura.",
       features: {
         2: [
-          { name: "Ilusão Instruída", description: "O custo para copiar magias de ilusão é reduzido à metade." },
-          { name: "Ilusão Menor Aprimorada", description: "Aprende Ilusão Menor; pode criar som e imagem simultaneamente." }
+          { name: "Ilusão Instruída", description: "O custo em ouro e o tempo para copiar magias de ilusão para o seu grimório são reduzidos à metade." },
+          { name: "Ilusão Menor Aprimorada", description: "Você aprende o truque Ilusão Menor (se já souber, aprende outro truque de mago). Ao conjurá-lo, pode criar tanto um som quanto uma imagem com uma única conjuração." }
         ],
-        6: [{ name: "Ilusões Moldáveis", description: "Usa ação para mudar a natureza de uma ilusão ativa que você possa ver." }],
-        10: [{ name: "Eu Ilusório", description: "Usa reação para interpor duplicata ilusória e fazer um ataque errar automaticamente." }],
-        14: [{ name: "Realidade Ilusória", description: "Usa ação bônus para tornar um objeto inanimado de uma ilusão real por 1 minuto." }]
+        6: [{ name: "Ilusões Moldáveis", description: "Quando conjurar uma magia de ilusão com duração de 1 minuto ou mais, você pode usar sua ação para alterar a natureza dessa ilusão (desde que possa vê-la)." }],
+        10: [{ name: "Eu Ilusório", description: "Quando uma criatura fizer uma jogada de ataque contra você, você pode usar sua reação para interpor uma duplicata ilusória e fazer o ataque errar automaticamente (1× por descanso curto ou longo)." }],
+        14: [{ name: "Realidade Ilusória", description: "Quando conjurar uma magia de ilusão de 1º nível ou superior, pode usar uma ação bônus para escolher um objeto inanimado não-mágico que faça parte da ilusão e torná-lo real por 1 minuto." }]
       }
     },
     "Escola de Necromancia": {
       description: "Estudiosos da linha tênue entre a vida e a morte, necromantes absorvem a energia vital dos inimigos que derrotam e comandam hordas de mortos-vivos com bônus de poder.",
       features: {
         2: [
-          { name: "Necromancia Instruída", description: "O custo para copiar magias de necromancia é reduzido à metade." },
-          { name: "Colheita Sinistra", description: "Recupera vida ao matar criaturas com magias de 1º+ (2x ou 3x o nível da magia)." }
+          { name: "Necromancia Instruída", description: "O custo em ouro e o tempo para copiar magias de necromancia para o seu grimório são reduzidos à metade." },
+          { name: "Colheita Sinistra", description: "Uma vez por turno, quando matar uma ou mais criaturas com uma magia de 1º nível ou superior, você recupera Pontos de Vida iguais a 2 × o nível da magia (ou 3 × o nível se a magia for de necromancia). Não funciona contra construtos ou mortos-vivos." }
         ],
-        6: [{ name: "Escravos Mortos-Vivos", description: "Aprende a magia Animar Mortos; ao conjurar, cria um morto-vivo extra; todos os mortos-vivos que você criar ganham PV adicionais iguais ao seu nível de mago e somam seu bônus de proficiência nas jogadas de dano com armas." }],
-        10: [{ name: "Acostumado à Morte-Vida", description: "Resistência a dano necrótico e seu máximo de PV não pode ser reduzido." }],
-        14: [{ name: "Comandar Mortos-Vivos", description: "Usa ação para tentar trazer um morto-vivo sob seu controle (save de Carisma)." }]
+        6: [{ name: "Escravos Mortos-Vivos", description: "Você adiciona Animar Mortos ao seu grimório. Ao conjurá-la, cria um morto-vivo adicional; todos os mortos-vivos que você criar ganham PV adicionais iguais ao seu nível de mago e somam seu bônus de proficiência nas jogadas de dano com armas." }],
+        10: [{ name: "Acostumado à Morte-Vida", description: "Você ganha resistência a dano necrótico e seu máximo de Pontos de Vida não pode ser reduzido." }],
+        14: [{ name: "Comandar Mortos-Vivos", description: "Com uma ação, escolha um morto-vivo a até 18 metros que possa ver. Ele deve fazer um teste de resistência de Carisma (CD da sua magia) ou ficará amigável e sob seu controle (mortos-vivos com Inteligência 8+ têm vantagem; com Int 12+ repetem o teste a cada hora)." }]
       }
     },
     "Escola de Transmutação": {
       description: "Cientistas da alquimia e da alteração da matéria, magos transmutadores criam pedras mágicas com benefícios físicos e alteram as formas dos objetos à sua volta.",
       features: {
         2: [
-          { name: "Transmutação Instruída", description: "O custo para copiar magias de transmutação é reduzido à metade." },
-          { name: "Alquimia Menor", description: "Altera temporariamente propriedades físicas de objetos não-mágicos (madeira, pedra, ferro, etc)." }
+          { name: "Transmutação Instruída", description: "O custo em ouro e o tempo para copiar magias de transmutação para o seu grimório são reduzidos à metade." },
+          { name: "Alquimia Menor", description: "Você pode alterar temporariamente as propriedades físicas de um objeto não-mágico (madeira, pedra, ferro, cobre ou prata) em outro desses materiais por até 1 hora (concentração, 10 minutos por 30 cm cúbicos)." }
         ],
-        6: [{ name: "Pedra de Transmutador", description: "Cria pedra que dá benefício: Visão no Escuro, Velocidade, Proficiência em Con ou Resistência Elemental." }],
-        10: [{ name: "Metamorfo", description: "Pode conjurar Metamorfose em si mesmo sem gastar espaço (ND 1 ou menor)." }],
-        14: [{ name: "Mestre Transmutador", description: "Consome a pedra para efeito: Transformação Maior, Panaceia, Restaurar Vida ou Restaurar Juventude." }]
+        6: [{ name: "Pedra de Transmutador", description: "Você passa 8 horas criando uma pedra mágica que concede ao portador um benefício à escolha: Visão no Escuro (18m), +3m de deslocamento, proficiência em testes de resistência de Constituição ou resistência a dano de ácido, frio, fogo, elétrico ou trovão." }],
+        10: [{ name: "Metamorfo", description: "Você adiciona Metamorfose ao seu grimório e pode conjurá-la em si mesmo sem gastar espaço de magia (1× por descanso curto ou longo), mas apenas para se transformar em uma besta de ND 1 ou menor." }],
+        14: [{ name: "Mestre Transmutador", description: "Com uma ação, pode consumir a energia da sua Pedra de Transmutador para realizar um efeito maior: Transformação Maior, Panaceia (cura todos os PV, doenças, venenos e maldições), Restaurar Vida (como Reviver os Mortos) ou Restaurar Juventude." }]
       }
     }
   },
@@ -815,12 +815,12 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Proteção contra o Bem e Mal", "Santuário", "Restauração Menor", "Zona da Verdade", "Farol de Esperança", "Dissipar Magia", "Movimentação Livre", "Guardião da Fé", "Comunhão", "Coluna de Chamas"],
       features: {
         3: [
-          { name: "Canalizar Divindade: Arma Sagrada", description: "Soma Mod. Carisma nas jogadas de ataque; arma emite luz e conta como mágica." },
-          { name: "Canalizar Divindade: Expulsar o Profano", description: "Usa ação para fazer corruptores e mortos-vivos (9m) fugirem se falharem no save." }
+          { name: "Canalizar Divindade: Arma Sagrada", description: "Com uma ação, você imbui uma arma que esteja segurando com energia positiva por 1 minuto. Você soma seu modificador de Carisma às jogadas de ataque com essa arma (mínimo +1), ela emite luz plena em 6m (penumbra +6m) e passa a contar como mágica." },
+          { name: "Canalizar Divindade: Expulsar o Profano", description: "Com uma ação, cada corruptor ou morto-vivo a até 9 metros que possa vê-lo ou ouvi-lo deve fazer um teste de resistência de Sabedoria ou ficará expulso por 1 minuto (ou até sofrer dano), tendo que fugir de você." }
         ],
-        7: [{ name: "Aura de Devoção", description: "Você e aliados a até 3 metros não podem ser enfeitiçados." }],
-        15: [{ name: "Pureza de Espírito", description: "Você está sempre sob o efeito da magia Proteção contra o Bem e Mal." }],
-        20: [{ name: "Halo Sagrado", description: "Emite luz solar, causa 10 de dano radiante a inimigos próximos e ganha vantagem contra magias de corruptores/mortos-vivos." }]
+        7: [{ name: "Aura de Devoção", description: "Você e criaturas amigáveis a até 3 metros de você não podem ser enfeitiçados enquanto você estiver consciente (aumenta para 9 metros no 18º nível)." }],
+        15: [{ name: "Pureza de Espírito", description: "Você está permanentemente sob o efeito da magia Proteção contra o Bem e o Mal." }],
+        20: [{ name: "Halo Sagrado", description: "Com uma ação, você emana luz solar plena por 1 minuto (9m, penumbra +9m). Inimigos que iniciarem o turno na luz plena sofrem 10 de dano radiante, e você tem vantagem em testes de resistência contra magias de corruptores e mortos-vivos (1× por descanso longo)." }]
       }
     },
     "Juramento dos Anciãos": {
@@ -828,12 +828,12 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Golpe Enredante", "Falar com Animais", "Passo Nebuloso", "Raio Lunar", "Crescimento de Plantas", "Proteção contra Energia", "Tempestade de Gelo", "Pele de Pedra", "Comungar com a Natureza", "Caminhar em Árvores"],
       features: {
         3: [
-          { name: "Canalizar Divindade: Fúria da Natureza", description: "Invoca vinhas para prender uma criatura a até 3 metros (save de For/Des)." },
-          { name: "Canalizar Divindade: Expulsar os Infiéis", description: "Faz fadas e corruptores (9m) fugirem se falharem no save de Sabedoria." }
+          { name: "Canalizar Divindade: Fúria da Natureza", description: "Com uma ação, invoca vinhas espectrais para prender uma criatura a até 3 metros. Ela deve fazer um teste de resistência de Força ou Destreza (à escolha dela) ou ficará impedida (repete o teste no fim de cada turno)." },
+          { name: "Canalizar Divindade: Expulsar os Infiéis", description: "Com uma ação, cada fada ou corruptor a até 9 metros que possa vê-lo ou ouvi-lo deve fazer um teste de resistência de Sabedoria ou ficará expulso por 1 minuto (ou até sofrer dano)." }
         ],
-        7: [{ name: "Aura de Vigilância", description: "Você e aliados a até 3 metros têm resistência a dano de magias." }],
-        15: [{ name: "Sentinela Imortal", description: "Quando cair a 0 PV e não morrer, pode escolher voltar a 1 PV (1x/descanso longo). Não sofre fragilidades da velhice." }],
-        20: [{ name: "Campeão dos Anciões", description: "Assume forma da natureza: regenera 10 PV/turno, conjura magias de ação como bônus e inimigos têm desvantagem nos saves." }]
+        7: [{ name: "Aura de Vigilância", description: "Você e criaturas amigáveis a até 3 metros de você têm resistência ao dano causado por magias (aumenta para 9 metros no 18º nível)." }],
+        15: [{ name: "Sentinela Imortal", description: "Quando você cair a 0 Pontos de Vida e não morrer instantaneamente, pode escolher cair a 1 PV em vez disso (1× por descanso longo). Além disso, você não sofre as desvantagens da velhice." }],
+        20: [{ name: "Campeão dos Anciões", description: "Com uma ação, assume uma forma primordial por 1 minuto: recupera 10 PV no início de cada turno, pode conjurar magias de paladino com tempo de 1 ação como ação bônus e inimigos a até 3 metros têm desvantagem em testes de resistência contra suas magias (1× por descanso longo)." }]
       }
     },
     "Juramento de Vingança": {
@@ -841,12 +841,12 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
       spells: ["Perdição", "Marca do Caçador", "Imobilizar Pessoa", "Passo Nebuloso", "Velocidade", "Proteção contra Energia", "Banimento", "Porta Dimensional", "Imobilizar Monstro", "Vidência"],
       features: {
         3: [
-          { name: "Canalizar Divindade: Abjurar Inimigo", description: "Amedronta uma criatura a até 18m; corruptores e mortos-vivos têm desvantagem." },
-          { name: "Canalizar Divindade: Voto de Inimizade", description: "Ganha vantagem nas jogadas de ataque contra uma criatura por 1 minuto." }
+          { name: "Canalizar Divindade: Abjurar Inimigo", description: "Com uma ação, escolha uma criatura a até 18 metros que possa vê-lo. Ela faz um teste de resistência de Sabedoria (corruptores e mortos-vivos têm desvantagem): se falhar, fica amedrontada e com deslocamento 0 por 1 minuto (ou até sofrer dano); se passar, tem deslocamento reduzido à metade." },
+          { name: "Canalizar Divindade: Voto de Inimizade", description: "Com uma ação bônus, escolha uma criatura a até 3 metros que possa ver. Você ganha vantagem nas jogadas de ataque contra ela por 1 minuto (ou até ela cair a 0 PV ou ficar inconsciente)." }
         ],
-        7: [{ name: "Vingador Implacável", description: "Ao atingir AdO, move metade do deslocamento sem provocar AdO." }],
-        15: [{ name: "Alma de Vingança", description: "Quando o alvo do Voto de Inimizade ataca, você pode usar reação para atacá-lo." }],
-        20: [{ name: "Anjo Vingador", description: "Ganha asas (voo 18m) e emite aura de ameaça que amedronta inimigos." }]
+        7: [{ name: "Vingador Implacável", description: "Quando atingir uma criatura com um ataque de oportunidade, você pode se mover até metade do seu deslocamento imediatamente como parte da mesma reação, sem provocar ataques de oportunidade." }],
+        15: [{ name: "Alma de Vingança", description: "Quando a criatura marcada pelo seu Voto de Inimizade fizer um ataque, você pode usar sua reação para fazer um ataque corpo a corpo com arma contra ela (se estiver ao alcance)." }],
+        20: [{ name: "Anjo Vingador", description: "Com uma ação, você ganha asas angelicais por 1 hora (voo 18m) e emana uma aura de ameaça de 9 metros: inimigos que entrarem ou iniciarem o turno na aura devem passar em um teste de resistência de Sabedoria ou ficam amedrontados por 1 minuto (1× por descanso longo)." }]
       }
     }
   },
@@ -854,19 +854,19 @@ export const SUBCLASSES_2014: Record<string, ClassSubclasses> = {
     "Caminho da Mão Aberta": {
       description: "Mestres supremos do combate desarmado, monges deste caminho manipulam a energia do corpo para derrubar inimigos, curar a si mesmos e desferir a lendária Palma Vibrante.",
       features: {
-        3: [{ name: "Técnica da Mão Aberta", description: "Sua Rajada de Golpes pode derrubar, empurrar ou impedir reações do alvo." }],
-        6: [{ name: "Integridade Corporal", description: "Pode recuperar PV igual a 3x seu nível de monge (1x/descanso longo)." }],
-        11: [{ name: "Tranquilidade", description: "Ganha o efeito da magia santuário ao terminar um descanso longo, durando até você atacar ou conjurar." }],
-        17: [{ name: "Palma Vibrante", description: "Gasta 3 pontos de chi para criar vibrações letais; alvo deve passar in save de Con ou cair a 0 PV (ou sofrer 10d10)." }]
+        3: [{ name: "Técnica da Mão Aberta", description: "Sempre que acertar uma criatura com um dos ataques da sua Rajada de Golpes, você pode impor um efeito: derrubá-la (teste de Destreza, condição Caído), empurrá-la até 4,5 metros (teste de Força) ou impedi-la de usar reações até o fim do seu próximo turno." }],
+        6: [{ name: "Integridade Corporal", description: "Com uma ação, você recupera Pontos de Vida iguais a 3 × seu nível de monge (1× por descanso longo)." }],
+        11: [{ name: "Tranquilidade", description: "Ao terminar um descanso longo, você ganha o efeito da magia Santuário, que dura até o início do seu próximo descanso longo (termina antes se você atacar ou conjurar magia ofensiva)." }],
+        17: [{ name: "Palma Vibrante", description: "Ao acertar um ataque desarmado, pode gastar 3 pontos de ki para criar vibrações letais no alvo (dura dias iguais ao seu nível). Com uma ação, você encerra as vibrações: o alvo faz um teste de resistência de Constituição e, se falhar, cai a 0 PV (se passar, sofre 10d10 de dano necrótico)." }]
       }
     },
     "Caminho da Sombra": {
       description: "Monges assassinos que transitam silenciosamente pelas sombras, conjurando magias de silêncio e escuridão e teleportando-se entre locais escuros para atacar de surpresa.",
       features: {
-        3: [{ name: "Artes Sombrias", description: "Pode gastar 2 pontos de chi para conjurar: Escuridão, Visão no Escuro, Passos sem Pegadas ou Silêncio." }],
-        6: [{ name: "Passo das Sombras", description: "Pode se teletransportar de uma sombra para outra (18m) como ação bônus, ganhando vantagem no próximo ataque." }],
-        11: [{ name: "Manto de Sombras", description: "Em luz plena ou escuridão, pode usar sua ação para ficar invisível." }],
-        17: [{ name: "Oportunista", description: "Quando uma criatura a 1,5m é atingida por um ataque, você pode usar sua reação para atacá-la." }]
+        3: [{ name: "Artes Sombrias", description: "Você pode gastar 2 pontos de ki como uma ação para conjurar Escuridão, Visão no Escuro, Passos sem Pegadas ou Silêncio (sem componentes materiais). Você também ganha o truque Ilusão Menor." }],
+        6: [{ name: "Passo das Sombras", description: "Quando estiver em penumbra ou escuridão, você pode usar uma ação bônus para se teletransportar até 18 metros para outro espaço em penumbra ou escuridão que possa ver, ganhando vantagem no primeiro ataque corpo a corpo que fizer antes do fim do turno." }],
+        11: [{ name: "Manto de Sombras", description: "Quando estiver em uma área de penumbra ou escuridão, você pode usar sua ação para ficar invisível (dura até você atacar, conjurar uma magia ou entrar em luz plena)." }],
+        17: [{ name: "Oportunista", description: "Quando uma criatura a até 1,5 metro de você for atingida por um ataque feito por outra criatura, você pode usar sua reação para fazer um ataque corpo a corpo contra ela." }]
       }
     },
     "Caminho dos Quatro Elementos": {
