@@ -178,7 +178,7 @@ export default function MagiasPage() {
               >
                 <div className="spell-card-header">
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div className="school-tag hide-mobile" style={{ color: SCHOOL_COLORS[spell.school] }}>
+                    <div className="school-tag" style={{ color: SCHOOL_COLORS[spell.school] }}>
                       {spell.school}
                     </div>
                     {spell.ritual && (
@@ -191,7 +191,8 @@ export default function MagiasPage() {
                         borderRadius: 4,
                         border: '1px solid rgba(251, 191, 36, 0.2)'
                       }}>
-                        RITUAL
+                        <span className="hide-mobile">RITUAL</span>
+                        <span className="show-mobile">RIT.</span>
                       </span>
                     )}
                   </div>
@@ -1011,32 +1012,29 @@ export default function MagiasPage() {
           .modal-body { padding: 24px; }
           .modal-title { font-size: 24px; }
           .hide-mobile { display: none !important; }
+          .show-mobile { display: inline !important; }
         }
+        .show-mobile { display: none; }
 
         @media (max-width: 600px) {
           .grid-spells {
-            grid-template-columns: 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
           }
           .spell-card-new {
-            padding: 16px;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 16px;
-          }
-          .spell-card-header {
-            margin-bottom: 0;
-            order: 2;
+            padding: 12px;
+            min-width: 0;
+            height: 100%;
           }
           .spell-name {
-            margin: 0;
-            font-size: 16px;
-            flex: 1;
-            order: 1;
+            font-size: 14px;
+            line-height: 1.25;
+            word-break: break-word;
+            overflow-wrap: break-word;
           }
           .card-footer {
-            display: none;
+            margin-top: auto;
+            padding-top: 8px;
           }
         }
       `}</style>
