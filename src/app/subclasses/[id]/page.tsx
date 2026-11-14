@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
@@ -149,6 +149,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const decodedName = decodeURIComponent(id)
     let foundSubclass: any = null
 
@@ -271,7 +272,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
         }
         .header-image-container {
           width: 280px;
-          height: 280px;
+          height: 340px;
           overflow: hidden;
           flex-shrink: 0;
           display: flex;
@@ -281,22 +282,39 @@ export default function SubclassDetailsPage({ params }: PageProps) {
         @media (max-width: 1024px) {
           .header-image-container {
             width: 220px;
-            height: 220px;
+            height: 270px;
           }
         }
         @media (max-width: 768px) {
           .header-image-container {
             width: 180px;
-            height: 180px;
+            height: 220px;
+          }
+          .header-title {
+            font-size: 1.85rem !important;
           }
         }
         @media (max-width: 600px) {
+          .header-card {
+            padding: 16px 20px !important;
+          }
           .header-image-container {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 165px;
           }
           .header-content {
-            gap: 16px;
+            gap: 14px;
+          }
+          .header-title {
+            font-size: 1.45rem !important;
+            line-height: 1.15;
+          }
+          .header-subtitle {
+            font-size: 13px !important;
+          }
+          .header-badge {
+            font-size: 11px !important;
+            padding: 3px 10px !important;
           }
         }
         .header-image {
@@ -316,7 +334,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
       </Link>
 
       {/* Header */}
-      <div style={{
+      <div className="header-card" style={{
         background: `linear-gradient(135deg, ${subclass.color}15, var(--bg2))`,
         borderRadius: 16,
         border: '1px solid var(--border)',
@@ -338,7 +356,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
 
         <div className="header-content">
           <div style={{ zIndex: 1, flex: 1 }}>
-            <span style={{
+            <span className="header-badge" style={{
               background: subclass.color,
               color: 'white',
               padding: '4px 12px',
@@ -351,7 +369,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
               {subclass.className}
             </span>
 
-            <h1 style={{
+            <h1 className="header-title" style={{
               fontFamily: 'Cinzel, serif',
               fontSize: '2.5rem',
               color: 'var(--fg)',
@@ -361,7 +379,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
             }}>
               {subclass.name}
             </h1>
-            <p style={{ color: 'var(--fg2)', fontSize: 16, margin: 0 }}>
+            <p className="header-subtitle" style={{ color: 'var(--fg2)', fontSize: 16, margin: 0 }}>
               Arquétipo de classe nas regras clássicas de 2014.
             </p>
           </div>
