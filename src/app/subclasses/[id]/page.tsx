@@ -97,6 +97,13 @@ const SUBCLASS_IMAGES: Record<string, string> = {
   'Juramento da Vingança': '/assets/subclasses/juramento-da-vinganca.png',
   'Juramento de Vingança': '/assets/subclasses/juramento-da-vinganca.png',
   'Juramento dos Anciãos': '/assets/subclasses/juramento-dos-anciaos.png',
+  'Caminho da Forma Astral': '/assets/subclasses/caminho-da-forma-astral.png',
+  'Caminho do Eu Astral': '/assets/subclasses/caminho-da-forma-astral.png',
+  'Caminho da Mão Aberta': '/assets/subclasses/caminho-da-mao-aberta.png',
+  'Caminho da Misericórdia': '/assets/subclasses/caminho-da-misericordia.png',
+  'Caminho da Sombra': '/assets/subclasses/caminho-da-sombra.png',
+  'Caminho das Sombras': '/assets/subclasses/caminho-da-sombra.png',
+  'Caminho dos Quatro Elementos': '/assets/subclasses/caminho-dos-quatro-elementos.png',
 }
 
 // Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
