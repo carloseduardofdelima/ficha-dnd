@@ -104,6 +104,14 @@ const SUBCLASS_IMAGES: Record<string, string> = {
   'Caminho da Sombra': '/assets/subclasses/caminho-da-sombra.png',
   'Caminho das Sombras': '/assets/subclasses/caminho-da-sombra.png',
   'Caminho dos Quatro Elementos': '/assets/subclasses/caminho-dos-quatro-elementos.png',
+  'Ordem do Caçador de Espectros': '/assets/subclasses/ordem-do-cacador-de-espectros.png',
+  'Caçador de Espectros': '/assets/subclasses/ordem-do-cacador-de-espectros.png',
+  'Ordem do Licantropo': '/assets/subclasses/ordem-do-licantropo.png',
+  'Licantropo': '/assets/subclasses/ordem-do-licantropo.png',
+  'Ordem do Mutante': '/assets/subclasses/ordem-do-mutante.png',
+  'Mutante': '/assets/subclasses/ordem-do-mutante.png',
+  'Ordem da Alma Profana': '/assets/subclasses/ordem-da-alma-profana.png',
+  'Alma Profana': '/assets/subclasses/ordem-da-alma-profana.png',
 }
 
 // Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
