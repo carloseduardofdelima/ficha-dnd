@@ -55,6 +55,48 @@ const SUBCLASS_IMAGES: Record<string, string> = {
   'Domínio do Crepúsculo': '/assets/subclasses/dominio-do-crepusculo.jpg',
   'Colégio da Bravura': '/assets/subclasses/colegio-da-bravura.png',
   'Colégio da Criação': '/assets/subclasses/colegio-da-criacao.png',
+  'Colégio da Eloquência': '/assets/subclasses/colegio-da-eloquencia.png',
+  'Colégio do Conhecimento': '/assets/subclasses/colegio-do-conhecimento.png',
+  'Trilha da Besta': '/assets/subclasses/trilha-da-besta.png',
+  'Caminho da Besta': '/assets/subclasses/trilha-da-besta.png',
+  'Trilha da Magia Selvagem': '/assets/subclasses/trilha-da-magia-selvagem.png',
+  'Caminho da Magia Selvagem': '/assets/subclasses/trilha-da-magia-selvagem.png',
+  'Trilha do Guerreiro Totêmico': '/assets/subclasses/trilha-do-guerreiro-totemico.png',
+  'Caminho do Guerreiro Totêmico': '/assets/subclasses/trilha-do-guerreiro-totemico.png',
+  'Trilha do Furioso': '/assets/subclasses/trilha-do-furioso.png',
+  'Caminho do Furioso': '/assets/subclasses/trilha-do-furioso.png',
+  'Guerreiro Psiônico': '/assets/subclasses/guerreiro-psionico.png',
+  'Cavaleiro Rúnico': '/assets/subclasses/cavaleiro-runico.png',
+  'Guerreiro Rúnico': '/assets/subclasses/cavaleiro-runico.png',
+  'Ladrão': '/assets/subclasses/ladrao.png',
+  'Alma Laminada': '/assets/subclasses/alma-laminada.png',
+  'Fantasma': '/assets/subclasses/fantasma.png',
+  'Assassino': '/assets/subclasses/assassino.png',
+  'Trapaceiro Arcano': '/assets/subclasses/trapaceiro-arcano.png',
+  'Mente Aberrante': '/assets/subclasses/mente-aberrante.png',
+  'Alma Cronométrica': '/assets/subclasses/alma-cronometrica.png',
+  'A Arquifada': '/assets/subclasses/arquifada.png',
+  'Arquifada': '/assets/subclasses/arquifada.png',
+  'O Corruptor': '/assets/subclasses/o-corruptor.png',
+  'O Gênio': '/assets/subclasses/o-genio.png',
+  'O Grande Antigo': '/assets/subclasses/o-grande-antigo.png',
+  'Lâmina Maldita (Hexblade)': '/assets/subclasses/hexblade.png',
+  'Hexblade': '/assets/subclasses/hexblade.png',
+  'O Hexblade': '/assets/subclasses/hexblade.png',
+  'O Insondável': '/assets/subclasses/o-insondavel.png',
+  'Portador do Enxame': '/assets/subclasses/portador-do-enxame.png',
+  'Conclave do Portador do Enxame': '/assets/subclasses/portador-do-enxame.png',
+  'Andarilho Feérico': '/assets/subclasses/andarilho-feerico.png',
+  'Círculo da Lua': '/assets/subclasses/circulo-da-lua.png',
+  'Círculo da Terra': '/assets/subclasses/circulo-da-terra.png',
+  'Círculo das Estrelas': '/assets/subclasses/circulo-das-estrelas.png',
+  'Círculo do Fogo Selvagem': '/assets/subclasses/circulo-do-fogo-selvagem.png',
+  'Círculo dos Esporos': '/assets/subclasses/circulo-dos-esporos.png',
+  'Juramento da Devoção': '/assets/subclasses/juramento-da-devocao.png',
+  'Juramento de Devoção': '/assets/subclasses/juramento-da-devocao.png',
+  'Juramento da Vingança': '/assets/subclasses/juramento-da-vinganca.png',
+  'Juramento de Vingança': '/assets/subclasses/juramento-da-vinganca.png',
+  'Juramento dos Anciãos': '/assets/subclasses/juramento-dos-anciaos.png',
 }
 
 // Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
@@ -86,13 +128,13 @@ export default function SubclassesPage() {
   // Mapeia e filtra os dados de subclasses para renderização em grid
   const subclassesList = useMemo(() => {
     const list: any[] = []
-    
+
     Object.entries(currentSource).forEach(([className, subclasses]) => {
       if (selectedClass !== 'all' && className !== selectedClass) return
 
       Object.entries(subclasses).forEach(([subclassName, data]) => {
         if (search && !subclassName.toLowerCase().includes(search.toLowerCase())) return
-        
+
         list.push({
           name: subclassName,
           className,
@@ -158,17 +200,20 @@ export default function SubclassesPage() {
           display: flex;
           align-items: flex-end;
           justify-content: center;
+          overflow: hidden;
           z-index: 0;
         }
         .card-image {
           height: 100%;
-          width: auto;
-          max-width: 100%;
-          object-fit: contain;
+          width: 100%;
+          object-fit: cover;
+          object-position: top center;
+          transform: scale(1.25);
+          transform-origin: top center;
           transition: transform 0.3s ease;
         }
         .subclass-card:hover .card-image {
-          transform: scale(1.08) translateY(-4px);
+          transform: scale(1.32);
         }
         @media (max-width: 400px) {
           .card-image-container {
@@ -203,8 +248,8 @@ export default function SubclassesPage() {
             />
           </div>
 
-          <select 
-            value={selectedClass} 
+          <select
+            value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
             style={{ padding: '12px 24px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--fg)', outline: 'none', cursor: 'pointer' }}
           >
@@ -218,9 +263,9 @@ export default function SubclassesPage() {
           {subclassesList.map((sub, idx) => {
             const imageUrl = SUBCLASS_IMAGES[sub.name] || CLASS_IMAGE_FALLBACKS[sub.className];
             return (
-              <div 
-                key={sub.name} 
-                className="subclass-card fade-up" 
+              <div
+                key={sub.name}
+                className="subclass-card fade-up"
                 style={{ '--class-color': sub.color, animationDelay: `${idx * 0.03}s` } as any}
                 onClick={() => handleCardClick(sub.name)}
               >

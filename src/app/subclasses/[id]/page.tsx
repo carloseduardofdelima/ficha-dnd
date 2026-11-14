@@ -55,6 +55,48 @@ const SUBCLASS_IMAGES: Record<string, string> = {
   'Domínio do Crepúsculo': '/assets/subclasses/dominio-do-crepusculo.jpg',
   'Colégio da Bravura': '/assets/subclasses/colegio-da-bravura.png',
   'Colégio da Criação': '/assets/subclasses/colegio-da-criacao.png',
+  'Colégio da Eloquência': '/assets/subclasses/colegio-da-eloquencia.png',
+  'Colégio do Conhecimento': '/assets/subclasses/colegio-do-conhecimento.png',
+  'Trilha da Besta': '/assets/subclasses/trilha-da-besta.png',
+  'Caminho da Besta': '/assets/subclasses/trilha-da-besta.png',
+  'Trilha da Magia Selvagem': '/assets/subclasses/trilha-da-magia-selvagem.png',
+  'Caminho da Magia Selvagem': '/assets/subclasses/trilha-da-magia-selvagem.png',
+  'Trilha do Guerreiro Totêmico': '/assets/subclasses/trilha-do-guerreiro-totemico.png',
+  'Caminho do Guerreiro Totêmico': '/assets/subclasses/trilha-do-guerreiro-totemico.png',
+  'Trilha do Furioso': '/assets/subclasses/trilha-do-furioso.png',
+  'Caminho do Furioso': '/assets/subclasses/trilha-do-furioso.png',
+  'Guerreiro Psiônico': '/assets/subclasses/guerreiro-psionico.png',
+  'Cavaleiro Rúnico': '/assets/subclasses/cavaleiro-runico.png',
+  'Guerreiro Rúnico': '/assets/subclasses/cavaleiro-runico.png',
+  'Ladrão': '/assets/subclasses/ladrao.png',
+  'Alma Laminada': '/assets/subclasses/alma-laminada.png',
+  'Fantasma': '/assets/subclasses/fantasma.png',
+  'Assassino': '/assets/subclasses/assassino.png',
+  'Trapaceiro Arcano': '/assets/subclasses/trapaceiro-arcano.png',
+  'Mente Aberrante': '/assets/subclasses/mente-aberrante.png',
+  'Alma Cronométrica': '/assets/subclasses/alma-cronometrica.png',
+  'A Arquifada': '/assets/subclasses/arquifada.png',
+  'Arquifada': '/assets/subclasses/arquifada.png',
+  'O Corruptor': '/assets/subclasses/o-corruptor.png',
+  'O Gênio': '/assets/subclasses/o-genio.png',
+  'O Grande Antigo': '/assets/subclasses/o-grande-antigo.png',
+  'Lâmina Maldita (Hexblade)': '/assets/subclasses/hexblade.png',
+  'Hexblade': '/assets/subclasses/hexblade.png',
+  'O Hexblade': '/assets/subclasses/hexblade.png',
+  'O Insondável': '/assets/subclasses/o-insondavel.png',
+  'Portador do Enxame': '/assets/subclasses/portador-do-enxame.png',
+  'Conclave do Portador do Enxame': '/assets/subclasses/portador-do-enxame.png',
+  'Andarilho Feérico': '/assets/subclasses/andarilho-feerico.png',
+  'Círculo da Lua': '/assets/subclasses/circulo-da-lua.png',
+  'Círculo da Terra': '/assets/subclasses/circulo-da-terra.png',
+  'Círculo das Estrelas': '/assets/subclasses/circulo-das-estrelas.png',
+  'Círculo do Fogo Selvagem': '/assets/subclasses/circulo-do-fogo-selvagem.png',
+  'Círculo dos Esporos': '/assets/subclasses/circulo-dos-esporos.png',
+  'Juramento da Devoção': '/assets/subclasses/juramento-da-devocao.png',
+  'Juramento de Devoção': '/assets/subclasses/juramento-da-devocao.png',
+  'Juramento da Vingança': '/assets/subclasses/juramento-da-vinganca.png',
+  'Juramento de Vingança': '/assets/subclasses/juramento-da-vinganca.png',
+  'Juramento dos Anciãos': '/assets/subclasses/juramento-dos-anciaos.png',
 }
 
 // Fallback para ilustrações oficiais de classe quando a subclasse não tem imagem própria
@@ -290,7 +332,7 @@ export default function SubclassDetailsPage({ params }: PageProps) {
             }}>
               {subclass.className}
             </span>
-            
+
             <h1 style={{
               fontFamily: 'Cinzel, serif',
               fontSize: '2.5rem',
