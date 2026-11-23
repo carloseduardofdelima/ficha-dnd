@@ -638,6 +638,7 @@ const CharacterPDF = ({ character }: Props) => {
   const skillsObj = parseJsonField<Record<string, boolean>>(character.skills);
   const traitsObj = parseJsonField<Record<string, any>>(character.traits);
   const expertisesObj = traitsObj?.expertises || {};
+  const skillBonusOverridesObj = traitsObj?.skillBonusOverrides || {};
   const inventoryArr = Array.isArray(character.inventory) 
     ? character.inventory 
     : (typeof character.inventory === 'string' ? parseJsonField<any[]>(character.inventory) : []);
@@ -651,6 +652,10 @@ const CharacterPDF = ({ character }: Props) => {
   };
 
   const getSkillMod = (skillId: string, attrScore: number) => {
+    if (typeof skillBonusOverridesObj[skillId] === 'number' && Number.isFinite(skillBonusOverridesObj[skillId])) {
+      const val = skillBonusOverridesObj[skillId];
+      return val >= 0 ? `+${val}` : `${val}`;
+    }
     const mod = calcModifier(attrScore);
     const isProficient = skillsObj[skillId];
     const isExpert = expertisesObj[skillId];
@@ -775,7 +780,7 @@ const CharacterPDF = ({ character }: Props) => {
                </View>
             </View>
             <View style={styles.passiveBanner}>
-               <View style={styles.passiveValue}><Text style={{fontSize: 10, fontFamily: 'Helvetica-Bold'}}>{10 + calcModifier(character.wisdom) + (skillsObj['perception'] ? profBonus : 0)}</Text></View>
+               <View style={styles.passiveValue}><Text style={{fontSize: 10, fontFamily: 'Helvetica-Bold'}}>{typeof skillBonusOverridesObj['perception'] === 'number' && Number.isFinite(skillBonusOverridesObj['perception']) ? 10 + skillBonusOverridesObj['perception'] : 10 + calcModifier(character.wisdom) + (skillsObj['perception'] ? profBonus : 0) + (expertisesObj['perception'] ? profBonus : 0)}</Text></View>
                <Text style={styles.headerLabel}>Sabedoria (Percepção) Passiva</Text>
             </View>
             <View style={[styles.blueSection, { flex: 1, minHeight: 120 }]}>
