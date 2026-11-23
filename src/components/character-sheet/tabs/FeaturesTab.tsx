@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import { Plus, Trash2, Sparkles, Settings, AlertCircle, Check, Shield, Sword } from 'lucide-react'
 import { FEATS_2014 } from '@/lib/feats-2014'
 import { RACES } from '@/lib/races'
@@ -18,15 +18,19 @@ import { CLASSES_2014 } from '@/lib/classes-2014'
 import { BEAST_FORMS } from '@/lib/beast-forms'
 import { SUBCLASS_EXCLUDED_FEATURES_2014 } from '../utils/subclass-spells'
 import { ALL_SPELLS } from '@/lib/spells'
+import { getAvailableChoices2014, FeatureChoiceConfig } from '@/lib/feature-choices-2014'
+import FeatureChoiceModal from '../modals/FeatureChoiceModal'
 import { useCharacterSheet } from '../context/CharacterSheetContext'
 
 export default function FeaturesTab() {
   const {
     id,
     character,
+    setCharacter,
     isOwner,
     parsedTraits,
     parsedSkills,
+    expertises,
     selectedInfusions,
     setSelectedInfusions,
     setSelectedBeast,
@@ -37,7 +41,103 @@ export default function FeaturesTab() {
     setSelectedFeatForSpells,
     setIsFeatChoicesModalOpen,
     setSelectedFeatForChoices,
+    setIsDraconicModalOpen,
+    setSelectedAncestry,
+    updateValue,
+    saveCharacterToDB,
   } = useCharacterSheet()
+
+  const [activeFeatureChoice, setActiveFeatureChoice] = useState<FeatureChoiceConfig | null>(null)
+
+  const choices2014 = useMemo(() => {
+    if (!character) return []
+    return getAvailableChoices2014(character, parsedTraits, parsedSkills, expertises)
+  }, [character, parsedTraits, parsedSkills, expertises])
+
+  const handleSaveFeatureChoice = async (choice: FeatureChoiceConfig, selectedIds: string[]) => {
+    if (!character) return
+    const nextTraits: Record<string, any> = { ...(parsedTraits || {}) }
+
+    if (choice.kind === 'expertise') {
+      const nextExp: Record<string, boolean> = {}
+      for (const sid of selectedIds) {
+        nextExp[sid] = true
+      }
+      nextTraits.expertises = nextExp
+
+      if (character.class === 'Ladino') {
+        const legacyMap: Record<string, string> = {
+          stealth: 'exp-stealth',
+          perception: 'exp-perception',
+          investigation: 'exp-investigation',
+          thievesTools: 'exp-thieves-tools',
+        }
+        nextTraits['rogue-expertise-2014'] = selectedIds.map(sid => legacyMap[sid] || sid)
+      }
+      updateValue('traits', nextTraits, true)
+    } else if (choice.kind === 'fighting_style') {
+      const val = selectedIds[0] || ''
+      if (choice.traitKey) nextTraits[choice.traitKey] = val || undefined
+      if (choice.legacyTraitKey && choice.legacyIdMap && val) {
+        nextTraits[choice.legacyTraitKey] = choice.legacyIdMap[val] || val
+      }
+      updateValue('traits', nextTraits, true)
+    } else if (choice.kind === 'domain_skill') {
+      const prevSkills: string[] = Array.isArray(nextTraits[choice.traitKey || 'domainBonusSkills'])
+        ? nextTraits[choice.traitKey || 'domainBonusSkills']
+        : []
+      nextTraits[choice.traitKey || 'domainBonusSkills'] = selectedIds
+
+      const nextSkills: Record<string, boolean> = { ...(parsedSkills || {}) }
+      for (const oldSkill of prevSkills) {
+        if (!selectedIds.includes(oldSkill)) {
+          delete nextSkills[oldSkill]
+        }
+      }
+      for (const newSkill of selectedIds) {
+        nextSkills[newSkill] = true
+      }
+
+      if (choice.alsoGrantExpertise) {
+        const nextExp: Record<string, boolean> = { ...(nextTraits.expertises || {}) }
+        for (const oldSkill of prevSkills) {
+          if (!selectedIds.includes(oldSkill)) {
+            delete nextExp[oldSkill]
+          }
+        }
+        for (const newSkill of selectedIds) {
+          nextExp[newSkill] = true
+        }
+        nextTraits.expertises = nextExp
+      }
+
+      const updated = {
+        ...character,
+        traits: nextTraits,
+        skills: nextSkills,
+      }
+      setCharacter(updated as any)
+      await saveCharacterToDB(updated as any)
+    } else if (choice.kind === 'trait_single') {
+      const val = selectedIds[0]
+      if (choice.traitKey) {
+        if (val) nextTraits[choice.traitKey] = val
+        else delete nextTraits[choice.traitKey]
+      }
+      if (choice.legacyTraitKey && choice.legacyIdMap) {
+        if (val) nextTraits[choice.legacyTraitKey] = choice.legacyIdMap[val] || val
+        else delete nextTraits[choice.legacyTraitKey]
+      }
+      updateValue('traits', nextTraits, true)
+    } else if (choice.kind === 'trait_multi') {
+      if (choice.traitKey) {
+        nextTraits[choice.traitKey] = selectedIds
+      }
+      updateValue('traits', nextTraits, true)
+    }
+
+    setActiveFeatureChoice(null)
+  }
 
   if (!character) return null
 
@@ -375,6 +475,87 @@ export default function FeaturesTab() {
         </div>
       </div>
 
+      {/* Escolhas de Classe & Subclasse (2014) */}
+      {choices2014.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <h3 style={{ fontSize: 12, color: 'var(--accentL)', textTransform: 'uppercase', fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 4, height: 12, background: 'var(--accentL)', borderRadius: 2 }} />
+            Escolhas de Classe &amp; Subclasse
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {choices2014.map(choice => {
+              const selectedOptions = choice.selectedIds
+                .map(sid => choice.options.find(o => o.id === sid) || { id: sid, name: sid, description: '' })
+              const isMissing = selectedOptions.length < choice.maxSelections
+
+              return (
+                <div
+                  key={choice.id}
+                  className="card"
+                  style={{
+                    padding: 14,
+                    background: 'var(--bg2)',
+                    borderLeft: `3px solid ${isMissing ? '#f59e0b' : 'var(--accent)'}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--fg)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span>{choice.title}</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: isMissing ? '#f59e0b' : 'var(--accentL)', background: isMissing ? 'rgba(245,158,11,0.12)' : 'var(--accentGlow)', padding: '1px 6px', borderRadius: 4 }}>
+                          {selectedOptions.length}/{choice.maxSelections}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--fg3)', marginTop: 2 }}>{choice.subtitle}</div>
+                    </div>
+                    {isOwner && (
+                      <button
+                        type="button"
+                        className={`btn ${isMissing ? 'btn-primary' : 'btn-outline'}`}
+                        style={{ padding: '5px 12px', fontSize: 11, height: 'auto', gap: 5 }}
+                        onClick={() => setActiveFeatureChoice(choice)}
+                      >
+                        <Settings size={12} />
+                        {selectedOptions.length > 0 ? 'Alterar' : 'Escolher'}
+                      </button>
+                    )}
+                  </div>
+
+                  {selectedOptions.length > 0 ? (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {selectedOptions.map(opt => (
+                        <span
+                          key={opt.id}
+                          title={opt.description}
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: 'var(--fg)',
+                            background: 'rgba(255,255,255,0.04)',
+                            border: '1px solid var(--border)',
+                            padding: '3px 10px',
+                            borderRadius: 6,
+                          }}
+                        >
+                          {opt.name}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 12, color: 'var(--fg3)', fontStyle: 'italic' }}>
+                      Nenhuma opção selecionada ainda.
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Subclass Section */}
       {character.subclass && (
         <div style={{ marginBottom: 24 }}>
@@ -427,10 +608,32 @@ export default function FeaturesTab() {
                     <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.5, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                       {feat.description}
                     </p>
-                    <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
-                      <span style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase' }}>
-                        {feat.source}
-                      </span>
+                    <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 10, color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase' }}>
+                          {feat.source}
+                        </span>
+                        {(feat.name.toLowerCase().includes('ancestral dracôn') || feat.name.toLowerCase().includes('ancestralidade dracôn')) && parsedTraits?.draconicAncestry && (
+                          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--accentL)', background: 'var(--accentGlow)', border: '1px solid var(--accent)', padding: '2px 8px', borderRadius: 6 }}>
+                            🐲 Ancestral: {parsedTraits.draconicAncestry}
+                          </span>
+                        )}
+                      </div>
+                      {isOwner && (feat.name.toLowerCase().includes('ancestral dracôn') || feat.name.toLowerCase().includes('ancestralidade dracôn')) && (
+                        <button
+                          type="button"
+                          className="btn btn-outline"
+                          style={{ padding: '4px 10px', fontSize: 11, height: 'auto', gap: 5 }}
+                          onClick={e => {
+                            e.stopPropagation()
+                            setSelectedAncestry(parsedTraits?.draconicAncestry || null)
+                            setIsDraconicModalOpen(true)
+                          }}
+                        >
+                          <Sparkles size={12} />
+                          {parsedTraits?.draconicAncestry ? 'Alterar Ancestral' : 'Escolher Ancestral Dracônico'}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
@@ -992,6 +1195,12 @@ export default function FeaturesTab() {
           )
         })()}
       </div>
+
+      <FeatureChoiceModal
+        choice={activeFeatureChoice}
+        onClose={() => setActiveFeatureChoice(null)}
+        onSave={handleSaveFeatureChoice}
+      />
     </div>
   )
 }
